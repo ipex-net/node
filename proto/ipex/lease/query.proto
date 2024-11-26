@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package ipex.lease;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "ipex/lease/params.proto";
+import "ipex/lease/contract.proto";
+
+option go_package = "ipex/x/lease/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/ipex/lease/params";
+  
+  }
+  
+  // Queries a list of ShowContract items.
+  rpc ShowContract (QueryShowContractRequest) returns (QueryShowContractResponse) {
+    option (google.api.http).get = "/ipex/lease/show_contract/{id}";
+  
+  }
+  
+  // Queries a list of ListContract items.
+  rpc ListContract (QueryListContractRequest) returns (QueryListContractResponse) {
+    option (google.api.http).get = "/ipex/lease/list_contract";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+message QueryShowContractRequest {
+  uint64 id = 1;
+}
+
+message QueryShowContractResponse {
+  Contract contract = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryListContractRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryListContractResponse {
+  repeated Contract contract = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+

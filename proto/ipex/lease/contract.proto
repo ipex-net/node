@@ -1,0 +1,29 @@
+syntax = "proto3";
+package ipex.lease;
+
+option go_package = "ipex/x/lease/types";
+import "gogoproto/gogo.proto"; 
+import "cosmos/base/v1beta1/coin.proto"; 
+
+message Contract {
+  
+  uint64 id = 1; 
+  string networkAddress = 2; 
+  uint64 prefixLength = 3; 
+  string rir = 4; 
+  string countryCode = 5; 
+  string geofeedUrl = 6; 
+  string owner = 7; 
+  cosmos.base.v1beta1.Coin price = 8 [(gogoproto.nullable) = false]; 
+  cosmos.base.v1beta1.Coin deposit = 9 [(gogoproto.nullable) = false]; 
+  cosmos.base.v1beta1.Coin deposited = 10 [(gogoproto.nullable) = false]; 
+  uint64 noticePeriodBlocks = 11; 
+  uint64 noticeSentBlocks = 12; 
+  uint64 status = 13; 
+  string lessee = 14; 
+  uint64 creationBlock = 15; 
+  uint64 activationBlock = 16; 
+  uint64 prepaidUntilBlock = 17; 
+  string userAbuseContactEmail = 18; 
+  string userAbuseContactPhone = 19; 
+}
