@@ -18,12 +18,13 @@ message Contract {
   cosmos.base.v1beta1.Coin deposit = 9 [(gogoproto.nullable) = false]; 
   cosmos.base.v1beta1.Coin deposited = 10 [(gogoproto.nullable) = false]; 
   uint64 noticePeriodBlocks = 11; 
-  uint64 noticeSentBlocks = 12; 
+  uint64 noticeSentBlock = 12; 
   uint64 status = 13; 
-  string lessee = 14; 
-  uint64 creationBlock = 15; 
-  uint64 activationBlock = 16; 
-  uint64 prepaidUntilBlock = 17; 
-  string userAbuseContactEmail = 18; 
-  string userAbuseContactPhone = 19; 
+  uint64 statusChangeBlock = 14;
+  string lessee = 15; 
+  uint64 creationBlock = 16; 
+  uint64 activationBlock = 17; 
+  uint64 prepaidUntilBlock = 18; 
+  string userAbuseContactEmail = 19; 
+  string userAbuseContactPhone = 20; 
 }
