@@ -54,6 +54,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a update-contract tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "price"}, {ProtoField: "deposit"}, {ProtoField: "noticePeriodBlocks"}, {ProtoField: "id"}},
 				},
+				{
+					RpcMethod:      "DeleteContract",
+					Use:            "delete-contract [id]",
+					Short:          "Send a delete-contract tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

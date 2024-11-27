@@ -64,3 +64,9 @@ func (k Keeper) SetContract(ctx context.Context, contract types.Contract) {
 	b := k.cdc.MustMarshal(&contract)
 	store.Set(GetContractIDBytes(contract.Id), b)
 }
+
+func (k Keeper) RemoveContract(ctx context.Context, id uint64) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
+	store.Delete(GetContractIDBytes(id))
+}

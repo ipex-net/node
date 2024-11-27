@@ -22,6 +22,7 @@ const (
 	Msg_UpdateParams_FullMethodName   = "/ipex.lease.Msg/UpdateParams"
 	Msg_CreateContract_FullMethodName = "/ipex.lease.Msg/CreateContract"
 	Msg_UpdateContract_FullMethodName = "/ipex.lease.Msg/UpdateContract"
+	Msg_DeleteContract_FullMethodName = "/ipex.lease.Msg/DeleteContract"
 )
 
 // MsgClient is the client API for Msg service.
@@ -33,6 +34,7 @@ type MsgClient interface {
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	CreateContract(ctx context.Context, in *MsgCreateContract, opts ...grpc.CallOption) (*MsgCreateContractResponse, error)
 	UpdateContract(ctx context.Context, in *MsgUpdateContract, opts ...grpc.CallOption) (*MsgUpdateContractResponse, error)
+	DeleteContract(ctx context.Context, in *MsgDeleteContract, opts ...grpc.CallOption) (*MsgDeleteContractResponse, error)
 }
 
 type msgClient struct {
@@ -70,6 +72,15 @@ func (c *msgClient) UpdateContract(ctx context.Context, in *MsgUpdateContract, o
 	return out, nil
 }
 
+func (c *msgClient) DeleteContract(ctx context.Context, in *MsgDeleteContract, opts ...grpc.CallOption) (*MsgDeleteContractResponse, error) {
+	out := new(MsgDeleteContractResponse)
+	err := c.cc.Invoke(ctx, Msg_DeleteContract_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -79,6 +90,7 @@ type MsgServer interface {
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	CreateContract(context.Context, *MsgCreateContract) (*MsgCreateContractResponse, error)
 	UpdateContract(context.Context, *MsgUpdateContract) (*MsgUpdateContractResponse, error)
+	DeleteContract(context.Context, *MsgDeleteContract) (*MsgDeleteContractResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -94,6 +106,9 @@ func (UnimplementedMsgServer) CreateContract(context.Context, *MsgCreateContract
 }
 func (UnimplementedMsgServer) UpdateContract(context.Context, *MsgUpdateContract) (*MsgUpdateContractResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateContract not implemented")
+}
+func (UnimplementedMsgServer) DeleteContract(context.Context, *MsgDeleteContract) (*MsgDeleteContractResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteContract not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -162,6 +177,24 @@ func _Msg_UpdateContract_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_DeleteContract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteContract)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteContract(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_DeleteContract_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteContract(ctx, req.(*MsgDeleteContract))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +213,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateContract",
 			Handler:    _Msg_UpdateContract_Handler,
+		},
+		{
+			MethodName: "DeleteContract",
+			Handler:    _Msg_DeleteContract_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

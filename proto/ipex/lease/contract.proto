@@ -27,4 +27,5 @@ message Contract {
   uint64 prepaidUntilBlock = 18; 
   string userAbuseContactEmail = 19; 
   string userAbuseContactPhone = 20; 
+  string asNumber = 21;
 }

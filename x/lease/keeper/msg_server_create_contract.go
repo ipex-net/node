@@ -21,15 +21,16 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		Price:                 msg.Price,
 		Deposit:               msg.Deposit,
 		NoticePeriodBlocks:    msg.NoticePeriodBlocks,
-		NoticeSentBlock:      0,
+		NoticeSentBlock:       0,
 		Status:                0,
-		StatusChangeBlock: 	 uint64(ctx.BlockHeight()),
+		StatusChangeBlock:     uint64(ctx.BlockHeight()),
 		Lessee:                "",
 		CreationBlock:         uint64(ctx.BlockHeight()),
 		ActivationBlock:       0,
 		PrepaidUntilBlock:     0,
 		UserAbuseContactEmail: "",
 		UserAbuseContactPhone: "",
+		AsNumber:              "",
 	}
 	id := k.AppendContract(
 		ctx,
