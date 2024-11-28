@@ -46,6 +46,9 @@ func (msg *MsgCreateContract) ValidateBasic() error {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "RIR cannot be empty")
 	}
 
+	if msg.Rir != "RIPE" && msg.Rir != "ARIN" && msg.Rir != "APNIC" && msg.Rir != "AFRINIC" {
+		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "Unknown RIR name")
+	}
 	countryCodeRegex := regexp.MustCompile(`^[A-Z]{2}$`)
 	if !countryCodeRegex.MatchString(msg.CountryCode) {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "country code must be exactly 2 capital letters")
@@ -53,10 +56,6 @@ func (msg *MsgCreateContract) ValidateBasic() error {
 
 	if !msg.Price.IsPositive() {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "price must be positive")
-	}
-
-	if !msg.Deposit.IsPositive() {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "deposit must be positive")
 	}
 
 	if msg.NoticePeriodBlocks == 0 {
