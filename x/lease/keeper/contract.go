@@ -70,3 +70,19 @@ func (k Keeper) RemoveContract(ctx context.Context, id uint64) {
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
 	store.Delete(GetContractIDBytes(id))
 }
+
+func (k Keeper) GetAllContract(ctx context.Context) (list []types.Contract) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
+
+	iterator := store.Iterator(nil, nil)
+	defer iterator.Close()
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.Contract
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+		list = append(list, val)
+	}
+
+	return
+}
+

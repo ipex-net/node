@@ -5,6 +5,17 @@ option go_package = "ipex/x/lease/types";
 import "gogoproto/gogo.proto"; 
 import "cosmos/base/v1beta1/coin.proto"; 
 
+enum ContractStatus {
+  // Start enumeration from 0 as per proto3 convention
+  CONTRACT_STATUS_PENDING = 0;
+  CONTRACT_STATUS_FORSALE = 1;
+  CONTRACT_STATUS_LEASED = 2;
+  CONTRACT_STATUS_CANCELED_OWNER = 3;
+  CONTRACT_STATUS_CANCELED_LESSEE = 4;
+  CONTRACT_STATUS_TERMINATED = 5;
+  CONTRACT_STATUS_EXPIRED = 6;
+}
+
 message Contract {
   
   uint64 id = 1; 
@@ -19,7 +30,7 @@ message Contract {
   cosmos.base.v1beta1.Coin deposited = 10 [(gogoproto.nullable) = false]; 
   uint64 noticePeriodBlocks = 11; 
   uint64 noticeSentBlock = 12; 
-  uint64 status = 13; 
+  ContractStatus status = 13; 
   uint64 statusChangeBlock = 14;
   string lessee = 15; 
   uint64 creationBlock = 16; 
