@@ -21,6 +21,11 @@ func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteCon
 	if msg.Creator != val.Owner {
 		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
+	if val.Status != types.ContractStatus_CONTRACT_STATUS_TERMINATED && 
+	val.Status != types.ContractStatus_CONTRACT_STATUS_PENDING && 
+	val.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in pending, forsale or terminated status to be deleted")
+	}
 	k.RemoveContract(ctx, msg.Id)
 
 	return &types.MsgDeleteContractResponse{}, nil

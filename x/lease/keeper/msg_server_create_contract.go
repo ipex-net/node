@@ -43,7 +43,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		Deposit:               msg.Deposit,
 		NoticePeriodBlocks:    msg.NoticePeriodBlocks,
 		NoticeSentBlock:       0,
-		Status:                types.ContractStatus_CONTRACT_STATUS_PENDING,
+		Status:                types.ContractStatus_CONTRACT_STATUS_FORSALE,
 		StatusChangeBlock:     uint64(ctx.BlockHeight()),
 		Lessee:                "",
 		CreationBlock:         uint64(ctx.BlockHeight()),
