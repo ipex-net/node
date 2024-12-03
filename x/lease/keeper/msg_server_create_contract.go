@@ -49,8 +49,6 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		CreationBlock:         uint64(ctx.BlockHeight()),
 		ActivationBlock:       0,
 		PrepaidUntilBlock:     0,
-		UserAbuseContactEmail: "",
-		UserAbuseContactPhone: "",
 		AsNumber:              "",
 	}
 	id := k.AppendContract(

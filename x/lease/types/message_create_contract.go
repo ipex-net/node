@@ -67,62 +67,62 @@ func (msg *MsgCreateContract) ValidateBasic() error {
 	// Validate IP address format using regex
 	ipv4Regex := regexp.MustCompile(`^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}0$`)
 	if !ipv4Regex.MatchString(msg.NetworkAddress) {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "invalid IPv4 address format")
+		return ErrInvalidIPFormat
 	}
 
-		// Parse the IP address for reserved range checking
-		ip := net.ParseIP(msg.NetworkAddress)
-		if ip == nil {
-			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "invalid IPv4 address format")
-		}
-	
-		// Check if IP is in a reserved range
-		if isReservedIPRange(ip) {
-			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "IP address is in a reserved range")
-		}
+	// Parse the IP address for reserved range checking
+	ip := net.ParseIP(msg.NetworkAddress)
+	if ip == nil {
+		return ErrInvalidIPFormat
+	}
+
+	// Check if IP is in a reserved range
+	if isReservedIPRange(ip) {
+		return ErrReservedIPRange
+	}
 		
 	// Validate prefix length for IPv4 (8-24)
 	if msg.PrefixLength < 8 || msg.PrefixLength > 24 {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "prefix length must be between 8 and 24")
+		return ErrInvalidPrefixLength
 	}
 
 	if msg.Rir == "" {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "RIR cannot be empty")
+		return ErrEmptyRIR
 	}
 
 	if msg.Rir != "RIPE" && msg.Rir != "ARIN" && msg.Rir != "APNIC" && msg.Rir != "AFRINIC" {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "Unknown RIR name")
+		return ErrUnknownRIR
 	}
 	countryCodeRegex := regexp.MustCompile(`^[A-Z]{2}$`)
 	if !countryCodeRegex.MatchString(msg.CountryCode) {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "country code must be exactly 2 capital letters")
+		return ErrInvalidCountryCode
 	}
 
 	if !msg.Price.IsPositive() {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "price must be positive")
+		return ErrInvalidPrice
 	}
 
 	if msg.NoticePeriodBlocks == 0 {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "notice period must be positive")
+		return ErrInvalidNoticePeriod
 	}
 
 	//Validate Geofeed
 	if msg.GeofeedUrl == "" {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "geofeed URL not provided")
+		return ErrInvalidGeofeedURL
 	} else { 
 		parsedUrl, err := url.Parse(msg.GeofeedUrl)
 		if err != nil {
-			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "invalid geofeed URL format")
+			return ErrInvalidGeofeedURL
 		}
 
 		// Check if scheme is HTTPS
 		if parsedUrl.Scheme != "https" {
-			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "geofeed URL must use HTTPS")
+			return ErrInvalidGeofeedURL
 		}
 
 		// Check if host is present
 		if parsedUrl.Host == "" {
-			return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "geofeed URL must have a valid host")
+			return ErrInvalidGeofeedURL
 		}
 	}
 

@@ -36,11 +36,9 @@ message Contract {
   uint64 creationBlock = 16; 
   uint64 activationBlock = 17; 
   uint64 prepaidUntilBlock = 18; 
-  string userAbuseContactEmail = 19; 
-  string userAbuseContactPhone = 20; 
-  string asNumber = 21;
-  uint64 asnUpdateBlock = 22;
-  string confirmedAsNumber = 23;
-  uint64 asNumberConfirmationBlock = 24;
-  uint64 contractChangeBlock = 25;
+  string asNumber = 19;
+  uint64 asnUpdateBlock = 20;
+  string confirmedAsNumber = 21;
+  uint64 asNumberConfirmationBlock = 22;
+  uint64 contractChangeBlock = 23;
 }
