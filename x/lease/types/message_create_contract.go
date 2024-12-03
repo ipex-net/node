@@ -29,11 +29,14 @@ func isReservedIPRange(ip net.IP) bool {
 		{0xAC100000, 0xAC1FFFFF},    // 172.16.0.0/12    - Private network
 		{0xC0000000, 0xC00000FF},    // 192.0.0.0/24     - IETF Protocol
 		{0xC0000200, 0xC00002FF},    // 192.0.2.0/24     - TEST-NET-1
+		{0xC0586300, 0xC05863FF},    // 192.88.99.0/24   - IPv6 to IPv4 Relay
 		{0xC0A80000, 0xC0A8FFFF},    // 192.168.0.0/16   - Private network
 		{0xC6120000, 0xC613FFFF},    // 198.18.0.0/15    - Benchmark testing
 		{0xC6336400, 0xC63364FF},    // 198.51.100.0/24  - TEST-NET-2
 		{0xCB007100, 0xCB0071FF},    // 203.0.113.0/24   - TEST-NET-3
-		{0xE0000000, 0xFFFFFFFF},    // 224.0.0.0/4      - Multicast
+		{0xE0000000, 0xEFFFFFFF},    // 224.0.0.0/4      - Multicast
+		{0xE9FC0000, 0xE9FC00FF},    // 233.252.0.0/24 	 - MCAST-TEST-NET
+		{0xF0000000, 0xFFFFFFFF},    // 240.0.0.0/4 	 - Reserved for future use
 	}
 
 	for _, r := range reservedRanges {
@@ -67,62 +70,62 @@ func (msg *MsgCreateContract) ValidateBasic() error {
 	// Validate IP address format using regex
 	ipv4Regex := regexp.MustCompile(`^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}0$`)
 	if !ipv4Regex.MatchString(msg.NetworkAddress) {
-		return ErrInvalidIPFormat
+		return errorsmod.Wrapf(ErrInvalidIPFormat, "invalid IPv4 address format (%s)", msg.NetworkAddress)
 	}
 
 	// Parse the IP address for reserved range checking
 	ip := net.ParseIP(msg.NetworkAddress)
 	if ip == nil {
-		return ErrInvalidIPFormat
+		return errorsmod.Wrapf(ErrInvalidIPFormat, "invalid IPv4 address format (%s)", msg.NetworkAddress)
 	}
 
 	// Check if IP is in a reserved range
 	if isReservedIPRange(ip) {
-		return ErrReservedIPRange
+		return errorsmod.Wrapf(ErrReservedIPRange, "IP address is in a reserved range (%s)", msg.NetworkAddress)
 	}
 		
 	// Validate prefix length for IPv4 (8-24)
 	if msg.PrefixLength < 8 || msg.PrefixLength > 24 {
-		return ErrInvalidPrefixLength
+		return errorsmod.Wrap(ErrInvalidPrefixLength, "prefix length must be between 8 and 24")
 	}
 
 	if msg.Rir == "" {
-		return ErrEmptyRIR
+		return errorsmod.Wrap(ErrEmptyRIR, "RIR cannot be empty")
 	}
 
 	if msg.Rir != "RIPE" && msg.Rir != "ARIN" && msg.Rir != "APNIC" && msg.Rir != "AFRINIC" {
-		return ErrUnknownRIR
+		return errorsmod.Wrapf(ErrUnknownRIR, "Unknown RIR name (%s)", msg.Rir)
 	}
 	countryCodeRegex := regexp.MustCompile(`^[A-Z]{2}$`)
 	if !countryCodeRegex.MatchString(msg.CountryCode) {
-		return ErrInvalidCountryCode
+		return errorsmod.Wrap(ErrInvalidCountryCode, "country code must be exactly 2 capital letters")
 	}
 
 	if !msg.Price.IsPositive() {
-		return ErrInvalidPrice
+		return errorsmod.Wrap(ErrInvalidPrice, "price must be positive")
 	}
 
 	if msg.NoticePeriodBlocks == 0 {
-		return ErrInvalidNoticePeriod
+		return errorsmod.Wrap(ErrInvalidNoticePeriod, "notice period must be positive")
 	}
 
 	//Validate Geofeed
 	if msg.GeofeedUrl == "" {
-		return ErrInvalidGeofeedURL
+		return errorsmod.Wrap(ErrInvalidGeofeedURL, "geofeed URL not provided")
 	} else { 
 		parsedUrl, err := url.Parse(msg.GeofeedUrl)
 		if err != nil {
-			return ErrInvalidGeofeedURL
+			return errorsmod.Wrapf(ErrInvalidGeofeedURL, "invalid geofeed URL format (%s)", msg.GeofeedUrl)
 		}
 
 		// Check if scheme is HTTPS
 		if parsedUrl.Scheme != "https" {
-			return ErrInvalidGeofeedURL
+			return errorsmod.Wrap(ErrInvalidGeofeedURL, "geofeed URL must use HTTPS")
 		}
 
 		// Check if host is present
 		if parsedUrl.Host == "" {
-			return ErrInvalidGeofeedURL
+			return errorsmod.Wrapf(ErrInvalidGeofeedURL, "geofeed URL must have a valid host (%s)", msg.GeofeedUrl)
 		}
 	}
 
