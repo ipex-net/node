@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"ipex/x/lease/types"
 
@@ -30,5 +31,16 @@ func (k msgServer) UpdateContract(goCtx context.Context, msg *types.MsgUpdateCon
 	contract.Deposit = msg.Deposit
 	contract.NoticePeriodBlocks = msg.NoticePeriodBlocks
 	k.SetContract(ctx, contract)
+
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(types.ContractUpdatedEventType,
+			sdk.NewAttribute(types.ContractUpdatedEventCreator, msg.Creator),
+			sdk.NewAttribute(types.ContractUpdatedEventContractId, strconv.FormatUint(msg.Id, 10)),
+			sdk.NewAttribute(types.ContractUpdatedEventPrice, msg.Price.Amount.String()),
+			sdk.NewAttribute(types.ContractUpdatedEventPriceDenom, msg.Price.Denom),
+			sdk.NewAttribute(types.ContractUpdatedEventDepositAmount, msg.Deposit.Amount.String()),
+			sdk.NewAttribute(types.ContractUpdatedEventNoticePeriodBlocks, strconv.FormatUint(msg.NoticePeriodBlocks, 10)),
+		),
+	)
 	return &types.MsgUpdateContractResponse{}, nil
 }

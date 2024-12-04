@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strconv"
 
 	"ipex/x/lease/types"
 
@@ -54,6 +55,21 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	id := k.AppendContract(
 		ctx,
 		contract,
+	)
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(types.ContractCreatedEventType,
+			sdk.NewAttribute(types.ContractCreatedEventCreator, msg.Creator),
+			sdk.NewAttribute(types.ContractCreatedEventContractId, strconv.FormatUint(id, 10)),
+			sdk.NewAttribute(types.ContractCreatedEventNetworkAddress, msg.NetworkAddress),
+			sdk.NewAttribute(types.ContractCreatedEventPrefixLength, strconv.FormatUint(msg.PrefixLength,10)),
+			sdk.NewAttribute(types.ContractCreatedEventRir, msg.Rir),
+			sdk.NewAttribute(types.ContractCreatedEventCountryCode, msg.CountryCode),
+			sdk.NewAttribute(types.ContractCreatedEventGeofeedUrl, msg.GeofeedUrl),
+			sdk.NewAttribute(types.ContractCreatedEventPrice, msg.Price.Amount.String()),
+			sdk.NewAttribute(types.ContractCreatedEventPriceDenom, msg.Price.Denom),
+			sdk.NewAttribute(types.ContractCreatedEventDepositAmount, msg.Deposit.Amount.String()),
+			sdk.NewAttribute(types.ContractCreatedEventNoticePeriodBlocks, strconv.FormatUint(msg.NoticePeriodBlocks, 10)),
+		),
 	)
 	return &types.MsgCreateContractResponse{
 		Id: id,

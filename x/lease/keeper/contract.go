@@ -4,10 +4,12 @@ import (
 	"context"
 	"encoding/binary"
 
+	"ipex/x/lease/types"
+
+	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/store/prefix"
 	"github.com/cosmos/cosmos-sdk/runtime"
-
-	"ipex/x/lease/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (k Keeper) AppendContract(ctx context.Context, contract types.Contract) uint64 {
@@ -65,10 +67,16 @@ func (k Keeper) SetContract(ctx context.Context, contract types.Contract) {
 	store.Set(GetContractIDBytes(contract.Id), b)
 }
 
-func (k Keeper) RemoveContract(ctx context.Context, id uint64) {
+func (k Keeper) RemoveContract(ctx context.Context, id uint64) error {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
-	store.Delete(GetContractIDBytes(id))
+	key := GetContractIDBytes(id)
+   // Check if contract exists
+	if !store.Has(key) {
+		return errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "contract with id %d not found", id)
+	}
+	store.Delete(key)
+	return nil
 }
 
 func (k Keeper) GetAllContract(ctx context.Context) (list []types.Contract) {
