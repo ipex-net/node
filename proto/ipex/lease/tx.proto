@@ -21,6 +21,7 @@ service Msg {
   rpc CreateContract (MsgCreateContract) returns (MsgCreateContractResponse);
   rpc UpdateContract (MsgUpdateContract) returns (MsgUpdateContractResponse);
   rpc DeleteContract (MsgDeleteContract) returns (MsgDeleteContractResponse);
+  rpc CancelContract (MsgCancelContract) returns (MsgCancelContractResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -75,4 +76,12 @@ message MsgDeleteContract {
 }
 
 message MsgDeleteContractResponse {}
+
+message MsgCancelContract {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgCancelContractResponse {}
 

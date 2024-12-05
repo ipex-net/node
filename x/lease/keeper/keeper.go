@@ -11,7 +11,6 @@ import (
 	"ipex/x/lease/types"
 )
 
-
 type (
 	Keeper struct {
 		cdc          codec.BinaryCodec

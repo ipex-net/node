@@ -71,7 +71,7 @@ func (k Keeper) RemoveContract(ctx context.Context, id uint64) error {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
 	key := GetContractIDBytes(id)
-   // Check if contract exists
+	// Check if contract exists
 	if !store.Has(key) {
 		return errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "contract with id %d not found", id)
 	}
@@ -93,4 +93,3 @@ func (k Keeper) GetAllContract(ctx context.Context) (list []types.Contract) {
 
 	return
 }
-
