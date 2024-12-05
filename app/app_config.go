@@ -7,6 +7,10 @@ import (
 	_ "ipex/x/lease/module" // import for side-effects
 	leasemoduletypes "ipex/x/lease/types"
 
+	orgmodulev1 "ipex/api/ipex/org/module"
+	_ "ipex/x/org/module" // import for side-effects
+	orgmoduletypes "ipex/x/org/types"
+
 	runtimev1alpha1 "cosmossdk.io/api/cosmos/app/runtime/v1alpha1"
 	appv1alpha1 "cosmossdk.io/api/cosmos/app/v1alpha1"
 	authmodulev1 "cosmossdk.io/api/cosmos/auth/module/v1"
@@ -94,6 +98,7 @@ var (
 		circuittypes.ModuleName,
 		// chain modules
 		leasemoduletypes.ModuleName,
+		orgmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -119,6 +124,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		leasemoduletypes.ModuleName,
+		orgmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -138,6 +144,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		leasemoduletypes.ModuleName,
+		orgmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -297,6 +304,10 @@ var (
 			{
 				Name:   leasemoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&leasemodulev1.Module{}),
+			},
+			{
+				Name:   orgmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&orgmodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

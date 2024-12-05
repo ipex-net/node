@@ -76,6 +76,8 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 
 	leasemodulekeeper "ipex/x/lease/keeper"
+	orgmodulekeeper "ipex/x/org/keeper"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"ipex/docs"
@@ -142,6 +144,7 @@ type App struct {
 	ScopedKeepers             map[string]capabilitykeeper.ScopedKeeper
 
 	LeaseKeeper leasemodulekeeper.Keeper
+	OrgKeeper   orgmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -246,6 +249,7 @@ func New(
 		&app.GroupKeeper,
 		&app.CircuitBreakerKeeper,
 		&app.LeaseKeeper,
+		&app.OrgKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)

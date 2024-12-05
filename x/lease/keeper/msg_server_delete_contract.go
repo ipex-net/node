@@ -25,7 +25,7 @@ func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteCon
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_TERMINATED &&
 		contract.Status != types.ContractStatus_CONTRACT_STATUS_PENDING &&
 		contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
-		return nil, errorsmod.Wrap(types.ErrInvalidContractStatus, "contract must be in pending, forsale or terminated status to be deleted")	
+		return nil, errorsmod.Wrap(types.ErrInvalidContractStatus, "contract must be in pending, forsale or terminated status to be deleted")
 	}
 	err := k.RemoveContract(ctx, msg.Id)
 

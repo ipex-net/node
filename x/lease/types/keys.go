@@ -59,13 +59,13 @@ const (
 )
 
 const (
-	ContractCanceledByOwnerEventType       = "contract-canceled"
+	ContractCanceledByOwnerEventType  = "contract-canceled"
 	ContractCanceledByOwnerCreator    = "creator"
 	ContractCanceledByOwnerContractId = "contract-id"
 )
 
 const (
-	ContractCanceledByLesseeEventType       = "contract-canceled"
+	ContractCanceledByLesseeEventType  = "contract-canceled"
 	ContractCanceledByLesseeCreator    = "creator"
 	ContractCanceledByLesseeContractId = "contract-id"
 )
