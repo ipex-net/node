@@ -1,0 +1,20 @@
+syntax = "proto3";
+package ipex.org;
+
+option go_package = "ipex/x/org/types";
+
+message Org {
+  uint64 id = 1;
+  string creator = 2; 
+  string admin = 3; 
+  string name = 4; 
+  string legalName = 5; 
+  string address = 6; 
+  string registrationNumber = 7; 
+  string country = 8; 
+  string taxId = 9; 
+  string website = 10; 
+  string abuseEmail = 11; 
+  string contactEmail = 12; 
+  
+}
