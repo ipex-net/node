@@ -39,6 +39,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "RegisterOrg",
+					Use:            "register-org [name] [legal-name] [address] [registration-number] [country] [tax-id] [website] [abuse-email] [contact-email]",
+					Short:          "Send a register-org tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "name"}, {ProtoField: "legalName"}, {ProtoField: "address"}, {ProtoField: "registrationNumber"}, {ProtoField: "country"}, {ProtoField: "taxId"}, {ProtoField: "website"}, {ProtoField: "abuseEmail"}, {ProtoField: "contactEmail"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
