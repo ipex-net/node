@@ -16,5 +16,6 @@ message Org {
   string website = 10; 
   string abuseEmail = 11; 
   string contactEmail = 12; 
+  bool verified = 13;
   
 }

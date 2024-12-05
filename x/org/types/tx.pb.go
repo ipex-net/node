@@ -284,50 +284,225 @@ func (m *MsgRegisterOrgResponse) GetId() uint64 {
 	return 0
 }
 
+type MsgUpdateOrg struct {
+	Creator            string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Id                 uint64 `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
+	Admin              string `protobuf:"bytes,3,opt,name=admin,proto3" json:"admin,omitempty"`
+	Name               string `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
+	LegalName          string `protobuf:"bytes,5,opt,name=legalName,proto3" json:"legalName,omitempty"`
+	Address            string `protobuf:"bytes,6,opt,name=address,proto3" json:"address,omitempty"`
+	RegistrationNumber string `protobuf:"bytes,7,opt,name=registrationNumber,proto3" json:"registrationNumber,omitempty"`
+	Country            string `protobuf:"bytes,8,opt,name=country,proto3" json:"country,omitempty"`
+	TaxId              string `protobuf:"bytes,9,opt,name=taxId,proto3" json:"taxId,omitempty"`
+	Website            string `protobuf:"bytes,10,opt,name=website,proto3" json:"website,omitempty"`
+	AbuseEmail         string `protobuf:"bytes,11,opt,name=abuseEmail,proto3" json:"abuseEmail,omitempty"`
+	ContactEmail       string `protobuf:"bytes,12,opt,name=contactEmail,proto3" json:"contactEmail,omitempty"`
+}
+
+func (m *MsgUpdateOrg) Reset()         { *m = MsgUpdateOrg{} }
+func (m *MsgUpdateOrg) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateOrg) ProtoMessage()    {}
+func (*MsgUpdateOrg) Descriptor() ([]byte, []int) {
+	return fileDescriptor_26f9c69768bdceb4, []int{4}
+}
+func (m *MsgUpdateOrg) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateOrg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateOrg.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateOrg) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateOrg.Merge(m, src)
+}
+func (m *MsgUpdateOrg) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateOrg) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateOrg.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateOrg proto.InternalMessageInfo
+
+func (m *MsgUpdateOrg) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *MsgUpdateOrg) GetAdmin() string {
+	if m != nil {
+		return m.Admin
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetLegalName() string {
+	if m != nil {
+		return m.LegalName
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetRegistrationNumber() string {
+	if m != nil {
+		return m.RegistrationNumber
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetCountry() string {
+	if m != nil {
+		return m.Country
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetTaxId() string {
+	if m != nil {
+		return m.TaxId
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetWebsite() string {
+	if m != nil {
+		return m.Website
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetAbuseEmail() string {
+	if m != nil {
+		return m.AbuseEmail
+	}
+	return ""
+}
+
+func (m *MsgUpdateOrg) GetContactEmail() string {
+	if m != nil {
+		return m.ContactEmail
+	}
+	return ""
+}
+
+type MsgUpdateOrgResponse struct {
+}
+
+func (m *MsgUpdateOrgResponse) Reset()         { *m = MsgUpdateOrgResponse{} }
+func (m *MsgUpdateOrgResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateOrgResponse) ProtoMessage()    {}
+func (*MsgUpdateOrgResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_26f9c69768bdceb4, []int{5}
+}
+func (m *MsgUpdateOrgResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateOrgResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateOrgResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateOrgResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateOrgResponse.Merge(m, src)
+}
+func (m *MsgUpdateOrgResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateOrgResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateOrgResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateOrgResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgUpdateParams)(nil), "ipex.org.MsgUpdateParams")
 	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "ipex.org.MsgUpdateParamsResponse")
 	proto.RegisterType((*MsgRegisterOrg)(nil), "ipex.org.MsgRegisterOrg")
 	proto.RegisterType((*MsgRegisterOrgResponse)(nil), "ipex.org.MsgRegisterOrgResponse")
+	proto.RegisterType((*MsgUpdateOrg)(nil), "ipex.org.MsgUpdateOrg")
+	proto.RegisterType((*MsgUpdateOrgResponse)(nil), "ipex.org.MsgUpdateOrgResponse")
 }
 
 func init() { proto.RegisterFile("ipex/org/tx.proto", fileDescriptor_26f9c69768bdceb4) }
 
 var fileDescriptor_26f9c69768bdceb4 = []byte{
-	// 520 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x53, 0x3f, 0x6f, 0xd3, 0x40,
-	0x14, 0x8f, 0xd3, 0x26, 0xc5, 0xaf, 0x51, 0x51, 0x4e, 0x51, 0xeb, 0x18, 0x64, 0x8a, 0xa7, 0x28,
-	0x08, 0x5b, 0x14, 0xc4, 0xd0, 0x8d, 0x48, 0x0c, 0x08, 0x25, 0x20, 0x23, 0x16, 0x16, 0x74, 0x89,
-	0x4f, 0xc7, 0x49, 0xb1, 0xcf, 0xba, 0xbb, 0x40, 0xb2, 0x21, 0x46, 0x26, 0x3e, 0x06, 0x4c, 0x64,
-	0xe0, 0x13, 0x30, 0x75, 0xac, 0x98, 0x98, 0x10, 0x4a, 0x86, 0x7c, 0x0d, 0xe4, 0x3b, 0xa7, 0x71,
-	0x22, 0xba, 0xd8, 0xf7, 0xfb, 0xe3, 0xf7, 0xde, 0xbd, 0xf7, 0x0c, 0x88, 0x65, 0x31, 0x99, 0x86,
-	0x5c, 0xd0, 0x50, 0x4d, 0x83, 0x4c, 0x70, 0xc5, 0x91, 0xad, 0xb9, 0x80, 0x0b, 0xea, 0x36, 0x71,
-	0xc2, 0x52, 0x1e, 0xea, 0xa7, 0x51, 0xdd, 0x93, 0x11, 0x97, 0x09, 0x97, 0x61, 0x22, 0x69, 0xf8,
-	0xfe, 0x41, 0xfe, 0x2a, 0x84, 0xb6, 0x11, 0xde, 0x6a, 0x14, 0x1a, 0x50, 0x48, 0x2d, 0xca, 0x29,
-	0x37, 0x7c, 0x7e, 0x2a, 0xd8, 0xe3, 0x4d, 0xee, 0x0c, 0x0b, 0x9c, 0x14, 0x6e, 0xff, 0xbb, 0x05,
-	0x37, 0xfb, 0x92, 0xbe, 0xce, 0x62, 0xac, 0xc8, 0x4b, 0xad, 0xa0, 0xc7, 0x60, 0xe3, 0x89, 0x7a,
-	0xc7, 0x05, 0x53, 0x33, 0xc7, 0x3a, 0xb5, 0x3a, 0x76, 0xcf, 0xf9, 0xf5, 0xe3, 0x7e, 0xab, 0x48,
-	0xf3, 0x24, 0x8e, 0x05, 0x91, 0xf2, 0x95, 0x12, 0x2c, 0xa5, 0xd1, 0xc6, 0x8a, 0x1e, 0x41, 0xdd,
-	0xc4, 0x76, 0xaa, 0xa7, 0x56, 0xe7, 0xf0, 0xac, 0x19, 0x5c, 0x5d, 0x2e, 0x30, 0xa1, 0x7b, 0xf6,
-	0xc5, 0x9f, 0x3b, 0x95, 0xaf, 0xab, 0x79, 0xd7, 0x8a, 0x0a, 0xef, 0x79, 0xf0, 0x69, 0x35, 0xef,
-	0x6e, 0xa2, 0x7c, 0x5e, 0xcd, 0xbb, 0xb7, 0x4c, 0xb1, 0xa6, 0xdc, 0x9d, 0xea, 0xfc, 0x36, 0x9c,
-	0xec, 0x50, 0x11, 0x91, 0x19, 0x4f, 0x25, 0xf1, 0x7f, 0x56, 0xe1, 0xa8, 0x2f, 0x69, 0x44, 0x28,
-	0x93, 0x8a, 0x88, 0x17, 0x82, 0x22, 0x07, 0x0e, 0x46, 0x82, 0x60, 0xc5, 0x85, 0xb9, 0x49, 0xb4,
-	0x86, 0x08, 0xc1, 0x7e, 0x8a, 0x13, 0xa2, 0x6b, 0xb5, 0x23, 0x7d, 0x46, 0xb7, 0xc1, 0x1e, 0x13,
-	0x8a, 0xc7, 0x83, 0x5c, 0xd8, 0xd3, 0xc2, 0x86, 0xc8, 0x63, 0x61, 0x73, 0x77, 0x67, 0xdf, 0xc4,
-	0x2a, 0x20, 0x0a, 0x00, 0x09, 0x9d, 0x54, 0x60, 0xc5, 0x78, 0x3a, 0x98, 0x24, 0x43, 0x22, 0x9c,
-	0x9a, 0x36, 0xfd, 0x47, 0xd1, 0x55, 0xf1, 0x49, 0xaa, 0xc4, 0xcc, 0xa9, 0x17, 0x55, 0x19, 0x88,
-	0x5a, 0x50, 0x53, 0x78, 0xfa, 0x2c, 0x76, 0x0e, 0x34, 0x6f, 0x40, 0xee, 0xff, 0x40, 0x86, 0x92,
-	0x29, 0xe2, 0xdc, 0x30, 0xfe, 0x02, 0x22, 0x0f, 0x00, 0x0f, 0x27, 0x92, 0x3c, 0x4d, 0x30, 0x1b,
-	0x3b, 0xb6, 0x16, 0x4b, 0x0c, 0xf2, 0xa1, 0x31, 0xe2, 0xa9, 0xc2, 0x23, 0x65, 0x1c, 0xa0, 0x1d,
-	0x5b, 0xdc, 0x79, 0x23, 0x9f, 0xc0, 0xba, 0x2f, 0x7e, 0x07, 0x8e, 0xb7, 0x7b, 0xb8, 0x6e, 0x2f,
-	0x3a, 0x82, 0x2a, 0x8b, 0x75, 0x1b, 0xf7, 0xa3, 0x2a, 0x8b, 0xcf, 0xbe, 0x59, 0xb0, 0xd7, 0x97,
-	0x14, 0x0d, 0xa0, 0xb1, 0xb5, 0x3f, 0x6e, 0x69, 0xee, 0x3b, 0xa3, 0x72, 0xfd, 0xeb, 0xb5, 0xab,
-	0x3c, 0xcf, 0xe1, 0xb0, 0x3c, 0xc2, 0xf6, 0xf6, 0x27, 0x25, 0xc9, 0xbd, 0x7b, 0xad, 0xb4, 0x0e,
-	0xe6, 0xd6, 0x3e, 0xe6, 0xdb, 0xd6, 0xbb, 0x77, 0xb1, 0xf0, 0xac, 0xcb, 0x85, 0x67, 0xfd, 0x5d,
-	0x78, 0xd6, 0x97, 0xa5, 0x57, 0xb9, 0x5c, 0x7a, 0x95, 0xdf, 0x4b, 0xaf, 0xf2, 0xa6, 0x59, 0x5e,
-	0x36, 0x35, 0xcb, 0x88, 0x1c, 0xd6, 0xf5, 0xbf, 0xf1, 0xf0, 0x5f, 0x00, 0x00, 0x00, 0xff, 0xff,
-	0xa1, 0xe5, 0x41, 0xe3, 0xb1, 0x03, 0x00, 0x00,
+	// 606 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0xb1, 0x6f, 0xd3, 0x4e,
+	0x14, 0x8e, 0xdd, 0x24, 0xad, 0x5f, 0xa3, 0xfe, 0xd4, 0x53, 0xd4, 0xba, 0xfe, 0x21, 0xb7, 0x78,
+	0xaa, 0x8a, 0xb0, 0x45, 0x41, 0x0c, 0xdd, 0xa8, 0xd4, 0x01, 0xa1, 0x16, 0x64, 0xc4, 0xc2, 0x82,
+	0x2e, 0xf1, 0xe9, 0xb0, 0x54, 0xfb, 0xac, 0xbb, 0x0b, 0xb4, 0x1b, 0x62, 0x64, 0xe2, 0xcf, 0x60,
+	0xa3, 0x03, 0x7f, 0x01, 0x53, 0xc7, 0x8a, 0x89, 0x09, 0xa1, 0x44, 0x22, 0x2b, 0x7f, 0x02, 0xf2,
+	0x9d, 0x9d, 0x38, 0x51, 0x9d, 0x76, 0x49, 0xee, 0xbd, 0xef, 0xbb, 0xef, 0xde, 0xbd, 0xcf, 0xef,
+	0x00, 0xc5, 0x59, 0x44, 0xce, 0x02, 0xc6, 0x69, 0x20, 0xcf, 0xfc, 0x8c, 0x33, 0xc9, 0x90, 0xa5,
+	0x72, 0x3e, 0xe3, 0xd4, 0x59, 0xc7, 0x49, 0x9c, 0xb2, 0x40, 0xfd, 0x6a, 0xd4, 0xd9, 0xec, 0x33,
+	0x91, 0x30, 0x11, 0x24, 0x82, 0x06, 0xef, 0x1e, 0xe4, 0x7f, 0x05, 0xb0, 0xa5, 0x81, 0x37, 0x2a,
+	0x0a, 0x74, 0x50, 0x40, 0x5d, 0xca, 0x28, 0xd3, 0xf9, 0x7c, 0x55, 0x64, 0x37, 0xa6, 0x67, 0x67,
+	0x98, 0xe3, 0xa4, 0x60, 0x7b, 0x5f, 0x0d, 0xf8, 0xef, 0x58, 0xd0, 0x57, 0x59, 0x84, 0x25, 0x79,
+	0xa1, 0x10, 0xf4, 0x18, 0x2c, 0x3c, 0x90, 0x6f, 0x19, 0x8f, 0xe5, 0xb9, 0x6d, 0xec, 0x18, 0xbb,
+	0xd6, 0xa1, 0xfd, 0xe3, 0xdb, 0xfd, 0x6e, 0x71, 0xcc, 0x93, 0x28, 0xe2, 0x44, 0x88, 0x97, 0x92,
+	0xc7, 0x29, 0x0d, 0xa7, 0x54, 0xf4, 0x08, 0xda, 0x5a, 0xdb, 0x36, 0x77, 0x8c, 0xdd, 0xd5, 0xfd,
+	0x75, 0x7f, 0x72, 0x39, 0x5f, 0x4b, 0x1f, 0x5a, 0x97, 0xbf, 0xb6, 0x1b, 0x5f, 0xc6, 0x17, 0x7b,
+	0x46, 0x58, 0x70, 0x0f, 0xfc, 0x8f, 0xe3, 0x8b, 0xbd, 0xa9, 0xca, 0xa7, 0xf1, 0xc5, 0xde, 0xff,
+	0xba, 0x58, 0x5d, 0xee, 0x5c, 0x75, 0xde, 0x16, 0x6c, 0xce, 0xa5, 0x42, 0x22, 0x32, 0x96, 0x0a,
+	0xe2, 0x7d, 0x37, 0x61, 0xed, 0x58, 0xd0, 0x90, 0xd0, 0x58, 0x48, 0xc2, 0x9f, 0x73, 0x8a, 0x6c,
+	0x58, 0xee, 0x73, 0x82, 0x25, 0xe3, 0xfa, 0x26, 0x61, 0x19, 0x22, 0x04, 0xcd, 0x14, 0x27, 0x44,
+	0xd5, 0x6a, 0x85, 0x6a, 0x8d, 0xee, 0x80, 0x75, 0x4a, 0x28, 0x3e, 0x3d, 0xc9, 0x81, 0x25, 0x05,
+	0x4c, 0x13, 0xb9, 0x16, 0xd6, 0x77, 0xb7, 0x9b, 0x5a, 0xab, 0x08, 0x91, 0x0f, 0x88, 0xab, 0x43,
+	0x39, 0x96, 0x31, 0x4b, 0x4f, 0x06, 0x49, 0x8f, 0x70, 0xbb, 0xa5, 0x48, 0xd7, 0x20, 0xaa, 0x2a,
+	0x36, 0x48, 0x25, 0x3f, 0xb7, 0xdb, 0x45, 0x55, 0x3a, 0x44, 0x5d, 0x68, 0x49, 0x7c, 0xf6, 0x34,
+	0xb2, 0x97, 0x55, 0x5e, 0x07, 0x39, 0xff, 0x3d, 0xe9, 0x89, 0x58, 0x12, 0x7b, 0x45, 0xf3, 0x8b,
+	0x10, 0xb9, 0x00, 0xb8, 0x37, 0x10, 0xe4, 0x28, 0xc1, 0xf1, 0xa9, 0x6d, 0x29, 0xb0, 0x92, 0x41,
+	0x1e, 0x74, 0xfa, 0x2c, 0x95, 0xb8, 0x2f, 0x35, 0x03, 0x14, 0x63, 0x26, 0x77, 0xd0, 0xc9, 0x1d,
+	0x28, 0xfb, 0xe2, 0xed, 0xc2, 0xc6, 0x6c, 0x0f, 0xcb, 0xf6, 0xa2, 0x35, 0x30, 0xe3, 0x48, 0xb5,
+	0xb1, 0x19, 0x9a, 0x71, 0xe4, 0xfd, 0x31, 0xa1, 0x33, 0xb1, 0x62, 0x71, 0xb3, 0xf5, 0x56, 0xb3,
+	0xdc, 0x9a, 0x5f, 0x13, 0x47, 0x49, 0x9c, 0x16, 0x4d, 0xd6, 0xc1, 0xc4, 0x92, 0x66, 0x9d, 0x25,
+	0xad, 0x05, 0x96, 0xb4, 0x6f, 0x63, 0xc9, 0xf2, 0x6d, 0x2c, 0x59, 0xa9, 0xb1, 0xc4, 0xaa, 0xb1,
+	0x04, 0x16, 0x59, 0xb2, 0x7a, 0xa3, 0x25, 0x9d, 0x1b, 0x2d, 0xd9, 0x80, 0x6e, 0xb5, 0xcf, 0xa5,
+	0x21, 0xfb, 0x7f, 0x0d, 0x58, 0x3a, 0x16, 0x14, 0x9d, 0x40, 0x67, 0x66, 0x80, 0x9d, 0xca, 0xe0,
+	0xcd, 0xcd, 0x8a, 0xe3, 0xd5, 0x63, 0x13, 0xa3, 0x9f, 0xc1, 0x6a, 0x75, 0x86, 0xb6, 0x66, 0xb7,
+	0x54, 0x20, 0xe7, 0x6e, 0x2d, 0x34, 0x11, 0x3b, 0x02, 0x6b, 0xfa, 0x85, 0x6c, 0x5e, 0x77, 0x7a,
+	0x2e, 0xb4, 0x5d, 0x03, 0x94, 0x32, 0x4e, 0xeb, 0x43, 0xfe, 0x6a, 0x1c, 0xde, 0xbb, 0x1c, 0xba,
+	0xc6, 0xd5, 0xd0, 0x35, 0x7e, 0x0f, 0x5d, 0xe3, 0xf3, 0xc8, 0x6d, 0x5c, 0x8d, 0xdc, 0xc6, 0xcf,
+	0x91, 0xdb, 0x78, 0xbd, 0x5e, 0x7d, 0x34, 0xe4, 0x79, 0x46, 0x44, 0xaf, 0xad, 0xde, 0xb8, 0x87,
+	0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0x1e, 0x06, 0x6a, 0x68, 0x79, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -346,6 +521,7 @@ type MsgClient interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	RegisterOrg(ctx context.Context, in *MsgRegisterOrg, opts ...grpc.CallOption) (*MsgRegisterOrgResponse, error)
+	UpdateOrg(ctx context.Context, in *MsgUpdateOrg, opts ...grpc.CallOption) (*MsgUpdateOrgResponse, error)
 }
 
 type msgClient struct {
@@ -374,12 +550,22 @@ func (c *msgClient) RegisterOrg(ctx context.Context, in *MsgRegisterOrg, opts ..
 	return out, nil
 }
 
+func (c *msgClient) UpdateOrg(ctx context.Context, in *MsgUpdateOrg, opts ...grpc.CallOption) (*MsgUpdateOrgResponse, error) {
+	out := new(MsgUpdateOrgResponse)
+	err := c.cc.Invoke(ctx, "/ipex.org.Msg/UpdateOrg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	// UpdateParams defines a (governance) operation for updating the module
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	RegisterOrg(context.Context, *MsgRegisterOrg) (*MsgRegisterOrgResponse, error)
+	UpdateOrg(context.Context, *MsgUpdateOrg) (*MsgUpdateOrgResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -391,6 +577,9 @@ func (*UnimplementedMsgServer) UpdateParams(ctx context.Context, req *MsgUpdateP
 }
 func (*UnimplementedMsgServer) RegisterOrg(ctx context.Context, req *MsgRegisterOrg) (*MsgRegisterOrgResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterOrg not implemented")
+}
+func (*UnimplementedMsgServer) UpdateOrg(ctx context.Context, req *MsgUpdateOrg) (*MsgUpdateOrgResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrg not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -433,6 +622,24 @@ func _Msg_RegisterOrg_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_UpdateOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateOrg)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.org.Msg/UpdateOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateOrg(ctx, req.(*MsgUpdateOrg))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Msg_serviceDesc = _Msg_serviceDesc
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "ipex.org.Msg",
@@ -445,6 +652,10 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterOrg",
 			Handler:    _Msg_RegisterOrg_Handler,
+		},
+		{
+			MethodName: "UpdateOrg",
+			Handler:    _Msg_UpdateOrg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -635,6 +846,134 @@ func (m *MsgRegisterOrgResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgUpdateOrg) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateOrg) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateOrg) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.ContactEmail) > 0 {
+		i -= len(m.ContactEmail)
+		copy(dAtA[i:], m.ContactEmail)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.ContactEmail)))
+		i--
+		dAtA[i] = 0x62
+	}
+	if len(m.AbuseEmail) > 0 {
+		i -= len(m.AbuseEmail)
+		copy(dAtA[i:], m.AbuseEmail)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.AbuseEmail)))
+		i--
+		dAtA[i] = 0x5a
+	}
+	if len(m.Website) > 0 {
+		i -= len(m.Website)
+		copy(dAtA[i:], m.Website)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Website)))
+		i--
+		dAtA[i] = 0x52
+	}
+	if len(m.TaxId) > 0 {
+		i -= len(m.TaxId)
+		copy(dAtA[i:], m.TaxId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.TaxId)))
+		i--
+		dAtA[i] = 0x4a
+	}
+	if len(m.Country) > 0 {
+		i -= len(m.Country)
+		copy(dAtA[i:], m.Country)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Country)))
+		i--
+		dAtA[i] = 0x42
+	}
+	if len(m.RegistrationNumber) > 0 {
+		i -= len(m.RegistrationNumber)
+		copy(dAtA[i:], m.RegistrationNumber)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.RegistrationNumber)))
+		i--
+		dAtA[i] = 0x3a
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.LegalName) > 0 {
+		i -= len(m.LegalName)
+		copy(dAtA[i:], m.LegalName)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.LegalName)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Admin) > 0 {
+		i -= len(m.Admin)
+		copy(dAtA[i:], m.Admin)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Admin)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.Id != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateOrgResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateOrgResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateOrgResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -728,6 +1067,71 @@ func (m *MsgRegisterOrgResponse) Size() (n int) {
 	if m.Id != 0 {
 		n += 1 + sovTx(uint64(m.Id))
 	}
+	return n
+}
+
+func (m *MsgUpdateOrg) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.Id != 0 {
+		n += 1 + sovTx(uint64(m.Id))
+	}
+	l = len(m.Admin)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.LegalName)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.RegistrationNumber)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Country)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.TaxId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Website)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.AbuseEmail)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.ContactEmail)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgUpdateOrgResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
 	return n
 }
 
@@ -1320,6 +1724,477 @@ func (m *MsgRegisterOrgResponse) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateOrg) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateOrg: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateOrg: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Admin", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Admin = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LegalName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.LegalName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RegistrationNumber", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.RegistrationNumber = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Country", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Country = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TaxId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TaxId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 10:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Website", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Website = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 11:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AbuseEmail", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.AbuseEmail = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 12:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ContactEmail", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ContactEmail = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateOrgResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateOrgResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateOrgResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])

@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Msg_UpdateParams_FullMethodName = "/ipex.org.Msg/UpdateParams"
 	Msg_RegisterOrg_FullMethodName  = "/ipex.org.Msg/RegisterOrg"
+	Msg_UpdateOrg_FullMethodName    = "/ipex.org.Msg/UpdateOrg"
 )
 
 // MsgClient is the client API for Msg service.
@@ -31,6 +32,7 @@ type MsgClient interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	RegisterOrg(ctx context.Context, in *MsgRegisterOrg, opts ...grpc.CallOption) (*MsgRegisterOrgResponse, error)
+	UpdateOrg(ctx context.Context, in *MsgUpdateOrg, opts ...grpc.CallOption) (*MsgUpdateOrgResponse, error)
 }
 
 type msgClient struct {
@@ -59,6 +61,15 @@ func (c *msgClient) RegisterOrg(ctx context.Context, in *MsgRegisterOrg, opts ..
 	return out, nil
 }
 
+func (c *msgClient) UpdateOrg(ctx context.Context, in *MsgUpdateOrg, opts ...grpc.CallOption) (*MsgUpdateOrgResponse, error) {
+	out := new(MsgUpdateOrgResponse)
+	err := c.cc.Invoke(ctx, Msg_UpdateOrg_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -67,6 +78,7 @@ type MsgServer interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	RegisterOrg(context.Context, *MsgRegisterOrg) (*MsgRegisterOrgResponse, error)
+	UpdateOrg(context.Context, *MsgUpdateOrg) (*MsgUpdateOrgResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -79,6 +91,9 @@ func (UnimplementedMsgServer) UpdateParams(context.Context, *MsgUpdateParams) (*
 }
 func (UnimplementedMsgServer) RegisterOrg(context.Context, *MsgRegisterOrg) (*MsgRegisterOrgResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterOrg not implemented")
+}
+func (UnimplementedMsgServer) UpdateOrg(context.Context, *MsgUpdateOrg) (*MsgUpdateOrgResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrg not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -129,6 +144,24 @@ func _Msg_RegisterOrg_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_UpdateOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateOrg)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_UpdateOrg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateOrg(ctx, req.(*MsgUpdateOrg))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -143,6 +176,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterOrg",
 			Handler:    _Msg_RegisterOrg_Handler,
+		},
+		{
+			MethodName: "UpdateOrg",
+			Handler:    _Msg_UpdateOrg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
