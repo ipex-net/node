@@ -13,6 +13,9 @@ import (
 func TestMsgCreateContract_ValidateBasic(t *testing.T) {
 	validAddr := sample.AccAddress()
 	validCoin := sdk.NewInt64Coin("stake", 100)
+	validSubnet := "212.1.1.0"
+	invalidSubnet1 := "192.168.0.0"
+	invalidSubnet2 := "212.1.1."
 	
 	tests := []struct {
 		name string
@@ -23,7 +26,7 @@ func TestMsgCreateContract_ValidateBasic(t *testing.T) {
 			name: "valid message",
 			msg: MsgCreateContract{
 				Creator:            validAddr,
-				NetworkAddress:     "192.168.1.1",
+				NetworkAddress:     validSubnet,
 				PrefixLength:       24,
 				Rir:               "ARIN",
 				CountryCode:        "US",
@@ -38,86 +41,95 @@ func TestMsgCreateContract_ValidateBasic(t *testing.T) {
 			name: "invalid creator address",
 			msg: MsgCreateContract{
 				Creator: "invalid_address",
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 24,
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		},
 		{
+			name: "reserved IP range",
+			msg: MsgCreateContract{
+				Creator: validAddr,
+				NetworkAddress: invalidSubnet1,
+				PrefixLength: 24,
+			},
+			err: ErrReservedIPRange,
+		},
+		{
 			name: "invalid network address format",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "invalid.ip.address",
+				NetworkAddress: invalidSubnet2,
 				PrefixLength: 24,
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrInvalidIPFormat,
 		},
 		{
 			name: "prefix length too low",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 7,
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrInvalidPrefixLength,
 		},
 		{
 			name: "prefix length too high",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 25,
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrInvalidPrefixLength,
 		},
 		{
 			name: "empty RIR",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 24,
 				Rir: "",
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrEmptyRIR,
 		},
 		{
 			name: "unknown RIR",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 24,
 				Rir: "RIPES",
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrUnknownRIR,
 		},
 		{
 			name: "invalid country code format",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 24,
 				Rir: "ARIN",
 				CountryCode: "USA",
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrInvalidCountryCode,
 		},
 		{
 			name: "zero price",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 24,
 				Rir: "ARIN",
 				CountryCode: "US",
 				Price: sdk.NewInt64Coin("stake", 0),
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrInvalidPrice,
 		},
 		{
 			name: "zero notice period",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 24,
 				Rir: "ARIN",
 				CountryCode: "US",
@@ -125,13 +137,13 @@ func TestMsgCreateContract_ValidateBasic(t *testing.T) {
 				Deposit: validCoin,
 				NoticePeriodBlocks: 0,
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrInvalidNoticePeriod,
 		},
 		{
 			name: "empty geofeed URL",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 24,
 				Rir: "ARIN",
 				CountryCode: "US",
@@ -140,13 +152,13 @@ func TestMsgCreateContract_ValidateBasic(t *testing.T) {
 				NoticePeriodBlocks: 100,
 				GeofeedUrl: "",
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrInvalidGeofeedURL,
 		},
 		{
 			name: "invalid geofeed URL format",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 24,
 				Rir: "ARIN",
 				CountryCode: "US",
@@ -155,13 +167,13 @@ func TestMsgCreateContract_ValidateBasic(t *testing.T) {
 				NoticePeriodBlocks: 100,
 				GeofeedUrl: "not-a-url",
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrInvalidGeofeedURL,
 		},
 		{
 			name: "non-HTTPS geofeed URL",
 			msg: MsgCreateContract{
 				Creator: validAddr,
-				NetworkAddress: "192.168.1.1",
+				NetworkAddress: validSubnet,
 				PrefixLength: 24,
 				Rir: "ARIN",
 				CountryCode: "US",
@@ -170,7 +182,7 @@ func TestMsgCreateContract_ValidateBasic(t *testing.T) {
 				NoticePeriodBlocks: 100,
 				GeofeedUrl: "http://example.com/geofeed.csv",
 			},
-			err: sdkerrors.ErrInvalidRequest,
+			err: ErrInvalidGeofeedURL,
 		},
 	}
 	
