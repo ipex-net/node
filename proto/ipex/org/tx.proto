@@ -45,7 +45,7 @@ message MsgRegisterOrg {
   string legalName          =  3;
   string address            =  4;
   string registrationNumber =  5;
-  string country            =  6;
+  string countryCode        =  6;
   string taxId              =  7;
   string website            =  8;
   string abuseEmail         =  9;
@@ -65,7 +65,7 @@ message MsgUpdateOrg {
   string legalName          =  5;
   string address            =  6;
   string registrationNumber =  7;
-  string country            =  8;
+  string countryCode        =  8;
   string taxId              =  9;
   string website            = 10;
   string abuseEmail         = 11;

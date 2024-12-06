@@ -10,7 +10,7 @@ import (
 
 func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg) (*types.MsgRegisterOrgResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-
+	//TODO: Email validation, website validation, country validation
 	var org = types.Org{
 		Creator:            msg.Creator,
 		Name:               msg.Name,
@@ -18,7 +18,7 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		LegalName:          msg.LegalName,
 		Address:            msg.Address,
 		RegistrationNumber: msg.RegistrationNumber,
-		Country:            msg.Country,
+		CountryCode:        msg.CountryCode,
 		TaxId:              msg.TaxId,
 		Website:            msg.Website,
 		AbuseEmail:         msg.AbuseEmail,

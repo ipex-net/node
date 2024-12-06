@@ -11,7 +11,7 @@ message Org {
   string legalName = 5; 
   string address = 6; 
   string registrationNumber = 7; 
-  string country = 8; 
+  string countryCode = 8; 
   string taxId = 9; 
   string website = 10; 
   string abuseEmail = 11; 

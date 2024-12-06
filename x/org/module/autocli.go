@@ -41,15 +41,15 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "RegisterOrg",
-					Use:            "register-org [name] [legal-name] [address] [registration-number] [country] [tax-id] [website] [abuse-email] [contact-email]",
+					Use:            "register-org [name] [legal-name] [address] [registration-number] [country-code] [tax-id] [website] [abuse-email] [contact-email]",
 					Short:          "Send a register-org tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "name"}, {ProtoField: "legalName"}, {ProtoField: "address"}, {ProtoField: "registrationNumber"}, {ProtoField: "country"}, {ProtoField: "taxId"}, {ProtoField: "website"}, {ProtoField: "abuseEmail"}, {ProtoField: "contactEmail"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "name"}, {ProtoField: "legalName"}, {ProtoField: "address"}, {ProtoField: "registrationNumber"}, {ProtoField: "countryCode"}, {ProtoField: "taxId"}, {ProtoField: "website"}, {ProtoField: "abuseEmail"}, {ProtoField: "contactEmail"}},
 				},
 				{
 					RpcMethod:      "UpdateOrg",
-					Use:            "update-org [id] [admin] [name] [legal-name] [address] [registration-number] [country] [tax-id] [website] [abuse-email] [contact-email]",
+					Use:            "update-org [id] [admin] [name] [legal-name] [address] [registration-number] [country-code] [tax-id] [website] [abuse-email] [contact-email]",
 					Short:          "Send a update-org tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "admin"}, {ProtoField: "name"}, {ProtoField: "legalName"}, {ProtoField: "address"}, {ProtoField: "registrationNumber"}, {ProtoField: "country"}, {ProtoField: "taxId"}, {ProtoField: "website"}, {ProtoField: "abuseEmail"}, {ProtoField: "contactEmail"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "admin"}, {ProtoField: "name"}, {ProtoField: "legalName"}, {ProtoField: "address"}, {ProtoField: "registrationNumber"}, {ProtoField: "countryCode"}, {ProtoField: "taxId"}, {ProtoField: "website"}, {ProtoField: "abuseEmail"}, {ProtoField: "contactEmail"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
