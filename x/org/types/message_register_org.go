@@ -32,17 +32,17 @@ func (msg *MsgRegisterOrg) ValidateBasic() error {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	// First check if all fields are set
-    if msg.Name == "" || 
-       msg.LegalName == "" || 
-       msg.Address == "" || 
-       msg.RegistrationNumber == "" || 
-       msg.CountryCode == "" || 
-       msg.TaxId == "" || 
-       msg.Website == "" || 
-       msg.AbuseEmail == "" || 
-       msg.ContactEmail == "" {
-        return errorsmod.Wrapf(ErrRequiredFields, "all fields are required for organization registration")
-    }
+	if msg.Name == "" ||
+		msg.LegalName == "" ||
+		msg.Address == "" ||
+		msg.RegistrationNumber == "" ||
+		msg.CountryCode == "" ||
+		msg.TaxId == "" ||
+		msg.Website == "" ||
+		msg.AbuseEmail == "" ||
+		msg.ContactEmail == "" {
+		return errorsmod.Wrapf(ErrRequiredFields, "all fields are required for organization registration")
+	}
 
 	nameRegex := regexp.MustCompile(`^[a-zA-Z0-9.-]{3,50}$`)
 	if !nameRegex.MatchString(msg.Name) {

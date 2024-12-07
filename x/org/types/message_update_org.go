@@ -32,20 +32,20 @@ func (msg *MsgUpdateOrg) ValidateBasic() error {
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
-	
-    // First check if all fields are empty
-    if msg.Name == "" && 
-       msg.LegalName == "" && 
-       msg.Address == "" && 
-       msg.RegistrationNumber == "" && 
-       msg.CountryCode == "" && 
-       msg.TaxId == "" && 
-       msg.Website == "" && 
-       msg.AbuseEmail == "" && 
-       msg.ContactEmail == "" {
-        return errorsmod.Wrapf(ErrNothingToUpdate, "at least one field must be provided for update")
-    }
-	
+
+	// First check if all fields are empty
+	if msg.Name == "" &&
+		msg.LegalName == "" &&
+		msg.Address == "" &&
+		msg.RegistrationNumber == "" &&
+		msg.CountryCode == "" &&
+		msg.TaxId == "" &&
+		msg.Website == "" &&
+		msg.AbuseEmail == "" &&
+		msg.ContactEmail == "" {
+		return errorsmod.Wrapf(ErrNothingToUpdate, "at least one field must be provided for update")
+	}
+
 	// Name validation - allow letters, numbers, dots, and hyphens, 3-50 characters
 	nameRegex := regexp.MustCompile(`^[a-zA-Z0-9.-]{3,50}$`)
 	if msg.Name != "" && !nameRegex.MatchString(msg.Name) {
@@ -84,7 +84,7 @@ func (msg *MsgUpdateOrg) ValidateBasic() error {
 	if msg.Website != "" && parsedUrl.Host == "" {
 		return errorsmod.Wrapf(ErrInvalidWebsiteUrl, "website URL must have a valid host (%s)", msg.Website)
 	}
-	
+
 	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	if msg.AbuseEmail != "" && !emailRegex.MatchString(msg.AbuseEmail) {
 		return errorsmod.Wrap(ErrInvalidEmail, "invalid abuse email")

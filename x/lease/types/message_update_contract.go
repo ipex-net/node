@@ -23,6 +23,7 @@ func (msg *MsgUpdateContract) ValidateBasic() error {
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+
 	if !msg.Price.IsPositive() {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "price must be positive")
 	}

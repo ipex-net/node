@@ -22,16 +22,34 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 	if msg.Creator != org.Admin {
 		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
-	//TODO: Email validation, website validation, country validation
-	if msg.Admin != "" {org.Admin = msg.Admin}
-	if msg.LegalName != "" {org.LegalName = msg.LegalName}
-	if msg.Address != "" {org.Address = msg.Address}
-	if msg.RegistrationNumber != "" {org.RegistrationNumber = msg.RegistrationNumber}
-	if msg.CountryCode != "" {org.CountryCode = msg.CountryCode}
-	if msg.TaxId != "" {org.TaxId = msg.TaxId}
-	if msg.Website != "" {org.Website = msg.Website}
-	if msg.AbuseEmail != "" {org.AbuseEmail = msg.AbuseEmail}
-	if msg.ContactEmail != "" {org.ContactEmail = msg.ContactEmail}
+
+	if msg.Admin != "" {
+		org.Admin = msg.Admin
+	}
+	if msg.LegalName != "" {
+		org.LegalName = msg.LegalName
+	}
+	if msg.Address != "" {
+		org.Address = msg.Address
+	}
+	if msg.RegistrationNumber != "" {
+		org.RegistrationNumber = msg.RegistrationNumber
+	}
+	if msg.CountryCode != "" {
+		org.CountryCode = msg.CountryCode
+	}
+	if msg.TaxId != "" {
+		org.TaxId = msg.TaxId
+	}
+	if msg.Website != "" {
+		org.Website = msg.Website
+	}
+	if msg.AbuseEmail != "" {
+		org.AbuseEmail = msg.AbuseEmail
+	}
+	if msg.ContactEmail != "" {
+		org.ContactEmail = msg.ContactEmail
+	}
 
 	k.SetOrg(
 		ctx,

@@ -10,7 +10,7 @@ import (
 
 func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg) (*types.MsgRegisterOrgResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	//TODO: Email validation, website validation, country validation
+
 	var org = types.Org{
 		Creator:            msg.Creator,
 		Name:               msg.Name,
@@ -23,7 +23,7 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		Website:            msg.Website,
 		AbuseEmail:         msg.AbuseEmail,
 		ContactEmail:       msg.ContactEmail,
-		Verified:           false, // Setting default verification status
+		Verified:           false,
 	}
 	id := k.AppendOrg(
 		ctx,

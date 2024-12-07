@@ -23,3 +23,8 @@ const (
 	OrgKey      = "Org/value/"
 	OrgCountKey = "Org/count/"
 )
+const (
+	OrgDeletedEventType       = "org-deleted"
+	OrgDeletedEventCreator    = "creator"
+	OrgDeletedEventContractId = "org-id"
+)
