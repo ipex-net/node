@@ -23,8 +23,42 @@ const (
 	OrgKey      = "Org/value/"
 	OrgCountKey = "Org/count/"
 )
+
+//Events
+//Org deleted
 const (
 	OrgDeletedEventType       = "org-deleted"
 	OrgDeletedEventCreator    = "creator"
 	OrgDeletedEventContractId = "org-id"
+)
+//Org registered
+const (
+    OrgRegisteredEventType = "org_registered"
+    OrgRegisteredEventCreator            = "creator"
+    OrgRegisteredEventId                 = "org_id"
+    OrgRegisteredEventName               = "name"
+    OrgRegisteredEventAdmin              = "admin"
+    OrgRegisteredEventLegalName          = "legal_name"
+    OrgRegisteredEventAddress            = "address"
+    OrgRegisteredEventRegistrationNumber = "registration_number"
+    OrgRegisteredEventCountryCode        = "country_code"
+    OrgRegisteredEventTaxId              = "tax_id"
+    OrgRegisteredEventWebsite            = "website"
+    OrgRegisteredEventAbuseEmail         = "abuse_email"
+    OrgRegisteredEventContactEmail       = "contact_email"
+)
+//Org updated
+const (
+	OrgUpdatedEventType    = "org_updated"
+    OrgUpdatedEventCreator            = "creator"
+    OrgUpdatedEventId                 = "org_id"
+    OrgUpdatedEventAdmin              = "admin"
+    OrgUpdatedEventLegalName          = "legal_name"
+    OrgUpdatedEventAddress            = "address"
+    OrgUpdatedEventRegistrationNumber = "registration_number"
+    OrgUpdatedEventCountryCode        = "country_code"
+    OrgUpdatedEventTaxId              = "tax_id"
+    OrgUpdatedEventWebsite            = "website"
+    OrgUpdatedEventAbuseEmail         = "abuse_email"
+    OrgUpdatedEventContactEmail       = "contact_email"
 )
