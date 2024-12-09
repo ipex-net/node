@@ -18,4 +18,5 @@ var (
 	ErrInvalidRegistrationNumber = sdkerrors.Register(ModuleName, 1107, "invalid registration number")
 	ErrNothingToUpdate           = sdkerrors.Register(ModuleName, 1008, "no fields provided for update")
 	ErrRequiredFields            = sdkerrors.Register(ModuleName, 1009, "all required fields must be provided")
+	ErrOrgNotFound               = sdkerrors.Register(ModuleName, 1010, "organization not found")
 )

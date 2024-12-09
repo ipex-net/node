@@ -19,3 +19,9 @@ message Org {
   bool verified = 13;
   
 }
+
+message userPermission {
+  uint64 orgId = 1;
+  string userAddress = 2;
+  uint64 permissions = 3;  // bitwise flags for permissions
+}

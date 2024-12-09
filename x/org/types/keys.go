@@ -22,6 +22,8 @@ func KeyPrefix(p string) []byte {
 const (
 	OrgKey      = "Org/value/"
 	OrgCountKey = "Org/count/"
+	PermissionKey      = "Permission/value/"
+    PermissionCountKey = "Permission/count/"
 )
 
 // Events
