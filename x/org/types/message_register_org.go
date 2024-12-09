@@ -44,9 +44,9 @@ func (msg *MsgRegisterOrg) ValidateBasic() error {
 		return errorsmod.Wrapf(ErrRequiredFields, "all fields are required for organization registration")
 	}
 
-	nameRegex := regexp.MustCompile(`^[a-zA-Z0-9.-]{3,50}$`)
+	nameRegex := regexp.MustCompile(`^[a-zA-Z0-9\s.-]{3,50}$`)
 	if !nameRegex.MatchString(msg.Name) {
-		return errorsmod.Wrap(ErrInvalidName, "name must be 3-50 characters and can only contain letters, numbers, dots, and hyphens")
+		return errorsmod.Wrap(ErrInvalidName, "name must be 3-50 characters and can only contain letters, numbers, spaces, dots, and hyphens")
 	}
 
 	legalNameRegex := regexp.MustCompile(`^[a-zA-Z0-9\s.,&'-]{3,100}$`)

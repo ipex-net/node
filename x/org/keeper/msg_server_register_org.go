@@ -32,22 +32,22 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 	)
 
 	ctx.EventManager().EmitEvent(
-        sdk.NewEvent(types.OrgRegisteredEventType,
-            sdk.NewAttribute(types.OrgRegisteredEventCreator, msg.Creator),
-            sdk.NewAttribute(types.OrgRegisteredEventId, strconv.FormatUint(id, 10)),
-            sdk.NewAttribute(types.OrgRegisteredEventName, msg.Name),
-            sdk.NewAttribute(types.OrgRegisteredEventAdmin, msg.Creator),
-            sdk.NewAttribute(types.OrgRegisteredEventLegalName, msg.LegalName),
-            sdk.NewAttribute(types.OrgRegisteredEventAddress, msg.Address),
-            sdk.NewAttribute(types.OrgRegisteredEventRegistrationNumber, msg.RegistrationNumber),
-            sdk.NewAttribute(types.OrgRegisteredEventCountryCode, msg.CountryCode),
-            sdk.NewAttribute(types.OrgRegisteredEventTaxId, msg.TaxId),
-            sdk.NewAttribute(types.OrgRegisteredEventWebsite, msg.Website),
-            sdk.NewAttribute(types.OrgRegisteredEventAbuseEmail, msg.AbuseEmail),
-            sdk.NewAttribute(types.OrgRegisteredEventContactEmail, msg.ContactEmail),
-        ),
-    )
-	
+		sdk.NewEvent(types.OrgRegisteredEventType,
+			sdk.NewAttribute(types.OrgRegisteredEventCreator, msg.Creator),
+			sdk.NewAttribute(types.OrgRegisteredEventId, strconv.FormatUint(id, 10)),
+			sdk.NewAttribute(types.OrgRegisteredEventName, msg.Name),
+			sdk.NewAttribute(types.OrgRegisteredEventAdmin, msg.Creator),
+			sdk.NewAttribute(types.OrgRegisteredEventLegalName, msg.LegalName),
+			sdk.NewAttribute(types.OrgRegisteredEventAddress, msg.Address),
+			sdk.NewAttribute(types.OrgRegisteredEventRegistrationNumber, msg.RegistrationNumber),
+			sdk.NewAttribute(types.OrgRegisteredEventCountryCode, msg.CountryCode),
+			sdk.NewAttribute(types.OrgRegisteredEventTaxId, msg.TaxId),
+			sdk.NewAttribute(types.OrgRegisteredEventWebsite, msg.Website),
+			sdk.NewAttribute(types.OrgRegisteredEventAbuseEmail, msg.AbuseEmail),
+			sdk.NewAttribute(types.OrgRegisteredEventContactEmail, msg.ContactEmail),
+		),
+	)
+
 	return &types.MsgRegisterOrgResponse{
 		Id: id,
 	}, nil

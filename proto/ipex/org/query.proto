@@ -29,6 +29,12 @@ service Query {
     option (google.api.http).get = "/ipex/org/org";
   
   }
+  
+  // Queries a list of ShowOrg items.
+  rpc ShowOrg (QueryShowOrgRequest) returns (QueryShowOrgResponse) {
+    option (google.api.http).get = "/ipex/org/show_org/{id}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -55,5 +61,13 @@ message QueryAllOrgRequest {
 message QueryAllOrgResponse {
   repeated Org                                    Org        = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryShowOrgRequest {
+  uint64 id = 1;
+}
+
+message QueryShowOrgResponse {
+  Org org = 1;
 }
 

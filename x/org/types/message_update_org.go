@@ -47,9 +47,9 @@ func (msg *MsgUpdateOrg) ValidateBasic() error {
 	}
 
 	// Name validation - allow letters, numbers, dots, and hyphens, 3-50 characters
-	nameRegex := regexp.MustCompile(`^[a-zA-Z0-9.-]{3,50}$`)
-	if msg.Name != "" && !nameRegex.MatchString(msg.Name) {
-		return errorsmod.Wrap(ErrInvalidName, "name must be 3-50 characters and can only contain letters, numbers, dots, and hyphens")
+	nameRegex := regexp.MustCompile(`^[a-zA-Z0-9\s.-]{3,50}$`)
+	if !nameRegex.MatchString(msg.Name) {
+		return errorsmod.Wrap(ErrInvalidName, "name must be 3-50 characters and can only contain letters, numbers, spaces, dots, and hyphens")
 	}
 
 	// Legal Name validation - allow letters, numbers, spaces, and common punctuation, 3-100 characters
