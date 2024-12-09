@@ -343,7 +343,7 @@ func (m *QueryShowOrgRequest) GetId() uint64 {
 }
 
 type QueryShowOrgResponse struct {
-	Org *Org `protobuf:"bytes,1,opt,name=org,proto3" json:"org,omitempty"`
+	Org Org `protobuf:"bytes,1,opt,name=org,proto3" json:"org"`
 }
 
 func (m *QueryShowOrgResponse) Reset()         { *m = QueryShowOrgResponse{} }
@@ -379,9 +379,105 @@ func (m *QueryShowOrgResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_QueryShowOrgResponse proto.InternalMessageInfo
 
-func (m *QueryShowOrgResponse) GetOrg() *Org {
+func (m *QueryShowOrgResponse) GetOrg() Org {
 	if m != nil {
 		return m.Org
+	}
+	return Org{}
+}
+
+type QueryListOrgRequest struct {
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryListOrgRequest) Reset()         { *m = QueryListOrgRequest{} }
+func (m *QueryListOrgRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryListOrgRequest) ProtoMessage()    {}
+func (*QueryListOrgRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c22567ecc66855e2, []int{8}
+}
+func (m *QueryListOrgRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryListOrgRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryListOrgRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryListOrgRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryListOrgRequest.Merge(m, src)
+}
+func (m *QueryListOrgRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryListOrgRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryListOrgRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryListOrgRequest proto.InternalMessageInfo
+
+func (m *QueryListOrgRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryListOrgResponse struct {
+	Org        []Org               `protobuf:"bytes,1,rep,name=org,proto3" json:"org"`
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryListOrgResponse) Reset()         { *m = QueryListOrgResponse{} }
+func (m *QueryListOrgResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryListOrgResponse) ProtoMessage()    {}
+func (*QueryListOrgResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c22567ecc66855e2, []int{9}
+}
+func (m *QueryListOrgResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryListOrgResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryListOrgResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryListOrgResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryListOrgResponse.Merge(m, src)
+}
+func (m *QueryListOrgResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryListOrgResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryListOrgResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryListOrgResponse proto.InternalMessageInfo
+
+func (m *QueryListOrgResponse) GetOrg() []Org {
+	if m != nil {
+		return m.Org
+	}
+	return nil
+}
+
+func (m *QueryListOrgResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
 	}
 	return nil
 }
@@ -395,45 +491,50 @@ func init() {
 	proto.RegisterType((*QueryAllOrgResponse)(nil), "ipex.org.QueryAllOrgResponse")
 	proto.RegisterType((*QueryShowOrgRequest)(nil), "ipex.org.QueryShowOrgRequest")
 	proto.RegisterType((*QueryShowOrgResponse)(nil), "ipex.org.QueryShowOrgResponse")
+	proto.RegisterType((*QueryListOrgRequest)(nil), "ipex.org.QueryListOrgRequest")
+	proto.RegisterType((*QueryListOrgResponse)(nil), "ipex.org.QueryListOrgResponse")
 }
 
 func init() { proto.RegisterFile("ipex/org/query.proto", fileDescriptor_c22567ecc66855e2) }
 
 var fileDescriptor_c22567ecc66855e2 = []byte{
-	// 528 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x93, 0x31, 0x6f, 0xd3, 0x40,
-	0x14, 0xc7, 0xe3, 0xa4, 0x04, 0xf5, 0x90, 0x22, 0x72, 0x49, 0xab, 0x62, 0xc0, 0x8d, 0x2c, 0x28,
-	0xa8, 0x48, 0x3e, 0xb5, 0x30, 0xb0, 0x30, 0x34, 0x03, 0x1d, 0x18, 0x52, 0xcc, 0x86, 0x90, 0xaa,
-	0x0b, 0x39, 0x5d, 0x2d, 0x39, 0x7e, 0xee, 0xd9, 0xa5, 0x54, 0x88, 0x85, 0x81, 0x19, 0x89, 0x99,
-	0x9d, 0x91, 0x8f, 0xd1, 0xb1, 0x12, 0x0b, 0x13, 0x42, 0x09, 0x12, 0x5f, 0x03, 0xf9, 0xee, 0x85,
-	0xf8, 0x6a, 0x25, 0x2c, 0x91, 0xf5, 0xde, 0xff, 0xbd, 0xdf, 0xff, 0xde, 0x7b, 0x21, 0x6b, 0x51,
-	0x3a, 0x12, 0x6f, 0x19, 0x28, 0xc9, 0x8e, 0x4f, 0x84, 0x3a, 0x0b, 0x52, 0x05, 0x39, 0xd0, 0x55,
-	0x1d, 0x0e, 0x40, 0x49, 0xb7, 0xcd, 0xc7, 0x51, 0x02, 0x4c, 0xff, 0x9a, 0xac, 0xdb, 0x95, 0x20,
-	0x41, 0x7f, 0xb2, 0xe2, 0x0b, 0xa3, 0xb7, 0x24, 0x80, 0x8c, 0x05, 0xe3, 0x69, 0xc4, 0x78, 0x92,
-	0x40, 0xce, 0xf3, 0x08, 0x92, 0x0c, 0xb3, 0xdb, 0xaf, 0x21, 0x1b, 0x43, 0xc6, 0x86, 0x3c, 0x13,
-	0x06, 0xc5, 0xde, 0xec, 0x0c, 0x45, 0xce, 0x77, 0x58, 0xca, 0x65, 0x94, 0x68, 0x31, 0x6a, 0xd7,
-	0xe7, 0xa6, 0x52, 0xae, 0xf8, 0x78, 0xd6, 0xa3, 0x33, 0x8f, 0x83, 0x92, 0x26, 0xe8, 0x77, 0x09,
-	0x7d, 0x5e, 0xb4, 0x3b, 0xd0, 0xca, 0x50, 0x1c, 0x9f, 0x88, 0x2c, 0xf7, 0x9f, 0x91, 0x8e, 0x15,
-	0xcd, 0x52, 0x48, 0x32, 0x41, 0x1f, 0x91, 0xa6, 0xe9, 0xb8, 0xe1, 0xf4, 0x9c, 0xfb, 0xd7, 0x76,
-	0xdb, 0xc1, 0xbf, 0x87, 0x06, 0x46, 0xda, 0x5f, 0x3d, 0xff, 0xb9, 0x59, 0xfb, 0xfa, 0xe7, 0xdb,
-	0xb6, 0x13, 0xa2, 0xd6, 0xbf, 0x83, 0x88, 0x7d, 0x91, 0x0f, 0x94, 0x44, 0x04, 0x6d, 0x91, 0x7a,
-	0x34, 0xd2, 0x7d, 0x56, 0xc2, 0x7a, 0x34, 0xf2, 0x9f, 0x20, 0x72, 0xa6, 0x42, 0xe4, 0x16, 0x69,
-	0x0c, 0x94, 0x44, 0x5e, 0xab, 0xc4, 0x1b, 0x28, 0xd9, 0x5f, 0x29, 0x60, 0x61, 0x21, 0xf0, 0x5f,
-	0x21, 0x64, 0x2f, 0x8e, 0x4b, 0x90, 0xa7, 0x84, 0xcc, 0xc7, 0x83, 0x4d, 0xb6, 0x02, 0x33, 0xcb,
-	0xa0, 0x98, 0x65, 0x60, 0xd6, 0x86, 0xb3, 0x0c, 0x0e, 0xb8, 0x14, 0x58, 0x1b, 0x96, 0x2a, 0xfd,
-	0x8f, 0x0e, 0xba, 0x9b, 0xb5, 0xbf, 0xec, 0xae, 0xb1, 0xd4, 0x1d, 0xdd, 0xb7, 0x7c, 0xd4, 0xb5,
-	0x8f, 0x7b, 0xff, 0xf5, 0x61, 0x20, 0x96, 0x91, 0xbb, 0xe8, 0xe3, 0xc5, 0x11, 0x9c, 0x2e, 0x19,
-	0xe6, 0x63, 0xd2, 0xb5, 0x65, 0xe8, 0xb7, 0x47, 0x1a, 0xb0, 0x68, 0x9a, 0x61, 0x91, 0xda, 0xfd,
-	0xd2, 0x20, 0x57, 0x74, 0x29, 0x1d, 0x92, 0xa6, 0xd9, 0x29, 0xbd, 0x5d, 0x12, 0x56, 0x8f, 0xc5,
-	0xf5, 0x16, 0xa5, 0x0d, 0xd4, 0xbf, 0xf1, 0xe1, 0xfb, 0xef, 0xcf, 0xf5, 0x0e, 0x6d, 0xb3, 0xcb,
-	0x87, 0x49, 0xb9, 0x9e, 0x5f, 0x15, 0x60, 0x9d, 0x4a, 0x15, 0x60, 0xdf, 0x88, 0x7f, 0x53, 0x03,
-	0xd6, 0x68, 0x87, 0x59, 0x17, 0xce, 0xde, 0x45, 0xa3, 0xf7, 0xf4, 0x90, 0x34, 0x07, 0x4a, 0xee,
-	0xc5, 0x71, 0x95, 0x62, 0xdd, 0x4a, 0x95, 0x62, 0xef, 0xda, 0x5f, 0xd7, 0x94, 0xeb, 0xb4, 0x65,
-	0x53, 0x68, 0x4c, 0xae, 0xe2, 0x98, 0x69, 0xa5, 0x85, 0xbd, 0x26, 0x77, 0x73, 0x61, 0x1e, 0x19,
-	0x3d, 0xcd, 0x70, 0xe9, 0x46, 0x89, 0x91, 0x1d, 0xc1, 0xe9, 0xe1, 0xec, 0x39, 0xfd, 0x07, 0xe7,
-	0x13, 0xcf, 0xb9, 0x98, 0x78, 0xce, 0xaf, 0x89, 0xe7, 0x7c, 0x9a, 0x7a, 0xb5, 0x8b, 0xa9, 0x57,
-	0xfb, 0x31, 0xf5, 0x6a, 0x2f, 0xdb, 0xa6, 0xc4, 0x14, 0xe5, 0x67, 0xa9, 0xc8, 0x86, 0x4d, 0xfd,
-	0x1f, 0x7f, 0xf8, 0x37, 0x00, 0x00, 0xff, 0xff, 0x98, 0xe2, 0x57, 0xd7, 0xa7, 0x04, 0x00, 0x00,
+	// 572 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0x4f, 0x6b, 0x13, 0x41,
+	0x18, 0xc6, 0xb3, 0x49, 0x4c, 0xe9, 0x08, 0xc1, 0x4c, 0xd2, 0x52, 0xa3, 0x6e, 0xcb, 0xa2, 0x55,
+	0x2a, 0xec, 0xd0, 0xea, 0x55, 0xa1, 0x39, 0xd8, 0x83, 0x42, 0x6a, 0xbc, 0x89, 0x52, 0x26, 0x66,
+	0x98, 0x0e, 0x6c, 0x76, 0xb6, 0x33, 0x5b, 0x6b, 0x11, 0x2f, 0x1e, 0xea, 0x55, 0xf0, 0x4b, 0x78,
+	0xf4, 0x63, 0xf4, 0x58, 0xf0, 0xe2, 0x49, 0x24, 0x11, 0xfc, 0x1a, 0xb2, 0x33, 0x6f, 0xfe, 0x4c,
+	0xd6, 0xa6, 0x17, 0x7b, 0x09, 0xcb, 0x3b, 0xcf, 0xbe, 0xbf, 0x67, 0x9e, 0xbc, 0xef, 0xa2, 0x25,
+	0x91, 0xf4, 0xd8, 0x3b, 0x22, 0x15, 0x27, 0x07, 0x87, 0x4c, 0x1d, 0x87, 0x89, 0x92, 0xa9, 0xc4,
+	0x8b, 0xa6, 0x1c, 0x4a, 0xc5, 0x9b, 0x35, 0xda, 0x17, 0xb1, 0x24, 0xe6, 0xd7, 0x9e, 0x36, 0x1b,
+	0x5c, 0x72, 0x69, 0x1e, 0x49, 0xf6, 0x04, 0xd5, 0x9b, 0x5c, 0x4a, 0x1e, 0x31, 0x42, 0x13, 0x41,
+	0x68, 0x1c, 0xcb, 0x94, 0xa6, 0x42, 0xc6, 0x1a, 0x4e, 0x37, 0xde, 0x48, 0xdd, 0x97, 0x9a, 0x74,
+	0xa9, 0x66, 0x16, 0x45, 0xde, 0x6e, 0x76, 0x59, 0x4a, 0x37, 0x49, 0x42, 0xb9, 0x88, 0x8d, 0x18,
+	0xb4, 0xcb, 0x13, 0x53, 0x09, 0x55, 0xb4, 0x3f, 0xea, 0x51, 0x9f, 0xd4, 0xa5, 0xe2, 0xb6, 0x18,
+	0x34, 0x10, 0x7e, 0x9e, 0xb5, 0xdb, 0x35, 0xca, 0x0e, 0x3b, 0x38, 0x64, 0x3a, 0x0d, 0x9e, 0xa2,
+	0xba, 0x53, 0xd5, 0x89, 0x8c, 0x35, 0xc3, 0x0f, 0x51, 0xc5, 0x76, 0x5c, 0xf1, 0xd6, 0xbc, 0x7b,
+	0x57, 0xb7, 0x6a, 0xe1, 0xf8, 0xa2, 0xa1, 0x95, 0xb6, 0x16, 0x4f, 0x7f, 0xae, 0x16, 0xbe, 0xfe,
+	0xf9, 0xb6, 0xe1, 0x75, 0x40, 0x1b, 0xdc, 0x06, 0xc4, 0x0e, 0x4b, 0xdb, 0x8a, 0x03, 0x02, 0x57,
+	0x51, 0x51, 0xf4, 0x4c, 0x9f, 0x72, 0xa7, 0x28, 0x7a, 0xc1, 0x23, 0x40, 0x8e, 0x54, 0x80, 0x5c,
+	0x47, 0xa5, 0xb6, 0xe2, 0xc0, 0xab, 0x4e, 0xf1, 0xda, 0x8a, 0xb7, 0xca, 0x19, 0xac, 0x93, 0x09,
+	0x82, 0x57, 0x00, 0xd9, 0x8e, 0xa2, 0x29, 0xc8, 0x13, 0x84, 0x26, 0xf1, 0x40, 0x93, 0xf5, 0xd0,
+	0x66, 0x19, 0x66, 0x59, 0x86, 0xf6, 0x6f, 0x83, 0x2c, 0xc3, 0x5d, 0xca, 0x19, 0xbc, 0xdb, 0x99,
+	0x7a, 0x33, 0x38, 0xf1, 0xc0, 0xdd, 0xa8, 0xfd, 0xac, 0xbb, 0xd2, 0x5c, 0x77, 0x78, 0xc7, 0xf1,
+	0x51, 0x34, 0x3e, 0xee, 0x5e, 0xe8, 0xc3, 0x42, 0x1c, 0x23, 0x77, 0xc0, 0xc7, 0x8b, 0x7d, 0x79,
+	0x34, 0x27, 0xcc, 0xc7, 0xa8, 0xe1, 0xca, 0x26, 0x7e, 0xe5, 0x45, 0x69, 0x4a, 0xc5, 0x83, 0xd7,
+	0x80, 0x79, 0x26, 0x74, 0x7a, 0x09, 0x71, 0x7e, 0xf2, 0xc0, 0xdf, 0xb8, 0xff, 0xac, 0xbf, 0xd2,
+	0x5c, 0x7f, 0xff, 0x2d, 0xcf, 0xad, 0x93, 0x32, 0xba, 0x62, 0x9c, 0xe0, 0x2e, 0xaa, 0xd8, 0x11,
+	0xc6, 0xb7, 0xa6, 0xb8, 0xf9, 0xdd, 0x68, 0xfa, 0xe7, 0x1d, 0xdb, 0xf6, 0xc1, 0xf5, 0x8f, 0xdf,
+	0x7f, 0x7f, 0x29, 0xd6, 0x71, 0x8d, 0xcc, 0xee, 0x21, 0xa6, 0x66, 0x5c, 0xf2, 0x00, 0x67, 0x33,
+	0xf2, 0x00, 0x77, 0x25, 0x82, 0x1b, 0x06, 0xb0, 0x84, 0xeb, 0xc4, 0x59, 0x68, 0xf2, 0x5e, 0xf4,
+	0x3e, 0xe0, 0x3d, 0x54, 0x69, 0x2b, 0xbe, 0x1d, 0x45, 0x79, 0x8a, 0xb3, 0x1a, 0x79, 0x8a, 0x3b,
+	0xda, 0xc1, 0xb2, 0xa1, 0x5c, 0xc3, 0x55, 0x97, 0x82, 0x23, 0xb4, 0x00, 0x53, 0x85, 0x73, 0x2d,
+	0xdc, 0xa9, 0x6c, 0xae, 0x9e, 0x7b, 0x0e, 0x8c, 0x35, 0xc3, 0x68, 0xe2, 0x95, 0x29, 0x86, 0xde,
+	0x97, 0x47, 0x7b, 0xe3, 0xeb, 0x70, 0xb4, 0x00, 0x33, 0x92, 0xa7, 0xb9, 0xc3, 0x99, 0xa7, 0xcd,
+	0x0c, 0xd7, 0x3f, 0x73, 0x8b, 0x84, 0x4e, 0x33, 0x5a, 0xeb, 0xfe, 0xe9, 0xc0, 0xf7, 0xce, 0x06,
+	0xbe, 0xf7, 0x6b, 0xe0, 0x7b, 0x9f, 0x87, 0x7e, 0xe1, 0x6c, 0xe8, 0x17, 0x7e, 0x0c, 0xfd, 0xc2,
+	0xcb, 0x9a, 0x55, 0x5b, 0x7d, 0x7a, 0x9c, 0x30, 0xdd, 0xad, 0x98, 0x6f, 0xe7, 0x83, 0xbf, 0x01,
+	0x00, 0x00, 0xff, 0xff, 0xc1, 0x20, 0x1f, 0x23, 0xff, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -455,6 +556,8 @@ type QueryClient interface {
 	OrgAll(ctx context.Context, in *QueryAllOrgRequest, opts ...grpc.CallOption) (*QueryAllOrgResponse, error)
 	// Queries a list of ShowOrg items.
 	ShowOrg(ctx context.Context, in *QueryShowOrgRequest, opts ...grpc.CallOption) (*QueryShowOrgResponse, error)
+	// Queries a list of ListOrg items.
+	ListOrg(ctx context.Context, in *QueryListOrgRequest, opts ...grpc.CallOption) (*QueryListOrgResponse, error)
 }
 
 type queryClient struct {
@@ -501,6 +604,15 @@ func (c *queryClient) ShowOrg(ctx context.Context, in *QueryShowOrgRequest, opts
 	return out, nil
 }
 
+func (c *queryClient) ListOrg(ctx context.Context, in *QueryListOrgRequest, opts ...grpc.CallOption) (*QueryListOrgResponse, error) {
+	out := new(QueryListOrgResponse)
+	err := c.cc.Invoke(ctx, "/ipex.org.Query/ListOrg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -510,6 +622,8 @@ type QueryServer interface {
 	OrgAll(context.Context, *QueryAllOrgRequest) (*QueryAllOrgResponse, error)
 	// Queries a list of ShowOrg items.
 	ShowOrg(context.Context, *QueryShowOrgRequest) (*QueryShowOrgResponse, error)
+	// Queries a list of ListOrg items.
+	ListOrg(context.Context, *QueryListOrgRequest) (*QueryListOrgResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -527,6 +641,9 @@ func (*UnimplementedQueryServer) OrgAll(ctx context.Context, req *QueryAllOrgReq
 }
 func (*UnimplementedQueryServer) ShowOrg(ctx context.Context, req *QueryShowOrgRequest) (*QueryShowOrgResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShowOrg not implemented")
+}
+func (*UnimplementedQueryServer) ListOrg(ctx context.Context, req *QueryListOrgRequest) (*QueryListOrgResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrg not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -605,6 +722,24 @@ func _Query_ShowOrg_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListOrgRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.org.Query/ListOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListOrg(ctx, req.(*QueryListOrgRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "ipex.org.Query",
@@ -625,6 +760,10 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ShowOrg",
 			Handler:    _Query_ShowOrg_Handler,
+		},
+		{
+			MethodName: "ListOrg",
+			Handler:    _Query_ListOrg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -880,9 +1019,42 @@ func (m *QueryShowOrgResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Org != nil {
+	{
+		size, err := m.Org.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryListOrgRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryListOrgRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryListOrgRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
 		{
-			size, err := m.Org.MarshalToSizedBuffer(dAtA[:i])
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
@@ -891,6 +1063,55 @@ func (m *QueryShowOrgResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		}
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryListOrgResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryListOrgResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryListOrgResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Org) > 0 {
+		for iNdEx := len(m.Org) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Org[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
 	}
 	return len(dAtA) - i, nil
 }
@@ -999,8 +1220,38 @@ func (m *QueryShowOrgResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if m.Org != nil {
-		l = m.Org.Size()
+	l = m.Org.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryListOrgRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryListOrgResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Org) > 0 {
+		for _, e := range m.Org {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
 		n += 1 + l + sovQuery(uint64(l))
 	}
 	return n
@@ -1630,10 +1881,213 @@ func (m *QueryShowOrgResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Org == nil {
-				m.Org = &Org{}
-			}
 			if err := m.Org.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryListOrgRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryListOrgRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryListOrgRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryListOrgResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryListOrgResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryListOrgResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Org", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Org = append(m.Org, Org{})
+			if err := m.Org[len(m.Org)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

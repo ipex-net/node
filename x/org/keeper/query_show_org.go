@@ -22,5 +22,5 @@ func (k Keeper) ShowOrg(goCtx context.Context, req *types.QueryShowOrgRequest) (
 	if !found {
 		return nil, sdkerrors.ErrKeyNotFound
 	}
-	return &types.QueryShowOrgResponse{Org: &org}, nil
+	return &types.QueryShowOrgResponse{Org: org}, nil
 }

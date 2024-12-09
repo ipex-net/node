@@ -23,6 +23,7 @@ const (
 	Query_Org_FullMethodName     = "/ipex.org.Query/Org"
 	Query_OrgAll_FullMethodName  = "/ipex.org.Query/OrgAll"
 	Query_ShowOrg_FullMethodName = "/ipex.org.Query/ShowOrg"
+	Query_ListOrg_FullMethodName = "/ipex.org.Query/ListOrg"
 )
 
 // QueryClient is the client API for Query service.
@@ -36,6 +37,8 @@ type QueryClient interface {
 	OrgAll(ctx context.Context, in *QueryAllOrgRequest, opts ...grpc.CallOption) (*QueryAllOrgResponse, error)
 	// Queries a list of ShowOrg items.
 	ShowOrg(ctx context.Context, in *QueryShowOrgRequest, opts ...grpc.CallOption) (*QueryShowOrgResponse, error)
+	// Queries a list of ListOrg items.
+	ListOrg(ctx context.Context, in *QueryListOrgRequest, opts ...grpc.CallOption) (*QueryListOrgResponse, error)
 }
 
 type queryClient struct {
@@ -82,6 +85,15 @@ func (c *queryClient) ShowOrg(ctx context.Context, in *QueryShowOrgRequest, opts
 	return out, nil
 }
 
+func (c *queryClient) ListOrg(ctx context.Context, in *QueryListOrgRequest, opts ...grpc.CallOption) (*QueryListOrgResponse, error) {
+	out := new(QueryListOrgResponse)
+	err := c.cc.Invoke(ctx, Query_ListOrg_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -93,6 +105,8 @@ type QueryServer interface {
 	OrgAll(context.Context, *QueryAllOrgRequest) (*QueryAllOrgResponse, error)
 	// Queries a list of ShowOrg items.
 	ShowOrg(context.Context, *QueryShowOrgRequest) (*QueryShowOrgResponse, error)
+	// Queries a list of ListOrg items.
+	ListOrg(context.Context, *QueryListOrgRequest) (*QueryListOrgResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -111,6 +125,9 @@ func (UnimplementedQueryServer) OrgAll(context.Context, *QueryAllOrgRequest) (*Q
 }
 func (UnimplementedQueryServer) ShowOrg(context.Context, *QueryShowOrgRequest) (*QueryShowOrgResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShowOrg not implemented")
+}
+func (UnimplementedQueryServer) ListOrg(context.Context, *QueryListOrgRequest) (*QueryListOrgResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrg not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -197,6 +214,24 @@ func _Query_ShowOrg_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListOrgRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListOrg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListOrg(ctx, req.(*QueryListOrgRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -219,6 +254,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ShowOrg",
 			Handler:    _Query_ShowOrg_Handler,
+		},
+		{
+			MethodName: "ListOrg",
+			Handler:    _Query_ListOrg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
