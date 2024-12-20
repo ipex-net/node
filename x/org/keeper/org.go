@@ -110,6 +110,3 @@ func GetOrgIDBytes(id uint64) []byte {
 	bz = binary.BigEndian.AppendUint64(bz, id)
 	return bz
 }
-
-
-

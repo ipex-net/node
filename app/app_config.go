@@ -11,6 +11,10 @@ import (
 	_ "ipex/x/org/module" // import for side-effects
 	orgmoduletypes "ipex/x/org/types"
 
+	subnetmodulev1 "ipex/api/ipex/subnet/module"
+	_ "ipex/x/subnet/module" // import for side-effects
+	subnetmoduletypes "ipex/x/subnet/types"
+
 	runtimev1alpha1 "cosmossdk.io/api/cosmos/app/runtime/v1alpha1"
 	appv1alpha1 "cosmossdk.io/api/cosmos/app/v1alpha1"
 	authmodulev1 "cosmossdk.io/api/cosmos/auth/module/v1"
@@ -99,6 +103,7 @@ var (
 		// chain modules
 		leasemoduletypes.ModuleName,
 		orgmoduletypes.ModuleName,
+		subnetmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -125,6 +130,7 @@ var (
 		// chain modules
 		leasemoduletypes.ModuleName,
 		orgmoduletypes.ModuleName,
+		subnetmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -145,6 +151,7 @@ var (
 		// chain modules
 		leasemoduletypes.ModuleName,
 		orgmoduletypes.ModuleName,
+		subnetmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -308,6 +315,10 @@ var (
 			{
 				Name:   orgmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&orgmodulev1.Module{}),
+			},
+			{
+				Name:   subnetmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&subnetmodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

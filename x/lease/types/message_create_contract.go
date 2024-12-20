@@ -66,7 +66,7 @@ func (msg *MsgCreateContract) ValidateBasic() error {
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
-	
+
 	// Validate IP address format using regex
 	ipv4Regex := regexp.MustCompile(`^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}0$`)
 	if !ipv4Regex.MatchString(msg.NetworkAddress) {

@@ -19,9 +19,9 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(
-			ErrInvalidAddress, 
-			"invalid creator address (%s)", 
-			err )
+			ErrInvalidAddress,
+			"invalid creator address (%s)",
+			err)
 	}
 
 	// First check if all fields are empty

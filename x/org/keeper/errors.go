@@ -5,7 +5,9 @@ package keeper
 import (
 	sdkerrors "cosmossdk.io/errors"
 )
+
 const ModuleName = "org"
+
 // x/org module sentinel errors
 var (
 	ErrInvalidSigner             = sdkerrors.Register(ModuleName, 1200, "expected gov account as only signer for proposal message")
