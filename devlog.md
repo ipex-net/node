@@ -49,20 +49,22 @@
 
 ### Origin Tracking
 
-Two types of origins maintained:
+Three types of origins maintained:
 
 1. Desired Origin
-   - Set by owner/user
+   - Set by user or derived from IRR if there's no user
 2. Actual IRR Origin
    - Retrieved from ARIN
-   - Mismatch triggers contract termination/penalties
+   - Mismatch triggers contract termination/penalties after some delay
+3. RPKI Origin
+   - Retrieved from ARIN
+   - Mismatch triggers contract termination/penalties after some delay
 
 ## Future Product Features
 
 ### IP Reputation System
 
 - Spam/blacklist tracking
-- Multi-provider geolocation monitoring
 - RPKI and IRR statistics
 - IP database integration
 - Blocklist monitoring
