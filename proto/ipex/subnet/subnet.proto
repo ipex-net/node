@@ -1,0 +1,37 @@
+syntax = "proto3";
+package ipex.subnet;
+
+option go_package = "ipex/x/subnet/types";
+
+message Subnet {
+  uint64 id = 1;
+  uint64 creationBlock = 2; 
+  string networkAddressBytes = 3; 
+  uint64 mask = 4; 
+  uint64 status = 5; 
+  string country = 6; 
+  bool countryChangeRequested = 7; 
+  uint64 countryChangeRequestedBlock = 8; 
+  uint64 countryChangedBlock = 9; 
+  string geofeedUrl = 10; 
+  uint64 geofeedSyncBlock = 11; 
+  string rir = 12; 
+  string rirOwnerOrg = 13; 
+  string rirAbuseEmail = 14; 
+  uint64 rirAllocationType = 15; 
+  uint64 rirSyncBlock = 16; 
+  uint64 ownerOrgId = 17; 
+  uint64 userOrgId = 18; 
+  string origin = 19; 
+  bool originTransferRequested = 20; 
+  uint64 originTransferRequestedBlock = 21; 
+  uint64 originTransferedBlock = 22; 
+  string irrOrigin = 23; 
+  string irrMntBy = 24; 
+  string irrCreated = 25; 
+  string irrModified = 26; 
+  uint64 irrSyncBlock = 27; 
+  string rpkiOrigin = 28; 
+  uint64 rpkiSyncBlock = 29; 
+  
+}

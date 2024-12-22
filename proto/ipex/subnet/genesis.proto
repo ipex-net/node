@@ -1,17 +1,20 @@
 syntax = "proto3";
+
 package ipex.subnet;
 
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "ipex/subnet/params.proto";
+import "ipex/subnet/subnet.proto";
 
 option go_package = "ipex/x/subnet/types";
 
 // GenesisState defines the subnet module's genesis state.
 message GenesisState {
+  
   // params defines all the parameters of the module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+           Params params      = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+  repeated Subnet subnetList  = 2 [(gogoproto.nullable) = false] ;
+           uint64 subnetCount = 3;
 }
+

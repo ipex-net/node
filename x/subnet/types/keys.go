@@ -18,3 +18,8 @@ var (
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
+
+const (
+	SubnetKey      = "Subnet/value/"
+	SubnetCountKey = "Subnet/count/"
+)
