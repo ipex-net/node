@@ -39,6 +39,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "CreateSubnet",
+					Use:            "create-subnet [owner-org-id] [network-address-bytes] [mask] [geofeed-url] [rir]",
+					Short:          "Send a create-subnet tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ownerOrgId"}, {ProtoField: "networkAddressBytes"}, {ProtoField: "mask"}, {ProtoField: "geofeedUrl"}, {ProtoField: "rir"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

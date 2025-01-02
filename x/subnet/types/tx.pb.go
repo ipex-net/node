@@ -35,8 +35,6 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type MsgUpdateParams struct {
 	// authority is the address that controls the module (defaults to x/gov unless overwritten).
 	Authority string `protobuf:"bytes,1,opt,name=authority,proto3" json:"authority,omitempty"`
-	// params defines the module parameters to update.
-	//
 	// NOTE: All parameters must be supplied.
 	Params Params `protobuf:"bytes,2,opt,name=params,proto3" json:"params"`
 }
@@ -126,35 +124,175 @@ func (m *MsgUpdateParamsResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgUpdateParamsResponse proto.InternalMessageInfo
 
+type MsgCreateSubnet struct {
+	Creator             string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	OwnerOrgId          uint64 `protobuf:"varint,2,opt,name=ownerOrgId,proto3" json:"ownerOrgId,omitempty"`
+	NetworkAddressBytes uint64 `protobuf:"varint,3,opt,name=networkAddressBytes,proto3" json:"networkAddressBytes,omitempty"`
+	Mask                uint64 `protobuf:"varint,4,opt,name=mask,proto3" json:"mask,omitempty"`
+	GeofeedUrl          string `protobuf:"bytes,5,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
+	Rir                 uint64 `protobuf:"varint,6,opt,name=rir,proto3" json:"rir,omitempty"`
+}
+
+func (m *MsgCreateSubnet) Reset()         { *m = MsgCreateSubnet{} }
+func (m *MsgCreateSubnet) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateSubnet) ProtoMessage()    {}
+func (*MsgCreateSubnet) Descriptor() ([]byte, []int) {
+	return fileDescriptor_33a7429ddaa76c46, []int{2}
+}
+func (m *MsgCreateSubnet) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateSubnet) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateSubnet.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateSubnet) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateSubnet.Merge(m, src)
+}
+func (m *MsgCreateSubnet) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateSubnet) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateSubnet.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateSubnet proto.InternalMessageInfo
+
+func (m *MsgCreateSubnet) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgCreateSubnet) GetOwnerOrgId() uint64 {
+	if m != nil {
+		return m.OwnerOrgId
+	}
+	return 0
+}
+
+func (m *MsgCreateSubnet) GetNetworkAddressBytes() uint64 {
+	if m != nil {
+		return m.NetworkAddressBytes
+	}
+	return 0
+}
+
+func (m *MsgCreateSubnet) GetMask() uint64 {
+	if m != nil {
+		return m.Mask
+	}
+	return 0
+}
+
+func (m *MsgCreateSubnet) GetGeofeedUrl() string {
+	if m != nil {
+		return m.GeofeedUrl
+	}
+	return ""
+}
+
+func (m *MsgCreateSubnet) GetRir() uint64 {
+	if m != nil {
+		return m.Rir
+	}
+	return 0
+}
+
+type MsgCreateSubnetResponse struct {
+	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (m *MsgCreateSubnetResponse) Reset()         { *m = MsgCreateSubnetResponse{} }
+func (m *MsgCreateSubnetResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateSubnetResponse) ProtoMessage()    {}
+func (*MsgCreateSubnetResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_33a7429ddaa76c46, []int{3}
+}
+func (m *MsgCreateSubnetResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateSubnetResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateSubnetResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateSubnetResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateSubnetResponse.Merge(m, src)
+}
+func (m *MsgCreateSubnetResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateSubnetResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateSubnetResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateSubnetResponse proto.InternalMessageInfo
+
+func (m *MsgCreateSubnetResponse) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*MsgUpdateParams)(nil), "ipex.subnet.MsgUpdateParams")
 	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "ipex.subnet.MsgUpdateParamsResponse")
+	proto.RegisterType((*MsgCreateSubnet)(nil), "ipex.subnet.MsgCreateSubnet")
+	proto.RegisterType((*MsgCreateSubnetResponse)(nil), "ipex.subnet.MsgCreateSubnetResponse")
 }
 
 func init() { proto.RegisterFile("ipex/subnet/tx.proto", fileDescriptor_33a7429ddaa76c46) }
 
 var fileDescriptor_33a7429ddaa76c46 = []byte{
-	// 317 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0xcd, 0x2c, 0x48, 0x49,
-	0xad, 0xd0, 0x2f, 0x2e, 0x4d, 0xca, 0x4b, 0x2d, 0xd1, 0x2f, 0xa9, 0xd0, 0x2b, 0x28, 0xca, 0x2f,
-	0xc9, 0x17, 0xe2, 0x01, 0x0b, 0xeb, 0x41, 0x84, 0xa5, 0x04, 0x13, 0x73, 0x33, 0xf3, 0xf2, 0xf5,
-	0xc1, 0x24, 0x44, 0x81, 0x94, 0x78, 0x72, 0x7e, 0x71, 0x6e, 0x7e, 0xb1, 0x7e, 0x6e, 0x71, 0xba,
-	0x7e, 0x99, 0x21, 0x88, 0x82, 0x4a, 0x48, 0x42, 0x24, 0xe2, 0xc1, 0x3c, 0x7d, 0x08, 0x07, 0x2a,
-	0x25, 0x92, 0x9e, 0x9f, 0x9e, 0x0f, 0x11, 0x07, 0xb1, 0x60, 0x1a, 0x50, 0x5c, 0x50, 0x90, 0x58,
-	0x94, 0x98, 0x0b, 0xd5, 0xa0, 0xb4, 0x95, 0x91, 0x8b, 0xdf, 0xb7, 0x38, 0x3d, 0xb4, 0x20, 0x25,
-	0xb1, 0x24, 0x35, 0x00, 0x2c, 0x23, 0x64, 0xc6, 0xc5, 0x99, 0x58, 0x5a, 0x92, 0x91, 0x5f, 0x94,
-	0x59, 0x52, 0x29, 0xc1, 0xa8, 0xc0, 0xa8, 0xc1, 0xe9, 0x24, 0x71, 0x69, 0x8b, 0xae, 0x08, 0xd4,
-	0x26, 0xc7, 0x94, 0x94, 0xa2, 0xd4, 0xe2, 0xe2, 0xe0, 0x92, 0xa2, 0xcc, 0xbc, 0xf4, 0x20, 0x84,
-	0x52, 0x21, 0x73, 0x2e, 0x36, 0x88, 0xd9, 0x12, 0x4c, 0x0a, 0x8c, 0x1a, 0xdc, 0x46, 0x22, 0x7a,
-	0xc8, 0x5e, 0xd4, 0x83, 0x98, 0xee, 0xc4, 0x79, 0xe2, 0x9e, 0x3c, 0xc3, 0x8a, 0xe7, 0x1b, 0xb4,
-	0x18, 0x83, 0xa0, 0xca, 0xad, 0x0c, 0x9b, 0x9e, 0x6f, 0xd0, 0x42, 0x18, 0xd4, 0xf5, 0x7c, 0x83,
-	0x96, 0x1c, 0xc4, 0xc9, 0x70, 0x47, 0xa3, 0xb9, 0x51, 0x49, 0x92, 0x4b, 0x1c, 0x4d, 0x28, 0x28,
-	0xb5, 0xb8, 0x20, 0x3f, 0xaf, 0x38, 0xd5, 0x28, 0x89, 0x8b, 0xd9, 0xb7, 0x38, 0x5d, 0x28, 0x84,
-	0x8b, 0x07, 0xc5, 0x57, 0xb2, 0xa8, 0xae, 0x41, 0xd3, 0x2d, 0xa5, 0x8a, 0x57, 0x1a, 0x66, 0xb8,
-	0x14, 0x6b, 0x03, 0xc8, 0xe5, 0x4e, 0x7a, 0x27, 0x1e, 0xc9, 0x31, 0x5e, 0x78, 0x24, 0xc7, 0xf8,
-	0xe0, 0x91, 0x1c, 0xe3, 0x84, 0xc7, 0x72, 0x0c, 0x17, 0x1e, 0xcb, 0x31, 0xdc, 0x78, 0x2c, 0xc7,
-	0x10, 0x25, 0x82, 0xe6, 0xf0, 0x92, 0xca, 0x82, 0xd4, 0xe2, 0x24, 0x36, 0x70, 0x68, 0x1b, 0x03,
-	0x02, 0x00, 0x00, 0xff, 0xff, 0x57, 0x01, 0x84, 0x2c, 0x0c, 0x02, 0x00, 0x00,
+	// 473 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x52, 0xbf, 0x6f, 0xd4, 0x30,
+	0x14, 0x3e, 0xdf, 0x5d, 0x0f, 0x9d, 0x39, 0xf1, 0xc3, 0x04, 0xd5, 0x8d, 0x84, 0xa9, 0x22, 0x21,
+	0x95, 0x93, 0x48, 0x68, 0x91, 0x40, 0xea, 0x46, 0x98, 0x18, 0x2a, 0x50, 0xda, 0x2e, 0x2c, 0x28,
+	0xad, 0x8d, 0x89, 0x4a, 0xe2, 0xc8, 0x76, 0x69, 0x6f, 0x43, 0x8c, 0x4c, 0xfc, 0x19, 0x8c, 0x37,
+	0x80, 0xc4, 0x9f, 0xd0, 0xb1, 0x30, 0x31, 0x21, 0x74, 0x37, 0xdc, 0xbf, 0x81, 0x62, 0x27, 0x6d,
+	0x12, 0x4e, 0x2c, 0x89, 0xdf, 0xf7, 0xbd, 0xf7, 0xfc, 0x7d, 0xcf, 0x0f, 0xde, 0x4e, 0x72, 0xca,
+	0x4e, 0x03, 0x75, 0x7c, 0x90, 0x31, 0x1d, 0xe8, 0x53, 0x3f, 0x97, 0x42, 0x0b, 0x34, 0x32, 0xb0,
+	0x6f, 0x61, 0xf7, 0x66, 0x9c, 0x26, 0x99, 0x08, 0xcc, 0xd7, 0x26, 0xb8, 0xab, 0x87, 0x42, 0xa5,
+	0x42, 0x05, 0xa9, 0xe2, 0xc1, 0xfb, 0xcd, 0xe2, 0x57, 0x12, 0x6b, 0x96, 0x78, 0x6d, 0xa2, 0xc0,
+	0x06, 0x25, 0xe5, 0x70, 0xc1, 0x85, 0xc5, 0x8b, 0x53, 0x55, 0xd0, 0x50, 0x90, 0xc7, 0x32, 0x4e,
+	0xcb, 0x02, 0xef, 0x1b, 0x80, 0xd7, 0x77, 0x14, 0xdf, 0xcf, 0x69, 0xac, 0xd9, 0x4b, 0xc3, 0xa0,
+	0xc7, 0x70, 0x18, 0x1f, 0xeb, 0xb7, 0x42, 0x26, 0x7a, 0x82, 0xc1, 0x3a, 0xd8, 0x18, 0x86, 0xf8,
+	0xe7, 0xd7, 0x07, 0x4e, 0x79, 0xd3, 0x53, 0x4a, 0x25, 0x53, 0x6a, 0x57, 0xcb, 0x24, 0xe3, 0xd1,
+	0x65, 0x2a, 0x7a, 0x02, 0x07, 0xb6, 0x37, 0xee, 0xae, 0x83, 0x8d, 0xab, 0x5b, 0x8e, 0x5f, 0xb7,
+	0xe8, 0xdb, 0xee, 0xe1, 0xf0, 0xec, 0xf7, 0xdd, 0xce, 0x97, 0xc5, 0x74, 0x0c, 0xa2, 0x32, 0x7d,
+	0x7b, 0xf3, 0xe3, 0x62, 0x3a, 0xbe, 0x6c, 0xf4, 0x69, 0x31, 0x1d, 0x13, 0x2b, 0xf9, 0x42, 0x74,
+	0x4b, 0xa3, 0xb7, 0x06, 0x57, 0x5b, 0x50, 0xc4, 0x54, 0x2e, 0x32, 0xc5, 0xbc, 0x1f, 0xd6, 0xd2,
+	0x33, 0xc9, 0x62, 0xcd, 0x76, 0x4d, 0x39, 0xc2, 0xf0, 0xca, 0x61, 0x11, 0x0b, 0x69, 0x0d, 0x45,
+	0x55, 0x88, 0x08, 0x84, 0xe2, 0x24, 0x63, 0xf2, 0x85, 0xe4, 0xcf, 0xa9, 0x11, 0xde, 0x8f, 0x6a,
+	0x08, 0x7a, 0x08, 0x6f, 0x65, 0x4c, 0x9f, 0x08, 0x79, 0x54, 0xfa, 0x0e, 0x27, 0x9a, 0x29, 0xdc,
+	0x33, 0x89, 0xcb, 0x28, 0x84, 0x60, 0x3f, 0x8d, 0xd5, 0x11, 0xee, 0x9b, 0x14, 0x73, 0x2e, 0x6e,
+	0xe1, 0x4c, 0xbc, 0x61, 0x8c, 0xee, 0xcb, 0x77, 0x78, 0xc5, 0x48, 0xa8, 0x21, 0xe8, 0x06, 0xec,
+	0xc9, 0x44, 0xe2, 0x81, 0x29, 0x29, 0x8e, 0xdb, 0xa3, 0x62, 0x26, 0x95, 0x4a, 0xef, 0xbe, 0xb1,
+	0x5b, 0xb7, 0x54, 0xd9, 0x45, 0xd7, 0x60, 0x37, 0xa1, 0xc6, 0x55, 0x3f, 0xea, 0x26, 0x74, 0xeb,
+	0x3b, 0x80, 0xbd, 0x1d, 0xc5, 0xd1, 0x1e, 0x1c, 0x35, 0x5e, 0xf5, 0x4e, 0xf3, 0x35, 0x5a, 0xd3,
+	0x73, 0xef, 0xfd, 0x97, 0xbe, 0xb8, 0x6d, 0x0f, 0x8e, 0x1a, 0x83, 0xfd, 0xb7, 0x6b, 0x9d, 0x5e,
+	0xd2, 0x75, 0x99, 0x07, 0x77, 0xe5, 0x43, 0xb1, 0x0f, 0xa1, 0x7f, 0x36, 0x23, 0xe0, 0x7c, 0x46,
+	0xc0, 0x9f, 0x19, 0x01, 0x9f, 0xe7, 0xa4, 0x73, 0x3e, 0x27, 0x9d, 0x5f, 0x73, 0xd2, 0x79, 0xe5,
+	0xb4, 0xd6, 0x41, 0x4f, 0x72, 0xa6, 0x0e, 0x06, 0x66, 0x87, 0x1f, 0xfd, 0x0d, 0x00, 0x00, 0xff,
+	0xff, 0xf4, 0x3d, 0xa4, 0xc9, 0x62, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -172,6 +310,7 @@ type MsgClient interface {
 	// UpdateParams defines a (governance) operation for updating the module
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
+	CreateSubnet(ctx context.Context, in *MsgCreateSubnet, opts ...grpc.CallOption) (*MsgCreateSubnetResponse, error)
 }
 
 type msgClient struct {
@@ -191,11 +330,21 @@ func (c *msgClient) UpdateParams(ctx context.Context, in *MsgUpdateParams, opts 
 	return out, nil
 }
 
+func (c *msgClient) CreateSubnet(ctx context.Context, in *MsgCreateSubnet, opts ...grpc.CallOption) (*MsgCreateSubnetResponse, error) {
+	out := new(MsgCreateSubnetResponse)
+	err := c.cc.Invoke(ctx, "/ipex.subnet.Msg/CreateSubnet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	// UpdateParams defines a (governance) operation for updating the module
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
+	CreateSubnet(context.Context, *MsgCreateSubnet) (*MsgCreateSubnetResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -204,6 +353,9 @@ type UnimplementedMsgServer struct {
 
 func (*UnimplementedMsgServer) UpdateParams(ctx context.Context, req *MsgUpdateParams) (*MsgUpdateParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateParams not implemented")
+}
+func (*UnimplementedMsgServer) CreateSubnet(ctx context.Context, req *MsgCreateSubnet) (*MsgCreateSubnetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSubnet not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -228,6 +380,24 @@ func _Msg_UpdateParams_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_CreateSubnet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateSubnet)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CreateSubnet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.subnet.Msg/CreateSubnet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CreateSubnet(ctx, req.(*MsgCreateSubnet))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Msg_serviceDesc = _Msg_serviceDesc
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "ipex.subnet.Msg",
@@ -236,6 +406,10 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateParams",
 			Handler:    _Msg_UpdateParams_Handler,
+		},
+		{
+			MethodName: "CreateSubnet",
+			Handler:    _Msg_CreateSubnet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -305,6 +479,91 @@ func (m *MsgUpdateParamsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgCreateSubnet) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateSubnet) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateSubnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Rir != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Rir))
+		i--
+		dAtA[i] = 0x30
+	}
+	if len(m.GeofeedUrl) > 0 {
+		i -= len(m.GeofeedUrl)
+		copy(dAtA[i:], m.GeofeedUrl)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.GeofeedUrl)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if m.Mask != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Mask))
+		i--
+		dAtA[i] = 0x20
+	}
+	if m.NetworkAddressBytes != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.NetworkAddressBytes))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.OwnerOrgId != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.OwnerOrgId))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgCreateSubnetResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateSubnetResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateSubnetResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Id != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -337,6 +596,47 @@ func (m *MsgUpdateParamsResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
+	return n
+}
+
+func (m *MsgCreateSubnet) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.OwnerOrgId != 0 {
+		n += 1 + sovTx(uint64(m.OwnerOrgId))
+	}
+	if m.NetworkAddressBytes != 0 {
+		n += 1 + sovTx(uint64(m.NetworkAddressBytes))
+	}
+	if m.Mask != 0 {
+		n += 1 + sovTx(uint64(m.Mask))
+	}
+	l = len(m.GeofeedUrl)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.Rir != 0 {
+		n += 1 + sovTx(uint64(m.Rir))
+	}
+	return n
+}
+
+func (m *MsgCreateSubnetResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Id != 0 {
+		n += 1 + sovTx(uint64(m.Id))
+	}
 	return n
 }
 
@@ -490,6 +790,265 @@ func (m *MsgUpdateParamsResponse) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: MsgUpdateParamsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateSubnet) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateSubnet: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateSubnet: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OwnerOrgId", wireType)
+			}
+			m.OwnerOrgId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.OwnerOrgId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NetworkAddressBytes", wireType)
+			}
+			m.NetworkAddressBytes = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.NetworkAddressBytes |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Mask", wireType)
+			}
+			m.Mask = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Mask |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field GeofeedUrl", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.GeofeedUrl = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Rir", wireType)
+			}
+			m.Rir = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Rir |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateSubnetResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateSubnetResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateSubnetResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
