@@ -6,7 +6,6 @@ import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto"; 
 
 enum ContractStatus {
-  // Start enumeration from 0 as per proto3 convention
   CONTRACT_STATUS_PENDING = 0;
   CONTRACT_STATUS_FORSALE = 1;
   CONTRACT_STATUS_LEASED = 2;

@@ -1727,7 +1727,6 @@ const (
 type ContractStatus int32
 
 const (
-	// Start enumeration from 0 as per proto3 convention
 	ContractStatus_CONTRACT_STATUS_PENDING         ContractStatus = 0
 	ContractStatus_CONTRACT_STATUS_FORSALE         ContractStatus = 1
 	ContractStatus_CONTRACT_STATUS_LEASED          ContractStatus = 2
