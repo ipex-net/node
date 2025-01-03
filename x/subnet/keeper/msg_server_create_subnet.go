@@ -64,7 +64,6 @@ func isReservedIPRange(ip net.IP) bool {
 func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubnet) (*types.MsgCreateSubnetResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	//Validation block
 	//Checking if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
@@ -79,7 +78,7 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 	
 	// Check if IP is in a reserved range
 	if isReservedIPRange(parsedIp) {
-		return nil, errorsmod.Wrapf(ErrReservedIPRange, "IP address is in a reserved range (%s)", msg.NetworkAddress)
+		return nil, errorsmod.Wrapf(ErrReservedIPRange, "IP address is in a reserved range (%s)", parsedIp.String())
 	}
 
 	// Validate prefix length for IPv4 (8-24)
@@ -113,6 +112,17 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrapf(ErrInvalidGeofeedURL, "geofeed URL must have a valid host (%s)", msg.GeofeedUrl)
 	}
 	
+
+
+	// Check if the org id exists
+	if msg.OwnerOrgId != 0 {
+		if !k.orgKeeper.HasOrg(ctx, msg.OwnerOrgId) {
+			return nil, errorsmod.Wrapf(ErrInvalidOrgId, "org with ID %d not found", msg.OwnerOrgId)
+		}
+	} else {
+		return nil, errorsmod.Wrap(ErrInvalidOrgId, "org ID not provided")
+	}
+
 	// Check for existing network with the same network address
 	subnets := k.GetAllSubnet(ctx)
 	for _, existingSubnet := range subnets {
@@ -121,5 +131,20 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		}
 	}
 
-	return &types.MsgCreateSubnetResponse{}, nil
+	//Creating new subnet
+	var subnet = types.Subnet{
+		CreationBlock: uint64(ctx.BlockHeight()),
+		NetworkAddress:     msg.NetworkAddress,
+		Mask:       		msg.Mask,
+		Status:             types.SubnetStatus_SUBNET_STATUS_INITIAL,
+		Rir:                types.Rir(msg.Rir),
+		GeofeedUrl:         msg.GeofeedUrl,
+		OwnerOrgId:         msg.OwnerOrgId,
+	}
+	id := k.AppendSubnet(
+		ctx,
+		subnet,
+	)
+
+	return &types.MsgCreateSubnetResponse{Id: id,}, nil
 }

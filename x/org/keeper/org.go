@@ -110,3 +110,9 @@ func GetOrgIDBytes(id uint64) []byte {
 	bz = binary.BigEndian.AppendUint64(bz, id)
 	return bz
 }
+
+func (k Keeper) HasOrg(ctx context.Context, id uint64) bool {
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
+    return store.Has(GetOrgIDBytes(id))
+}

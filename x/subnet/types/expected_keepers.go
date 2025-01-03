@@ -23,3 +23,7 @@ type ParamSubspace interface {
 	Get(context.Context, []byte, interface{})
 	Set(context.Context, []byte, interface{})
 }
+
+type OrgKeeper interface {
+    HasOrg(ctx sdk.Context, id uint64) bool
+}
