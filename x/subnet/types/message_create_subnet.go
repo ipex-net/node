@@ -8,11 +8,11 @@ import (
 
 var _ sdk.Msg = &MsgCreateSubnet{}
 
-func NewMsgCreateSubnet(creator string, ownerOrgId uint64, networkAddressBytes uint64, mask uint64, geofeedUrl string, rir uint64) *MsgCreateSubnet {
+func NewMsgCreateSubnet(creator string, ownerOrgId uint64, networkAddress uint64, mask uint64, geofeedUrl string, rir uint64) *MsgCreateSubnet {
 	return &MsgCreateSubnet{
 		Creator:             creator,
 		OwnerOrgId:          ownerOrgId,
-		NetworkAddressBytes: networkAddressBytes,
+		NetworkAddress: 	 networkAddress,
 		Mask:                mask,
 		GeofeedUrl:          geofeedUrl,
 		Rir:                 rir,

@@ -27,7 +27,7 @@ enum Rir {
 message Subnet {
   uint64 id = 1;
   uint64 creationBlock = 2; 
-  uint64 networkAddressBytes = 3; 
+  uint64 networkAddress = 3; 
   uint64 mask = 4; 
   SubnetStatus status = 5; 
   string country = 6; 

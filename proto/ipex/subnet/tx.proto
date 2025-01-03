@@ -41,7 +41,7 @@ message MsgCreateSubnet {
   option (cosmos.msg.v1.signer) = "creator";
   string creator             = 1;
   uint64 ownerOrgId          = 2;
-  uint64 networkAddressBytes = 3;
+  uint64 networkAddress = 3;
   uint64 mask                = 4;
   string geofeedUrl          = 5;
   uint64 rir                 = 6;
