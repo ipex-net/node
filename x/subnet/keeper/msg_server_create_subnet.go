@@ -102,7 +102,7 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 	}
 
 	//Check if URL parses
-	parsedUrl, err := url.Parse(msg.GeofeedUrl)
+	parsedUrl, err := url.Parse("https://" + msg.GeofeedUrl)
 	if err != nil {
 		return nil, errorsmod.Wrapf(ErrInvalidGeofeedURL, "invalid geofeed URL format (%s)", msg.GeofeedUrl)
 	}
