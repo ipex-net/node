@@ -112,7 +112,7 @@ func GetOrgIDBytes(id uint64) []byte {
 }
 
 func (k Keeper) HasOrg(ctx context.Context, id uint64) bool {
-    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-    return store.Has(GetOrgIDBytes(id))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
+	return store.Has(GetOrgIDBytes(id))
 }

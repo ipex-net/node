@@ -25,5 +25,5 @@ type ParamSubspace interface {
 }
 
 type OrgKeeper interface {
-    HasOrg(ctx context.Context, id uint64) bool
+	HasOrg(ctx context.Context, id uint64) bool
 }

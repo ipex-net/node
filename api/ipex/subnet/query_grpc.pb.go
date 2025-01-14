@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName    = "/ipex.subnet.Query/Params"
-	Query_Subnet_FullMethodName    = "/ipex.subnet.Query/Subnet"
-	Query_SubnetAll_FullMethodName = "/ipex.subnet.Query/SubnetAll"
+	Query_Params_FullMethodName     = "/ipex.subnet.Query/Params"
+	Query_Subnet_FullMethodName     = "/ipex.subnet.Query/Subnet"
+	Query_SubnetAll_FullMethodName  = "/ipex.subnet.Query/SubnetAll"
+	Query_ListSubnet_FullMethodName = "/ipex.subnet.Query/ListSubnet"
 )
 
 // QueryClient is the client API for Query service.
@@ -33,6 +34,8 @@ type QueryClient interface {
 	// Queries a list of Subnet items.
 	Subnet(ctx context.Context, in *QueryGetSubnetRequest, opts ...grpc.CallOption) (*QueryGetSubnetResponse, error)
 	SubnetAll(ctx context.Context, in *QueryAllSubnetRequest, opts ...grpc.CallOption) (*QueryAllSubnetResponse, error)
+	// Queries a list of ListSubnet items.
+	ListSubnet(ctx context.Context, in *QueryListSubnetRequest, opts ...grpc.CallOption) (*QueryListSubnetResponse, error)
 }
 
 type queryClient struct {
@@ -70,6 +73,15 @@ func (c *queryClient) SubnetAll(ctx context.Context, in *QueryAllSubnetRequest, 
 	return out, nil
 }
 
+func (c *queryClient) ListSubnet(ctx context.Context, in *QueryListSubnetRequest, opts ...grpc.CallOption) (*QueryListSubnetResponse, error) {
+	out := new(QueryListSubnetResponse)
+	err := c.cc.Invoke(ctx, Query_ListSubnet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -79,6 +91,8 @@ type QueryServer interface {
 	// Queries a list of Subnet items.
 	Subnet(context.Context, *QueryGetSubnetRequest) (*QueryGetSubnetResponse, error)
 	SubnetAll(context.Context, *QueryAllSubnetRequest) (*QueryAllSubnetResponse, error)
+	// Queries a list of ListSubnet items.
+	ListSubnet(context.Context, *QueryListSubnetRequest) (*QueryListSubnetResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -94,6 +108,9 @@ func (UnimplementedQueryServer) Subnet(context.Context, *QueryGetSubnetRequest) 
 }
 func (UnimplementedQueryServer) SubnetAll(context.Context, *QueryAllSubnetRequest) (*QueryAllSubnetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubnetAll not implemented")
+}
+func (UnimplementedQueryServer) ListSubnet(context.Context, *QueryListSubnetRequest) (*QueryListSubnetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSubnet not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -162,6 +179,24 @@ func _Query_SubnetAll_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListSubnet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListSubnetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListSubnet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListSubnet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListSubnet(ctx, req.(*QueryListSubnetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +215,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubnetAll",
 			Handler:    _Query_SubnetAll_Handler,
+		},
+		{
+			MethodName: "ListSubnet",
+			Handler:    _Query_ListSubnet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

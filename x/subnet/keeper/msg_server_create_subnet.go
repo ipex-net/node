@@ -13,7 +13,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-//UintToNetIP converts uint64 representation of IPv4 subnet address to net.IP type
+// UintToNetIP converts uint64 representation of IPv4 subnet address to net.IP type
 func UintToNetIP(ipUint uint64) net.IP {
 	// Extract octets - adjusting the shift order
 	first := byte(ipUint >> 24)         // Get first byte (A9)
@@ -59,8 +59,6 @@ func isReservedIPRange(ip net.IP) bool {
 	return false
 }
 
-
-
 func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubnet) (*types.MsgCreateSubnetResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
@@ -75,7 +73,7 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 	if parsedIp == nil {
 		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "invalid IPv4 address format (%s)", parsedIp.String())
 	}
-	
+
 	// Check if IP is in a reserved range
 	if isReservedIPRange(parsedIp) {
 		return nil, errorsmod.Wrapf(ErrReservedIPRange, "IP address is in a reserved range (%s)", parsedIp.String())
@@ -89,15 +87,15 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 	if msg.Rir > 4 {
 		return nil, errorsmod.Wrap(ErrUnknownRIR, "Unknown RIR")
 	}
-	
+
 	//Validate Geofeed
 	if msg.GeofeedUrl == "" {
 		return nil, errorsmod.Wrap(ErrInvalidGeofeedURL, "geofeed URL not provided")
-	} 
-	
+	}
+
 	// Check if URL starts with http:// or https://
-	if strings.HasPrefix(strings.ToLower(msg.GeofeedUrl), "http://") || 
-	strings.HasPrefix(strings.ToLower(msg.GeofeedUrl), "https://") {
+	if strings.HasPrefix(strings.ToLower(msg.GeofeedUrl), "http://") ||
+		strings.HasPrefix(strings.ToLower(msg.GeofeedUrl), "https://") {
 		return nil, errorsmod.Wrap(ErrInvalidGeofeedURL, "geofeed URL should not include http:// or https://")
 	}
 
@@ -111,8 +109,6 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 	if parsedUrl.Host == "" {
 		return nil, errorsmod.Wrapf(ErrInvalidGeofeedURL, "geofeed URL must have a valid host (%s)", msg.GeofeedUrl)
 	}
-	
-
 
 	// Check if the org id exists
 	if msg.OwnerOrgId != 0 {
@@ -133,18 +129,18 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 
 	//Creating new subnet
 	var subnet = types.Subnet{
-		CreationBlock: uint64(ctx.BlockHeight()),
-		NetworkAddress:     msg.NetworkAddress,
-		Mask:       		msg.Mask,
-		Status:             types.SubnetStatus_SUBNET_STATUS_INITIAL,
-		Rir:                types.Rir(msg.Rir),
-		GeofeedUrl:         msg.GeofeedUrl,
-		OwnerOrgId:         msg.OwnerOrgId,
+		CreationBlock:  uint64(ctx.BlockHeight()),
+		NetworkAddress: msg.NetworkAddress,
+		Mask:           msg.Mask,
+		Status:         types.SubnetStatus_SUBNET_STATUS_INITIAL,
+		Rir:            types.Rir(msg.Rir),
+		GeofeedUrl:     msg.GeofeedUrl,
+		OwnerOrgId:     msg.OwnerOrgId,
 	}
 	id := k.AppendSubnet(
 		ctx,
 		subnet,
 	)
 
-	return &types.MsgCreateSubnetResponse{Id: id,}, nil
+	return &types.MsgCreateSubnetResponse{Id: id}, nil
 }

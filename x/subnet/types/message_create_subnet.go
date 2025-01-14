@@ -10,12 +10,12 @@ var _ sdk.Msg = &MsgCreateSubnet{}
 
 func NewMsgCreateSubnet(creator string, ownerOrgId uint64, networkAddress uint64, mask uint64, geofeedUrl string, rir uint64) *MsgCreateSubnet {
 	return &MsgCreateSubnet{
-		Creator:             creator,
-		OwnerOrgId:          ownerOrgId,
-		NetworkAddress: 	 networkAddress,
-		Mask:                mask,
-		GeofeedUrl:          geofeedUrl,
-		Rir:                 rir,
+		Creator:        creator,
+		OwnerOrgId:     ownerOrgId,
+		NetworkAddress: networkAddress,
+		Mask:           mask,
+		GeofeedUrl:     geofeedUrl,
+		Rir:            rir,
 	}
 }
 

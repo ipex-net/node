@@ -182,7 +182,7 @@ type ModuleInputs struct {
 
 	AccountKeeper types.AccountKeeper
 	BankKeeper    types.BankKeeper
-	OrgKeeper     types.OrgKeeper 
+	OrgKeeper     types.OrgKeeper
 }
 
 type ModuleOutputs struct {
