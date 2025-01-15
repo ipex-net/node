@@ -9,6 +9,7 @@ import (
 	"cosmossdk.io/store/prefix"
 	storetypes "cosmossdk.io/store/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // GetSubnetCount get the total number of subnet
@@ -109,4 +110,24 @@ func GetSubnetIDBytes(id uint64) []byte {
 	bz = append(bz, []byte("/")...)
 	bz = binary.BigEndian.AppendUint64(bz, id)
 	return bz
+}
+
+//Verify subnet user
+
+func (k Keeper) VerifySubnetUser(ctx context.Context, subnetId uint64, user string) bool {
+
+	// Validate the provided admin address
+	_, err := sdk.AccAddressFromBech32(user)
+	if err != nil {
+		return false
+	}
+
+	//Fetching the subnet
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return false
+	}
+
+	//Checking that the user is admin of user organisation
+    return k.orgKeeper.VerifyOrgAdmin(ctx, subnet.UserOrgId, user)
 }
