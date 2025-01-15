@@ -119,6 +119,11 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrap(ErrInvalidOrgId, "org ID not provided")
 	}
 
+	// Verify creator is org admin
+	if !k.orgKeeper.VerifyOrgAdmin(goCtx, msg.OwnerOrgId, sdk.AccAddress(msg.Creator)) {
+		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.OwnerOrgId)
+	}
+
 	// Check for existing network with the same network address
 	subnets := k.GetAllSubnet(ctx)
 	for _, existingSubnet := range subnets {

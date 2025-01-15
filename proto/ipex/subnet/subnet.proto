@@ -6,14 +6,10 @@ option go_package = "ipex/x/subnet/types";
 enum SubnetStatus {
   // Initial state, for freshly added subnets
   SUBNET_STATUS_INITIAL = 0;
-  //Pending state when the changes are requested, but not applied or synced onchain yet
-  SUBNET_STATUS_PENDING = 1;
-  // Active state for subnets that are fully synced
-  SUBNET_STATUS_ACTIVE = 2; 
-  // When there's no lessee(subnet user), the subnet is set as available
-  SUBNET_STATUS_AVAILABLE = 3;
-  // When we cant verify subnet details
-  SUBNET_STATUS_ERROR = 4;
+  // When ownership is verified
+  SUBNET_STATUS_VERIFIED = 1; 
+  // When ownership verification failed in certaing amount of blocks
+  SUBNET_STATUS_ERROR = 2;
 }
 
 enum Rir {
@@ -30,23 +26,28 @@ message Subnet {
   uint64 networkAddress = 3; 
   uint64 mask = 4; 
   SubnetStatus status = 5; 
+
   string country = 6; 
   bool countryChangeRequested = 7; 
   uint64 countryChangeRequestedBlock = 8; 
   uint64 countryChangedBlock = 9; 
   string geofeedUrl = 10; 
   uint64 geofeedSyncBlock = 11; 
+
   Rir rir = 12; 
   string rirOwnerOrg = 13; 
   string rirAbuseEmail = 14; 
   uint64 rirAllocationType = 15; 
   uint64 rirSyncBlock = 16; 
+
   uint64 ownerOrgId = 17; 
   uint64 userOrgId = 18; 
+
   string origin = 19; 
   bool originTransferRequested = 20; 
   uint64 originTransferRequestedBlock = 21; 
   uint64 originTransferedBlock = 22; 
+
   string irrOrigin = 23; 
   string irrMntBy = 24; 
   string irrCreated = 25; 
