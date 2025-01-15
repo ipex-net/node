@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName = "/ipex.subnet.Msg/UpdateParams"
-	Msg_CreateSubnet_FullMethodName = "/ipex.subnet.Msg/CreateSubnet"
+	Msg_UpdateParams_FullMethodName     = "/ipex.subnet.Msg/UpdateParams"
+	Msg_CreateSubnet_FullMethodName     = "/ipex.subnet.Msg/CreateSubnet"
+	Msg_UpdateSubnetUser_FullMethodName = "/ipex.subnet.Msg/UpdateSubnetUser"
 )
 
 // MsgClient is the client API for Msg service.
@@ -31,6 +32,7 @@ type MsgClient interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	CreateSubnet(ctx context.Context, in *MsgCreateSubnet, opts ...grpc.CallOption) (*MsgCreateSubnetResponse, error)
+	UpdateSubnetUser(ctx context.Context, in *MsgUpdateSubnetUser, opts ...grpc.CallOption) (*MsgUpdateSubnetUserResponse, error)
 }
 
 type msgClient struct {
@@ -59,6 +61,15 @@ func (c *msgClient) CreateSubnet(ctx context.Context, in *MsgCreateSubnet, opts 
 	return out, nil
 }
 
+func (c *msgClient) UpdateSubnetUser(ctx context.Context, in *MsgUpdateSubnetUser, opts ...grpc.CallOption) (*MsgUpdateSubnetUserResponse, error) {
+	out := new(MsgUpdateSubnetUserResponse)
+	err := c.cc.Invoke(ctx, Msg_UpdateSubnetUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -67,6 +78,7 @@ type MsgServer interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	CreateSubnet(context.Context, *MsgCreateSubnet) (*MsgCreateSubnetResponse, error)
+	UpdateSubnetUser(context.Context, *MsgUpdateSubnetUser) (*MsgUpdateSubnetUserResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -79,6 +91,9 @@ func (UnimplementedMsgServer) UpdateParams(context.Context, *MsgUpdateParams) (*
 }
 func (UnimplementedMsgServer) CreateSubnet(context.Context, *MsgCreateSubnet) (*MsgCreateSubnetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSubnet not implemented")
+}
+func (UnimplementedMsgServer) UpdateSubnetUser(context.Context, *MsgUpdateSubnetUser) (*MsgUpdateSubnetUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubnetUser not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -129,6 +144,24 @@ func _Msg_CreateSubnet_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_UpdateSubnetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateSubnetUser)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateSubnetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_UpdateSubnetUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateSubnetUser(ctx, req.(*MsgUpdateSubnetUser))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -143,6 +176,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateSubnet",
 			Handler:    _Msg_CreateSubnet_Handler,
+		},
+		{
+			MethodName: "UpdateSubnetUser",
+			Handler:    _Msg_UpdateSubnetUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -119,18 +119,18 @@ func (k Keeper) HasOrg(ctx context.Context, id uint64) bool {
 }
 
 func (k Keeper) VerifyOrgAdmin(ctx context.Context, orgid uint64, admin sdk.AccAddress) bool {
-    // Get the org
-    org, found := k.GetOrg(ctx, orgid)
-    if !found {
-        return false
-    }
+	// Get the org
+	org, found := k.GetOrg(ctx, orgid)
+	if !found {
+		return false
+	}
 
-    // Convert org's admin string to AccAddress
-    orgAdmin, err := sdk.AccAddressFromBech32(org.Admin)
-    if err != nil {
-        return false
-    }
+	// Convert org's admin string to AccAddress
+	orgAdmin, err := sdk.AccAddressFromBech32(org.Admin)
+	if err != nil {
+		return false
+	}
 
-    // Compare the AccAddresses
-    return admin.Equals(orgAdmin)
+	// Compare the AccAddresses
+	return admin.Equals(orgAdmin)
 }

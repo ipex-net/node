@@ -52,6 +52,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a create-subnet tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ownerOrgId"}, {ProtoField: "networkAddress"}, {ProtoField: "mask"}, {ProtoField: "geofeedUrl"}, {ProtoField: "rir"}},
 				},
+				{
+					RpcMethod:      "UpdateSubnetUser",
+					Use:            "update-subnet-user [id] [user-org-id]",
+					Short:          "Send a update-subnet-user tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "userOrgId"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

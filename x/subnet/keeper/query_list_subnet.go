@@ -41,6 +41,4 @@ func (k Keeper) ListSubnet(goCtx context.Context, req *types.QueryListSubnetRequ
 
 	return &types.QueryListSubnetResponse{Subnet: subnets, Pagination: pageRes}, nil
 
-
-
 }
