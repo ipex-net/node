@@ -9,6 +9,7 @@ import (
 	"cosmossdk.io/store/prefix"
 	storetypes "cosmossdk.io/store/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // GetOrgCount get the total number of org
@@ -115,4 +116,17 @@ func (k Keeper) HasOrg(ctx context.Context, id uint64) bool {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
 	return store.Has(GetOrgIDBytes(id))
+}
+
+func (k Keeper) VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) bool {
+	_, err := sdk.AccAddressFromBech32(admin)
+    if err != nil {
+        return false
+    }
+    org, found := k.GetOrg(ctx, orgid)
+    if !found {
+        return false
+    }    
+	// Check if the provided admin address matches the org's admin
+    return org.Admin == admin
 }
