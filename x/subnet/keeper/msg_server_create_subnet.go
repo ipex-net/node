@@ -120,7 +120,7 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 	}
 
 	// Verify creator is org admin
-	if !k.orgKeeper.VerifyOrgAdmin(goCtx, msg.OwnerOrgId, sdk.AccAddress(msg.Creator)) {
+	if !k.orgKeeper.VerifyOrgAdmin(goCtx, msg.OwnerOrgId, msg.Creator) {
 		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.OwnerOrgId)
 	}
 

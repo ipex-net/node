@@ -25,7 +25,7 @@ if !k.orgKeeper.HasOrg(ctx, msg.UserOrgId) {
   
   //Checking if message creator is subnet owner
   // Verify creator is org admin
-  if !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, sdk.AccAddress(msg.Creator)) {
+  if !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator) {
 	return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
   }
   
