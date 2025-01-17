@@ -125,11 +125,11 @@ func (k Keeper) VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) 
 	if err != nil {
 		return false
 	}
-    // Get the org
-    org, found := k.GetOrg(ctx, orgid)
-    if !found {
-        return false
-    }
+	// Get the org
+	org, found := k.GetOrg(ctx, orgid)
+	if !found {
+		return false
+	}
 
-    return org.Admin == admin
+	return org.Admin == admin
 }

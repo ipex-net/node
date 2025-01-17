@@ -129,5 +129,5 @@ func (k Keeper) VerifySubnetUser(ctx context.Context, subnetId uint64, user stri
 	}
 
 	//Checking that the user is admin of user organisation
-    return k.orgKeeper.VerifyOrgAdmin(ctx, subnet.UserOrgId, user)
+	return k.orgKeeper.VerifyOrgAdmin(ctx, subnet.UserOrgId, user)
 }

@@ -35,6 +35,12 @@ service Query {
     option (google.api.http).get = "/ipex/subnet/list_subnet";
   
   }
+  
+  // Queries a list of ShowSubnet items.
+  rpc ShowSubnet (QueryShowSubnetRequest) returns (QueryShowSubnetResponse) {
+    option (google.api.http).get = "/ipex/subnet/show_subnet/{id}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -68,7 +74,15 @@ message QueryListSubnetRequest {
 }
 
 message QueryListSubnetResponse {
-  repeated Subnet subnet = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated Subnet                                 subnet     = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryShowSubnetRequest {
+  uint64 id = 1;
+}
+
+message QueryShowSubnetResponse {
+  Subnet subnet = 1 [(gogoproto.nullable) = false];
 }
 
