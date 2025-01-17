@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName     = "/ipex.subnet.Msg/UpdateParams"
-	Msg_CreateSubnet_FullMethodName     = "/ipex.subnet.Msg/CreateSubnet"
-	Msg_UpdateSubnetUser_FullMethodName = "/ipex.subnet.Msg/UpdateSubnetUser"
+	Msg_UpdateParams_FullMethodName        = "/ipex.subnet.Msg/UpdateParams"
+	Msg_CreateSubnet_FullMethodName        = "/ipex.subnet.Msg/CreateSubnet"
+	Msg_UpdateSubnetUser_FullMethodName    = "/ipex.subnet.Msg/UpdateSubnetUser"
+	Msg_UpdateSubnetGeofeed_FullMethodName = "/ipex.subnet.Msg/UpdateSubnetGeofeed"
 )
 
 // MsgClient is the client API for Msg service.
@@ -33,6 +34,7 @@ type MsgClient interface {
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	CreateSubnet(ctx context.Context, in *MsgCreateSubnet, opts ...grpc.CallOption) (*MsgCreateSubnetResponse, error)
 	UpdateSubnetUser(ctx context.Context, in *MsgUpdateSubnetUser, opts ...grpc.CallOption) (*MsgUpdateSubnetUserResponse, error)
+	UpdateSubnetGeofeed(ctx context.Context, in *MsgUpdateSubnetGeofeed, opts ...grpc.CallOption) (*MsgUpdateSubnetGeofeedResponse, error)
 }
 
 type msgClient struct {
@@ -70,6 +72,15 @@ func (c *msgClient) UpdateSubnetUser(ctx context.Context, in *MsgUpdateSubnetUse
 	return out, nil
 }
 
+func (c *msgClient) UpdateSubnetGeofeed(ctx context.Context, in *MsgUpdateSubnetGeofeed, opts ...grpc.CallOption) (*MsgUpdateSubnetGeofeedResponse, error) {
+	out := new(MsgUpdateSubnetGeofeedResponse)
+	err := c.cc.Invoke(ctx, Msg_UpdateSubnetGeofeed_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -79,6 +90,7 @@ type MsgServer interface {
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	CreateSubnet(context.Context, *MsgCreateSubnet) (*MsgCreateSubnetResponse, error)
 	UpdateSubnetUser(context.Context, *MsgUpdateSubnetUser) (*MsgUpdateSubnetUserResponse, error)
+	UpdateSubnetGeofeed(context.Context, *MsgUpdateSubnetGeofeed) (*MsgUpdateSubnetGeofeedResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -94,6 +106,9 @@ func (UnimplementedMsgServer) CreateSubnet(context.Context, *MsgCreateSubnet) (*
 }
 func (UnimplementedMsgServer) UpdateSubnetUser(context.Context, *MsgUpdateSubnetUser) (*MsgUpdateSubnetUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubnetUser not implemented")
+}
+func (UnimplementedMsgServer) UpdateSubnetGeofeed(context.Context, *MsgUpdateSubnetGeofeed) (*MsgUpdateSubnetGeofeedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubnetGeofeed not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -162,6 +177,24 @@ func _Msg_UpdateSubnetUser_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_UpdateSubnetGeofeed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateSubnetGeofeed)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateSubnetGeofeed(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_UpdateSubnetGeofeed_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateSubnetGeofeed(ctx, req.(*MsgUpdateSubnetGeofeed))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +213,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateSubnetUser",
 			Handler:    _Msg_UpdateSubnetUser_Handler,
+		},
+		{
+			MethodName: "UpdateSubnetGeofeed",
+			Handler:    _Msg_UpdateSubnetGeofeed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

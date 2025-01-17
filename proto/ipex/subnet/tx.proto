@@ -16,9 +16,10 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams     (MsgUpdateParams    ) returns (MsgUpdateParamsResponse    );
-  rpc CreateSubnet     (MsgCreateSubnet    ) returns (MsgCreateSubnetResponse    );
-  rpc UpdateSubnetUser (MsgUpdateSubnetUser) returns (MsgUpdateSubnetUserResponse);
+  rpc UpdateParams        (MsgUpdateParams       ) returns (MsgUpdateParamsResponse       );
+  rpc CreateSubnet        (MsgCreateSubnet       ) returns (MsgCreateSubnetResponse       );
+  rpc UpdateSubnetUser    (MsgUpdateSubnetUser   ) returns (MsgUpdateSubnetUserResponse   );
+  rpc UpdateSubnetGeofeed (MsgUpdateSubnetGeofeed) returns (MsgUpdateSubnetGeofeedResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -60,4 +61,13 @@ message MsgUpdateSubnetUser {
 }
 
 message MsgUpdateSubnetUserResponse {}
+
+message MsgUpdateSubnetGeofeed {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 id      = 2;
+  string geofeed = 3;
+}
+
+message MsgUpdateSubnetGeofeedResponse {}
 
