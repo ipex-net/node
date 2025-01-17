@@ -94,29 +94,32 @@ type Subnet struct {
 	Mask                         uint64       `protobuf:"varint,4,opt,name=mask,proto3" json:"mask,omitempty"`
 	Status                       SubnetStatus `protobuf:"varint,5,opt,name=status,proto3,enum=ipex.subnet.SubnetStatus" json:"status,omitempty"`
 	Country                      string       `protobuf:"bytes,6,opt,name=country,proto3" json:"country,omitempty"`
-	CountryChangeRequested       bool         `protobuf:"varint,7,opt,name=countryChangeRequested,proto3" json:"countryChangeRequested,omitempty"`
-	CountryChangeRequestedBlock  uint64       `protobuf:"varint,8,opt,name=countryChangeRequestedBlock,proto3" json:"countryChangeRequestedBlock,omitempty"`
-	CountryChangedBlock          uint64       `protobuf:"varint,9,opt,name=countryChangedBlock,proto3" json:"countryChangedBlock,omitempty"`
-	GeofeedUrl                   string       `protobuf:"bytes,10,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
-	GeofeedSyncBlock             uint64       `protobuf:"varint,11,opt,name=geofeedSyncBlock,proto3" json:"geofeedSyncBlock,omitempty"`
-	Rir                          Rir          `protobuf:"varint,12,opt,name=rir,proto3,enum=ipex.subnet.Rir" json:"rir,omitempty"`
-	RirOwnerOrg                  string       `protobuf:"bytes,13,opt,name=rirOwnerOrg,proto3" json:"rirOwnerOrg,omitempty"`
-	RirAbuseEmail                string       `protobuf:"bytes,14,opt,name=rirAbuseEmail,proto3" json:"rirAbuseEmail,omitempty"`
-	RirAllocationType            uint64       `protobuf:"varint,15,opt,name=rirAllocationType,proto3" json:"rirAllocationType,omitempty"`
-	RirSyncBlock                 uint64       `protobuf:"varint,16,opt,name=rirSyncBlock,proto3" json:"rirSyncBlock,omitempty"`
-	OwnerOrgId                   uint64       `protobuf:"varint,17,opt,name=ownerOrgId,proto3" json:"ownerOrgId,omitempty"`
-	UserOrgId                    uint64       `protobuf:"varint,18,opt,name=userOrgId,proto3" json:"userOrgId,omitempty"`
-	Origin                       string       `protobuf:"bytes,19,opt,name=origin,proto3" json:"origin,omitempty"`
-	OriginTransferRequested      bool         `protobuf:"varint,20,opt,name=originTransferRequested,proto3" json:"originTransferRequested,omitempty"`
-	OriginTransferRequestedBlock uint64       `protobuf:"varint,21,opt,name=originTransferRequestedBlock,proto3" json:"originTransferRequestedBlock,omitempty"`
-	OriginTransferedBlock        uint64       `protobuf:"varint,22,opt,name=originTransferedBlock,proto3" json:"originTransferedBlock,omitempty"`
-	IrrOrigin                    string       `protobuf:"bytes,23,opt,name=irrOrigin,proto3" json:"irrOrigin,omitempty"`
-	IrrMntBy                     string       `protobuf:"bytes,24,opt,name=irrMntBy,proto3" json:"irrMntBy,omitempty"`
-	IrrCreated                   string       `protobuf:"bytes,25,opt,name=irrCreated,proto3" json:"irrCreated,omitempty"`
-	IrrModified                  string       `protobuf:"bytes,26,opt,name=irrModified,proto3" json:"irrModified,omitempty"`
-	IrrSyncBlock                 uint64       `protobuf:"varint,27,opt,name=irrSyncBlock,proto3" json:"irrSyncBlock,omitempty"`
-	RpkiOrigin                   string       `protobuf:"bytes,28,opt,name=rpkiOrigin,proto3" json:"rpkiOrigin,omitempty"`
-	RpkiSyncBlock                uint64       `protobuf:"varint,29,opt,name=rpkiSyncBlock,proto3" json:"rpkiSyncBlock,omitempty"`
+	Region                       string       `protobuf:"bytes,7,opt,name=region,proto3" json:"region,omitempty"`
+	City                         string       `protobuf:"bytes,8,opt,name=city,proto3" json:"city,omitempty"`
+	PostalCode                   string       `protobuf:"bytes,9,opt,name=postalCode,proto3" json:"postalCode,omitempty"`
+	GeoChangeRequested           bool         `protobuf:"varint,10,opt,name=geoChangeRequested,proto3" json:"geoChangeRequested,omitempty"`
+	GeoChangeRequestedBlock      uint64       `protobuf:"varint,11,opt,name=geoChangeRequestedBlock,proto3" json:"geoChangeRequestedBlock,omitempty"`
+	GeoChangedBlock              uint64       `protobuf:"varint,12,opt,name=geoChangedBlock,proto3" json:"geoChangedBlock,omitempty"`
+	GeofeedUrl                   string       `protobuf:"bytes,13,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
+	GeofeedSyncBlock             uint64       `protobuf:"varint,14,opt,name=geofeedSyncBlock,proto3" json:"geofeedSyncBlock,omitempty"`
+	Rir                          Rir          `protobuf:"varint,15,opt,name=rir,proto3,enum=ipex.subnet.Rir" json:"rir,omitempty"`
+	RirOwnerOrg                  string       `protobuf:"bytes,16,opt,name=rirOwnerOrg,proto3" json:"rirOwnerOrg,omitempty"`
+	RirAbuseEmail                string       `protobuf:"bytes,17,opt,name=rirAbuseEmail,proto3" json:"rirAbuseEmail,omitempty"`
+	RirAllocationType            uint64       `protobuf:"varint,18,opt,name=rirAllocationType,proto3" json:"rirAllocationType,omitempty"`
+	RirSyncBlock                 uint64       `protobuf:"varint,19,opt,name=rirSyncBlock,proto3" json:"rirSyncBlock,omitempty"`
+	OwnerOrgId                   uint64       `protobuf:"varint,20,opt,name=ownerOrgId,proto3" json:"ownerOrgId,omitempty"`
+	UserOrgId                    uint64       `protobuf:"varint,21,opt,name=userOrgId,proto3" json:"userOrgId,omitempty"`
+	Origin                       string       `protobuf:"bytes,22,opt,name=origin,proto3" json:"origin,omitempty"`
+	OriginTransferRequested      bool         `protobuf:"varint,23,opt,name=originTransferRequested,proto3" json:"originTransferRequested,omitempty"`
+	OriginTransferRequestedBlock uint64       `protobuf:"varint,24,opt,name=originTransferRequestedBlock,proto3" json:"originTransferRequestedBlock,omitempty"`
+	OriginTransferedBlock        uint64       `protobuf:"varint,25,opt,name=originTransferedBlock,proto3" json:"originTransferedBlock,omitempty"`
+	IrrOrigin                    string       `protobuf:"bytes,26,opt,name=irrOrigin,proto3" json:"irrOrigin,omitempty"`
+	IrrMntBy                     string       `protobuf:"bytes,27,opt,name=irrMntBy,proto3" json:"irrMntBy,omitempty"`
+	IrrCreated                   string       `protobuf:"bytes,28,opt,name=irrCreated,proto3" json:"irrCreated,omitempty"`
+	IrrModified                  string       `protobuf:"bytes,29,opt,name=irrModified,proto3" json:"irrModified,omitempty"`
+	IrrSyncBlock                 uint64       `protobuf:"varint,30,opt,name=irrSyncBlock,proto3" json:"irrSyncBlock,omitempty"`
+	RpkiOrigin                   string       `protobuf:"bytes,31,opt,name=rpkiOrigin,proto3" json:"rpkiOrigin,omitempty"`
+	RpkiSyncBlock                uint64       `protobuf:"varint,32,opt,name=rpkiSyncBlock,proto3" json:"rpkiSyncBlock,omitempty"`
 }
 
 func (m *Subnet) Reset()         { *m = Subnet{} }
@@ -194,23 +197,44 @@ func (m *Subnet) GetCountry() string {
 	return ""
 }
 
-func (m *Subnet) GetCountryChangeRequested() bool {
+func (m *Subnet) GetRegion() string {
 	if m != nil {
-		return m.CountryChangeRequested
+		return m.Region
+	}
+	return ""
+}
+
+func (m *Subnet) GetCity() string {
+	if m != nil {
+		return m.City
+	}
+	return ""
+}
+
+func (m *Subnet) GetPostalCode() string {
+	if m != nil {
+		return m.PostalCode
+	}
+	return ""
+}
+
+func (m *Subnet) GetGeoChangeRequested() bool {
+	if m != nil {
+		return m.GeoChangeRequested
 	}
 	return false
 }
 
-func (m *Subnet) GetCountryChangeRequestedBlock() uint64 {
+func (m *Subnet) GetGeoChangeRequestedBlock() uint64 {
 	if m != nil {
-		return m.CountryChangeRequestedBlock
+		return m.GeoChangeRequestedBlock
 	}
 	return 0
 }
 
-func (m *Subnet) GetCountryChangedBlock() uint64 {
+func (m *Subnet) GetGeoChangedBlock() uint64 {
 	if m != nil {
-		return m.CountryChangedBlock
+		return m.GeoChangedBlock
 	}
 	return 0
 }
@@ -364,50 +388,52 @@ func init() {
 func init() { proto.RegisterFile("ipex/subnet/subnet.proto", fileDescriptor_ed6a43f7cb193f15) }
 
 var fileDescriptor_ed6a43f7cb193f15 = []byte{
-	// 679 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x94, 0xdd, 0x6e, 0xda, 0x4a,
-	0x10, 0xc7, 0x31, 0x10, 0x02, 0x13, 0xc2, 0x71, 0x26, 0x09, 0xd9, 0x90, 0x1c, 0x84, 0x72, 0x8e,
-	0x8e, 0x50, 0x74, 0x44, 0xab, 0xb4, 0xaa, 0x7a, 0x53, 0xa9, 0x86, 0x12, 0xc9, 0x52, 0x0a, 0xd1,
-	0x42, 0x7a, 0xd1, 0x8b, 0x46, 0x04, 0x6f, 0xe8, 0x0a, 0x62, 0xd3, 0xb1, 0x51, 0xca, 0x5b, 0xf4,
-	0xb1, 0x7a, 0x99, 0xcb, 0x5e, 0x56, 0xc9, 0x03, 0xf4, 0x15, 0xaa, 0x5d, 0x3b, 0xc1, 0x6e, 0x3e,
-	0xae, 0x3c, 0xf3, 0xff, 0xcd, 0xee, 0xce, 0xec, 0x8c, 0x17, 0xb6, 0xe5, 0xd4, 0x11, 0x5f, 0x9f,
-	0xf9, 0xb3, 0x33, 0x57, 0x04, 0xd1, 0xa7, 0x31, 0x25, 0x2f, 0xf0, 0xb0, 0xa8, 0x51, 0x23, 0xd4,
-	0xf6, 0x7e, 0xe5, 0x21, 0xd7, 0xd3, 0x26, 0x96, 0x20, 0x2d, 0x1d, 0x66, 0xd4, 0x8c, 0x7a, 0x96,
-	0xa7, 0xa5, 0x83, 0xff, 0xc2, 0xea, 0x90, 0xc4, 0x20, 0x90, 0x9e, 0xdb, 0x9c, 0x78, 0xc3, 0x31,
-	0x4b, 0x6b, 0x94, 0x14, 0xf1, 0x3f, 0x28, 0xb9, 0x22, 0xb8, 0xf4, 0x68, 0x6c, 0x39, 0x0e, 0x09,
-	0xdf, 0x67, 0x19, 0x1d, 0xf6, 0x87, 0x8a, 0x08, 0xd9, 0x8b, 0x81, 0x3f, 0x66, 0x59, 0x4d, 0xb5,
-	0x8d, 0x07, 0x90, 0xf3, 0x83, 0x41, 0x30, 0xf3, 0xd9, 0x52, 0xcd, 0xa8, 0x97, 0x0e, 0x2a, 0x8d,
-	0x78, 0x6e, 0x8d, 0x30, 0xaf, 0x9e, 0x8e, 0xe0, 0x51, 0x24, 0x32, 0x58, 0x1e, 0x7a, 0x33, 0x37,
-	0xa0, 0x39, 0xcb, 0xd5, 0x8c, 0x7a, 0x81, 0xdf, 0xba, 0xf8, 0x0a, 0xca, 0x91, 0xd9, 0xfa, 0x3c,
-	0x70, 0x47, 0x82, 0x8b, 0x2f, 0x33, 0xe1, 0x07, 0xc2, 0x61, 0xcb, 0x35, 0xa3, 0x9e, 0xe7, 0x8f,
-	0x50, 0x7c, 0x0b, 0x3b, 0x0f, 0x93, 0xb0, 0xea, 0xbc, 0x4e, 0xf8, 0xa9, 0x10, 0x7c, 0x0e, 0xeb,
-	0x09, 0x1c, 0xad, 0x2c, 0xe8, 0x95, 0x0f, 0x21, 0xac, 0x02, 0x8c, 0x84, 0x77, 0x2e, 0x84, 0x73,
-	0x42, 0x13, 0x06, 0xba, 0x90, 0x98, 0x82, 0xfb, 0x60, 0x46, 0x5e, 0x6f, 0xee, 0x0e, 0xc3, 0xed,
-	0x56, 0xf4, 0x76, 0xf7, 0x74, 0xfc, 0x07, 0x32, 0x24, 0x89, 0x15, 0xf5, 0x15, 0xae, 0x25, 0xaf,
-	0x90, 0x4b, 0xe2, 0x8a, 0x62, 0x0d, 0x56, 0x48, 0x52, 0xf7, 0xd2, 0x15, 0xd4, 0xa5, 0x11, 0x5b,
-	0xd5, 0x27, 0xc6, 0x25, 0xd5, 0x6e, 0x92, 0x64, 0x9d, 0xcd, 0x7c, 0xd1, 0xbe, 0x18, 0xc8, 0x09,
-	0x2b, 0xe9, 0x98, 0xa4, 0x88, 0xff, 0xc3, 0x9a, 0x12, 0x26, 0x13, 0x6f, 0xa8, 0x87, 0xa0, 0x3f,
-	0x9f, 0x0a, 0xf6, 0x97, 0xce, 0xec, 0x3e, 0xc0, 0x3d, 0x28, 0x92, 0xa4, 0x45, 0x09, 0xa6, 0x0e,
-	0x4c, 0x68, 0xea, 0x2a, 0xbc, 0x28, 0x07, 0xdb, 0x61, 0x6b, 0x3a, 0x22, 0xa6, 0xe0, 0x2e, 0x14,
-	0x66, 0xfe, 0x2d, 0x46, 0x8d, 0x17, 0x02, 0x96, 0x21, 0xe7, 0x91, 0x1c, 0x49, 0x97, 0xad, 0xeb,
-	0x74, 0x23, 0x0f, 0x5f, 0xc3, 0x56, 0x68, 0xf5, 0x69, 0xe0, 0xfa, 0xe7, 0x82, 0x16, 0xd3, 0xb0,
-	0xa1, 0xa7, 0xe1, 0x31, 0x8c, 0x4d, 0xd8, 0x7d, 0x04, 0x85, 0x35, 0x6c, 0xea, 0x14, 0x9e, 0x8c,
-	0xc1, 0x97, 0xb0, 0x99, 0xe4, 0xb7, 0x8b, 0xcb, 0x7a, 0xf1, 0xc3, 0x50, 0x55, 0x2a, 0x89, 0xba,
-	0x61, 0x39, 0x5b, 0xba, 0x9c, 0x85, 0x80, 0x15, 0xc8, 0x4b, 0xa2, 0xf7, 0x6e, 0xd0, 0x9c, 0x33,
-	0xa6, 0xe1, 0x9d, 0xaf, 0xee, 0x50, 0x12, 0xb5, 0xd4, 0x8f, 0x29, 0x1c, 0xb6, 0x1d, 0x8e, 0xd3,
-	0x42, 0x51, 0xdd, 0x57, 0xb1, 0x9e, 0x23, 0xcf, 0xa5, 0x70, 0x58, 0x25, 0xec, 0x7e, 0x4c, 0x52,
-	0x9d, 0x92, 0x14, 0xeb, 0xd4, 0x4e, 0xd8, 0xa9, 0xb8, 0xa6, 0x4e, 0xa1, 0xe9, 0x58, 0x46, 0x09,
-	0xee, 0x86, 0xa7, 0x2c, 0x14, 0x3d, 0x41, 0xd3, 0xb1, 0x5c, 0x6c, 0xf2, 0x77, 0xf8, 0x60, 0x24,
-	0xc4, 0xfd, 0x4f, 0x50, 0x8c, 0xff, 0xd8, 0xb8, 0x0d, 0x9b, 0xbd, 0x93, 0x66, 0xa7, 0xdd, 0x3f,
-	0xed, 0xf5, 0xad, 0xfe, 0x49, 0xef, 0xd4, 0xee, 0xd8, 0x7d, 0xdb, 0x3a, 0x32, 0x53, 0x58, 0x81,
-	0x72, 0x12, 0x7d, 0x68, 0x73, 0xfb, 0xd0, 0x6e, 0xbf, 0x33, 0x0d, 0xdc, 0x82, 0xf5, 0x24, 0x6b,
-	0x73, 0xde, 0xe5, 0x66, 0x7a, 0xff, 0x0d, 0x64, 0xb8, 0x24, 0xcc, 0x43, 0x96, 0xdb, 0xc7, 0x6d,
-	0x33, 0xa5, 0x2c, 0x8b, 0xdb, 0x1d, 0xd3, 0x40, 0x80, 0xdc, 0x91, 0xd5, 0xea, 0xd8, 0x2d, 0x33,
-	0x8d, 0x2b, 0xb0, 0x6c, 0x1d, 0x72, 0x5b, 0x39, 0x19, 0x2c, 0xc0, 0x92, 0x75, 0xac, 0xcc, 0x6c,
-	0xb3, 0xf1, 0xfd, 0xba, 0x6a, 0x5c, 0x5d, 0x57, 0x8d, 0x9f, 0xd7, 0x55, 0xe3, 0xdb, 0x4d, 0x35,
-	0x75, 0x75, 0x53, 0x4d, 0xfd, 0xb8, 0xa9, 0xa6, 0x3e, 0x6e, 0x84, 0x6f, 0xea, 0xdd, 0xab, 0x1a,
-	0xcc, 0xa7, 0xc2, 0x3f, 0xcb, 0xe9, 0x57, 0xf5, 0xc5, 0xef, 0x00, 0x00, 0x00, 0xff, 0xff, 0xb7,
-	0xa1, 0x86, 0x7b, 0x72, 0x05, 0x00, 0x00,
+	// 710 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x94, 0xcd, 0x6e, 0xda, 0x5a,
+	0x10, 0xc7, 0x31, 0x10, 0x02, 0x13, 0x42, 0x9c, 0xc9, 0xd7, 0x09, 0x37, 0xd7, 0x17, 0xe5, 0x5e,
+	0x5d, 0xa1, 0xa8, 0xa2, 0x52, 0xda, 0x45, 0x37, 0x5d, 0x18, 0x4a, 0x24, 0x4b, 0x29, 0x44, 0x86,
+	0x74, 0xd1, 0x45, 0x23, 0x82, 0x4f, 0xe8, 0x11, 0xc4, 0xa6, 0x63, 0xa3, 0x94, 0xb7, 0xe8, 0x3b,
+	0xf4, 0x65, 0xba, 0xcc, 0xb2, 0xcb, 0x2a, 0x79, 0x91, 0xea, 0x9c, 0x43, 0x62, 0x3b, 0x1f, 0x5d,
+	0x31, 0xf3, 0xfb, 0xcf, 0xf1, 0x99, 0x39, 0x33, 0x0c, 0xec, 0x8a, 0xa9, 0xc7, 0xbf, 0xbe, 0x0c,
+	0x67, 0xe7, 0x3e, 0x8f, 0x16, 0x3f, 0x8d, 0x29, 0x05, 0x51, 0x80, 0x65, 0x25, 0x35, 0x34, 0xdb,
+	0xff, 0x5e, 0x82, 0x42, 0x4f, 0x99, 0x58, 0x81, 0xac, 0xf0, 0x98, 0x51, 0x33, 0xea, 0x79, 0x37,
+	0x2b, 0x3c, 0xfc, 0x0f, 0x56, 0x87, 0xc4, 0x07, 0x91, 0x08, 0xfc, 0xe6, 0x24, 0x18, 0x8e, 0x59,
+	0x56, 0x49, 0x69, 0x88, 0xff, 0x43, 0xc5, 0xe7, 0xd1, 0x55, 0x40, 0x63, 0xdb, 0xf3, 0x88, 0x87,
+	0x21, 0xcb, 0xa9, 0xb0, 0x07, 0x14, 0x11, 0xf2, 0x97, 0x83, 0x70, 0xcc, 0xf2, 0x4a, 0x55, 0x36,
+	0x1e, 0x42, 0x21, 0x8c, 0x06, 0xd1, 0x2c, 0x64, 0x4b, 0x35, 0xa3, 0x5e, 0x39, 0xac, 0x36, 0x92,
+	0xb9, 0x35, 0x74, 0x5e, 0x3d, 0x15, 0xe1, 0x2e, 0x22, 0x91, 0xc1, 0xf2, 0x30, 0x98, 0xf9, 0x11,
+	0xcd, 0x59, 0xa1, 0x66, 0xd4, 0x4b, 0xee, 0x9d, 0x8b, 0xdb, 0x50, 0x20, 0x3e, 0x12, 0x81, 0xcf,
+	0x96, 0x95, 0xb0, 0xf0, 0xe4, 0xcd, 0x43, 0x11, 0xcd, 0x59, 0x51, 0x51, 0x65, 0xa3, 0x05, 0x30,
+	0x0d, 0xc2, 0x68, 0x30, 0x69, 0x05, 0x1e, 0x67, 0x25, 0xa5, 0x24, 0x08, 0x36, 0x00, 0x47, 0x3c,
+	0x68, 0x7d, 0x1e, 0xf8, 0x23, 0xee, 0xf2, 0x2f, 0x33, 0x1e, 0x46, 0xdc, 0x63, 0x50, 0x33, 0xea,
+	0x45, 0xf7, 0x09, 0x05, 0xdf, 0xc0, 0xce, 0x63, 0xaa, 0x5f, 0x6d, 0x45, 0x15, 0xfc, 0x9c, 0x8c,
+	0x75, 0x58, 0xbb, 0x97, 0x16, 0x27, 0xca, 0xea, 0xc4, 0x43, 0x2c, 0x73, 0x1e, 0xf1, 0xe0, 0x82,
+	0x73, 0xef, 0x94, 0x26, 0x6c, 0x55, 0xe7, 0x1c, 0x13, 0x3c, 0x00, 0x73, 0xe1, 0xf5, 0xe6, 0xfe,
+	0x50, 0x7f, 0xaa, 0xa2, 0x3e, 0xf5, 0x88, 0xe3, 0xbf, 0x90, 0x23, 0x41, 0x6c, 0x4d, 0x3d, 0xfb,
+	0x7a, 0xfa, 0xd9, 0x5d, 0x41, 0xae, 0x54, 0xb1, 0x06, 0x2b, 0x24, 0xa8, 0x7b, 0xe5, 0x73, 0xea,
+	0xd2, 0x88, 0x99, 0xea, 0xc6, 0x24, 0x92, 0x23, 0x42, 0x82, 0xec, 0xf3, 0x59, 0xc8, 0xdb, 0x97,
+	0x03, 0x31, 0x61, 0xeb, 0x2a, 0x26, 0x0d, 0xf1, 0x05, 0xac, 0x4b, 0x30, 0x99, 0x04, 0x43, 0x35,
+	0x38, 0xfd, 0xf9, 0x94, 0x33, 0x54, 0x99, 0x3d, 0x16, 0x70, 0x1f, 0xca, 0x24, 0x28, 0x2e, 0x61,
+	0x43, 0x05, 0xa6, 0x98, 0x7c, 0x8a, 0x60, 0x91, 0x83, 0xe3, 0xb1, 0x4d, 0x15, 0x91, 0x20, 0xb8,
+	0x07, 0xa5, 0x59, 0x78, 0x27, 0x6f, 0x29, 0x39, 0x06, 0x72, 0x50, 0x02, 0x12, 0x23, 0xe1, 0xb3,
+	0x6d, 0x3d, 0x28, 0xda, 0x93, 0x4d, 0xd4, 0x56, 0x9f, 0x06, 0x7e, 0x78, 0xc1, 0x29, 0xee, 0xfc,
+	0x8e, 0xea, 0xfc, 0x73, 0x32, 0x36, 0x61, 0xef, 0x19, 0x49, 0xd7, 0xc0, 0x54, 0x0a, 0x7f, 0x8c,
+	0xc1, 0xd7, 0xb0, 0x95, 0xd6, 0xef, 0x0e, 0xef, 0xaa, 0xc3, 0x4f, 0x8b, 0xb2, 0x52, 0x41, 0xd4,
+	0xd5, 0xe5, 0x54, 0x55, 0x39, 0x31, 0xc0, 0x2a, 0x14, 0x05, 0xd1, 0x7b, 0x3f, 0x6a, 0xce, 0xd9,
+	0x5f, 0x4a, 0xbc, 0xf7, 0xe5, 0x1b, 0x0a, 0xa2, 0x96, 0xfc, 0x33, 0x73, 0x8f, 0xed, 0xe9, 0x71,
+	0x8a, 0x89, 0xec, 0xbe, 0x8c, 0x0d, 0x3c, 0x71, 0x21, 0xb8, 0xc7, 0xfe, 0xd6, 0xdd, 0x4f, 0x20,
+	0xd9, 0x29, 0x41, 0x89, 0x4e, 0x59, 0xba, 0x53, 0x49, 0x26, 0x6f, 0xa1, 0xe9, 0x58, 0x2c, 0x12,
+	0xfc, 0x47, 0xdf, 0x12, 0x13, 0x35, 0x41, 0xd3, 0xb1, 0x88, 0x3f, 0x52, 0xd3, 0x4b, 0x26, 0x05,
+	0x0f, 0x3e, 0x41, 0x39, 0xb9, 0x0c, 0x70, 0x17, 0xb6, 0x7a, 0xa7, 0xcd, 0x4e, 0xbb, 0x7f, 0xd6,
+	0xeb, 0xdb, 0xfd, 0xd3, 0xde, 0x99, 0xd3, 0x71, 0xfa, 0x8e, 0x7d, 0x6c, 0x66, 0xb0, 0x0a, 0xdb,
+	0x69, 0xe9, 0x43, 0xdb, 0x75, 0x8e, 0x9c, 0xf6, 0x3b, 0xd3, 0xc0, 0x1d, 0xd8, 0x48, 0x6b, 0x6d,
+	0xd7, 0xed, 0xba, 0x66, 0xf6, 0xe0, 0x2d, 0xe4, 0x5c, 0x41, 0x58, 0x84, 0xbc, 0xeb, 0x9c, 0xb4,
+	0xcd, 0x8c, 0xb4, 0x6c, 0xd7, 0xe9, 0x98, 0x06, 0x02, 0x14, 0x8e, 0xed, 0x56, 0xc7, 0x69, 0x99,
+	0x59, 0x5c, 0x81, 0x65, 0xfb, 0xc8, 0x75, 0xa4, 0x93, 0xc3, 0x12, 0x2c, 0xd9, 0x27, 0xd2, 0xcc,
+	0x37, 0x1b, 0x3f, 0x6e, 0x2c, 0xe3, 0xfa, 0xc6, 0x32, 0x7e, 0xdd, 0x58, 0xc6, 0xb7, 0x5b, 0x2b,
+	0x73, 0x7d, 0x6b, 0x65, 0x7e, 0xde, 0x5a, 0x99, 0x8f, 0x9b, 0x7a, 0x0f, 0xdf, 0x6f, 0xe2, 0x68,
+	0x3e, 0xe5, 0xe1, 0x79, 0x41, 0x6d, 0xe2, 0x57, 0xbf, 0x03, 0x00, 0x00, 0xff, 0xff, 0x68, 0x51,
+	0xcf, 0xdd, 0xa6, 0x05, 0x00, 0x00,
 }
 
 func (m *Subnet) Marshal() (dAtA []byte, err error) {
@@ -433,9 +459,9 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if m.RpkiSyncBlock != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.RpkiSyncBlock))
 		i--
-		dAtA[i] = 0x1
+		dAtA[i] = 0x2
 		i--
-		dAtA[i] = 0xe8
+		dAtA[i] = 0x80
 	}
 	if len(m.RpkiOrigin) > 0 {
 		i -= len(m.RpkiOrigin)
@@ -444,14 +470,14 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xe2
+		dAtA[i] = 0xfa
 	}
 	if m.IrrSyncBlock != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.IrrSyncBlock))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xd8
+		dAtA[i] = 0xf0
 	}
 	if len(m.IrrModified) > 0 {
 		i -= len(m.IrrModified)
@@ -460,7 +486,7 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xd2
+		dAtA[i] = 0xea
 	}
 	if len(m.IrrCreated) > 0 {
 		i -= len(m.IrrCreated)
@@ -469,7 +495,7 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xca
+		dAtA[i] = 0xe2
 	}
 	if len(m.IrrMntBy) > 0 {
 		i -= len(m.IrrMntBy)
@@ -478,7 +504,7 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xc2
+		dAtA[i] = 0xda
 	}
 	if len(m.IrrOrigin) > 0 {
 		i -= len(m.IrrOrigin)
@@ -487,21 +513,21 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xba
+		dAtA[i] = 0xd2
 	}
 	if m.OriginTransferedBlock != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.OriginTransferedBlock))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xb0
+		dAtA[i] = 0xc8
 	}
 	if m.OriginTransferRequestedBlock != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.OriginTransferRequestedBlock))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xa8
+		dAtA[i] = 0xc0
 	}
 	if m.OriginTransferRequested {
 		i--
@@ -513,7 +539,7 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xa0
+		dAtA[i] = 0xb8
 	}
 	if len(m.Origin) > 0 {
 		i -= len(m.Origin)
@@ -522,84 +548,111 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x9a
+		dAtA[i] = 0xb2
 	}
 	if m.UserOrgId != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.UserOrgId))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x90
+		dAtA[i] = 0xa8
 	}
 	if m.OwnerOrgId != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.OwnerOrgId))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x88
+		dAtA[i] = 0xa0
 	}
 	if m.RirSyncBlock != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.RirSyncBlock))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x80
+		dAtA[i] = 0x98
 	}
 	if m.RirAllocationType != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.RirAllocationType))
 		i--
-		dAtA[i] = 0x78
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x90
 	}
 	if len(m.RirAbuseEmail) > 0 {
 		i -= len(m.RirAbuseEmail)
 		copy(dAtA[i:], m.RirAbuseEmail)
 		i = encodeVarintSubnet(dAtA, i, uint64(len(m.RirAbuseEmail)))
 		i--
-		dAtA[i] = 0x72
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x8a
 	}
 	if len(m.RirOwnerOrg) > 0 {
 		i -= len(m.RirOwnerOrg)
 		copy(dAtA[i:], m.RirOwnerOrg)
 		i = encodeVarintSubnet(dAtA, i, uint64(len(m.RirOwnerOrg)))
 		i--
-		dAtA[i] = 0x6a
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x82
 	}
 	if m.Rir != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.Rir))
 		i--
-		dAtA[i] = 0x60
+		dAtA[i] = 0x78
 	}
 	if m.GeofeedSyncBlock != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.GeofeedSyncBlock))
 		i--
-		dAtA[i] = 0x58
+		dAtA[i] = 0x70
 	}
 	if len(m.GeofeedUrl) > 0 {
 		i -= len(m.GeofeedUrl)
 		copy(dAtA[i:], m.GeofeedUrl)
 		i = encodeVarintSubnet(dAtA, i, uint64(len(m.GeofeedUrl)))
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x6a
 	}
-	if m.CountryChangedBlock != 0 {
-		i = encodeVarintSubnet(dAtA, i, uint64(m.CountryChangedBlock))
+	if m.GeoChangedBlock != 0 {
+		i = encodeVarintSubnet(dAtA, i, uint64(m.GeoChangedBlock))
 		i--
-		dAtA[i] = 0x48
+		dAtA[i] = 0x60
 	}
-	if m.CountryChangeRequestedBlock != 0 {
-		i = encodeVarintSubnet(dAtA, i, uint64(m.CountryChangeRequestedBlock))
+	if m.GeoChangeRequestedBlock != 0 {
+		i = encodeVarintSubnet(dAtA, i, uint64(m.GeoChangeRequestedBlock))
 		i--
-		dAtA[i] = 0x40
+		dAtA[i] = 0x58
 	}
-	if m.CountryChangeRequested {
+	if m.GeoChangeRequested {
 		i--
-		if m.CountryChangeRequested {
+		if m.GeoChangeRequested {
 			dAtA[i] = 1
 		} else {
 			dAtA[i] = 0
 		}
 		i--
-		dAtA[i] = 0x38
+		dAtA[i] = 0x50
+	}
+	if len(m.PostalCode) > 0 {
+		i -= len(m.PostalCode)
+		copy(dAtA[i:], m.PostalCode)
+		i = encodeVarintSubnet(dAtA, i, uint64(len(m.PostalCode)))
+		i--
+		dAtA[i] = 0x4a
+	}
+	if len(m.City) > 0 {
+		i -= len(m.City)
+		copy(dAtA[i:], m.City)
+		i = encodeVarintSubnet(dAtA, i, uint64(len(m.City)))
+		i--
+		dAtA[i] = 0x42
+	}
+	if len(m.Region) > 0 {
+		i -= len(m.Region)
+		copy(dAtA[i:], m.Region)
+		i = encodeVarintSubnet(dAtA, i, uint64(len(m.Region)))
+		i--
+		dAtA[i] = 0x3a
 	}
 	if len(m.Country) > 0 {
 		i -= len(m.Country)
@@ -672,14 +725,26 @@ func (m *Subnet) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovSubnet(uint64(l))
 	}
-	if m.CountryChangeRequested {
+	l = len(m.Region)
+	if l > 0 {
+		n += 1 + l + sovSubnet(uint64(l))
+	}
+	l = len(m.City)
+	if l > 0 {
+		n += 1 + l + sovSubnet(uint64(l))
+	}
+	l = len(m.PostalCode)
+	if l > 0 {
+		n += 1 + l + sovSubnet(uint64(l))
+	}
+	if m.GeoChangeRequested {
 		n += 2
 	}
-	if m.CountryChangeRequestedBlock != 0 {
-		n += 1 + sovSubnet(uint64(m.CountryChangeRequestedBlock))
+	if m.GeoChangeRequestedBlock != 0 {
+		n += 1 + sovSubnet(uint64(m.GeoChangeRequestedBlock))
 	}
-	if m.CountryChangedBlock != 0 {
-		n += 1 + sovSubnet(uint64(m.CountryChangedBlock))
+	if m.GeoChangedBlock != 0 {
+		n += 1 + sovSubnet(uint64(m.GeoChangedBlock))
 	}
 	l = len(m.GeofeedUrl)
 	if l > 0 {
@@ -693,14 +758,14 @@ func (m *Subnet) Size() (n int) {
 	}
 	l = len(m.RirOwnerOrg)
 	if l > 0 {
-		n += 1 + l + sovSubnet(uint64(l))
+		n += 2 + l + sovSubnet(uint64(l))
 	}
 	l = len(m.RirAbuseEmail)
 	if l > 0 {
-		n += 1 + l + sovSubnet(uint64(l))
+		n += 2 + l + sovSubnet(uint64(l))
 	}
 	if m.RirAllocationType != 0 {
-		n += 1 + sovSubnet(uint64(m.RirAllocationType))
+		n += 2 + sovSubnet(uint64(m.RirAllocationType))
 	}
 	if m.RirSyncBlock != 0 {
 		n += 2 + sovSubnet(uint64(m.RirSyncBlock))
@@ -916,8 +981,104 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			m.Country = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Region", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSubnet
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSubnet
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSubnet
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Region = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field City", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSubnet
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSubnet
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSubnet
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.City = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PostalCode", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSubnet
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSubnet
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSubnet
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PostalCode = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 10:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CountryChangeRequested", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field GeoChangeRequested", wireType)
 			}
 			var v int
 			for shift := uint(0); ; shift += 7 {
@@ -934,12 +1095,12 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-			m.CountryChangeRequested = bool(v != 0)
-		case 8:
+			m.GeoChangeRequested = bool(v != 0)
+		case 11:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CountryChangeRequestedBlock", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field GeoChangeRequestedBlock", wireType)
 			}
-			m.CountryChangeRequestedBlock = 0
+			m.GeoChangeRequestedBlock = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowSubnet
@@ -949,16 +1110,16 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.CountryChangeRequestedBlock |= uint64(b&0x7F) << shift
+				m.GeoChangeRequestedBlock |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-		case 9:
+		case 12:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CountryChangedBlock", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field GeoChangedBlock", wireType)
 			}
-			m.CountryChangedBlock = 0
+			m.GeoChangedBlock = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowSubnet
@@ -968,12 +1129,12 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.CountryChangedBlock |= uint64(b&0x7F) << shift
+				m.GeoChangedBlock |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-		case 10:
+		case 13:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field GeofeedUrl", wireType)
 			}
@@ -1005,7 +1166,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.GeofeedUrl = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 11:
+		case 14:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field GeofeedSyncBlock", wireType)
 			}
@@ -1024,7 +1185,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 12:
+		case 15:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Rir", wireType)
 			}
@@ -1043,7 +1204,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 13:
+		case 16:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RirOwnerOrg", wireType)
 			}
@@ -1075,7 +1236,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.RirOwnerOrg = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 14:
+		case 17:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RirAbuseEmail", wireType)
 			}
@@ -1107,7 +1268,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.RirAbuseEmail = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 15:
+		case 18:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RirAllocationType", wireType)
 			}
@@ -1126,7 +1287,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 16:
+		case 19:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RirSyncBlock", wireType)
 			}
@@ -1145,7 +1306,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 17:
+		case 20:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field OwnerOrgId", wireType)
 			}
@@ -1164,7 +1325,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 18:
+		case 21:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UserOrgId", wireType)
 			}
@@ -1183,7 +1344,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 19:
+		case 22:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Origin", wireType)
 			}
@@ -1215,7 +1376,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.Origin = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 20:
+		case 23:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field OriginTransferRequested", wireType)
 			}
@@ -1235,7 +1396,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 				}
 			}
 			m.OriginTransferRequested = bool(v != 0)
-		case 21:
+		case 24:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field OriginTransferRequestedBlock", wireType)
 			}
@@ -1254,7 +1415,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 22:
+		case 25:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field OriginTransferedBlock", wireType)
 			}
@@ -1273,7 +1434,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 23:
+		case 26:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field IrrOrigin", wireType)
 			}
@@ -1305,7 +1466,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.IrrOrigin = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 24:
+		case 27:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field IrrMntBy", wireType)
 			}
@@ -1337,7 +1498,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.IrrMntBy = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 25:
+		case 28:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field IrrCreated", wireType)
 			}
@@ -1369,7 +1530,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.IrrCreated = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 26:
+		case 29:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field IrrModified", wireType)
 			}
@@ -1401,7 +1562,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.IrrModified = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 27:
+		case 30:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field IrrSyncBlock", wireType)
 			}
@@ -1420,7 +1581,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 28:
+		case 31:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RpkiOrigin", wireType)
 			}
@@ -1452,7 +1613,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.RpkiOrigin = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 29:
+		case 32:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RpkiSyncBlock", wireType)
 			}

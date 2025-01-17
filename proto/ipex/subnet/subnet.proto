@@ -28,32 +28,35 @@ message Subnet {
   SubnetStatus status = 5; 
 
   string country = 6; 
-  bool countryChangeRequested = 7; 
-  uint64 countryChangeRequestedBlock = 8; 
-  uint64 countryChangedBlock = 9; 
-  string geofeedUrl = 10; 
-  uint64 geofeedSyncBlock = 11; 
+  string region = 7;
+  string city = 8;
+  string postalCode = 9;
+  bool geoChangeRequested = 10; 
+  uint64 geoChangeRequestedBlock = 11; 
+  uint64 geoChangedBlock = 12; 
+  string geofeedUrl = 13; 
+  uint64 geofeedSyncBlock = 14; 
 
-  Rir rir = 12; 
-  string rirOwnerOrg = 13; 
-  string rirAbuseEmail = 14; 
-  uint64 rirAllocationType = 15; 
-  uint64 rirSyncBlock = 16; 
+  Rir rir = 15; 
+  string rirOwnerOrg = 16; 
+  string rirAbuseEmail = 17; 
+  uint64 rirAllocationType = 18; 
+  uint64 rirSyncBlock = 19; 
 
-  uint64 ownerOrgId = 17; 
-  uint64 userOrgId = 18; 
+  uint64 ownerOrgId = 20; 
+  uint64 userOrgId = 21; 
 
-  string origin = 19; 
-  bool originTransferRequested = 20; 
-  uint64 originTransferRequestedBlock = 21; 
-  uint64 originTransferedBlock = 22; 
+  string origin = 22; 
+  bool originTransferRequested = 23; 
+  uint64 originTransferRequestedBlock = 24; 
+  uint64 originTransferedBlock = 25; 
 
-  string irrOrigin = 23; 
-  string irrMntBy = 24; 
-  string irrCreated = 25; 
-  string irrModified = 26; 
-  uint64 irrSyncBlock = 27; 
-  string rpkiOrigin = 28; 
-  uint64 rpkiSyncBlock = 29; 
+  string irrOrigin = 26; 
+  string irrMntBy = 27; 
+  string irrCreated = 28; 
+  string irrModified = 29; 
+  uint64 irrSyncBlock = 30; 
+  string rpkiOrigin = 31; 
+  uint64 rpkiSyncBlock = 32; 
   
 }
