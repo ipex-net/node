@@ -34,10 +34,12 @@ message Subnet {
   bool geoChangeRequested = 10; 
   uint64 geoChangeRequestedBlock = 11; 
   uint64 geoChangedBlock = 12; 
+
   string geofeedUrl = 13; 
   uint64 geofeedSyncBlock = 14; 
 
   Rir rir = 15; 
+
   string rirOwnerOrg = 16; 
   string rirAbuseEmail = 17; 
   uint64 rirAllocationType = 18; 
@@ -46,7 +48,7 @@ message Subnet {
   uint64 ownerOrgId = 20; 
   uint64 userOrgId = 21; 
 
-  string origin = 22; 
+  uint64 origin = 22; 
   bool originTransferRequested = 23; 
   uint64 originTransferRequestedBlock = 24; 
   uint64 originTransferedBlock = 25; 

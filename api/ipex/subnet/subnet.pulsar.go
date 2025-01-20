@@ -276,8 +276,8 @@ func (x *fastReflection_Subnet) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if x.Origin != "" {
-		value := protoreflect.ValueOfString(x.Origin)
+	if x.Origin != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Origin)
 		if !f(fd_Subnet_origin, value) {
 			return
 		}
@@ -400,7 +400,7 @@ func (x *fastReflection_Subnet) Has(fd protoreflect.FieldDescriptor) bool {
 	case "ipex.subnet.Subnet.userOrgId":
 		return x.UserOrgId != uint64(0)
 	case "ipex.subnet.Subnet.origin":
-		return x.Origin != ""
+		return x.Origin != uint64(0)
 	case "ipex.subnet.Subnet.originTransferRequested":
 		return x.OriginTransferRequested != false
 	case "ipex.subnet.Subnet.originTransferRequestedBlock":
@@ -480,7 +480,7 @@ func (x *fastReflection_Subnet) Clear(fd protoreflect.FieldDescriptor) {
 	case "ipex.subnet.Subnet.userOrgId":
 		x.UserOrgId = uint64(0)
 	case "ipex.subnet.Subnet.origin":
-		x.Origin = ""
+		x.Origin = uint64(0)
 	case "ipex.subnet.Subnet.originTransferRequested":
 		x.OriginTransferRequested = false
 	case "ipex.subnet.Subnet.originTransferRequestedBlock":
@@ -582,7 +582,7 @@ func (x *fastReflection_Subnet) Get(descriptor protoreflect.FieldDescriptor) pro
 		return protoreflect.ValueOfUint64(value)
 	case "ipex.subnet.Subnet.origin":
 		value := x.Origin
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfUint64(value)
 	case "ipex.subnet.Subnet.originTransferRequested":
 		value := x.OriginTransferRequested
 		return protoreflect.ValueOfBool(value)
@@ -676,7 +676,7 @@ func (x *fastReflection_Subnet) Set(fd protoreflect.FieldDescriptor, value proto
 	case "ipex.subnet.Subnet.userOrgId":
 		x.UserOrgId = value.Uint()
 	case "ipex.subnet.Subnet.origin":
-		x.Origin = value.Interface().(string)
+		x.Origin = value.Uint()
 	case "ipex.subnet.Subnet.originTransferRequested":
 		x.OriginTransferRequested = value.Bool()
 	case "ipex.subnet.Subnet.originTransferRequestedBlock":
@@ -837,7 +837,7 @@ func (x *fastReflection_Subnet) NewField(fd protoreflect.FieldDescriptor) protor
 	case "ipex.subnet.Subnet.userOrgId":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.subnet.Subnet.origin":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.subnet.Subnet.originTransferRequested":
 		return protoreflect.ValueOfBool(false)
 	case "ipex.subnet.Subnet.originTransferRequestedBlock":
@@ -997,9 +997,8 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 		if x.UserOrgId != 0 {
 			n += 2 + runtime.Sov(uint64(x.UserOrgId))
 		}
-		l = len(x.Origin)
-		if l > 0 {
-			n += 2 + l + runtime.Sov(uint64(l))
+		if x.Origin != 0 {
+			n += 2 + runtime.Sov(uint64(x.Origin))
 		}
 		if x.OriginTransferRequested {
 			n += 3
@@ -1150,14 +1149,12 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0xb8
 		}
-		if len(x.Origin) > 0 {
-			i -= len(x.Origin)
-			copy(dAtA[i:], x.Origin)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Origin)))
+		if x.Origin != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Origin))
 			i--
 			dAtA[i] = 0x1
 			i--
-			dAtA[i] = 0xb2
+			dAtA[i] = 0xb0
 		}
 		if x.UserOrgId != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.UserOrgId))
@@ -1836,10 +1833,10 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 				}
 			case 22:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Origin", wireType)
 				}
-				var stringLen uint64
+				x.Origin = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1849,24 +1846,11 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.Origin |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Origin = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 23:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OriginTransferRequested", wireType)
@@ -2304,7 +2288,7 @@ type Subnet struct {
 	RirSyncBlock                 uint64       `protobuf:"varint,19,opt,name=rirSyncBlock,proto3" json:"rirSyncBlock,omitempty"`
 	OwnerOrgId                   uint64       `protobuf:"varint,20,opt,name=ownerOrgId,proto3" json:"ownerOrgId,omitempty"`
 	UserOrgId                    uint64       `protobuf:"varint,21,opt,name=userOrgId,proto3" json:"userOrgId,omitempty"`
-	Origin                       string       `protobuf:"bytes,22,opt,name=origin,proto3" json:"origin,omitempty"`
+	Origin                       uint64       `protobuf:"varint,22,opt,name=origin,proto3" json:"origin,omitempty"`
 	OriginTransferRequested      bool         `protobuf:"varint,23,opt,name=originTransferRequested,proto3" json:"originTransferRequested,omitempty"`
 	OriginTransferRequestedBlock uint64       `protobuf:"varint,24,opt,name=originTransferRequestedBlock,proto3" json:"originTransferRequestedBlock,omitempty"`
 	OriginTransferedBlock        uint64       `protobuf:"varint,25,opt,name=originTransferedBlock,proto3" json:"originTransferedBlock,omitempty"`
@@ -2484,11 +2468,11 @@ func (x *Subnet) GetUserOrgId() uint64 {
 	return 0
 }
 
-func (x *Subnet) GetOrigin() string {
+func (x *Subnet) GetOrigin() uint64 {
 	if x != nil {
 		return x.Origin
 	}
-	return ""
+	return 0
 }
 
 func (x *Subnet) GetOriginTransferRequested() bool {
@@ -2614,7 +2598,7 @@ var file_ipex_subnet_subnet_proto_rawDesc = []byte{
 	0x01, 0x28, 0x04, 0x52, 0x0a, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x12,
 	0x1c, 0x0a, 0x09, 0x75, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x15, 0x20, 0x01,
 	0x28, 0x04, 0x52, 0x09, 0x75, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x12, 0x16, 0x0a,
-	0x06, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x18, 0x16, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6f,
+	0x06, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x18, 0x16, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x6f,
 	0x72, 0x69, 0x67, 0x69, 0x6e, 0x12, 0x38, 0x0a, 0x17, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54,
 	0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64,
 	0x18, 0x17, 0x20, 0x01, 0x28, 0x08, 0x52, 0x17, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72,

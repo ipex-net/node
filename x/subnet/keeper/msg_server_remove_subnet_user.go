@@ -24,6 +24,9 @@ func (k msgServer) RemoveSubnetUser(goCtx context.Context, msg *types.MsgRemoveS
 		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
 	}
 
+	//TODO: Process contract termination logic
+
+	subnet.Origin = 0
 	//Updating the subnet
 	subnet.UserOrgId = 0
 	k.SetSubnet(ctx, subnet)

@@ -13,7 +13,7 @@ func (k msgServer) UpdateSubnetUser(goCtx context.Context, msg *types.MsgUpdateS
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// checking that user org exists
-	if !k.orgKeeper.HasOrg(ctx, msg.UserOrgId) {
+	if msg.UserOrgId == 0 || !k.orgKeeper.HasOrg(ctx, msg.UserOrgId) {
 		return nil, errorsmod.Wrapf(ErrInvalidOrgId, "org with id %d doesn't exist", msg.UserOrgId)
 	}
 
