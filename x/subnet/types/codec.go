@@ -17,6 +17,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgUpdateSubnetGeofeed{},
 	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgRemoveSubnetUser{},
+	)
 	// this line is used by starport scaffolding # 3
 
 	registry.RegisterImplementations((*sdk.Msg)(nil),

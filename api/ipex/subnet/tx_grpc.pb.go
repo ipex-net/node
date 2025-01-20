@@ -23,6 +23,7 @@ const (
 	Msg_CreateSubnet_FullMethodName        = "/ipex.subnet.Msg/CreateSubnet"
 	Msg_UpdateSubnetUser_FullMethodName    = "/ipex.subnet.Msg/UpdateSubnetUser"
 	Msg_UpdateSubnetGeofeed_FullMethodName = "/ipex.subnet.Msg/UpdateSubnetGeofeed"
+	Msg_RemoveSubnetUser_FullMethodName    = "/ipex.subnet.Msg/RemoveSubnetUser"
 )
 
 // MsgClient is the client API for Msg service.
@@ -35,6 +36,7 @@ type MsgClient interface {
 	CreateSubnet(ctx context.Context, in *MsgCreateSubnet, opts ...grpc.CallOption) (*MsgCreateSubnetResponse, error)
 	UpdateSubnetUser(ctx context.Context, in *MsgUpdateSubnetUser, opts ...grpc.CallOption) (*MsgUpdateSubnetUserResponse, error)
 	UpdateSubnetGeofeed(ctx context.Context, in *MsgUpdateSubnetGeofeed, opts ...grpc.CallOption) (*MsgUpdateSubnetGeofeedResponse, error)
+	RemoveSubnetUser(ctx context.Context, in *MsgRemoveSubnetUser, opts ...grpc.CallOption) (*MsgRemoveSubnetUserResponse, error)
 }
 
 type msgClient struct {
@@ -81,6 +83,15 @@ func (c *msgClient) UpdateSubnetGeofeed(ctx context.Context, in *MsgUpdateSubnet
 	return out, nil
 }
 
+func (c *msgClient) RemoveSubnetUser(ctx context.Context, in *MsgRemoveSubnetUser, opts ...grpc.CallOption) (*MsgRemoveSubnetUserResponse, error) {
+	out := new(MsgRemoveSubnetUserResponse)
+	err := c.cc.Invoke(ctx, Msg_RemoveSubnetUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -91,6 +102,7 @@ type MsgServer interface {
 	CreateSubnet(context.Context, *MsgCreateSubnet) (*MsgCreateSubnetResponse, error)
 	UpdateSubnetUser(context.Context, *MsgUpdateSubnetUser) (*MsgUpdateSubnetUserResponse, error)
 	UpdateSubnetGeofeed(context.Context, *MsgUpdateSubnetGeofeed) (*MsgUpdateSubnetGeofeedResponse, error)
+	RemoveSubnetUser(context.Context, *MsgRemoveSubnetUser) (*MsgRemoveSubnetUserResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -109,6 +121,9 @@ func (UnimplementedMsgServer) UpdateSubnetUser(context.Context, *MsgUpdateSubnet
 }
 func (UnimplementedMsgServer) UpdateSubnetGeofeed(context.Context, *MsgUpdateSubnetGeofeed) (*MsgUpdateSubnetGeofeedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubnetGeofeed not implemented")
+}
+func (UnimplementedMsgServer) RemoveSubnetUser(context.Context, *MsgRemoveSubnetUser) (*MsgRemoveSubnetUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveSubnetUser not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -195,6 +210,24 @@ func _Msg_UpdateSubnetGeofeed_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_RemoveSubnetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgRemoveSubnetUser)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).RemoveSubnetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_RemoveSubnetUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).RemoveSubnetUser(ctx, req.(*MsgRemoveSubnetUser))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -217,6 +250,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateSubnetGeofeed",
 			Handler:    _Msg_UpdateSubnetGeofeed_Handler,
+		},
+		{
+			MethodName: "RemoveSubnetUser",
+			Handler:    _Msg_RemoveSubnetUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

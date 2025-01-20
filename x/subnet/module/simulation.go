@@ -35,6 +35,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgUpdateSubnetGeofeed int = 100
 
+	opWeightMsgRemoveSubnetUser = "op_weight_msg_remove_subnet_user"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgRemoveSubnetUser int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -91,6 +95,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		subnetsimulation.SimulateMsgUpdateSubnetGeofeed(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgRemoveSubnetUser int
+	simState.AppParams.GetOrGenerate(opWeightMsgRemoveSubnetUser, &weightMsgRemoveSubnetUser, nil,
+		func(_ *rand.Rand) {
+			weightMsgRemoveSubnetUser = defaultWeightMsgRemoveSubnetUser
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgRemoveSubnetUser,
+		subnetsimulation.SimulateMsgRemoveSubnetUser(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -120,6 +135,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgUpdateSubnetGeofeed,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				subnetsimulation.SimulateMsgUpdateSubnetGeofeed(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgRemoveSubnetUser,
+			defaultWeightMsgRemoveSubnetUser,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				subnetsimulation.SimulateMsgRemoveSubnetUser(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

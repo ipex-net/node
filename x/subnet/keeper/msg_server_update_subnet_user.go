@@ -25,7 +25,7 @@ func (k msgServer) UpdateSubnetUser(goCtx context.Context, msg *types.MsgUpdateS
 
 	//Checking if message creator is subnet owner
 	// Verify creator is org admin
-	if !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator) {
+	if subnet.OwnerOrgId > 0 && !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator) {
 		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
 	}
 
