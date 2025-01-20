@@ -31,6 +31,5 @@ func (k msgServer) RemoveSubnetUser(goCtx context.Context, msg *types.MsgRemoveS
 	subnet.UserOrgId = 0
 	k.SetSubnet(ctx, subnet)
 
-
 	return &types.MsgRemoveSubnetUserResponse{}, nil
 }

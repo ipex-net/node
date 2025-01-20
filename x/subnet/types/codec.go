@@ -20,6 +20,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgRemoveSubnetUser{},
 	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgUpdateSubnetOrigin{},
+	)
 	// this line is used by starport scaffolding # 3
 
 	registry.RegisterImplementations((*sdk.Msg)(nil),

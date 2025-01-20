@@ -77,6 +77,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a remove-subnet-user tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
+				{
+					RpcMethod:      "UpdateSubnetOrigin",
+					Use:            "update-subnet-origin [id] [as]",
+					Short:          "Send a update-subnet-origin tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "as"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

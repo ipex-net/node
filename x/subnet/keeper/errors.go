@@ -20,4 +20,6 @@ var (
 	ErrInvalidOrgId      = sdkerrors.Register(ModuleName, 1208, "invalid org id")
 	ErrNotOrgAdmin       = sdkerrors.Register(ModuleName, 1209, "not organization admin")
 	ErrSubnetNotFound    = sdkerrors.Register(ModuleName, 1210, "invalid subnet id")
+	ErrReservedASNumber = sdkerrors.Register(ModuleName, 1211, "reserved as number")
+	ErrASNumberOutOfRange = sdkerrors.Register(ModuleName, 1212, "as number out of range")
 )
