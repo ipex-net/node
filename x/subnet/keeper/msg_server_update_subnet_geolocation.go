@@ -19,6 +19,11 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
+	//Checking that the provided values are not nil
+	if msg.Country == "" || msg.Region == "" || msg.City == "" || msg.PostalCode == "" {
+		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "Geolocation data can not be empty")
+
+	}
 	//Fetching the subnet
 	subnet, found := k.GetSubnet(ctx, msg.Id)
 	if !found {
