@@ -7,10 +7,17 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (k msgServer) UpdateSubnetOrigin(goCtx context.Context, msg *types.MsgUpdateSubnetOrigin) (*types.MsgUpdateSubnetOriginResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	//Checking if the address is correct
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
 
 	//Checking reserved AS numbers
 	//0	Reserved by [RFC7607]	[RFC7607]
@@ -23,24 +30,23 @@ func (k msgServer) UpdateSubnetOrigin(goCtx context.Context, msg *types.MsgUpdat
 	//4200000000-4294967294	For private use; reserved by [RFC6996]	[RFC6996]
 	//4294967295	Reserved by [RFC7300]	[RFC7300]
 
-	if msg.As == 0 || msg.As == 112 || msg.As == 23456 || msg.As == 65535 || msg.As == 4294967295 || 
-	(msg.As >= 64496 && msg.As <= 64511) || 
-	(msg.As >= 65536 && msg.As <= 65551) || 
-	(msg.As >= 64512 && msg.As <= 65534) || 
-	(msg.As >= 4200000000 && msg.As <= 4294967294) {
-	 return nil, errorsmod.Wrapf(ErrReservedASNumber, "reserved AS number %d", msg.As)
- 	}
+	if msg.As == 0 || msg.As == 112 || msg.As == 23456 || msg.As == 65535 || msg.As == 4294967295 ||
+		(msg.As >= 64496 && msg.As <= 64511) ||
+		(msg.As >= 65536 && msg.As <= 65551) ||
+		(msg.As >= 64512 && msg.As <= 65534) ||
+		(msg.As >= 4200000000 && msg.As <= 4294967294) {
+		return nil, errorsmod.Wrapf(ErrReservedASNumber, "reserved AS number %d", msg.As)
+	}
 
 	if msg.As <= 0 || msg.As > 4294967295 {
 		return nil, errorsmod.Wrapf(ErrASNumberOutOfRange, "AS number %d out of range", msg.As)
-	} 
-	
+	}
+
 	//Fetching the subnet
 	subnet, found := k.GetSubnet(ctx, msg.Id)
 	if !found {
 		return nil, errorsmod.Wrapf(ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
 	}
-
 
 	//Checking if message creator is an admin of the subnet user org
 	//NB only user can request origin change

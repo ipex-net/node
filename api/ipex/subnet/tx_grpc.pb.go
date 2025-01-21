@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName        = "/ipex.subnet.Msg/UpdateParams"
-	Msg_CreateSubnet_FullMethodName        = "/ipex.subnet.Msg/CreateSubnet"
-	Msg_UpdateSubnetUser_FullMethodName    = "/ipex.subnet.Msg/UpdateSubnetUser"
-	Msg_UpdateSubnetGeofeed_FullMethodName = "/ipex.subnet.Msg/UpdateSubnetGeofeed"
-	Msg_RemoveSubnetUser_FullMethodName    = "/ipex.subnet.Msg/RemoveSubnetUser"
-	Msg_UpdateSubnetOrigin_FullMethodName  = "/ipex.subnet.Msg/UpdateSubnetOrigin"
+	Msg_UpdateParams_FullMethodName            = "/ipex.subnet.Msg/UpdateParams"
+	Msg_CreateSubnet_FullMethodName            = "/ipex.subnet.Msg/CreateSubnet"
+	Msg_UpdateSubnetUser_FullMethodName        = "/ipex.subnet.Msg/UpdateSubnetUser"
+	Msg_UpdateSubnetGeofeed_FullMethodName     = "/ipex.subnet.Msg/UpdateSubnetGeofeed"
+	Msg_RemoveSubnetUser_FullMethodName        = "/ipex.subnet.Msg/RemoveSubnetUser"
+	Msg_UpdateSubnetOrigin_FullMethodName      = "/ipex.subnet.Msg/UpdateSubnetOrigin"
+	Msg_UpdateSubnetGeolocation_FullMethodName = "/ipex.subnet.Msg/UpdateSubnetGeolocation"
 )
 
 // MsgClient is the client API for Msg service.
@@ -39,6 +40,7 @@ type MsgClient interface {
 	UpdateSubnetGeofeed(ctx context.Context, in *MsgUpdateSubnetGeofeed, opts ...grpc.CallOption) (*MsgUpdateSubnetGeofeedResponse, error)
 	RemoveSubnetUser(ctx context.Context, in *MsgRemoveSubnetUser, opts ...grpc.CallOption) (*MsgRemoveSubnetUserResponse, error)
 	UpdateSubnetOrigin(ctx context.Context, in *MsgUpdateSubnetOrigin, opts ...grpc.CallOption) (*MsgUpdateSubnetOriginResponse, error)
+	UpdateSubnetGeolocation(ctx context.Context, in *MsgUpdateSubnetGeolocation, opts ...grpc.CallOption) (*MsgUpdateSubnetGeolocationResponse, error)
 }
 
 type msgClient struct {
@@ -103,6 +105,15 @@ func (c *msgClient) UpdateSubnetOrigin(ctx context.Context, in *MsgUpdateSubnetO
 	return out, nil
 }
 
+func (c *msgClient) UpdateSubnetGeolocation(ctx context.Context, in *MsgUpdateSubnetGeolocation, opts ...grpc.CallOption) (*MsgUpdateSubnetGeolocationResponse, error) {
+	out := new(MsgUpdateSubnetGeolocationResponse)
+	err := c.cc.Invoke(ctx, Msg_UpdateSubnetGeolocation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -115,6 +126,7 @@ type MsgServer interface {
 	UpdateSubnetGeofeed(context.Context, *MsgUpdateSubnetGeofeed) (*MsgUpdateSubnetGeofeedResponse, error)
 	RemoveSubnetUser(context.Context, *MsgRemoveSubnetUser) (*MsgRemoveSubnetUserResponse, error)
 	UpdateSubnetOrigin(context.Context, *MsgUpdateSubnetOrigin) (*MsgUpdateSubnetOriginResponse, error)
+	UpdateSubnetGeolocation(context.Context, *MsgUpdateSubnetGeolocation) (*MsgUpdateSubnetGeolocationResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -139,6 +151,9 @@ func (UnimplementedMsgServer) RemoveSubnetUser(context.Context, *MsgRemoveSubnet
 }
 func (UnimplementedMsgServer) UpdateSubnetOrigin(context.Context, *MsgUpdateSubnetOrigin) (*MsgUpdateSubnetOriginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubnetOrigin not implemented")
+}
+func (UnimplementedMsgServer) UpdateSubnetGeolocation(context.Context, *MsgUpdateSubnetGeolocation) (*MsgUpdateSubnetGeolocationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubnetGeolocation not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -261,6 +276,24 @@ func _Msg_UpdateSubnetOrigin_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_UpdateSubnetGeolocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateSubnetGeolocation)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateSubnetGeolocation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_UpdateSubnetGeolocation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateSubnetGeolocation(ctx, req.(*MsgUpdateSubnetGeolocation))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -291,6 +324,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateSubnetOrigin",
 			Handler:    _Msg_UpdateSubnetOrigin_Handler,
+		},
+		{
+			MethodName: "UpdateSubnetGeolocation",
+			Handler:    _Msg_UpdateSubnetGeolocation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

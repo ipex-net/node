@@ -83,6 +83,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a update-subnet-origin tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "as"}},
 				},
+				{
+					RpcMethod:      "UpdateSubnetGeolocation",
+					Use:            "update-subnet-geolocation [id] [country] [region] [city] [postal-code]",
+					Short:          "Send a update-subnet-geolocation tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "country"}, {ProtoField: "region"}, {ProtoField: "city"}, {ProtoField: "postalCode"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

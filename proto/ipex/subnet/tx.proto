@@ -16,12 +16,13 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams        (MsgUpdateParams       ) returns (MsgUpdateParamsResponse       );
-  rpc CreateSubnet        (MsgCreateSubnet       ) returns (MsgCreateSubnetResponse       );
-  rpc UpdateSubnetUser    (MsgUpdateSubnetUser   ) returns (MsgUpdateSubnetUserResponse   );
-  rpc UpdateSubnetGeofeed (MsgUpdateSubnetGeofeed) returns (MsgUpdateSubnetGeofeedResponse);
-  rpc RemoveSubnetUser    (MsgRemoveSubnetUser   ) returns (MsgRemoveSubnetUserResponse   );
-  rpc UpdateSubnetOrigin  (MsgUpdateSubnetOrigin ) returns (MsgUpdateSubnetOriginResponse );
+  rpc UpdateParams            (MsgUpdateParams           ) returns (MsgUpdateParamsResponse           );
+  rpc CreateSubnet            (MsgCreateSubnet           ) returns (MsgCreateSubnetResponse           );
+  rpc UpdateSubnetUser        (MsgUpdateSubnetUser       ) returns (MsgUpdateSubnetUserResponse       );
+  rpc UpdateSubnetGeofeed     (MsgUpdateSubnetGeofeed    ) returns (MsgUpdateSubnetGeofeedResponse    );
+  rpc RemoveSubnetUser        (MsgRemoveSubnetUser       ) returns (MsgRemoveSubnetUserResponse       );
+  rpc UpdateSubnetOrigin      (MsgUpdateSubnetOrigin     ) returns (MsgUpdateSubnetOriginResponse     );
+  rpc UpdateSubnetGeolocation (MsgUpdateSubnetGeolocation) returns (MsgUpdateSubnetGeolocationResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -89,4 +90,16 @@ message MsgUpdateSubnetOrigin {
 }
 
 message MsgUpdateSubnetOriginResponse {}
+
+message MsgUpdateSubnetGeolocation {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator    = 1;
+  uint64 id         = 2;
+  string country    = 3;
+  string region     = 4;
+  string city       = 5;
+  string postalCode = 6;
+}
+
+message MsgUpdateSubnetGeolocationResponse {}
 

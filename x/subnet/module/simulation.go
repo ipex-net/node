@@ -43,6 +43,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgUpdateSubnetOrigin int = 100
 
+	opWeightMsgUpdateSubnetGeolocation = "op_weight_msg_update_subnet_geolocation"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdateSubnetGeolocation int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -121,6 +125,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		subnetsimulation.SimulateMsgUpdateSubnetOrigin(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgUpdateSubnetGeolocation int
+	simState.AppParams.GetOrGenerate(opWeightMsgUpdateSubnetGeolocation, &weightMsgUpdateSubnetGeolocation, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateSubnetGeolocation = defaultWeightMsgUpdateSubnetGeolocation
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateSubnetGeolocation,
+		subnetsimulation.SimulateMsgUpdateSubnetGeolocation(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -166,6 +181,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgUpdateSubnetOrigin,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				subnetsimulation.SimulateMsgUpdateSubnetOrigin(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgUpdateSubnetGeolocation,
+			defaultWeightMsgUpdateSubnetGeolocation,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				subnetsimulation.SimulateMsgUpdateSubnetGeolocation(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),
