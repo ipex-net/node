@@ -8,6 +8,9 @@ import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 import "ipex/lease/params.proto";
 import "cosmos/base/v1beta1/coin.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "ipex/lease/contract.proto";
 
 option go_package = "ipex/x/lease/types";
 
@@ -43,15 +46,13 @@ message MsgUpdateParamsResponse {}
 
 message MsgCreateContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string                   creator            = 1;
-  string                   networkAddress     = 2;
-  uint64                   prefixLength       = 3;
-  string                   rir                = 4;
-  string                   countryCode        = 5;
-  string                   geofeedUrl         = 6;
-  cosmos.base.v1beta1.Coin price              = 7 [(gogoproto.nullable) = false];
-  cosmos.base.v1beta1.Coin deposit            = 8 [(gogoproto.nullable) = false];
-  uint64                   noticePeriodBlocks = 9;
+  string                   creator                  = 1;
+  uint64                   ownerOrg                 = 2;
+  cosmos.base.v1beta1.Coin price                    = 3 [(gogoproto.nullable) = false];
+  cosmos.base.v1beta1.Coin safetyDeposit            = 4 [(gogoproto.nullable) = false];
+  google.protobuf.Duration cancellationNoticePeriod = 5;
+  uint64 subnetId                                   = 6;
+  PriceAdjustement  priceAdjustementType            = 7;
 }
 
 message MsgCreateContractResponse {

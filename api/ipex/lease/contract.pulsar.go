@@ -9,64 +9,52 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	reflect "reflect"
 	sync "sync"
 )
 
 var (
-	md_Contract                           protoreflect.MessageDescriptor
-	fd_Contract_id                        protoreflect.FieldDescriptor
-	fd_Contract_networkAddress            protoreflect.FieldDescriptor
-	fd_Contract_prefixLength              protoreflect.FieldDescriptor
-	fd_Contract_rir                       protoreflect.FieldDescriptor
-	fd_Contract_countryCode               protoreflect.FieldDescriptor
-	fd_Contract_geofeedUrl                protoreflect.FieldDescriptor
-	fd_Contract_owner                     protoreflect.FieldDescriptor
-	fd_Contract_price                     protoreflect.FieldDescriptor
-	fd_Contract_deposit                   protoreflect.FieldDescriptor
-	fd_Contract_deposited                 protoreflect.FieldDescriptor
-	fd_Contract_noticePeriodBlocks        protoreflect.FieldDescriptor
-	fd_Contract_noticeSentBlock           protoreflect.FieldDescriptor
-	fd_Contract_status                    protoreflect.FieldDescriptor
-	fd_Contract_statusChangeBlock         protoreflect.FieldDescriptor
-	fd_Contract_lessee                    protoreflect.FieldDescriptor
-	fd_Contract_creationBlock             protoreflect.FieldDescriptor
-	fd_Contract_activationBlock           protoreflect.FieldDescriptor
-	fd_Contract_prepaidUntilBlock         protoreflect.FieldDescriptor
-	fd_Contract_asNumber                  protoreflect.FieldDescriptor
-	fd_Contract_asnUpdateBlock            protoreflect.FieldDescriptor
-	fd_Contract_confirmedAsNumber         protoreflect.FieldDescriptor
-	fd_Contract_asNumberConfirmationBlock protoreflect.FieldDescriptor
-	fd_Contract_contractChangeBlock       protoreflect.FieldDescriptor
+	md_Contract                          protoreflect.MessageDescriptor
+	fd_Contract_id                       protoreflect.FieldDescriptor
+	fd_Contract_subnetId                 protoreflect.FieldDescriptor
+	fd_Contract_ownerOrg                 protoreflect.FieldDescriptor
+	fd_Contract_lesseeOrg                protoreflect.FieldDescriptor
+	fd_Contract_price                    protoreflect.FieldDescriptor
+	fd_Contract_priceAdjustementType     protoreflect.FieldDescriptor
+	fd_Contract_nextPricedAdjustement    protoreflect.FieldDescriptor
+	fd_Contract_safetyDeposit            protoreflect.FieldDescriptor
+	fd_Contract_safetyDepositRetained    protoreflect.FieldDescriptor
+	fd_Contract_cancellationNoticePeriod protoreflect.FieldDescriptor
+	fd_Contract_cancellationNoticeSentAt protoreflect.FieldDescriptor
+	fd_Contract_status                   protoreflect.FieldDescriptor
+	fd_Contract_createdAt                protoreflect.FieldDescriptor
+	fd_Contract_activatedAt              protoreflect.FieldDescriptor
+	fd_Contract_prepaidUntil             protoreflect.FieldDescriptor
+	fd_Contract_updatedAt                protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_ipex_lease_contract_proto_init()
 	md_Contract = File_ipex_lease_contract_proto.Messages().ByName("Contract")
 	fd_Contract_id = md_Contract.Fields().ByName("id")
-	fd_Contract_networkAddress = md_Contract.Fields().ByName("networkAddress")
-	fd_Contract_prefixLength = md_Contract.Fields().ByName("prefixLength")
-	fd_Contract_rir = md_Contract.Fields().ByName("rir")
-	fd_Contract_countryCode = md_Contract.Fields().ByName("countryCode")
-	fd_Contract_geofeedUrl = md_Contract.Fields().ByName("geofeedUrl")
-	fd_Contract_owner = md_Contract.Fields().ByName("owner")
+	fd_Contract_subnetId = md_Contract.Fields().ByName("subnetId")
+	fd_Contract_ownerOrg = md_Contract.Fields().ByName("ownerOrg")
+	fd_Contract_lesseeOrg = md_Contract.Fields().ByName("lesseeOrg")
 	fd_Contract_price = md_Contract.Fields().ByName("price")
-	fd_Contract_deposit = md_Contract.Fields().ByName("deposit")
-	fd_Contract_deposited = md_Contract.Fields().ByName("deposited")
-	fd_Contract_noticePeriodBlocks = md_Contract.Fields().ByName("noticePeriodBlocks")
-	fd_Contract_noticeSentBlock = md_Contract.Fields().ByName("noticeSentBlock")
+	fd_Contract_priceAdjustementType = md_Contract.Fields().ByName("priceAdjustementType")
+	fd_Contract_nextPricedAdjustement = md_Contract.Fields().ByName("nextPricedAdjustement")
+	fd_Contract_safetyDeposit = md_Contract.Fields().ByName("safetyDeposit")
+	fd_Contract_safetyDepositRetained = md_Contract.Fields().ByName("safetyDepositRetained")
+	fd_Contract_cancellationNoticePeriod = md_Contract.Fields().ByName("cancellationNoticePeriod")
+	fd_Contract_cancellationNoticeSentAt = md_Contract.Fields().ByName("cancellationNoticeSentAt")
 	fd_Contract_status = md_Contract.Fields().ByName("status")
-	fd_Contract_statusChangeBlock = md_Contract.Fields().ByName("statusChangeBlock")
-	fd_Contract_lessee = md_Contract.Fields().ByName("lessee")
-	fd_Contract_creationBlock = md_Contract.Fields().ByName("creationBlock")
-	fd_Contract_activationBlock = md_Contract.Fields().ByName("activationBlock")
-	fd_Contract_prepaidUntilBlock = md_Contract.Fields().ByName("prepaidUntilBlock")
-	fd_Contract_asNumber = md_Contract.Fields().ByName("asNumber")
-	fd_Contract_asnUpdateBlock = md_Contract.Fields().ByName("asnUpdateBlock")
-	fd_Contract_confirmedAsNumber = md_Contract.Fields().ByName("confirmedAsNumber")
-	fd_Contract_asNumberConfirmationBlock = md_Contract.Fields().ByName("asNumberConfirmationBlock")
-	fd_Contract_contractChangeBlock = md_Contract.Fields().ByName("contractChangeBlock")
+	fd_Contract_createdAt = md_Contract.Fields().ByName("createdAt")
+	fd_Contract_activatedAt = md_Contract.Fields().ByName("activatedAt")
+	fd_Contract_prepaidUntil = md_Contract.Fields().ByName("prepaidUntil")
+	fd_Contract_updatedAt = md_Contract.Fields().ByName("updatedAt")
 }
 
 var _ protoreflect.Message = (*fastReflection_Contract)(nil)
@@ -140,39 +128,21 @@ func (x *fastReflection_Contract) Range(f func(protoreflect.FieldDescriptor, pro
 			return
 		}
 	}
-	if x.NetworkAddress != "" {
-		value := protoreflect.ValueOfString(x.NetworkAddress)
-		if !f(fd_Contract_networkAddress, value) {
+	if x.SubnetId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.SubnetId)
+		if !f(fd_Contract_subnetId, value) {
 			return
 		}
 	}
-	if x.PrefixLength != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.PrefixLength)
-		if !f(fd_Contract_prefixLength, value) {
+	if x.OwnerOrg != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.OwnerOrg)
+		if !f(fd_Contract_ownerOrg, value) {
 			return
 		}
 	}
-	if x.Rir != "" {
-		value := protoreflect.ValueOfString(x.Rir)
-		if !f(fd_Contract_rir, value) {
-			return
-		}
-	}
-	if x.CountryCode != "" {
-		value := protoreflect.ValueOfString(x.CountryCode)
-		if !f(fd_Contract_countryCode, value) {
-			return
-		}
-	}
-	if x.GeofeedUrl != "" {
-		value := protoreflect.ValueOfString(x.GeofeedUrl)
-		if !f(fd_Contract_geofeedUrl, value) {
-			return
-		}
-	}
-	if x.Owner != "" {
-		value := protoreflect.ValueOfString(x.Owner)
-		if !f(fd_Contract_owner, value) {
+	if x.LesseeOrg != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.LesseeOrg)
+		if !f(fd_Contract_lesseeOrg, value) {
 			return
 		}
 	}
@@ -182,27 +152,39 @@ func (x *fastReflection_Contract) Range(f func(protoreflect.FieldDescriptor, pro
 			return
 		}
 	}
-	if x.Deposit != nil {
-		value := protoreflect.ValueOfMessage(x.Deposit.ProtoReflect())
-		if !f(fd_Contract_deposit, value) {
+	if x.PriceAdjustementType != 0 {
+		value := protoreflect.ValueOfEnum((protoreflect.EnumNumber)(x.PriceAdjustementType))
+		if !f(fd_Contract_priceAdjustementType, value) {
 			return
 		}
 	}
-	if x.Deposited != nil {
-		value := protoreflect.ValueOfMessage(x.Deposited.ProtoReflect())
-		if !f(fd_Contract_deposited, value) {
+	if x.NextPricedAdjustement != nil {
+		value := protoreflect.ValueOfMessage(x.NextPricedAdjustement.ProtoReflect())
+		if !f(fd_Contract_nextPricedAdjustement, value) {
 			return
 		}
 	}
-	if x.NoticePeriodBlocks != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.NoticePeriodBlocks)
-		if !f(fd_Contract_noticePeriodBlocks, value) {
+	if x.SafetyDeposit != nil {
+		value := protoreflect.ValueOfMessage(x.SafetyDeposit.ProtoReflect())
+		if !f(fd_Contract_safetyDeposit, value) {
 			return
 		}
 	}
-	if x.NoticeSentBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.NoticeSentBlock)
-		if !f(fd_Contract_noticeSentBlock, value) {
+	if x.SafetyDepositRetained != nil {
+		value := protoreflect.ValueOfMessage(x.SafetyDepositRetained.ProtoReflect())
+		if !f(fd_Contract_safetyDepositRetained, value) {
+			return
+		}
+	}
+	if x.CancellationNoticePeriod != nil {
+		value := protoreflect.ValueOfMessage(x.CancellationNoticePeriod.ProtoReflect())
+		if !f(fd_Contract_cancellationNoticePeriod, value) {
+			return
+		}
+	}
+	if x.CancellationNoticeSentAt != nil {
+		value := protoreflect.ValueOfMessage(x.CancellationNoticeSentAt.ProtoReflect())
+		if !f(fd_Contract_cancellationNoticeSentAt, value) {
 			return
 		}
 	}
@@ -212,63 +194,27 @@ func (x *fastReflection_Contract) Range(f func(protoreflect.FieldDescriptor, pro
 			return
 		}
 	}
-	if x.StatusChangeBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.StatusChangeBlock)
-		if !f(fd_Contract_statusChangeBlock, value) {
+	if x.CreatedAt != nil {
+		value := protoreflect.ValueOfMessage(x.CreatedAt.ProtoReflect())
+		if !f(fd_Contract_createdAt, value) {
 			return
 		}
 	}
-	if x.Lessee != "" {
-		value := protoreflect.ValueOfString(x.Lessee)
-		if !f(fd_Contract_lessee, value) {
+	if x.ActivatedAt != nil {
+		value := protoreflect.ValueOfMessage(x.ActivatedAt.ProtoReflect())
+		if !f(fd_Contract_activatedAt, value) {
 			return
 		}
 	}
-	if x.CreationBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.CreationBlock)
-		if !f(fd_Contract_creationBlock, value) {
+	if x.PrepaidUntil != nil {
+		value := protoreflect.ValueOfMessage(x.PrepaidUntil.ProtoReflect())
+		if !f(fd_Contract_prepaidUntil, value) {
 			return
 		}
 	}
-	if x.ActivationBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.ActivationBlock)
-		if !f(fd_Contract_activationBlock, value) {
-			return
-		}
-	}
-	if x.PrepaidUntilBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.PrepaidUntilBlock)
-		if !f(fd_Contract_prepaidUntilBlock, value) {
-			return
-		}
-	}
-	if x.AsNumber != "" {
-		value := protoreflect.ValueOfString(x.AsNumber)
-		if !f(fd_Contract_asNumber, value) {
-			return
-		}
-	}
-	if x.AsnUpdateBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.AsnUpdateBlock)
-		if !f(fd_Contract_asnUpdateBlock, value) {
-			return
-		}
-	}
-	if x.ConfirmedAsNumber != "" {
-		value := protoreflect.ValueOfString(x.ConfirmedAsNumber)
-		if !f(fd_Contract_confirmedAsNumber, value) {
-			return
-		}
-	}
-	if x.AsNumberConfirmationBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.AsNumberConfirmationBlock)
-		if !f(fd_Contract_asNumberConfirmationBlock, value) {
-			return
-		}
-	}
-	if x.ContractChangeBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.ContractChangeBlock)
-		if !f(fd_Contract_contractChangeBlock, value) {
+	if x.UpdatedAt != nil {
+		value := protoreflect.ValueOfMessage(x.UpdatedAt.ProtoReflect())
+		if !f(fd_Contract_updatedAt, value) {
 			return
 		}
 	}
@@ -289,50 +235,36 @@ func (x *fastReflection_Contract) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	case "ipex.lease.Contract.id":
 		return x.Id != uint64(0)
-	case "ipex.lease.Contract.networkAddress":
-		return x.NetworkAddress != ""
-	case "ipex.lease.Contract.prefixLength":
-		return x.PrefixLength != uint64(0)
-	case "ipex.lease.Contract.rir":
-		return x.Rir != ""
-	case "ipex.lease.Contract.countryCode":
-		return x.CountryCode != ""
-	case "ipex.lease.Contract.geofeedUrl":
-		return x.GeofeedUrl != ""
-	case "ipex.lease.Contract.owner":
-		return x.Owner != ""
+	case "ipex.lease.Contract.subnetId":
+		return x.SubnetId != uint64(0)
+	case "ipex.lease.Contract.ownerOrg":
+		return x.OwnerOrg != uint64(0)
+	case "ipex.lease.Contract.lesseeOrg":
+		return x.LesseeOrg != uint64(0)
 	case "ipex.lease.Contract.price":
 		return x.Price != nil
-	case "ipex.lease.Contract.deposit":
-		return x.Deposit != nil
-	case "ipex.lease.Contract.deposited":
-		return x.Deposited != nil
-	case "ipex.lease.Contract.noticePeriodBlocks":
-		return x.NoticePeriodBlocks != uint64(0)
-	case "ipex.lease.Contract.noticeSentBlock":
-		return x.NoticeSentBlock != uint64(0)
+	case "ipex.lease.Contract.priceAdjustementType":
+		return x.PriceAdjustementType != 0
+	case "ipex.lease.Contract.nextPricedAdjustement":
+		return x.NextPricedAdjustement != nil
+	case "ipex.lease.Contract.safetyDeposit":
+		return x.SafetyDeposit != nil
+	case "ipex.lease.Contract.safetyDepositRetained":
+		return x.SafetyDepositRetained != nil
+	case "ipex.lease.Contract.cancellationNoticePeriod":
+		return x.CancellationNoticePeriod != nil
+	case "ipex.lease.Contract.cancellationNoticeSentAt":
+		return x.CancellationNoticeSentAt != nil
 	case "ipex.lease.Contract.status":
 		return x.Status != 0
-	case "ipex.lease.Contract.statusChangeBlock":
-		return x.StatusChangeBlock != uint64(0)
-	case "ipex.lease.Contract.lessee":
-		return x.Lessee != ""
-	case "ipex.lease.Contract.creationBlock":
-		return x.CreationBlock != uint64(0)
-	case "ipex.lease.Contract.activationBlock":
-		return x.ActivationBlock != uint64(0)
-	case "ipex.lease.Contract.prepaidUntilBlock":
-		return x.PrepaidUntilBlock != uint64(0)
-	case "ipex.lease.Contract.asNumber":
-		return x.AsNumber != ""
-	case "ipex.lease.Contract.asnUpdateBlock":
-		return x.AsnUpdateBlock != uint64(0)
-	case "ipex.lease.Contract.confirmedAsNumber":
-		return x.ConfirmedAsNumber != ""
-	case "ipex.lease.Contract.asNumberConfirmationBlock":
-		return x.AsNumberConfirmationBlock != uint64(0)
-	case "ipex.lease.Contract.contractChangeBlock":
-		return x.ContractChangeBlock != uint64(0)
+	case "ipex.lease.Contract.createdAt":
+		return x.CreatedAt != nil
+	case "ipex.lease.Contract.activatedAt":
+		return x.ActivatedAt != nil
+	case "ipex.lease.Contract.prepaidUntil":
+		return x.PrepaidUntil != nil
+	case "ipex.lease.Contract.updatedAt":
+		return x.UpdatedAt != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.Contract"))
@@ -351,50 +283,36 @@ func (x *fastReflection_Contract) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "ipex.lease.Contract.id":
 		x.Id = uint64(0)
-	case "ipex.lease.Contract.networkAddress":
-		x.NetworkAddress = ""
-	case "ipex.lease.Contract.prefixLength":
-		x.PrefixLength = uint64(0)
-	case "ipex.lease.Contract.rir":
-		x.Rir = ""
-	case "ipex.lease.Contract.countryCode":
-		x.CountryCode = ""
-	case "ipex.lease.Contract.geofeedUrl":
-		x.GeofeedUrl = ""
-	case "ipex.lease.Contract.owner":
-		x.Owner = ""
+	case "ipex.lease.Contract.subnetId":
+		x.SubnetId = uint64(0)
+	case "ipex.lease.Contract.ownerOrg":
+		x.OwnerOrg = uint64(0)
+	case "ipex.lease.Contract.lesseeOrg":
+		x.LesseeOrg = uint64(0)
 	case "ipex.lease.Contract.price":
 		x.Price = nil
-	case "ipex.lease.Contract.deposit":
-		x.Deposit = nil
-	case "ipex.lease.Contract.deposited":
-		x.Deposited = nil
-	case "ipex.lease.Contract.noticePeriodBlocks":
-		x.NoticePeriodBlocks = uint64(0)
-	case "ipex.lease.Contract.noticeSentBlock":
-		x.NoticeSentBlock = uint64(0)
+	case "ipex.lease.Contract.priceAdjustementType":
+		x.PriceAdjustementType = 0
+	case "ipex.lease.Contract.nextPricedAdjustement":
+		x.NextPricedAdjustement = nil
+	case "ipex.lease.Contract.safetyDeposit":
+		x.SafetyDeposit = nil
+	case "ipex.lease.Contract.safetyDepositRetained":
+		x.SafetyDepositRetained = nil
+	case "ipex.lease.Contract.cancellationNoticePeriod":
+		x.CancellationNoticePeriod = nil
+	case "ipex.lease.Contract.cancellationNoticeSentAt":
+		x.CancellationNoticeSentAt = nil
 	case "ipex.lease.Contract.status":
 		x.Status = 0
-	case "ipex.lease.Contract.statusChangeBlock":
-		x.StatusChangeBlock = uint64(0)
-	case "ipex.lease.Contract.lessee":
-		x.Lessee = ""
-	case "ipex.lease.Contract.creationBlock":
-		x.CreationBlock = uint64(0)
-	case "ipex.lease.Contract.activationBlock":
-		x.ActivationBlock = uint64(0)
-	case "ipex.lease.Contract.prepaidUntilBlock":
-		x.PrepaidUntilBlock = uint64(0)
-	case "ipex.lease.Contract.asNumber":
-		x.AsNumber = ""
-	case "ipex.lease.Contract.asnUpdateBlock":
-		x.AsnUpdateBlock = uint64(0)
-	case "ipex.lease.Contract.confirmedAsNumber":
-		x.ConfirmedAsNumber = ""
-	case "ipex.lease.Contract.asNumberConfirmationBlock":
-		x.AsNumberConfirmationBlock = uint64(0)
-	case "ipex.lease.Contract.contractChangeBlock":
-		x.ContractChangeBlock = uint64(0)
+	case "ipex.lease.Contract.createdAt":
+		x.CreatedAt = nil
+	case "ipex.lease.Contract.activatedAt":
+		x.ActivatedAt = nil
+	case "ipex.lease.Contract.prepaidUntil":
+		x.PrepaidUntil = nil
+	case "ipex.lease.Contract.updatedAt":
+		x.UpdatedAt = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.Contract"))
@@ -414,72 +332,51 @@ func (x *fastReflection_Contract) Get(descriptor protoreflect.FieldDescriptor) p
 	case "ipex.lease.Contract.id":
 		value := x.Id
 		return protoreflect.ValueOfUint64(value)
-	case "ipex.lease.Contract.networkAddress":
-		value := x.NetworkAddress
-		return protoreflect.ValueOfString(value)
-	case "ipex.lease.Contract.prefixLength":
-		value := x.PrefixLength
+	case "ipex.lease.Contract.subnetId":
+		value := x.SubnetId
 		return protoreflect.ValueOfUint64(value)
-	case "ipex.lease.Contract.rir":
-		value := x.Rir
-		return protoreflect.ValueOfString(value)
-	case "ipex.lease.Contract.countryCode":
-		value := x.CountryCode
-		return protoreflect.ValueOfString(value)
-	case "ipex.lease.Contract.geofeedUrl":
-		value := x.GeofeedUrl
-		return protoreflect.ValueOfString(value)
-	case "ipex.lease.Contract.owner":
-		value := x.Owner
-		return protoreflect.ValueOfString(value)
+	case "ipex.lease.Contract.ownerOrg":
+		value := x.OwnerOrg
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.Contract.lesseeOrg":
+		value := x.LesseeOrg
+		return protoreflect.ValueOfUint64(value)
 	case "ipex.lease.Contract.price":
 		value := x.Price
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "ipex.lease.Contract.deposit":
-		value := x.Deposit
+	case "ipex.lease.Contract.priceAdjustementType":
+		value := x.PriceAdjustementType
+		return protoreflect.ValueOfEnum((protoreflect.EnumNumber)(value))
+	case "ipex.lease.Contract.nextPricedAdjustement":
+		value := x.NextPricedAdjustement
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "ipex.lease.Contract.deposited":
-		value := x.Deposited
+	case "ipex.lease.Contract.safetyDeposit":
+		value := x.SafetyDeposit
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "ipex.lease.Contract.noticePeriodBlocks":
-		value := x.NoticePeriodBlocks
-		return protoreflect.ValueOfUint64(value)
-	case "ipex.lease.Contract.noticeSentBlock":
-		value := x.NoticeSentBlock
-		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.Contract.safetyDepositRetained":
+		value := x.SafetyDepositRetained
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.lease.Contract.cancellationNoticePeriod":
+		value := x.CancellationNoticePeriod
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.lease.Contract.cancellationNoticeSentAt":
+		value := x.CancellationNoticeSentAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.lease.Contract.status":
 		value := x.Status
 		return protoreflect.ValueOfEnum((protoreflect.EnumNumber)(value))
-	case "ipex.lease.Contract.statusChangeBlock":
-		value := x.StatusChangeBlock
-		return protoreflect.ValueOfUint64(value)
-	case "ipex.lease.Contract.lessee":
-		value := x.Lessee
-		return protoreflect.ValueOfString(value)
-	case "ipex.lease.Contract.creationBlock":
-		value := x.CreationBlock
-		return protoreflect.ValueOfUint64(value)
-	case "ipex.lease.Contract.activationBlock":
-		value := x.ActivationBlock
-		return protoreflect.ValueOfUint64(value)
-	case "ipex.lease.Contract.prepaidUntilBlock":
-		value := x.PrepaidUntilBlock
-		return protoreflect.ValueOfUint64(value)
-	case "ipex.lease.Contract.asNumber":
-		value := x.AsNumber
-		return protoreflect.ValueOfString(value)
-	case "ipex.lease.Contract.asnUpdateBlock":
-		value := x.AsnUpdateBlock
-		return protoreflect.ValueOfUint64(value)
-	case "ipex.lease.Contract.confirmedAsNumber":
-		value := x.ConfirmedAsNumber
-		return protoreflect.ValueOfString(value)
-	case "ipex.lease.Contract.asNumberConfirmationBlock":
-		value := x.AsNumberConfirmationBlock
-		return protoreflect.ValueOfUint64(value)
-	case "ipex.lease.Contract.contractChangeBlock":
-		value := x.ContractChangeBlock
-		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.Contract.createdAt":
+		value := x.CreatedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.lease.Contract.activatedAt":
+		value := x.ActivatedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.lease.Contract.prepaidUntil":
+		value := x.PrepaidUntil
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.lease.Contract.updatedAt":
+		value := x.UpdatedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.Contract"))
@@ -502,50 +399,36 @@ func (x *fastReflection_Contract) Set(fd protoreflect.FieldDescriptor, value pro
 	switch fd.FullName() {
 	case "ipex.lease.Contract.id":
 		x.Id = value.Uint()
-	case "ipex.lease.Contract.networkAddress":
-		x.NetworkAddress = value.Interface().(string)
-	case "ipex.lease.Contract.prefixLength":
-		x.PrefixLength = value.Uint()
-	case "ipex.lease.Contract.rir":
-		x.Rir = value.Interface().(string)
-	case "ipex.lease.Contract.countryCode":
-		x.CountryCode = value.Interface().(string)
-	case "ipex.lease.Contract.geofeedUrl":
-		x.GeofeedUrl = value.Interface().(string)
-	case "ipex.lease.Contract.owner":
-		x.Owner = value.Interface().(string)
+	case "ipex.lease.Contract.subnetId":
+		x.SubnetId = value.Uint()
+	case "ipex.lease.Contract.ownerOrg":
+		x.OwnerOrg = value.Uint()
+	case "ipex.lease.Contract.lesseeOrg":
+		x.LesseeOrg = value.Uint()
 	case "ipex.lease.Contract.price":
 		x.Price = value.Message().Interface().(*v1beta1.Coin)
-	case "ipex.lease.Contract.deposit":
-		x.Deposit = value.Message().Interface().(*v1beta1.Coin)
-	case "ipex.lease.Contract.deposited":
-		x.Deposited = value.Message().Interface().(*v1beta1.Coin)
-	case "ipex.lease.Contract.noticePeriodBlocks":
-		x.NoticePeriodBlocks = value.Uint()
-	case "ipex.lease.Contract.noticeSentBlock":
-		x.NoticeSentBlock = value.Uint()
+	case "ipex.lease.Contract.priceAdjustementType":
+		x.PriceAdjustementType = (PriceAdjustement)(value.Enum())
+	case "ipex.lease.Contract.nextPricedAdjustement":
+		x.NextPricedAdjustement = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.lease.Contract.safetyDeposit":
+		x.SafetyDeposit = value.Message().Interface().(*v1beta1.Coin)
+	case "ipex.lease.Contract.safetyDepositRetained":
+		x.SafetyDepositRetained = value.Message().Interface().(*v1beta1.Coin)
+	case "ipex.lease.Contract.cancellationNoticePeriod":
+		x.CancellationNoticePeriod = value.Message().Interface().(*durationpb.Duration)
+	case "ipex.lease.Contract.cancellationNoticeSentAt":
+		x.CancellationNoticeSentAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.lease.Contract.status":
 		x.Status = (ContractStatus)(value.Enum())
-	case "ipex.lease.Contract.statusChangeBlock":
-		x.StatusChangeBlock = value.Uint()
-	case "ipex.lease.Contract.lessee":
-		x.Lessee = value.Interface().(string)
-	case "ipex.lease.Contract.creationBlock":
-		x.CreationBlock = value.Uint()
-	case "ipex.lease.Contract.activationBlock":
-		x.ActivationBlock = value.Uint()
-	case "ipex.lease.Contract.prepaidUntilBlock":
-		x.PrepaidUntilBlock = value.Uint()
-	case "ipex.lease.Contract.asNumber":
-		x.AsNumber = value.Interface().(string)
-	case "ipex.lease.Contract.asnUpdateBlock":
-		x.AsnUpdateBlock = value.Uint()
-	case "ipex.lease.Contract.confirmedAsNumber":
-		x.ConfirmedAsNumber = value.Interface().(string)
-	case "ipex.lease.Contract.asNumberConfirmationBlock":
-		x.AsNumberConfirmationBlock = value.Uint()
-	case "ipex.lease.Contract.contractChangeBlock":
-		x.ContractChangeBlock = value.Uint()
+	case "ipex.lease.Contract.createdAt":
+		x.CreatedAt = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.lease.Contract.activatedAt":
+		x.ActivatedAt = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.lease.Contract.prepaidUntil":
+		x.PrepaidUntil = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.lease.Contract.updatedAt":
+		x.UpdatedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.Contract"))
@@ -571,56 +454,63 @@ func (x *fastReflection_Contract) Mutable(fd protoreflect.FieldDescriptor) proto
 			x.Price = new(v1beta1.Coin)
 		}
 		return protoreflect.ValueOfMessage(x.Price.ProtoReflect())
-	case "ipex.lease.Contract.deposit":
-		if x.Deposit == nil {
-			x.Deposit = new(v1beta1.Coin)
+	case "ipex.lease.Contract.nextPricedAdjustement":
+		if x.NextPricedAdjustement == nil {
+			x.NextPricedAdjustement = new(timestamppb.Timestamp)
 		}
-		return protoreflect.ValueOfMessage(x.Deposit.ProtoReflect())
-	case "ipex.lease.Contract.deposited":
-		if x.Deposited == nil {
-			x.Deposited = new(v1beta1.Coin)
+		return protoreflect.ValueOfMessage(x.NextPricedAdjustement.ProtoReflect())
+	case "ipex.lease.Contract.safetyDeposit":
+		if x.SafetyDeposit == nil {
+			x.SafetyDeposit = new(v1beta1.Coin)
 		}
-		return protoreflect.ValueOfMessage(x.Deposited.ProtoReflect())
+		return protoreflect.ValueOfMessage(x.SafetyDeposit.ProtoReflect())
+	case "ipex.lease.Contract.safetyDepositRetained":
+		if x.SafetyDepositRetained == nil {
+			x.SafetyDepositRetained = new(v1beta1.Coin)
+		}
+		return protoreflect.ValueOfMessage(x.SafetyDepositRetained.ProtoReflect())
+	case "ipex.lease.Contract.cancellationNoticePeriod":
+		if x.CancellationNoticePeriod == nil {
+			x.CancellationNoticePeriod = new(durationpb.Duration)
+		}
+		return protoreflect.ValueOfMessage(x.CancellationNoticePeriod.ProtoReflect())
+	case "ipex.lease.Contract.cancellationNoticeSentAt":
+		if x.CancellationNoticeSentAt == nil {
+			x.CancellationNoticeSentAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.CancellationNoticeSentAt.ProtoReflect())
+	case "ipex.lease.Contract.createdAt":
+		if x.CreatedAt == nil {
+			x.CreatedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.CreatedAt.ProtoReflect())
+	case "ipex.lease.Contract.activatedAt":
+		if x.ActivatedAt == nil {
+			x.ActivatedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.ActivatedAt.ProtoReflect())
+	case "ipex.lease.Contract.prepaidUntil":
+		if x.PrepaidUntil == nil {
+			x.PrepaidUntil = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.PrepaidUntil.ProtoReflect())
+	case "ipex.lease.Contract.updatedAt":
+		if x.UpdatedAt == nil {
+			x.UpdatedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.UpdatedAt.ProtoReflect())
 	case "ipex.lease.Contract.id":
 		panic(fmt.Errorf("field id of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.networkAddress":
-		panic(fmt.Errorf("field networkAddress of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.prefixLength":
-		panic(fmt.Errorf("field prefixLength of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.rir":
-		panic(fmt.Errorf("field rir of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.countryCode":
-		panic(fmt.Errorf("field countryCode of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.geofeedUrl":
-		panic(fmt.Errorf("field geofeedUrl of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.owner":
-		panic(fmt.Errorf("field owner of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.noticePeriodBlocks":
-		panic(fmt.Errorf("field noticePeriodBlocks of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.noticeSentBlock":
-		panic(fmt.Errorf("field noticeSentBlock of message ipex.lease.Contract is not mutable"))
+	case "ipex.lease.Contract.subnetId":
+		panic(fmt.Errorf("field subnetId of message ipex.lease.Contract is not mutable"))
+	case "ipex.lease.Contract.ownerOrg":
+		panic(fmt.Errorf("field ownerOrg of message ipex.lease.Contract is not mutable"))
+	case "ipex.lease.Contract.lesseeOrg":
+		panic(fmt.Errorf("field lesseeOrg of message ipex.lease.Contract is not mutable"))
+	case "ipex.lease.Contract.priceAdjustementType":
+		panic(fmt.Errorf("field priceAdjustementType of message ipex.lease.Contract is not mutable"))
 	case "ipex.lease.Contract.status":
 		panic(fmt.Errorf("field status of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.statusChangeBlock":
-		panic(fmt.Errorf("field statusChangeBlock of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.lessee":
-		panic(fmt.Errorf("field lessee of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.creationBlock":
-		panic(fmt.Errorf("field creationBlock of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.activationBlock":
-		panic(fmt.Errorf("field activationBlock of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.prepaidUntilBlock":
-		panic(fmt.Errorf("field prepaidUntilBlock of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.asNumber":
-		panic(fmt.Errorf("field asNumber of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.asnUpdateBlock":
-		panic(fmt.Errorf("field asnUpdateBlock of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.confirmedAsNumber":
-		panic(fmt.Errorf("field confirmedAsNumber of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.asNumberConfirmationBlock":
-		panic(fmt.Errorf("field asNumberConfirmationBlock of message ipex.lease.Contract is not mutable"))
-	case "ipex.lease.Contract.contractChangeBlock":
-		panic(fmt.Errorf("field contractChangeBlock of message ipex.lease.Contract is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.Contract"))
@@ -636,53 +526,46 @@ func (x *fastReflection_Contract) NewField(fd protoreflect.FieldDescriptor) prot
 	switch fd.FullName() {
 	case "ipex.lease.Contract.id":
 		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.lease.Contract.networkAddress":
-		return protoreflect.ValueOfString("")
-	case "ipex.lease.Contract.prefixLength":
+	case "ipex.lease.Contract.subnetId":
 		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.lease.Contract.rir":
-		return protoreflect.ValueOfString("")
-	case "ipex.lease.Contract.countryCode":
-		return protoreflect.ValueOfString("")
-	case "ipex.lease.Contract.geofeedUrl":
-		return protoreflect.ValueOfString("")
-	case "ipex.lease.Contract.owner":
-		return protoreflect.ValueOfString("")
+	case "ipex.lease.Contract.ownerOrg":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.Contract.lesseeOrg":
+		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.lease.Contract.price":
 		m := new(v1beta1.Coin)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "ipex.lease.Contract.deposit":
+	case "ipex.lease.Contract.priceAdjustementType":
+		return protoreflect.ValueOfEnum(0)
+	case "ipex.lease.Contract.nextPricedAdjustement":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.lease.Contract.safetyDeposit":
 		m := new(v1beta1.Coin)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "ipex.lease.Contract.deposited":
+	case "ipex.lease.Contract.safetyDepositRetained":
 		m := new(v1beta1.Coin)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "ipex.lease.Contract.noticePeriodBlocks":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.lease.Contract.noticeSentBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.Contract.cancellationNoticePeriod":
+		m := new(durationpb.Duration)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.lease.Contract.cancellationNoticeSentAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.lease.Contract.status":
 		return protoreflect.ValueOfEnum(0)
-	case "ipex.lease.Contract.statusChangeBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.lease.Contract.lessee":
-		return protoreflect.ValueOfString("")
-	case "ipex.lease.Contract.creationBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.lease.Contract.activationBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.lease.Contract.prepaidUntilBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.lease.Contract.asNumber":
-		return protoreflect.ValueOfString("")
-	case "ipex.lease.Contract.asnUpdateBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.lease.Contract.confirmedAsNumber":
-		return protoreflect.ValueOfString("")
-	case "ipex.lease.Contract.asNumberConfirmationBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.lease.Contract.contractChangeBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.Contract.createdAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.lease.Contract.activatedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.lease.Contract.prepaidUntil":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.lease.Contract.updatedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.Contract"))
@@ -755,82 +638,60 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 		if x.Id != 0 {
 			n += 1 + runtime.Sov(uint64(x.Id))
 		}
-		l = len(x.NetworkAddress)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.SubnetId != 0 {
+			n += 1 + runtime.Sov(uint64(x.SubnetId))
 		}
-		if x.PrefixLength != 0 {
-			n += 1 + runtime.Sov(uint64(x.PrefixLength))
+		if x.OwnerOrg != 0 {
+			n += 1 + runtime.Sov(uint64(x.OwnerOrg))
 		}
-		l = len(x.Rir)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		l = len(x.CountryCode)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		l = len(x.GeofeedUrl)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		l = len(x.Owner)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.LesseeOrg != 0 {
+			n += 1 + runtime.Sov(uint64(x.LesseeOrg))
 		}
 		if x.Price != nil {
 			l = options.Size(x.Price)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Deposit != nil {
-			l = options.Size(x.Deposit)
+		if x.PriceAdjustementType != 0 {
+			n += 1 + runtime.Sov(uint64(x.PriceAdjustementType))
+		}
+		if x.NextPricedAdjustement != nil {
+			l = options.Size(x.NextPricedAdjustement)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Deposited != nil {
-			l = options.Size(x.Deposited)
+		if x.SafetyDeposit != nil {
+			l = options.Size(x.SafetyDeposit)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.NoticePeriodBlocks != 0 {
-			n += 1 + runtime.Sov(uint64(x.NoticePeriodBlocks))
+		if x.SafetyDepositRetained != nil {
+			l = options.Size(x.SafetyDepositRetained)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.NoticeSentBlock != 0 {
-			n += 1 + runtime.Sov(uint64(x.NoticeSentBlock))
+		if x.CancellationNoticePeriod != nil {
+			l = options.Size(x.CancellationNoticePeriod)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.CancellationNoticeSentAt != nil {
+			l = options.Size(x.CancellationNoticeSentAt)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.Status != 0 {
 			n += 1 + runtime.Sov(uint64(x.Status))
 		}
-		if x.StatusChangeBlock != 0 {
-			n += 1 + runtime.Sov(uint64(x.StatusChangeBlock))
-		}
-		l = len(x.Lessee)
-		if l > 0 {
+		if x.CreatedAt != nil {
+			l = options.Size(x.CreatedAt)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.CreationBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.CreationBlock))
+		if x.ActivatedAt != nil {
+			l = options.Size(x.ActivatedAt)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.ActivationBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.ActivationBlock))
+		if x.PrepaidUntil != nil {
+			l = options.Size(x.PrepaidUntil)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.PrepaidUntilBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.PrepaidUntilBlock))
-		}
-		l = len(x.AsNumber)
-		if l > 0 {
+		if x.UpdatedAt != nil {
+			l = options.Size(x.UpdatedAt)
 			n += 2 + l + runtime.Sov(uint64(l))
-		}
-		if x.AsnUpdateBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.AsnUpdateBlock))
-		}
-		l = len(x.ConfirmedAsNumber)
-		if l > 0 {
-			n += 2 + l + runtime.Sov(uint64(l))
-		}
-		if x.AsNumberConfirmationBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.AsNumberConfirmationBlock))
-		}
-		if x.ContractChangeBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.ContractChangeBlock))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -861,95 +722,85 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.ContractChangeBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.ContractChangeBlock))
+		if x.UpdatedAt != nil {
+			encoded, err := options.Marshal(x.UpdatedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x1
 			i--
-			dAtA[i] = 0xb8
+			dAtA[i] = 0x82
 		}
-		if x.AsNumberConfirmationBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.AsNumberConfirmationBlock))
-			i--
-			dAtA[i] = 0x1
-			i--
-			dAtA[i] = 0xb0
-		}
-		if len(x.ConfirmedAsNumber) > 0 {
-			i -= len(x.ConfirmedAsNumber)
-			copy(dAtA[i:], x.ConfirmedAsNumber)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ConfirmedAsNumber)))
-			i--
-			dAtA[i] = 0x1
-			i--
-			dAtA[i] = 0xaa
-		}
-		if x.AsnUpdateBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.AsnUpdateBlock))
-			i--
-			dAtA[i] = 0x1
-			i--
-			dAtA[i] = 0xa0
-		}
-		if len(x.AsNumber) > 0 {
-			i -= len(x.AsNumber)
-			copy(dAtA[i:], x.AsNumber)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AsNumber)))
-			i--
-			dAtA[i] = 0x1
-			i--
-			dAtA[i] = 0x9a
-		}
-		if x.PrepaidUntilBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.PrepaidUntilBlock))
-			i--
-			dAtA[i] = 0x1
-			i--
-			dAtA[i] = 0x90
-		}
-		if x.ActivationBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.ActivationBlock))
-			i--
-			dAtA[i] = 0x1
-			i--
-			dAtA[i] = 0x88
-		}
-		if x.CreationBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.CreationBlock))
-			i--
-			dAtA[i] = 0x1
-			i--
-			dAtA[i] = 0x80
-		}
-		if len(x.Lessee) > 0 {
-			i -= len(x.Lessee)
-			copy(dAtA[i:], x.Lessee)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Lessee)))
+		if x.PrepaidUntil != nil {
+			encoded, err := options.Marshal(x.PrepaidUntil)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x7a
 		}
-		if x.StatusChangeBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.StatusChangeBlock))
+		if x.ActivatedAt != nil {
+			encoded, err := options.Marshal(x.ActivatedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x70
+			dAtA[i] = 0x72
+		}
+		if x.CreatedAt != nil {
+			encoded, err := options.Marshal(x.CreatedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x6a
 		}
 		if x.Status != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.Status))
 			i--
-			dAtA[i] = 0x68
-		}
-		if x.NoticeSentBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.NoticeSentBlock))
-			i--
 			dAtA[i] = 0x60
 		}
-		if x.NoticePeriodBlocks != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.NoticePeriodBlocks))
+		if x.CancellationNoticeSentAt != nil {
+			encoded, err := options.Marshal(x.CancellationNoticeSentAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x58
+			dAtA[i] = 0x5a
 		}
-		if x.Deposited != nil {
-			encoded, err := options.Marshal(x.Deposited)
+		if x.CancellationNoticePeriod != nil {
+			encoded, err := options.Marshal(x.CancellationNoticePeriod)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -962,8 +813,8 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x52
 		}
-		if x.Deposit != nil {
-			encoded, err := options.Marshal(x.Deposit)
+		if x.SafetyDepositRetained != nil {
+			encoded, err := options.Marshal(x.SafetyDepositRetained)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -975,6 +826,39 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x4a
+		}
+		if x.SafetyDeposit != nil {
+			encoded, err := options.Marshal(x.SafetyDeposit)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x42
+		}
+		if x.NextPricedAdjustement != nil {
+			encoded, err := options.Marshal(x.NextPricedAdjustement)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x3a
+		}
+		if x.PriceAdjustementType != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.PriceAdjustementType))
+			i--
+			dAtA[i] = 0x30
 		}
 		if x.Price != nil {
 			encoded, err := options.Marshal(x.Price)
@@ -988,47 +872,22 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 			copy(dAtA[i:], encoded)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x42
-		}
-		if len(x.Owner) > 0 {
-			i -= len(x.Owner)
-			copy(dAtA[i:], x.Owner)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Owner)))
-			i--
-			dAtA[i] = 0x3a
-		}
-		if len(x.GeofeedUrl) > 0 {
-			i -= len(x.GeofeedUrl)
-			copy(dAtA[i:], x.GeofeedUrl)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.GeofeedUrl)))
-			i--
-			dAtA[i] = 0x32
-		}
-		if len(x.CountryCode) > 0 {
-			i -= len(x.CountryCode)
-			copy(dAtA[i:], x.CountryCode)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.CountryCode)))
-			i--
 			dAtA[i] = 0x2a
 		}
-		if len(x.Rir) > 0 {
-			i -= len(x.Rir)
-			copy(dAtA[i:], x.Rir)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Rir)))
+		if x.LesseeOrg != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.LesseeOrg))
 			i--
-			dAtA[i] = 0x22
+			dAtA[i] = 0x20
 		}
-		if x.PrefixLength != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.PrefixLength))
+		if x.OwnerOrg != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.OwnerOrg))
 			i--
 			dAtA[i] = 0x18
 		}
-		if len(x.NetworkAddress) > 0 {
-			i -= len(x.NetworkAddress)
-			copy(dAtA[i:], x.NetworkAddress)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.NetworkAddress)))
+		if x.SubnetId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.SubnetId))
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x10
 		}
 		if x.Id != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.Id))
@@ -1104,10 +963,10 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 					}
 				}
 			case 2:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NetworkAddress", wireType)
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SubnetId", wireType)
 				}
-				var stringLen uint64
+				x.SubnetId = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1117,29 +976,16 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.SubnetId |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.NetworkAddress = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 3:
 				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field PrefixLength", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OwnerOrg", wireType)
 				}
-				x.PrefixLength = 0
+				x.OwnerOrg = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1149,16 +995,16 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.PrefixLength |= uint64(b&0x7F) << shift
+					x.OwnerOrg |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
 			case 4:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Rir", wireType)
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LesseeOrg", wireType)
 				}
-				var stringLen uint64
+				x.LesseeOrg = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1168,121 +1014,12 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.LesseeOrg |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Rir = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 5:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CountryCode", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.CountryCode = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 6:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GeofeedUrl", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.GeofeedUrl = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 7:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Owner = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 8:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Price", wireType)
 				}
@@ -1318,9 +1055,28 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
-			case 9:
+			case 6:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field PriceAdjustementType", wireType)
+				}
+				x.PriceAdjustementType = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.PriceAdjustementType |= PriceAdjustement(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 7:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Deposit", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NextPricedAdjustement", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -1347,16 +1103,88 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Deposit == nil {
-					x.Deposit = &v1beta1.Coin{}
+				if x.NextPricedAdjustement == nil {
+					x.NextPricedAdjustement = &timestamppb.Timestamp{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Deposit); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.NextPricedAdjustement); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 8:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SafetyDeposit", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.SafetyDeposit == nil {
+					x.SafetyDeposit = &v1beta1.Coin{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.SafetyDeposit); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 9:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SafetyDepositRetained", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.SafetyDepositRetained == nil {
+					x.SafetyDepositRetained = &v1beta1.Coin{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.SafetyDepositRetained); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
 			case 10:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Deposited", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CancellationNoticePeriod", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -1383,18 +1211,18 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Deposited == nil {
-					x.Deposited = &v1beta1.Coin{}
+				if x.CancellationNoticePeriod == nil {
+					x.CancellationNoticePeriod = &durationpb.Duration{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Deposited); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CancellationNoticePeriod); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
 			case 11:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NoticePeriodBlocks", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CancellationNoticeSentAt", wireType)
 				}
-				x.NoticePeriodBlocks = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1404,31 +1232,29 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.NoticePeriodBlocks |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.CancellationNoticeSentAt == nil {
+					x.CancellationNoticeSentAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CancellationNoticeSentAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 12:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NoticeSentBlock", wireType)
-				}
-				x.NoticeSentBlock = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.NoticeSentBlock |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			case 13:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
 				}
@@ -1447,11 +1273,11 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 14:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field StatusChangeBlock", wireType)
+			case 13:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreatedAt", wireType)
 				}
-				x.StatusChangeBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1461,16 +1287,69 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.StatusChangeBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.CreatedAt == nil {
+					x.CreatedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CreatedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 14:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ActivatedAt", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.ActivatedAt == nil {
+					x.ActivatedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.ActivatedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 15:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Lessee", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field PrepaidUntil", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1480,86 +1359,33 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Lessee = string(dAtA[iNdEx:postIndex])
+				if x.PrepaidUntil == nil {
+					x.PrepaidUntil = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.PrepaidUntil); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 16:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreationBlock", wireType)
-				}
-				x.CreationBlock = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.CreationBlock |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			case 17:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ActivationBlock", wireType)
-				}
-				x.ActivationBlock = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.ActivationBlock |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			case 18:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field PrepaidUntilBlock", wireType)
-				}
-				x.PrepaidUntilBlock = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.PrepaidUntilBlock |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			case 19:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AsNumber", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UpdatedAt", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1569,113 +1395,28 @@ func (x *fastReflection_Contract) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.AsNumber = string(dAtA[iNdEx:postIndex])
+				if x.UpdatedAt == nil {
+					x.UpdatedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.UpdatedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
-			case 20:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AsnUpdateBlock", wireType)
-				}
-				x.AsnUpdateBlock = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.AsnUpdateBlock |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			case 21:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ConfirmedAsNumber", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.ConfirmedAsNumber = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 22:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AsNumberConfirmationBlock", wireType)
-				}
-				x.AsNumberConfirmationBlock = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.AsNumberConfirmationBlock |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			case 23:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ContractChangeBlock", wireType)
-				}
-				x.ContractChangeBlock = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.ContractChangeBlock |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -1785,34 +1526,82 @@ func (ContractStatus) EnumDescriptor() ([]byte, []int) {
 	return file_ipex_lease_contract_proto_rawDescGZIP(), []int{0}
 }
 
+type PriceAdjustement int32
+
+const (
+	PriceAdjustement_PRICE_ADJUSTEMENT_NONE         PriceAdjustement = 0
+	PriceAdjustement_PRICE_ADJUSTEMENT_MONTHLY      PriceAdjustement = 1
+	PriceAdjustement_PRICE_ADJUSTEMENT_QUARTERLY    PriceAdjustement = 2
+	PriceAdjustement_PRICE_ADJUSTEMENT_SEMIANNUALLY PriceAdjustement = 3
+	PriceAdjustement_PRICE_ADJUSTEMENT_ANNUALLY     PriceAdjustement = 4
+)
+
+// Enum value maps for PriceAdjustement.
+var (
+	PriceAdjustement_name = map[int32]string{
+		0: "PRICE_ADJUSTEMENT_NONE",
+		1: "PRICE_ADJUSTEMENT_MONTHLY",
+		2: "PRICE_ADJUSTEMENT_QUARTERLY",
+		3: "PRICE_ADJUSTEMENT_SEMIANNUALLY",
+		4: "PRICE_ADJUSTEMENT_ANNUALLY",
+	}
+	PriceAdjustement_value = map[string]int32{
+		"PRICE_ADJUSTEMENT_NONE":         0,
+		"PRICE_ADJUSTEMENT_MONTHLY":      1,
+		"PRICE_ADJUSTEMENT_QUARTERLY":    2,
+		"PRICE_ADJUSTEMENT_SEMIANNUALLY": 3,
+		"PRICE_ADJUSTEMENT_ANNUALLY":     4,
+	}
+)
+
+func (x PriceAdjustement) Enum() *PriceAdjustement {
+	p := new(PriceAdjustement)
+	*p = x
+	return p
+}
+
+func (x PriceAdjustement) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PriceAdjustement) Descriptor() protoreflect.EnumDescriptor {
+	return file_ipex_lease_contract_proto_enumTypes[1].Descriptor()
+}
+
+func (PriceAdjustement) Type() protoreflect.EnumType {
+	return &file_ipex_lease_contract_proto_enumTypes[1]
+}
+
+func (x PriceAdjustement) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PriceAdjustement.Descriptor instead.
+func (PriceAdjustement) EnumDescriptor() ([]byte, []int) {
+	return file_ipex_lease_contract_proto_rawDescGZIP(), []int{1}
+}
+
 type Contract struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id                        uint64         `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	NetworkAddress            string         `protobuf:"bytes,2,opt,name=networkAddress,proto3" json:"networkAddress,omitempty"`
-	PrefixLength              uint64         `protobuf:"varint,3,opt,name=prefixLength,proto3" json:"prefixLength,omitempty"`
-	Rir                       string         `protobuf:"bytes,4,opt,name=rir,proto3" json:"rir,omitempty"`
-	CountryCode               string         `protobuf:"bytes,5,opt,name=countryCode,proto3" json:"countryCode,omitempty"`
-	GeofeedUrl                string         `protobuf:"bytes,6,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
-	Owner                     string         `protobuf:"bytes,7,opt,name=owner,proto3" json:"owner,omitempty"`
-	Price                     *v1beta1.Coin  `protobuf:"bytes,8,opt,name=price,proto3" json:"price,omitempty"`
-	Deposit                   *v1beta1.Coin  `protobuf:"bytes,9,opt,name=deposit,proto3" json:"deposit,omitempty"`
-	Deposited                 *v1beta1.Coin  `protobuf:"bytes,10,opt,name=deposited,proto3" json:"deposited,omitempty"`
-	NoticePeriodBlocks        uint64         `protobuf:"varint,11,opt,name=noticePeriodBlocks,proto3" json:"noticePeriodBlocks,omitempty"`
-	NoticeSentBlock           uint64         `protobuf:"varint,12,opt,name=noticeSentBlock,proto3" json:"noticeSentBlock,omitempty"`
-	Status                    ContractStatus `protobuf:"varint,13,opt,name=status,proto3,enum=ipex.lease.ContractStatus" json:"status,omitempty"`
-	StatusChangeBlock         uint64         `protobuf:"varint,14,opt,name=statusChangeBlock,proto3" json:"statusChangeBlock,omitempty"`
-	Lessee                    string         `protobuf:"bytes,15,opt,name=lessee,proto3" json:"lessee,omitempty"`
-	CreationBlock             uint64         `protobuf:"varint,16,opt,name=creationBlock,proto3" json:"creationBlock,omitempty"`
-	ActivationBlock           uint64         `protobuf:"varint,17,opt,name=activationBlock,proto3" json:"activationBlock,omitempty"`
-	PrepaidUntilBlock         uint64         `protobuf:"varint,18,opt,name=prepaidUntilBlock,proto3" json:"prepaidUntilBlock,omitempty"`
-	AsNumber                  string         `protobuf:"bytes,19,opt,name=asNumber,proto3" json:"asNumber,omitempty"`
-	AsnUpdateBlock            uint64         `protobuf:"varint,20,opt,name=asnUpdateBlock,proto3" json:"asnUpdateBlock,omitempty"`
-	ConfirmedAsNumber         string         `protobuf:"bytes,21,opt,name=confirmedAsNumber,proto3" json:"confirmedAsNumber,omitempty"`
-	AsNumberConfirmationBlock uint64         `protobuf:"varint,22,opt,name=asNumberConfirmationBlock,proto3" json:"asNumberConfirmationBlock,omitempty"`
-	ContractChangeBlock       uint64         `protobuf:"varint,23,opt,name=contractChangeBlock,proto3" json:"contractChangeBlock,omitempty"`
+	Id                       uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	SubnetId                 uint64                 `protobuf:"varint,2,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
+	OwnerOrg                 uint64                 `protobuf:"varint,3,opt,name=ownerOrg,proto3" json:"ownerOrg,omitempty"`
+	LesseeOrg                uint64                 `protobuf:"varint,4,opt,name=lesseeOrg,proto3" json:"lesseeOrg,omitempty"`
+	Price                    *v1beta1.Coin          `protobuf:"bytes,5,opt,name=price,proto3" json:"price,omitempty"`
+	PriceAdjustementType     PriceAdjustement       `protobuf:"varint,6,opt,name=priceAdjustementType,proto3,enum=ipex.lease.PriceAdjustement" json:"priceAdjustementType,omitempty"`
+	NextPricedAdjustement    *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=nextPricedAdjustement,proto3" json:"nextPricedAdjustement,omitempty"`
+	SafetyDeposit            *v1beta1.Coin          `protobuf:"bytes,8,opt,name=safetyDeposit,proto3" json:"safetyDeposit,omitempty"`
+	SafetyDepositRetained    *v1beta1.Coin          `protobuf:"bytes,9,opt,name=safetyDepositRetained,proto3" json:"safetyDepositRetained,omitempty"`
+	CancellationNoticePeriod *durationpb.Duration   `protobuf:"bytes,10,opt,name=cancellationNoticePeriod,proto3" json:"cancellationNoticePeriod,omitempty"`
+	CancellationNoticeSentAt *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=cancellationNoticeSentAt,proto3" json:"cancellationNoticeSentAt,omitempty"`
+	Status                   ContractStatus         `protobuf:"varint,12,opt,name=status,proto3,enum=ipex.lease.ContractStatus" json:"status,omitempty"`
+	CreatedAt                *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	ActivatedAt              *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=activatedAt,proto3" json:"activatedAt,omitempty"`
+	PrepaidUntil             *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=prepaidUntil,proto3" json:"prepaidUntil,omitempty"`
+	UpdatedAt                *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
 }
 
 func (x *Contract) Reset() {
@@ -1842,46 +1631,25 @@ func (x *Contract) GetId() uint64 {
 	return 0
 }
 
-func (x *Contract) GetNetworkAddress() string {
+func (x *Contract) GetSubnetId() uint64 {
 	if x != nil {
-		return x.NetworkAddress
-	}
-	return ""
-}
-
-func (x *Contract) GetPrefixLength() uint64 {
-	if x != nil {
-		return x.PrefixLength
+		return x.SubnetId
 	}
 	return 0
 }
 
-func (x *Contract) GetRir() string {
+func (x *Contract) GetOwnerOrg() uint64 {
 	if x != nil {
-		return x.Rir
+		return x.OwnerOrg
 	}
-	return ""
+	return 0
 }
 
-func (x *Contract) GetCountryCode() string {
+func (x *Contract) GetLesseeOrg() uint64 {
 	if x != nil {
-		return x.CountryCode
+		return x.LesseeOrg
 	}
-	return ""
-}
-
-func (x *Contract) GetGeofeedUrl() string {
-	if x != nil {
-		return x.GeofeedUrl
-	}
-	return ""
-}
-
-func (x *Contract) GetOwner() string {
-	if x != nil {
-		return x.Owner
-	}
-	return ""
+	return 0
 }
 
 func (x *Contract) GetPrice() *v1beta1.Coin {
@@ -1891,32 +1659,46 @@ func (x *Contract) GetPrice() *v1beta1.Coin {
 	return nil
 }
 
-func (x *Contract) GetDeposit() *v1beta1.Coin {
+func (x *Contract) GetPriceAdjustementType() PriceAdjustement {
 	if x != nil {
-		return x.Deposit
+		return x.PriceAdjustementType
+	}
+	return PriceAdjustement_PRICE_ADJUSTEMENT_NONE
+}
+
+func (x *Contract) GetNextPricedAdjustement() *timestamppb.Timestamp {
+	if x != nil {
+		return x.NextPricedAdjustement
 	}
 	return nil
 }
 
-func (x *Contract) GetDeposited() *v1beta1.Coin {
+func (x *Contract) GetSafetyDeposit() *v1beta1.Coin {
 	if x != nil {
-		return x.Deposited
+		return x.SafetyDeposit
 	}
 	return nil
 }
 
-func (x *Contract) GetNoticePeriodBlocks() uint64 {
+func (x *Contract) GetSafetyDepositRetained() *v1beta1.Coin {
 	if x != nil {
-		return x.NoticePeriodBlocks
+		return x.SafetyDepositRetained
 	}
-	return 0
+	return nil
 }
 
-func (x *Contract) GetNoticeSentBlock() uint64 {
+func (x *Contract) GetCancellationNoticePeriod() *durationpb.Duration {
 	if x != nil {
-		return x.NoticeSentBlock
+		return x.CancellationNoticePeriod
 	}
-	return 0
+	return nil
+}
+
+func (x *Contract) GetCancellationNoticeSentAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CancellationNoticeSentAt
+	}
+	return nil
 }
 
 func (x *Contract) GetStatus() ContractStatus {
@@ -1926,74 +1708,32 @@ func (x *Contract) GetStatus() ContractStatus {
 	return ContractStatus_CONTRACT_STATUS_PENDING
 }
 
-func (x *Contract) GetStatusChangeBlock() uint64 {
+func (x *Contract) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.StatusChangeBlock
+		return x.CreatedAt
 	}
-	return 0
+	return nil
 }
 
-func (x *Contract) GetLessee() string {
+func (x *Contract) GetActivatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.Lessee
+		return x.ActivatedAt
 	}
-	return ""
+	return nil
 }
 
-func (x *Contract) GetCreationBlock() uint64 {
+func (x *Contract) GetPrepaidUntil() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreationBlock
+		return x.PrepaidUntil
 	}
-	return 0
+	return nil
 }
 
-func (x *Contract) GetActivationBlock() uint64 {
+func (x *Contract) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.ActivationBlock
+		return x.UpdatedAt
 	}
-	return 0
-}
-
-func (x *Contract) GetPrepaidUntilBlock() uint64 {
-	if x != nil {
-		return x.PrepaidUntilBlock
-	}
-	return 0
-}
-
-func (x *Contract) GetAsNumber() string {
-	if x != nil {
-		return x.AsNumber
-	}
-	return ""
-}
-
-func (x *Contract) GetAsnUpdateBlock() uint64 {
-	if x != nil {
-		return x.AsnUpdateBlock
-	}
-	return 0
-}
-
-func (x *Contract) GetConfirmedAsNumber() string {
-	if x != nil {
-		return x.ConfirmedAsNumber
-	}
-	return ""
-}
-
-func (x *Contract) GetAsNumberConfirmationBlock() uint64 {
-	if x != nil {
-		return x.AsNumberConfirmationBlock
-	}
-	return 0
-}
-
-func (x *Contract) GetContractChangeBlock() uint64 {
-	if x != nil {
-		return x.ContractChangeBlock
-	}
-	return 0
+	return nil
 }
 
 var File_ipex_lease_contract_proto protoreflect.FileDescriptor
@@ -2004,82 +1744,98 @@ var file_ipex_lease_contract_proto_rawDesc = []byte{
 	0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
 	0x1e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2f, 0x62, 0x61, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x62,
-	0x65, 0x74, 0x61, 0x31, 0x2f, 0x63, 0x6f, 0x69, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22,
-	0xb6, 0x07, 0x0a, 0x08, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x0e, 0x0a, 0x02,
-	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x26, 0x0a, 0x0e,
-	0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x12, 0x22, 0x0a, 0x0c, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x4c, 0x65,
-	0x6e, 0x67, 0x74, 0x68, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c, 0x70, 0x72, 0x65, 0x66,
-	0x69, 0x78, 0x4c, 0x65, 0x6e, 0x67, 0x74, 0x68, 0x12, 0x10, 0x0a, 0x03, 0x72, 0x69, 0x72, 0x18,
-	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x72, 0x69, 0x72, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x6f,
-	0x75, 0x6e, 0x74, 0x72, 0x79, 0x43, 0x6f, 0x64, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x0b, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x1e, 0x0a, 0x0a,
-	0x67, 0x65, 0x6f, 0x66, 0x65, 0x65, 0x64, 0x55, 0x72, 0x6c, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0a, 0x67, 0x65, 0x6f, 0x66, 0x65, 0x65, 0x64, 0x55, 0x72, 0x6c, 0x12, 0x14, 0x0a, 0x05,
-	0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6f, 0x77, 0x6e,
-	0x65, 0x72, 0x12, 0x35, 0x0a, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x08, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e,
-	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x42, 0x04, 0xc8, 0xde,
-	0x1f, 0x00, 0x52, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x12, 0x39, 0x0a, 0x07, 0x64, 0x65, 0x70,
-	0x6f, 0x73, 0x69, 0x74, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73,
-	0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
-	0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x07, 0x64, 0x65, 0x70,
-	0x6f, 0x73, 0x69, 0x74, 0x12, 0x3d, 0x0a, 0x09, 0x64, 0x65, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x65,
-	0x64, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
-	0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f,
-	0x69, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x09, 0x64, 0x65, 0x70, 0x6f, 0x73, 0x69,
-	0x74, 0x65, 0x64, 0x12, 0x2e, 0x0a, 0x12, 0x6e, 0x6f, 0x74, 0x69, 0x63, 0x65, 0x50, 0x65, 0x72,
-	0x69, 0x6f, 0x64, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x04, 0x52,
-	0x12, 0x6e, 0x6f, 0x74, 0x69, 0x63, 0x65, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x42, 0x6c, 0x6f,
-	0x63, 0x6b, 0x73, 0x12, 0x28, 0x0a, 0x0f, 0x6e, 0x6f, 0x74, 0x69, 0x63, 0x65, 0x53, 0x65, 0x6e,
-	0x74, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0f, 0x6e, 0x6f,
-	0x74, 0x69, 0x63, 0x65, 0x53, 0x65, 0x6e, 0x74, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x33, 0x0a,
-	0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1b, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x43, 0x6f, 0x6e, 0x74,
-	0x72, 0x61, 0x63, 0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74,
-	0x75, 0x73, 0x12, 0x2c, 0x0a, 0x11, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x43, 0x68, 0x61, 0x6e,
-	0x67, 0x65, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x04, 0x52, 0x11, 0x73,
-	0x74, 0x61, 0x74, 0x75, 0x73, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x42, 0x6c, 0x6f, 0x63, 0x6b,
-	0x12, 0x16, 0x0a, 0x06, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x18, 0x0f, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x06, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x12, 0x24, 0x0a, 0x0d, 0x63, 0x72, 0x65, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x10, 0x20, 0x01, 0x28, 0x04, 0x52,
-	0x0d, 0x63, 0x72, 0x65, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x28,
-	0x0a, 0x0f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x6c, 0x6f, 0x63,
-	0x6b, 0x18, 0x11, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x2c, 0x0a, 0x11, 0x70, 0x72, 0x65, 0x70,
-	0x61, 0x69, 0x64, 0x55, 0x6e, 0x74, 0x69, 0x6c, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x12, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x11, 0x70, 0x72, 0x65, 0x70, 0x61, 0x69, 0x64, 0x55, 0x6e, 0x74, 0x69,
-	0x6c, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x1a, 0x0a, 0x08, 0x61, 0x73, 0x4e, 0x75, 0x6d, 0x62,
-	0x65, 0x72, 0x18, 0x13, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x61, 0x73, 0x4e, 0x75, 0x6d, 0x62,
-	0x65, 0x72, 0x12, 0x26, 0x0a, 0x0e, 0x61, 0x73, 0x6e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x42,
-	0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x14, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0e, 0x61, 0x73, 0x6e, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x2c, 0x0a, 0x11, 0x63, 0x6f,
-	0x6e, 0x66, 0x69, 0x72, 0x6d, 0x65, 0x64, 0x41, 0x73, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18,
-	0x15, 0x20, 0x01, 0x28, 0x09, 0x52, 0x11, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x72, 0x6d, 0x65, 0x64,
-	0x41, 0x73, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x3c, 0x0a, 0x19, 0x61, 0x73, 0x4e, 0x75,
-	0x6d, 0x62, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x16, 0x20, 0x01, 0x28, 0x04, 0x52, 0x19, 0x61, 0x73, 0x4e,
-	0x75, 0x6d, 0x62, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x30, 0x0a, 0x13, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61,
-	0x63, 0x74, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x17, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x13, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x43, 0x68, 0x61,
-	0x6e, 0x67, 0x65, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x2a, 0xec, 0x01, 0x0a, 0x0e, 0x43, 0x6f, 0x6e,
-	0x74, 0x72, 0x61, 0x63, 0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1b, 0x0a, 0x17, 0x43,
-	0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x50,
-	0x45, 0x4e, 0x44, 0x49, 0x4e, 0x47, 0x10, 0x00, 0x12, 0x1b, 0x0a, 0x17, 0x43, 0x4f, 0x4e, 0x54,
-	0x52, 0x41, 0x43, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x46, 0x4f, 0x52, 0x53,
-	0x41, 0x4c, 0x45, 0x10, 0x01, 0x12, 0x1a, 0x0a, 0x16, 0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43,
-	0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x4c, 0x45, 0x41, 0x53, 0x45, 0x44, 0x10,
-	0x02, 0x12, 0x22, 0x0a, 0x1e, 0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43, 0x54, 0x5f, 0x53, 0x54,
-	0x41, 0x54, 0x55, 0x53, 0x5f, 0x43, 0x41, 0x4e, 0x43, 0x45, 0x4c, 0x45, 0x44, 0x5f, 0x4f, 0x57,
-	0x4e, 0x45, 0x52, 0x10, 0x03, 0x12, 0x23, 0x0a, 0x1f, 0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43,
-	0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x43, 0x41, 0x4e, 0x43, 0x45, 0x4c, 0x45,
-	0x44, 0x5f, 0x4c, 0x45, 0x53, 0x53, 0x45, 0x45, 0x10, 0x04, 0x12, 0x1e, 0x0a, 0x1a, 0x43, 0x4f,
-	0x4e, 0x54, 0x52, 0x41, 0x43, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x54, 0x45,
-	0x52, 0x4d, 0x49, 0x4e, 0x41, 0x54, 0x45, 0x44, 0x10, 0x05, 0x12, 0x1b, 0x0a, 0x17, 0x43, 0x4f,
-	0x4e, 0x54, 0x52, 0x41, 0x43, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x45, 0x58,
-	0x50, 0x49, 0x52, 0x45, 0x44, 0x10, 0x06, 0x42, 0x84, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e,
+	0x65, 0x74, 0x61, 0x31, 0x2f, 0x63, 0x6f, 0x69, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
+	0x1e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2f, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
+	0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x22, 0xc0, 0x07, 0x0a, 0x08, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x0e, 0x0a,
+	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1a, 0x0a,
+	0x08, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x08, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x49, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x6f, 0x77, 0x6e,
+	0x65, 0x72, 0x4f, 0x72, 0x67, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x6f, 0x77, 0x6e,
+	0x65, 0x72, 0x4f, 0x72, 0x67, 0x12, 0x1c, 0x0a, 0x09, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f,
+	0x72, 0x67, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65,
+	0x4f, 0x72, 0x67, 0x12, 0x35, 0x0a, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x05, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
+	0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x42, 0x04, 0xc8,
+	0xde, 0x1f, 0x00, 0x52, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x12, 0x51, 0x0a, 0x14, 0x70, 0x72,
+	0x69, 0x63, 0x65, 0x41, 0x64, 0x6a, 0x75, 0x73, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x54, 0x79,
+	0x70, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x50, 0x72, 0x69, 0x63, 0x65, 0x41, 0x64, 0x6a, 0x75,
+	0x73, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x14, 0x70, 0x72, 0x69, 0x63, 0x65, 0x41, 0x64,
+	0x6a, 0x75, 0x73, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x12, 0x50, 0x0a,
+	0x15, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x72, 0x69, 0x63, 0x65, 0x64, 0x41, 0x64, 0x6a, 0x75, 0x73,
+	0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54,
+	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x15, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x72,
+	0x69, 0x63, 0x65, 0x64, 0x41, 0x64, 0x6a, 0x75, 0x73, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12,
+	0x45, 0x0a, 0x0d, 0x73, 0x61, 0x66, 0x65, 0x74, 0x79, 0x44, 0x65, 0x70, 0x6f, 0x73, 0x69, 0x74,
+	0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
+	0x62, 0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69,
+	0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0d, 0x73, 0x61, 0x66, 0x65, 0x74, 0x79, 0x44,
+	0x65, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x12, 0x55, 0x0a, 0x15, 0x73, 0x61, 0x66, 0x65, 0x74, 0x79,
+	0x44, 0x65, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x52, 0x65, 0x74, 0x61, 0x69, 0x6e, 0x65, 0x64, 0x18,
+	0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62,
+	0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69, 0x6e,
+	0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x15, 0x73, 0x61, 0x66, 0x65, 0x74, 0x79, 0x44, 0x65,
+	0x70, 0x6f, 0x73, 0x69, 0x74, 0x52, 0x65, 0x74, 0x61, 0x69, 0x6e, 0x65, 0x64, 0x12, 0x55, 0x0a,
+	0x18, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x6f, 0x74,
+	0x69, 0x63, 0x65, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x18, 0x63, 0x61, 0x6e, 0x63,
+	0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x6f, 0x74, 0x69, 0x63, 0x65, 0x50, 0x65,
+	0x72, 0x69, 0x6f, 0x64, 0x12, 0x56, 0x0a, 0x18, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x6f, 0x74, 0x69, 0x63, 0x65, 0x53, 0x65, 0x6e, 0x74, 0x41, 0x74,
+	0x18, 0x0b, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x52, 0x18, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x4e, 0x6f, 0x74, 0x69, 0x63, 0x65, 0x53, 0x65, 0x6e, 0x74, 0x41, 0x74, 0x12, 0x33, 0x0a, 0x06,
+	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1b, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x12, 0x38, 0x0a, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x0d,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
+	0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x3c, 0x0a, 0x0b, 0x61,
+	0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
+	0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0b, 0x61, 0x63,
+	0x74, 0x69, 0x76, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x3e, 0x0a, 0x0c, 0x70, 0x72, 0x65,
+	0x70, 0x61, 0x69, 0x64, 0x55, 0x6e, 0x74, 0x69, 0x6c, 0x18, 0x0f, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0c, 0x70, 0x72, 0x65,
+	0x70, 0x61, 0x69, 0x64, 0x55, 0x6e, 0x74, 0x69, 0x6c, 0x12, 0x38, 0x0a, 0x09, 0x75, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x10, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54,
+	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x64, 0x41, 0x74, 0x2a, 0xec, 0x01, 0x0a, 0x0e, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1b, 0x0a, 0x17, 0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41,
+	0x43, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x50, 0x45, 0x4e, 0x44, 0x49, 0x4e,
+	0x47, 0x10, 0x00, 0x12, 0x1b, 0x0a, 0x17, 0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43, 0x54, 0x5f,
+	0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x46, 0x4f, 0x52, 0x53, 0x41, 0x4c, 0x45, 0x10, 0x01,
+	0x12, 0x1a, 0x0a, 0x16, 0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43, 0x54, 0x5f, 0x53, 0x54, 0x41,
+	0x54, 0x55, 0x53, 0x5f, 0x4c, 0x45, 0x41, 0x53, 0x45, 0x44, 0x10, 0x02, 0x12, 0x22, 0x0a, 0x1e,
+	0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f,
+	0x43, 0x41, 0x4e, 0x43, 0x45, 0x4c, 0x45, 0x44, 0x5f, 0x4f, 0x57, 0x4e, 0x45, 0x52, 0x10, 0x03,
+	0x12, 0x23, 0x0a, 0x1f, 0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43, 0x54, 0x5f, 0x53, 0x54, 0x41,
+	0x54, 0x55, 0x53, 0x5f, 0x43, 0x41, 0x4e, 0x43, 0x45, 0x4c, 0x45, 0x44, 0x5f, 0x4c, 0x45, 0x53,
+	0x53, 0x45, 0x45, 0x10, 0x04, 0x12, 0x1e, 0x0a, 0x1a, 0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43,
+	0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x54, 0x45, 0x52, 0x4d, 0x49, 0x4e, 0x41,
+	0x54, 0x45, 0x44, 0x10, 0x05, 0x12, 0x1b, 0x0a, 0x17, 0x43, 0x4f, 0x4e, 0x54, 0x52, 0x41, 0x43,
+	0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x45, 0x58, 0x50, 0x49, 0x52, 0x45, 0x44,
+	0x10, 0x06, 0x2a, 0xb2, 0x01, 0x0a, 0x10, 0x50, 0x72, 0x69, 0x63, 0x65, 0x41, 0x64, 0x6a, 0x75,
+	0x73, 0x74, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x1a, 0x0a, 0x16, 0x50, 0x52, 0x49, 0x43, 0x45,
+	0x5f, 0x41, 0x44, 0x4a, 0x55, 0x53, 0x54, 0x45, 0x4d, 0x45, 0x4e, 0x54, 0x5f, 0x4e, 0x4f, 0x4e,
+	0x45, 0x10, 0x00, 0x12, 0x1d, 0x0a, 0x19, 0x50, 0x52, 0x49, 0x43, 0x45, 0x5f, 0x41, 0x44, 0x4a,
+	0x55, 0x53, 0x54, 0x45, 0x4d, 0x45, 0x4e, 0x54, 0x5f, 0x4d, 0x4f, 0x4e, 0x54, 0x48, 0x4c, 0x59,
+	0x10, 0x01, 0x12, 0x1f, 0x0a, 0x1b, 0x50, 0x52, 0x49, 0x43, 0x45, 0x5f, 0x41, 0x44, 0x4a, 0x55,
+	0x53, 0x54, 0x45, 0x4d, 0x45, 0x4e, 0x54, 0x5f, 0x51, 0x55, 0x41, 0x52, 0x54, 0x45, 0x52, 0x4c,
+	0x59, 0x10, 0x02, 0x12, 0x22, 0x0a, 0x1e, 0x50, 0x52, 0x49, 0x43, 0x45, 0x5f, 0x41, 0x44, 0x4a,
+	0x55, 0x53, 0x54, 0x45, 0x4d, 0x45, 0x4e, 0x54, 0x5f, 0x53, 0x45, 0x4d, 0x49, 0x41, 0x4e, 0x4e,
+	0x55, 0x41, 0x4c, 0x4c, 0x59, 0x10, 0x03, 0x12, 0x1e, 0x0a, 0x1a, 0x50, 0x52, 0x49, 0x43, 0x45,
+	0x5f, 0x41, 0x44, 0x4a, 0x55, 0x53, 0x54, 0x45, 0x4d, 0x45, 0x4e, 0x54, 0x5f, 0x41, 0x4e, 0x4e,
+	0x55, 0x41, 0x4c, 0x4c, 0x59, 0x10, 0x04, 0x42, 0x84, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e,
 	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x42, 0x0d, 0x43, 0x6f, 0x6e,
 	0x74, 0x72, 0x61, 0x63, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69, 0x70,
 	0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65,
@@ -2103,23 +1859,34 @@ func file_ipex_lease_contract_proto_rawDescGZIP() []byte {
 	return file_ipex_lease_contract_proto_rawDescData
 }
 
-var file_ipex_lease_contract_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_ipex_lease_contract_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_ipex_lease_contract_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_ipex_lease_contract_proto_goTypes = []interface{}{
-	(ContractStatus)(0),  // 0: ipex.lease.ContractStatus
-	(*Contract)(nil),     // 1: ipex.lease.Contract
-	(*v1beta1.Coin)(nil), // 2: cosmos.base.v1beta1.Coin
+	(ContractStatus)(0),           // 0: ipex.lease.ContractStatus
+	(PriceAdjustement)(0),         // 1: ipex.lease.PriceAdjustement
+	(*Contract)(nil),              // 2: ipex.lease.Contract
+	(*v1beta1.Coin)(nil),          // 3: cosmos.base.v1beta1.Coin
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*durationpb.Duration)(nil),   // 5: google.protobuf.Duration
 }
 var file_ipex_lease_contract_proto_depIdxs = []int32{
-	2, // 0: ipex.lease.Contract.price:type_name -> cosmos.base.v1beta1.Coin
-	2, // 1: ipex.lease.Contract.deposit:type_name -> cosmos.base.v1beta1.Coin
-	2, // 2: ipex.lease.Contract.deposited:type_name -> cosmos.base.v1beta1.Coin
-	0, // 3: ipex.lease.Contract.status:type_name -> ipex.lease.ContractStatus
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	3,  // 0: ipex.lease.Contract.price:type_name -> cosmos.base.v1beta1.Coin
+	1,  // 1: ipex.lease.Contract.priceAdjustementType:type_name -> ipex.lease.PriceAdjustement
+	4,  // 2: ipex.lease.Contract.nextPricedAdjustement:type_name -> google.protobuf.Timestamp
+	3,  // 3: ipex.lease.Contract.safetyDeposit:type_name -> cosmos.base.v1beta1.Coin
+	3,  // 4: ipex.lease.Contract.safetyDepositRetained:type_name -> cosmos.base.v1beta1.Coin
+	5,  // 5: ipex.lease.Contract.cancellationNoticePeriod:type_name -> google.protobuf.Duration
+	4,  // 6: ipex.lease.Contract.cancellationNoticeSentAt:type_name -> google.protobuf.Timestamp
+	0,  // 7: ipex.lease.Contract.status:type_name -> ipex.lease.ContractStatus
+	4,  // 8: ipex.lease.Contract.createdAt:type_name -> google.protobuf.Timestamp
+	4,  // 9: ipex.lease.Contract.activatedAt:type_name -> google.protobuf.Timestamp
+	4,  // 10: ipex.lease.Contract.prepaidUntil:type_name -> google.protobuf.Timestamp
+	4,  // 11: ipex.lease.Contract.updatedAt:type_name -> google.protobuf.Timestamp
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_ipex_lease_contract_proto_init() }
@@ -2146,7 +1913,7 @@ func file_ipex_lease_contract_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_lease_contract_proto_rawDesc,
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,

@@ -4,6 +4,9 @@ package ipex.lease;
 option go_package = "ipex/x/lease/types";
 import "gogoproto/gogo.proto"; 
 import "cosmos/base/v1beta1/coin.proto"; 
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
 
 enum ContractStatus {
   CONTRACT_STATUS_PENDING = 0;
@@ -15,29 +18,30 @@ enum ContractStatus {
   CONTRACT_STATUS_EXPIRED = 6;
 }
 
+enum PriceAdjustement {
+  PRICE_ADJUSTEMENT_NONE = 0;
+  PRICE_ADJUSTEMENT_MONTHLY = 1;
+  PRICE_ADJUSTEMENT_QUARTERLY = 2;
+  PRICE_ADJUSTEMENT_SEMIANNUALLY = 3;
+  PRICE_ADJUSTEMENT_ANNUALLY = 4;
+}
+
+
 message Contract {
-  
   uint64 id = 1; 
-  string networkAddress = 2; 
-  uint64 prefixLength = 3; 
-  string rir = 4; 
-  string countryCode = 5; 
-  string geofeedUrl = 6; 
-  string owner = 7; 
-  cosmos.base.v1beta1.Coin price = 8 [(gogoproto.nullable) = false]; 
-  cosmos.base.v1beta1.Coin deposit = 9 [(gogoproto.nullable) = false]; 
-  cosmos.base.v1beta1.Coin deposited = 10 [(gogoproto.nullable) = false]; 
-  uint64 noticePeriodBlocks = 11; 
-  uint64 noticeSentBlock = 12; 
-  ContractStatus status = 13; 
-  uint64 statusChangeBlock = 14;
-  string lessee = 15; 
-  uint64 creationBlock = 16; 
-  uint64 activationBlock = 17; 
-  uint64 prepaidUntilBlock = 18; 
-  string asNumber = 19;
-  uint64 asnUpdateBlock = 20;
-  string confirmedAsNumber = 21;
-  uint64 asNumberConfirmationBlock = 22;
-  uint64 contractChangeBlock = 23;
+  uint64 subnetId = 2;
+  uint64 ownerOrg = 3; 
+  uint64 lesseeOrg = 4; 
+  cosmos.base.v1beta1.Coin price = 5 [(gogoproto.nullable) = false]; 
+  PriceAdjustement priceAdjustementType = 6;
+  google.protobuf.Timestamp nextPricedAdjustement = 7;
+  cosmos.base.v1beta1.Coin safetyDeposit = 8 [(gogoproto.nullable) = false]; 
+  cosmos.base.v1beta1.Coin safetyDepositRetained = 9 [(gogoproto.nullable) = false]; 
+  google.protobuf.Duration cancellationNoticePeriod = 10; 
+  google.protobuf.Timestamp cancellationNoticeSentAt = 11; 
+  ContractStatus status = 12; 
+  google.protobuf.Timestamp createdAt = 13; 
+  google.protobuf.Timestamp activatedAt = 14; 
+  google.protobuf.Timestamp prepaidUntil = 15; 
+  google.protobuf.Timestamp updatedAt = 16;
 }

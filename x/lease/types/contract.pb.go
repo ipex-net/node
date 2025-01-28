@@ -8,6 +8,8 @@ import (
 	types "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
@@ -64,30 +66,57 @@ func (ContractStatus) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_d2e2c167228664e5, []int{0}
 }
 
+type PriceAdjustement int32
+
+const (
+	PriceAdjustement_PRICE_ADJUSTEMENT_NONE         PriceAdjustement = 0
+	PriceAdjustement_PRICE_ADJUSTEMENT_MONTHLY      PriceAdjustement = 1
+	PriceAdjustement_PRICE_ADJUSTEMENT_QUARTERLY    PriceAdjustement = 2
+	PriceAdjustement_PRICE_ADJUSTEMENT_SEMIANNUALLY PriceAdjustement = 3
+	PriceAdjustement_PRICE_ADJUSTEMENT_ANNUALLY     PriceAdjustement = 4
+)
+
+var PriceAdjustement_name = map[int32]string{
+	0: "PRICE_ADJUSTEMENT_NONE",
+	1: "PRICE_ADJUSTEMENT_MONTHLY",
+	2: "PRICE_ADJUSTEMENT_QUARTERLY",
+	3: "PRICE_ADJUSTEMENT_SEMIANNUALLY",
+	4: "PRICE_ADJUSTEMENT_ANNUALLY",
+}
+
+var PriceAdjustement_value = map[string]int32{
+	"PRICE_ADJUSTEMENT_NONE":         0,
+	"PRICE_ADJUSTEMENT_MONTHLY":      1,
+	"PRICE_ADJUSTEMENT_QUARTERLY":    2,
+	"PRICE_ADJUSTEMENT_SEMIANNUALLY": 3,
+	"PRICE_ADJUSTEMENT_ANNUALLY":     4,
+}
+
+func (x PriceAdjustement) String() string {
+	return proto.EnumName(PriceAdjustement_name, int32(x))
+}
+
+func (PriceAdjustement) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_d2e2c167228664e5, []int{1}
+}
+
 type Contract struct {
-	Id                        uint64         `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	NetworkAddress            string         `protobuf:"bytes,2,opt,name=networkAddress,proto3" json:"networkAddress,omitempty"`
-	PrefixLength              uint64         `protobuf:"varint,3,opt,name=prefixLength,proto3" json:"prefixLength,omitempty"`
-	Rir                       string         `protobuf:"bytes,4,opt,name=rir,proto3" json:"rir,omitempty"`
-	CountryCode               string         `protobuf:"bytes,5,opt,name=countryCode,proto3" json:"countryCode,omitempty"`
-	GeofeedUrl                string         `protobuf:"bytes,6,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
-	Owner                     string         `protobuf:"bytes,7,opt,name=owner,proto3" json:"owner,omitempty"`
-	Price                     types.Coin     `protobuf:"bytes,8,opt,name=price,proto3" json:"price"`
-	Deposit                   types.Coin     `protobuf:"bytes,9,opt,name=deposit,proto3" json:"deposit"`
-	Deposited                 types.Coin     `protobuf:"bytes,10,opt,name=deposited,proto3" json:"deposited"`
-	NoticePeriodBlocks        uint64         `protobuf:"varint,11,opt,name=noticePeriodBlocks,proto3" json:"noticePeriodBlocks,omitempty"`
-	NoticeSentBlock           uint64         `protobuf:"varint,12,opt,name=noticeSentBlock,proto3" json:"noticeSentBlock,omitempty"`
-	Status                    ContractStatus `protobuf:"varint,13,opt,name=status,proto3,enum=ipex.lease.ContractStatus" json:"status,omitempty"`
-	StatusChangeBlock         uint64         `protobuf:"varint,14,opt,name=statusChangeBlock,proto3" json:"statusChangeBlock,omitempty"`
-	Lessee                    string         `protobuf:"bytes,15,opt,name=lessee,proto3" json:"lessee,omitempty"`
-	CreationBlock             uint64         `protobuf:"varint,16,opt,name=creationBlock,proto3" json:"creationBlock,omitempty"`
-	ActivationBlock           uint64         `protobuf:"varint,17,opt,name=activationBlock,proto3" json:"activationBlock,omitempty"`
-	PrepaidUntilBlock         uint64         `protobuf:"varint,18,opt,name=prepaidUntilBlock,proto3" json:"prepaidUntilBlock,omitempty"`
-	AsNumber                  string         `protobuf:"bytes,19,opt,name=asNumber,proto3" json:"asNumber,omitempty"`
-	AsnUpdateBlock            uint64         `protobuf:"varint,20,opt,name=asnUpdateBlock,proto3" json:"asnUpdateBlock,omitempty"`
-	ConfirmedAsNumber         string         `protobuf:"bytes,21,opt,name=confirmedAsNumber,proto3" json:"confirmedAsNumber,omitempty"`
-	AsNumberConfirmationBlock uint64         `protobuf:"varint,22,opt,name=asNumberConfirmationBlock,proto3" json:"asNumberConfirmationBlock,omitempty"`
-	ContractChangeBlock       uint64         `protobuf:"varint,23,opt,name=contractChangeBlock,proto3" json:"contractChangeBlock,omitempty"`
+	Id                       uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	SubnetId                 uint64                 `protobuf:"varint,2,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
+	OwnerOrg                 uint64                 `protobuf:"varint,3,opt,name=ownerOrg,proto3" json:"ownerOrg,omitempty"`
+	LesseeOrg                uint64                 `protobuf:"varint,4,opt,name=lesseeOrg,proto3" json:"lesseeOrg,omitempty"`
+	Price                    types.Coin             `protobuf:"bytes,5,opt,name=price,proto3" json:"price"`
+	PriceAdjustementType     PriceAdjustement       `protobuf:"varint,6,opt,name=priceAdjustementType,proto3,enum=ipex.lease.PriceAdjustement" json:"priceAdjustementType,omitempty"`
+	NextPricedAdjustement    *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=nextPricedAdjustement,proto3" json:"nextPricedAdjustement,omitempty"`
+	SafetyDeposit            types.Coin             `protobuf:"bytes,8,opt,name=safetyDeposit,proto3" json:"safetyDeposit"`
+	SafetyDepositRetained    types.Coin             `protobuf:"bytes,9,opt,name=safetyDepositRetained,proto3" json:"safetyDepositRetained"`
+	CancellationNoticePeriod *durationpb.Duration   `protobuf:"bytes,10,opt,name=cancellationNoticePeriod,proto3" json:"cancellationNoticePeriod,omitempty"`
+	CancellationNoticeSentAt *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=cancellationNoticeSentAt,proto3" json:"cancellationNoticeSentAt,omitempty"`
+	Status                   ContractStatus         `protobuf:"varint,12,opt,name=status,proto3,enum=ipex.lease.ContractStatus" json:"status,omitempty"`
+	CreatedAt                *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	ActivatedAt              *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=activatedAt,proto3" json:"activatedAt,omitempty"`
+	PrepaidUntil             *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=prepaidUntil,proto3" json:"prepaidUntil,omitempty"`
+	UpdatedAt                *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
 }
 
 func (m *Contract) Reset()         { *m = Contract{} }
@@ -130,46 +159,25 @@ func (m *Contract) GetId() uint64 {
 	return 0
 }
 
-func (m *Contract) GetNetworkAddress() string {
+func (m *Contract) GetSubnetId() uint64 {
 	if m != nil {
-		return m.NetworkAddress
-	}
-	return ""
-}
-
-func (m *Contract) GetPrefixLength() uint64 {
-	if m != nil {
-		return m.PrefixLength
+		return m.SubnetId
 	}
 	return 0
 }
 
-func (m *Contract) GetRir() string {
+func (m *Contract) GetOwnerOrg() uint64 {
 	if m != nil {
-		return m.Rir
+		return m.OwnerOrg
 	}
-	return ""
+	return 0
 }
 
-func (m *Contract) GetCountryCode() string {
+func (m *Contract) GetLesseeOrg() uint64 {
 	if m != nil {
-		return m.CountryCode
+		return m.LesseeOrg
 	}
-	return ""
-}
-
-func (m *Contract) GetGeofeedUrl() string {
-	if m != nil {
-		return m.GeofeedUrl
-	}
-	return ""
-}
-
-func (m *Contract) GetOwner() string {
-	if m != nil {
-		return m.Owner
-	}
-	return ""
+	return 0
 }
 
 func (m *Contract) GetPrice() types.Coin {
@@ -179,32 +187,46 @@ func (m *Contract) GetPrice() types.Coin {
 	return types.Coin{}
 }
 
-func (m *Contract) GetDeposit() types.Coin {
+func (m *Contract) GetPriceAdjustementType() PriceAdjustement {
 	if m != nil {
-		return m.Deposit
+		return m.PriceAdjustementType
+	}
+	return PriceAdjustement_PRICE_ADJUSTEMENT_NONE
+}
+
+func (m *Contract) GetNextPricedAdjustement() *timestamppb.Timestamp {
+	if m != nil {
+		return m.NextPricedAdjustement
+	}
+	return nil
+}
+
+func (m *Contract) GetSafetyDeposit() types.Coin {
+	if m != nil {
+		return m.SafetyDeposit
 	}
 	return types.Coin{}
 }
 
-func (m *Contract) GetDeposited() types.Coin {
+func (m *Contract) GetSafetyDepositRetained() types.Coin {
 	if m != nil {
-		return m.Deposited
+		return m.SafetyDepositRetained
 	}
 	return types.Coin{}
 }
 
-func (m *Contract) GetNoticePeriodBlocks() uint64 {
+func (m *Contract) GetCancellationNoticePeriod() *durationpb.Duration {
 	if m != nil {
-		return m.NoticePeriodBlocks
+		return m.CancellationNoticePeriod
 	}
-	return 0
+	return nil
 }
 
-func (m *Contract) GetNoticeSentBlock() uint64 {
+func (m *Contract) GetCancellationNoticeSentAt() *timestamppb.Timestamp {
 	if m != nil {
-		return m.NoticeSentBlock
+		return m.CancellationNoticeSentAt
 	}
-	return 0
+	return nil
 }
 
 func (m *Contract) GetStatus() ContractStatus {
@@ -214,128 +236,89 @@ func (m *Contract) GetStatus() ContractStatus {
 	return ContractStatus_CONTRACT_STATUS_PENDING
 }
 
-func (m *Contract) GetStatusChangeBlock() uint64 {
+func (m *Contract) GetCreatedAt() *timestamppb.Timestamp {
 	if m != nil {
-		return m.StatusChangeBlock
+		return m.CreatedAt
 	}
-	return 0
+	return nil
 }
 
-func (m *Contract) GetLessee() string {
+func (m *Contract) GetActivatedAt() *timestamppb.Timestamp {
 	if m != nil {
-		return m.Lessee
+		return m.ActivatedAt
 	}
-	return ""
+	return nil
 }
 
-func (m *Contract) GetCreationBlock() uint64 {
+func (m *Contract) GetPrepaidUntil() *timestamppb.Timestamp {
 	if m != nil {
-		return m.CreationBlock
+		return m.PrepaidUntil
 	}
-	return 0
+	return nil
 }
 
-func (m *Contract) GetActivationBlock() uint64 {
+func (m *Contract) GetUpdatedAt() *timestamppb.Timestamp {
 	if m != nil {
-		return m.ActivationBlock
+		return m.UpdatedAt
 	}
-	return 0
-}
-
-func (m *Contract) GetPrepaidUntilBlock() uint64 {
-	if m != nil {
-		return m.PrepaidUntilBlock
-	}
-	return 0
-}
-
-func (m *Contract) GetAsNumber() string {
-	if m != nil {
-		return m.AsNumber
-	}
-	return ""
-}
-
-func (m *Contract) GetAsnUpdateBlock() uint64 {
-	if m != nil {
-		return m.AsnUpdateBlock
-	}
-	return 0
-}
-
-func (m *Contract) GetConfirmedAsNumber() string {
-	if m != nil {
-		return m.ConfirmedAsNumber
-	}
-	return ""
-}
-
-func (m *Contract) GetAsNumberConfirmationBlock() uint64 {
-	if m != nil {
-		return m.AsNumberConfirmationBlock
-	}
-	return 0
-}
-
-func (m *Contract) GetContractChangeBlock() uint64 {
-	if m != nil {
-		return m.ContractChangeBlock
-	}
-	return 0
+	return nil
 }
 
 func init() {
 	proto.RegisterEnum("ipex.lease.ContractStatus", ContractStatus_name, ContractStatus_value)
+	proto.RegisterEnum("ipex.lease.PriceAdjustement", PriceAdjustement_name, PriceAdjustement_value)
 	proto.RegisterType((*Contract)(nil), "ipex.lease.Contract")
 }
 
 func init() { proto.RegisterFile("ipex/lease/contract.proto", fileDescriptor_d2e2c167228664e5) }
 
 var fileDescriptor_d2e2c167228664e5 = []byte{
-	// 677 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0xcd, 0x4e, 0xdb, 0x4c,
-	0x14, 0x8d, 0x43, 0x12, 0xe0, 0x06, 0x82, 0x19, 0xf8, 0x60, 0x08, 0x92, 0x89, 0xf8, 0xaa, 0x2a,
-	0xaa, 0x5a, 0xa7, 0x80, 0xba, 0xa8, 0xd4, 0x2e, 0x8c, 0xe3, 0x56, 0x48, 0x69, 0x40, 0x76, 0xa2,
-	0x56, 0xdd, 0x20, 0xc7, 0x1e, 0xc2, 0x88, 0xe0, 0xb1, 0xc6, 0xc3, 0xdf, 0x5b, 0xf4, 0x69, 0xfa,
-	0x0c, 0x2c, 0x59, 0x76, 0x55, 0x55, 0xb0, 0xed, 0x43, 0x54, 0x9e, 0x49, 0xda, 0x60, 0x82, 0xc4,
-	0xee, 0xce, 0x39, 0xe7, 0x9e, 0xfb, 0x33, 0xf6, 0x40, 0x95, 0xc6, 0x21, 0xb9, 0x6c, 0x0c, 0x88,
-	0x9f, 0x90, 0x46, 0xc0, 0x22, 0xc1, 0xfd, 0x40, 0x98, 0x31, 0x67, 0x82, 0xa1, 0xb2, 0xe4, 0x4c,
-	0xc9, 0x55, 0x97, 0xfb, 0xac, 0xcf, 0x24, 0xde, 0x48, 0x23, 0x25, 0xa9, 0x1a, 0x01, 0x4b, 0x4e,
-	0x59, 0xd2, 0xe8, 0xa5, 0xe9, 0xe7, 0x5b, 0x3d, 0x22, 0xfc, 0xad, 0x46, 0xc0, 0x68, 0xa4, 0xf8,
-	0xcd, 0xef, 0xd3, 0x30, 0x63, 0x0f, 0x5d, 0x51, 0x05, 0xf2, 0x34, 0xc4, 0x5a, 0x4d, 0xab, 0x17,
-	0xdc, 0x3c, 0x0d, 0xd1, 0x73, 0xa8, 0x44, 0x44, 0x5c, 0x30, 0x7e, 0x62, 0x85, 0x21, 0x27, 0x49,
-	0x82, 0xf3, 0x35, 0xad, 0x3e, 0xeb, 0x66, 0x50, 0xb4, 0x09, 0x73, 0x31, 0x27, 0x47, 0xf4, 0xb2,
-	0x45, 0xa2, 0xbe, 0x38, 0xc6, 0x53, 0xd2, 0xe1, 0x1e, 0x86, 0x74, 0x98, 0xe2, 0x94, 0xe3, 0x82,
-	0x34, 0x48, 0x43, 0x54, 0x83, 0x72, 0xc0, 0xce, 0x22, 0xc1, 0xaf, 0x6c, 0x16, 0x12, 0x5c, 0x94,
-	0xcc, 0x38, 0x84, 0x0c, 0x80, 0x3e, 0x61, 0x47, 0x84, 0x84, 0x5d, 0x3e, 0xc0, 0x25, 0x29, 0x18,
-	0x43, 0xd0, 0x32, 0x14, 0xd9, 0x45, 0x44, 0x38, 0x9e, 0x96, 0x94, 0x3a, 0xa0, 0x37, 0x50, 0x8c,
-	0x39, 0x0d, 0x08, 0x9e, 0xa9, 0x69, 0xf5, 0xf2, 0xf6, 0x9a, 0xa9, 0x56, 0x60, 0xa6, 0x2b, 0x30,
-	0x87, 0x2b, 0x30, 0x6d, 0x46, 0xa3, 0xdd, 0xc2, 0xf5, 0xcf, 0x8d, 0x9c, 0xab, 0xd4, 0xe8, 0x2d,
-	0x4c, 0x87, 0x24, 0x66, 0x09, 0x15, 0x78, 0xf6, 0x69, 0x89, 0x23, 0x3d, 0x7a, 0x0f, 0xb3, 0xc3,
-	0x90, 0x84, 0x18, 0x9e, 0x96, 0xfc, 0x2f, 0x03, 0x99, 0x80, 0x22, 0x26, 0x68, 0x40, 0x0e, 0x08,
-	0xa7, 0x2c, 0xdc, 0x1d, 0xb0, 0xe0, 0x24, 0xc1, 0x65, 0xb9, 0xc4, 0x09, 0x0c, 0xaa, 0xc3, 0x82,
-	0x42, 0x3d, 0x12, 0x09, 0x89, 0xe1, 0x39, 0x29, 0xce, 0xc2, 0x68, 0x07, 0x4a, 0x89, 0xf0, 0xc5,
-	0x59, 0x82, 0xe7, 0x6b, 0x5a, 0xbd, 0xb2, 0xbd, 0x6e, 0x8e, 0x7d, 0x31, 0xe6, 0xe8, 0xde, 0x3d,
-	0x29, 0x71, 0x87, 0x52, 0xf4, 0x12, 0x16, 0x55, 0x64, 0x1f, 0xfb, 0x51, 0x9f, 0xa8, 0x02, 0x15,
-	0x59, 0xe0, 0x21, 0x81, 0x56, 0xa0, 0x34, 0x20, 0x49, 0x42, 0x08, 0x5e, 0x90, 0x97, 0x30, 0x3c,
-	0xa1, 0x67, 0x30, 0x1f, 0x70, 0xe2, 0x0b, 0xca, 0x22, 0xe5, 0xa0, 0x4b, 0x87, 0xfb, 0x60, 0x3a,
-	0x8a, 0x1f, 0x08, 0x7a, 0x3e, 0xa6, 0x5b, 0x54, 0xa3, 0x64, 0xe0, 0xb4, 0xab, 0x98, 0x93, 0xd8,
-	0xa7, 0x61, 0x37, 0x12, 0x74, 0xa0, 0xb4, 0x48, 0x75, 0xf5, 0x80, 0x40, 0x55, 0x98, 0xf1, 0x93,
-	0xf6, 0xd9, 0x69, 0x8f, 0x70, 0xbc, 0x24, 0xfb, 0xfa, 0x7b, 0x4e, 0xbf, 0x6a, 0x3f, 0x89, 0xba,
-	0x71, 0xe8, 0x8b, 0xe1, 0x70, 0xcb, 0xd2, 0x26, 0x83, 0xa6, 0x15, 0x03, 0x16, 0x1d, 0x51, 0x7e,
-	0x4a, 0x42, 0x6b, 0x64, 0xf6, 0x9f, 0x34, 0x7b, 0x48, 0xa0, 0x77, 0xb0, 0x36, 0xaa, 0x60, 0x2b,
-	0x72, 0x6c, 0xa6, 0x15, 0x59, 0xe0, 0x71, 0x01, 0x7a, 0x0d, 0x4b, 0xa3, 0x7f, 0x7b, 0x7c, 0xeb,
-	0xab, 0x32, 0x6f, 0x12, 0xf5, 0xe2, 0xb7, 0x06, 0x95, 0xfb, 0x17, 0x88, 0xd6, 0x61, 0xd5, 0xde,
-	0x6f, 0x77, 0x5c, 0xcb, 0xee, 0x1c, 0x7a, 0x1d, 0xab, 0xd3, 0xf5, 0x0e, 0x0f, 0x9c, 0x76, 0x73,
-	0xaf, 0xfd, 0x51, 0xcf, 0x4d, 0x22, 0x3f, 0xec, 0xbb, 0x9e, 0xd5, 0x72, 0x74, 0x0d, 0x55, 0x61,
-	0x25, 0x4b, 0xb6, 0x1c, 0xcb, 0x73, 0x9a, 0x7a, 0x1e, 0x6d, 0x82, 0x91, 0xe5, 0x6c, 0xab, 0x6d,
-	0x3b, 0x2d, 0xa7, 0x79, 0xb8, 0xff, 0xb9, 0xed, 0xb8, 0xfa, 0x14, 0xfa, 0x1f, 0x36, 0x1e, 0xd5,
-	0xb4, 0x1c, 0xcf, 0x73, 0x1c, 0xbd, 0x80, 0x0c, 0xa8, 0x66, 0x45, 0x1d, 0xc7, 0xfd, 0xb4, 0xd7,
-	0xb6, 0x3a, 0x4e, 0x53, 0x2f, 0x4e, 0xea, 0xd0, 0xf9, 0x72, 0xb0, 0xe7, 0x3a, 0x4d, 0xbd, 0xb4,
-	0xfb, 0xea, 0xfa, 0xd6, 0xd0, 0x6e, 0x6e, 0x0d, 0xed, 0xd7, 0xad, 0xa1, 0x7d, 0xbb, 0x33, 0x72,
-	0x37, 0x77, 0x46, 0xee, 0xc7, 0x9d, 0x91, 0xfb, 0xba, 0xa4, 0x1e, 0xc8, 0xd1, 0x13, 0x29, 0xae,
-	0x62, 0x92, 0xf4, 0x4a, 0xf2, 0x75, 0xdb, 0xf9, 0x13, 0x00, 0x00, 0xff, 0xff, 0xcc, 0x52, 0x84,
-	0x77, 0x3e, 0x05, 0x00, 0x00,
+	// 720 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x95, 0xcf, 0x4e, 0xdb, 0x4a,
+	0x14, 0xc6, 0xe3, 0x10, 0x02, 0x4c, 0x20, 0xd7, 0x9a, 0x0b, 0xf7, 0x0e, 0xe1, 0xe2, 0x20, 0xee,
+	0x06, 0x21, 0xd5, 0x11, 0xa0, 0x4a, 0x5d, 0x54, 0x95, 0x4c, 0x3c, 0x6d, 0x53, 0x39, 0x4e, 0x18,
+	0x3b, 0x6d, 0xe9, 0x26, 0x72, 0xec, 0x21, 0x9a, 0x2a, 0xf1, 0x58, 0xf6, 0x84, 0xc2, 0x5b, 0xf4,
+	0x59, 0xfa, 0x04, 0x5d, 0xb2, 0x64, 0xd9, 0x55, 0x55, 0xc1, 0xb6, 0x0f, 0x51, 0xd9, 0x4e, 0x80,
+	0xfc, 0x41, 0x61, 0xe7, 0x39, 0xbf, 0xef, 0x1b, 0x9f, 0xef, 0xcc, 0x58, 0x06, 0x25, 0x16, 0x78,
+	0xf4, 0xa2, 0xd2, 0xa3, 0x4e, 0x44, 0x2b, 0x2e, 0xf7, 0x45, 0xe8, 0xb8, 0x42, 0x0d, 0x42, 0x2e,
+	0x38, 0x2c, 0x24, 0x4c, 0x4d, 0x58, 0x69, 0xbd, 0xcb, 0xbb, 0x3c, 0xa9, 0x57, 0xe2, 0xa7, 0x54,
+	0x52, 0x52, 0x5c, 0x1e, 0xf5, 0x79, 0x54, 0xe9, 0xc4, 0xf6, 0xf3, 0x83, 0x0e, 0x15, 0xce, 0x41,
+	0xc5, 0xe5, 0xcc, 0x1f, 0xf1, 0x2e, 0xe7, 0xdd, 0x1e, 0xad, 0x24, 0xab, 0xce, 0xe0, 0xac, 0xe2,
+	0x0d, 0x42, 0x47, 0x30, 0x3e, 0xe2, 0xe5, 0x49, 0x2e, 0x58, 0x9f, 0x46, 0xc2, 0xe9, 0x07, 0xa9,
+	0x60, 0xf7, 0xfb, 0x12, 0x58, 0xae, 0x0e, 0xdb, 0x82, 0x45, 0x90, 0x65, 0x1e, 0x92, 0x76, 0xa4,
+	0xbd, 0x1c, 0xc9, 0x32, 0x0f, 0x96, 0xc0, 0x72, 0x34, 0xe8, 0xf8, 0x54, 0xd4, 0x3c, 0x94, 0x4d,
+	0xaa, 0x77, 0xeb, 0x98, 0xf1, 0x2f, 0x3e, 0x0d, 0x1b, 0x61, 0x17, 0x2d, 0xa4, 0x6c, 0xb4, 0x86,
+	0xff, 0x81, 0x95, 0x1e, 0x8d, 0x22, 0x4a, 0x63, 0x98, 0x4b, 0xe0, 0x7d, 0x01, 0x3e, 0x07, 0x8b,
+	0x41, 0xc8, 0x5c, 0x8a, 0x16, 0x77, 0xa4, 0xbd, 0xc2, 0xe1, 0xa6, 0x9a, 0x66, 0x54, 0xe3, 0x8c,
+	0xea, 0x30, 0xa3, 0x5a, 0xe5, 0xcc, 0x3f, 0xce, 0x5d, 0xfd, 0x2c, 0x67, 0x48, 0xaa, 0x86, 0x27,
+	0x60, 0x3d, 0x79, 0xd0, 0xbc, 0xcf, 0x83, 0x48, 0xd0, 0x3e, 0xf5, 0x85, 0x7d, 0x19, 0x50, 0x94,
+	0xdf, 0x91, 0xf6, 0x8a, 0x87, 0xdb, 0xea, 0x83, 0x61, 0xaa, 0xcd, 0x09, 0x21, 0x99, 0x69, 0x85,
+	0x4d, 0xb0, 0xe1, 0xd3, 0x0b, 0x91, 0xa8, 0xbd, 0x07, 0x10, 0x2d, 0x25, 0x9d, 0x95, 0xd4, 0x74,
+	0x7a, 0xea, 0x68, 0x7a, 0xaa, 0x3d, 0x9a, 0x1e, 0x99, 0x6d, 0x84, 0x18, 0xac, 0x45, 0xce, 0x19,
+	0x15, 0x97, 0x3a, 0x0d, 0x78, 0xc4, 0x04, 0x5a, 0x7e, 0x5a, 0xc6, 0x71, 0x17, 0x6c, 0x81, 0x8d,
+	0xb1, 0x02, 0xa1, 0xc2, 0x61, 0x3e, 0xf5, 0xd0, 0xca, 0xd3, 0xb6, 0x9b, 0xed, 0x86, 0x2d, 0x80,
+	0x5c, 0xc7, 0x77, 0x69, 0xaf, 0x97, 0xdc, 0x11, 0x93, 0x0b, 0xe6, 0xd2, 0x26, 0x0d, 0x19, 0xf7,
+	0x10, 0x18, 0xee, 0x3c, 0x19, 0x59, 0x1f, 0x5e, 0x28, 0xf2, 0xa8, 0x15, 0xbe, 0x9f, 0xb5, 0xad,
+	0x45, 0x7d, 0xa1, 0x09, 0x54, 0x98, 0x3b, 0xc9, 0x47, 0xbd, 0xf0, 0x08, 0xe4, 0x23, 0xe1, 0x88,
+	0x41, 0x84, 0x56, 0x93, 0x33, 0xde, 0x1a, 0x3b, 0xe3, 0xd1, 0xad, 0xb5, 0x12, 0x09, 0x19, 0x4a,
+	0xe1, 0x0b, 0xb0, 0xe2, 0x86, 0xd4, 0x11, 0xd4, 0xd3, 0x04, 0x5a, 0x9b, 0xfb, 0xf6, 0x7b, 0x31,
+	0x7c, 0x09, 0x0a, 0x8e, 0x2b, 0xd8, 0xf9, 0xd0, 0x5b, 0x9c, 0xeb, 0x7d, 0x28, 0x87, 0xaf, 0xc0,
+	0x6a, 0x10, 0xd2, 0xc0, 0x61, 0x5e, 0xcb, 0x17, 0xac, 0x87, 0xfe, 0x9a, 0x6b, 0x1f, 0xd3, 0xc7,
+	0x7d, 0x0f, 0x02, 0x6f, 0xf8, 0x6e, 0x79, 0x7e, 0xdf, 0x77, 0xe2, 0xfd, 0xdf, 0x12, 0x28, 0x8e,
+	0x0f, 0x03, 0x6e, 0x81, 0x7f, 0xab, 0x0d, 0xd3, 0x26, 0x5a, 0xd5, 0x6e, 0x5b, 0xb6, 0x66, 0xb7,
+	0xac, 0x76, 0x13, 0x9b, 0x7a, 0xcd, 0x7c, 0x23, 0x67, 0x66, 0xc1, 0xd7, 0x0d, 0x62, 0x69, 0x06,
+	0x96, 0x25, 0x58, 0x02, 0xff, 0x4c, 0x42, 0x03, 0x6b, 0x16, 0xd6, 0xe5, 0x2c, 0xdc, 0x05, 0xca,
+	0x24, 0xab, 0x6a, 0x66, 0x15, 0x1b, 0x58, 0x6f, 0x37, 0x3e, 0x98, 0x98, 0xc8, 0x0b, 0xf0, 0x7f,
+	0x50, 0x7e, 0x54, 0x63, 0x60, 0xcb, 0xc2, 0x58, 0xce, 0x41, 0x05, 0x94, 0x26, 0x45, 0x36, 0x26,
+	0xf5, 0x9a, 0xa9, 0xd9, 0x58, 0x97, 0x17, 0x67, 0x75, 0x88, 0x3f, 0x36, 0x6b, 0x04, 0xeb, 0x72,
+	0x7e, 0xff, 0x9b, 0x04, 0xe4, 0xc9, 0xef, 0x3b, 0x6e, 0xbb, 0x49, 0x6a, 0x55, 0xdc, 0xd6, 0xf4,
+	0x77, 0x2d, 0xcb, 0xc6, 0x75, 0x6c, 0xda, 0x6d, 0xb3, 0x61, 0x62, 0x39, 0x03, 0xb7, 0xc1, 0xe6,
+	0x34, 0xab, 0x37, 0x4c, 0xfb, 0xad, 0x71, 0x2a, 0x4b, 0xb0, 0x0c, 0xb6, 0xa6, 0xf1, 0x49, 0x4b,
+	0x23, 0x36, 0x26, 0xc6, 0x69, 0x1a, 0x7b, 0x5a, 0x60, 0xe1, 0x7a, 0x4d, 0x33, 0xcd, 0x96, 0x66,
+	0x18, 0xa7, 0xf2, 0x42, 0x9c, 0x68, 0x5a, 0x73, 0xc7, 0x73, 0xc7, 0xcf, 0xae, 0x6e, 0x14, 0xe9,
+	0xfa, 0x46, 0x91, 0x7e, 0xdd, 0x28, 0xd2, 0xd7, 0x5b, 0x25, 0x73, 0x7d, 0xab, 0x64, 0x7e, 0xdc,
+	0x2a, 0x99, 0x4f, 0x7f, 0xa7, 0x3f, 0x88, 0xd1, 0x2f, 0x42, 0x5c, 0x06, 0x34, 0xea, 0xe4, 0x93,
+	0x13, 0x3f, 0xfa, 0x13, 0x00, 0x00, 0xff, 0xff, 0x5f, 0x6b, 0xb8, 0xf1, 0x3e, 0x06, 0x00, 0x00,
 }
 
 func (m *Contract) Marshal() (dAtA []byte, err error) {
@@ -358,105 +341,87 @@ func (m *Contract) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.ContractChangeBlock != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.ContractChangeBlock))
+	if m.UpdatedAt != nil {
+		{
+			size, err := m.UpdatedAt.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContract(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xb8
+		dAtA[i] = 0x82
 	}
-	if m.AsNumberConfirmationBlock != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.AsNumberConfirmationBlock))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0xb0
-	}
-	if len(m.ConfirmedAsNumber) > 0 {
-		i -= len(m.ConfirmedAsNumber)
-		copy(dAtA[i:], m.ConfirmedAsNumber)
-		i = encodeVarintContract(dAtA, i, uint64(len(m.ConfirmedAsNumber)))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0xaa
-	}
-	if m.AsnUpdateBlock != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.AsnUpdateBlock))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0xa0
-	}
-	if len(m.AsNumber) > 0 {
-		i -= len(m.AsNumber)
-		copy(dAtA[i:], m.AsNumber)
-		i = encodeVarintContract(dAtA, i, uint64(len(m.AsNumber)))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x9a
-	}
-	if m.PrepaidUntilBlock != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.PrepaidUntilBlock))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x90
-	}
-	if m.ActivationBlock != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.ActivationBlock))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x88
-	}
-	if m.CreationBlock != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.CreationBlock))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x80
-	}
-	if len(m.Lessee) > 0 {
-		i -= len(m.Lessee)
-		copy(dAtA[i:], m.Lessee)
-		i = encodeVarintContract(dAtA, i, uint64(len(m.Lessee)))
+	if m.PrepaidUntil != nil {
+		{
+			size, err := m.PrepaidUntil.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContract(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x7a
 	}
-	if m.StatusChangeBlock != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.StatusChangeBlock))
+	if m.ActivatedAt != nil {
+		{
+			size, err := m.ActivatedAt.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContract(dAtA, i, uint64(size))
+		}
 		i--
-		dAtA[i] = 0x70
+		dAtA[i] = 0x72
+	}
+	if m.CreatedAt != nil {
+		{
+			size, err := m.CreatedAt.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContract(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x6a
 	}
 	if m.Status != 0 {
 		i = encodeVarintContract(dAtA, i, uint64(m.Status))
 		i--
-		dAtA[i] = 0x68
-	}
-	if m.NoticeSentBlock != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.NoticeSentBlock))
-		i--
 		dAtA[i] = 0x60
 	}
-	if m.NoticePeriodBlocks != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.NoticePeriodBlocks))
-		i--
-		dAtA[i] = 0x58
-	}
-	{
-		size, err := m.Deposited.MarshalToSizedBuffer(dAtA[:i])
-		if err != nil {
-			return 0, err
+	if m.CancellationNoticeSentAt != nil {
+		{
+			size, err := m.CancellationNoticeSentAt.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContract(dAtA, i, uint64(size))
 		}
-		i -= size
-		i = encodeVarintContract(dAtA, i, uint64(size))
+		i--
+		dAtA[i] = 0x5a
 	}
-	i--
-	dAtA[i] = 0x52
+	if m.CancellationNoticePeriod != nil {
+		{
+			size, err := m.CancellationNoticePeriod.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContract(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x52
+	}
 	{
-		size, err := m.Deposit.MarshalToSizedBuffer(dAtA[:i])
+		size, err := m.SafetyDepositRetained.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -466,7 +431,7 @@ func (m *Contract) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i--
 	dAtA[i] = 0x4a
 	{
-		size, err := m.Price.MarshalToSizedBuffer(dAtA[:i])
+		size, err := m.SafetyDeposit.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -475,45 +440,47 @@ func (m *Contract) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	}
 	i--
 	dAtA[i] = 0x42
-	if len(m.Owner) > 0 {
-		i -= len(m.Owner)
-		copy(dAtA[i:], m.Owner)
-		i = encodeVarintContract(dAtA, i, uint64(len(m.Owner)))
+	if m.NextPricedAdjustement != nil {
+		{
+			size, err := m.NextPricedAdjustement.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContract(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x3a
 	}
-	if len(m.GeofeedUrl) > 0 {
-		i -= len(m.GeofeedUrl)
-		copy(dAtA[i:], m.GeofeedUrl)
-		i = encodeVarintContract(dAtA, i, uint64(len(m.GeofeedUrl)))
+	if m.PriceAdjustementType != 0 {
+		i = encodeVarintContract(dAtA, i, uint64(m.PriceAdjustementType))
 		i--
-		dAtA[i] = 0x32
+		dAtA[i] = 0x30
 	}
-	if len(m.CountryCode) > 0 {
-		i -= len(m.CountryCode)
-		copy(dAtA[i:], m.CountryCode)
-		i = encodeVarintContract(dAtA, i, uint64(len(m.CountryCode)))
+	{
+		size, err := m.Price.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintContract(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x2a
+	if m.LesseeOrg != 0 {
+		i = encodeVarintContract(dAtA, i, uint64(m.LesseeOrg))
 		i--
-		dAtA[i] = 0x2a
+		dAtA[i] = 0x20
 	}
-	if len(m.Rir) > 0 {
-		i -= len(m.Rir)
-		copy(dAtA[i:], m.Rir)
-		i = encodeVarintContract(dAtA, i, uint64(len(m.Rir)))
-		i--
-		dAtA[i] = 0x22
-	}
-	if m.PrefixLength != 0 {
-		i = encodeVarintContract(dAtA, i, uint64(m.PrefixLength))
+	if m.OwnerOrg != 0 {
+		i = encodeVarintContract(dAtA, i, uint64(m.OwnerOrg))
 		i--
 		dAtA[i] = 0x18
 	}
-	if len(m.NetworkAddress) > 0 {
-		i -= len(m.NetworkAddress)
-		copy(dAtA[i:], m.NetworkAddress)
-		i = encodeVarintContract(dAtA, i, uint64(len(m.NetworkAddress)))
+	if m.SubnetId != 0 {
+		i = encodeVarintContract(dAtA, i, uint64(m.SubnetId))
 		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0x10
 	}
 	if m.Id != 0 {
 		i = encodeVarintContract(dAtA, i, uint64(m.Id))
@@ -543,76 +510,54 @@ func (m *Contract) Size() (n int) {
 	if m.Id != 0 {
 		n += 1 + sovContract(uint64(m.Id))
 	}
-	l = len(m.NetworkAddress)
-	if l > 0 {
-		n += 1 + l + sovContract(uint64(l))
+	if m.SubnetId != 0 {
+		n += 1 + sovContract(uint64(m.SubnetId))
 	}
-	if m.PrefixLength != 0 {
-		n += 1 + sovContract(uint64(m.PrefixLength))
+	if m.OwnerOrg != 0 {
+		n += 1 + sovContract(uint64(m.OwnerOrg))
 	}
-	l = len(m.Rir)
-	if l > 0 {
-		n += 1 + l + sovContract(uint64(l))
-	}
-	l = len(m.CountryCode)
-	if l > 0 {
-		n += 1 + l + sovContract(uint64(l))
-	}
-	l = len(m.GeofeedUrl)
-	if l > 0 {
-		n += 1 + l + sovContract(uint64(l))
-	}
-	l = len(m.Owner)
-	if l > 0 {
-		n += 1 + l + sovContract(uint64(l))
+	if m.LesseeOrg != 0 {
+		n += 1 + sovContract(uint64(m.LesseeOrg))
 	}
 	l = m.Price.Size()
 	n += 1 + l + sovContract(uint64(l))
-	l = m.Deposit.Size()
-	n += 1 + l + sovContract(uint64(l))
-	l = m.Deposited.Size()
-	n += 1 + l + sovContract(uint64(l))
-	if m.NoticePeriodBlocks != 0 {
-		n += 1 + sovContract(uint64(m.NoticePeriodBlocks))
+	if m.PriceAdjustementType != 0 {
+		n += 1 + sovContract(uint64(m.PriceAdjustementType))
 	}
-	if m.NoticeSentBlock != 0 {
-		n += 1 + sovContract(uint64(m.NoticeSentBlock))
+	if m.NextPricedAdjustement != nil {
+		l = m.NextPricedAdjustement.Size()
+		n += 1 + l + sovContract(uint64(l))
+	}
+	l = m.SafetyDeposit.Size()
+	n += 1 + l + sovContract(uint64(l))
+	l = m.SafetyDepositRetained.Size()
+	n += 1 + l + sovContract(uint64(l))
+	if m.CancellationNoticePeriod != nil {
+		l = m.CancellationNoticePeriod.Size()
+		n += 1 + l + sovContract(uint64(l))
+	}
+	if m.CancellationNoticeSentAt != nil {
+		l = m.CancellationNoticeSentAt.Size()
+		n += 1 + l + sovContract(uint64(l))
 	}
 	if m.Status != 0 {
 		n += 1 + sovContract(uint64(m.Status))
 	}
-	if m.StatusChangeBlock != 0 {
-		n += 1 + sovContract(uint64(m.StatusChangeBlock))
-	}
-	l = len(m.Lessee)
-	if l > 0 {
+	if m.CreatedAt != nil {
+		l = m.CreatedAt.Size()
 		n += 1 + l + sovContract(uint64(l))
 	}
-	if m.CreationBlock != 0 {
-		n += 2 + sovContract(uint64(m.CreationBlock))
+	if m.ActivatedAt != nil {
+		l = m.ActivatedAt.Size()
+		n += 1 + l + sovContract(uint64(l))
 	}
-	if m.ActivationBlock != 0 {
-		n += 2 + sovContract(uint64(m.ActivationBlock))
+	if m.PrepaidUntil != nil {
+		l = m.PrepaidUntil.Size()
+		n += 1 + l + sovContract(uint64(l))
 	}
-	if m.PrepaidUntilBlock != 0 {
-		n += 2 + sovContract(uint64(m.PrepaidUntilBlock))
-	}
-	l = len(m.AsNumber)
-	if l > 0 {
+	if m.UpdatedAt != nil {
+		l = m.UpdatedAt.Size()
 		n += 2 + l + sovContract(uint64(l))
-	}
-	if m.AsnUpdateBlock != 0 {
-		n += 2 + sovContract(uint64(m.AsnUpdateBlock))
-	}
-	l = len(m.ConfirmedAsNumber)
-	if l > 0 {
-		n += 2 + l + sovContract(uint64(l))
-	}
-	if m.AsNumberConfirmationBlock != 0 {
-		n += 2 + sovContract(uint64(m.AsNumberConfirmationBlock))
-	}
-	if m.ContractChangeBlock != 0 {
-		n += 2 + sovContract(uint64(m.ContractChangeBlock))
 	}
 	return n
 }
@@ -672,10 +617,10 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 				}
 			}
 		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NetworkAddress", wireType)
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SubnetId", wireType)
 			}
-			var stringLen uint64
+			m.SubnetId = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowContract
@@ -685,29 +630,16 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.SubnetId |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthContract
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthContract
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.NetworkAddress = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 3:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PrefixLength", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field OwnerOrg", wireType)
 			}
-			m.PrefixLength = 0
+			m.OwnerOrg = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowContract
@@ -717,16 +649,16 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.PrefixLength |= uint64(b&0x7F) << shift
+				m.OwnerOrg |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Rir", wireType)
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LesseeOrg", wireType)
 			}
-			var stringLen uint64
+			m.LesseeOrg = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowContract
@@ -736,121 +668,12 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.LesseeOrg |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthContract
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthContract
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Rir = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CountryCode", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthContract
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthContract
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.CountryCode = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 6:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field GeofeedUrl", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthContract
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthContract
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.GeofeedUrl = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 7:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthContract
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthContract
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Owner = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Price", wireType)
 			}
@@ -883,9 +706,28 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 9:
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PriceAdjustementType", wireType)
+			}
+			m.PriceAdjustementType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowContract
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PriceAdjustementType |= PriceAdjustement(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 7:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Deposit", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NextPricedAdjustement", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -912,13 +754,82 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.Deposit.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if m.NextPricedAdjustement == nil {
+				m.NextPricedAdjustement = &timestamppb.Timestamp{}
+			}
+			if err := m.NextPricedAdjustement.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SafetyDeposit", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowContract
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthContract
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthContract
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.SafetyDeposit.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SafetyDepositRetained", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowContract
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthContract
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthContract
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.SafetyDepositRetained.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Deposited", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field CancellationNoticePeriod", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -945,15 +856,18 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.Deposited.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if m.CancellationNoticePeriod == nil {
+				m.CancellationNoticePeriod = &durationpb.Duration{}
+			}
+			if err := m.CancellationNoticePeriod.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 11:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NoticePeriodBlocks", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CancellationNoticeSentAt", wireType)
 			}
-			m.NoticePeriodBlocks = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowContract
@@ -963,31 +877,29 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.NoticePeriodBlocks |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthContract
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthContract
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.CancellationNoticeSentAt == nil {
+				m.CancellationNoticeSentAt = &timestamppb.Timestamp{}
+			}
+			if err := m.CancellationNoticeSentAt.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 12:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NoticeSentBlock", wireType)
-			}
-			m.NoticeSentBlock = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.NoticeSentBlock |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 13:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
 			}
@@ -1006,11 +918,11 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 14:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field StatusChangeBlock", wireType)
+		case 13:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CreatedAt", wireType)
 			}
-			m.StatusChangeBlock = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowContract
@@ -1020,16 +932,69 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.StatusChangeBlock |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthContract
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthContract
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.CreatedAt == nil {
+				m.CreatedAt = &timestamppb.Timestamp{}
+			}
+			if err := m.CreatedAt.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 14:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ActivatedAt", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowContract
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthContract
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthContract
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ActivatedAt == nil {
+				m.ActivatedAt = &timestamppb.Timestamp{}
+			}
+			if err := m.ActivatedAt.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 15:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Lessee", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field PrepaidUntil", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowContract
@@ -1039,86 +1004,33 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthContract
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthContract
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Lessee = string(dAtA[iNdEx:postIndex])
+			if m.PrepaidUntil == nil {
+				m.PrepaidUntil = &timestamppb.Timestamp{}
+			}
+			if err := m.PrepaidUntil.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 16:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CreationBlock", wireType)
-			}
-			m.CreationBlock = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.CreationBlock |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 17:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ActivationBlock", wireType)
-			}
-			m.ActivationBlock = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.ActivationBlock |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 18:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PrepaidUntilBlock", wireType)
-			}
-			m.PrepaidUntilBlock = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.PrepaidUntilBlock |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 19:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AsNumber", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field UpdatedAt", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowContract
@@ -1128,113 +1040,28 @@ func (m *Contract) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthContract
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthContract
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.AsNumber = string(dAtA[iNdEx:postIndex])
+			if m.UpdatedAt == nil {
+				m.UpdatedAt = &timestamppb.Timestamp{}
+			}
+			if err := m.UpdatedAt.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
-		case 20:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AsnUpdateBlock", wireType)
-			}
-			m.AsnUpdateBlock = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.AsnUpdateBlock |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 21:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ConfirmedAsNumber", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthContract
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthContract
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ConfirmedAsNumber = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 22:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AsNumberConfirmationBlock", wireType)
-			}
-			m.AsNumberConfirmationBlock = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.AsNumberConfirmationBlock |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 23:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ContractChangeBlock", wireType)
-			}
-			m.ContractChangeBlock = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowContract
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.ContractChangeBlock |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipContract(dAtA[iNdEx:])
