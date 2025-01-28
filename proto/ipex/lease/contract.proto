@@ -34,14 +34,14 @@ message Contract {
   uint64 lesseeOrg = 4; 
   cosmos.base.v1beta1.Coin price = 5 [(gogoproto.nullable) = false]; 
   PriceAdjustement priceAdjustementType = 6;
-  google.protobuf.Timestamp nextPricedAdjustement = 7;
+  google.protobuf.Timestamp nextPricedAdjustement = 7 [(gogoproto.stdtime) = true];
   cosmos.base.v1beta1.Coin safetyDeposit = 8 [(gogoproto.nullable) = false]; 
-  cosmos.base.v1beta1.Coin safetyDepositRetained = 9 [(gogoproto.nullable) = false]; 
-  google.protobuf.Duration cancellationNoticePeriod = 10; 
-  google.protobuf.Timestamp cancellationNoticeSentAt = 11; 
+  cosmos.base.v1beta1.Coin safetyDepositRetained = 9; 
+  google.protobuf.Duration cancellationNoticePeriod = 10 [(gogoproto.stdduration) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp cancellationNoticeSentAt = 11 [(gogoproto.stdtime) = true]; 
   ContractStatus status = 12; 
-  google.protobuf.Timestamp createdAt = 13; 
-  google.protobuf.Timestamp activatedAt = 14; 
-  google.protobuf.Timestamp prepaidUntil = 15; 
-  google.protobuf.Timestamp updatedAt = 16;
+  google.protobuf.Timestamp createdAt = 13 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp activatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp prepaidUntil = 15 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp updatedAt = 16 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

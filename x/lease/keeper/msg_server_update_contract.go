@@ -20,16 +20,15 @@ func (k msgServer) UpdateContract(goCtx context.Context, msg *types.MsgUpdateCon
 	if !found {
 		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
-	if msg.Creator != contract.Owner {
-		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
-	}
+	// if msg.Creator != contract.Owner {
+	// 	return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+	// }
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_PENDING &&
 		contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in pending or forsale state to be updated")
 	}
 	contract.Price = msg.Price
-	contract.Deposit = msg.Deposit
-	contract.NoticePeriodBlocks = msg.NoticePeriodBlocks
+
 	k.SetContract(ctx, contract)
 
 	ctx.EventManager().EmitEvent(
@@ -38,8 +37,8 @@ func (k msgServer) UpdateContract(goCtx context.Context, msg *types.MsgUpdateCon
 			sdk.NewAttribute(types.ContractUpdatedEventContractId, strconv.FormatUint(msg.Id, 10)),
 			sdk.NewAttribute(types.ContractUpdatedEventPrice, msg.Price.Amount.String()),
 			sdk.NewAttribute(types.ContractUpdatedEventPriceDenom, msg.Price.Denom),
-			sdk.NewAttribute(types.ContractUpdatedEventDepositAmount, msg.Deposit.Amount.String()),
-			sdk.NewAttribute(types.ContractUpdatedEventNoticePeriodBlocks, strconv.FormatUint(msg.NoticePeriodBlocks, 10)),
+			// sdk.NewAttribute(types.ContractUpdatedEventDepositAmount, msg.Deposit.Amount.String()),
+			// sdk.NewAttribute(types.ContractUpdatedEventNoticePeriodBlocks, strconv.FormatUint(msg.NoticePeriodBlocks, 10)),
 		),
 	)
 	return &types.MsgUpdateContractResponse{}, nil

@@ -8,12 +8,10 @@ import (
 
 var _ sdk.Msg = &MsgUpdateContract{}
 
-func NewMsgUpdateContract(creator string, price sdk.Coin, deposit sdk.Coin, noticePeriodBlocks uint64, id uint64) *MsgUpdateContract {
+func NewMsgUpdateContract(creator string, price sdk.Coin, id uint64) *MsgUpdateContract {
 	return &MsgUpdateContract{
 		Creator:            creator,
 		Price:              price,
-		Deposit:            deposit,
-		NoticePeriodBlocks: noticePeriodBlocks,
 		Id:                 id,
 	}
 }
@@ -26,9 +24,6 @@ func (msg *MsgUpdateContract) ValidateBasic() error {
 
 	if !msg.Price.IsPositive() {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "price must be positive")
-	}
-	if msg.NoticePeriodBlocks == 0 {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "notice period must be positive")
 	}
 	return nil
 }

@@ -6,7 +6,6 @@ import (
 	"ipex/x/lease/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateContract) (*types.MsgCreateContractResponse, error) {
@@ -28,8 +27,8 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		CancellationNoticePeriod: msg.CancellationNoticePeriod,
 		CancellationNoticeSentAt: nil,
 		Status: types.ContractStatus_CONTRACT_STATUS_FORSALE,
-		CreatedAt: timestamppb.New(ctx.BlockTime()),
-		UpdatedAt: timestamppb.New(ctx.BlockTime()),
+		CreatedAt: ctx.BlockTime(),
+		UpdatedAt: ctx.BlockTime(),
 	}
 	id := k.AppendContract(
 		ctx,

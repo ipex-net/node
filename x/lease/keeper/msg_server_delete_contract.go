@@ -19,9 +19,10 @@ func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteCon
 	if !found {
 		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
-	if msg.Creator != contract.Owner {
-		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
-	}
+
+	// if msg.Creator != contract.Owner {
+	// 	return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+	// }
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_TERMINATED &&
 		contract.Status != types.ContractStatus_CONTRACT_STATUS_PENDING &&
 		contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {

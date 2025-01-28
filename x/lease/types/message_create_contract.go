@@ -6,7 +6,6 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"google.golang.org/protobuf/types/known/durationpb"
 )
 
 var _ sdk.Msg = &MsgCreateContract{}
@@ -18,7 +17,7 @@ func NewMsgCreateContract(creator string, ownerOrg uint64, price sdk.Coin, safet
         OwnerOrg:               ownerOrg,
         Price:                  price,
         SafetyDeposit:          safetyDeposit,
-        CancellationNoticePeriod: durationpb.New(cancellationNoticePeriod),
+        CancellationNoticePeriod: cancellationNoticePeriod,
         SubnetId:               subnetId,
 		PriceAdjustementType:	priceAdjustementType,
 	}

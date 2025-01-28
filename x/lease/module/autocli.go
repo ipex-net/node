@@ -43,16 +43,26 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Skip:      true, // skipped because authority gated
 				},
 				{
-					RpcMethod:      "CreateContract",
-					Use:            "create-contract [network-address] [prefix-length] [rir] [country-code] [geofeed-url] [price] [deposit] [notice-period-blocks]",
-					Short:          "Send a create-contract tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "networkAddress"}, {ProtoField: "prefixLength"}, {ProtoField: "rir"}, {ProtoField: "countryCode"}, {ProtoField: "geofeedUrl"}, {ProtoField: "price"}, {ProtoField: "deposit"}, {ProtoField: "noticePeriodBlocks"}},
+					RpcMethod: "CreateContract",
+					Use:       "create-contract [owner-org] [price] [safety-deposit] [cancellation-notice-period] [subnet-id] [price-adjustment-type]",
+					Short:     "Send a create-contract tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "ownerOrg"},
+						{ProtoField: "price"},
+						{ProtoField: "safetyDeposit"},
+						{ProtoField: "cancellationNoticePeriod"},
+						{ProtoField: "subnetId"},
+						{ProtoField: "priceAdjustementType"},
+					},
 				},
 				{
-					RpcMethod:      "UpdateContract",
-					Use:            "update-contract [price] [deposit] [notice-period-blocks] [id]",
-					Short:          "Send a update-contract tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "price"}, {ProtoField: "deposit"}, {ProtoField: "noticePeriodBlocks"}, {ProtoField: "id"}},
+					RpcMethod: "UpdateContract",
+					Use:       "update-contract [price] [id]",
+					Short:     "Send a update-contract tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "price"},
+						{ProtoField: "id"},
+					},
 				},
 				{
 					RpcMethod:      "DeleteContract",
