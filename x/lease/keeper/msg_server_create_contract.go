@@ -28,6 +28,15 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		return nil, errorsmod.Wrap(ErrInvalidOrgId, "org ID not provided")
 	}
 
+	// Verify creator is org admin
+	if !k.orgKeeper.VerifyOrgAdmin(goCtx, msg.OwnerOrg, msg.Creator) {
+		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.OwnerOrg)
+	}
+
+	// Verify creator if the admin of the owner of subnet
+	if !k.subnetKeeper.VerifySubnetOwner(goCtx, msg.SubnetId, msg.Creator) {
+		return nil, errorsmod.Wrapf(ErrNotSubnetOwnerAdmin, "address %s is not an admin of the owner org %d for subnet ID %d", msg.Creator, msg.OwnerOrg, msg.SubnetId)
+	}
 
 	//TODO: ALL VALIDATIONS
 	// Check for existing active contracts with the same network address
