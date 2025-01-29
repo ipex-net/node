@@ -150,3 +150,17 @@ func (k Keeper) VerifySubnetOwner(ctx context.Context, subnetId uint64, owner st
 	//Checking that the user is admin of user organisation
 	return k.orgKeeper.VerifyOrgAdmin(ctx, subnet.OwnerOrgId, owner)
 }
+
+//Verify subnet owner
+func (k Keeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint64) bool {
+
+	//Fetching the subnet
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return false
+	}
+	if subnet.Status != types.SubnetStatus_SUBNET_STATUS_READY {
+		return false
+	}
+	return true
+}

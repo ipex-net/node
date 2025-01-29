@@ -7,9 +7,11 @@ enum SubnetStatus {
   // Initial state, for freshly added subnets
   SUBNET_STATUS_INITIAL = 0;
   // When ownership is verified
-  SUBNET_STATUS_VERIFIED = 1; 
+  SUBNET_STATUS_READY = 1; 
   // When ownership verification failed in certaing amount of blocks
   SUBNET_STATUS_ERROR = 2;
+  //When subnet is 
+  SUBNET_STATUS_LEASED = 3;
 }
 
 enum Rir {
