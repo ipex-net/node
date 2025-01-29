@@ -5,11 +5,29 @@ import (
 
 	"ipex/x/lease/types"
 
+	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateContract) (*types.MsgCreateContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	//Checking if the address is correct
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// Check if the org id exists
+	if msg.OwnerOrg != 0 {
+		if !k.orgKeeper.HasOrg(ctx, msg.OwnerOrg) {
+			return nil, errorsmod.Wrapf(ErrInvalidOrgId, "org with ID %d not found", msg.OwnerOrg)
+		}
+	} else {
+		return nil, errorsmod.Wrap(ErrInvalidOrgId, "org ID not provided")
+	}
+
 
 	//TODO: ALL VALIDATIONS
 	// Check for existing active contracts with the same network address

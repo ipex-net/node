@@ -23,3 +23,8 @@ type ParamSubspace interface {
 	Get(context.Context, []byte, interface{})
 	Set(context.Context, []byte, interface{})
 }
+
+type OrgKeeper interface {
+	HasOrg(ctx context.Context, id uint64) bool
+	VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) bool
+}
