@@ -24,6 +24,7 @@ type (
 		accountKeeper types.AccountKeeper
 		bankKeeper    types.BankKeeper
 		orgKeeper types.OrgKeeper
+		subnetKeeper types.SubnetKeeper
 	}
 )
 
@@ -36,6 +37,7 @@ func NewKeeper(
 	accountKeeper types.AccountKeeper,
 	bankKeeper types.BankKeeper,
 	orgKeeper types.OrgKeeper,
+	subnetKeeper types.SubnetKeeper,
 ) Keeper {
 	if _, err := sdk.AccAddressFromBech32(authority); err != nil {
 		panic(fmt.Sprintf("invalid authority address: %s", authority))
@@ -50,6 +52,7 @@ func NewKeeper(
 		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
 		orgKeeper:    orgKeeper,
+		subnetKeeper: subnetKeeper,
 	}
 }
 

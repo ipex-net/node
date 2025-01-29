@@ -28,3 +28,7 @@ type OrgKeeper interface {
 	HasOrg(ctx context.Context, id uint64) bool
 	VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) bool
 }
+
+type SubnetKeeper interface {
+	VerifySubnetOwner(ctx context.Context, subnetId uint64, user string) bool
+}

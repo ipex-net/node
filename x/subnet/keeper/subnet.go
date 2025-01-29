@@ -113,7 +113,6 @@ func GetSubnetIDBytes(id uint64) []byte {
 }
 
 //Verify subnet user
-
 func (k Keeper) VerifySubnetUser(ctx context.Context, subnetId uint64, user string) bool {
 
 	// Validate the provided admin address
@@ -130,4 +129,24 @@ func (k Keeper) VerifySubnetUser(ctx context.Context, subnetId uint64, user stri
 
 	//Checking that the user is admin of user organisation
 	return k.orgKeeper.VerifyOrgAdmin(ctx, subnet.UserOrgId, user)
+}
+
+
+//Verify subnet owner
+func (k Keeper) VerifySubnetOwner(ctx context.Context, subnetId uint64, owner string) bool {
+
+	// Validate the provided admin address
+	_, err := sdk.AccAddressFromBech32(owner)
+	if err != nil {
+		return false
+	}
+
+	//Fetching the subnet
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return false
+	}
+
+	//Checking that the user is admin of user organisation
+	return k.orgKeeper.VerifyOrgAdmin(ctx, subnet.OwnerOrgId, owner)
 }
