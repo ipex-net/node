@@ -25,6 +25,7 @@ service Msg {
   rpc UpdateContract (MsgUpdateContract) returns (MsgUpdateContractResponse);
   rpc DeleteContract (MsgDeleteContract) returns (MsgDeleteContractResponse);
   rpc CancelContract (MsgCancelContract) returns (MsgCancelContractResponse);
+  rpc RevokeContract (MsgRevokeContract) returns (MsgRevokeContractResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -48,11 +49,11 @@ message MsgCreateContract {
   option (cosmos.msg.v1.signer) = "creator";
   string                   creator                  = 1;
   uint64                   ownerOrg                 = 2;
-  cosmos.base.v1beta1.Coin price                    = 3 [(gogoproto.nullable) = false];
-  cosmos.base.v1beta1.Coin safetyDeposit            = 4 [(gogoproto.nullable) = false];
-  google.protobuf.Duration cancellationNoticePeriod = 5 [(gogoproto.stdduration) = true, (gogoproto.nullable) = false];
-  uint64 subnetId                                   = 6;
-  PriceAdjustement  priceAdjustementType            = 7;
+  cosmos.base.v1beta1.Coin price                    = 3 [(gogoproto.nullable)    = false] ;
+  cosmos.base.v1beta1.Coin safetyDeposit            = 4 [(gogoproto.nullable)    = false] ;
+  google.protobuf.Duration cancellationNoticePeriod = 5 [(gogoproto.stdduration) = true , (gogoproto.nullable) = false];
+  uint64                   subnetId                 = 6;
+  PriceAdjustement         priceAdjustementType     = 7;
 }
 
 message MsgCreateContractResponse {
@@ -61,9 +62,9 @@ message MsgCreateContractResponse {
 
 message MsgUpdateContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string                   creator            = 1;
-  cosmos.base.v1beta1.Coin price              = 2 [(gogoproto.nullable) = false];
-  uint64                   id                 = 3;
+  string                   creator = 1;
+  cosmos.base.v1beta1.Coin price   = 2 [(gogoproto.nullable) = false];
+  uint64                   id      = 3;
 }
 
 message MsgUpdateContractResponse {}
@@ -83,4 +84,12 @@ message MsgCancelContract {
 }
 
 message MsgCancelContractResponse {}
+
+message MsgRevokeContract {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgRevokeContractResponse {}
 

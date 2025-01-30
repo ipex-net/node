@@ -37,7 +37,7 @@ message Contract {
   cosmos.base.v1beta1.Coin safetyDeposit = 8 [(gogoproto.nullable) = false]; 
   cosmos.base.v1beta1.Coin safetyDepositRetained = 9; 
   google.protobuf.Duration cancellationNoticePeriod = 10 [(gogoproto.stdduration) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp cancellationNoticeSentAt = 11 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp cancellationNoticeSentAt = 11 [(gogoproto.stdtime) = true,(gogoproto.nullable) = true]; 
   ContractStatus status = 12; 
   google.protobuf.Timestamp createdAt = 13 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
   google.protobuf.Timestamp activatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 

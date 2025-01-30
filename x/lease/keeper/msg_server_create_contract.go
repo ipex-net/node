@@ -38,30 +38,29 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		return nil, errorsmod.Wrapf(ErrNotSubnetOwnerAdmin, "address %s is not an admin of the owner org %d of the subnet", msg.Creator, msg.OwnerOrg)
 	}
 
-	//Verify subnet is available 
+	//Verify subnet is available
 	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
 		return nil, errorsmod.Wrap(ErrSubnetNotReady, "subnet is not ready for lease")
 	}
 
 	var contract = types.Contract{
-		SubnetId:     msg.SubnetId,
-		OwnerOrg:       msg.OwnerOrg,
-		LesseeOrg:          0,
-		Price:              msg.Price,
-		PriceAdjustementType: msg.PriceAdjustementType,
-		NextPricedAdjustement: nil,
-		SafetyDeposit: msg.SafetyDeposit,
+		SubnetId:                 msg.SubnetId,
+		OwnerOrg:                 msg.OwnerOrg,
+		LesseeOrg:                0,
+		Price:                    msg.Price,
+		PriceAdjustementType:     msg.PriceAdjustementType,
+		NextPricedAdjustement:    nil,
+		SafetyDeposit:            msg.SafetyDeposit,
 		CancellationNoticePeriod: msg.CancellationNoticePeriod,
 		CancellationNoticeSentAt: nil,
-		Status: types.ContractStatus_CONTRACT_STATUS_FORSALE,
-		CreatedAt: ctx.BlockTime(),
-		UpdatedAt: ctx.BlockTime(),
+		Status:                   types.ContractStatus_CONTRACT_STATUS_FORSALE,
+		CreatedAt:                ctx.BlockTime(),
+		UpdatedAt:                ctx.BlockTime(),
 	}
 	id := k.AppendContract(
 		ctx,
 		contract,
 	)
-
 
 	//TODO: EMIT EVENT
 

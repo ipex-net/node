@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	"ipex/x/lease/types"
@@ -21,11 +20,13 @@ func (k msgServer) CancelContract(goCtx context.Context, msg *types.MsgCancelCon
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
+	//Fetching the contract
 	contract, found := k.GetContract(ctx, msg.Id)
 	if !found {
-		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
+		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "Contract %d doesn't exist", msg.Id)
 	}
 
+	//Checking the contract status
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED {
 		return nil, errorsmod.Wrap(types.ErrInvalidContractStatus, "can not cancel contract that is not in LEASED state")
 	}

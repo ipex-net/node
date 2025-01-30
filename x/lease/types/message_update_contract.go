@@ -10,9 +10,9 @@ var _ sdk.Msg = &MsgUpdateContract{}
 
 func NewMsgUpdateContract(creator string, price sdk.Coin, id uint64) *MsgUpdateContract {
 	return &MsgUpdateContract{
-		Creator:            creator,
-		Price:              price,
-		Id:                 id,
+		Creator: creator,
+		Price:   price,
+		Id:      id,
 	}
 }
 

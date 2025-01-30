@@ -23,8 +23,8 @@ type (
 
 		accountKeeper types.AccountKeeper
 		bankKeeper    types.BankKeeper
-		orgKeeper types.OrgKeeper
-		subnetKeeper types.SubnetKeeper
+		orgKeeper     types.OrgKeeper
+		subnetKeeper  types.SubnetKeeper
 	}
 )
 
@@ -51,8 +51,8 @@ func NewKeeper(
 
 		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
-		orgKeeper:    orgKeeper,
-		subnetKeeper: subnetKeeper,
+		orgKeeper:     orgKeeper,
+		subnetKeeper:  subnetKeeper,
 	}
 }
 
