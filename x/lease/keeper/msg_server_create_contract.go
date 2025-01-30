@@ -63,8 +63,8 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	)
 
 
-	//TODO: EMIT EVENTS
-	
+	//TODO: EMIT EVENT
+
 	return &types.MsgCreateContractResponse{
 		Id: id,
 	}, nil

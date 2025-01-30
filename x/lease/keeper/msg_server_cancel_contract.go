@@ -15,54 +15,37 @@ import (
 func (k msgServer) CancelContract(goCtx context.Context, msg *types.MsgCancelContract) (*types.MsgCancelContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	//Checking if the address is correct
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
 	contract, found := k.GetContract(ctx, msg.Id)
 	if !found {
 		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
 
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED {
-		return nil, errorsmod.Wrap(types.ErrInvalidContractStatus, "contract must be in pending, forsale or terminated status to be deleted")
+		return nil, errorsmod.Wrap(types.ErrInvalidContractStatus, "can not cancel contract that is not in LEASED state")
 	}
 
-	//TODO: OWNERSHIP VERIFICATION
-	//if msg.Creator != contract.Owner && msg.Creator != contract.Lessee {
-	//	return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
-	//}
+	//Checking that the sender is the admin of the lessee org
+	if !k.orgKeeper.VerifyOrgAdmin(ctx, contract.LesseeOrg, msg.Creator) {
+		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized, "incorrect lessee admin %s", msg.Creator)
+	}
 
-	// if msg.Creator == contract.Owner {
-	// 	contract.Status = types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER
-	// 	contract.StatusChangeBlock = uint64(ctx.BlockHeight())
-	// 	contract.NoticeSentBlock = uint64(ctx.BlockHeight())
-	// 	k.SetContract(ctx, contract)
-	// 	ctx.EventManager().EmitEvent(
-	// 		sdk.NewEvent(types.ContractCanceledByOwnerEventType,
-	// 			sdk.NewAttribute(types.ContractCanceledByOwnerCreator, msg.Creator),
-	// 			sdk.NewAttribute(types.ContractCanceledByOwnerContractId, strconv.FormatUint(msg.Id, 10)),
-	// 		),
-	// 	)
-	// }
+	//Updating the contract
+	contract.Status = types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE
+	contract.UpdatedAt = ctx.BlockTime()
 
-	// if msg.Creator == contract.Lessee {
-	// 	contract.Status = types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE
-	// 	contract.StatusChangeBlock = uint64(ctx.BlockHeight())
-	// 	contract.NoticeSentBlock = uint64(ctx.BlockHeight())
-	// 	k.SetContract(ctx, contract)
-	// 	ctx.EventManager().EmitEvent(
-	// 		sdk.NewEvent(types.ContractCanceledByLesseeEventType,
-	// 			sdk.NewAttribute(types.ContractCanceledByLesseeCreator, msg.Creator),
-	// 			sdk.NewAttribute(types.ContractCanceledByLesseeContractId, strconv.FormatUint(msg.Id, 10)),
-	// 		),
-	// 	)
-	// }
-
-	//DUMB CANCELLATION:
 	k.SetContract(ctx, contract)
-		ctx.EventManager().EmitEvent(
-			sdk.NewEvent(types.ContractCanceledByLesseeEventType,
-				sdk.NewAttribute(types.ContractCanceledByLesseeCreator, msg.Creator),
-				sdk.NewAttribute(types.ContractCanceledByLesseeContractId, strconv.FormatUint(msg.Id, 10)),
-			),
-		)
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(types.ContractCanceledByLesseeEventType,
+			sdk.NewAttribute(types.ContractCanceledByLesseeCreator, msg.Creator),
+			sdk.NewAttribute(types.ContractCanceledByLesseeContractId, strconv.FormatUint(msg.Id, 10)),
+		),
+	)
 
 	return &types.MsgCancelContractResponse{}, nil
 }

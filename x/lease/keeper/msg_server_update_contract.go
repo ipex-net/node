@@ -23,9 +23,8 @@ func (k msgServer) UpdateContract(goCtx context.Context, msg *types.MsgUpdateCon
 	// if msg.Creator != contract.Owner {
 	// 	return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	// }
-	if contract.Status != types.ContractStatus_CONTRACT_STATUS_PENDING &&
-		contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
-		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in pending or forsale state to be updated")
+	if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in forsale status to be updated")
 	}
 	contract.Price = msg.Price
 
