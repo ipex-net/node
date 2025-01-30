@@ -35,13 +35,13 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 
 	// Verify creator if the admin of the owner of subnet
 	if !k.subnetKeeper.VerifySubnetOwner(goCtx, msg.SubnetId, msg.Creator) {
-		return nil, errorsmod.Wrapf(ErrNotSubnetOwnerAdmin, "address %s is not an admin of the owner org %d for subnet ID %d", msg.Creator, msg.OwnerOrg, msg.SubnetId)
+		return nil, errorsmod.Wrapf(ErrNotSubnetOwnerAdmin, "address %s is not an admin of the owner org %d of the subnet", msg.Creator, msg.OwnerOrg)
 	}
 
-	//TODO: ALL VALIDATIONS
-	// Check for existing active contracts with the same network address
-
-	//TODO: PRICE ADJUSTEMENT
+	//Verify subnet is available 
+	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
+		return nil, errorsmod.Wrap(ErrSubnetNotReady, "subnet is not ready for lease")
+	}
 
 	var contract = types.Contract{
 		SubnetId:     msg.SubnetId,
@@ -64,6 +64,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 
 
 	//TODO: EMIT EVENTS
+	
 	return &types.MsgCreateContractResponse{
 		Id: id,
 	}, nil
