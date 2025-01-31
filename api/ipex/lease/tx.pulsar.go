@@ -875,14 +875,14 @@ func (x *fastReflection_MsgUpdateParamsResponse) ProtoMethods() *protoiface.Meth
 }
 
 var (
-	md_MsgCreateContract                          protoreflect.MessageDescriptor
-	fd_MsgCreateContract_creator                  protoreflect.FieldDescriptor
-	fd_MsgCreateContract_ownerOrg                 protoreflect.FieldDescriptor
-	fd_MsgCreateContract_price                    protoreflect.FieldDescriptor
-	fd_MsgCreateContract_safetyDeposit            protoreflect.FieldDescriptor
-	fd_MsgCreateContract_cancellationNoticePeriod protoreflect.FieldDescriptor
-	fd_MsgCreateContract_subnetId                 protoreflect.FieldDescriptor
-	fd_MsgCreateContract_priceAdjustementType     protoreflect.FieldDescriptor
+	md_MsgCreateContract                      protoreflect.MessageDescriptor
+	fd_MsgCreateContract_creator              protoreflect.FieldDescriptor
+	fd_MsgCreateContract_ownerOrg             protoreflect.FieldDescriptor
+	fd_MsgCreateContract_price                protoreflect.FieldDescriptor
+	fd_MsgCreateContract_safetyDeposit        protoreflect.FieldDescriptor
+	fd_MsgCreateContract_revocationPeriod     protoreflect.FieldDescriptor
+	fd_MsgCreateContract_subnetId             protoreflect.FieldDescriptor
+	fd_MsgCreateContract_priceAdjustementType protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -892,7 +892,7 @@ func init() {
 	fd_MsgCreateContract_ownerOrg = md_MsgCreateContract.Fields().ByName("ownerOrg")
 	fd_MsgCreateContract_price = md_MsgCreateContract.Fields().ByName("price")
 	fd_MsgCreateContract_safetyDeposit = md_MsgCreateContract.Fields().ByName("safetyDeposit")
-	fd_MsgCreateContract_cancellationNoticePeriod = md_MsgCreateContract.Fields().ByName("cancellationNoticePeriod")
+	fd_MsgCreateContract_revocationPeriod = md_MsgCreateContract.Fields().ByName("revocationPeriod")
 	fd_MsgCreateContract_subnetId = md_MsgCreateContract.Fields().ByName("subnetId")
 	fd_MsgCreateContract_priceAdjustementType = md_MsgCreateContract.Fields().ByName("priceAdjustementType")
 }
@@ -986,9 +986,9 @@ func (x *fastReflection_MsgCreateContract) Range(f func(protoreflect.FieldDescri
 			return
 		}
 	}
-	if x.CancellationNoticePeriod != nil {
-		value := protoreflect.ValueOfMessage(x.CancellationNoticePeriod.ProtoReflect())
-		if !f(fd_MsgCreateContract_cancellationNoticePeriod, value) {
+	if x.RevocationPeriod != nil {
+		value := protoreflect.ValueOfMessage(x.RevocationPeriod.ProtoReflect())
+		if !f(fd_MsgCreateContract_revocationPeriod, value) {
 			return
 		}
 	}
@@ -1027,8 +1027,8 @@ func (x *fastReflection_MsgCreateContract) Has(fd protoreflect.FieldDescriptor) 
 		return x.Price != nil
 	case "ipex.lease.MsgCreateContract.safetyDeposit":
 		return x.SafetyDeposit != nil
-	case "ipex.lease.MsgCreateContract.cancellationNoticePeriod":
-		return x.CancellationNoticePeriod != nil
+	case "ipex.lease.MsgCreateContract.revocationPeriod":
+		return x.RevocationPeriod != nil
 	case "ipex.lease.MsgCreateContract.subnetId":
 		return x.SubnetId != uint64(0)
 	case "ipex.lease.MsgCreateContract.priceAdjustementType":
@@ -1057,8 +1057,8 @@ func (x *fastReflection_MsgCreateContract) Clear(fd protoreflect.FieldDescriptor
 		x.Price = nil
 	case "ipex.lease.MsgCreateContract.safetyDeposit":
 		x.SafetyDeposit = nil
-	case "ipex.lease.MsgCreateContract.cancellationNoticePeriod":
-		x.CancellationNoticePeriod = nil
+	case "ipex.lease.MsgCreateContract.revocationPeriod":
+		x.RevocationPeriod = nil
 	case "ipex.lease.MsgCreateContract.subnetId":
 		x.SubnetId = uint64(0)
 	case "ipex.lease.MsgCreateContract.priceAdjustementType":
@@ -1091,8 +1091,8 @@ func (x *fastReflection_MsgCreateContract) Get(descriptor protoreflect.FieldDesc
 	case "ipex.lease.MsgCreateContract.safetyDeposit":
 		value := x.SafetyDeposit
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "ipex.lease.MsgCreateContract.cancellationNoticePeriod":
-		value := x.CancellationNoticePeriod
+	case "ipex.lease.MsgCreateContract.revocationPeriod":
+		value := x.RevocationPeriod
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.lease.MsgCreateContract.subnetId":
 		value := x.SubnetId
@@ -1128,8 +1128,8 @@ func (x *fastReflection_MsgCreateContract) Set(fd protoreflect.FieldDescriptor, 
 		x.Price = value.Message().Interface().(*v1beta1.Coin)
 	case "ipex.lease.MsgCreateContract.safetyDeposit":
 		x.SafetyDeposit = value.Message().Interface().(*v1beta1.Coin)
-	case "ipex.lease.MsgCreateContract.cancellationNoticePeriod":
-		x.CancellationNoticePeriod = value.Message().Interface().(*durationpb.Duration)
+	case "ipex.lease.MsgCreateContract.revocationPeriod":
+		x.RevocationPeriod = value.Message().Interface().(*durationpb.Duration)
 	case "ipex.lease.MsgCreateContract.subnetId":
 		x.SubnetId = value.Uint()
 	case "ipex.lease.MsgCreateContract.priceAdjustementType":
@@ -1164,11 +1164,11 @@ func (x *fastReflection_MsgCreateContract) Mutable(fd protoreflect.FieldDescript
 			x.SafetyDeposit = new(v1beta1.Coin)
 		}
 		return protoreflect.ValueOfMessage(x.SafetyDeposit.ProtoReflect())
-	case "ipex.lease.MsgCreateContract.cancellationNoticePeriod":
-		if x.CancellationNoticePeriod == nil {
-			x.CancellationNoticePeriod = new(durationpb.Duration)
+	case "ipex.lease.MsgCreateContract.revocationPeriod":
+		if x.RevocationPeriod == nil {
+			x.RevocationPeriod = new(durationpb.Duration)
 		}
-		return protoreflect.ValueOfMessage(x.CancellationNoticePeriod.ProtoReflect())
+		return protoreflect.ValueOfMessage(x.RevocationPeriod.ProtoReflect())
 	case "ipex.lease.MsgCreateContract.creator":
 		panic(fmt.Errorf("field creator of message ipex.lease.MsgCreateContract is not mutable"))
 	case "ipex.lease.MsgCreateContract.ownerOrg":
@@ -1200,7 +1200,7 @@ func (x *fastReflection_MsgCreateContract) NewField(fd protoreflect.FieldDescrip
 	case "ipex.lease.MsgCreateContract.safetyDeposit":
 		m := new(v1beta1.Coin)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "ipex.lease.MsgCreateContract.cancellationNoticePeriod":
+	case "ipex.lease.MsgCreateContract.revocationPeriod":
 		m := new(durationpb.Duration)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.lease.MsgCreateContract.subnetId":
@@ -1291,8 +1291,8 @@ func (x *fastReflection_MsgCreateContract) ProtoMethods() *protoiface.Methods {
 			l = options.Size(x.SafetyDeposit)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.CancellationNoticePeriod != nil {
-			l = options.Size(x.CancellationNoticePeriod)
+		if x.RevocationPeriod != nil {
+			l = options.Size(x.RevocationPeriod)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.SubnetId != 0 {
@@ -1340,8 +1340,8 @@ func (x *fastReflection_MsgCreateContract) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x30
 		}
-		if x.CancellationNoticePeriod != nil {
-			encoded, err := options.Marshal(x.CancellationNoticePeriod)
+		if x.RevocationPeriod != nil {
+			encoded, err := options.Marshal(x.RevocationPeriod)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1568,7 +1568,7 @@ func (x *fastReflection_MsgCreateContract) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 5:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CancellationNoticePeriod", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RevocationPeriod", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -1595,10 +1595,10 @@ func (x *fastReflection_MsgCreateContract) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.CancellationNoticePeriod == nil {
-					x.CancellationNoticePeriod = &durationpb.Duration{}
+				if x.RevocationPeriod == nil {
+					x.RevocationPeriod = &durationpb.Duration{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CancellationNoticePeriod); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.RevocationPeriod); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -5546,13 +5546,13 @@ type MsgCreateContract struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Creator                  string               `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	OwnerOrg                 uint64               `protobuf:"varint,2,opt,name=ownerOrg,proto3" json:"ownerOrg,omitempty"`
-	Price                    *v1beta1.Coin        `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`
-	SafetyDeposit            *v1beta1.Coin        `protobuf:"bytes,4,opt,name=safetyDeposit,proto3" json:"safetyDeposit,omitempty"`
-	CancellationNoticePeriod *durationpb.Duration `protobuf:"bytes,5,opt,name=cancellationNoticePeriod,proto3" json:"cancellationNoticePeriod,omitempty"`
-	SubnetId                 uint64               `protobuf:"varint,6,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
-	PriceAdjustementType     PriceAdjustement     `protobuf:"varint,7,opt,name=priceAdjustementType,proto3,enum=ipex.lease.PriceAdjustement" json:"priceAdjustementType,omitempty"`
+	Creator              string               `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	OwnerOrg             uint64               `protobuf:"varint,2,opt,name=ownerOrg,proto3" json:"ownerOrg,omitempty"`
+	Price                *v1beta1.Coin        `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`
+	SafetyDeposit        *v1beta1.Coin        `protobuf:"bytes,4,opt,name=safetyDeposit,proto3" json:"safetyDeposit,omitempty"`
+	RevocationPeriod     *durationpb.Duration `protobuf:"bytes,5,opt,name=revocationPeriod,proto3" json:"revocationPeriod,omitempty"`
+	SubnetId             uint64               `protobuf:"varint,6,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
+	PriceAdjustementType PriceAdjustement     `protobuf:"varint,7,opt,name=priceAdjustementType,proto3,enum=ipex.lease.PriceAdjustement" json:"priceAdjustementType,omitempty"`
 }
 
 func (x *MsgCreateContract) Reset() {
@@ -5603,9 +5603,9 @@ func (x *MsgCreateContract) GetSafetyDeposit() *v1beta1.Coin {
 	return nil
 }
 
-func (x *MsgCreateContract) GetCancellationNoticePeriod() *durationpb.Duration {
+func (x *MsgCreateContract) GetRevocationPeriod() *durationpb.Duration {
 	if x != nil {
-		return x.CancellationNoticePeriod
+		return x.RevocationPeriod
 	}
 	return nil
 }
@@ -5976,7 +5976,7 @@ var file_ipex_lease_tx_proto_rawDesc = []byte{
 	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x4d, 0x73,
 	0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x19, 0x0a,
 	0x17, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xa5, 0x03, 0x0a, 0x11, 0x4d, 0x73, 0x67,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x95, 0x03, 0x0a, 0x11, 0x4d, 0x73, 0x67,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x18,
 	0x0a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x1a, 0x0a, 0x08, 0x6f, 0x77, 0x6e, 0x65,
@@ -5989,12 +5989,11 @@ var file_ipex_lease_tx_proto_rawDesc = []byte{
 	0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
 	0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x42, 0x04, 0xc8,
 	0xde, 0x1f, 0x00, 0x52, 0x0d, 0x73, 0x61, 0x66, 0x65, 0x74, 0x79, 0x44, 0x65, 0x70, 0x6f, 0x73,
-	0x69, 0x74, 0x12, 0x5f, 0x0a, 0x18, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x4e, 0x6f, 0x74, 0x69, 0x63, 0x65, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x18, 0x05,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42,
-	0x08, 0xc8, 0xde, 0x1f, 0x00, 0x98, 0xdf, 0x1f, 0x01, 0x52, 0x18, 0x63, 0x61, 0x6e, 0x63, 0x65,
-	0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x6f, 0x74, 0x69, 0x63, 0x65, 0x50, 0x65, 0x72,
+	0x69, 0x74, 0x12, 0x4f, 0x0a, 0x10, 0x72, 0x65, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44,
+	0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x98, 0xdf, 0x1f,
+	0x01, 0x52, 0x10, 0x72, 0x65, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x65, 0x72,
 	0x69, 0x6f, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x49, 0x64, 0x18,
 	0x06, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x49, 0x64, 0x12,
 	0x51, 0x0a, 0x14, 0x70, 0x72, 0x69, 0x63, 0x65, 0x41, 0x64, 0x6a, 0x75, 0x73, 0x74, 0x65, 0x6d,
@@ -6116,7 +6115,7 @@ var file_ipex_lease_tx_proto_depIdxs = []int32{
 	12, // 0: ipex.lease.MsgUpdateParams.params:type_name -> ipex.lease.Params
 	13, // 1: ipex.lease.MsgCreateContract.price:type_name -> cosmos.base.v1beta1.Coin
 	13, // 2: ipex.lease.MsgCreateContract.safetyDeposit:type_name -> cosmos.base.v1beta1.Coin
-	14, // 3: ipex.lease.MsgCreateContract.cancellationNoticePeriod:type_name -> google.protobuf.Duration
+	14, // 3: ipex.lease.MsgCreateContract.revocationPeriod:type_name -> google.protobuf.Duration
 	15, // 4: ipex.lease.MsgCreateContract.priceAdjustementType:type_name -> ipex.lease.PriceAdjustement
 	13, // 5: ipex.lease.MsgUpdateContract.price:type_name -> cosmos.base.v1beta1.Coin
 	0,  // 6: ipex.lease.Msg.UpdateParams:input_type -> ipex.lease.MsgUpdateParams

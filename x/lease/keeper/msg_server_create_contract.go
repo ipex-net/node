@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strconv"
 
 	"ipex/x/lease/types"
 
@@ -51,7 +52,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		PriceAdjustementType:     msg.PriceAdjustementType,
 		NextPricedAdjustement:    nil,
 		SafetyDeposit:            &deposit,
-		CancellationNoticePeriod: msg.CancellationNoticePeriod,
+		RevocationPeriod: msg.RevocationPeriod,
 		RevocationEffectiveAt: 	  nil,
 		Status:                   types.ContractStatus_CONTRACT_STATUS_FORSALE,
 		CreatedAt:                ctx.BlockTime(),
@@ -62,7 +63,20 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		contract,
 	)
 
-	//TODO: EMIT EVENT
+    // Emit the event with all attributes
+    ctx.EventManager().EmitEvent(
+        sdk.NewEvent(types.ContractCreatedEventType,
+            sdk.NewAttribute(types.ContractCreatedEventCreator, msg.Creator),
+            sdk.NewAttribute(types.ContractCreatedEventContractId, strconv.FormatUint(id, 10)),
+            sdk.NewAttribute(types.ContractCreatedEventSubnetId, strconv.FormatUint(msg.SubnetId, 10)),
+            sdk.NewAttribute(types.ContractCreatedEventPrice, msg.Price.Amount.String()),
+            sdk.NewAttribute(types.ContractCreatedEventPriceDenom, msg.Price.Denom),
+            sdk.NewAttribute(types.ContractCreatedEventDepositAmount, msg.SafetyDeposit.Amount.String()),
+            sdk.NewAttribute(types.ContractCreatedEventDepositDenom, msg.SafetyDeposit.Denom),
+            sdk.NewAttribute(types.ContractCreatedEventRevocationPeriodDuration, msg.RevocationPeriod.String()),
+            sdk.NewAttribute(types.ContractCreatedPriceAdjustementType, msg.PriceAdjustementType.String()),
+        ),
+    )
 
 	return &types.MsgCreateContractResponse{
 		Id: id,

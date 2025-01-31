@@ -10,13 +10,13 @@ import (
 
 var _ sdk.Msg = &MsgCreateContract{}
 
-func NewMsgCreateContract(creator string, ownerOrg uint64, price sdk.Coin, safetyDeposit sdk.Coin, cancellationNoticePeriod time.Duration, subnetId uint64, priceAdjustementType PriceAdjustement) *MsgCreateContract {
+func NewMsgCreateContract(creator string, ownerOrg uint64, price sdk.Coin, safetyDeposit sdk.Coin, revocationPeriod time.Duration, subnetId uint64, priceAdjustementType PriceAdjustement) *MsgCreateContract {
 	return &MsgCreateContract{
 		Creator:                  creator,
 		OwnerOrg:                 ownerOrg,
 		Price:                    price,
 		SafetyDeposit:            safetyDeposit,
-		CancellationNoticePeriod: cancellationNoticePeriod,
+		RevocationPeriod: 		  revocationPeriod,
 		SubnetId:                 subnetId,
 		PriceAdjustementType:     priceAdjustementType,
 	}
