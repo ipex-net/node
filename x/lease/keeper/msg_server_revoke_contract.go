@@ -38,9 +38,12 @@ func (k msgServer) RevokeContract(goCtx context.Context, msg *types.MsgRevokeCon
 
 	//Updating the contract
 	blockTime := ctx.BlockTime()
+	//Getting the Revocation time from current time and Cancellation Notice period
+	//Rerouting subnet prior to this date involves a penalty and reputational damage
+	revocationTime := blockTime.Add(contract.CancellationNoticePeriod) 
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER
 	contract.UpdatedAt = blockTime
-	contract.CancellationNoticeSentAt = &blockTime
+	contract.RevocationEffectiveAt = &revocationTime
 	//TODO: set the contract release date and add it in protobuf
 	k.SetContract(ctx, contract)
 	ctx.EventManager().EmitEvent(

@@ -42,7 +42,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
 		return nil, errorsmod.Wrap(ErrSubnetNotReady, "subnet is not ready for lease")
 	}
-
+	deposit := msg.SafetyDeposit
 	var contract = types.Contract{
 		SubnetId:                 msg.SubnetId,
 		OwnerOrg:                 msg.OwnerOrg,
@@ -50,9 +50,9 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		Price:                    msg.Price,
 		PriceAdjustementType:     msg.PriceAdjustementType,
 		NextPricedAdjustement:    nil,
-		SafetyDeposit:            msg.SafetyDeposit,
+		SafetyDeposit:            &deposit,
 		CancellationNoticePeriod: msg.CancellationNoticePeriod,
-		CancellationNoticeSentAt: nil,
+		RevocationEffectiveAt: 	  nil,
 		Status:                   types.ContractStatus_CONTRACT_STATUS_FORSALE,
 		CreatedAt:                ctx.BlockTime(),
 		UpdatedAt:                ctx.BlockTime(),
