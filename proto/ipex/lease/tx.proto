@@ -13,7 +13,6 @@ import "google/protobuf/timestamp.proto";
 import "ipex/lease/contract.proto";
 
 option go_package = "ipex/x/lease/types";
-
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
@@ -47,7 +46,7 @@ message MsgUpdateParamsResponse {}
 
 message MsgCreateContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string                   creator                  = 1;
+  string                   creator                  = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64                   ownerOrg                 = 2;
   cosmos.base.v1beta1.Coin price                    = 3 [(gogoproto.nullable)    = false] ;
   cosmos.base.v1beta1.Coin safetyDeposit            = 4 [(gogoproto.nullable)    = false] ;
@@ -62,7 +61,7 @@ message MsgCreateContractResponse {
 
 message MsgUpdateContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string                   creator = 1;
+  string                   creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   cosmos.base.v1beta1.Coin price   = 2 [(gogoproto.nullable) = false];
   uint64                   id      = 3;
 }
@@ -71,7 +70,7 @@ message MsgUpdateContractResponse {}
 
 message MsgDeleteContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 id      = 2;
 }
 
@@ -79,7 +78,7 @@ message MsgDeleteContractResponse {}
 
 message MsgCancelContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 id      = 2;
 }
 
@@ -87,7 +86,7 @@ message MsgCancelContractResponse {}
 
 message MsgRevokeContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 id      = 2;
 }
 

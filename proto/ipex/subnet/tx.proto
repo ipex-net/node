@@ -44,7 +44,7 @@ message MsgUpdateParamsResponse {}
 
 message MsgCreateSubnet {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator        = 1;
+  string creator        = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 ownerOrgId     = 2;
   uint64 networkAddress = 3;
   uint64 mask           = 4;
@@ -58,7 +58,7 @@ message MsgCreateSubnetResponse {
 
 message MsgUpdateSubnetUser {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator   = 1;
+  string creator   = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 id        = 2;
   uint64 userOrgId = 3;
 }
@@ -67,7 +67,7 @@ message MsgUpdateSubnetUserResponse {}
 
 message MsgUpdateSubnetGeofeed {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 id      = 2;
   string geofeed = 3;
 }
@@ -76,7 +76,7 @@ message MsgUpdateSubnetGeofeedResponse {}
 
 message MsgRemoveSubnetUser {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 id      = 2;
 }
 
@@ -84,7 +84,7 @@ message MsgRemoveSubnetUserResponse {}
 
 message MsgUpdateSubnetOrigin {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 id      = 2;
   uint64 as      = 3;
 }
@@ -93,7 +93,7 @@ message MsgUpdateSubnetOriginResponse {}
 
 message MsgUpdateSubnetGeolocation {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator    = 1;
+  string creator    = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 id         = 2;
   string country    = 3;
   string region     = 4;

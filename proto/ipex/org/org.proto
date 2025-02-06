@@ -1,12 +1,14 @@
 syntax = "proto3";
 package ipex.org;
 
+import "cosmos_proto/cosmos.proto";
+
 option go_package = "ipex/x/org/types";
 
 message Org {
   uint64 id = 1;
-  string creator = 2; 
-  string admin = 3; 
+  string creator = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string admin = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"]; 
   string name = 4; 
   string legalName = 5; 
   string address = 6; 
