@@ -35,7 +35,6 @@ const (
 	ContractCreatedEventDepositAmount      = "deposit-amount"       //Deposit amount
 	ContractCreatedEventDepositDenom       = "deposit-denom"        //Deposit denom
 	ContractCreatedEventRevocationPeriodDuration = "revocation-period"  //Duration notify before owner-initiated termination
-	ContractCreatedPriceAdjustementType    = "price-adjustement"    //Price adjustement type 
 )
 
 const (

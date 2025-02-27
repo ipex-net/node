@@ -44,7 +44,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod: "CreateContract",
-					Use:       "create-contract [owner-org] [price] [safety-deposit] [revocation-period] [subnet-id] [price-adjustment-type]",
+					Use:       "create-contract [owner-org] [price] [safety-deposit] [revocation-period] [subnet-id]",
 					Short:     "Send a create-contract tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "ownerOrg"},
@@ -52,7 +52,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 						{ProtoField: "safetyDeposit"},
 						{ProtoField: "revocationPeriod"},
 						{ProtoField: "subnetId"},
-						{ProtoField: "priceAdjustementType"},
 					},
 				},
 				{

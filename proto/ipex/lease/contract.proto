@@ -17,30 +17,19 @@ enum ContractStatus {
   CONTRACT_STATUS_EXPIRED = 5;
 }
 
-enum PriceAdjustement {
-  PRICE_ADJUSTEMENT_NONE = 0;
-  PRICE_ADJUSTEMENT_MONTHLY = 1;
-  PRICE_ADJUSTEMENT_QUARTERLY = 2;
-  PRICE_ADJUSTEMENT_SEMIANNUALLY = 3;
-  PRICE_ADJUSTEMENT_ANNUALLY = 4;
-}
-
-
 message Contract {
   uint64 id = 1; 
   uint64 subnetId = 2;
   uint64 ownerOrg = 3; 
   uint64 lesseeOrg = 4; 
   cosmos.base.v1beta1.Coin price = 5 [(gogoproto.nullable) = false]; 
-  PriceAdjustement priceAdjustementType = 6;
-  google.protobuf.Timestamp nextPricedAdjustement = 7 [(gogoproto.stdtime) = true];
-  cosmos.base.v1beta1.Coin safetyDeposit = 8 [(gogoproto.nullable) = true]; 
-  cosmos.base.v1beta1.Coin safetyDepositRetained = 9; 
-  google.protobuf.Duration revocationPeriod = 10 [(gogoproto.stdduration) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp revocationEffectiveAt = 11 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
-  ContractStatus status = 12; 
-  google.protobuf.Timestamp createdAt = 13 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp activatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp prepaidUntil = 15 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp updatedAt = 16 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  cosmos.base.v1beta1.Coin safetyDeposit = 6 [(gogoproto.nullable) = true]; 
+  cosmos.base.v1beta1.Coin safetyDepositRetained = 7; 
+  google.protobuf.Duration revocationPeriod = 8 [(gogoproto.stdduration) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp revocationEffectiveAt = 9 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
+  ContractStatus status = 10; 
+  google.protobuf.Timestamp createdAt = 11 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp activatedAt = 12 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp prepaidUntil = 13 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp updatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

@@ -49,8 +49,6 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		OwnerOrg:                 msg.OwnerOrg,
 		LesseeOrg:                0,
 		Price:                    msg.Price,
-		PriceAdjustementType:     msg.PriceAdjustementType,
-		NextPricedAdjustement:    nil,
 		SafetyDeposit:            &deposit,
 		RevocationPeriod: msg.RevocationPeriod,
 		RevocationEffectiveAt: 	  nil,
@@ -74,7 +72,6 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
             sdk.NewAttribute(types.ContractCreatedEventDepositAmount, msg.SafetyDeposit.Amount.String()),
             sdk.NewAttribute(types.ContractCreatedEventDepositDenom, msg.SafetyDeposit.Denom),
             sdk.NewAttribute(types.ContractCreatedEventRevocationPeriodDuration, msg.RevocationPeriod.String()),
-            sdk.NewAttribute(types.ContractCreatedPriceAdjustementType, msg.PriceAdjustementType.String()),
         ),
     )
 
