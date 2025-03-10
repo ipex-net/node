@@ -20,4 +20,6 @@ var (
 	ErrInvalidNoticePeriod   = sdkerrors.Register(ModuleName, 1109, "notice period must be positive")
 	ErrInvalidGeofeedURL     = sdkerrors.Register(ModuleName, 1110, "invalid geofeed URL format or requirements")
 	ErrInvalidContractStatus = sdkerrors.Register(ModuleName, 1111, "invalid contract status")
+	ErrInsufficientFunds     = sdkerrors.Register(ModuleName, 1112, "insufficient funds for the operation")
+	ErrFundTransfer          = sdkerrors.Register(ModuleName, 1113, "error during fund transfer")
 )

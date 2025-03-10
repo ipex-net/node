@@ -15,6 +15,9 @@ const (
 
 	// ContractCountKey this key will be used to keep track of the ID of the latest contract added to the store.
 	ContractCountKey = "Contract/count/"
+
+	// ModuleAccountName is the name of the module account
+	ModuleAccountName = ModuleName
 )
 
 var (

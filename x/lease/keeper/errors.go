@@ -14,4 +14,6 @@ var (
 	ErrSubnetNotFound      = sdkerrors.Register(ModuleName, 1210, "invalid subnet id")
 	ErrNotSubnetOwnerAdmin = sdkerrors.Register(ModuleName, 1211, "not subnet owner admin")
 	ErrSubnetNotReady      = sdkerrors.Register(ModuleName, 1212, "subnet is not ready for lease")
+	ErrInsufficientFunds   = sdkerrors.Register(ModuleName, 1213, "insufficient funds for the operation")
+	ErrFundTransfer        = sdkerrors.Register(ModuleName, 1214, "error during fund transfer")
 )
