@@ -29,9 +29,9 @@ const (
 // Events
 // Org deleted
 const (
-	OrgDeletedEventType       = "org-deleted"
+	OrgDeletedEventType       = "org_deleted"
 	OrgDeletedEventCreator    = "creator"
-	OrgDeletedEventContractId = "org-id"
+	OrgDeletedEventContractId = "org_id"
 )
 
 // Org registered
@@ -49,6 +49,7 @@ const (
 	OrgRegisteredEventWebsite            = "website"
 	OrgRegisteredEventAbuseEmail         = "abuse_email"
 	OrgRegisteredEventContactEmail       = "contact_email"
+	OrgRegisteredEventTreasury			 = "treasury"
 )
 
 // Org updated

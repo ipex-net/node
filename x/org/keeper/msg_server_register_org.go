@@ -2,10 +2,13 @@ package keeper
 
 import (
 	"context"
+	"net/url"
+	"regexp"
 	"strconv"
 
 	"ipex/x/org/types"
 
+	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -25,7 +28,74 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		AbuseEmail:         msg.AbuseEmail,
 		ContactEmail:       msg.ContactEmail,
 		Verified:           false,
+		Treasury: 			msg.Treasury,	
 	}
+
+	//Creator address validation
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return nil, errorsmod.Wrapf(ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// Checking that all fields are set
+	if msg.Name == "" ||
+	msg.LegalName == "" ||
+	msg.Address == "" ||
+	msg.RegistrationNumber == "" ||
+	msg.CountryCode == "" ||
+	msg.TaxId == "" ||
+	msg.Website == "" ||
+	msg.AbuseEmail == "" ||
+	msg.ContactEmail == "" ||
+	msg.Treasury =="" {
+		return nil, errorsmod.Wrap(ErrRequiredFields, "name must be 3-50 characters and can only contain letters, numbers, spaces, dots, and hyphens")
+	}
+
+
+	//Validating the format
+	nameRegex := regexp.MustCompile(`^[a-zA-Z0-9\s.-]{3,50}$`)
+	if !nameRegex.MatchString(msg.Name) {
+		return nil, errorsmod.Wrap(ErrInvalidName, "name must be 3-50 characters and can only contain letters, numbers, spaces, dots, and hyphens")
+	}
+
+	legalNameRegex := regexp.MustCompile(`^[a-zA-Z0-9\s.,&'-]{3,100}$`)
+	if !legalNameRegex.MatchString(msg.LegalName) {
+		return nil, errorsmod.Wrap(ErrInvalidLegalName, "legal name must be 3-100 characters and can contain letters, numbers, spaces, and basic punctuation")
+	}
+
+	addressRegex := regexp.MustCompile(`^[a-zA-Z0-9\s,.-]{5,200}$`)
+	if !addressRegex.MatchString(msg.Address) {
+		return nil, errorsmod.Wrap(ErrInvalidAddress, "address must be 5-200 characters and can contain letters, numbers, spaces, commas, dots, and hyphens")
+	}
+
+	regNumRegex := regexp.MustCompile(`^[A-Z0-9-]{5,20}$`)
+	if !regNumRegex.MatchString(msg.RegistrationNumber) {
+		return nil, errorsmod.Wrap(ErrInvalidRegistrationNumber, "registration number must be 5-20 characters and can only contain capital letters, numbers, and hyphens")
+	}
+	countryCodeRegex := regexp.MustCompile(`^[A-Z]{2}$`)
+	if !countryCodeRegex.MatchString(msg.CountryCode) {
+		return nil, errorsmod.Wrap(ErrInvalidCountryCode, "country code must be exactly 2 capital letters")
+	}
+
+	parsedUrl, err := url.Parse(msg.Website)
+	if err != nil {
+		return nil, errorsmod.Wrapf(ErrInvalidWebsiteUrl, "invalid geofeed URL format (%s)", msg.Website)
+	}
+
+	// Check if host is present
+	if parsedUrl.Host == "" {
+		return nil, errorsmod.Wrapf(ErrInvalidWebsiteUrl, "website URL must have a valid host (%s)", msg.Website)
+	}
+
+	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	if !emailRegex.MatchString(msg.AbuseEmail) {
+		return nil, errorsmod.Wrap(ErrInvalidEmail, "invalid abuse email")
+	}
+
+	if !emailRegex.MatchString(msg.ContactEmail) {
+		return nil, errorsmod.Wrap(ErrInvalidEmail, "invalid contact email")
+	}
+
 	id := k.AppendOrg(
 		ctx,
 		org,
@@ -45,6 +115,7 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 			sdk.NewAttribute(types.OrgRegisteredEventWebsite, msg.Website),
 			sdk.NewAttribute(types.OrgRegisteredEventAbuseEmail, msg.AbuseEmail),
 			sdk.NewAttribute(types.OrgRegisteredEventContactEmail, msg.ContactEmail),
+			sdk.NewAttribute(types.OrgRegisteredEventTreasury, msg.Treasury),
 		),
 	)
 
