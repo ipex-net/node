@@ -19,5 +19,5 @@ message Org {
   string abuseEmail = 11; 
   string contactEmail = 12; 
   bool verified = 13;
-  
+  string treasury = 14 [(cosmos_proto.scalar) = "cosmos.AddressString"]; 
 }

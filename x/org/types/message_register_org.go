@@ -11,7 +11,7 @@ import (
 
 var _ sdk.Msg = &MsgRegisterOrg{}
 
-func NewMsgRegisterOrg(creator string, name string, legalName string, address string, registrationNumber string, countryCode string, taxId string, website string, abuseEmail string, contactEmail string) *MsgRegisterOrg {
+func NewMsgRegisterOrg(creator string, name string, legalName string, address string, registrationNumber string, countryCode string, taxId string, website string, abuseEmail string, contactEmail string, treasury string) *MsgRegisterOrg {
 	return &MsgRegisterOrg{
 		Creator:            creator,
 		Name:               name,
@@ -23,6 +23,7 @@ func NewMsgRegisterOrg(creator string, name string, legalName string, address st
 		Website:            website,
 		AbuseEmail:         abuseEmail,
 		ContactEmail:       contactEmail,
+		Treasury:			treasury,
 	}
 }
 

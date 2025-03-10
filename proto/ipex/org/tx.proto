@@ -51,6 +51,7 @@ message MsgRegisterOrg {
   string website            =  8;
   string abuseEmail         =  9;
   string contactEmail       = 10;
+  string treasury           = 11;
 }
 
 message MsgRegisterOrgResponse {
