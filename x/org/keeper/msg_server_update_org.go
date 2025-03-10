@@ -33,7 +33,8 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 		msg.TaxId == "" &&
 		msg.Website == "" &&
 		msg.AbuseEmail == "" &&
-		msg.ContactEmail == "" {
+		msg.ContactEmail == "" && 
+		msg.Treasury == "" {
 		return nil, errorsmod.Wrapf(ErrNothingToUpdate, "at least one field must be provided for update")
 	}
 
@@ -84,11 +85,14 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 	if msg.ContactEmail != "" && !emailRegex.MatchString(msg.ContactEmail) {
 		return nil, errorsmod.Wrap(ErrInvalidEmail, "invalid contact email")
 	}
+
+	//Fetching the org
 	org, found := k.GetOrg(ctx, msg.Id)
 	if !found {
 		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
 
+	//Checking permissions
 	if msg.Creator != org.Admin {
 		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
@@ -133,18 +137,24 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 		org.ContactEmail = msg.ContactEmail
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventContactEmail, msg.ContactEmail))
 	}
+	if msg.Treasury != "" {
+		org.Treasury = msg.Treasury
+		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventTreasury, msg.Treasury))
+	}
 
+	//Setting the changes
 	k.SetOrg(
 		ctx,
 		org,
 	)
-	// Always include these base attributes
+
+	// Setting base event attributes
 	baseAttributes := []sdk.Attribute{
 		sdk.NewAttribute(types.OrgUpdatedEventCreator, msg.Creator),
 		sdk.NewAttribute(types.OrgUpdatedEventId, strconv.FormatUint(msg.Id, 10)),
 	}
 
-	// Combine base attributes with updated fields
+	// Appending the changed attributes
 	allAttributes := append(baseAttributes, updatedFields...)
 
 	// Emit the organization update event

@@ -66,4 +66,5 @@ const (
 	OrgUpdatedEventWebsite            = "website"
 	OrgUpdatedEventAbuseEmail         = "abuse_email"
 	OrgUpdatedEventContactEmail       = "contact_email"
+	OrgUpdatedEventTreasury			  = "treasury"
 )

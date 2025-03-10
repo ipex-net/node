@@ -72,6 +72,7 @@ message MsgUpdateOrg {
   string website            = 10;
   string abuseEmail         = 11;
   string contactEmail       = 12;
+  string treasury           = 13 [(cosmos_proto.scalar) = "cosmos.AddressString"]; 
 }
 
 message MsgUpdateOrgResponse {}

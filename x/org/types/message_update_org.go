@@ -6,7 +6,7 @@ import (
 
 var _ sdk.Msg = &MsgUpdateOrg{}
 
-func NewMsgUpdateOrg(creator string, id uint64, admin string, name string, legalName string, address string, registrationNumber string, countryCode string, taxId string, website string, abuseEmail string, contactEmail string) *MsgUpdateOrg {
+func NewMsgUpdateOrg(creator string, id uint64, admin string, name string, legalName string, address string, registrationNumber string, countryCode string, taxId string, website string, abuseEmail string, contactEmail string, treasury string) *MsgUpdateOrg {
 	return &MsgUpdateOrg{
 		Creator:            creator,
 		Id:                 id,
@@ -19,5 +19,6 @@ func NewMsgUpdateOrg(creator string, id uint64, admin string, name string, legal
 		Website:            website,
 		AbuseEmail:         abuseEmail,
 		ContactEmail:       contactEmail,
+		Treasury: 			treasury,
 	}
 }
