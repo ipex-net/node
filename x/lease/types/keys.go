@@ -66,3 +66,14 @@ const (
 	ContractRevokedContractId            = "contract-id"
 	ContractRevokedRevocationEffectiveAt = "revocation-effective-at"
 )
+
+const (
+	ContractEnrolledEventType                = "contract-enrolled"
+	ContractEnrolledCreator                  = "creator"
+	ContractEnrolledContractId               = "contract-id"
+	ContractEnrolledLesseeOrg                = "lessee-org"
+	ContractEnrolledPriceAmount              = "price-amount"
+	ContractEnrolledPriceDenom               = "price-denom"
+	ContractSafetyDepositCollectedAmount     = "deposit-collected-amount"
+	ContractSafetyDepositCollectedDenom      = "deposit-collected-denom"
+)

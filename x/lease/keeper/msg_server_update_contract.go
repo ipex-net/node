@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	"ipex/x/lease/types"
@@ -24,7 +23,7 @@ func (k msgServer) UpdateContract(goCtx context.Context, msg *types.MsgUpdateCon
 
 	contract, found := k.GetContract(ctx, msg.Id)
 	if !found {
-		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
+		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.Id)
 	}
 
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
