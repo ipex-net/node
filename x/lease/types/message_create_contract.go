@@ -12,12 +12,12 @@ var _ sdk.Msg = &MsgCreateContract{}
 
 func NewMsgCreateContract(creator string, ownerOrg uint64, price sdk.Coin, safetyDeposit sdk.Coin, revocationPeriod time.Duration, subnetId uint64) *MsgCreateContract {
 	return &MsgCreateContract{
-		Creator:                  creator,
-		OwnerOrg:                 ownerOrg,
-		Price:                    price,
-		SafetyDeposit:            safetyDeposit,
-		RevocationPeriod: 		  revocationPeriod,
-		SubnetId:                 subnetId,
+		Creator:          creator,
+		OwnerOrg:         ownerOrg,
+		Price:            price,
+		SafetyDeposit:    safetyDeposit,
+		RevocationPeriod: revocationPeriod,
+		SubnetId:         subnetId,
 	}
 }
 

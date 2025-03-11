@@ -43,12 +43,12 @@ func (k msgServer) CancelContract(goCtx context.Context, msg *types.MsgCancelCon
 	k.SetContract(ctx, contract)
 
 	// Emit the event
-    ctx.EventManager().EmitEvent(
-        sdk.NewEvent(types.ContractCanceledEventType,
-            sdk.NewAttribute(types.ContractCanceledCreator, msg.Creator),
-            sdk.NewAttribute(types.ContractCanceledContractId, strconv.FormatUint(msg.Id, 10)),
-        ),
-    )
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(types.ContractCanceledEventType,
+			sdk.NewAttribute(types.ContractCanceledCreator, msg.Creator),
+			sdk.NewAttribute(types.ContractCanceledContractId, strconv.FormatUint(msg.Id, 10)),
+		),
+	)
 
 	return &types.MsgCancelContractResponse{}, nil
 }

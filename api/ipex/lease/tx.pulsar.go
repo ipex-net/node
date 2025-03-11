@@ -2,10 +2,14 @@
 package lease
 
 import (
+	fmt "fmt"
+	io "io"
+	reflect "reflect"
+	sync "sync"
+
 	_ "cosmossdk.io/api/amino"
 	v1beta1 "cosmossdk.io/api/cosmos/base/v1beta1"
 	_ "cosmossdk.io/api/cosmos/msg/v1"
-	fmt "fmt"
 	_ "github.com/cosmos/cosmos-proto"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
@@ -14,9 +18,6 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	_ "google.golang.org/protobuf/types/known/timestamppb"
-	io "io"
-	reflect "reflect"
-	sync "sync"
 )
 
 var (
@@ -5406,6 +5407,878 @@ func (x *fastReflection_MsgRevokeContractResponse) ProtoMethods() *protoiface.Me
 	}
 }
 
+var (
+	md_MsgEnrollContract           protoreflect.MessageDescriptor
+	fd_MsgEnrollContract_creator   protoreflect.FieldDescriptor
+	fd_MsgEnrollContract_contract  protoreflect.FieldDescriptor
+	fd_MsgEnrollContract_lesseeOrg protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_lease_tx_proto_init()
+	md_MsgEnrollContract = File_ipex_lease_tx_proto.Messages().ByName("MsgEnrollContract")
+	fd_MsgEnrollContract_creator = md_MsgEnrollContract.Fields().ByName("creator")
+	fd_MsgEnrollContract_contract = md_MsgEnrollContract.Fields().ByName("contract")
+	fd_MsgEnrollContract_lesseeOrg = md_MsgEnrollContract.Fields().ByName("lesseeOrg")
+}
+
+var _ protoreflect.Message = (*fastReflection_MsgEnrollContract)(nil)
+
+type fastReflection_MsgEnrollContract MsgEnrollContract
+
+func (x *MsgEnrollContract) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgEnrollContract)(x)
+}
+
+func (x *MsgEnrollContract) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_lease_tx_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_MsgEnrollContract_messageType fastReflection_MsgEnrollContract_messageType
+var _ protoreflect.MessageType = fastReflection_MsgEnrollContract_messageType{}
+
+type fastReflection_MsgEnrollContract_messageType struct{}
+
+func (x fastReflection_MsgEnrollContract_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgEnrollContract)(nil)
+}
+func (x fastReflection_MsgEnrollContract_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgEnrollContract)
+}
+func (x fastReflection_MsgEnrollContract_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgEnrollContract
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_MsgEnrollContract) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgEnrollContract
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_MsgEnrollContract) Type() protoreflect.MessageType {
+	return _fastReflection_MsgEnrollContract_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_MsgEnrollContract) New() protoreflect.Message {
+	return new(fastReflection_MsgEnrollContract)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_MsgEnrollContract) Interface() protoreflect.ProtoMessage {
+	return (*MsgEnrollContract)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_MsgEnrollContract) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Creator != "" {
+		value := protoreflect.ValueOfString(x.Creator)
+		if !f(fd_MsgEnrollContract_creator, value) {
+			return
+		}
+	}
+	if x.Contract != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Contract)
+		if !f(fd_MsgEnrollContract_contract, value) {
+			return
+		}
+	}
+	if x.LesseeOrg != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.LesseeOrg)
+		if !f(fd_MsgEnrollContract_lesseeOrg, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_MsgEnrollContract) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.lease.MsgEnrollContract.creator":
+		return x.Creator != ""
+	case "ipex.lease.MsgEnrollContract.contract":
+		return x.Contract != uint64(0)
+	case "ipex.lease.MsgEnrollContract.lesseeOrg":
+		return x.LesseeOrg != uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContract"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContract does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgEnrollContract) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.lease.MsgEnrollContract.creator":
+		x.Creator = ""
+	case "ipex.lease.MsgEnrollContract.contract":
+		x.Contract = uint64(0)
+	case "ipex.lease.MsgEnrollContract.lesseeOrg":
+		x.LesseeOrg = uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContract"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContract does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_MsgEnrollContract) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.lease.MsgEnrollContract.creator":
+		value := x.Creator
+		return protoreflect.ValueOfString(value)
+	case "ipex.lease.MsgEnrollContract.contract":
+		value := x.Contract
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.MsgEnrollContract.lesseeOrg":
+		value := x.LesseeOrg
+		return protoreflect.ValueOfUint64(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContract"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContract does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgEnrollContract) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.lease.MsgEnrollContract.creator":
+		x.Creator = value.Interface().(string)
+	case "ipex.lease.MsgEnrollContract.contract":
+		x.Contract = value.Uint()
+	case "ipex.lease.MsgEnrollContract.lesseeOrg":
+		x.LesseeOrg = value.Uint()
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContract"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContract does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgEnrollContract) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.MsgEnrollContract.creator":
+		panic(fmt.Errorf("field creator of message ipex.lease.MsgEnrollContract is not mutable"))
+	case "ipex.lease.MsgEnrollContract.contract":
+		panic(fmt.Errorf("field contract of message ipex.lease.MsgEnrollContract is not mutable"))
+	case "ipex.lease.MsgEnrollContract.lesseeOrg":
+		panic(fmt.Errorf("field lesseeOrg of message ipex.lease.MsgEnrollContract is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContract"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContract does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_MsgEnrollContract) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.MsgEnrollContract.creator":
+		return protoreflect.ValueOfString("")
+	case "ipex.lease.MsgEnrollContract.contract":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.MsgEnrollContract.lesseeOrg":
+		return protoreflect.ValueOfUint64(uint64(0))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContract"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContract does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_MsgEnrollContract) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.lease.MsgEnrollContract", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_MsgEnrollContract) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgEnrollContract) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_MsgEnrollContract) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_MsgEnrollContract) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*MsgEnrollContract)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.Creator)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.Contract != 0 {
+			n += 1 + runtime.Sov(uint64(x.Contract))
+		}
+		if x.LesseeOrg != 0 {
+			n += 1 + runtime.Sov(uint64(x.LesseeOrg))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*MsgEnrollContract)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.LesseeOrg != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.LesseeOrg))
+			i--
+			dAtA[i] = 0x18
+		}
+		if x.Contract != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Contract))
+			i--
+			dAtA[i] = 0x10
+		}
+		if len(x.Creator) > 0 {
+			i -= len(x.Creator)
+			copy(dAtA[i:], x.Creator)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Creator)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*MsgEnrollContract)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgEnrollContract: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgEnrollContract: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Creator = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 2:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Contract", wireType)
+				}
+				x.Contract = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Contract |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LesseeOrg", wireType)
+				}
+				x.LesseeOrg = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.LesseeOrg |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_MsgEnrollContractResponse protoreflect.MessageDescriptor
+)
+
+func init() {
+	file_ipex_lease_tx_proto_init()
+	md_MsgEnrollContractResponse = File_ipex_lease_tx_proto.Messages().ByName("MsgEnrollContractResponse")
+}
+
+var _ protoreflect.Message = (*fastReflection_MsgEnrollContractResponse)(nil)
+
+type fastReflection_MsgEnrollContractResponse MsgEnrollContractResponse
+
+func (x *MsgEnrollContractResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgEnrollContractResponse)(x)
+}
+
+func (x *MsgEnrollContractResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_lease_tx_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_MsgEnrollContractResponse_messageType fastReflection_MsgEnrollContractResponse_messageType
+var _ protoreflect.MessageType = fastReflection_MsgEnrollContractResponse_messageType{}
+
+type fastReflection_MsgEnrollContractResponse_messageType struct{}
+
+func (x fastReflection_MsgEnrollContractResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgEnrollContractResponse)(nil)
+}
+func (x fastReflection_MsgEnrollContractResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgEnrollContractResponse)
+}
+func (x fastReflection_MsgEnrollContractResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgEnrollContractResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_MsgEnrollContractResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgEnrollContractResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_MsgEnrollContractResponse) Type() protoreflect.MessageType {
+	return _fastReflection_MsgEnrollContractResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_MsgEnrollContractResponse) New() protoreflect.Message {
+	return new(fastReflection_MsgEnrollContractResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_MsgEnrollContractResponse) Interface() protoreflect.ProtoMessage {
+	return (*MsgEnrollContractResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_MsgEnrollContractResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_MsgEnrollContractResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgEnrollContractResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_MsgEnrollContractResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContractResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgEnrollContractResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgEnrollContractResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_MsgEnrollContractResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgEnrollContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.MsgEnrollContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_MsgEnrollContractResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.lease.MsgEnrollContractResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_MsgEnrollContractResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgEnrollContractResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_MsgEnrollContractResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_MsgEnrollContractResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*MsgEnrollContractResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*MsgEnrollContractResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*MsgEnrollContractResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgEnrollContractResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgEnrollContractResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -5887,6 +6760,83 @@ func (*MsgRevokeContractResponse) Descriptor() ([]byte, []int) {
 	return file_ipex_lease_tx_proto_rawDescGZIP(), []int{11}
 }
 
+type MsgEnrollContract struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Creator   string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Contract  uint64 `protobuf:"varint,2,opt,name=contract,proto3" json:"contract,omitempty"`
+	LesseeOrg uint64 `protobuf:"varint,3,opt,name=lesseeOrg,proto3" json:"lesseeOrg,omitempty"`
+}
+
+func (x *MsgEnrollContract) Reset() {
+	*x = MsgEnrollContract{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_lease_tx_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MsgEnrollContract) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MsgEnrollContract) ProtoMessage() {}
+
+// Deprecated: Use MsgEnrollContract.ProtoReflect.Descriptor instead.
+func (*MsgEnrollContract) Descriptor() ([]byte, []int) {
+	return file_ipex_lease_tx_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *MsgEnrollContract) GetCreator() string {
+	if x != nil {
+		return x.Creator
+	}
+	return ""
+}
+
+func (x *MsgEnrollContract) GetContract() uint64 {
+	if x != nil {
+		return x.Contract
+	}
+	return 0
+}
+
+func (x *MsgEnrollContract) GetLesseeOrg() uint64 {
+	if x != nil {
+		return x.LesseeOrg
+	}
+	return 0
+}
+
+type MsgEnrollContractResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *MsgEnrollContractResponse) Reset() {
+	*x = MsgEnrollContractResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_lease_tx_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MsgEnrollContractResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MsgEnrollContractResponse) ProtoMessage() {}
+
+// Deprecated: Use MsgEnrollContractResponse.ProtoReflect.Descriptor instead.
+func (*MsgEnrollContractResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_lease_tx_proto_rawDescGZIP(), []int{13}
+}
+
 var File_ipex_lease_tx_proto protoreflect.FileDescriptor
 
 var file_ipex_lease_tx_proto_rawDesc = []byte{
@@ -5981,50 +6931,65 @@ var file_ipex_lease_tx_proto_rawDesc = []byte{
 	0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69,
 	0x64, 0x3a, 0x0c, 0x82, 0xe7, 0xb0, 0x2a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x22,
 	0x1b, 0x0a, 0x19, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x43, 0x6f, 0x6e, 0x74,
-	0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xa2, 0x04, 0x0a,
-	0x03, 0x4d, 0x73, 0x67, 0x12, 0x52, 0x0a, 0x0c, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61,
-	0x72, 0x61, 0x6d, 0x73, 0x12, 0x1c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61,
-	0x6d, 0x73, 0x1a, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x58, 0x0a, 0x0e, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64,
-	0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64,
-	0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x58, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74,
-	0x72, 0x61, 0x63, 0x74, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74,
-	0x72, 0x61, 0x63, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74,
-	0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x58, 0x0a, 0x0e,
-	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x1e,
-	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67,
-	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x1a, 0x26,
-	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67,
-	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x58, 0x0a, 0x0e, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c,
-	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c,
-	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c,
+	0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x75, 0x0a, 0x11,
+	0x4d, 0x73, 0x67, 0x45, 0x6e, 0x72, 0x6f, 0x6c, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
+	0x74, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x1a, 0x0a, 0x08, 0x63,
+	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x63,
+	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6c, 0x65, 0x73, 0x73, 0x65,
+	0x65, 0x4f, 0x72, 0x67, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x6c, 0x65, 0x73, 0x73,
+	0x65, 0x65, 0x4f, 0x72, 0x67, 0x3a, 0x0c, 0x82, 0xe7, 0xb0, 0x2a, 0x07, 0x63, 0x72, 0x65, 0x61,
+	0x74, 0x6f, 0x72, 0x22, 0x1b, 0x0a, 0x19, 0x4d, 0x73, 0x67, 0x45, 0x6e, 0x72, 0x6f, 0x6c, 0x6c,
 	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x58, 0x0a, 0x0e, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
+	0x32, 0xfc, 0x04, 0x0a, 0x03, 0x4d, 0x73, 0x67, 0x12, 0x52, 0x0a, 0x0c, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x1a, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c,
+	0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61,
+	0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x58, 0x0a, 0x0e,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x1e,
+	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x1a, 0x26,
+	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x58, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x58, 0x0a, 0x0e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
 	0x63, 0x74, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x2e, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
+	0x2e, 0x4d, 0x73, 0x67, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
 	0x63, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x2e, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
-	0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x1a, 0x05, 0x80, 0xe7, 0xb0, 0x2a,
-	0x01, 0x42, 0x7e, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c,
-	0x65, 0x61, 0x73, 0x65, 0x42, 0x07, 0x54, 0x78, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x15, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0xa2, 0x02, 0x03, 0x49, 0x4c, 0x58, 0xaa, 0x02, 0x0b, 0x49,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64,
-	0x65, 0x78, 0x5c, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78,
-	0x5c, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x4c, 0x65, 0x61, 0x73,
-	0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x2e, 0x4d, 0x73, 0x67, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
+	0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x58, 0x0a, 0x0e, 0x43, 0x61,
+	0x6e, 0x63, 0x65, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x1e, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x43, 0x61,
+	0x6e, 0x63, 0x65, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x1a, 0x26, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x43, 0x61,
+	0x6e, 0x63, 0x65, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x58, 0x0a, 0x0e, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x43, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c,
+	0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x43, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c,
+	0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x43, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x58,
+	0x0a, 0x0e, 0x45, 0x6e, 0x72, 0x6f, 0x6c, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d,
+	0x73, 0x67, 0x45, 0x6e, 0x72, 0x6f, 0x6c, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x4d,
+	0x73, 0x67, 0x45, 0x6e, 0x72, 0x6f, 0x6c, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x1a, 0x05, 0x80, 0xe7, 0xb0, 0x2a, 0x01, 0x42,
+	0x7e, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61,
+	0x73, 0x65, 0x42, 0x07, 0x54, 0x78, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c,
+	0x65, 0x61, 0x73, 0x65, 0xa2, 0x02, 0x03, 0x49, 0x4c, 0x58, 0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78,
+	0x5c, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x4c,
+	0x65, 0x61, 0x73, 0x65, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
+	0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -6039,7 +7004,7 @@ func file_ipex_lease_tx_proto_rawDescGZIP() []byte {
 	return file_ipex_lease_tx_proto_rawDescData
 }
 
-var file_ipex_lease_tx_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_ipex_lease_tx_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_ipex_lease_tx_proto_goTypes = []interface{}{
 	(*MsgUpdateParams)(nil),           // 0: ipex.lease.MsgUpdateParams
 	(*MsgUpdateParamsResponse)(nil),   // 1: ipex.lease.MsgUpdateParamsResponse
@@ -6053,30 +7018,34 @@ var file_ipex_lease_tx_proto_goTypes = []interface{}{
 	(*MsgCancelContractResponse)(nil), // 9: ipex.lease.MsgCancelContractResponse
 	(*MsgRevokeContract)(nil),         // 10: ipex.lease.MsgRevokeContract
 	(*MsgRevokeContractResponse)(nil), // 11: ipex.lease.MsgRevokeContractResponse
-	(*Params)(nil),                    // 12: ipex.lease.Params
-	(*v1beta1.Coin)(nil),              // 13: cosmos.base.v1beta1.Coin
-	(*durationpb.Duration)(nil),       // 14: google.protobuf.Duration
+	(*MsgEnrollContract)(nil),         // 12: ipex.lease.MsgEnrollContract
+	(*MsgEnrollContractResponse)(nil), // 13: ipex.lease.MsgEnrollContractResponse
+	(*Params)(nil),                    // 14: ipex.lease.Params
+	(*v1beta1.Coin)(nil),              // 15: cosmos.base.v1beta1.Coin
+	(*durationpb.Duration)(nil),       // 16: google.protobuf.Duration
 }
 var file_ipex_lease_tx_proto_depIdxs = []int32{
-	12, // 0: ipex.lease.MsgUpdateParams.params:type_name -> ipex.lease.Params
-	13, // 1: ipex.lease.MsgCreateContract.price:type_name -> cosmos.base.v1beta1.Coin
-	13, // 2: ipex.lease.MsgCreateContract.safetyDeposit:type_name -> cosmos.base.v1beta1.Coin
-	14, // 3: ipex.lease.MsgCreateContract.revocationPeriod:type_name -> google.protobuf.Duration
-	13, // 4: ipex.lease.MsgUpdateContract.price:type_name -> cosmos.base.v1beta1.Coin
+	14, // 0: ipex.lease.MsgUpdateParams.params:type_name -> ipex.lease.Params
+	15, // 1: ipex.lease.MsgCreateContract.price:type_name -> cosmos.base.v1beta1.Coin
+	15, // 2: ipex.lease.MsgCreateContract.safetyDeposit:type_name -> cosmos.base.v1beta1.Coin
+	16, // 3: ipex.lease.MsgCreateContract.revocationPeriod:type_name -> google.protobuf.Duration
+	15, // 4: ipex.lease.MsgUpdateContract.price:type_name -> cosmos.base.v1beta1.Coin
 	0,  // 5: ipex.lease.Msg.UpdateParams:input_type -> ipex.lease.MsgUpdateParams
 	2,  // 6: ipex.lease.Msg.CreateContract:input_type -> ipex.lease.MsgCreateContract
 	4,  // 7: ipex.lease.Msg.UpdateContract:input_type -> ipex.lease.MsgUpdateContract
 	6,  // 8: ipex.lease.Msg.DeleteContract:input_type -> ipex.lease.MsgDeleteContract
 	8,  // 9: ipex.lease.Msg.CancelContract:input_type -> ipex.lease.MsgCancelContract
 	10, // 10: ipex.lease.Msg.RevokeContract:input_type -> ipex.lease.MsgRevokeContract
-	1,  // 11: ipex.lease.Msg.UpdateParams:output_type -> ipex.lease.MsgUpdateParamsResponse
-	3,  // 12: ipex.lease.Msg.CreateContract:output_type -> ipex.lease.MsgCreateContractResponse
-	5,  // 13: ipex.lease.Msg.UpdateContract:output_type -> ipex.lease.MsgUpdateContractResponse
-	7,  // 14: ipex.lease.Msg.DeleteContract:output_type -> ipex.lease.MsgDeleteContractResponse
-	9,  // 15: ipex.lease.Msg.CancelContract:output_type -> ipex.lease.MsgCancelContractResponse
-	11, // 16: ipex.lease.Msg.RevokeContract:output_type -> ipex.lease.MsgRevokeContractResponse
-	11, // [11:17] is the sub-list for method output_type
-	5,  // [5:11] is the sub-list for method input_type
+	12, // 11: ipex.lease.Msg.EnrollContract:input_type -> ipex.lease.MsgEnrollContract
+	1,  // 12: ipex.lease.Msg.UpdateParams:output_type -> ipex.lease.MsgUpdateParamsResponse
+	3,  // 13: ipex.lease.Msg.CreateContract:output_type -> ipex.lease.MsgCreateContractResponse
+	5,  // 14: ipex.lease.Msg.UpdateContract:output_type -> ipex.lease.MsgUpdateContractResponse
+	7,  // 15: ipex.lease.Msg.DeleteContract:output_type -> ipex.lease.MsgDeleteContractResponse
+	9,  // 16: ipex.lease.Msg.CancelContract:output_type -> ipex.lease.MsgCancelContractResponse
+	11, // 17: ipex.lease.Msg.RevokeContract:output_type -> ipex.lease.MsgRevokeContractResponse
+	13, // 18: ipex.lease.Msg.EnrollContract:output_type -> ipex.lease.MsgEnrollContractResponse
+	12, // [12:19] is the sub-list for method output_type
+	5,  // [5:12] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
 	5,  // [5:5] is the sub-list for extension extendee
 	0,  // [0:5] is the sub-list for field type_name
@@ -6234,6 +7203,30 @@ func file_ipex_lease_tx_proto_init() {
 				return nil
 			}
 		}
+		file_ipex_lease_tx_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MsgEnrollContract); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_lease_tx_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MsgEnrollContractResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -6241,7 +7234,7 @@ func file_ipex_lease_tx_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_lease_tx_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

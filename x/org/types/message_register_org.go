@@ -18,14 +18,11 @@ func NewMsgRegisterOrg(creator string, name string, legalName string, address st
 		Website:            website,
 		AbuseEmail:         abuseEmail,
 		ContactEmail:       contactEmail,
-		Treasury:			treasury,
+		Treasury:           treasury,
 	}
 }
 
 func (msg *MsgRegisterOrg) ValidateBasic() error {
-
-
-
 
 	return nil
 }

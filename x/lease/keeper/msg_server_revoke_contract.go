@@ -41,19 +41,19 @@ func (k msgServer) RevokeContract(goCtx context.Context, msg *types.MsgRevokeCon
 	blockTime := ctx.BlockTime()
 	//Getting the Revocation time from current time and Cancellation Notice period
 	//Rerouting subnet prior to this time involves a penalty and reputational damage
-	revocationTime := blockTime.Add(contract.RevocationPeriod) 
+	revocationTime := blockTime.Add(contract.RevocationPeriod)
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER
 	contract.UpdatedAt = blockTime
 	contract.RevocationEffectiveAt = &revocationTime
 	k.SetContract(ctx, contract)
 
-    // Emit the revocation event
-    ctx.EventManager().EmitEvent(
-        sdk.NewEvent(types.ContractRevokedEventType,
-            sdk.NewAttribute(types.ContractRevokedCreator, msg.Creator),
-            sdk.NewAttribute(types.ContractRevokedContractId, strconv.FormatUint(msg.Id, 10)),
-            sdk.NewAttribute(types.ContractRevokedRevocationEffectiveAt, revocationTime.Format(time.RFC3339)),
-        ),
-    )
+	// Emit the revocation event
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(types.ContractRevokedEventType,
+			sdk.NewAttribute(types.ContractRevokedCreator, msg.Creator),
+			sdk.NewAttribute(types.ContractRevokedContractId, strconv.FormatUint(msg.Id, 10)),
+			sdk.NewAttribute(types.ContractRevokedRevocationEffectiveAt, revocationTime.Format(time.RFC3339)),
+		),
+	)
 	return &types.MsgRevokeContractResponse{}, nil
 }

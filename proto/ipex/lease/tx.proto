@@ -13,6 +13,7 @@ import "google/protobuf/timestamp.proto";
 import "ipex/lease/contract.proto";
 
 option go_package = "ipex/x/lease/types";
+
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
@@ -25,6 +26,7 @@ service Msg {
   rpc DeleteContract (MsgDeleteContract) returns (MsgDeleteContractResponse);
   rpc CancelContract (MsgCancelContract) returns (MsgCancelContractResponse);
   rpc RevokeContract (MsgRevokeContract) returns (MsgRevokeContractResponse);
+  rpc EnrollContract (MsgEnrollContract) returns (MsgEnrollContractResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -46,12 +48,12 @@ message MsgUpdateParamsResponse {}
 
 message MsgCreateContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string                   creator                  = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  uint64                   ownerOrg                 = 2;
-  cosmos.base.v1beta1.Coin price                    = 3 [(gogoproto.nullable)    = false] ;
-  cosmos.base.v1beta1.Coin safetyDeposit            = 4 [(gogoproto.nullable)    = false] ;
-  google.protobuf.Duration revocationPeriod = 5 [(gogoproto.stdduration) = true , (gogoproto.nullable) = false];
-  uint64                   subnetId                 = 6;
+  string                   creator          = 1 [(cosmos_proto.scalar)   = "cosmos.AddressString"] ;
+  uint64                   ownerOrg         = 2;
+  cosmos.base.v1beta1.Coin price            = 3 [(gogoproto.nullable)    = false                 ] ;
+  cosmos.base.v1beta1.Coin safetyDeposit    = 4 [(gogoproto.nullable)    = false                 ] ;
+  google.protobuf.Duration revocationPeriod = 5 [(gogoproto.stdduration) = true                  , (gogoproto.nullable) = false];
+  uint64                   subnetId         = 6;
 }
 
 message MsgCreateContractResponse {
@@ -61,7 +63,7 @@ message MsgCreateContractResponse {
 message MsgUpdateContract {
   option (cosmos.msg.v1.signer) = "creator";
   string                   creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  cosmos.base.v1beta1.Coin price   = 2 [(gogoproto.nullable) = false];
+  cosmos.base.v1beta1.Coin price   = 2 [(gogoproto.nullable)  = false                 ];
   uint64                   id      = 3;
 }
 
@@ -90,4 +92,13 @@ message MsgRevokeContract {
 }
 
 message MsgRevokeContractResponse {}
+
+message MsgEnrollContract {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator   = 1;
+  uint64 contract  = 2;
+  uint64 lesseeOrg = 3;
+}
+
+message MsgEnrollContractResponse {}
 

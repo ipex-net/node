@@ -45,35 +45,35 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	}
 	deposit := msg.SafetyDeposit
 	var contract = types.Contract{
-		SubnetId:                 msg.SubnetId,
-		OwnerOrg:                 msg.OwnerOrg,
-		LesseeOrg:                0,
-		Price:                    msg.Price,
-		SafetyDeposit:            &deposit,
-		RevocationPeriod: msg.RevocationPeriod,
-		RevocationEffectiveAt: 	  nil,
-		Status:                   types.ContractStatus_CONTRACT_STATUS_FORSALE,
-		CreatedAt:                ctx.BlockTime(),
-		UpdatedAt:                ctx.BlockTime(),
+		SubnetId:              msg.SubnetId,
+		OwnerOrg:              msg.OwnerOrg,
+		LesseeOrg:             0,
+		Price:                 msg.Price,
+		SafetyDeposit:         &deposit,
+		RevocationPeriod:      msg.RevocationPeriod,
+		RevocationEffectiveAt: nil,
+		Status:                types.ContractStatus_CONTRACT_STATUS_FORSALE,
+		CreatedAt:             ctx.BlockTime(),
+		UpdatedAt:             ctx.BlockTime(),
 	}
 	id := k.AppendContract(
 		ctx,
 		contract,
 	)
 
-    // Emit the event with all attributes
-    ctx.EventManager().EmitEvent(
-        sdk.NewEvent(types.ContractCreatedEventType,
-            sdk.NewAttribute(types.ContractCreatedEventCreator, msg.Creator),
-            sdk.NewAttribute(types.ContractCreatedEventContractId, strconv.FormatUint(id, 10)),
-            sdk.NewAttribute(types.ContractCreatedEventSubnetId, strconv.FormatUint(msg.SubnetId, 10)),
-            sdk.NewAttribute(types.ContractCreatedEventPrice, msg.Price.Amount.String()),
-            sdk.NewAttribute(types.ContractCreatedEventPriceDenom, msg.Price.Denom),
-            sdk.NewAttribute(types.ContractCreatedEventDepositAmount, msg.SafetyDeposit.Amount.String()),
-            sdk.NewAttribute(types.ContractCreatedEventDepositDenom, msg.SafetyDeposit.Denom),
-            sdk.NewAttribute(types.ContractCreatedEventRevocationPeriodDuration, msg.RevocationPeriod.String()),
-        ),
-    )
+	// Emit the event with all attributes
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(types.ContractCreatedEventType,
+			sdk.NewAttribute(types.ContractCreatedEventCreator, msg.Creator),
+			sdk.NewAttribute(types.ContractCreatedEventContractId, strconv.FormatUint(id, 10)),
+			sdk.NewAttribute(types.ContractCreatedEventSubnetId, strconv.FormatUint(msg.SubnetId, 10)),
+			sdk.NewAttribute(types.ContractCreatedEventPrice, msg.Price.Amount.String()),
+			sdk.NewAttribute(types.ContractCreatedEventPriceDenom, msg.Price.Denom),
+			sdk.NewAttribute(types.ContractCreatedEventDepositAmount, msg.SafetyDeposit.Amount.String()),
+			sdk.NewAttribute(types.ContractCreatedEventDepositDenom, msg.SafetyDeposit.Denom),
+			sdk.NewAttribute(types.ContractCreatedEventRevocationPeriodDuration, msg.RevocationPeriod.String()),
+		),
+	)
 
 	return &types.MsgCreateContractResponse{
 		Id: id,

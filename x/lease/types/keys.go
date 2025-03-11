@@ -29,23 +29,23 @@ func KeyPrefix(p string) []byte {
 }
 
 const (
-	ContractCreatedEventType               = "new-contract-created"
-	ContractCreatedEventCreator            = "creator"
-	ContractCreatedEventContractId         = "contract-id"
-	ContractCreatedEventSubnetId     	   = "subnet-id"
-	ContractCreatedEventPrice              = "price"                //Subnet lease price amount
-	ContractCreatedEventPriceDenom         = "price-denom"          //Subnet lease price denom
-	ContractCreatedEventDepositAmount      = "deposit-amount"       //Deposit amount
-	ContractCreatedEventDepositDenom       = "deposit-denom"        //Deposit denom
-	ContractCreatedEventRevocationPeriodDuration = "revocation-period"  //Duration notify before owner-initiated termination
+	ContractCreatedEventType                     = "new-contract-created"
+	ContractCreatedEventCreator                  = "creator"
+	ContractCreatedEventContractId               = "contract-id"
+	ContractCreatedEventSubnetId                 = "subnet-id"
+	ContractCreatedEventPrice                    = "price"             //Subnet lease price amount
+	ContractCreatedEventPriceDenom               = "price-denom"       //Subnet lease price denom
+	ContractCreatedEventDepositAmount            = "deposit-amount"    //Deposit amount
+	ContractCreatedEventDepositDenom             = "deposit-denom"     //Deposit denom
+	ContractCreatedEventRevocationPeriodDuration = "revocation-period" //Duration notify before owner-initiated termination
 )
 
 const (
-	ContractUpdatedEventType               = "contract-updated"
-	ContractUpdatedEventCreator            = "creator"
-	ContractUpdatedEventContractId         = "contract-id"
-	ContractUpdatedEventPrice              = "price"                //Subnet lease price amount
-	ContractUpdatedEventPriceDenom         = "price-denom"          //Subnet lease price denom
+	ContractUpdatedEventType       = "contract-updated"
+	ContractUpdatedEventCreator    = "creator"
+	ContractUpdatedEventContractId = "contract-id"
+	ContractUpdatedEventPrice      = "price"       //Subnet lease price amount
+	ContractUpdatedEventPriceDenom = "price-denom" //Subnet lease price denom
 )
 
 const (
@@ -61,8 +61,8 @@ const (
 )
 
 const (
-	ContractRevokedEventType  = "contract-revoked"
-	ContractRevokedCreator    = "creator"
-	ContractRevokedContractId = "contract-id"
+	ContractRevokedEventType             = "contract-revoked"
+	ContractRevokedCreator               = "creator"
+	ContractRevokedContractId            = "contract-id"
 	ContractRevokedRevocationEffectiveAt = "revocation-effective-at"
 )

@@ -28,7 +28,7 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		AbuseEmail:         msg.AbuseEmail,
 		ContactEmail:       msg.ContactEmail,
 		Verified:           false,
-		Treasury: 			msg.Treasury,	
+		Treasury:           msg.Treasury,
 	}
 
 	//Creator address validation
@@ -39,18 +39,17 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 
 	// Checking that all fields are set
 	if msg.Name == "" ||
-	msg.LegalName == "" ||
-	msg.Address == "" ||
-	msg.RegistrationNumber == "" ||
-	msg.CountryCode == "" ||
-	msg.TaxId == "" ||
-	msg.Website == "" ||
-	msg.AbuseEmail == "" ||
-	msg.ContactEmail == "" ||
-	msg.Treasury =="" {
+		msg.LegalName == "" ||
+		msg.Address == "" ||
+		msg.RegistrationNumber == "" ||
+		msg.CountryCode == "" ||
+		msg.TaxId == "" ||
+		msg.Website == "" ||
+		msg.AbuseEmail == "" ||
+		msg.ContactEmail == "" ||
+		msg.Treasury == "" {
 		return nil, errorsmod.Wrap(ErrRequiredFields, "name must be 3-50 characters and can only contain letters, numbers, spaces, dots, and hyphens")
 	}
-
 
 	//Validating the format
 	nameRegex := regexp.MustCompile(`^[a-zA-Z0-9\s.-]{3,50}$`)

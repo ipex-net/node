@@ -19,6 +19,6 @@ func NewMsgUpdateOrg(creator string, id uint64, admin string, name string, legal
 		Website:            website,
 		AbuseEmail:         abuseEmail,
 		ContactEmail:       contactEmail,
-		Treasury: 			treasury,
+		Treasury:           treasury,
 	}
 }

@@ -33,7 +33,7 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 		msg.TaxId == "" &&
 		msg.Website == "" &&
 		msg.AbuseEmail == "" &&
-		msg.ContactEmail == "" && 
+		msg.ContactEmail == "" &&
 		msg.Treasury == "" {
 		return nil, errorsmod.Wrapf(ErrNothingToUpdate, "at least one field must be provided for update")
 	}

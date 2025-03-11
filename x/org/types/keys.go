@@ -49,7 +49,7 @@ const (
 	OrgRegisteredEventWebsite            = "website"
 	OrgRegisteredEventAbuseEmail         = "abuse_email"
 	OrgRegisteredEventContactEmail       = "contact_email"
-	OrgRegisteredEventTreasury			 = "treasury"
+	OrgRegisteredEventTreasury           = "treasury"
 )
 
 // Org updated
@@ -66,5 +66,5 @@ const (
 	OrgUpdatedEventWebsite            = "website"
 	OrgUpdatedEventAbuseEmail         = "abuse_email"
 	OrgUpdatedEventContactEmail       = "contact_email"
-	OrgUpdatedEventTreasury			  = "treasury"
+	OrgUpdatedEventTreasury           = "treasury"
 )

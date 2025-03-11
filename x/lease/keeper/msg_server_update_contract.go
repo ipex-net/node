@@ -36,7 +36,6 @@ func (k msgServer) UpdateContract(goCtx context.Context, msg *types.MsgUpdateCon
 		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized, "incorrect owner admin %s", msg.Creator)
 	}
 
-
 	contract.Price = msg.Price
 	contract.UpdatedAt = ctx.BlockTime()
 	k.SetContract(ctx, contract)
