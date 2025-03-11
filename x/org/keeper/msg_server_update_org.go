@@ -142,6 +142,8 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventTreasury, msg.Treasury))
 	}
 
+	org.UpdatedAt = ctx.BlockTime()
+	
 	//Setting the changes
 	k.SetOrg(
 		ctx,

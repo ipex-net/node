@@ -2,7 +2,8 @@ syntax = "proto3";
 package ipex.org;
 
 import "cosmos_proto/cosmos.proto";
-
+import "google/protobuf/timestamp.proto";
+import "gogoproto/gogo.proto"; 
 option go_package = "ipex/x/org/types";
 
 message Org {
@@ -20,4 +21,6 @@ message Org {
   string contactEmail = 12; 
   bool verified = 13;
   string treasury = 14 [(cosmos_proto.scalar) = "cosmos.AddressString"]; 
+  google.protobuf.Timestamp createdAt = 15 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp updatedAt = 16 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

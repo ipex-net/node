@@ -29,6 +29,8 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		ContactEmail:       msg.ContactEmail,
 		Verified:           false,
 		Treasury:           msg.Treasury,
+		CreatedAt:          ctx.BlockTime(),
+		UpdatedAt:          ctx.BlockTime(),
 	}
 
 	//Creator address validation
