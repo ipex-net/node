@@ -44,11 +44,12 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 
 	//Applying the changes
 	subnet.GeoChangeRequested = true
-	subnet.GeoChangeRequestedBlock = uint64(ctx.BlockHeight())
+	subnet.GeoChangeRequestedAt = ctx.BlockTime()
 	subnet.Country = msg.Country
 	subnet.Region = msg.Region
 	subnet.City = msg.City
 	subnet.PostalCode = msg.PostalCode
+	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
 
 	return &types.MsgUpdateSubnetGeolocationResponse{}, nil

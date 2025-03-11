@@ -134,13 +134,14 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 
 	//Creating new subnet
 	var subnet = types.Subnet{
-		CreationBlock:  uint64(ctx.BlockHeight()),
 		NetworkAddress: msg.NetworkAddress,
 		Mask:           msg.Mask,
 		Status:         types.SubnetStatus_SUBNET_STATUS_INITIAL,
 		Rir:            types.Rir(msg.Rir),
 		GeofeedUrl:     msg.GeofeedUrl,
 		OwnerOrgId:     msg.OwnerOrgId,
+		CreatedAt:      ctx.BlockTime(),
+		UpdatedAt:      ctx.BlockTime(),
 	}
 	id := k.AppendSubnet(
 		ctx,

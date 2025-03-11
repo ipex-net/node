@@ -55,6 +55,7 @@ func (k msgServer) UpdateSubnetGeofeed(goCtx context.Context, msg *types.MsgUpda
 		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
 	}
 	subnet.GeofeedUrl = msg.Geofeed
+	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
 
 	return &types.MsgUpdateSubnetGeofeedResponse{}, nil

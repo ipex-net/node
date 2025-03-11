@@ -30,6 +30,7 @@ func (k msgServer) UpdateSubnetUser(goCtx context.Context, msg *types.MsgUpdateS
 
 	//Updating the subnet
 	subnet.UserOrgId = msg.UserOrgId
+	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
 
 	return &types.MsgUpdateSubnetUserResponse{}, nil

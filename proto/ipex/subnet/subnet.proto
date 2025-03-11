@@ -2,6 +2,8 @@ syntax = "proto3";
 package ipex.subnet;
 
 option go_package = "ipex/x/subnet/types";
+import "google/protobuf/timestamp.proto";
+import "gogoproto/gogo.proto";
 
 enum SubnetStatus {
   // Initial state, for freshly added subnets
@@ -24,7 +26,7 @@ enum Rir {
 
 message Subnet {
   uint64 id = 1;
-  uint64 creationBlock = 2; 
+  google.protobuf.Timestamp createdAt = 2 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
   uint64 networkAddress = 3; 
   uint64 mask = 4; 
   SubnetStatus status = 5; 
@@ -34,33 +36,34 @@ message Subnet {
   string city = 8;
   string postalCode = 9;
   bool geoChangeRequested = 10; 
-  uint64 geoChangeRequestedBlock = 11; 
-  uint64 geoChangedBlock = 12; 
+  google.protobuf.Timestamp geoChangeRequestedAt = 11 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp geoChangeFulfilledAt = 12 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
 
   string geofeedUrl = 13; 
-  uint64 geofeedSyncBlock = 14; 
+  google.protobuf.Timestamp geofeedSyncedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
 
   Rir rir = 15; 
 
   string rirOwnerOrg = 16; 
   string rirAbuseEmail = 17; 
   uint64 rirAllocationType = 18; 
-  uint64 rirSyncBlock = 19; 
+  google.protobuf.Timestamp rirSyncedAt = 19 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
 
   uint64 ownerOrgId = 20; 
   uint64 userOrgId = 21; 
 
   uint64 origin = 22; 
   bool originTransferRequested = 23; 
-  uint64 originTransferRequestedBlock = 24; 
-  uint64 originTransferedBlock = 25; 
+  google.protobuf.Timestamp originTransferRequestedAt = 24 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp originTransferFulfilledAt = 25 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
 
   string irrOrigin = 26; 
   string irrMntBy = 27; 
-  string irrCreated = 28; 
-  string irrModified = 29; 
-  uint64 irrSyncBlock = 30; 
+  google.protobuf.Timestamp irrCreatedAt = 28 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp irrModifiedAt = 29 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp irrSyncedAt = 30 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
   string rpkiOrigin = 31; 
-  uint64 rpkiSyncBlock = 32; 
+  google.protobuf.Timestamp rpkiSyncedAt = 32 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
   
+  google.protobuf.Timestamp updatedAt = 33 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

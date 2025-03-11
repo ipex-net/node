@@ -4,55 +4,58 @@ package subnet
 import (
 	fmt "fmt"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
+	_ "github.com/cosmos/gogoproto/gogoproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	reflect "reflect"
 	sync "sync"
 )
 
 var (
-	md_Subnet                              protoreflect.MessageDescriptor
-	fd_Subnet_id                           protoreflect.FieldDescriptor
-	fd_Subnet_creationBlock                protoreflect.FieldDescriptor
-	fd_Subnet_networkAddress               protoreflect.FieldDescriptor
-	fd_Subnet_mask                         protoreflect.FieldDescriptor
-	fd_Subnet_status                       protoreflect.FieldDescriptor
-	fd_Subnet_country                      protoreflect.FieldDescriptor
-	fd_Subnet_region                       protoreflect.FieldDescriptor
-	fd_Subnet_city                         protoreflect.FieldDescriptor
-	fd_Subnet_postalCode                   protoreflect.FieldDescriptor
-	fd_Subnet_geoChangeRequested           protoreflect.FieldDescriptor
-	fd_Subnet_geoChangeRequestedBlock      protoreflect.FieldDescriptor
-	fd_Subnet_geoChangedBlock              protoreflect.FieldDescriptor
-	fd_Subnet_geofeedUrl                   protoreflect.FieldDescriptor
-	fd_Subnet_geofeedSyncBlock             protoreflect.FieldDescriptor
-	fd_Subnet_rir                          protoreflect.FieldDescriptor
-	fd_Subnet_rirOwnerOrg                  protoreflect.FieldDescriptor
-	fd_Subnet_rirAbuseEmail                protoreflect.FieldDescriptor
-	fd_Subnet_rirAllocationType            protoreflect.FieldDescriptor
-	fd_Subnet_rirSyncBlock                 protoreflect.FieldDescriptor
-	fd_Subnet_ownerOrgId                   protoreflect.FieldDescriptor
-	fd_Subnet_userOrgId                    protoreflect.FieldDescriptor
-	fd_Subnet_origin                       protoreflect.FieldDescriptor
-	fd_Subnet_originTransferRequested      protoreflect.FieldDescriptor
-	fd_Subnet_originTransferRequestedBlock protoreflect.FieldDescriptor
-	fd_Subnet_originTransferedBlock        protoreflect.FieldDescriptor
-	fd_Subnet_irrOrigin                    protoreflect.FieldDescriptor
-	fd_Subnet_irrMntBy                     protoreflect.FieldDescriptor
-	fd_Subnet_irrCreated                   protoreflect.FieldDescriptor
-	fd_Subnet_irrModified                  protoreflect.FieldDescriptor
-	fd_Subnet_irrSyncBlock                 protoreflect.FieldDescriptor
-	fd_Subnet_rpkiOrigin                   protoreflect.FieldDescriptor
-	fd_Subnet_rpkiSyncBlock                protoreflect.FieldDescriptor
+	md_Subnet                           protoreflect.MessageDescriptor
+	fd_Subnet_id                        protoreflect.FieldDescriptor
+	fd_Subnet_createdAt                 protoreflect.FieldDescriptor
+	fd_Subnet_networkAddress            protoreflect.FieldDescriptor
+	fd_Subnet_mask                      protoreflect.FieldDescriptor
+	fd_Subnet_status                    protoreflect.FieldDescriptor
+	fd_Subnet_country                   protoreflect.FieldDescriptor
+	fd_Subnet_region                    protoreflect.FieldDescriptor
+	fd_Subnet_city                      protoreflect.FieldDescriptor
+	fd_Subnet_postalCode                protoreflect.FieldDescriptor
+	fd_Subnet_geoChangeRequested        protoreflect.FieldDescriptor
+	fd_Subnet_geoChangeRequestedAt      protoreflect.FieldDescriptor
+	fd_Subnet_geoChangeFulfilledAt      protoreflect.FieldDescriptor
+	fd_Subnet_geofeedUrl                protoreflect.FieldDescriptor
+	fd_Subnet_geofeedSyncedAt           protoreflect.FieldDescriptor
+	fd_Subnet_rir                       protoreflect.FieldDescriptor
+	fd_Subnet_rirOwnerOrg               protoreflect.FieldDescriptor
+	fd_Subnet_rirAbuseEmail             protoreflect.FieldDescriptor
+	fd_Subnet_rirAllocationType         protoreflect.FieldDescriptor
+	fd_Subnet_rirSyncedAt               protoreflect.FieldDescriptor
+	fd_Subnet_ownerOrgId                protoreflect.FieldDescriptor
+	fd_Subnet_userOrgId                 protoreflect.FieldDescriptor
+	fd_Subnet_origin                    protoreflect.FieldDescriptor
+	fd_Subnet_originTransferRequested   protoreflect.FieldDescriptor
+	fd_Subnet_originTransferRequestedAt protoreflect.FieldDescriptor
+	fd_Subnet_originTransferFulfilledAt protoreflect.FieldDescriptor
+	fd_Subnet_irrOrigin                 protoreflect.FieldDescriptor
+	fd_Subnet_irrMntBy                  protoreflect.FieldDescriptor
+	fd_Subnet_irrCreatedAt              protoreflect.FieldDescriptor
+	fd_Subnet_irrModifiedAt             protoreflect.FieldDescriptor
+	fd_Subnet_irrSyncedAt               protoreflect.FieldDescriptor
+	fd_Subnet_rpkiOrigin                protoreflect.FieldDescriptor
+	fd_Subnet_rpkiSyncedAt              protoreflect.FieldDescriptor
+	fd_Subnet_updatedAt                 protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_ipex_subnet_subnet_proto_init()
 	md_Subnet = File_ipex_subnet_subnet_proto.Messages().ByName("Subnet")
 	fd_Subnet_id = md_Subnet.Fields().ByName("id")
-	fd_Subnet_creationBlock = md_Subnet.Fields().ByName("creationBlock")
+	fd_Subnet_createdAt = md_Subnet.Fields().ByName("createdAt")
 	fd_Subnet_networkAddress = md_Subnet.Fields().ByName("networkAddress")
 	fd_Subnet_mask = md_Subnet.Fields().ByName("mask")
 	fd_Subnet_status = md_Subnet.Fields().ByName("status")
@@ -61,28 +64,29 @@ func init() {
 	fd_Subnet_city = md_Subnet.Fields().ByName("city")
 	fd_Subnet_postalCode = md_Subnet.Fields().ByName("postalCode")
 	fd_Subnet_geoChangeRequested = md_Subnet.Fields().ByName("geoChangeRequested")
-	fd_Subnet_geoChangeRequestedBlock = md_Subnet.Fields().ByName("geoChangeRequestedBlock")
-	fd_Subnet_geoChangedBlock = md_Subnet.Fields().ByName("geoChangedBlock")
+	fd_Subnet_geoChangeRequestedAt = md_Subnet.Fields().ByName("geoChangeRequestedAt")
+	fd_Subnet_geoChangeFulfilledAt = md_Subnet.Fields().ByName("geoChangeFulfilledAt")
 	fd_Subnet_geofeedUrl = md_Subnet.Fields().ByName("geofeedUrl")
-	fd_Subnet_geofeedSyncBlock = md_Subnet.Fields().ByName("geofeedSyncBlock")
+	fd_Subnet_geofeedSyncedAt = md_Subnet.Fields().ByName("geofeedSyncedAt")
 	fd_Subnet_rir = md_Subnet.Fields().ByName("rir")
 	fd_Subnet_rirOwnerOrg = md_Subnet.Fields().ByName("rirOwnerOrg")
 	fd_Subnet_rirAbuseEmail = md_Subnet.Fields().ByName("rirAbuseEmail")
 	fd_Subnet_rirAllocationType = md_Subnet.Fields().ByName("rirAllocationType")
-	fd_Subnet_rirSyncBlock = md_Subnet.Fields().ByName("rirSyncBlock")
+	fd_Subnet_rirSyncedAt = md_Subnet.Fields().ByName("rirSyncedAt")
 	fd_Subnet_ownerOrgId = md_Subnet.Fields().ByName("ownerOrgId")
 	fd_Subnet_userOrgId = md_Subnet.Fields().ByName("userOrgId")
 	fd_Subnet_origin = md_Subnet.Fields().ByName("origin")
 	fd_Subnet_originTransferRequested = md_Subnet.Fields().ByName("originTransferRequested")
-	fd_Subnet_originTransferRequestedBlock = md_Subnet.Fields().ByName("originTransferRequestedBlock")
-	fd_Subnet_originTransferedBlock = md_Subnet.Fields().ByName("originTransferedBlock")
+	fd_Subnet_originTransferRequestedAt = md_Subnet.Fields().ByName("originTransferRequestedAt")
+	fd_Subnet_originTransferFulfilledAt = md_Subnet.Fields().ByName("originTransferFulfilledAt")
 	fd_Subnet_irrOrigin = md_Subnet.Fields().ByName("irrOrigin")
 	fd_Subnet_irrMntBy = md_Subnet.Fields().ByName("irrMntBy")
-	fd_Subnet_irrCreated = md_Subnet.Fields().ByName("irrCreated")
-	fd_Subnet_irrModified = md_Subnet.Fields().ByName("irrModified")
-	fd_Subnet_irrSyncBlock = md_Subnet.Fields().ByName("irrSyncBlock")
+	fd_Subnet_irrCreatedAt = md_Subnet.Fields().ByName("irrCreatedAt")
+	fd_Subnet_irrModifiedAt = md_Subnet.Fields().ByName("irrModifiedAt")
+	fd_Subnet_irrSyncedAt = md_Subnet.Fields().ByName("irrSyncedAt")
 	fd_Subnet_rpkiOrigin = md_Subnet.Fields().ByName("rpkiOrigin")
-	fd_Subnet_rpkiSyncBlock = md_Subnet.Fields().ByName("rpkiSyncBlock")
+	fd_Subnet_rpkiSyncedAt = md_Subnet.Fields().ByName("rpkiSyncedAt")
+	fd_Subnet_updatedAt = md_Subnet.Fields().ByName("updatedAt")
 }
 
 var _ protoreflect.Message = (*fastReflection_Subnet)(nil)
@@ -156,9 +160,9 @@ func (x *fastReflection_Subnet) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if x.CreationBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.CreationBlock)
-		if !f(fd_Subnet_creationBlock, value) {
+	if x.CreatedAt != nil {
+		value := protoreflect.ValueOfMessage(x.CreatedAt.ProtoReflect())
+		if !f(fd_Subnet_createdAt, value) {
 			return
 		}
 	}
@@ -210,15 +214,15 @@ func (x *fastReflection_Subnet) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if x.GeoChangeRequestedBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.GeoChangeRequestedBlock)
-		if !f(fd_Subnet_geoChangeRequestedBlock, value) {
+	if x.GeoChangeRequestedAt != nil {
+		value := protoreflect.ValueOfMessage(x.GeoChangeRequestedAt.ProtoReflect())
+		if !f(fd_Subnet_geoChangeRequestedAt, value) {
 			return
 		}
 	}
-	if x.GeoChangedBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.GeoChangedBlock)
-		if !f(fd_Subnet_geoChangedBlock, value) {
+	if x.GeoChangeFulfilledAt != nil {
+		value := protoreflect.ValueOfMessage(x.GeoChangeFulfilledAt.ProtoReflect())
+		if !f(fd_Subnet_geoChangeFulfilledAt, value) {
 			return
 		}
 	}
@@ -228,9 +232,9 @@ func (x *fastReflection_Subnet) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if x.GeofeedSyncBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.GeofeedSyncBlock)
-		if !f(fd_Subnet_geofeedSyncBlock, value) {
+	if x.GeofeedSyncedAt != nil {
+		value := protoreflect.ValueOfMessage(x.GeofeedSyncedAt.ProtoReflect())
+		if !f(fd_Subnet_geofeedSyncedAt, value) {
 			return
 		}
 	}
@@ -258,9 +262,9 @@ func (x *fastReflection_Subnet) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if x.RirSyncBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.RirSyncBlock)
-		if !f(fd_Subnet_rirSyncBlock, value) {
+	if x.RirSyncedAt != nil {
+		value := protoreflect.ValueOfMessage(x.RirSyncedAt.ProtoReflect())
+		if !f(fd_Subnet_rirSyncedAt, value) {
 			return
 		}
 	}
@@ -288,15 +292,15 @@ func (x *fastReflection_Subnet) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if x.OriginTransferRequestedBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.OriginTransferRequestedBlock)
-		if !f(fd_Subnet_originTransferRequestedBlock, value) {
+	if x.OriginTransferRequestedAt != nil {
+		value := protoreflect.ValueOfMessage(x.OriginTransferRequestedAt.ProtoReflect())
+		if !f(fd_Subnet_originTransferRequestedAt, value) {
 			return
 		}
 	}
-	if x.OriginTransferedBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.OriginTransferedBlock)
-		if !f(fd_Subnet_originTransferedBlock, value) {
+	if x.OriginTransferFulfilledAt != nil {
+		value := protoreflect.ValueOfMessage(x.OriginTransferFulfilledAt.ProtoReflect())
+		if !f(fd_Subnet_originTransferFulfilledAt, value) {
 			return
 		}
 	}
@@ -312,21 +316,21 @@ func (x *fastReflection_Subnet) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if x.IrrCreated != "" {
-		value := protoreflect.ValueOfString(x.IrrCreated)
-		if !f(fd_Subnet_irrCreated, value) {
+	if x.IrrCreatedAt != nil {
+		value := protoreflect.ValueOfMessage(x.IrrCreatedAt.ProtoReflect())
+		if !f(fd_Subnet_irrCreatedAt, value) {
 			return
 		}
 	}
-	if x.IrrModified != "" {
-		value := protoreflect.ValueOfString(x.IrrModified)
-		if !f(fd_Subnet_irrModified, value) {
+	if x.IrrModifiedAt != nil {
+		value := protoreflect.ValueOfMessage(x.IrrModifiedAt.ProtoReflect())
+		if !f(fd_Subnet_irrModifiedAt, value) {
 			return
 		}
 	}
-	if x.IrrSyncBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.IrrSyncBlock)
-		if !f(fd_Subnet_irrSyncBlock, value) {
+	if x.IrrSyncedAt != nil {
+		value := protoreflect.ValueOfMessage(x.IrrSyncedAt.ProtoReflect())
+		if !f(fd_Subnet_irrSyncedAt, value) {
 			return
 		}
 	}
@@ -336,9 +340,15 @@ func (x *fastReflection_Subnet) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if x.RpkiSyncBlock != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.RpkiSyncBlock)
-		if !f(fd_Subnet_rpkiSyncBlock, value) {
+	if x.RpkiSyncedAt != nil {
+		value := protoreflect.ValueOfMessage(x.RpkiSyncedAt.ProtoReflect())
+		if !f(fd_Subnet_rpkiSyncedAt, value) {
+			return
+		}
+	}
+	if x.UpdatedAt != nil {
+		value := protoreflect.ValueOfMessage(x.UpdatedAt.ProtoReflect())
+		if !f(fd_Subnet_updatedAt, value) {
 			return
 		}
 	}
@@ -359,8 +369,8 @@ func (x *fastReflection_Subnet) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	case "ipex.subnet.Subnet.id":
 		return x.Id != uint64(0)
-	case "ipex.subnet.Subnet.creationBlock":
-		return x.CreationBlock != uint64(0)
+	case "ipex.subnet.Subnet.createdAt":
+		return x.CreatedAt != nil
 	case "ipex.subnet.Subnet.networkAddress":
 		return x.NetworkAddress != uint64(0)
 	case "ipex.subnet.Subnet.mask":
@@ -377,14 +387,14 @@ func (x *fastReflection_Subnet) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.PostalCode != ""
 	case "ipex.subnet.Subnet.geoChangeRequested":
 		return x.GeoChangeRequested != false
-	case "ipex.subnet.Subnet.geoChangeRequestedBlock":
-		return x.GeoChangeRequestedBlock != uint64(0)
-	case "ipex.subnet.Subnet.geoChangedBlock":
-		return x.GeoChangedBlock != uint64(0)
+	case "ipex.subnet.Subnet.geoChangeRequestedAt":
+		return x.GeoChangeRequestedAt != nil
+	case "ipex.subnet.Subnet.geoChangeFulfilledAt":
+		return x.GeoChangeFulfilledAt != nil
 	case "ipex.subnet.Subnet.geofeedUrl":
 		return x.GeofeedUrl != ""
-	case "ipex.subnet.Subnet.geofeedSyncBlock":
-		return x.GeofeedSyncBlock != uint64(0)
+	case "ipex.subnet.Subnet.geofeedSyncedAt":
+		return x.GeofeedSyncedAt != nil
 	case "ipex.subnet.Subnet.rir":
 		return x.Rir != 0
 	case "ipex.subnet.Subnet.rirOwnerOrg":
@@ -393,8 +403,8 @@ func (x *fastReflection_Subnet) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.RirAbuseEmail != ""
 	case "ipex.subnet.Subnet.rirAllocationType":
 		return x.RirAllocationType != uint64(0)
-	case "ipex.subnet.Subnet.rirSyncBlock":
-		return x.RirSyncBlock != uint64(0)
+	case "ipex.subnet.Subnet.rirSyncedAt":
+		return x.RirSyncedAt != nil
 	case "ipex.subnet.Subnet.ownerOrgId":
 		return x.OwnerOrgId != uint64(0)
 	case "ipex.subnet.Subnet.userOrgId":
@@ -403,24 +413,26 @@ func (x *fastReflection_Subnet) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.Origin != uint64(0)
 	case "ipex.subnet.Subnet.originTransferRequested":
 		return x.OriginTransferRequested != false
-	case "ipex.subnet.Subnet.originTransferRequestedBlock":
-		return x.OriginTransferRequestedBlock != uint64(0)
-	case "ipex.subnet.Subnet.originTransferedBlock":
-		return x.OriginTransferedBlock != uint64(0)
+	case "ipex.subnet.Subnet.originTransferRequestedAt":
+		return x.OriginTransferRequestedAt != nil
+	case "ipex.subnet.Subnet.originTransferFulfilledAt":
+		return x.OriginTransferFulfilledAt != nil
 	case "ipex.subnet.Subnet.irrOrigin":
 		return x.IrrOrigin != ""
 	case "ipex.subnet.Subnet.irrMntBy":
 		return x.IrrMntBy != ""
-	case "ipex.subnet.Subnet.irrCreated":
-		return x.IrrCreated != ""
-	case "ipex.subnet.Subnet.irrModified":
-		return x.IrrModified != ""
-	case "ipex.subnet.Subnet.irrSyncBlock":
-		return x.IrrSyncBlock != uint64(0)
+	case "ipex.subnet.Subnet.irrCreatedAt":
+		return x.IrrCreatedAt != nil
+	case "ipex.subnet.Subnet.irrModifiedAt":
+		return x.IrrModifiedAt != nil
+	case "ipex.subnet.Subnet.irrSyncedAt":
+		return x.IrrSyncedAt != nil
 	case "ipex.subnet.Subnet.rpkiOrigin":
 		return x.RpkiOrigin != ""
-	case "ipex.subnet.Subnet.rpkiSyncBlock":
-		return x.RpkiSyncBlock != uint64(0)
+	case "ipex.subnet.Subnet.rpkiSyncedAt":
+		return x.RpkiSyncedAt != nil
+	case "ipex.subnet.Subnet.updatedAt":
+		return x.UpdatedAt != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.Subnet"))
@@ -439,8 +451,8 @@ func (x *fastReflection_Subnet) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "ipex.subnet.Subnet.id":
 		x.Id = uint64(0)
-	case "ipex.subnet.Subnet.creationBlock":
-		x.CreationBlock = uint64(0)
+	case "ipex.subnet.Subnet.createdAt":
+		x.CreatedAt = nil
 	case "ipex.subnet.Subnet.networkAddress":
 		x.NetworkAddress = uint64(0)
 	case "ipex.subnet.Subnet.mask":
@@ -457,14 +469,14 @@ func (x *fastReflection_Subnet) Clear(fd protoreflect.FieldDescriptor) {
 		x.PostalCode = ""
 	case "ipex.subnet.Subnet.geoChangeRequested":
 		x.GeoChangeRequested = false
-	case "ipex.subnet.Subnet.geoChangeRequestedBlock":
-		x.GeoChangeRequestedBlock = uint64(0)
-	case "ipex.subnet.Subnet.geoChangedBlock":
-		x.GeoChangedBlock = uint64(0)
+	case "ipex.subnet.Subnet.geoChangeRequestedAt":
+		x.GeoChangeRequestedAt = nil
+	case "ipex.subnet.Subnet.geoChangeFulfilledAt":
+		x.GeoChangeFulfilledAt = nil
 	case "ipex.subnet.Subnet.geofeedUrl":
 		x.GeofeedUrl = ""
-	case "ipex.subnet.Subnet.geofeedSyncBlock":
-		x.GeofeedSyncBlock = uint64(0)
+	case "ipex.subnet.Subnet.geofeedSyncedAt":
+		x.GeofeedSyncedAt = nil
 	case "ipex.subnet.Subnet.rir":
 		x.Rir = 0
 	case "ipex.subnet.Subnet.rirOwnerOrg":
@@ -473,8 +485,8 @@ func (x *fastReflection_Subnet) Clear(fd protoreflect.FieldDescriptor) {
 		x.RirAbuseEmail = ""
 	case "ipex.subnet.Subnet.rirAllocationType":
 		x.RirAllocationType = uint64(0)
-	case "ipex.subnet.Subnet.rirSyncBlock":
-		x.RirSyncBlock = uint64(0)
+	case "ipex.subnet.Subnet.rirSyncedAt":
+		x.RirSyncedAt = nil
 	case "ipex.subnet.Subnet.ownerOrgId":
 		x.OwnerOrgId = uint64(0)
 	case "ipex.subnet.Subnet.userOrgId":
@@ -483,24 +495,26 @@ func (x *fastReflection_Subnet) Clear(fd protoreflect.FieldDescriptor) {
 		x.Origin = uint64(0)
 	case "ipex.subnet.Subnet.originTransferRequested":
 		x.OriginTransferRequested = false
-	case "ipex.subnet.Subnet.originTransferRequestedBlock":
-		x.OriginTransferRequestedBlock = uint64(0)
-	case "ipex.subnet.Subnet.originTransferedBlock":
-		x.OriginTransferedBlock = uint64(0)
+	case "ipex.subnet.Subnet.originTransferRequestedAt":
+		x.OriginTransferRequestedAt = nil
+	case "ipex.subnet.Subnet.originTransferFulfilledAt":
+		x.OriginTransferFulfilledAt = nil
 	case "ipex.subnet.Subnet.irrOrigin":
 		x.IrrOrigin = ""
 	case "ipex.subnet.Subnet.irrMntBy":
 		x.IrrMntBy = ""
-	case "ipex.subnet.Subnet.irrCreated":
-		x.IrrCreated = ""
-	case "ipex.subnet.Subnet.irrModified":
-		x.IrrModified = ""
-	case "ipex.subnet.Subnet.irrSyncBlock":
-		x.IrrSyncBlock = uint64(0)
+	case "ipex.subnet.Subnet.irrCreatedAt":
+		x.IrrCreatedAt = nil
+	case "ipex.subnet.Subnet.irrModifiedAt":
+		x.IrrModifiedAt = nil
+	case "ipex.subnet.Subnet.irrSyncedAt":
+		x.IrrSyncedAt = nil
 	case "ipex.subnet.Subnet.rpkiOrigin":
 		x.RpkiOrigin = ""
-	case "ipex.subnet.Subnet.rpkiSyncBlock":
-		x.RpkiSyncBlock = uint64(0)
+	case "ipex.subnet.Subnet.rpkiSyncedAt":
+		x.RpkiSyncedAt = nil
+	case "ipex.subnet.Subnet.updatedAt":
+		x.UpdatedAt = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.Subnet"))
@@ -520,9 +534,9 @@ func (x *fastReflection_Subnet) Get(descriptor protoreflect.FieldDescriptor) pro
 	case "ipex.subnet.Subnet.id":
 		value := x.Id
 		return protoreflect.ValueOfUint64(value)
-	case "ipex.subnet.Subnet.creationBlock":
-		value := x.CreationBlock
-		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.Subnet.createdAt":
+		value := x.CreatedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.subnet.Subnet.networkAddress":
 		value := x.NetworkAddress
 		return protoreflect.ValueOfUint64(value)
@@ -547,18 +561,18 @@ func (x *fastReflection_Subnet) Get(descriptor protoreflect.FieldDescriptor) pro
 	case "ipex.subnet.Subnet.geoChangeRequested":
 		value := x.GeoChangeRequested
 		return protoreflect.ValueOfBool(value)
-	case "ipex.subnet.Subnet.geoChangeRequestedBlock":
-		value := x.GeoChangeRequestedBlock
-		return protoreflect.ValueOfUint64(value)
-	case "ipex.subnet.Subnet.geoChangedBlock":
-		value := x.GeoChangedBlock
-		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.Subnet.geoChangeRequestedAt":
+		value := x.GeoChangeRequestedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.subnet.Subnet.geoChangeFulfilledAt":
+		value := x.GeoChangeFulfilledAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.subnet.Subnet.geofeedUrl":
 		value := x.GeofeedUrl
 		return protoreflect.ValueOfString(value)
-	case "ipex.subnet.Subnet.geofeedSyncBlock":
-		value := x.GeofeedSyncBlock
-		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.Subnet.geofeedSyncedAt":
+		value := x.GeofeedSyncedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.subnet.Subnet.rir":
 		value := x.Rir
 		return protoreflect.ValueOfEnum((protoreflect.EnumNumber)(value))
@@ -571,9 +585,9 @@ func (x *fastReflection_Subnet) Get(descriptor protoreflect.FieldDescriptor) pro
 	case "ipex.subnet.Subnet.rirAllocationType":
 		value := x.RirAllocationType
 		return protoreflect.ValueOfUint64(value)
-	case "ipex.subnet.Subnet.rirSyncBlock":
-		value := x.RirSyncBlock
-		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.Subnet.rirSyncedAt":
+		value := x.RirSyncedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.subnet.Subnet.ownerOrgId":
 		value := x.OwnerOrgId
 		return protoreflect.ValueOfUint64(value)
@@ -586,33 +600,36 @@ func (x *fastReflection_Subnet) Get(descriptor protoreflect.FieldDescriptor) pro
 	case "ipex.subnet.Subnet.originTransferRequested":
 		value := x.OriginTransferRequested
 		return protoreflect.ValueOfBool(value)
-	case "ipex.subnet.Subnet.originTransferRequestedBlock":
-		value := x.OriginTransferRequestedBlock
-		return protoreflect.ValueOfUint64(value)
-	case "ipex.subnet.Subnet.originTransferedBlock":
-		value := x.OriginTransferedBlock
-		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.Subnet.originTransferRequestedAt":
+		value := x.OriginTransferRequestedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.subnet.Subnet.originTransferFulfilledAt":
+		value := x.OriginTransferFulfilledAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.subnet.Subnet.irrOrigin":
 		value := x.IrrOrigin
 		return protoreflect.ValueOfString(value)
 	case "ipex.subnet.Subnet.irrMntBy":
 		value := x.IrrMntBy
 		return protoreflect.ValueOfString(value)
-	case "ipex.subnet.Subnet.irrCreated":
-		value := x.IrrCreated
-		return protoreflect.ValueOfString(value)
-	case "ipex.subnet.Subnet.irrModified":
-		value := x.IrrModified
-		return protoreflect.ValueOfString(value)
-	case "ipex.subnet.Subnet.irrSyncBlock":
-		value := x.IrrSyncBlock
-		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.Subnet.irrCreatedAt":
+		value := x.IrrCreatedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.subnet.Subnet.irrModifiedAt":
+		value := x.IrrModifiedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.subnet.Subnet.irrSyncedAt":
+		value := x.IrrSyncedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.subnet.Subnet.rpkiOrigin":
 		value := x.RpkiOrigin
 		return protoreflect.ValueOfString(value)
-	case "ipex.subnet.Subnet.rpkiSyncBlock":
-		value := x.RpkiSyncBlock
-		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.Subnet.rpkiSyncedAt":
+		value := x.RpkiSyncedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.subnet.Subnet.updatedAt":
+		value := x.UpdatedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.Subnet"))
@@ -635,8 +652,8 @@ func (x *fastReflection_Subnet) Set(fd protoreflect.FieldDescriptor, value proto
 	switch fd.FullName() {
 	case "ipex.subnet.Subnet.id":
 		x.Id = value.Uint()
-	case "ipex.subnet.Subnet.creationBlock":
-		x.CreationBlock = value.Uint()
+	case "ipex.subnet.Subnet.createdAt":
+		x.CreatedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.subnet.Subnet.networkAddress":
 		x.NetworkAddress = value.Uint()
 	case "ipex.subnet.Subnet.mask":
@@ -653,14 +670,14 @@ func (x *fastReflection_Subnet) Set(fd protoreflect.FieldDescriptor, value proto
 		x.PostalCode = value.Interface().(string)
 	case "ipex.subnet.Subnet.geoChangeRequested":
 		x.GeoChangeRequested = value.Bool()
-	case "ipex.subnet.Subnet.geoChangeRequestedBlock":
-		x.GeoChangeRequestedBlock = value.Uint()
-	case "ipex.subnet.Subnet.geoChangedBlock":
-		x.GeoChangedBlock = value.Uint()
+	case "ipex.subnet.Subnet.geoChangeRequestedAt":
+		x.GeoChangeRequestedAt = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.subnet.Subnet.geoChangeFulfilledAt":
+		x.GeoChangeFulfilledAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.subnet.Subnet.geofeedUrl":
 		x.GeofeedUrl = value.Interface().(string)
-	case "ipex.subnet.Subnet.geofeedSyncBlock":
-		x.GeofeedSyncBlock = value.Uint()
+	case "ipex.subnet.Subnet.geofeedSyncedAt":
+		x.GeofeedSyncedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.subnet.Subnet.rir":
 		x.Rir = (Rir)(value.Enum())
 	case "ipex.subnet.Subnet.rirOwnerOrg":
@@ -669,8 +686,8 @@ func (x *fastReflection_Subnet) Set(fd protoreflect.FieldDescriptor, value proto
 		x.RirAbuseEmail = value.Interface().(string)
 	case "ipex.subnet.Subnet.rirAllocationType":
 		x.RirAllocationType = value.Uint()
-	case "ipex.subnet.Subnet.rirSyncBlock":
-		x.RirSyncBlock = value.Uint()
+	case "ipex.subnet.Subnet.rirSyncedAt":
+		x.RirSyncedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.subnet.Subnet.ownerOrgId":
 		x.OwnerOrgId = value.Uint()
 	case "ipex.subnet.Subnet.userOrgId":
@@ -679,24 +696,26 @@ func (x *fastReflection_Subnet) Set(fd protoreflect.FieldDescriptor, value proto
 		x.Origin = value.Uint()
 	case "ipex.subnet.Subnet.originTransferRequested":
 		x.OriginTransferRequested = value.Bool()
-	case "ipex.subnet.Subnet.originTransferRequestedBlock":
-		x.OriginTransferRequestedBlock = value.Uint()
-	case "ipex.subnet.Subnet.originTransferedBlock":
-		x.OriginTransferedBlock = value.Uint()
+	case "ipex.subnet.Subnet.originTransferRequestedAt":
+		x.OriginTransferRequestedAt = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.subnet.Subnet.originTransferFulfilledAt":
+		x.OriginTransferFulfilledAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.subnet.Subnet.irrOrigin":
 		x.IrrOrigin = value.Interface().(string)
 	case "ipex.subnet.Subnet.irrMntBy":
 		x.IrrMntBy = value.Interface().(string)
-	case "ipex.subnet.Subnet.irrCreated":
-		x.IrrCreated = value.Interface().(string)
-	case "ipex.subnet.Subnet.irrModified":
-		x.IrrModified = value.Interface().(string)
-	case "ipex.subnet.Subnet.irrSyncBlock":
-		x.IrrSyncBlock = value.Uint()
+	case "ipex.subnet.Subnet.irrCreatedAt":
+		x.IrrCreatedAt = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.subnet.Subnet.irrModifiedAt":
+		x.IrrModifiedAt = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.subnet.Subnet.irrSyncedAt":
+		x.IrrSyncedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.subnet.Subnet.rpkiOrigin":
 		x.RpkiOrigin = value.Interface().(string)
-	case "ipex.subnet.Subnet.rpkiSyncBlock":
-		x.RpkiSyncBlock = value.Uint()
+	case "ipex.subnet.Subnet.rpkiSyncedAt":
+		x.RpkiSyncedAt = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.subnet.Subnet.updatedAt":
+		x.UpdatedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.Subnet"))
@@ -717,10 +736,68 @@ func (x *fastReflection_Subnet) Set(fd protoreflect.FieldDescriptor, value proto
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Subnet) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.subnet.Subnet.createdAt":
+		if x.CreatedAt == nil {
+			x.CreatedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.CreatedAt.ProtoReflect())
+	case "ipex.subnet.Subnet.geoChangeRequestedAt":
+		if x.GeoChangeRequestedAt == nil {
+			x.GeoChangeRequestedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.GeoChangeRequestedAt.ProtoReflect())
+	case "ipex.subnet.Subnet.geoChangeFulfilledAt":
+		if x.GeoChangeFulfilledAt == nil {
+			x.GeoChangeFulfilledAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.GeoChangeFulfilledAt.ProtoReflect())
+	case "ipex.subnet.Subnet.geofeedSyncedAt":
+		if x.GeofeedSyncedAt == nil {
+			x.GeofeedSyncedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.GeofeedSyncedAt.ProtoReflect())
+	case "ipex.subnet.Subnet.rirSyncedAt":
+		if x.RirSyncedAt == nil {
+			x.RirSyncedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.RirSyncedAt.ProtoReflect())
+	case "ipex.subnet.Subnet.originTransferRequestedAt":
+		if x.OriginTransferRequestedAt == nil {
+			x.OriginTransferRequestedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.OriginTransferRequestedAt.ProtoReflect())
+	case "ipex.subnet.Subnet.originTransferFulfilledAt":
+		if x.OriginTransferFulfilledAt == nil {
+			x.OriginTransferFulfilledAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.OriginTransferFulfilledAt.ProtoReflect())
+	case "ipex.subnet.Subnet.irrCreatedAt":
+		if x.IrrCreatedAt == nil {
+			x.IrrCreatedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.IrrCreatedAt.ProtoReflect())
+	case "ipex.subnet.Subnet.irrModifiedAt":
+		if x.IrrModifiedAt == nil {
+			x.IrrModifiedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.IrrModifiedAt.ProtoReflect())
+	case "ipex.subnet.Subnet.irrSyncedAt":
+		if x.IrrSyncedAt == nil {
+			x.IrrSyncedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.IrrSyncedAt.ProtoReflect())
+	case "ipex.subnet.Subnet.rpkiSyncedAt":
+		if x.RpkiSyncedAt == nil {
+			x.RpkiSyncedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.RpkiSyncedAt.ProtoReflect())
+	case "ipex.subnet.Subnet.updatedAt":
+		if x.UpdatedAt == nil {
+			x.UpdatedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.UpdatedAt.ProtoReflect())
 	case "ipex.subnet.Subnet.id":
 		panic(fmt.Errorf("field id of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.creationBlock":
-		panic(fmt.Errorf("field creationBlock of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.networkAddress":
 		panic(fmt.Errorf("field networkAddress of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.mask":
@@ -737,14 +814,8 @@ func (x *fastReflection_Subnet) Mutable(fd protoreflect.FieldDescriptor) protore
 		panic(fmt.Errorf("field postalCode of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.geoChangeRequested":
 		panic(fmt.Errorf("field geoChangeRequested of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.geoChangeRequestedBlock":
-		panic(fmt.Errorf("field geoChangeRequestedBlock of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.geoChangedBlock":
-		panic(fmt.Errorf("field geoChangedBlock of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.geofeedUrl":
 		panic(fmt.Errorf("field geofeedUrl of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.geofeedSyncBlock":
-		panic(fmt.Errorf("field geofeedSyncBlock of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.rir":
 		panic(fmt.Errorf("field rir of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.rirOwnerOrg":
@@ -753,8 +824,6 @@ func (x *fastReflection_Subnet) Mutable(fd protoreflect.FieldDescriptor) protore
 		panic(fmt.Errorf("field rirAbuseEmail of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.rirAllocationType":
 		panic(fmt.Errorf("field rirAllocationType of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.rirSyncBlock":
-		panic(fmt.Errorf("field rirSyncBlock of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.ownerOrgId":
 		panic(fmt.Errorf("field ownerOrgId of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.userOrgId":
@@ -763,24 +832,12 @@ func (x *fastReflection_Subnet) Mutable(fd protoreflect.FieldDescriptor) protore
 		panic(fmt.Errorf("field origin of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.originTransferRequested":
 		panic(fmt.Errorf("field originTransferRequested of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.originTransferRequestedBlock":
-		panic(fmt.Errorf("field originTransferRequestedBlock of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.originTransferedBlock":
-		panic(fmt.Errorf("field originTransferedBlock of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.irrOrigin":
 		panic(fmt.Errorf("field irrOrigin of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.irrMntBy":
 		panic(fmt.Errorf("field irrMntBy of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.irrCreated":
-		panic(fmt.Errorf("field irrCreated of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.irrModified":
-		panic(fmt.Errorf("field irrModified of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.irrSyncBlock":
-		panic(fmt.Errorf("field irrSyncBlock of message ipex.subnet.Subnet is not mutable"))
 	case "ipex.subnet.Subnet.rpkiOrigin":
 		panic(fmt.Errorf("field rpkiOrigin of message ipex.subnet.Subnet is not mutable"))
-	case "ipex.subnet.Subnet.rpkiSyncBlock":
-		panic(fmt.Errorf("field rpkiSyncBlock of message ipex.subnet.Subnet is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.Subnet"))
@@ -796,8 +853,9 @@ func (x *fastReflection_Subnet) NewField(fd protoreflect.FieldDescriptor) protor
 	switch fd.FullName() {
 	case "ipex.subnet.Subnet.id":
 		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.subnet.Subnet.creationBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.Subnet.createdAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.subnet.Subnet.networkAddress":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.subnet.Subnet.mask":
@@ -814,14 +872,17 @@ func (x *fastReflection_Subnet) NewField(fd protoreflect.FieldDescriptor) protor
 		return protoreflect.ValueOfString("")
 	case "ipex.subnet.Subnet.geoChangeRequested":
 		return protoreflect.ValueOfBool(false)
-	case "ipex.subnet.Subnet.geoChangeRequestedBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.subnet.Subnet.geoChangedBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.Subnet.geoChangeRequestedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.subnet.Subnet.geoChangeFulfilledAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.subnet.Subnet.geofeedUrl":
 		return protoreflect.ValueOfString("")
-	case "ipex.subnet.Subnet.geofeedSyncBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.Subnet.geofeedSyncedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.subnet.Subnet.rir":
 		return protoreflect.ValueOfEnum(0)
 	case "ipex.subnet.Subnet.rirOwnerOrg":
@@ -830,8 +891,9 @@ func (x *fastReflection_Subnet) NewField(fd protoreflect.FieldDescriptor) protor
 		return protoreflect.ValueOfString("")
 	case "ipex.subnet.Subnet.rirAllocationType":
 		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.subnet.Subnet.rirSyncBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.Subnet.rirSyncedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.subnet.Subnet.ownerOrgId":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.subnet.Subnet.userOrgId":
@@ -840,24 +902,33 @@ func (x *fastReflection_Subnet) NewField(fd protoreflect.FieldDescriptor) protor
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.subnet.Subnet.originTransferRequested":
 		return protoreflect.ValueOfBool(false)
-	case "ipex.subnet.Subnet.originTransferRequestedBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.subnet.Subnet.originTransferedBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.Subnet.originTransferRequestedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.subnet.Subnet.originTransferFulfilledAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.subnet.Subnet.irrOrigin":
 		return protoreflect.ValueOfString("")
 	case "ipex.subnet.Subnet.irrMntBy":
 		return protoreflect.ValueOfString("")
-	case "ipex.subnet.Subnet.irrCreated":
-		return protoreflect.ValueOfString("")
-	case "ipex.subnet.Subnet.irrModified":
-		return protoreflect.ValueOfString("")
-	case "ipex.subnet.Subnet.irrSyncBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.Subnet.irrCreatedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.subnet.Subnet.irrModifiedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.subnet.Subnet.irrSyncedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.subnet.Subnet.rpkiOrigin":
 		return protoreflect.ValueOfString("")
-	case "ipex.subnet.Subnet.rpkiSyncBlock":
-		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.Subnet.rpkiSyncedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.subnet.Subnet.updatedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.Subnet"))
@@ -930,8 +1001,9 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 		if x.Id != 0 {
 			n += 1 + runtime.Sov(uint64(x.Id))
 		}
-		if x.CreationBlock != 0 {
-			n += 1 + runtime.Sov(uint64(x.CreationBlock))
+		if x.CreatedAt != nil {
+			l = options.Size(x.CreatedAt)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.NetworkAddress != 0 {
 			n += 1 + runtime.Sov(uint64(x.NetworkAddress))
@@ -961,18 +1033,21 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 		if x.GeoChangeRequested {
 			n += 2
 		}
-		if x.GeoChangeRequestedBlock != 0 {
-			n += 1 + runtime.Sov(uint64(x.GeoChangeRequestedBlock))
+		if x.GeoChangeRequestedAt != nil {
+			l = options.Size(x.GeoChangeRequestedAt)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.GeoChangedBlock != 0 {
-			n += 1 + runtime.Sov(uint64(x.GeoChangedBlock))
+		if x.GeoChangeFulfilledAt != nil {
+			l = options.Size(x.GeoChangeFulfilledAt)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		l = len(x.GeofeedUrl)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.GeofeedSyncBlock != 0 {
-			n += 1 + runtime.Sov(uint64(x.GeofeedSyncBlock))
+		if x.GeofeedSyncedAt != nil {
+			l = options.Size(x.GeofeedSyncedAt)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.Rir != 0 {
 			n += 1 + runtime.Sov(uint64(x.Rir))
@@ -988,8 +1063,9 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 		if x.RirAllocationType != 0 {
 			n += 2 + runtime.Sov(uint64(x.RirAllocationType))
 		}
-		if x.RirSyncBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.RirSyncBlock))
+		if x.RirSyncedAt != nil {
+			l = options.Size(x.RirSyncedAt)
+			n += 2 + l + runtime.Sov(uint64(l))
 		}
 		if x.OwnerOrgId != 0 {
 			n += 2 + runtime.Sov(uint64(x.OwnerOrgId))
@@ -1003,11 +1079,13 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 		if x.OriginTransferRequested {
 			n += 3
 		}
-		if x.OriginTransferRequestedBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.OriginTransferRequestedBlock))
+		if x.OriginTransferRequestedAt != nil {
+			l = options.Size(x.OriginTransferRequestedAt)
+			n += 2 + l + runtime.Sov(uint64(l))
 		}
-		if x.OriginTransferedBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.OriginTransferedBlock))
+		if x.OriginTransferFulfilledAt != nil {
+			l = options.Size(x.OriginTransferFulfilledAt)
+			n += 2 + l + runtime.Sov(uint64(l))
 		}
 		l = len(x.IrrOrigin)
 		if l > 0 {
@@ -1017,23 +1095,29 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 2 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.IrrCreated)
-		if l > 0 {
+		if x.IrrCreatedAt != nil {
+			l = options.Size(x.IrrCreatedAt)
 			n += 2 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.IrrModified)
-		if l > 0 {
+		if x.IrrModifiedAt != nil {
+			l = options.Size(x.IrrModifiedAt)
 			n += 2 + l + runtime.Sov(uint64(l))
 		}
-		if x.IrrSyncBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.IrrSyncBlock))
+		if x.IrrSyncedAt != nil {
+			l = options.Size(x.IrrSyncedAt)
+			n += 2 + l + runtime.Sov(uint64(l))
 		}
 		l = len(x.RpkiOrigin)
 		if l > 0 {
 			n += 2 + l + runtime.Sov(uint64(l))
 		}
-		if x.RpkiSyncBlock != 0 {
-			n += 2 + runtime.Sov(uint64(x.RpkiSyncBlock))
+		if x.RpkiSyncedAt != nil {
+			l = options.Size(x.RpkiSyncedAt)
+			n += 2 + l + runtime.Sov(uint64(l))
+		}
+		if x.UpdatedAt != nil {
+			l = options.Size(x.UpdatedAt)
+			n += 2 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -1064,12 +1148,37 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.RpkiSyncBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.RpkiSyncBlock))
+		if x.UpdatedAt != nil {
+			encoded, err := options.Marshal(x.UpdatedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x2
 			i--
-			dAtA[i] = 0x80
+			dAtA[i] = 0x8a
+		}
+		if x.RpkiSyncedAt != nil {
+			encoded, err := options.Marshal(x.RpkiSyncedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x2
+			i--
+			dAtA[i] = 0x82
 		}
 		if len(x.RpkiOrigin) > 0 {
 			i -= len(x.RpkiOrigin)
@@ -1080,26 +1189,49 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0xfa
 		}
-		if x.IrrSyncBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.IrrSyncBlock))
+		if x.IrrSyncedAt != nil {
+			encoded, err := options.Marshal(x.IrrSyncedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x1
 			i--
-			dAtA[i] = 0xf0
+			dAtA[i] = 0xf2
 		}
-		if len(x.IrrModified) > 0 {
-			i -= len(x.IrrModified)
-			copy(dAtA[i:], x.IrrModified)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.IrrModified)))
+		if x.IrrModifiedAt != nil {
+			encoded, err := options.Marshal(x.IrrModifiedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x1
 			i--
 			dAtA[i] = 0xea
 		}
-		if len(x.IrrCreated) > 0 {
-			i -= len(x.IrrCreated)
-			copy(dAtA[i:], x.IrrCreated)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.IrrCreated)))
+		if x.IrrCreatedAt != nil {
+			encoded, err := options.Marshal(x.IrrCreatedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x1
 			i--
@@ -1123,19 +1255,37 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0xd2
 		}
-		if x.OriginTransferedBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.OriginTransferedBlock))
+		if x.OriginTransferFulfilledAt != nil {
+			encoded, err := options.Marshal(x.OriginTransferFulfilledAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x1
 			i--
-			dAtA[i] = 0xc8
+			dAtA[i] = 0xca
 		}
-		if x.OriginTransferRequestedBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.OriginTransferRequestedBlock))
+		if x.OriginTransferRequestedAt != nil {
+			encoded, err := options.Marshal(x.OriginTransferRequestedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x1
 			i--
-			dAtA[i] = 0xc0
+			dAtA[i] = 0xc2
 		}
 		if x.OriginTransferRequested {
 			i--
@@ -1170,12 +1320,21 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0xa0
 		}
-		if x.RirSyncBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.RirSyncBlock))
+		if x.RirSyncedAt != nil {
+			encoded, err := options.Marshal(x.RirSyncedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x1
 			i--
-			dAtA[i] = 0x98
+			dAtA[i] = 0x9a
 		}
 		if x.RirAllocationType != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.RirAllocationType))
@@ -1207,10 +1366,19 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x78
 		}
-		if x.GeofeedSyncBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.GeofeedSyncBlock))
+		if x.GeofeedSyncedAt != nil {
+			encoded, err := options.Marshal(x.GeofeedSyncedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x70
+			dAtA[i] = 0x72
 		}
 		if len(x.GeofeedUrl) > 0 {
 			i -= len(x.GeofeedUrl)
@@ -1219,15 +1387,33 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x6a
 		}
-		if x.GeoChangedBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.GeoChangedBlock))
+		if x.GeoChangeFulfilledAt != nil {
+			encoded, err := options.Marshal(x.GeoChangeFulfilledAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x60
+			dAtA[i] = 0x62
 		}
-		if x.GeoChangeRequestedBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.GeoChangeRequestedBlock))
+		if x.GeoChangeRequestedAt != nil {
+			encoded, err := options.Marshal(x.GeoChangeRequestedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x58
+			dAtA[i] = 0x5a
 		}
 		if x.GeoChangeRequested {
 			i--
@@ -1282,10 +1468,19 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x18
 		}
-		if x.CreationBlock != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.CreationBlock))
+		if x.CreatedAt != nil {
+			encoded, err := options.Marshal(x.CreatedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x10
+			dAtA[i] = 0x12
 		}
 		if x.Id != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.Id))
@@ -1361,10 +1556,10 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 				}
 			case 2:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreationBlock", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreatedAt", wireType)
 				}
-				x.CreationBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1374,11 +1569,28 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.CreationBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.CreatedAt == nil {
+					x.CreatedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CreatedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 3:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NetworkAddress", wireType)
@@ -1585,10 +1797,10 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 				}
 				x.GeoChangeRequested = bool(v != 0)
 			case 11:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GeoChangeRequestedBlock", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GeoChangeRequestedAt", wireType)
 				}
-				x.GeoChangeRequestedBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1598,16 +1810,33 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.GeoChangeRequestedBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.GeoChangeRequestedAt == nil {
+					x.GeoChangeRequestedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.GeoChangeRequestedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 12:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GeoChangedBlock", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GeoChangeFulfilledAt", wireType)
 				}
-				x.GeoChangedBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1617,11 +1846,28 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.GeoChangedBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.GeoChangeFulfilledAt == nil {
+					x.GeoChangeFulfilledAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.GeoChangeFulfilledAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 13:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GeofeedUrl", wireType)
@@ -1655,10 +1901,10 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 				x.GeofeedUrl = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 14:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GeofeedSyncBlock", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GeofeedSyncedAt", wireType)
 				}
-				x.GeofeedSyncBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1668,11 +1914,28 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.GeofeedSyncBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.GeofeedSyncedAt == nil {
+					x.GeofeedSyncedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.GeofeedSyncedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 15:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Rir", wireType)
@@ -1776,10 +2039,10 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 				}
 			case 19:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RirSyncBlock", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RirSyncedAt", wireType)
 				}
-				x.RirSyncBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1789,11 +2052,28 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.RirSyncBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.RirSyncedAt == nil {
+					x.RirSyncedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.RirSyncedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 20:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OwnerOrgId", wireType)
@@ -1872,10 +2152,10 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 				}
 				x.OriginTransferRequested = bool(v != 0)
 			case 24:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OriginTransferRequestedBlock", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OriginTransferRequestedAt", wireType)
 				}
-				x.OriginTransferRequestedBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1885,16 +2165,33 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.OriginTransferRequestedBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.OriginTransferRequestedAt == nil {
+					x.OriginTransferRequestedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.OriginTransferRequestedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 25:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OriginTransferedBlock", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OriginTransferFulfilledAt", wireType)
 				}
-				x.OriginTransferedBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1904,11 +2201,28 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.OriginTransferedBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.OriginTransferFulfilledAt == nil {
+					x.OriginTransferFulfilledAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.OriginTransferFulfilledAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 26:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IrrOrigin", wireType)
@@ -1975,9 +2289,9 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 28:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IrrCreated", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IrrCreatedAt", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1987,29 +2301,33 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.IrrCreated = string(dAtA[iNdEx:postIndex])
+				if x.IrrCreatedAt == nil {
+					x.IrrCreatedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.IrrCreatedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 29:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IrrModified", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IrrModifiedAt", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -2019,29 +2337,33 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.IrrModified = string(dAtA[iNdEx:postIndex])
+				if x.IrrModifiedAt == nil {
+					x.IrrModifiedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.IrrModifiedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 30:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IrrSyncBlock", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IrrSyncedAt", wireType)
 				}
-				x.IrrSyncBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -2051,11 +2373,28 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.IrrSyncBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.IrrSyncedAt == nil {
+					x.IrrSyncedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.IrrSyncedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 31:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RpkiOrigin", wireType)
@@ -2089,10 +2428,10 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 				x.RpkiOrigin = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 32:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RpkiSyncBlock", wireType)
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RpkiSyncedAt", wireType)
 				}
-				x.RpkiSyncBlock = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -2102,11 +2441,64 @@ func (x *fastReflection_Subnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.RpkiSyncBlock |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.RpkiSyncedAt == nil {
+					x.RpkiSyncedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.RpkiSyncedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 33:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UpdatedAt", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.UpdatedAt == nil {
+					x.UpdatedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.UpdatedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -2271,38 +2663,39 @@ type Subnet struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id                           uint64       `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	CreationBlock                uint64       `protobuf:"varint,2,opt,name=creationBlock,proto3" json:"creationBlock,omitempty"`
-	NetworkAddress               uint64       `protobuf:"varint,3,opt,name=networkAddress,proto3" json:"networkAddress,omitempty"`
-	Mask                         uint64       `protobuf:"varint,4,opt,name=mask,proto3" json:"mask,omitempty"`
-	Status                       SubnetStatus `protobuf:"varint,5,opt,name=status,proto3,enum=ipex.subnet.SubnetStatus" json:"status,omitempty"`
-	Country                      string       `protobuf:"bytes,6,opt,name=country,proto3" json:"country,omitempty"`
-	Region                       string       `protobuf:"bytes,7,opt,name=region,proto3" json:"region,omitempty"`
-	City                         string       `protobuf:"bytes,8,opt,name=city,proto3" json:"city,omitempty"`
-	PostalCode                   string       `protobuf:"bytes,9,opt,name=postalCode,proto3" json:"postalCode,omitempty"`
-	GeoChangeRequested           bool         `protobuf:"varint,10,opt,name=geoChangeRequested,proto3" json:"geoChangeRequested,omitempty"`
-	GeoChangeRequestedBlock      uint64       `protobuf:"varint,11,opt,name=geoChangeRequestedBlock,proto3" json:"geoChangeRequestedBlock,omitempty"`
-	GeoChangedBlock              uint64       `protobuf:"varint,12,opt,name=geoChangedBlock,proto3" json:"geoChangedBlock,omitempty"`
-	GeofeedUrl                   string       `protobuf:"bytes,13,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
-	GeofeedSyncBlock             uint64       `protobuf:"varint,14,opt,name=geofeedSyncBlock,proto3" json:"geofeedSyncBlock,omitempty"`
-	Rir                          Rir          `protobuf:"varint,15,opt,name=rir,proto3,enum=ipex.subnet.Rir" json:"rir,omitempty"`
-	RirOwnerOrg                  string       `protobuf:"bytes,16,opt,name=rirOwnerOrg,proto3" json:"rirOwnerOrg,omitempty"`
-	RirAbuseEmail                string       `protobuf:"bytes,17,opt,name=rirAbuseEmail,proto3" json:"rirAbuseEmail,omitempty"`
-	RirAllocationType            uint64       `protobuf:"varint,18,opt,name=rirAllocationType,proto3" json:"rirAllocationType,omitempty"`
-	RirSyncBlock                 uint64       `protobuf:"varint,19,opt,name=rirSyncBlock,proto3" json:"rirSyncBlock,omitempty"`
-	OwnerOrgId                   uint64       `protobuf:"varint,20,opt,name=ownerOrgId,proto3" json:"ownerOrgId,omitempty"`
-	UserOrgId                    uint64       `protobuf:"varint,21,opt,name=userOrgId,proto3" json:"userOrgId,omitempty"`
-	Origin                       uint64       `protobuf:"varint,22,opt,name=origin,proto3" json:"origin,omitempty"`
-	OriginTransferRequested      bool         `protobuf:"varint,23,opt,name=originTransferRequested,proto3" json:"originTransferRequested,omitempty"`
-	OriginTransferRequestedBlock uint64       `protobuf:"varint,24,opt,name=originTransferRequestedBlock,proto3" json:"originTransferRequestedBlock,omitempty"`
-	OriginTransferedBlock        uint64       `protobuf:"varint,25,opt,name=originTransferedBlock,proto3" json:"originTransferedBlock,omitempty"`
-	IrrOrigin                    string       `protobuf:"bytes,26,opt,name=irrOrigin,proto3" json:"irrOrigin,omitempty"`
-	IrrMntBy                     string       `protobuf:"bytes,27,opt,name=irrMntBy,proto3" json:"irrMntBy,omitempty"`
-	IrrCreated                   string       `protobuf:"bytes,28,opt,name=irrCreated,proto3" json:"irrCreated,omitempty"`
-	IrrModified                  string       `protobuf:"bytes,29,opt,name=irrModified,proto3" json:"irrModified,omitempty"`
-	IrrSyncBlock                 uint64       `protobuf:"varint,30,opt,name=irrSyncBlock,proto3" json:"irrSyncBlock,omitempty"`
-	RpkiOrigin                   string       `protobuf:"bytes,31,opt,name=rpkiOrigin,proto3" json:"rpkiOrigin,omitempty"`
-	RpkiSyncBlock                uint64       `protobuf:"varint,32,opt,name=rpkiSyncBlock,proto3" json:"rpkiSyncBlock,omitempty"`
+	Id                        uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	CreatedAt                 *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	NetworkAddress            uint64                 `protobuf:"varint,3,opt,name=networkAddress,proto3" json:"networkAddress,omitempty"`
+	Mask                      uint64                 `protobuf:"varint,4,opt,name=mask,proto3" json:"mask,omitempty"`
+	Status                    SubnetStatus           `protobuf:"varint,5,opt,name=status,proto3,enum=ipex.subnet.SubnetStatus" json:"status,omitempty"`
+	Country                   string                 `protobuf:"bytes,6,opt,name=country,proto3" json:"country,omitempty"`
+	Region                    string                 `protobuf:"bytes,7,opt,name=region,proto3" json:"region,omitempty"`
+	City                      string                 `protobuf:"bytes,8,opt,name=city,proto3" json:"city,omitempty"`
+	PostalCode                string                 `protobuf:"bytes,9,opt,name=postalCode,proto3" json:"postalCode,omitempty"`
+	GeoChangeRequested        bool                   `protobuf:"varint,10,opt,name=geoChangeRequested,proto3" json:"geoChangeRequested,omitempty"`
+	GeoChangeRequestedAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=geoChangeRequestedAt,proto3" json:"geoChangeRequestedAt,omitempty"`
+	GeoChangeFulfilledAt      *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=geoChangeFulfilledAt,proto3" json:"geoChangeFulfilledAt,omitempty"`
+	GeofeedUrl                string                 `protobuf:"bytes,13,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
+	GeofeedSyncedAt           *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=geofeedSyncedAt,proto3" json:"geofeedSyncedAt,omitempty"`
+	Rir                       Rir                    `protobuf:"varint,15,opt,name=rir,proto3,enum=ipex.subnet.Rir" json:"rir,omitempty"`
+	RirOwnerOrg               string                 `protobuf:"bytes,16,opt,name=rirOwnerOrg,proto3" json:"rirOwnerOrg,omitempty"`
+	RirAbuseEmail             string                 `protobuf:"bytes,17,opt,name=rirAbuseEmail,proto3" json:"rirAbuseEmail,omitempty"`
+	RirAllocationType         uint64                 `protobuf:"varint,18,opt,name=rirAllocationType,proto3" json:"rirAllocationType,omitempty"`
+	RirSyncedAt               *timestamppb.Timestamp `protobuf:"bytes,19,opt,name=rirSyncedAt,proto3" json:"rirSyncedAt,omitempty"`
+	OwnerOrgId                uint64                 `protobuf:"varint,20,opt,name=ownerOrgId,proto3" json:"ownerOrgId,omitempty"`
+	UserOrgId                 uint64                 `protobuf:"varint,21,opt,name=userOrgId,proto3" json:"userOrgId,omitempty"`
+	Origin                    uint64                 `protobuf:"varint,22,opt,name=origin,proto3" json:"origin,omitempty"`
+	OriginTransferRequested   bool                   `protobuf:"varint,23,opt,name=originTransferRequested,proto3" json:"originTransferRequested,omitempty"`
+	OriginTransferRequestedAt *timestamppb.Timestamp `protobuf:"bytes,24,opt,name=originTransferRequestedAt,proto3" json:"originTransferRequestedAt,omitempty"`
+	OriginTransferFulfilledAt *timestamppb.Timestamp `protobuf:"bytes,25,opt,name=originTransferFulfilledAt,proto3" json:"originTransferFulfilledAt,omitempty"`
+	IrrOrigin                 string                 `protobuf:"bytes,26,opt,name=irrOrigin,proto3" json:"irrOrigin,omitempty"`
+	IrrMntBy                  string                 `protobuf:"bytes,27,opt,name=irrMntBy,proto3" json:"irrMntBy,omitempty"`
+	IrrCreatedAt              *timestamppb.Timestamp `protobuf:"bytes,28,opt,name=irrCreatedAt,proto3" json:"irrCreatedAt,omitempty"`
+	IrrModifiedAt             *timestamppb.Timestamp `protobuf:"bytes,29,opt,name=irrModifiedAt,proto3" json:"irrModifiedAt,omitempty"`
+	IrrSyncedAt               *timestamppb.Timestamp `protobuf:"bytes,30,opt,name=irrSyncedAt,proto3" json:"irrSyncedAt,omitempty"`
+	RpkiOrigin                string                 `protobuf:"bytes,31,opt,name=rpkiOrigin,proto3" json:"rpkiOrigin,omitempty"`
+	RpkiSyncedAt              *timestamppb.Timestamp `protobuf:"bytes,32,opt,name=rpkiSyncedAt,proto3" json:"rpkiSyncedAt,omitempty"`
+	UpdatedAt                 *timestamppb.Timestamp `protobuf:"bytes,33,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
 }
 
 func (x *Subnet) Reset() {
@@ -2332,11 +2725,11 @@ func (x *Subnet) GetId() uint64 {
 	return 0
 }
 
-func (x *Subnet) GetCreationBlock() uint64 {
+func (x *Subnet) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreationBlock
+		return x.CreatedAt
 	}
-	return 0
+	return nil
 }
 
 func (x *Subnet) GetNetworkAddress() uint64 {
@@ -2395,18 +2788,18 @@ func (x *Subnet) GetGeoChangeRequested() bool {
 	return false
 }
 
-func (x *Subnet) GetGeoChangeRequestedBlock() uint64 {
+func (x *Subnet) GetGeoChangeRequestedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.GeoChangeRequestedBlock
+		return x.GeoChangeRequestedAt
 	}
-	return 0
+	return nil
 }
 
-func (x *Subnet) GetGeoChangedBlock() uint64 {
+func (x *Subnet) GetGeoChangeFulfilledAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.GeoChangedBlock
+		return x.GeoChangeFulfilledAt
 	}
-	return 0
+	return nil
 }
 
 func (x *Subnet) GetGeofeedUrl() string {
@@ -2416,11 +2809,11 @@ func (x *Subnet) GetGeofeedUrl() string {
 	return ""
 }
 
-func (x *Subnet) GetGeofeedSyncBlock() uint64 {
+func (x *Subnet) GetGeofeedSyncedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.GeofeedSyncBlock
+		return x.GeofeedSyncedAt
 	}
-	return 0
+	return nil
 }
 
 func (x *Subnet) GetRir() Rir {
@@ -2451,11 +2844,11 @@ func (x *Subnet) GetRirAllocationType() uint64 {
 	return 0
 }
 
-func (x *Subnet) GetRirSyncBlock() uint64 {
+func (x *Subnet) GetRirSyncedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.RirSyncBlock
+		return x.RirSyncedAt
 	}
-	return 0
+	return nil
 }
 
 func (x *Subnet) GetOwnerOrgId() uint64 {
@@ -2486,18 +2879,18 @@ func (x *Subnet) GetOriginTransferRequested() bool {
 	return false
 }
 
-func (x *Subnet) GetOriginTransferRequestedBlock() uint64 {
+func (x *Subnet) GetOriginTransferRequestedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.OriginTransferRequestedBlock
+		return x.OriginTransferRequestedAt
 	}
-	return 0
+	return nil
 }
 
-func (x *Subnet) GetOriginTransferedBlock() uint64 {
+func (x *Subnet) GetOriginTransferFulfilledAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.OriginTransferedBlock
+		return x.OriginTransferFulfilledAt
 	}
-	return 0
+	return nil
 }
 
 func (x *Subnet) GetIrrOrigin() string {
@@ -2514,25 +2907,25 @@ func (x *Subnet) GetIrrMntBy() string {
 	return ""
 }
 
-func (x *Subnet) GetIrrCreated() string {
+func (x *Subnet) GetIrrCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.IrrCreated
+		return x.IrrCreatedAt
 	}
-	return ""
+	return nil
 }
 
-func (x *Subnet) GetIrrModified() string {
+func (x *Subnet) GetIrrModifiedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.IrrModified
+		return x.IrrModifiedAt
 	}
-	return ""
+	return nil
 }
 
-func (x *Subnet) GetIrrSyncBlock() uint64 {
+func (x *Subnet) GetIrrSyncedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.IrrSyncBlock
+		return x.IrrSyncedAt
 	}
-	return 0
+	return nil
 }
 
 func (x *Subnet) GetRpkiOrigin() string {
@@ -2542,11 +2935,18 @@ func (x *Subnet) GetRpkiOrigin() string {
 	return ""
 }
 
-func (x *Subnet) GetRpkiSyncBlock() uint64 {
+func (x *Subnet) GetRpkiSyncedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.RpkiSyncBlock
+		return x.RpkiSyncedAt
 	}
-	return 0
+	return nil
+}
+
+func (x *Subnet) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
 }
 
 var File_ipex_subnet_subnet_proto protoreflect.FileDescriptor
@@ -2554,102 +2954,136 @@ var File_ipex_subnet_subnet_proto protoreflect.FileDescriptor
 var file_ipex_subnet_subnet_proto_rawDesc = []byte{
 	0x0a, 0x19, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x73,
 	0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0c, 0x69, 0x70, 0x64,
-	0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x22, 0xa3, 0x09, 0x0a, 0x06, 0x53, 0x75,
-	0x62, 0x6e, 0x65, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04,
-	0x52, 0x02, 0x69, 0x64, 0x12, 0x24, 0x0a, 0x0d, 0x63, 0x72, 0x65, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0d, 0x63, 0x72, 0x65,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x26, 0x0a, 0x0e, 0x6e, 0x65,
-	0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x0e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04,
-	0x52, 0x04, 0x6d, 0x61, 0x73, 0x6b, 0x12, 0x32, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
-	0x18, 0x05, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1a, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73,
-	0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x53, 0x74, 0x61, 0x74,
-	0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f,
-	0x75, 0x6e, 0x74, 0x72, 0x79, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x75,
-	0x6e, 0x74, 0x72, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x18, 0x07,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04,
-	0x63, 0x69, 0x74, 0x79, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x69, 0x74, 0x79,
-	0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x6f, 0x73, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x64, 0x65, 0x18, 0x09,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x6f, 0x73, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x64, 0x65,
-	0x12, 0x2e, 0x0a, 0x12, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x08, 0x52, 0x12, 0x67, 0x65,
-	0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64,
-	0x12, 0x38, 0x0a, 0x17, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x0b, 0x20, 0x01, 0x28,
-	0x04, 0x52, 0x17, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x65, 0x64, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x28, 0x0a, 0x0f, 0x67, 0x65,
-	0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x64, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x0c, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x0f, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x64, 0x42,
-	0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x1e, 0x0a, 0x0a, 0x67, 0x65, 0x6f, 0x66, 0x65, 0x65, 0x64, 0x55,
-	0x72, 0x6c, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x67, 0x65, 0x6f, 0x66, 0x65, 0x65,
-	0x64, 0x55, 0x72, 0x6c, 0x12, 0x2a, 0x0a, 0x10, 0x67, 0x65, 0x6f, 0x66, 0x65, 0x65, 0x64, 0x53,
-	0x79, 0x6e, 0x63, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x04, 0x52, 0x10,
-	0x67, 0x65, 0x6f, 0x66, 0x65, 0x65, 0x64, 0x53, 0x79, 0x6e, 0x63, 0x42, 0x6c, 0x6f, 0x63, 0x6b,
-	0x12, 0x23, 0x0a, 0x03, 0x72, 0x69, 0x72, 0x18, 0x0f, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x11, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x52, 0x69, 0x72,
-	0x52, 0x03, 0x72, 0x69, 0x72, 0x12, 0x20, 0x0a, 0x0b, 0x72, 0x69, 0x72, 0x4f, 0x77, 0x6e, 0x65,
-	0x72, 0x4f, 0x72, 0x67, 0x18, 0x10, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x72, 0x69, 0x72, 0x4f,
-	0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x12, 0x24, 0x0a, 0x0d, 0x72, 0x69, 0x72, 0x41, 0x62,
-	0x75, 0x73, 0x65, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x11, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d,
-	0x72, 0x69, 0x72, 0x41, 0x62, 0x75, 0x73, 0x65, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x2c, 0x0a,
-	0x11, 0x72, 0x69, 0x72, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79,
-	0x70, 0x65, 0x18, 0x12, 0x20, 0x01, 0x28, 0x04, 0x52, 0x11, 0x72, 0x69, 0x72, 0x41, 0x6c, 0x6c,
-	0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x12, 0x22, 0x0a, 0x0c, 0x72,
-	0x69, 0x72, 0x53, 0x79, 0x6e, 0x63, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x13, 0x20, 0x01, 0x28,
-	0x04, 0x52, 0x0c, 0x72, 0x69, 0x72, 0x53, 0x79, 0x6e, 0x63, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12,
-	0x1e, 0x0a, 0x0a, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x14, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x0a, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x12,
-	0x1c, 0x0a, 0x09, 0x75, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x15, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x09, 0x75, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x12, 0x16, 0x0a,
-	0x06, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x18, 0x16, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x6f,
-	0x72, 0x69, 0x67, 0x69, 0x6e, 0x12, 0x38, 0x0a, 0x17, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54,
-	0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64,
-	0x18, 0x17, 0x20, 0x01, 0x28, 0x08, 0x52, 0x17, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72,
-	0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x12,
-	0x42, 0x0a, 0x1c, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65,
-	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18,
-	0x18, 0x20, 0x01, 0x28, 0x04, 0x52, 0x1c, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61,
-	0x6e, 0x73, 0x66, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x42, 0x6c,
-	0x6f, 0x63, 0x6b, 0x12, 0x34, 0x0a, 0x15, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61,
-	0x6e, 0x73, 0x66, 0x65, 0x72, 0x65, 0x64, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x19, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x15, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66,
-	0x65, 0x72, 0x65, 0x64, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x1c, 0x0a, 0x09, 0x69, 0x72, 0x72,
-	0x4f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x18, 0x1a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x69, 0x72,
-	0x72, 0x4f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x12, 0x1a, 0x0a, 0x08, 0x69, 0x72, 0x72, 0x4d, 0x6e,
-	0x74, 0x42, 0x79, 0x18, 0x1b, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x69, 0x72, 0x72, 0x4d, 0x6e,
-	0x74, 0x42, 0x79, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x72, 0x72, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x64, 0x18, 0x1c, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x72, 0x72, 0x43, 0x72, 0x65, 0x61,
-	0x74, 0x65, 0x64, 0x12, 0x20, 0x0a, 0x0b, 0x69, 0x72, 0x72, 0x4d, 0x6f, 0x64, 0x69, 0x66, 0x69,
-	0x65, 0x64, 0x18, 0x1d, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x69, 0x72, 0x72, 0x4d, 0x6f, 0x64,
-	0x69, 0x66, 0x69, 0x65, 0x64, 0x12, 0x22, 0x0a, 0x0c, 0x69, 0x72, 0x72, 0x53, 0x79, 0x6e, 0x63,
-	0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x1e, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c, 0x69, 0x72, 0x72,
-	0x53, 0x79, 0x6e, 0x63, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x12, 0x1e, 0x0a, 0x0a, 0x72, 0x70, 0x6b,
-	0x69, 0x4f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x18, 0x1f, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x72,
-	0x70, 0x6b, 0x69, 0x4f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x12, 0x24, 0x0a, 0x0d, 0x72, 0x70, 0x6b,
-	0x69, 0x53, 0x79, 0x6e, 0x63, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x18, 0x20, 0x20, 0x01, 0x28, 0x04,
-	0x52, 0x0d, 0x72, 0x70, 0x6b, 0x69, 0x53, 0x79, 0x6e, 0x63, 0x42, 0x6c, 0x6f, 0x63, 0x6b, 0x2a,
-	0x75, 0x0a, 0x0c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12,
-	0x19, 0x0a, 0x15, 0x53, 0x55, 0x42, 0x4e, 0x45, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53,
-	0x5f, 0x49, 0x4e, 0x49, 0x54, 0x49, 0x41, 0x4c, 0x10, 0x00, 0x12, 0x17, 0x0a, 0x13, 0x53, 0x55,
-	0x42, 0x4e, 0x45, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x52, 0x45, 0x41, 0x44,
-	0x59, 0x10, 0x01, 0x12, 0x17, 0x0a, 0x13, 0x53, 0x55, 0x42, 0x4e, 0x45, 0x54, 0x5f, 0x53, 0x54,
-	0x41, 0x54, 0x55, 0x53, 0x5f, 0x45, 0x52, 0x52, 0x4f, 0x52, 0x10, 0x02, 0x12, 0x18, 0x0a, 0x14,
-	0x53, 0x55, 0x42, 0x4e, 0x45, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x4c, 0x45,
-	0x41, 0x53, 0x45, 0x44, 0x10, 0x03, 0x2a, 0x3d, 0x0a, 0x03, 0x52, 0x69, 0x72, 0x12, 0x08, 0x0a,
-	0x04, 0x52, 0x49, 0x50, 0x45, 0x10, 0x00, 0x12, 0x08, 0x0a, 0x04, 0x41, 0x52, 0x49, 0x4e, 0x10,
-	0x01, 0x12, 0x0a, 0x0a, 0x06, 0x4c, 0x41, 0x43, 0x4e, 0x49, 0x43, 0x10, 0x02, 0x12, 0x0b, 0x0a,
-	0x07, 0x41, 0x46, 0x52, 0x49, 0x4e, 0x49, 0x43, 0x10, 0x03, 0x12, 0x09, 0x0a, 0x05, 0x41, 0x50,
-	0x4e, 0x49, 0x43, 0x10, 0x04, 0x42, 0x88, 0x01, 0x0a, 0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x0b, 0x53, 0x75, 0x62, 0x6e,
-	0x65, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x16, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65,
-	0x74, 0xa2, 0x02, 0x03, 0x49, 0x53, 0x58, 0xaa, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e,
-	0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0xca, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x53,
-	0x75, 0x62, 0x6e, 0x65, 0x74, 0xe2, 0x02, 0x18, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x53, 0x75,
-	0x62, 0x6e, 0x65, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0xea, 0x02, 0x0d, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73,
+	0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x22, 0x87, 0x0d, 0x0a, 0x06, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x42, 0x0a, 0x09, 0x63,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00,
+	0x90, 0xdf, 0x1f, 0x01, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12,
+	0x26, 0x0a, 0x0e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x6d, 0x61, 0x73, 0x6b, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x04, 0x6d, 0x61, 0x73, 0x6b, 0x12, 0x32, 0x0a, 0x06, 0x73,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1a, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x53, 0x75, 0x62, 0x6e, 0x65,
+	0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12,
+	0x18, 0x0a, 0x07, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x07, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x67,
+	0x69, 0x6f, 0x6e, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x67, 0x69, 0x6f,
+	0x6e, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x69, 0x74, 0x79, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x63, 0x69, 0x74, 0x79, 0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x6f, 0x73, 0x74, 0x61, 0x6c, 0x43,
+	0x6f, 0x64, 0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x6f, 0x73, 0x74, 0x61,
+	0x6c, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x2e, 0x0a, 0x12, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e,
+	0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x18, 0x0a, 0x20, 0x01, 0x28,
+	0x08, 0x52, 0x12, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x65, 0x64, 0x12, 0x58, 0x0a, 0x14, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e,
+	0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x0b, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42,
+	0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x14, 0x67, 0x65, 0x6f, 0x43, 0x68,
+	0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12,
+	0x58, 0x0a, 0x14, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x46, 0x75, 0x6c, 0x66,
+	0x69, 0x6c, 0x6c, 0x65, 0x64, 0x41, 0x74, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90,
+	0xdf, 0x1f, 0x01, 0x52, 0x14, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x46, 0x75,
+	0x6c, 0x66, 0x69, 0x6c, 0x6c, 0x65, 0x64, 0x41, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x67, 0x65, 0x6f,
+	0x66, 0x65, 0x65, 0x64, 0x55, 0x72, 0x6c, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x67,
+	0x65, 0x6f, 0x66, 0x65, 0x65, 0x64, 0x55, 0x72, 0x6c, 0x12, 0x4e, 0x0a, 0x0f, 0x67, 0x65, 0x6f,
+	0x66, 0x65, 0x65, 0x64, 0x53, 0x79, 0x6e, 0x63, 0x65, 0x64, 0x41, 0x74, 0x18, 0x0e, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08,
+	0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x0f, 0x67, 0x65, 0x6f, 0x66, 0x65, 0x65,
+	0x64, 0x53, 0x79, 0x6e, 0x63, 0x65, 0x64, 0x41, 0x74, 0x12, 0x23, 0x0a, 0x03, 0x72, 0x69, 0x72,
+	0x18, 0x0f, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x11, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73,
+	0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x52, 0x69, 0x72, 0x52, 0x03, 0x72, 0x69, 0x72, 0x12, 0x20,
+	0x0a, 0x0b, 0x72, 0x69, 0x72, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x18, 0x10, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0b, 0x72, 0x69, 0x72, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67,
+	0x12, 0x24, 0x0a, 0x0d, 0x72, 0x69, 0x72, 0x41, 0x62, 0x75, 0x73, 0x65, 0x45, 0x6d, 0x61, 0x69,
+	0x6c, 0x18, 0x11, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x72, 0x69, 0x72, 0x41, 0x62, 0x75, 0x73,
+	0x65, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x2c, 0x0a, 0x11, 0x72, 0x69, 0x72, 0x41, 0x6c, 0x6c,
+	0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x18, 0x12, 0x20, 0x01, 0x28,
+	0x04, 0x52, 0x11, 0x72, 0x69, 0x72, 0x41, 0x6c, 0x6c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x54, 0x79, 0x70, 0x65, 0x12, 0x46, 0x0a, 0x0b, 0x72, 0x69, 0x72, 0x53, 0x79, 0x6e, 0x63, 0x65,
+	0x64, 0x41, 0x74, 0x18, 0x13, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65,
+	0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52,
+	0x0b, 0x72, 0x69, 0x72, 0x53, 0x79, 0x6e, 0x63, 0x65, 0x64, 0x41, 0x74, 0x12, 0x1e, 0x0a, 0x0a,
+	0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x14, 0x20, 0x01, 0x28, 0x04,
+	0x52, 0x0a, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09,
+	0x75, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x15, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x09, 0x75, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x72,
+	0x69, 0x67, 0x69, 0x6e, 0x18, 0x16, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x6f, 0x72, 0x69, 0x67,
+	0x69, 0x6e, 0x12, 0x38, 0x0a, 0x17, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61, 0x6e,
+	0x73, 0x66, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x18, 0x17, 0x20,
+	0x01, 0x28, 0x08, 0x52, 0x17, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x66, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x12, 0x62, 0x0a, 0x19,
+	0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x18, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f,
+	0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x19, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61,
+	0x6e, 0x73, 0x66, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x65, 0x64, 0x41, 0x74,
+	0x12, 0x62, 0x0a, 0x19, 0x6f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66,
+	0x65, 0x72, 0x46, 0x75, 0x6c, 0x66, 0x69, 0x6c, 0x6c, 0x65, 0x64, 0x41, 0x74, 0x18, 0x19, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42,
+	0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x19, 0x6f, 0x72, 0x69, 0x67, 0x69,
+	0x6e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x46, 0x75, 0x6c, 0x66, 0x69, 0x6c, 0x6c,
+	0x65, 0x64, 0x41, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x69, 0x72, 0x72, 0x4f, 0x72, 0x69, 0x67, 0x69,
+	0x6e, 0x18, 0x1a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x69, 0x72, 0x72, 0x4f, 0x72, 0x69, 0x67,
+	0x69, 0x6e, 0x12, 0x1a, 0x0a, 0x08, 0x69, 0x72, 0x72, 0x4d, 0x6e, 0x74, 0x42, 0x79, 0x18, 0x1b,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x69, 0x72, 0x72, 0x4d, 0x6e, 0x74, 0x42, 0x79, 0x12, 0x48,
+	0x0a, 0x0c, 0x69, 0x72, 0x72, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x1c,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
+	0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x0c, 0x69, 0x72, 0x72, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x4a, 0x0a, 0x0d, 0x69, 0x72, 0x72, 0x4d,
+	0x6f, 0x64, 0x69, 0x66, 0x69, 0x65, 0x64, 0x41, 0x74, 0x18, 0x1d, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f,
+	0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x0d, 0x69, 0x72, 0x72, 0x4d, 0x6f, 0x64, 0x69, 0x66, 0x69,
+	0x65, 0x64, 0x41, 0x74, 0x12, 0x46, 0x0a, 0x0b, 0x69, 0x72, 0x72, 0x53, 0x79, 0x6e, 0x63, 0x65,
+	0x64, 0x41, 0x74, 0x18, 0x1e, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65,
+	0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52,
+	0x0b, 0x69, 0x72, 0x72, 0x53, 0x79, 0x6e, 0x63, 0x65, 0x64, 0x41, 0x74, 0x12, 0x1e, 0x0a, 0x0a,
+	0x72, 0x70, 0x6b, 0x69, 0x4f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x18, 0x1f, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0a, 0x72, 0x70, 0x6b, 0x69, 0x4f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x12, 0x48, 0x0a, 0x0c,
+	0x72, 0x70, 0x6b, 0x69, 0x53, 0x79, 0x6e, 0x63, 0x65, 0x64, 0x41, 0x74, 0x18, 0x20, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08,
+	0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x0c, 0x72, 0x70, 0x6b, 0x69, 0x53, 0x79,
+	0x6e, 0x63, 0x65, 0x64, 0x41, 0x74, 0x12, 0x42, 0x0a, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x64, 0x41, 0x74, 0x18, 0x21, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65,
+	0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52,
+	0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x2a, 0x75, 0x0a, 0x0c, 0x53, 0x75,
+	0x62, 0x6e, 0x65, 0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x19, 0x0a, 0x15, 0x53, 0x55,
+	0x42, 0x4e, 0x45, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x49, 0x4e, 0x49, 0x54,
+	0x49, 0x41, 0x4c, 0x10, 0x00, 0x12, 0x17, 0x0a, 0x13, 0x53, 0x55, 0x42, 0x4e, 0x45, 0x54, 0x5f,
+	0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x52, 0x45, 0x41, 0x44, 0x59, 0x10, 0x01, 0x12, 0x17,
+	0x0a, 0x13, 0x53, 0x55, 0x42, 0x4e, 0x45, 0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f,
+	0x45, 0x52, 0x52, 0x4f, 0x52, 0x10, 0x02, 0x12, 0x18, 0x0a, 0x14, 0x53, 0x55, 0x42, 0x4e, 0x45,
+	0x54, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x4c, 0x45, 0x41, 0x53, 0x45, 0x44, 0x10,
+	0x03, 0x2a, 0x3d, 0x0a, 0x03, 0x52, 0x69, 0x72, 0x12, 0x08, 0x0a, 0x04, 0x52, 0x49, 0x50, 0x45,
+	0x10, 0x00, 0x12, 0x08, 0x0a, 0x04, 0x41, 0x52, 0x49, 0x4e, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06,
+	0x4c, 0x41, 0x43, 0x4e, 0x49, 0x43, 0x10, 0x02, 0x12, 0x0b, 0x0a, 0x07, 0x41, 0x46, 0x52, 0x49,
+	0x4e, 0x49, 0x43, 0x10, 0x03, 0x12, 0x09, 0x0a, 0x05, 0x41, 0x50, 0x4e, 0x49, 0x43, 0x10, 0x04,
+	0x42, 0x88, 0x01, 0x0a, 0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73,
+	0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x0b, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x50, 0x72, 0x6f,
+	0x74, 0x6f, 0x50, 0x01, 0x5a, 0x16, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0xa2, 0x02, 0x03, 0x49,
+	0x53, 0x58, 0xaa, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x53, 0x75, 0x62, 0x6e, 0x65,
+	0x74, 0xca, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74,
+	0xe2, 0x02, 0x18, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x5c,
+	0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d, 0x49, 0x70,
+	0x64, 0x65, 0x78, 0x3a, 0x3a, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2667,18 +3101,31 @@ func file_ipex_subnet_subnet_proto_rawDescGZIP() []byte {
 var file_ipex_subnet_subnet_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_ipex_subnet_subnet_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_ipex_subnet_subnet_proto_goTypes = []interface{}{
-	(SubnetStatus)(0), // 0: ipex.subnet.SubnetStatus
-	(Rir)(0),          // 1: ipex.subnet.Rir
-	(*Subnet)(nil),    // 2: ipex.subnet.Subnet
+	(SubnetStatus)(0),             // 0: ipex.subnet.SubnetStatus
+	(Rir)(0),                      // 1: ipex.subnet.Rir
+	(*Subnet)(nil),                // 2: ipex.subnet.Subnet
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_ipex_subnet_subnet_proto_depIdxs = []int32{
-	0, // 0: ipex.subnet.Subnet.status:type_name -> ipex.subnet.SubnetStatus
-	1, // 1: ipex.subnet.Subnet.rir:type_name -> ipex.subnet.Rir
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3,  // 0: ipex.subnet.Subnet.createdAt:type_name -> google.protobuf.Timestamp
+	0,  // 1: ipex.subnet.Subnet.status:type_name -> ipex.subnet.SubnetStatus
+	3,  // 2: ipex.subnet.Subnet.geoChangeRequestedAt:type_name -> google.protobuf.Timestamp
+	3,  // 3: ipex.subnet.Subnet.geoChangeFulfilledAt:type_name -> google.protobuf.Timestamp
+	3,  // 4: ipex.subnet.Subnet.geofeedSyncedAt:type_name -> google.protobuf.Timestamp
+	1,  // 5: ipex.subnet.Subnet.rir:type_name -> ipex.subnet.Rir
+	3,  // 6: ipex.subnet.Subnet.rirSyncedAt:type_name -> google.protobuf.Timestamp
+	3,  // 7: ipex.subnet.Subnet.originTransferRequestedAt:type_name -> google.protobuf.Timestamp
+	3,  // 8: ipex.subnet.Subnet.originTransferFulfilledAt:type_name -> google.protobuf.Timestamp
+	3,  // 9: ipex.subnet.Subnet.irrCreatedAt:type_name -> google.protobuf.Timestamp
+	3,  // 10: ipex.subnet.Subnet.irrModifiedAt:type_name -> google.protobuf.Timestamp
+	3,  // 11: ipex.subnet.Subnet.irrSyncedAt:type_name -> google.protobuf.Timestamp
+	3,  // 12: ipex.subnet.Subnet.rpkiSyncedAt:type_name -> google.protobuf.Timestamp
+	3,  // 13: ipex.subnet.Subnet.updatedAt:type_name -> google.protobuf.Timestamp
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_ipex_subnet_subnet_proto_init() }

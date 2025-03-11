@@ -59,7 +59,8 @@ func (k msgServer) UpdateSubnetOrigin(goCtx context.Context, msg *types.MsgUpdat
 	//Setting the origin state to requested
 	subnet.OriginTransferRequested = true
 	//Logging the block the origin transfer was requested
-	subnet.OriginTransferRequestedBlock = uint64(ctx.BlockHeight())
+	subnet.OriginTransferRequestedAt = ctx.BlockTime()
+	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
 	return &types.MsgUpdateSubnetOriginResponse{}, nil
 }
