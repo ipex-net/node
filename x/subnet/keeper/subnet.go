@@ -154,12 +154,13 @@ func (k Keeper) VerifySubnetOwner(ctx context.Context, subnetId uint64, owner st
 func (k Keeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint64) bool {
 
 	//Fetching the subnet
-	subnet, found := k.GetSubnet(ctx, subnetId)
+	_, found := k.GetSubnet(ctx, subnetId)
 	if !found {
 		return false
 	}
-	if subnet.Status != types.SubnetStatus_SUBNET_STATUS_READY {
-		return false
-	}
+	//TODO: Turn on when subnet status management is ready
+	//if subnet.Status != types.SubnetStatus_SUBNET_STATUS_READY {
+	//	return false
+	//}
 	return true
 }
