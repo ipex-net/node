@@ -16,6 +16,7 @@ enum ContractStatus {
   CONTRACT_STATUS_CANCELED_LESSEE = 4;
   CONTRACT_STATUS_TERMINATED = 5;
   CONTRACT_STATUS_EXPIRED = 6;
+  CONTRACT_STATUS_TIMEDOUT = 7;
 }
 
 message Contract {
@@ -30,7 +31,8 @@ message Contract {
   google.protobuf.Timestamp revocationEffectiveAt = 9 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
   ContractStatus status = 10; 
   google.protobuf.Timestamp createdAt = 11 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp activatedAt = 12 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp prepaidUntil = 13 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp activatedAt = 12 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
+  google.protobuf.Timestamp prepaidUntil = 13 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
   google.protobuf.Timestamp updatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp enrolledAt = 15 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

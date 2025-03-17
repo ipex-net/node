@@ -55,6 +55,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		Status:                types.ContractStatus_CONTRACT_STATUS_FORSALE,
 		CreatedAt:             ctx.BlockTime(),
 		UpdatedAt:             ctx.BlockTime(),
+		EnrolledAt:			   ctx.BlockTime(),
 	}
 	id := k.AppendContract(
 		ctx,

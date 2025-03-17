@@ -2,10 +2,14 @@ package keeper
 
 import (
 	"context"
-
 	"ipex/x/lease/types"
+	"time"
+
+	storetypes "cosmossdk.io/store/types"
 
 	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/store/prefix"
+	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -56,3 +60,42 @@ func (k Keeper) ReleaseFromEscrow(ctx context.Context, to sdk.AccAddress, amount
 
 	return nil
 }
+
+// ProcessEnrollmentTimeouts - processes all the contract in CONTRACT_STATUS_ENROLLED to reverse those in timeout
+func (k Keeper) ProcessEnrollmentTimeouts(ctx context.Context) {
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	timeoutDuration := time.Hour * 72 // 72 hours timeout
+
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(sdkCtx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
+
+
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+
+	for ; iterator.Valid(); iterator.Next() {
+		var contract types.Contract
+		k.cdc.MustUnmarshal(iterator.Value(), &contract)
+
+		// Check if the contract is in enrolled status
+		if contract.Status != types.ContractStatus_CONTRACT_STATUS_ENROLLED {
+			continue
+		}
+
+		// Check if the contract was enrolled more than 72 hours ago
+		if contract.EnrolledAt.IsZero() {
+			// Skip if enrolledAt is not set
+			continue
+		}
+
+		if sdkCtx.BlockTime().Sub(contract.EnrolledAt) > timeoutDuration {
+			//Processing timeout actions
+			contract.Status = types.ContractStatus_CONTRACT_STATUS_TIMEDOUT
+			contract.UpdatedAt = sdkCtx.BlockTime()
+			k.SetContract(ctx, contract)
+		}
+	}
+}
+
