@@ -133,3 +133,18 @@ func (k Keeper) VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) 
 
 	return org.Admin == admin
 }
+
+func (k Keeper) GetOrgTreasury(ctx context.Context, orgid uint64) (sdk.AccAddress, bool) {
+	org, found := k.GetOrg(ctx, orgid)
+	if !found || org.Treasury=="" {
+		return nil, false
+	} 
+
+	treasuryAddr, err := sdk.AccAddressFromBech32(org.Treasury)
+	if err != nil {
+		return nil, false
+	}
+
+	return treasuryAddr, true
+
+}

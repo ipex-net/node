@@ -64,7 +64,8 @@ func (k Keeper) ReleaseFromEscrow(ctx context.Context, to sdk.AccAddress, amount
 // ProcessEnrollmentTimeouts - processes all the contract in CONTRACT_STATUS_ENROLLED to reverse those in timeout
 func (k Keeper) ProcessEnrollmentTimeouts(ctx context.Context) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	timeoutDuration := time.Hour * 72 // 72 hours timeout
+	//timeoutDuration := time.Hour * 72 // 72 hours timeout
+	timeoutDuration := time.Minute // 72 hours timeout
 
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(sdkCtx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
@@ -94,8 +95,35 @@ func (k Keeper) ProcessEnrollmentTimeouts(ctx context.Context) {
 			//Processing timeout actions
 			contract.Status = types.ContractStatus_CONTRACT_STATUS_TIMEDOUT
 			contract.UpdatedAt = sdkCtx.BlockTime()
+			refundAddr, found := k.orgKeeper.GetOrgTreasury(ctx, contract.LesseeOrg)
+		
+			if !found {
+				k.logger.Error("failed to find treasury address for organization",
+				"contract_id", contract.Id,
+				"lessee_org_id", contract.LesseeOrg)
+				continue
+			} 
+	
+			if err := k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleAccountName, refundAddr, sdk.NewCoins(contract.Price)); err != nil {
+				k.logger.Error("failed to release coins from escrow", 
+					"contract_id", contract.Id,
+					"lessee_org_id", contract.LesseeOrg,
+					"amount", contract.Price,
+					"refund_addr", refundAddr,
+					"error", err)
+				continue				
+			}
+
 			k.SetContract(ctx, contract)
+
+			// Log successful processing
+			k.logger.Info("contract enrollment timed out and processed successfully",
+				"contract_id", contract.Id,
+				"enrolled_at", contract.EnrolledAt,
+				"refunded_amount", contract.Price,
+				"refund_address", refundAddr)
 		}
+
+	
 	}
 }
-

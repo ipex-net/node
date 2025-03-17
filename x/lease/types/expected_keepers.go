@@ -29,6 +29,7 @@ type ParamSubspace interface {
 type OrgKeeper interface {
 	HasOrg(ctx context.Context, id uint64) bool
 	VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) bool
+	GetOrgTreasury(ctx context.Context, orgid uint64) (sdk.AccAddress, bool) 
 }
 
 type SubnetKeeper interface {
