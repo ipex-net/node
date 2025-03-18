@@ -36,34 +36,34 @@ message Subnet {
   string city = 8;
   string postalCode = 9;
   bool geoChangeRequested = 10; 
-  google.protobuf.Timestamp geoChangeRequestedAt = 11 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp geoChangeFulfilledAt = 12 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp geoChangeRequestedAt = 11 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp geoChangeFulfilledAt = 12 [(gogoproto.stdtime) = true]; 
 
   string geofeedUrl = 13; 
-  google.protobuf.Timestamp geofeedSyncedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp geofeedSyncedAt = 14 [(gogoproto.stdtime) = true]; 
 
   Rir rir = 15; 
 
   string rirOwnerOrg = 16; 
   string rirAbuseEmail = 17; 
   uint64 rirAllocationType = 18; 
-  google.protobuf.Timestamp rirSyncedAt = 19 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp rirSyncedAt = 19 [(gogoproto.stdtime) = true]; 
 
   uint64 ownerOrgId = 20; 
   uint64 userOrgId = 21; 
 
   uint64 origin = 22; 
   bool originTransferRequested = 23; 
-  google.protobuf.Timestamp originTransferRequestedAt = 24 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp originTransferFulfilledAt = 25 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp originTransferRequestedAt = 24 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp originTransferFulfilledAt = 25 [(gogoproto.stdtime) = true]; 
 
   string irrOrigin = 26; 
   string irrMntBy = 27; 
-  google.protobuf.Timestamp irrCreatedAt = 28 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp irrModifiedAt = 29 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp irrSyncedAt = 30 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp irrCreatedAt = 28 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp irrModifiedAt = 29 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp irrSyncedAt = 30 [(gogoproto.stdtime) = true]; 
   string rpkiOrigin = 31; 
-  google.protobuf.Timestamp rpkiSyncedAt = 32 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp rpkiSyncedAt = 32 [(gogoproto.stdtime) = true]; 
   
   google.protobuf.Timestamp updatedAt = 33 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

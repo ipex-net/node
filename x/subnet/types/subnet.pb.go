@@ -107,28 +107,28 @@ type Subnet struct {
 	City                      string       `protobuf:"bytes,8,opt,name=city,proto3" json:"city,omitempty"`
 	PostalCode                string       `protobuf:"bytes,9,opt,name=postalCode,proto3" json:"postalCode,omitempty"`
 	GeoChangeRequested        bool         `protobuf:"varint,10,opt,name=geoChangeRequested,proto3" json:"geoChangeRequested,omitempty"`
-	GeoChangeRequestedAt      time.Time    `protobuf:"bytes,11,opt,name=geoChangeRequestedAt,proto3,stdtime" json:"geoChangeRequestedAt"`
-	GeoChangeFulfilledAt      time.Time    `protobuf:"bytes,12,opt,name=geoChangeFulfilledAt,proto3,stdtime" json:"geoChangeFulfilledAt"`
+	GeoChangeRequestedAt      *time.Time   `protobuf:"bytes,11,opt,name=geoChangeRequestedAt,proto3,stdtime" json:"geoChangeRequestedAt,omitempty"`
+	GeoChangeFulfilledAt      *time.Time   `protobuf:"bytes,12,opt,name=geoChangeFulfilledAt,proto3,stdtime" json:"geoChangeFulfilledAt,omitempty"`
 	GeofeedUrl                string       `protobuf:"bytes,13,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
-	GeofeedSyncedAt           time.Time    `protobuf:"bytes,14,opt,name=geofeedSyncedAt,proto3,stdtime" json:"geofeedSyncedAt"`
+	GeofeedSyncedAt           *time.Time   `protobuf:"bytes,14,opt,name=geofeedSyncedAt,proto3,stdtime" json:"geofeedSyncedAt,omitempty"`
 	Rir                       Rir          `protobuf:"varint,15,opt,name=rir,proto3,enum=ipex.subnet.Rir" json:"rir,omitempty"`
 	RirOwnerOrg               string       `protobuf:"bytes,16,opt,name=rirOwnerOrg,proto3" json:"rirOwnerOrg,omitempty"`
 	RirAbuseEmail             string       `protobuf:"bytes,17,opt,name=rirAbuseEmail,proto3" json:"rirAbuseEmail,omitempty"`
 	RirAllocationType         uint64       `protobuf:"varint,18,opt,name=rirAllocationType,proto3" json:"rirAllocationType,omitempty"`
-	RirSyncedAt               time.Time    `protobuf:"bytes,19,opt,name=rirSyncedAt,proto3,stdtime" json:"rirSyncedAt"`
+	RirSyncedAt               *time.Time   `protobuf:"bytes,19,opt,name=rirSyncedAt,proto3,stdtime" json:"rirSyncedAt,omitempty"`
 	OwnerOrgId                uint64       `protobuf:"varint,20,opt,name=ownerOrgId,proto3" json:"ownerOrgId,omitempty"`
 	UserOrgId                 uint64       `protobuf:"varint,21,opt,name=userOrgId,proto3" json:"userOrgId,omitempty"`
 	Origin                    uint64       `protobuf:"varint,22,opt,name=origin,proto3" json:"origin,omitempty"`
 	OriginTransferRequested   bool         `protobuf:"varint,23,opt,name=originTransferRequested,proto3" json:"originTransferRequested,omitempty"`
-	OriginTransferRequestedAt time.Time    `protobuf:"bytes,24,opt,name=originTransferRequestedAt,proto3,stdtime" json:"originTransferRequestedAt"`
-	OriginTransferFulfilledAt time.Time    `protobuf:"bytes,25,opt,name=originTransferFulfilledAt,proto3,stdtime" json:"originTransferFulfilledAt"`
+	OriginTransferRequestedAt *time.Time   `protobuf:"bytes,24,opt,name=originTransferRequestedAt,proto3,stdtime" json:"originTransferRequestedAt,omitempty"`
+	OriginTransferFulfilledAt *time.Time   `protobuf:"bytes,25,opt,name=originTransferFulfilledAt,proto3,stdtime" json:"originTransferFulfilledAt,omitempty"`
 	IrrOrigin                 string       `protobuf:"bytes,26,opt,name=irrOrigin,proto3" json:"irrOrigin,omitempty"`
 	IrrMntBy                  string       `protobuf:"bytes,27,opt,name=irrMntBy,proto3" json:"irrMntBy,omitempty"`
-	IrrCreatedAt              time.Time    `protobuf:"bytes,28,opt,name=irrCreatedAt,proto3,stdtime" json:"irrCreatedAt"`
-	IrrModifiedAt             time.Time    `protobuf:"bytes,29,opt,name=irrModifiedAt,proto3,stdtime" json:"irrModifiedAt"`
-	IrrSyncedAt               time.Time    `protobuf:"bytes,30,opt,name=irrSyncedAt,proto3,stdtime" json:"irrSyncedAt"`
+	IrrCreatedAt              *time.Time   `protobuf:"bytes,28,opt,name=irrCreatedAt,proto3,stdtime" json:"irrCreatedAt,omitempty"`
+	IrrModifiedAt             *time.Time   `protobuf:"bytes,29,opt,name=irrModifiedAt,proto3,stdtime" json:"irrModifiedAt,omitempty"`
+	IrrSyncedAt               *time.Time   `protobuf:"bytes,30,opt,name=irrSyncedAt,proto3,stdtime" json:"irrSyncedAt,omitempty"`
 	RpkiOrigin                string       `protobuf:"bytes,31,opt,name=rpkiOrigin,proto3" json:"rpkiOrigin,omitempty"`
-	RpkiSyncedAt              time.Time    `protobuf:"bytes,32,opt,name=rpkiSyncedAt,proto3,stdtime" json:"rpkiSyncedAt"`
+	RpkiSyncedAt              *time.Time   `protobuf:"bytes,32,opt,name=rpkiSyncedAt,proto3,stdtime" json:"rpkiSyncedAt,omitempty"`
 	UpdatedAt                 time.Time    `protobuf:"bytes,33,opt,name=updatedAt,proto3,stdtime" json:"updatedAt"`
 }
 
@@ -235,18 +235,18 @@ func (m *Subnet) GetGeoChangeRequested() bool {
 	return false
 }
 
-func (m *Subnet) GetGeoChangeRequestedAt() time.Time {
+func (m *Subnet) GetGeoChangeRequestedAt() *time.Time {
 	if m != nil {
 		return m.GeoChangeRequestedAt
 	}
-	return time.Time{}
+	return nil
 }
 
-func (m *Subnet) GetGeoChangeFulfilledAt() time.Time {
+func (m *Subnet) GetGeoChangeFulfilledAt() *time.Time {
 	if m != nil {
 		return m.GeoChangeFulfilledAt
 	}
-	return time.Time{}
+	return nil
 }
 
 func (m *Subnet) GetGeofeedUrl() string {
@@ -256,11 +256,11 @@ func (m *Subnet) GetGeofeedUrl() string {
 	return ""
 }
 
-func (m *Subnet) GetGeofeedSyncedAt() time.Time {
+func (m *Subnet) GetGeofeedSyncedAt() *time.Time {
 	if m != nil {
 		return m.GeofeedSyncedAt
 	}
-	return time.Time{}
+	return nil
 }
 
 func (m *Subnet) GetRir() Rir {
@@ -291,11 +291,11 @@ func (m *Subnet) GetRirAllocationType() uint64 {
 	return 0
 }
 
-func (m *Subnet) GetRirSyncedAt() time.Time {
+func (m *Subnet) GetRirSyncedAt() *time.Time {
 	if m != nil {
 		return m.RirSyncedAt
 	}
-	return time.Time{}
+	return nil
 }
 
 func (m *Subnet) GetOwnerOrgId() uint64 {
@@ -326,18 +326,18 @@ func (m *Subnet) GetOriginTransferRequested() bool {
 	return false
 }
 
-func (m *Subnet) GetOriginTransferRequestedAt() time.Time {
+func (m *Subnet) GetOriginTransferRequestedAt() *time.Time {
 	if m != nil {
 		return m.OriginTransferRequestedAt
 	}
-	return time.Time{}
+	return nil
 }
 
-func (m *Subnet) GetOriginTransferFulfilledAt() time.Time {
+func (m *Subnet) GetOriginTransferFulfilledAt() *time.Time {
 	if m != nil {
 		return m.OriginTransferFulfilledAt
 	}
-	return time.Time{}
+	return nil
 }
 
 func (m *Subnet) GetIrrOrigin() string {
@@ -354,25 +354,25 @@ func (m *Subnet) GetIrrMntBy() string {
 	return ""
 }
 
-func (m *Subnet) GetIrrCreatedAt() time.Time {
+func (m *Subnet) GetIrrCreatedAt() *time.Time {
 	if m != nil {
 		return m.IrrCreatedAt
 	}
-	return time.Time{}
+	return nil
 }
 
-func (m *Subnet) GetIrrModifiedAt() time.Time {
+func (m *Subnet) GetIrrModifiedAt() *time.Time {
 	if m != nil {
 		return m.IrrModifiedAt
 	}
-	return time.Time{}
+	return nil
 }
 
-func (m *Subnet) GetIrrSyncedAt() time.Time {
+func (m *Subnet) GetIrrSyncedAt() *time.Time {
 	if m != nil {
 		return m.IrrSyncedAt
 	}
-	return time.Time{}
+	return nil
 }
 
 func (m *Subnet) GetRpkiOrigin() string {
@@ -382,11 +382,11 @@ func (m *Subnet) GetRpkiOrigin() string {
 	return ""
 }
 
-func (m *Subnet) GetRpkiSyncedAt() time.Time {
+func (m *Subnet) GetRpkiSyncedAt() *time.Time {
 	if m != nil {
 		return m.RpkiSyncedAt
 	}
-	return time.Time{}
+	return nil
 }
 
 func (m *Subnet) GetUpdatedAt() time.Time {
@@ -405,57 +405,58 @@ func init() {
 func init() { proto.RegisterFile("ipex/subnet/subnet.proto", fileDescriptor_ed6a43f7cb193f15) }
 
 var fileDescriptor_ed6a43f7cb193f15 = []byte{
-	// 799 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x55, 0x4d, 0x6f, 0xdb, 0x46,
-	0x10, 0x15, 0x25, 0x45, 0x96, 0xc6, 0x1f, 0x91, 0x27, 0x4a, 0xbc, 0x56, 0x5d, 0x59, 0xfd, 0x40,
-	0x21, 0x04, 0x05, 0x0d, 0xb8, 0x97, 0x5e, 0x7a, 0xa0, 0x14, 0x19, 0x55, 0xe1, 0xca, 0xc1, 0x4a,
-	0x06, 0xda, 0x5e, 0x02, 0x4a, 0x5c, 0xb1, 0x0b, 0xd3, 0x5c, 0x76, 0xb9, 0x44, 0xaa, 0x5f, 0xd0,
-	0x6b, 0x7e, 0x56, 0x8e, 0x39, 0xf6, 0xd4, 0x16, 0xf6, 0x1f, 0x29, 0x76, 0x49, 0x4b, 0x54, 0x1c,
-	0x1f, 0xe8, 0x93, 0x66, 0xde, 0xdb, 0x79, 0x6f, 0x77, 0x76, 0xc4, 0x85, 0x43, 0x1e, 0x79, 0xec,
-	0xcf, 0x93, 0x38, 0x99, 0x85, 0x4c, 0x65, 0x3f, 0x76, 0x24, 0x85, 0x12, 0xb8, 0x63, 0x28, 0x3b,
-	0xc5, 0xda, 0xc7, 0xbe, 0x10, 0x7e, 0xc0, 0x4e, 0x0c, 0x37, 0x4b, 0x16, 0x27, 0x8a, 0x5f, 0xb3,
-	0x58, 0xb9, 0xd7, 0x51, 0xba, 0xbc, 0xdd, 0xf2, 0x85, 0x2f, 0x4c, 0x78, 0xa2, 0xa3, 0x14, 0xfd,
-	0xf2, 0xaf, 0x5d, 0xa8, 0x4d, 0x8c, 0x02, 0xee, 0x41, 0x99, 0x7b, 0xc4, 0xea, 0x5a, 0xbd, 0x2a,
-	0x2d, 0x73, 0x0f, 0xfb, 0xd0, 0x98, 0x4b, 0xe6, 0x2a, 0xe6, 0x39, 0x8a, 0x94, 0xbb, 0x56, 0x6f,
-	0xfb, 0xb4, 0x6d, 0xa7, 0x2e, 0xf6, 0x9d, 0x8b, 0x3d, 0xbd, 0x73, 0xe9, 0xd7, 0xdf, 0xff, 0x73,
-	0x5c, 0x7a, 0xf7, 0xef, 0xb1, 0x45, 0xd7, 0x65, 0xf8, 0x0d, 0xec, 0x85, 0x4c, 0xbd, 0x15, 0xf2,
-	0xca, 0xf1, 0x3c, 0xc9, 0xe2, 0x98, 0x54, 0x8c, 0xfe, 0x47, 0x28, 0x22, 0x54, 0xaf, 0xdd, 0xf8,
-	0x8a, 0x54, 0x0d, 0x6b, 0x62, 0x3c, 0x85, 0x5a, 0xac, 0x5c, 0x95, 0xc4, 0xe4, 0x49, 0xd7, 0xea,
-	0xed, 0x9d, 0xb6, 0xed, 0xfc, 0x81, 0xed, 0x74, 0xd7, 0x13, 0xb3, 0x82, 0x66, 0x2b, 0x91, 0xc0,
-	0xd6, 0x5c, 0x24, 0xa1, 0x92, 0x4b, 0x52, 0xeb, 0x5a, 0xbd, 0x06, 0xbd, 0x4b, 0xf1, 0x05, 0xd4,
-	0x24, 0xf3, 0xb9, 0x08, 0xc9, 0x96, 0x21, 0xb2, 0x4c, 0x3b, 0xcf, 0xb9, 0x5a, 0x92, 0xba, 0x41,
-	0x4d, 0x8c, 0x1d, 0x80, 0x48, 0xc4, 0xca, 0x0d, 0x06, 0xc2, 0x63, 0xa4, 0x61, 0x98, 0x1c, 0x82,
-	0x36, 0xa0, 0xcf, 0xc4, 0xe0, 0x77, 0x37, 0xf4, 0x19, 0x65, 0x7f, 0x24, 0x2c, 0x56, 0xcc, 0x23,
-	0xd0, 0xb5, 0x7a, 0x75, 0xfa, 0x09, 0x06, 0x7f, 0x81, 0xd6, 0x7d, 0xd4, 0x51, 0x64, 0xbb, 0x40,
-	0x53, 0x3f, 0xa9, 0xb0, 0xa1, 0x7c, 0x96, 0x04, 0x0b, 0x1e, 0x04, 0x46, 0x79, 0xe7, 0x51, 0xca,
-	0x39, 0x05, 0xdd, 0x03, 0x9f, 0x89, 0x05, 0x63, 0xde, 0xa5, 0x0c, 0xc8, 0x6e, 0xda, 0x83, 0x35,
-	0x82, 0x63, 0x78, 0x9a, 0x65, 0x93, 0x65, 0x38, 0x37, 0xa6, 0x7b, 0x05, 0x4c, 0x3f, 0x2e, 0xc6,
-	0xaf, 0xa0, 0x22, 0xb9, 0x24, 0x4f, 0xcd, 0x55, 0xef, 0x6f, 0x5e, 0x35, 0xe5, 0x92, 0x6a, 0x16,
-	0xbb, 0xb0, 0x2d, 0xb9, 0xbc, 0x78, 0x1b, 0x32, 0x79, 0x21, 0x7d, 0xd2, 0x34, 0xbb, 0xca, 0x43,
-	0xf8, 0x35, 0xec, 0x4a, 0x2e, 0x9d, 0x59, 0x12, 0xb3, 0xe1, 0xb5, 0xcb, 0x03, 0xb2, 0x6f, 0xd6,
-	0x6c, 0x82, 0xf8, 0x2d, 0xec, 0x6b, 0x20, 0x08, 0xc4, 0xdc, 0x55, 0x5c, 0x84, 0xd3, 0x65, 0xc4,
-	0x08, 0x9a, 0xd9, 0xbb, 0x4f, 0xe0, 0x99, 0x71, 0x5d, 0x1d, 0xf3, 0x59, 0x81, 0x63, 0xe6, 0x0b,
-	0x75, 0x4b, 0x45, 0xb6, 0xcf, 0x91, 0x47, 0x5a, 0xc6, 0x2e, 0x87, 0xe0, 0x11, 0x34, 0x92, 0xf8,
-	0x8e, 0x7e, 0x6e, 0xe8, 0x35, 0xa0, 0x07, 0x58, 0x48, 0xee, 0xf3, 0x90, 0xbc, 0x30, 0x54, 0x96,
-	0xe1, 0xf7, 0x70, 0x90, 0x46, 0x53, 0xe9, 0x86, 0xf1, 0x82, 0xc9, 0xf5, 0x44, 0x1e, 0x98, 0x89,
-	0x7c, 0x88, 0xc6, 0x19, 0x1c, 0x3e, 0x40, 0x39, 0x8a, 0x90, 0x02, 0xa7, 0x7c, 0x58, 0xe6, 0xbe,
-	0x47, 0x7e, 0x4a, 0x0f, 0x1f, 0xef, 0x91, 0x1f, 0xd5, 0x23, 0x68, 0x70, 0x29, 0x2f, 0xd2, 0xe6,
-	0xb4, 0xcd, 0x7d, 0xaf, 0x01, 0x6c, 0x43, 0x9d, 0x4b, 0xf9, 0x73, 0xa8, 0xfa, 0x4b, 0xf2, 0x99,
-	0x21, 0x57, 0x39, 0xfe, 0x08, 0x3b, 0x5c, 0xca, 0xc1, 0xea, 0x2b, 0x77, 0x54, 0x60, 0x43, 0x1b,
-	0x95, 0xf8, 0x13, 0xec, 0x6a, 0x55, 0xe1, 0xf1, 0x05, 0x37, 0x52, 0x9f, 0x17, 0x90, 0xda, 0x2c,
-	0xd5, 0xf3, 0xc6, 0xe5, 0x7a, 0xde, 0x3a, 0x45, 0xe6, 0x2d, 0x57, 0xa8, 0xe7, 0x4d, 0x46, 0x57,
-	0x3c, 0x6b, 0xcc, 0x71, 0xfa, 0x17, 0x5e, 0x23, 0xfa, 0xf4, 0x3a, 0x5b, 0x19, 0x75, 0x8b, 0x9c,
-	0x3e, 0x5f, 0xa9, 0x9f, 0x8a, 0x24, 0xf2, 0xb2, 0x26, 0x7e, 0x51, 0xe4, 0xa9, 0x58, 0x95, 0xbd,
-	0x4c, 0x60, 0x27, 0xff, 0x49, 0xc7, 0x43, 0x78, 0x3e, 0xb9, 0xec, 0x8f, 0x87, 0xd3, 0x37, 0x93,
-	0xa9, 0x33, 0xbd, 0x9c, 0xbc, 0x19, 0x8d, 0x47, 0xd3, 0x91, 0x73, 0xde, 0x2c, 0xe1, 0x01, 0x3c,
-	0xdb, 0xa4, 0xe8, 0xd0, 0x79, 0xf5, 0x6b, 0xd3, 0xba, 0x4f, 0x0c, 0x29, 0xbd, 0xa0, 0xcd, 0x32,
-	0x12, 0x68, 0x6d, 0x12, 0xe7, 0x43, 0x67, 0x32, 0x7c, 0xd5, 0xac, 0xbc, 0xfc, 0x01, 0x2a, 0x94,
-	0x4b, 0xac, 0x43, 0x95, 0x8e, 0x5e, 0x0f, 0x9b, 0x25, 0x1d, 0x39, 0x74, 0x34, 0x6e, 0x5a, 0x08,
-	0x50, 0x3b, 0x77, 0x06, 0xe3, 0xd1, 0xa0, 0x59, 0xc6, 0x6d, 0xd8, 0x72, 0xce, 0xe8, 0x48, 0x27,
-	0x15, 0x6c, 0xc0, 0x13, 0xe7, 0xb5, 0x0e, 0xab, 0x7d, 0xfb, 0xfd, 0x4d, 0xc7, 0xfa, 0x70, 0xd3,
-	0xb1, 0xfe, 0xbb, 0xe9, 0x58, 0xef, 0x6e, 0x3b, 0xa5, 0x0f, 0xb7, 0x9d, 0xd2, 0xdf, 0xb7, 0x9d,
-	0xd2, 0x6f, 0xad, 0xf4, 0xe5, 0x5e, 0xbd, 0xdd, 0x6a, 0x19, 0xb1, 0x78, 0x56, 0x33, 0xed, 0xf8,
-	0xee, 0xff, 0x00, 0x00, 0x00, 0xff, 0xff, 0x16, 0x71, 0x75, 0xfb, 0xd8, 0x07, 0x00, 0x00,
+	// 801 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x55, 0xcd, 0x6e, 0xdb, 0x46,
+	0x10, 0x16, 0x25, 0x45, 0x96, 0xc6, 0xb2, 0x23, 0x4f, 0x94, 0x78, 0xad, 0xba, 0xb2, 0xfa, 0x83,
+	0x42, 0x08, 0x0a, 0x1a, 0x70, 0x2f, 0xbd, 0xf4, 0x40, 0xc9, 0x32, 0xa0, 0xc2, 0xb5, 0x83, 0x15,
+	0x7d, 0x68, 0x0f, 0x0d, 0x68, 0x71, 0xc5, 0x2e, 0x4c, 0x73, 0xd9, 0xe5, 0x12, 0xa9, 0xde, 0x22,
+	0x8f, 0x95, 0x63, 0x8e, 0x3d, 0x35, 0x85, 0xfd, 0x22, 0xc5, 0x2e, 0x69, 0x89, 0x8a, 0x63, 0x54,
+	0xce, 0x49, 0x33, 0xdf, 0xb7, 0xf3, 0xcd, 0xce, 0xec, 0x88, 0x03, 0x7b, 0x3c, 0xf6, 0xd9, 0x5f,
+	0x87, 0x49, 0x7a, 0x19, 0x31, 0x95, 0xff, 0xd8, 0xb1, 0x14, 0x4a, 0x60, 0xd3, 0x50, 0x76, 0x86,
+	0x75, 0x0e, 0x02, 0x21, 0x82, 0x90, 0x1d, 0x1a, 0xee, 0x32, 0x9d, 0x1d, 0x2a, 0x7e, 0xcd, 0x12,
+	0xe5, 0x5d, 0xc7, 0xd9, 0xf1, 0x4e, 0x3b, 0x10, 0x81, 0x30, 0xe6, 0xa1, 0xb6, 0x32, 0xf4, 0xeb,
+	0x0f, 0x4d, 0xa8, 0x4d, 0x8c, 0x02, 0x6e, 0x43, 0x99, 0xfb, 0xc4, 0xea, 0x59, 0xfd, 0x2a, 0x2d,
+	0x73, 0x1f, 0x07, 0xd0, 0x98, 0x4a, 0xe6, 0x29, 0xe6, 0x3b, 0x8a, 0x94, 0x7b, 0x56, 0x7f, 0xf3,
+	0xa8, 0x63, 0x67, 0x59, 0xec, 0xbb, 0x2c, 0xb6, 0x7b, 0x97, 0x65, 0x50, 0x7f, 0xf7, 0xcf, 0x41,
+	0xe9, 0xed, 0x87, 0x03, 0x8b, 0x2e, 0xc3, 0xf0, 0x3b, 0xd8, 0x8e, 0x98, 0x7a, 0x23, 0xe4, 0x95,
+	0xe3, 0xfb, 0x92, 0x25, 0x09, 0xa9, 0x18, 0xfd, 0x8f, 0x50, 0x44, 0xa8, 0x5e, 0x7b, 0xc9, 0x15,
+	0xa9, 0x1a, 0xd6, 0xd8, 0x78, 0x04, 0xb5, 0x44, 0x79, 0x2a, 0x4d, 0xc8, 0x93, 0x9e, 0xd5, 0xdf,
+	0x3e, 0xea, 0xd8, 0xc5, 0x82, 0xed, 0xec, 0xd6, 0x13, 0x73, 0x82, 0xe6, 0x27, 0x91, 0xc0, 0xc6,
+	0x54, 0xa4, 0x91, 0x92, 0x73, 0x52, 0xeb, 0x59, 0xfd, 0x06, 0xbd, 0x73, 0xf1, 0x05, 0xd4, 0x24,
+	0x0b, 0xb8, 0x88, 0xc8, 0x86, 0x21, 0x72, 0x4f, 0x67, 0x9e, 0x72, 0x35, 0x27, 0x75, 0x83, 0x1a,
+	0x1b, 0xbb, 0x00, 0xb1, 0x48, 0x94, 0x17, 0x0e, 0x85, 0xcf, 0x48, 0xc3, 0x30, 0x05, 0x04, 0x6d,
+	0xc0, 0x80, 0x89, 0xe1, 0x1f, 0x5e, 0x14, 0x30, 0xca, 0xfe, 0x4c, 0x59, 0xa2, 0x98, 0x4f, 0xa0,
+	0x67, 0xf5, 0xeb, 0xf4, 0x13, 0x0c, 0xba, 0xd0, 0xbe, 0x8f, 0x3a, 0x8a, 0x6c, 0xfe, 0x6f, 0x53,
+	0xab, 0xa6, 0xa1, 0x9f, 0x8c, 0x5e, 0x51, 0x3d, 0x49, 0xc3, 0x19, 0x0f, 0x43, 0xa3, 0xda, 0x7c,
+	0xb4, 0x6a, 0x21, 0x5a, 0xd7, 0x1e, 0x30, 0x31, 0x63, 0xcc, 0xbf, 0x90, 0x21, 0xd9, 0xca, 0x6a,
+	0x5f, 0x22, 0xf8, 0x33, 0x3c, 0xcd, 0xbd, 0xc9, 0x3c, 0x9a, 0x9a, 0x84, 0xdb, 0x6b, 0x26, 0xfc,
+	0x38, 0x10, 0xbf, 0x81, 0x8a, 0xe4, 0x92, 0x3c, 0x35, 0xcf, 0xbb, 0xb3, 0xfa, 0xbc, 0x94, 0x4b,
+	0xaa, 0x59, 0xec, 0xc1, 0xa6, 0xe4, 0xf2, 0xfc, 0x4d, 0xc4, 0xe4, 0xb9, 0x0c, 0x48, 0xcb, 0xdc,
+	0xa8, 0x08, 0xe1, 0xb7, 0xb0, 0x25, 0xb9, 0x74, 0x2e, 0xd3, 0x84, 0x8d, 0xae, 0x3d, 0x1e, 0x92,
+	0x1d, 0x73, 0x66, 0x15, 0xc4, 0xef, 0x61, 0x47, 0x03, 0x61, 0x28, 0xa6, 0x9e, 0xe2, 0x22, 0x72,
+	0xe7, 0x31, 0x23, 0x68, 0xe6, 0xed, 0x3e, 0x81, 0x03, 0x93, 0x75, 0x51, 0xe2, 0xb3, 0x35, 0x4b,
+	0x2c, 0x06, 0xe9, 0x56, 0x8a, 0xfc, 0x8e, 0x63, 0x9f, 0xb4, 0x4d, 0xaa, 0x02, 0x82, 0xfb, 0xd0,
+	0x48, 0x93, 0x3b, 0xfa, 0xb9, 0xa1, 0x97, 0x80, 0x1e, 0x58, 0x21, 0x79, 0xc0, 0x23, 0xf2, 0xc2,
+	0x50, 0xb9, 0x87, 0x3f, 0xc2, 0x6e, 0x66, 0xb9, 0xd2, 0x8b, 0x92, 0x19, 0x93, 0xcb, 0x09, 0xdc,
+	0x35, 0x13, 0xf8, 0x10, 0x8d, 0xbf, 0xc3, 0xde, 0x03, 0x94, 0xa3, 0x08, 0x59, 0xb3, 0xc2, 0x87,
+	0x25, 0xee, 0xeb, 0x17, 0xa7, 0x72, 0xef, 0xf3, 0xf4, 0x8b, 0xa3, 0xb9, 0x0f, 0x0d, 0x2e, 0xe5,
+	0x79, 0xd6, 0x94, 0x8e, 0x79, 0xe3, 0x25, 0x80, 0x1d, 0xa8, 0x73, 0x29, 0x7f, 0x89, 0xd4, 0x60,
+	0x4e, 0xbe, 0x30, 0xe4, 0xc2, 0xc7, 0x63, 0x68, 0x72, 0x29, 0x87, 0x8b, 0xaf, 0xd9, 0xfe, 0x9a,
+	0x97, 0x59, 0x89, 0xc2, 0x13, 0xd8, 0xd2, 0x8a, 0xc2, 0xe7, 0x33, 0x6e, 0x64, 0xbe, 0x5c, 0x53,
+	0x66, 0x35, 0x4c, 0xcf, 0x16, 0x97, 0xcb, 0xd9, 0xea, 0xae, 0x3b, 0x5b, 0x85, 0x20, 0x3d, 0x5b,
+	0x32, 0xbe, 0xe2, 0x79, 0x33, 0x0e, 0xb2, 0xbf, 0xe9, 0x12, 0xd1, 0x15, 0x6b, 0x6f, 0x91, 0xa4,
+	0xb7, 0x6e, 0xc5, 0xc5, 0x28, 0xbd, 0x02, 0xd2, 0xd8, 0xcf, 0x9b, 0xf6, 0xd5, 0x63, 0x56, 0xc0,
+	0x22, 0xec, 0x65, 0x0a, 0xcd, 0xe2, 0xa7, 0x1a, 0xf7, 0xe0, 0xf9, 0xe4, 0x62, 0x70, 0x36, 0x72,
+	0x5f, 0x4f, 0x5c, 0xc7, 0xbd, 0x98, 0xbc, 0x1e, 0x9f, 0x8d, 0xdd, 0xb1, 0x73, 0xda, 0x2a, 0xe1,
+	0x2e, 0x3c, 0x5b, 0xa5, 0xe8, 0xc8, 0x39, 0xfe, 0xb5, 0x65, 0xdd, 0x27, 0x46, 0x94, 0x9e, 0xd3,
+	0x56, 0x19, 0x09, 0xb4, 0x57, 0x89, 0xd3, 0x91, 0x33, 0x19, 0x1d, 0xb7, 0x2a, 0x2f, 0x7f, 0x82,
+	0x0a, 0xe5, 0x12, 0xeb, 0x50, 0xa5, 0xe3, 0x57, 0xa3, 0x56, 0x49, 0x5b, 0x0e, 0x1d, 0x9f, 0xb5,
+	0x2c, 0x04, 0xa8, 0x9d, 0x3a, 0xc3, 0xb3, 0xf1, 0xb0, 0x55, 0xc6, 0x4d, 0xd8, 0x70, 0x4e, 0xe8,
+	0x58, 0x3b, 0x15, 0x6c, 0xc0, 0x13, 0xe7, 0x95, 0x36, 0xab, 0x03, 0xfb, 0xdd, 0x4d, 0xd7, 0x7a,
+	0x7f, 0xd3, 0xb5, 0xfe, 0xbd, 0xe9, 0x5a, 0x6f, 0x6f, 0xbb, 0xa5, 0xf7, 0xb7, 0xdd, 0xd2, 0xdf,
+	0xb7, 0xdd, 0xd2, 0x6f, 0xed, 0x6c, 0x23, 0x2f, 0x76, 0xb2, 0x9a, 0xc7, 0x2c, 0xb9, 0xac, 0x99,
+	0x76, 0xfc, 0xf0, 0x5f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x25, 0x50, 0x83, 0x9b, 0xb0, 0x07, 0x00,
+	0x00,
 }
 
 func (m *Subnet) Marshal() (dAtA []byte, err error) {
@@ -488,16 +489,18 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	dAtA[i] = 0x2
 	i--
 	dAtA[i] = 0x8a
-	n2, err2 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.RpkiSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.RpkiSyncedAt):])
-	if err2 != nil {
-		return 0, err2
+	if m.RpkiSyncedAt != nil {
+		n2, err2 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.RpkiSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RpkiSyncedAt):])
+		if err2 != nil {
+			return 0, err2
+		}
+		i -= n2
+		i = encodeVarintSubnet(dAtA, i, uint64(n2))
+		i--
+		dAtA[i] = 0x2
+		i--
+		dAtA[i] = 0x82
 	}
-	i -= n2
-	i = encodeVarintSubnet(dAtA, i, uint64(n2))
-	i--
-	dAtA[i] = 0x2
-	i--
-	dAtA[i] = 0x82
 	if len(m.RpkiOrigin) > 0 {
 		i -= len(m.RpkiOrigin)
 		copy(dAtA[i:], m.RpkiOrigin)
@@ -507,36 +510,42 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0xfa
 	}
-	n3, err3 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.IrrSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.IrrSyncedAt):])
-	if err3 != nil {
-		return 0, err3
+	if m.IrrSyncedAt != nil {
+		n3, err3 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.IrrSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrSyncedAt):])
+		if err3 != nil {
+			return 0, err3
+		}
+		i -= n3
+		i = encodeVarintSubnet(dAtA, i, uint64(n3))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0xf2
 	}
-	i -= n3
-	i = encodeVarintSubnet(dAtA, i, uint64(n3))
-	i--
-	dAtA[i] = 0x1
-	i--
-	dAtA[i] = 0xf2
-	n4, err4 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.IrrModifiedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.IrrModifiedAt):])
-	if err4 != nil {
-		return 0, err4
+	if m.IrrModifiedAt != nil {
+		n4, err4 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.IrrModifiedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrModifiedAt):])
+		if err4 != nil {
+			return 0, err4
+		}
+		i -= n4
+		i = encodeVarintSubnet(dAtA, i, uint64(n4))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0xea
 	}
-	i -= n4
-	i = encodeVarintSubnet(dAtA, i, uint64(n4))
-	i--
-	dAtA[i] = 0x1
-	i--
-	dAtA[i] = 0xea
-	n5, err5 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.IrrCreatedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.IrrCreatedAt):])
-	if err5 != nil {
-		return 0, err5
+	if m.IrrCreatedAt != nil {
+		n5, err5 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.IrrCreatedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrCreatedAt):])
+		if err5 != nil {
+			return 0, err5
+		}
+		i -= n5
+		i = encodeVarintSubnet(dAtA, i, uint64(n5))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0xe2
 	}
-	i -= n5
-	i = encodeVarintSubnet(dAtA, i, uint64(n5))
-	i--
-	dAtA[i] = 0x1
-	i--
-	dAtA[i] = 0xe2
 	if len(m.IrrMntBy) > 0 {
 		i -= len(m.IrrMntBy)
 		copy(dAtA[i:], m.IrrMntBy)
@@ -555,26 +564,30 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0xd2
 	}
-	n6, err6 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.OriginTransferFulfilledAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.OriginTransferFulfilledAt):])
-	if err6 != nil {
-		return 0, err6
+	if m.OriginTransferFulfilledAt != nil {
+		n6, err6 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.OriginTransferFulfilledAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.OriginTransferFulfilledAt):])
+		if err6 != nil {
+			return 0, err6
+		}
+		i -= n6
+		i = encodeVarintSubnet(dAtA, i, uint64(n6))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0xca
 	}
-	i -= n6
-	i = encodeVarintSubnet(dAtA, i, uint64(n6))
-	i--
-	dAtA[i] = 0x1
-	i--
-	dAtA[i] = 0xca
-	n7, err7 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.OriginTransferRequestedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.OriginTransferRequestedAt):])
-	if err7 != nil {
-		return 0, err7
+	if m.OriginTransferRequestedAt != nil {
+		n7, err7 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.OriginTransferRequestedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.OriginTransferRequestedAt):])
+		if err7 != nil {
+			return 0, err7
+		}
+		i -= n7
+		i = encodeVarintSubnet(dAtA, i, uint64(n7))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0xc2
 	}
-	i -= n7
-	i = encodeVarintSubnet(dAtA, i, uint64(n7))
-	i--
-	dAtA[i] = 0x1
-	i--
-	dAtA[i] = 0xc2
 	if m.OriginTransferRequested {
 		i--
 		if m.OriginTransferRequested {
@@ -608,16 +621,18 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0xa0
 	}
-	n8, err8 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.RirSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.RirSyncedAt):])
-	if err8 != nil {
-		return 0, err8
+	if m.RirSyncedAt != nil {
+		n8, err8 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.RirSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RirSyncedAt):])
+		if err8 != nil {
+			return 0, err8
+		}
+		i -= n8
+		i = encodeVarintSubnet(dAtA, i, uint64(n8))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x9a
 	}
-	i -= n8
-	i = encodeVarintSubnet(dAtA, i, uint64(n8))
-	i--
-	dAtA[i] = 0x1
-	i--
-	dAtA[i] = 0x9a
 	if m.RirAllocationType != 0 {
 		i = encodeVarintSubnet(dAtA, i, uint64(m.RirAllocationType))
 		i--
@@ -648,14 +663,16 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x78
 	}
-	n9, err9 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.GeofeedSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.GeofeedSyncedAt):])
-	if err9 != nil {
-		return 0, err9
+	if m.GeofeedSyncedAt != nil {
+		n9, err9 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.GeofeedSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeofeedSyncedAt):])
+		if err9 != nil {
+			return 0, err9
+		}
+		i -= n9
+		i = encodeVarintSubnet(dAtA, i, uint64(n9))
+		i--
+		dAtA[i] = 0x72
 	}
-	i -= n9
-	i = encodeVarintSubnet(dAtA, i, uint64(n9))
-	i--
-	dAtA[i] = 0x72
 	if len(m.GeofeedUrl) > 0 {
 		i -= len(m.GeofeedUrl)
 		copy(dAtA[i:], m.GeofeedUrl)
@@ -663,22 +680,26 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x6a
 	}
-	n10, err10 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.GeoChangeFulfilledAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.GeoChangeFulfilledAt):])
-	if err10 != nil {
-		return 0, err10
+	if m.GeoChangeFulfilledAt != nil {
+		n10, err10 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.GeoChangeFulfilledAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeoChangeFulfilledAt):])
+		if err10 != nil {
+			return 0, err10
+		}
+		i -= n10
+		i = encodeVarintSubnet(dAtA, i, uint64(n10))
+		i--
+		dAtA[i] = 0x62
 	}
-	i -= n10
-	i = encodeVarintSubnet(dAtA, i, uint64(n10))
-	i--
-	dAtA[i] = 0x62
-	n11, err11 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.GeoChangeRequestedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.GeoChangeRequestedAt):])
-	if err11 != nil {
-		return 0, err11
+	if m.GeoChangeRequestedAt != nil {
+		n11, err11 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.GeoChangeRequestedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeoChangeRequestedAt):])
+		if err11 != nil {
+			return 0, err11
+		}
+		i -= n11
+		i = encodeVarintSubnet(dAtA, i, uint64(n11))
+		i--
+		dAtA[i] = 0x5a
 	}
-	i -= n11
-	i = encodeVarintSubnet(dAtA, i, uint64(n11))
-	i--
-	dAtA[i] = 0x5a
 	if m.GeoChangeRequested {
 		i--
 		if m.GeoChangeRequested {
@@ -798,16 +819,22 @@ func (m *Subnet) Size() (n int) {
 	if m.GeoChangeRequested {
 		n += 2
 	}
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.GeoChangeRequestedAt)
-	n += 1 + l + sovSubnet(uint64(l))
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.GeoChangeFulfilledAt)
-	n += 1 + l + sovSubnet(uint64(l))
+	if m.GeoChangeRequestedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeoChangeRequestedAt)
+		n += 1 + l + sovSubnet(uint64(l))
+	}
+	if m.GeoChangeFulfilledAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeoChangeFulfilledAt)
+		n += 1 + l + sovSubnet(uint64(l))
+	}
 	l = len(m.GeofeedUrl)
 	if l > 0 {
 		n += 1 + l + sovSubnet(uint64(l))
 	}
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.GeofeedSyncedAt)
-	n += 1 + l + sovSubnet(uint64(l))
+	if m.GeofeedSyncedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeofeedSyncedAt)
+		n += 1 + l + sovSubnet(uint64(l))
+	}
 	if m.Rir != 0 {
 		n += 1 + sovSubnet(uint64(m.Rir))
 	}
@@ -822,8 +849,10 @@ func (m *Subnet) Size() (n int) {
 	if m.RirAllocationType != 0 {
 		n += 2 + sovSubnet(uint64(m.RirAllocationType))
 	}
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.RirSyncedAt)
-	n += 2 + l + sovSubnet(uint64(l))
+	if m.RirSyncedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RirSyncedAt)
+		n += 2 + l + sovSubnet(uint64(l))
+	}
 	if m.OwnerOrgId != 0 {
 		n += 2 + sovSubnet(uint64(m.OwnerOrgId))
 	}
@@ -836,10 +865,14 @@ func (m *Subnet) Size() (n int) {
 	if m.OriginTransferRequested {
 		n += 3
 	}
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.OriginTransferRequestedAt)
-	n += 2 + l + sovSubnet(uint64(l))
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.OriginTransferFulfilledAt)
-	n += 2 + l + sovSubnet(uint64(l))
+	if m.OriginTransferRequestedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.OriginTransferRequestedAt)
+		n += 2 + l + sovSubnet(uint64(l))
+	}
+	if m.OriginTransferFulfilledAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.OriginTransferFulfilledAt)
+		n += 2 + l + sovSubnet(uint64(l))
+	}
 	l = len(m.IrrOrigin)
 	if l > 0 {
 		n += 2 + l + sovSubnet(uint64(l))
@@ -848,18 +881,26 @@ func (m *Subnet) Size() (n int) {
 	if l > 0 {
 		n += 2 + l + sovSubnet(uint64(l))
 	}
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.IrrCreatedAt)
-	n += 2 + l + sovSubnet(uint64(l))
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.IrrModifiedAt)
-	n += 2 + l + sovSubnet(uint64(l))
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.IrrSyncedAt)
-	n += 2 + l + sovSubnet(uint64(l))
+	if m.IrrCreatedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrCreatedAt)
+		n += 2 + l + sovSubnet(uint64(l))
+	}
+	if m.IrrModifiedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrModifiedAt)
+		n += 2 + l + sovSubnet(uint64(l))
+	}
+	if m.IrrSyncedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrSyncedAt)
+		n += 2 + l + sovSubnet(uint64(l))
+	}
 	l = len(m.RpkiOrigin)
 	if l > 0 {
 		n += 2 + l + sovSubnet(uint64(l))
 	}
-	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.RpkiSyncedAt)
-	n += 2 + l + sovSubnet(uint64(l))
+	if m.RpkiSyncedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RpkiSyncedAt)
+		n += 2 + l + sovSubnet(uint64(l))
+	}
 	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.UpdatedAt)
 	n += 2 + l + sovSubnet(uint64(l))
 	return n
@@ -1186,7 +1227,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.GeoChangeRequestedAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.GeoChangeRequestedAt == nil {
+				m.GeoChangeRequestedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.GeoChangeRequestedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1219,7 +1263,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.GeoChangeFulfilledAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.GeoChangeFulfilledAt == nil {
+				m.GeoChangeFulfilledAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.GeoChangeFulfilledAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1284,7 +1331,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.GeofeedSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.GeofeedSyncedAt == nil {
+				m.GeofeedSyncedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.GeofeedSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1419,7 +1469,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.RirSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.RirSyncedAt == nil {
+				m.RirSyncedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.RirSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1529,7 +1582,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.OriginTransferRequestedAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.OriginTransferRequestedAt == nil {
+				m.OriginTransferRequestedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.OriginTransferRequestedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1562,7 +1618,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.OriginTransferFulfilledAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.OriginTransferFulfilledAt == nil {
+				m.OriginTransferFulfilledAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.OriginTransferFulfilledAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1659,7 +1718,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.IrrCreatedAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.IrrCreatedAt == nil {
+				m.IrrCreatedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.IrrCreatedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1692,7 +1754,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.IrrModifiedAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.IrrModifiedAt == nil {
+				m.IrrModifiedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.IrrModifiedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1725,7 +1790,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.IrrSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.IrrSyncedAt == nil {
+				m.IrrSyncedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.IrrSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1790,7 +1858,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.RpkiSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
+			if m.RpkiSyncedAt == nil {
+				m.RpkiSyncedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.RpkiSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
