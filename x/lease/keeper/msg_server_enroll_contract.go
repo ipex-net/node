@@ -13,6 +13,9 @@ import (
 
 func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollContract) (*types.MsgEnrollContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
+	//NOTE: only org admin can pay for the contract. All refunds go to org admin.
+	//We have treasury but it is only used to accumulate funds received from leasing subnets.
+
 	//Checking if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
@@ -61,15 +64,17 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
 			types.EscrowDepositEventType,
-			sdk.NewAttribute(types.EscrowEventSender, creator.String()),
-			sdk.NewAttribute(types.EscrowEventAmount, contract.Price.String()),
+			sdk.NewAttribute(types.EscrowDepositEventSender, creator.String()),
+			sdk.NewAttribute(types.EscrowDepositEventAmount, contract.Price.String()),
 		),
 	)
 
 	//Updating the contract:
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_ENROLLED
 	contract.LesseeOrg = msg.LesseeOrg
-	contract.UpdatedAt = ctx.BlockTime()
+	blockTime := ctx.BlockTime()
+	contract.UpdatedAt = blockTime
+	contract.EnrolledAt = &blockTime
 	
 	// Store updated contract
 	k.SetContract(ctx, contract)

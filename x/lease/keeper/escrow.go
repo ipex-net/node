@@ -14,14 +14,13 @@ import (
 )
 
 // ProcessEnrollmentTimeouts - processes all the contract in CONTRACT_STATUS_ENROLLED to reverse those in timeout
-func (k Keeper) ProcessEnrollmentTimeouts(ctx context.Context) {
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
+func (k Keeper) ProcessEnrollmentTimeouts(goCtx context.Context) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
 	//timeoutDuration := time.Hour * 72 // 72 hours timeout
-	timeoutDuration := time.Minute * 5 // 72 hours timeout
+	timeoutDuration := time.Minute * 2 // 72 hours timeout
 
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(sdkCtx))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
-
 
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
@@ -43,14 +42,14 @@ func (k Keeper) ProcessEnrollmentTimeouts(ctx context.Context) {
 			continue
 		}
 
-		if sdkCtx.BlockTime().Sub(contract.EnrolledAt) > timeoutDuration {
+		if contract.EnrolledAt != nil && ctx.BlockTime().Sub(*contract.EnrolledAt) > timeoutDuration {
 			//Processing timeout actions
 			contract.Status = types.ContractStatus_CONTRACT_STATUS_TIMEDOUT
-			contract.UpdatedAt = sdkCtx.BlockTime()
-			refundAddr, found := k.orgKeeper.GetOrgTreasury(ctx, contract.LesseeOrg)
+			contract.UpdatedAt = ctx.BlockTime()
+			refundAddr, found := k.orgKeeper.GetOrgAdmin(ctx, contract.LesseeOrg)
 		
 			if !found {
-				k.logger.Error("failed to find treasury address for organization",
+				k.logger.Error("failed to find admin address for organization",
 				"contract_id", contract.Id,
 				"lessee_org_id", contract.LesseeOrg)
 				continue
@@ -76,18 +75,15 @@ func (k Keeper) ProcessEnrollmentTimeouts(ctx context.Context) {
 				"refund_address", refundAddr)
 
 			// Emit enrollment reverted event
-			sdkCtx.EventManager().EmitEvent(
+			ctx.EventManager().EmitEvent(
 				sdk.NewEvent(
 					types.EnrollementRevertedEventType,
 					sdk.NewAttribute(types.EnrollementRevertedContractId, strconv.FormatUint(contract.Id, 10)),
 					sdk.NewAttribute(types.EnrollementRevertedLesseeOrg, strconv.FormatUint(contract.LesseeOrg, 10)),
 					sdk.NewAttribute(types.EnrollementRevertedPriceAmount, contract.Price.Amount.String()),
-					sdk.NewAttribute(types.EnrollementRevertedContractId, contract.Price.Denom),
+					sdk.NewAttribute(types.EnrollementRevertedPriceDenom, contract.Price.Denom),
 				),
 			)
-
 		}
-
-	
 	}
 }

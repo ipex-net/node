@@ -36,6 +36,6 @@ message Contract {
   google.protobuf.Timestamp activatedAt = 12 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
   google.protobuf.Timestamp prepaidUntil = 13 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
   google.protobuf.Timestamp updatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
-  google.protobuf.Timestamp enrolledAt = 15 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp enrolledAt = 15 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true];
   google.protobuf.Timestamp validationCheckedAt = 16 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true];
 }

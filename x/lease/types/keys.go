@@ -88,7 +88,6 @@ const (
 
 const (
     EscrowDepositEventType   = "escrow-deposit"
-    EscrowEventSender        = "sender"
-    EscrowEventAmount        = "amount"
+    EscrowDepositEventSender        = "sender"
+    EscrowDepositEventAmount        = "amount"
 )
-
