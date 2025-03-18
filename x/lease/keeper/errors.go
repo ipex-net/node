@@ -18,4 +18,6 @@ var (
 	ErrFundTransfer        		= sdkerrors.Register(ModuleName, 1214, "error during fund transfer")
 	ErrInvalidDeposit 	   		= sdkerrors.Register(ModuleName, 1215, "invalid safety deposit")
 	ErrInvalidRevocationPeriod 	= sdkerrors.Register(ModuleName, 1217, "invalid revocation period")
+	ErrInvalidCurrency 			= sdkerrors.Register(ModuleName, 1218, "invalid currency denomination")
+
 )

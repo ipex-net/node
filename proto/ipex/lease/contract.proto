@@ -25,7 +25,7 @@ message Contract {
   uint64 lesseeOrg = 4; 
   cosmos.base.v1beta1.Coin price = 5 [(gogoproto.nullable) = false]; 
   cosmos.base.v1beta1.Coin safetyDeposit = 6 [(gogoproto.nullable) = false]; 
-  cosmos.base.v1beta1.Coin safetyDepositRetained = 7; 
+  cosmos.base.v1beta1.Coin safetyDepositRetained = 7 [(gogoproto.nullable) = true]; 
   google.protobuf.Duration revocationPeriod = 8 [(gogoproto.stdduration) = true, (gogoproto.nullable) = false]; 
   google.protobuf.Timestamp revocationEffectiveAt = 9 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
   ContractStatus status = 10; 

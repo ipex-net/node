@@ -61,16 +61,22 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
 
+
+
 	//Updating the contract:
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
 	contract.LesseeOrg = msg.LesseeOrg
 	blockTime := ctx.BlockTime()
 	contract.UpdatedAt = blockTime
 	contract.ActivatedAt = &blockTime
-	
+	depositRetained := contract.Price
+	contract.SafetyDepositRetained = &depositRetained
 	// Store updated contract
 	k.SetContract(ctx, contract)
 
+	// Updating the subnet user Org
+	k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, msg.LesseeOrg)
+	
 	// Emit enrollment event
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(

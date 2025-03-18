@@ -164,3 +164,19 @@ func (k Keeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint6
 	//}
 	return true
 }
+
+//Set subnet user
+func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	// checking that user org exists
+	if userOrgId == 0 || !k.orgKeeper.HasOrg(ctx, userOrgId) {
+		return
+	}
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return
+	}
+	subnet.UserOrgId = userOrgId
+	subnet.UpdatedAt = ctx.BlockTime()
+	k.SetSubnet(ctx, subnet)
+}
