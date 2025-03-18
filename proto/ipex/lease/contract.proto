@@ -17,6 +17,8 @@ enum ContractStatus {
   CONTRACT_STATUS_TERMINATED = 5;
   CONTRACT_STATUS_EXPIRED = 6;
   CONTRACT_STATUS_TIMEDOUT = 7;
+  CONTRACT_STATUS_VALIDATED = 8;
+  CONTRACT_STATUS_INVALIDATED = 9;
 }
 
 message Contract {
@@ -35,4 +37,5 @@ message Contract {
   google.protobuf.Timestamp prepaidUntil = 13 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
   google.protobuf.Timestamp updatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
   google.protobuf.Timestamp enrolledAt = 15 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp validationCheckedAt = 16 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true];
 }

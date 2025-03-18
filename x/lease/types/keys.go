@@ -77,3 +77,18 @@ const (
 	ContractSafetyDepositCollectedAmount     = "deposit-collected-amount"
 	ContractSafetyDepositCollectedDenom      = "deposit-collected-denom"
 )
+
+const (
+	EnrollementRevertedEventType                = "contract-enrolled"
+	EnrollementRevertedContractId               = "contract-id"
+	EnrollementRevertedLesseeOrg                = "lessee-org"
+	EnrollementRevertedPriceAmount              = "price-amount"
+	EnrollementRevertedPriceDenom               = "price-denom"
+)
+
+const (
+    EscrowDepositEventType   = "escrow-deposit"
+    EscrowEventSender        = "sender"
+    EscrowEventAmount        = "amount"
+)
+

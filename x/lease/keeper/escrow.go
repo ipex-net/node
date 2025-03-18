@@ -3,69 +3,21 @@ package keeper
 import (
 	"context"
 	"ipex/x/lease/types"
+	"strconv"
 	"time"
 
 	storetypes "cosmossdk.io/store/types"
 
-	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/store/prefix"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// SendToEscrow sends coins from an account to the module account
-func (k Keeper) SendToEscrow(ctx context.Context, from sdk.AccAddress, amount sdk.Coins) error {
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-
-	if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, from, types.ModuleAccountName, amount); err != nil {
-		k.Logger().Error("failed to send coins to escrow", "error", err)
-		return errorsmod.Wrapf(types.ErrFundTransfer, "failed to send %s from %s to escrow: %s",
-			amount, from, err)
-	}
-
-	k.Logger().Info("coins sent to escrow", "from", from, "amount", amount)
-
-	// Emit event
-	sdkCtx.EventManager().EmitEvent(
-		sdk.NewEvent(
-			"escrow_deposit",
-			sdk.NewAttribute("sender", from.String()),
-			sdk.NewAttribute("amount", amount.String()),
-		),
-	)
-
-	return nil
-}
-
-// ReleaseFromEscrow sends coins from the module account to an account
-func (k Keeper) ReleaseFromEscrow(ctx context.Context, to sdk.AccAddress, amount sdk.Coins) error {
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-
-	if err := k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleAccountName, to, amount); err != nil {
-		k.Logger().Error("failed to release coins from escrow", "error", err)
-		return errorsmod.Wrapf(types.ErrFundTransfer, "failed to send %s from escrow to %s: %s",
-			amount, to, err)
-	}
-
-	k.Logger().Info("coins released from escrow", "to", to, "amount", amount)
-
-	// Emit event
-	sdkCtx.EventManager().EmitEvent(
-		sdk.NewEvent(
-			"escrow_release",
-			sdk.NewAttribute("receiver", to.String()),
-			sdk.NewAttribute("amount", amount.String()),
-		),
-	)
-
-	return nil
-}
-
 // ProcessEnrollmentTimeouts - processes all the contract in CONTRACT_STATUS_ENROLLED to reverse those in timeout
 func (k Keeper) ProcessEnrollmentTimeouts(ctx context.Context) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	//timeoutDuration := time.Hour * 72 // 72 hours timeout
-	timeoutDuration := time.Minute // 72 hours timeout
+	timeoutDuration := time.Minute * 5 // 72 hours timeout
 
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(sdkCtx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
@@ -122,6 +74,18 @@ func (k Keeper) ProcessEnrollmentTimeouts(ctx context.Context) {
 				"enrolled_at", contract.EnrolledAt,
 				"refunded_amount", contract.Price,
 				"refund_address", refundAddr)
+
+			// Emit enrollment reverted event
+			sdkCtx.EventManager().EmitEvent(
+				sdk.NewEvent(
+					types.EnrollementRevertedEventType,
+					sdk.NewAttribute(types.EnrollementRevertedContractId, strconv.FormatUint(contract.Id, 10)),
+					sdk.NewAttribute(types.EnrollementRevertedLesseeOrg, strconv.FormatUint(contract.LesseeOrg, 10)),
+					sdk.NewAttribute(types.EnrollementRevertedPriceAmount, contract.Price.Amount.String()),
+					sdk.NewAttribute(types.EnrollementRevertedContractId, contract.Price.Denom),
+				),
+			)
+
 		}
 
 	

@@ -53,11 +53,18 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			contract.Price.String(), userBalance.String())
 	}
 
-	//Moving funds to escrow
-	err = k.SendToEscrow(ctx, creator, sdk.NewCoins(contract.Price))
-	if err != nil {
+	if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, sdk.NewCoins(contract.Price)); err != nil {
+		k.Logger().Error("failed to send coins to escrow", "error", err)
 		return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
+
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(
+			types.EscrowDepositEventType,
+			sdk.NewAttribute(types.EscrowEventSender, creator.String()),
+			sdk.NewAttribute(types.EscrowEventAmount, contract.Price.String()),
+		),
+	)
 
 	//Updating the contract:
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_ENROLLED
