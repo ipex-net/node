@@ -151,9 +151,7 @@ func (am AppModule) BeginBlock(_ context.Context) error {
 
 // EndBlock contains the logic that is automatically triggered at the end of each block.
 // The end block implementation is optional.
-func (am AppModule) EndBlock(ctx context.Context) error {
-	// Call your keeper's ProcessEnrollmentTimeouts function
-	am.keeper.ProcessEnrollmentTimeouts(ctx)
+func (am AppModule) EndBlock(_ context.Context) error {
 	return nil
 }
 

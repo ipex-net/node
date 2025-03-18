@@ -61,20 +61,12 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
 
-	ctx.EventManager().EmitEvent(
-		sdk.NewEvent(
-			types.EscrowDepositEventType,
-			sdk.NewAttribute(types.EscrowDepositEventSender, creator.String()),
-			sdk.NewAttribute(types.EscrowDepositEventAmount, contract.Price.String()),
-		),
-	)
-
 	//Updating the contract:
-	contract.Status = types.ContractStatus_CONTRACT_STATUS_ENROLLED
+	contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
 	contract.LesseeOrg = msg.LesseeOrg
 	blockTime := ctx.BlockTime()
 	contract.UpdatedAt = blockTime
-	contract.EnrolledAt = &blockTime
+	contract.ActivatedAt = &blockTime
 	
 	// Store updated contract
 	k.SetContract(ctx, contract)

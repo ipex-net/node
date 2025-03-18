@@ -29,65 +29,51 @@ func KeyPrefix(p string) []byte {
 }
 
 const (
-	ContractCreatedEventType                     = "new-contract-created"
+	ContractCreatedEventType                     = "new_contract_created"
 	ContractCreatedEventCreator                  = "creator"
-	ContractCreatedEventContractId               = "contract-id"
-	ContractCreatedEventSubnetId                 = "subnet-id"
+	ContractCreatedEventContractId               = "contract_id"
+	ContractCreatedEventSubnetId                 = "subnet_id"
 	ContractCreatedEventPrice                    = "price"             //Subnet lease price amount
-	ContractCreatedEventPriceDenom               = "price-denom"       //Subnet lease price denom
-	ContractCreatedEventDepositAmount            = "deposit-amount"    //Deposit amount
-	ContractCreatedEventDepositDenom             = "deposit-denom"     //Deposit denom
-	ContractCreatedEventRevocationPeriodDuration = "revocation-period" //Duration notify before owner-initiated termination
+	ContractCreatedEventPriceDenom               = "price_denom"       //Subnet lease price denom
+	ContractCreatedEventDepositAmount            = "deposit_amount"    //Deposit amount
+	ContractCreatedEventDepositDenom             = "deposit_denom"     //Deposit denom
+	ContractCreatedEventRevocationPeriodDuration = "revocation_period" //Duration notify before owner-initiated termination
 )
 
 const (
-	ContractUpdatedEventType       = "contract-updated"
+	ContractUpdatedEventType       = "contract_updated"
 	ContractUpdatedEventCreator    = "creator"
-	ContractUpdatedEventContractId = "contract-id"
+	ContractUpdatedEventContractId = "contract_id"
 	ContractUpdatedEventPrice      = "price"       //Subnet lease price amount
-	ContractUpdatedEventPriceDenom = "price-denom" //Subnet lease price denom
+	ContractUpdatedEventPriceDenom = "price_denom" //Subnet lease price denom
 )
 
 const (
-	ContractDeletedEventType       = "contract-deleted"
+	ContractDeletedEventType       = "contract_deleted"
 	ContractDeletedEventCreator    = "creator"
-	ContractDeletedEventContractId = "contract-id"
+	ContractDeletedEventContractId = "contract_id"
 )
 
 const (
-	ContractCanceledEventType  = "contract-canceled"
+	ContractCanceledEventType  = "contract_canceled"
 	ContractCanceledCreator    = "creator"
-	ContractCanceledContractId = "contract-id"
+	ContractCanceledContractId = "contract_id"
 )
 
 const (
-	ContractRevokedEventType             = "contract-revoked"
+	ContractRevokedEventType             = "contract_revoked"
 	ContractRevokedCreator               = "creator"
-	ContractRevokedContractId            = "contract-id"
-	ContractRevokedRevocationEffectiveAt = "revocation-effective-at"
+	ContractRevokedContractId            = "contract_id"
+	ContractRevokedRevocationEffectiveAt = "revocation_effective_at"
 )
 
 const (
-	ContractEnrolledEventType                = "contract-enrolled"
+	ContractEnrolledEventType                = "contract_enrolled"
 	ContractEnrolledCreator                  = "creator"
-	ContractEnrolledContractId               = "contract-id"
-	ContractEnrolledLesseeOrg                = "lessee-org"
-	ContractEnrolledPriceAmount              = "price-amount"
-	ContractEnrolledPriceDenom               = "price-denom"
-	ContractSafetyDepositCollectedAmount     = "deposit-collected-amount"
-	ContractSafetyDepositCollectedDenom      = "deposit-collected-denom"
-)
-
-const (
-	EnrollementRevertedEventType                = "contract-enrolled"
-	EnrollementRevertedContractId               = "contract-id"
-	EnrollementRevertedLesseeOrg                = "lessee-org"
-	EnrollementRevertedPriceAmount              = "price-amount"
-	EnrollementRevertedPriceDenom               = "price-denom"
-)
-
-const (
-    EscrowDepositEventType   = "escrow-deposit"
-    EscrowDepositEventSender        = "sender"
-    EscrowDepositEventAmount        = "amount"
+	ContractEnrolledContractId               = "contract_id"
+	ContractEnrolledLesseeOrg                = "lessee_org"
+	ContractEnrolledPriceAmount              = "price_amount"
+	ContractEnrolledPriceDenom               = "price_denom"
+	ContractSafetyDepositCollectedAmount     = "deposit_collected_amount"
+	ContractSafetyDepositCollectedDenom      = "deposit_collected_denom"
 )

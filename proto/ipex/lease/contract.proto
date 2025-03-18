@@ -10,15 +10,12 @@ import "google/protobuf/timestamp.proto";
 
 enum ContractStatus {
   CONTRACT_STATUS_FORSALE = 0;
-  CONTRACT_STATUS_ENROLLED = 1;
-  CONTRACT_STATUS_LEASED = 2;
-  CONTRACT_STATUS_CANCELED_OWNER = 3;
-  CONTRACT_STATUS_CANCELED_LESSEE = 4;
-  CONTRACT_STATUS_TERMINATED = 5;
-  CONTRACT_STATUS_EXPIRED = 6;
-  CONTRACT_STATUS_TIMEDOUT = 7;
-  CONTRACT_STATUS_VALIDATED = 8;
-  CONTRACT_STATUS_INVALIDATED = 9;
+  CONTRACT_STATUS_LEASED = 1;
+  CONTRACT_STATUS_CANCELED_OWNER = 2;
+  CONTRACT_STATUS_CANCELED_LESSEE = 3;
+  CONTRACT_STATUS_TERMINATED = 4;
+  CONTRACT_STATUS_EXPIRED = 5;
+  CONTRACT_STATUS_REFUNDED = 6; 
 }
 
 message Contract {
@@ -27,7 +24,7 @@ message Contract {
   uint64 ownerOrg = 3; 
   uint64 lesseeOrg = 4; 
   cosmos.base.v1beta1.Coin price = 5 [(gogoproto.nullable) = false]; 
-  cosmos.base.v1beta1.Coin safetyDeposit = 6 [(gogoproto.nullable) = true]; 
+  cosmos.base.v1beta1.Coin safetyDeposit = 6 [(gogoproto.nullable) = false]; 
   cosmos.base.v1beta1.Coin safetyDepositRetained = 7; 
   google.protobuf.Duration revocationPeriod = 8 [(gogoproto.stdduration) = true, (gogoproto.nullable) = false]; 
   google.protobuf.Timestamp revocationEffectiveAt = 9 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
@@ -36,6 +33,4 @@ message Contract {
   google.protobuf.Timestamp activatedAt = 12 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
   google.protobuf.Timestamp prepaidUntil = 13 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true]; 
   google.protobuf.Timestamp updatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
-  google.protobuf.Timestamp enrolledAt = 15 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true];
-  google.protobuf.Timestamp validationCheckedAt = 16 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true];
 }

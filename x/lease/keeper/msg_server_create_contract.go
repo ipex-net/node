@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"strconv"
+	"time"
 
 	"ipex/x/lease/types"
 
@@ -18,6 +19,38 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// Add this check after verifying the subnet availability
+	if msg.SafetyDeposit.Denom != msg.Price.Denom {
+		return nil, errorsmod.Wrapf(
+			ErrInvalidDeposit, 
+			"safety deposit denom (%s) must match price denom (%s)", 
+			msg.SafetyDeposit.Denom, 
+			msg.Price.Denom,
+		)
+	}
+
+	if msg.SafetyDeposit.Amount.LT(msg.Price.Amount) {
+		return nil, errorsmod.Wrapf(
+			ErrInvalidDeposit, 
+			"safety deposit amount (%s) must be greater than or equal to price (%s)", 
+			msg.SafetyDeposit.Amount.String(), 
+			msg.Price.Amount.String(),
+		)
+	}
+
+	// Add this check alongside your other validations
+	// Define the minimum duration (one month)
+	minimumRevocationPeriod := time.Hour * 24 * 30 // 30 days as a month approximation
+
+	if msg.RevocationPeriod.Nanoseconds() < minimumRevocationPeriod.Nanoseconds() {
+		return nil, errorsmod.Wrapf(
+			ErrInvalidRevocationPeriod,
+			"revocation period (%s) must be at least one month (%s)",
+			msg.RevocationPeriod.String(),
+			minimumRevocationPeriod.String(),
+		)
 	}
 
 	// Check if the org id exists
@@ -43,13 +76,14 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
 		return nil, errorsmod.Wrap(ErrSubnetNotReady, "subnet is not ready for lease")
 	}
-	deposit := msg.SafetyDeposit
+	//Overriding the deposit to being equal to one month
+
 	var contract = types.Contract{
 		SubnetId:              msg.SubnetId,
 		OwnerOrg:              msg.OwnerOrg,
 		LesseeOrg:             0,
 		Price:                 msg.Price,
-		SafetyDeposit:         &deposit,
+		SafetyDeposit:         msg.SafetyDeposit,
 		RevocationPeriod:      msg.RevocationPeriod,
 		RevocationEffectiveAt: nil,
 		Status:                types.ContractStatus_CONTRACT_STATUS_FORSALE,
