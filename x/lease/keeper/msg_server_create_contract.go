@@ -24,18 +24,18 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	// Add this check after verifying the subnet availability
 	if msg.SafetyDeposit.Denom != msg.Price.Denom {
 		return nil, errorsmod.Wrapf(
-			ErrInvalidDeposit, 
-			"safety deposit denom (%s) must match price denom (%s)", 
-			msg.SafetyDeposit.Denom, 
+			ErrInvalidDeposit,
+			"safety deposit denom (%s) must match price denom (%s)",
+			msg.SafetyDeposit.Denom,
 			msg.Price.Denom,
 		)
 	}
 
 	if msg.SafetyDeposit.Amount.LT(msg.Price.Amount) {
 		return nil, errorsmod.Wrapf(
-			ErrInvalidDeposit, 
-			"safety deposit amount (%s) must be greater than or equal to price (%s)", 
-			msg.SafetyDeposit.Amount.String(), 
+			ErrInvalidDeposit,
+			"safety deposit amount (%s) must be greater than or equal to price (%s)",
+			msg.SafetyDeposit.Amount.String(),
 			msg.Price.Amount.String(),
 		)
 	}

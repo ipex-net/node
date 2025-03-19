@@ -143,7 +143,7 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 	}
 
 	org.UpdatedAt = ctx.BlockTime()
-	
+
 	//Setting the changes
 	k.SetOrg(
 		ctx,

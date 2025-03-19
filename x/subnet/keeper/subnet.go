@@ -165,7 +165,7 @@ func (k Keeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint6
 	return true
 }
 
-//Set subnet user
+// Set subnet user
 func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	// checking that user org exists

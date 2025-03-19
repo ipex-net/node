@@ -51,8 +51,8 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	creator, _ := sdk.AccAddressFromBech32(msg.Creator)
 	userBalance := k.bankKeeper.SpendableCoins(ctx, creator)
 	if !userBalance.IsAllGTE(sdk.NewCoins(contract.Price)) {
-		return nil, errorsmod.Wrapf(ErrInsufficientFunds, 
-			"insufficient funds to enroll: required %s, available %s", 
+		return nil, errorsmod.Wrapf(ErrInsufficientFunds,
+			"insufficient funds to enroll: required %s, available %s",
 			contract.Price.String(), userBalance.String())
 	}
 
@@ -60,8 +60,6 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		k.Logger().Error("failed to send coins to escrow", "error", err)
 		return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
-
-
 
 	//Updating the contract:
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED

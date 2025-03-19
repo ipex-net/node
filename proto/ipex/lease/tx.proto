@@ -20,13 +20,14 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams   (MsgUpdateParams  ) returns (MsgUpdateParamsResponse  );
-  rpc CreateContract (MsgCreateContract) returns (MsgCreateContractResponse);
-  rpc UpdateContract (MsgUpdateContract) returns (MsgUpdateContractResponse);
-  rpc DeleteContract (MsgDeleteContract) returns (MsgDeleteContractResponse);
-  rpc CancelContract (MsgCancelContract) returns (MsgCancelContractResponse);
-  rpc RevokeContract (MsgRevokeContract) returns (MsgRevokeContractResponse);
-  rpc EnrollContract (MsgEnrollContract) returns (MsgEnrollContractResponse);
+  rpc UpdateParams      (MsgUpdateParams     ) returns (MsgUpdateParamsResponse     );
+  rpc CreateContract    (MsgCreateContract   ) returns (MsgCreateContractResponse   );
+  rpc UpdateContract    (MsgUpdateContract   ) returns (MsgUpdateContractResponse   );
+  rpc DeleteContract    (MsgDeleteContract   ) returns (MsgDeleteContractResponse   );
+  rpc CancelContract    (MsgCancelContract   ) returns (MsgCancelContractResponse   );
+  rpc RevokeContract    (MsgRevokeContract   ) returns (MsgRevokeContractResponse   );
+  rpc EnrollContract    (MsgEnrollContract   ) returns (MsgEnrollContractResponse   );
+  rpc TerminateContract (MsgTerminateContract) returns (MsgTerminateContractResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -101,4 +102,12 @@ message MsgEnrollContract {
 }
 
 message MsgEnrollContractResponse {}
+
+message MsgTerminateContract {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgTerminateContractResponse {}
 

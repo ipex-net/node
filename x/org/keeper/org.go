@@ -136,9 +136,9 @@ func (k Keeper) VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) 
 
 func (k Keeper) GetOrgTreasury(ctx context.Context, orgid uint64) (sdk.AccAddress, bool) {
 	org, found := k.GetOrg(ctx, orgid)
-	if !found || org.Treasury=="" {
+	if !found || org.Treasury == "" {
 		return nil, false
-	} 
+	}
 
 	treasuryAddr, err := sdk.AccAddressFromBech32(org.Treasury)
 	if err != nil {
@@ -151,9 +151,9 @@ func (k Keeper) GetOrgTreasury(ctx context.Context, orgid uint64) (sdk.AccAddres
 
 func (k Keeper) GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAddress, bool) {
 	org, found := k.GetOrg(ctx, orgid)
-	if !found || org.Treasury=="" {
+	if !found || org.Treasury == "" {
 		return nil, false
-	} 
+	}
 
 	treasuryAddr, err := sdk.AccAddressFromBech32(org.Admin)
 	if err != nil {

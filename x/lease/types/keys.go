@@ -68,12 +68,12 @@ const (
 )
 
 const (
-	ContractEnrolledEventType                = "contract_enrolled"
-	ContractEnrolledCreator                  = "creator"
-	ContractEnrolledContractId               = "contract_id"
-	ContractEnrolledLesseeOrg                = "lessee_org"
-	ContractEnrolledPriceAmount              = "price_amount"
-	ContractEnrolledPriceDenom               = "price_denom"
-	ContractSafetyDepositCollectedAmount     = "deposit_collected_amount"
-	ContractSafetyDepositCollectedDenom      = "deposit_collected_denom"
+	ContractEnrolledEventType            = "contract_enrolled"
+	ContractEnrolledCreator              = "creator"
+	ContractEnrolledContractId           = "contract_id"
+	ContractEnrolledLesseeOrg            = "lessee_org"
+	ContractEnrolledPriceAmount          = "price_amount"
+	ContractEnrolledPriceDenom           = "price_denom"
+	ContractSafetyDepositCollectedAmount = "deposit_collected_amount"
+	ContractSafetyDepositCollectedDenom  = "deposit_collected_denom"
 )

@@ -26,7 +26,7 @@ func (k msgServer) UpdateSubnetUser(goCtx context.Context, msg *types.MsgUpdateS
 	//Checking that subnet is not lease yet, as we set lease user automatically
 	if subnet.Status != types.SubnetStatus_SUBNET_STATUS_READY {
 		return nil, errorsmod.Wrap(ErrInvalidSubnet, "subnet is not ready and can not have new user")
-	} 
+	}
 	//Checking if message creator is subnet owner
 	if subnet.OwnerOrgId > 0 && !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator) {
 		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
