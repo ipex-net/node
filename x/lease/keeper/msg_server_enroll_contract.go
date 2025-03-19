@@ -67,16 +67,18 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
 	contract.LesseeOrg = msg.LesseeOrg
 	blockTime := ctx.BlockTime()
+	prepaidUntil := blockTime.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
 	contract.UpdatedAt = blockTime
 	contract.ActivatedAt = &blockTime
 	depositRetained := contract.Price
 	contract.SafetyDepositRetained = &depositRetained
+	contract.PrepaidUntil = &prepaidUntil
 	// Store updated contract
 	k.SetContract(ctx, contract)
 
 	// Updating the subnet user Org
 	k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, msg.LesseeOrg)
-	
+
 	// Emit enrollment event
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
