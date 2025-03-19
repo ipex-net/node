@@ -16,6 +16,8 @@ enum ContractStatus {
   CONTRACT_STATUS_TERMINATED = 4;
   CONTRACT_STATUS_EXPIRED = 5;
   CONTRACT_STATUS_REFUNDED = 6; 
+  CONTRACT_STATUS_TERMINATED_WITHOUT_NOTICE = 7;
+  CONTRACT_STATUS_TERMINATED_FIRST_MONTH = 8;
 }
 
 message Contract {
@@ -33,4 +35,6 @@ message Contract {
   google.protobuf.Timestamp activatedAt = 12 [(gogoproto.stdtime) = true]; 
   google.protobuf.Timestamp prepaidUntil = 13 [(gogoproto.stdtime) = true]; 
   google.protobuf.Timestamp updatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp terminatedAt = 15 [(gogoproto.stdtime) = true]; 
+  cosmos.base.v1beta1.Coin fundsCollected = 16; 
 }

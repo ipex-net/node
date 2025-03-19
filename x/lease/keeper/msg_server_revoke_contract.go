@@ -29,7 +29,7 @@ func (k msgServer) RevokeContract(goCtx context.Context, msg *types.MsgRevokeCon
 
 	//Checking the contract status
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED {
-		return nil, errorsmod.Wrap(types.ErrInvalidContractStatus, "can not cancel revoke that is not in LEASED state")
+		return nil, errorsmod.Wrap(types.ErrInvalidContractStatus, "can not revoke that is not in LEASED state")
 	}
 
 	//Checking that the sender is the admin of the owner org
