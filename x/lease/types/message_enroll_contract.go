@@ -8,10 +8,10 @@ import (
 
 var _ sdk.Msg = &MsgEnrollContract{}
 
-func NewMsgEnrollContract(creator string, contract uint64, lesseeOrg uint64) *MsgEnrollContract {
+func NewMsgEnrollContract(creator string, contractId uint64, lesseeOrg uint64) *MsgEnrollContract {
 	return &MsgEnrollContract{
 		Creator:   creator,
-		Contract:  contract,
+		ContractId:  contractId,
 		LesseeOrg: lesseeOrg,
 	}
 }

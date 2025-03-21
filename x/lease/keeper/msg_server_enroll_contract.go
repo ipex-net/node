@@ -37,9 +37,9 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	}
 
 	//Getting the contract
-	contract, found := k.GetContract(ctx, msg.Contract)
+	contract, found := k.GetContract(ctx, msg.ContractId)
 	if !found {
-		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.Contract)
+		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.ContractId)
 	}
 
 	//Checking the contract status
@@ -82,7 +82,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		sdk.NewEvent(
 			types.ContractEnrolledEventType,
 			sdk.NewAttribute(types.ContractEnrolledCreator, msg.Creator),
-			sdk.NewAttribute(types.ContractEnrolledContractId, strconv.FormatUint(msg.Contract, 10)),
+			sdk.NewAttribute(types.ContractEnrolledContractId, strconv.FormatUint(msg.ContractId, 10)),
 			sdk.NewAttribute(types.ContractEnrolledLesseeOrg, strconv.FormatUint(msg.LesseeOrg, 10)),
 			sdk.NewAttribute(types.ContractEnrolledPriceAmount, contract.Price.Amount.String()),
 			sdk.NewAttribute(types.ContractEnrolledPriceDenom, contract.Price.Denom),

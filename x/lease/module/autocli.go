@@ -83,9 +83,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "EnrollContract",
-					Use:            "enroll-contract [contract] [lessee-org]",
+					Use:            "enroll-contract [contract-id] [lessee-org]",
 					Short:          "Send a enroll-contract tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contract"}, {ProtoField: "lesseeOrg"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contractId"}, {ProtoField: "lesseeOrg"}},
 				},
 				{
 					RpcMethod:      "TerminateContract",

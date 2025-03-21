@@ -97,7 +97,7 @@ message MsgRevokeContractResponse {}
 message MsgEnrollContract {
   option (cosmos.msg.v1.signer) = "creator";
   string creator   = 1;
-  uint64 contract  = 2;
+  uint64 contractId  = 2;
   uint64 lesseeOrg = 3;
 }
 
