@@ -77,3 +77,10 @@ const (
 	ContractSafetyDepositCollectedAmount = "deposit_collected_amount"
 	ContractSafetyDepositCollectedDenom  = "deposit_collected_denom"
 )
+const (
+	ContractTerminatedByOwnerEventType             = "contract_terminated_owner"
+	ContractTerminatedByOwnerCreator               = "creator"
+	ContractTerminatedByOwnerContractId            = "contract_id"
+	ContractTerminatedByOwnerType			   = "termination_type"
+	ContractTerminatedByOwnerAt 				   = "terminated_at"
+)

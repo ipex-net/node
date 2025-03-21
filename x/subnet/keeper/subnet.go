@@ -180,3 +180,15 @@ func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrg
 	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
 }
+
+func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return
+	}
+	subnet.Origin = 0
+	subnet.UserOrgId = 0
+	subnet.UpdatedAt = ctx.BlockTime()
+	k.SetSubnet(ctx, subnet)
+}
