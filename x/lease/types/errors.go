@@ -33,4 +33,6 @@ var (
 	ErrOrgAdminNotFound        = sdkerrors.Register(ModuleName, 1122, "organization admin not found")
 	ErrOrgTreasuryNotFound     = sdkerrors.Register(ModuleName, 1123, "organization treasury not found")
 	ErrContractExpired	       = sdkerrors.Register(ModuleName, 1124, "contract already expired")
+	ErrRenewalDateTooDistant   = sdkerrors.Register(ModuleName, 1125, "contract renewal date is too far in the future")	
+	ErrRenewalBeyondRevocationDate   = sdkerrors.Register(ModuleName, 1126, "renewal period extends beyond contract revocation effective date")
 )

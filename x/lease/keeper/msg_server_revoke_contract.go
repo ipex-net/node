@@ -39,9 +39,9 @@ func (k msgServer) RevokeContract(goCtx context.Context, msg *types.MsgRevokeCon
 
 	//Updating the contract
 	blockTime := ctx.BlockTime()
-	//Getting the Revocation time from current time and Cancellation Notice period
+	//Getting the Revocation time from the subnet was prepaid until and Revocation Notice period
 	//Rerouting subnet prior to this time involves a penalty and reputational damage
-	revocationTime := blockTime.Add(contract.RevocationPeriod)
+	revocationTime := contract.PrepaidUntil.Add(contract.RevocationPeriod)
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER
 	contract.UpdatedAt = blockTime
 	contract.RevocationEffectiveAt = &revocationTime
