@@ -31,37 +31,37 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	if !found {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.ContractId)
 	}
-	
+
 	//Checking the contract status
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in leased status to be renewed")
 	}
-	
+
 	// Check if the lessee org exists
 	if contract.LesseeOrg != 0 {
 		if !k.orgKeeper.HasOrg(ctx, contract.LesseeOrg) {
-			return nil, errorsmod.Wrapf(ErrInvalidOrgId, "Lessee org with ID %d not found", contract.LesseeOrg)
+			return nil, errorsmod.Wrapf(types.ErrInvalidOrgId, "Lessee org with ID %d not found", contract.LesseeOrg)
 		}
 	} else {
-		return nil, errorsmod.Wrap(ErrInvalidOrgId, "Contract doesn't have lessee org")
+		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "Contract doesn't have lessee org")
 	}
 
 	//Checking that the contract owner has Treasury account setup
 	ownerTreasury, found := k.orgKeeper.GetOrgTreasury(ctx, contract.OwnerOrg)
 	if !found {
-		return nil, errorsmod.Wrap(ErrOrgTreasuryNotFound, "owner org doesn't have treasury")
+		return nil, errorsmod.Wrap(types.ErrOrgTreasuryNotFound, "owner org doesn't have treasury")
 	}
 
 	// Verify creator is lessee org admin
 	if !k.orgKeeper.VerifyOrgAdmin(goCtx, contract.LesseeOrg, msg.Creator) {
-		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, contract.LesseeOrg)
+		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, contract.LesseeOrg)
 	}
 
 	//Checking that user has enough funds:
 	creator, _ := sdk.AccAddressFromBech32(msg.Creator)
 	userBalance := k.bankKeeper.SpendableCoins(ctx, creator)
 	if !userBalance.IsAllGTE(sdk.NewCoins(contract.Price)) {
-		return nil, errorsmod.Wrapf(ErrInsufficientFunds,
+		return nil, errorsmod.Wrapf(types.ErrInsufficientFunds,
 			"insufficient funds to renew: required %s, available %s",
 			contract.Price.String(), userBalance.String())
 	}
@@ -83,11 +83,11 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	payoutEscrowAmount := math.ZeroInt()
 
 	// Only retain funds if we haven't met the safety deposit target yet
-	if depositRetainedAmount.LT(depositTargetAmount)  {
+	if depositRetainedAmount.LT(depositTargetAmount) {
 
 		// Calculate how much more we need to reach the deposit target
 		depositRemainingAmount := depositTargetAmount.Sub(depositRetainedAmount)
-		
+
 		// Calculate retained amount of the renewal fee
 		retainerAmount := renewalFeeAmount.MulRaw(int64(retainer)).QuoRaw(100)
 
@@ -101,13 +101,12 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	// Convert amounts back to Coins for the payout
 	payoutOwner := sdk.NewCoins(sdk.NewCoin(contract.Price.Denom, payoutOwnerAmount))
 
-
 	//Collecting the retainer to module account
-	if payoutEscrowAmount != math.ZeroInt(){
+	if payoutEscrowAmount != math.ZeroInt() {
 		payoutEscrow := sdk.NewCoins(sdk.NewCoin(contract.Price.Denom, payoutEscrowAmount))
 		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, payoutEscrow); err != nil {
 			k.Logger().Error("failed to transfer funds to safety deposit", "error", err)
-			return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer funds to safety deposit: %s", err)
+			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to safety deposit: %s", err)
 		}
 		depositRetainedAmount = depositRetainedAmount.Add(payoutEscrowAmount)
 		contract.SafetyDepositRetained.Amount = depositRetainedAmount
@@ -116,10 +115,8 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	//Sending the payout to owner's treasury
 	if err := k.bankKeeper.SendCoins(ctx, creator, ownerTreasury, payoutOwner); err != nil {
 		k.Logger().Error("failed to send coins to escrow", "error", err)
-		return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
+		return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
-
-
 
 	//Updating the contract:
 	blockTime := ctx.BlockTime()
@@ -142,7 +139,6 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 			sdk.NewAttribute(types.ContractRenewedDepositRetained, contract.SafetyDepositRetained.Amount.String()),
 		),
 	)
-
 
 	return &types.MsgRenewContractResponse{}, nil
 }

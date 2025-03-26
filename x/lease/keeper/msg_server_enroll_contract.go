@@ -25,15 +25,15 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	// Check if the org id exists
 	if msg.LesseeOrg != 0 {
 		if !k.orgKeeper.HasOrg(ctx, msg.LesseeOrg) {
-			return nil, errorsmod.Wrapf(ErrInvalidOrgId, "org with ID %d not found", msg.LesseeOrg)
+			return nil, errorsmod.Wrapf(types.ErrInvalidOrgId, "org with ID %d not found", msg.LesseeOrg)
 		}
 	} else {
-		return nil, errorsmod.Wrap(ErrInvalidOrgId, "org ID not provided")
+		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "org ID not provided")
 	}
 
 	// Verify creator is org admin
 	if !k.orgKeeper.VerifyOrgAdmin(goCtx, msg.LesseeOrg, msg.Creator) {
-		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.LesseeOrg)
+		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.LesseeOrg)
 	}
 
 	//Getting the contract
@@ -51,14 +51,14 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	creator, _ := sdk.AccAddressFromBech32(msg.Creator)
 	userBalance := k.bankKeeper.SpendableCoins(ctx, creator)
 	if !userBalance.IsAllGTE(sdk.NewCoins(contract.Price)) {
-		return nil, errorsmod.Wrapf(ErrInsufficientFunds,
+		return nil, errorsmod.Wrapf(types.ErrInsufficientFunds,
 			"insufficient funds to enroll: required %s, available %s",
 			contract.Price.String(), userBalance.String())
 	}
 
 	if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, sdk.NewCoins(contract.Price)); err != nil {
 		k.Logger().Error("failed to send coins to escrow", "error", err)
-		return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
+		return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
 
 	//Updating the contract:

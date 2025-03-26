@@ -59,6 +59,11 @@ const (
 	ContractCanceledCreator    = "creator"
 	ContractCanceledContractId = "contract_id"
 )
+const (
+	ContractCancellationRevokedEventType  = "contract_cancellation_revoked"
+	ContractCancellationRevokedCreator    = "creator"
+	ContractCancellationRevokedContractId = "contract_id"
+)
 
 const (
 	ContractRevokedEventType             = "contract_revoked"
@@ -85,12 +90,12 @@ const (
 	ContractTerminatedByOwnerAt         = "terminated_at"
 )
 const (
-	ContractRenewedEventType 	  	= "contract_renewed"
-	ContractRenewedCreator        	= "creator"
-	ContractRenewedContractId     	= "contract_id"
-	ContractRenewedLesseeOrg      	= "lessee_org"
-	ContractRenewedPriceAmount    	= "price_amount"
-	ContractRenewedPriceDenom     	= "price_denom"
-	ContractRenewedPrepaidUntil   	= "prepaid_until"
-	ContractRenewedDepositRetained 	= "deposit_retained"
+	ContractRenewedEventType       = "contract_renewed"
+	ContractRenewedCreator         = "creator"
+	ContractRenewedContractId      = "contract_id"
+	ContractRenewedLesseeOrg       = "lessee_org"
+	ContractRenewedPriceAmount     = "price_amount"
+	ContractRenewedPriceDenom      = "price_denom"
+	ContractRenewedPrepaidUntil    = "prepaid_until"
+	ContractRenewedDepositRetained = "deposit_retained"
 )

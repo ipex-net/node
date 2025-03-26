@@ -44,7 +44,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	// Getting the lessee org admin
 	lesseeAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, contract.LesseeOrg)
 	if !found {
-		return nil, errorsmod.Wrapf(ErrOrgAdminNotFound, "admin for org %d not found", contract.LesseeOrg)
+		return nil, errorsmod.Wrapf(types.ErrOrgAdminNotFound, "admin for org %d not found", contract.LesseeOrg)
 	}
 
 	// Checking if there's safety deposit to refund and that revocationEffectiveAt is in future or is not set
@@ -58,7 +58,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 			lesseeAdmin, // Add the recipient address here
 			coins,
 		); err != nil {
-			return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer safety deposit to lessee org admin: %s", err)
+			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer safety deposit to lessee org admin: %s", err)
 		}
 
 	}

@@ -24,7 +24,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	// Add this check after verifying the subnet availability
 	if msg.SafetyDeposit.Denom != msg.Price.Denom {
 		return nil, errorsmod.Wrapf(
-			ErrInvalidDeposit,
+			types.ErrInvalidDeposit,
 			"safety deposit denom (%s) must match price denom (%s)",
 			msg.SafetyDeposit.Denom,
 			msg.Price.Denom,
@@ -33,7 +33,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 
 	if msg.SafetyDeposit.Amount.LT(msg.Price.Amount) {
 		return nil, errorsmod.Wrapf(
-			ErrInvalidDeposit,
+			types.ErrInvalidDeposit,
 			"safety deposit amount (%s) must be greater than or equal to price (%s)",
 			msg.SafetyDeposit.Amount.String(),
 			msg.Price.Amount.String(),
@@ -46,7 +46,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 
 	if msg.RevocationPeriod.Nanoseconds() < minimumRevocationPeriod.Nanoseconds() {
 		return nil, errorsmod.Wrapf(
-			ErrInvalidRevocationPeriod,
+			types.ErrInvalidRevocationPeriod,
 			"revocation period (%s) must be at least one month (%s)",
 			msg.RevocationPeriod.String(),
 			minimumRevocationPeriod.String(),
@@ -56,25 +56,25 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	// Check if the org id exists
 	if msg.OwnerOrg != 0 {
 		if !k.orgKeeper.HasOrg(ctx, msg.OwnerOrg) {
-			return nil, errorsmod.Wrapf(ErrInvalidOrgId, "org with ID %d not found", msg.OwnerOrg)
+			return nil, errorsmod.Wrapf(types.ErrInvalidOrgId, "org with ID %d not found", msg.OwnerOrg)
 		}
 	} else {
-		return nil, errorsmod.Wrap(ErrInvalidOrgId, "org ID not provided")
+		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "org ID not provided")
 	}
 
 	// Verify creator is org admin
 	if !k.orgKeeper.VerifyOrgAdmin(goCtx, msg.OwnerOrg, msg.Creator) {
-		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.OwnerOrg)
+		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.OwnerOrg)
 	}
 
 	// Verify creator if the admin of the owner of subnet
 	if !k.subnetKeeper.VerifySubnetOwner(goCtx, msg.SubnetId, msg.Creator) {
-		return nil, errorsmod.Wrapf(ErrNotSubnetOwnerAdmin, "address %s is not an admin of the owner org %d of the subnet", msg.Creator, msg.OwnerOrg)
+		return nil, errorsmod.Wrapf(types.ErrNotSubnetOwnerAdmin, "address %s is not an admin of the owner org %d of the subnet", msg.Creator, msg.OwnerOrg)
 	}
 
 	//Verify subnet is available
 	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
-		return nil, errorsmod.Wrap(ErrSubnetNotReady, "subnet is not ready for lease")
+		return nil, errorsmod.Wrap(types.ErrSubnetNotReady, "subnet is not ready for lease")
 	}
 	//Overriding the deposit to being equal to one month
 

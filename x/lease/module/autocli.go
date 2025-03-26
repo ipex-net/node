@@ -99,6 +99,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a renew-contract tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contractId"}},
 				},
+				{
+					RpcMethod:      "UndoCancelContract",
+					Use:            "undo-cancel-contract [id]",
+					Short:          "Send a undo-cancel-contract tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
