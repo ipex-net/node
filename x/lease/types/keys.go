@@ -78,9 +78,19 @@ const (
 	ContractSafetyDepositCollectedDenom  = "deposit_collected_denom"
 )
 const (
-	ContractTerminatedByOwnerEventType             = "contract_terminated_owner"
-	ContractTerminatedByOwnerCreator               = "creator"
-	ContractTerminatedByOwnerContractId            = "contract_id"
-	ContractTerminatedByOwnerType			   = "termination_type"
-	ContractTerminatedByOwnerAt 				   = "terminated_at"
+	ContractTerminatedByOwnerEventType  = "contract_terminated_owner"
+	ContractTerminatedByOwnerCreator    = "creator"
+	ContractTerminatedByOwnerContractId = "contract_id"
+	ContractTerminatedByOwnerType       = "termination_type"
+	ContractTerminatedByOwnerAt         = "terminated_at"
+)
+const (
+	ContractRenewedEventType 	  	= "contract_renewed"
+	ContractRenewedCreator        	= "creator"
+	ContractRenewedContractId     	= "contract_id"
+	ContractRenewedLesseeOrg      	= "lessee_org"
+	ContractRenewedPriceAmount    	= "price_amount"
+	ContractRenewedPriceDenom     	= "price_denom"
+	ContractRenewedPrepaidUntil   	= "prepaid_until"
+	ContractRenewedDepositRetained 	= "deposit_retained"
 )

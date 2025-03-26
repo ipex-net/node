@@ -37,5 +37,5 @@ type SubnetKeeper interface {
 	VerifySubnetOwner(ctx context.Context, subnetId uint64, user string) bool
 	CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint64) bool
 	SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64)
-	RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) 
+	RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64)
 }

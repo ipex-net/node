@@ -1,0 +1,148 @@
+package keeper
+
+import (
+	"context"
+	"strconv"
+	"time"
+
+	"ipex/x/lease/types"
+
+	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/math"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+)
+
+func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContract) (*types.MsgRenewContractResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	//How much of each renewal we want to retain until safety deposit is not met
+	const retainer int = 10
+
+	//NOTE: only org admin can renew for the contract. All refunds go to org admin as well.
+
+	//Checking if the address is correct
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	//Getting the contract
+	contract, found := k.GetContract(ctx, msg.ContractId)
+	if !found {
+		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.ContractId)
+	}
+	
+	//Checking the contract status
+	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in leased status to be renewed")
+	}
+	
+	// Check if the lessee org exists
+	if contract.LesseeOrg != 0 {
+		if !k.orgKeeper.HasOrg(ctx, contract.LesseeOrg) {
+			return nil, errorsmod.Wrapf(ErrInvalidOrgId, "Lessee org with ID %d not found", contract.LesseeOrg)
+		}
+	} else {
+		return nil, errorsmod.Wrap(ErrInvalidOrgId, "Contract doesn't have lessee org")
+	}
+
+	//Checking that the contract owner has Treasury account setup
+	ownerTreasury, found := k.orgKeeper.GetOrgTreasury(ctx, contract.OwnerOrg)
+	if !found {
+		return nil, errorsmod.Wrap(ErrOrgTreasuryNotFound, "owner org doesn't have treasury")
+	}
+
+	// Verify creator is lessee org admin
+	if !k.orgKeeper.VerifyOrgAdmin(goCtx, contract.LesseeOrg, msg.Creator) {
+		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, contract.LesseeOrg)
+	}
+
+	//Checking that user has enough funds:
+	creator, _ := sdk.AccAddressFromBech32(msg.Creator)
+	userBalance := k.bankKeeper.SpendableCoins(ctx, creator)
+	if !userBalance.IsAllGTE(sdk.NewCoins(contract.Price)) {
+		return nil, errorsmod.Wrapf(ErrInsufficientFunds,
+			"insufficient funds to renew: required %s, available %s",
+			contract.Price.String(), userBalance.String())
+	}
+
+	//Calculating the amounts to retain and to send to owner
+	depositTargetAmount := contract.SafetyDeposit.Amount
+
+	var depositRetainedAmount math.Int
+
+	if contract.SafetyDepositRetained != nil {
+		depositRetainedAmount = contract.SafetyDepositRetained.Amount
+	} else {
+		depositRetainedAmount = math.ZeroInt()
+	}
+
+	//By default we want to pay everything to owner
+	renewalFeeAmount := contract.Price.Amount
+	payoutOwnerAmount := renewalFeeAmount
+	payoutEscrowAmount := math.ZeroInt()
+
+	// Only retain funds if we haven't met the safety deposit target yet
+	if depositRetainedAmount.LT(depositTargetAmount)  {
+
+		// Calculate how much more we need to reach the deposit target
+		depositRemainingAmount := depositTargetAmount.Sub(depositRetainedAmount)
+		
+		// Calculate retained amount of the renewal fee
+		retainerAmount := renewalFeeAmount.MulRaw(int64(retainer)).QuoRaw(100)
+
+		// Determine the amount to add to escrow (min of what's remaining to collect and retainer amount)
+		payoutEscrowAmount = math.MinInt(depositRemainingAmount, retainerAmount)
+
+		// Subtract the escrow amount from owner payout
+		payoutOwnerAmount = renewalFeeAmount.Sub(payoutEscrowAmount)
+	}
+
+	// Convert amounts back to Coins for the payout
+	payoutOwner := sdk.NewCoins(sdk.NewCoin(contract.Price.Denom, payoutOwnerAmount))
+
+
+	//Collecting the retainer to module account
+	if payoutEscrowAmount != math.ZeroInt(){
+		payoutEscrow := sdk.NewCoins(sdk.NewCoin(contract.Price.Denom, payoutEscrowAmount))
+		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, payoutEscrow); err != nil {
+			k.Logger().Error("failed to transfer funds to safety deposit", "error", err)
+			return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer funds to safety deposit: %s", err)
+		}
+		depositRetainedAmount = depositRetainedAmount.Add(payoutEscrowAmount)
+		contract.SafetyDepositRetained.Amount = depositRetainedAmount
+	}
+
+	//Sending the payout to owner's treasury
+	if err := k.bankKeeper.SendCoins(ctx, creator, ownerTreasury, payoutOwner); err != nil {
+		k.Logger().Error("failed to send coins to escrow", "error", err)
+		return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
+	}
+
+
+
+	//Updating the contract:
+	blockTime := ctx.BlockTime()
+	prepaidUntil := contract.PrepaidUntil.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
+	contract.UpdatedAt = blockTime
+	contract.PrepaidUntil = &prepaidUntil
+	// Store updated contract
+	k.SetContract(ctx, contract)
+
+	// Emit renewal event
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(
+			types.ContractRenewedEventType,
+			sdk.NewAttribute(types.ContractRenewedCreator, msg.Creator),
+			sdk.NewAttribute(types.ContractRenewedContractId, strconv.FormatUint(msg.ContractId, 10)),
+			sdk.NewAttribute(types.ContractRenewedLesseeOrg, strconv.FormatUint(contract.LesseeOrg, 10)),
+			sdk.NewAttribute(types.ContractRenewedPriceAmount, contract.Price.Amount.String()),
+			sdk.NewAttribute(types.ContractRenewedPriceDenom, contract.Price.Denom),
+			sdk.NewAttribute(types.ContractRenewedPrepaidUntil, prepaidUntil.Format(time.RFC3339)),
+			sdk.NewAttribute(types.ContractRenewedDepositRetained, contract.SafetyDepositRetained.Amount.String()),
+		),
+	)
+
+
+	return &types.MsgRenewContractResponse{}, nil
+}

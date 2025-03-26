@@ -20,4 +20,5 @@ var (
 	ErrInvalidRevocationPeriod = sdkerrors.Register(ModuleName, 1217, "invalid revocation period")
 	ErrInvalidCurrency         = sdkerrors.Register(ModuleName, 1218, "invalid currency denomination")
 	ErrOrgAdminNotFound        = sdkerrors.Register(ModuleName, 1219, "organization admin not found")
+	ErrOrgTreasuryNotFound        = sdkerrors.Register(ModuleName, 1220, "organization treasury not found")
 )

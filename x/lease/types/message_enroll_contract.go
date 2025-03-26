@@ -10,9 +10,9 @@ var _ sdk.Msg = &MsgEnrollContract{}
 
 func NewMsgEnrollContract(creator string, contractId uint64, lesseeOrg uint64) *MsgEnrollContract {
 	return &MsgEnrollContract{
-		Creator:   creator,
-		ContractId:  contractId,
-		LesseeOrg: lesseeOrg,
+		Creator:    creator,
+		ContractId: contractId,
+		LesseeOrg:  lesseeOrg,
 	}
 }
 

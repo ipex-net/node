@@ -29,6 +29,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgTerminateContract{},
 	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgRenewContract{},
+	)
 	// this line is used by starport scaffolding # 3
 
 	registry.RegisterImplementations((*sdk.Msg)(nil),

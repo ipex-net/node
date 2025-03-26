@@ -27,6 +27,7 @@ const (
 	Msg_RevokeContract_FullMethodName    = "/ipex.lease.Msg/RevokeContract"
 	Msg_EnrollContract_FullMethodName    = "/ipex.lease.Msg/EnrollContract"
 	Msg_TerminateContract_FullMethodName = "/ipex.lease.Msg/TerminateContract"
+	Msg_RenewContract_FullMethodName     = "/ipex.lease.Msg/RenewContract"
 )
 
 // MsgClient is the client API for Msg service.
@@ -43,6 +44,7 @@ type MsgClient interface {
 	RevokeContract(ctx context.Context, in *MsgRevokeContract, opts ...grpc.CallOption) (*MsgRevokeContractResponse, error)
 	EnrollContract(ctx context.Context, in *MsgEnrollContract, opts ...grpc.CallOption) (*MsgEnrollContractResponse, error)
 	TerminateContract(ctx context.Context, in *MsgTerminateContract, opts ...grpc.CallOption) (*MsgTerminateContractResponse, error)
+	RenewContract(ctx context.Context, in *MsgRenewContract, opts ...grpc.CallOption) (*MsgRenewContractResponse, error)
 }
 
 type msgClient struct {
@@ -125,6 +127,15 @@ func (c *msgClient) TerminateContract(ctx context.Context, in *MsgTerminateContr
 	return out, nil
 }
 
+func (c *msgClient) RenewContract(ctx context.Context, in *MsgRenewContract, opts ...grpc.CallOption) (*MsgRenewContractResponse, error) {
+	out := new(MsgRenewContractResponse)
+	err := c.cc.Invoke(ctx, Msg_RenewContract_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -139,6 +150,7 @@ type MsgServer interface {
 	RevokeContract(context.Context, *MsgRevokeContract) (*MsgRevokeContractResponse, error)
 	EnrollContract(context.Context, *MsgEnrollContract) (*MsgEnrollContractResponse, error)
 	TerminateContract(context.Context, *MsgTerminateContract) (*MsgTerminateContractResponse, error)
+	RenewContract(context.Context, *MsgRenewContract) (*MsgRenewContractResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -169,6 +181,9 @@ func (UnimplementedMsgServer) EnrollContract(context.Context, *MsgEnrollContract
 }
 func (UnimplementedMsgServer) TerminateContract(context.Context, *MsgTerminateContract) (*MsgTerminateContractResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TerminateContract not implemented")
+}
+func (UnimplementedMsgServer) RenewContract(context.Context, *MsgRenewContract) (*MsgRenewContractResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RenewContract not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -327,6 +342,24 @@ func _Msg_TerminateContract_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_RenewContract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgRenewContract)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).RenewContract(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_RenewContract_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).RenewContract(ctx, req.(*MsgRenewContract))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -365,6 +398,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TerminateContract",
 			Handler:    _Msg_TerminateContract_Handler,
+		},
+		{
+			MethodName: "RenewContract",
+			Handler:    _Msg_RenewContract_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

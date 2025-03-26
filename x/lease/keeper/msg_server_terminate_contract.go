@@ -30,9 +30,9 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 
 	// Checking the contract status
 	// Even if the contract was cancelled, premature termination will lead to safety deposit transfer to lessee
-	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED && 
-	contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE && 
-	contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER {
+	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED &&
+		contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE &&
+		contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER {
 		return nil, errorsmod.Wrapf(types.ErrInvalidContractStatus, "can not terminate contract in %s state", contract.Status)
 	}
 
@@ -49,18 +49,18 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 
 	// Checking if there's safety deposit to refund and that revocationEffectiveAt is in future or is not set
 	// If revocation date already passed the contract will be terminated automatically in endblocker func, not here
-	if contract.SafetyDepositRetained != nil && (contract.RevocationEffectiveAt == nil || contract.RevocationEffectiveAt.After(ctx.BlockTime()))  {
+	if contract.SafetyDepositRetained != nil && (contract.RevocationEffectiveAt == nil || contract.RevocationEffectiveAt.After(ctx.BlockTime())) {
 		coins := sdk.NewCoins(*contract.SafetyDepositRetained)
 
 		if err := k.bankKeeper.SendCoinsFromModuleToAccount(
-			ctx, 
-			types.ModuleAccountName, 
+			ctx,
+			types.ModuleAccountName,
 			lesseeAdmin, // Add the recipient address here
 			coins,
 		); err != nil {
 			return nil, errorsmod.Wrapf(ErrFundTransfer, "failed to transfer safety deposit to lessee org admin: %s", err)
 		}
-	
+
 	}
 
 	//Updating the contract

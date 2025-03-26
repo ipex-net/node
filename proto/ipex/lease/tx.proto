@@ -28,6 +28,7 @@ service Msg {
   rpc RevokeContract    (MsgRevokeContract   ) returns (MsgRevokeContractResponse   );
   rpc EnrollContract    (MsgEnrollContract   ) returns (MsgEnrollContractResponse   );
   rpc TerminateContract (MsgTerminateContract) returns (MsgTerminateContractResponse);
+  rpc RenewContract     (MsgRenewContract    ) returns (MsgRenewContractResponse    );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -96,9 +97,9 @@ message MsgRevokeContractResponse {}
 
 message MsgEnrollContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator   = 1;
-  uint64 contractId  = 2;
-  uint64 lesseeOrg = 3;
+  string creator    = 1;
+  uint64 contractId = 2;
+  uint64 lesseeOrg  = 3;
 }
 
 message MsgEnrollContractResponse {}
@@ -110,4 +111,12 @@ message MsgTerminateContract {
 }
 
 message MsgTerminateContractResponse {}
+
+message MsgRenewContract {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator    = 1;
+  uint64 contractId = 2;
+}
+
+message MsgRenewContractResponse {}
 
