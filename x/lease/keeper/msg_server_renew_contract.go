@@ -34,7 +34,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 
 	//Checking the contract status
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER{
-		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in leased status to be renewed")
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in leased or cancele by owner status to be renewed")
 	}
 
 	//Only allow renewal if the PrepaidUntil date is withtin 1 month

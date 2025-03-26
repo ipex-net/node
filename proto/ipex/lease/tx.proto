@@ -55,7 +55,7 @@ message MsgCreateContract {
   uint64                   ownerOrg         = 2;
   cosmos.base.v1beta1.Coin price            = 3 [(gogoproto.nullable)    = false                 ] ;
   cosmos.base.v1beta1.Coin safetyDeposit    = 4 [(gogoproto.nullable)    = false                 ] ;
-  google.protobuf.Duration revocationPeriod = 5 [(gogoproto.stdduration) = true                  , (gogoproto.nullable) = false];
+  uint64                   revocationPeriodMonth = 5;
   uint64                   subnetId         = 6;
 }
 

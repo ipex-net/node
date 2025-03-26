@@ -1,8 +1,6 @@
 package types
 
 import (
-	"time"
-
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -10,13 +8,13 @@ import (
 
 var _ sdk.Msg = &MsgCreateContract{}
 
-func NewMsgCreateContract(creator string, ownerOrg uint64, price sdk.Coin, safetyDeposit sdk.Coin, revocationPeriod time.Duration, subnetId uint64) *MsgCreateContract {
+func NewMsgCreateContract(creator string, ownerOrg uint64, price sdk.Coin, safetyDeposit sdk.Coin, revocationPeriodMonth uint64, subnetId uint64) *MsgCreateContract {
 	return &MsgCreateContract{
 		Creator:          creator,
 		OwnerOrg:         ownerOrg,
 		Price:            price,
 		SafetyDeposit:    safetyDeposit,
-		RevocationPeriod: revocationPeriod,
+		RevocationPeriodMonth: revocationPeriodMonth,
 		SubnetId:         subnetId,
 	}
 }

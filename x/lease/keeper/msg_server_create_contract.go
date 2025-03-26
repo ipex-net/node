@@ -3,7 +3,6 @@ package keeper
 import (
 	"context"
 	"strconv"
-	"time"
 
 	"ipex/x/lease/types"
 
@@ -42,14 +41,14 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 
 	// Add this check alongside your other validations
 	// Define the minimum duration (one month)
-	minimumRevocationPeriod := time.Hour * 24 * 30 // 30 days as a month approximation
+	minimumRevocationPeriod := uint64(1)
 
-	if msg.RevocationPeriod.Nanoseconds() < minimumRevocationPeriod.Nanoseconds() {
+	if msg.RevocationPeriodMonth < minimumRevocationPeriod {
 		return nil, errorsmod.Wrapf(
 			types.ErrInvalidRevocationPeriod,
-			"revocation period (%s) must be at least one month (%s)",
-			msg.RevocationPeriod.String(),
-			minimumRevocationPeriod.String(),
+			"revocation period (%s) must be at least (%s) month(s) ",
+			msg.RevocationPeriodMonth,
+			minimumRevocationPeriod,
 		)
 	}
 
@@ -84,7 +83,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		LesseeOrg:             0,
 		Price:                 msg.Price,
 		SafetyDeposit:         msg.SafetyDeposit,
-		RevocationPeriod:      msg.RevocationPeriod,
+		RevocationPeriodMonth: msg.RevocationPeriodMonth,
 		RevocationEffectiveAt: nil,
 		Status:                types.ContractStatus_CONTRACT_STATUS_FORSALE,
 		CreatedAt:             ctx.BlockTime(),
@@ -105,9 +104,10 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 			sdk.NewAttribute(types.ContractCreatedEventPriceDenom, msg.Price.Denom),
 			sdk.NewAttribute(types.ContractCreatedEventDepositAmount, msg.SafetyDeposit.Amount.String()),
 			sdk.NewAttribute(types.ContractCreatedEventDepositDenom, msg.SafetyDeposit.Denom),
-			sdk.NewAttribute(types.ContractCreatedEventRevocationPeriodDuration, msg.RevocationPeriod.String()),
+			sdk.NewAttribute(types.ContractCreatedEventRevocationPeriodDuration, strconv.FormatUint(msg.RevocationPeriodMonth, 10)),
 		),
 	)
+	
 
 	return &types.MsgCreateContractResponse{
 		Id: id,
