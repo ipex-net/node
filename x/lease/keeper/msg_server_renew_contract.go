@@ -33,8 +33,8 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	}
 
 	//Checking the contract status
-	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER{
-		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in leased or cancele by owner status to be renewed")
+	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER && contract.Status != types.ContractStatus_CONTRACT_STATUS_EXPIRED{
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in leased, canceled by owner or expired status to be renewed")
 	}
 
 	//Only allow renewal if the PrepaidUntil date is withtin 1 month
@@ -42,7 +42,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 		return nil, errorsmod.Wrapf(types.ErrRenewalDateTooDistant, "contract renewal date %s is too far in the future", contract.PrepaidUntil)
 	}
 
-	//Checking that if we renew the contract we won't go beyound the revocation date
+	//Checking that if we renew the contract we won't go beyond the revocation date
 	if contract.PrepaidUntil.AddDate(0,1,0).After(*contract.RevocationEffectiveAt) {
 	 		return nil, errorsmod.Wrap(types.ErrRenewalBeyondRevocationDate, "renewal period extends beyond contract revocation effective date")
  	}
@@ -132,6 +132,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	//Updating the contract:
 	blockTime := ctx.BlockTime()
 	prepaidUntil := contract.PrepaidUntil.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
+	//If the contract was in expired state we set it back to active
 	contract.UpdatedAt = blockTime
 	contract.PrepaidUntil = &prepaidUntil
 	// Store updated contract

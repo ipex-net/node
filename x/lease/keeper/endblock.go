@@ -10,7 +10,7 @@ import (
 )
 
 // ExecuteLeaseEndBlock performs lease-related operations at the end of each block
-func (k Keeper) TerminateCancelledContracts(goCtx context.Context) {
+func (k Keeper) TerminateContractsCancelledByLessee(goCtx context.Context) {
 	ctx := sdk.UnwrapSDKContext(goCtx) // Important step to unwrap SDK context
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
@@ -65,6 +65,23 @@ func (k Keeper) TerminateCancelledContracts(goCtx context.Context) {
 		k.logger.Info("contract cancelled by lessee terminated on expiration",
 		"contract_id", contract.Id,
 		)
+	}
+}
+
+func (k Keeper) ExpireUnpaidContracts(goCtx context.Context) {
+	ctx := sdk.UnwrapSDKContext(goCtx) // Important step to unwrap SDK context
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
+	iterator := store.Iterator(nil, nil)
+	defer iterator.Close()
+	for ; iterator.Valid(); iterator.Next() {
+		var contract types.Contract
+		k.cdc.MustUnmarshal(iterator.Value(), &contract)
+		if contract.Status == types.ContractStatus_CONTRACT_STATUS_LEASED && contract.PrepaidUntil.After(ctx.BlockTime()) {
+			contract.Status = types.ContractStatus_CONTRACT_STATUS_EXPIRED
+			contract.UpdatedAt = ctx.BlockTime()
+			k.SetContract(ctx, contract)
+		}
 		
 	}
 }
