@@ -36,5 +36,4 @@ message Contract {
   google.protobuf.Timestamp prepaidUntil = 13 [(gogoproto.stdtime) = true]; 
   google.protobuf.Timestamp updatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
   google.protobuf.Timestamp terminatedAt = 15 [(gogoproto.stdtime) = true]; 
-  cosmos.base.v1beta1.Coin fundsCollected = 16; 
 }

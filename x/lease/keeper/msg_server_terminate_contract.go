@@ -60,7 +60,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		); err != nil {
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer safety deposit to lessee org admin: %s", err)
 		}
-
+		contract.SafetyDepositRetained = nil
 	}
 
 	//Updating the contract
@@ -80,6 +80,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		statuslog = "terminated_without_notice"
 	}
 	contract.UpdatedAt = blockTime
+	contract.TerminatedAt = &blockTime
 	k.SetContract(ctx, contract)
 
 	//Removing the user from the subnet
