@@ -28,6 +28,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Shows a transaction by id",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
+				{
+					RpcMethod:      "ListContractPayment",
+					Use:            "list-contract-payment [id]",
+					Short:          "Query list-contract-payment",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

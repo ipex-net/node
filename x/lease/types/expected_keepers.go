@@ -55,4 +55,3 @@ type PaymentsKeeper interface {
 		toAddress string,
 	) uint64
 }
-

@@ -113,35 +113,35 @@ func GetTransactionIDBytes(id uint64) []byte {
 }
 
 func (k Keeper) RecordTransaction(
-    goCtx context.Context,
-    transactionType types.TransactionType,
-    relatedModuleId types.ModuleID,
-    entityId uint64,
-    amount sdk.Coin,
-    fromOrgId uint64,
-    toOrgId uint64,
-    fromAddress string,
-    toAddress string,
+	goCtx context.Context,
+	transactionType types.TransactionType,
+	relatedModuleId types.ModuleID,
+	entityId uint64,
+	amount sdk.Coin,
+	fromOrgId uint64,
+	toOrgId uint64,
+	fromAddress string,
+	toAddress string,
 ) uint64 {
-    // Unwrap the SDK context for methods that require it
-    ctx := sdk.UnwrapSDKContext(goCtx)
-    blockTime := ctx.BlockTime()
-    // Create the transaction
-    transaction := types.Transaction{
-        TransactionType: transactionType,
-        RelatedModuleId: relatedModuleId,
-        EntityId:        entityId,
-        Amount:          amount,
-        FromOrgId:       fromOrgId,
-        ToOrgId:         toOrgId,
-        FromAddress:     fromAddress,
-        ToAddress:       toAddress,
-        Timestamp:       &blockTime,
-		BlockHeight: 	 ctx.BlockHeight(),
-    }
-    
-	//Append the transaction
-    id :=k.AppendTransaction(ctx, transaction)
+	// Unwrap the SDK context for methods that require it
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	blockTime := ctx.BlockTime()
+	// Create the transaction
+	transaction := types.Transaction{
+		TransactionType: transactionType,
+		RelatedModuleId: relatedModuleId,
+		EntityId:        entityId,
+		Amount:          amount,
+		FromOrgId:       fromOrgId,
+		ToOrgId:         toOrgId,
+		FromAddress:     fromAddress,
+		ToAddress:       toAddress,
+		Timestamp:       &blockTime,
+		BlockHeight:     ctx.BlockHeight(),
+	}
 
-    return id
+	//Append the transaction
+	id := k.AppendTransaction(ctx, transaction)
+
+	return id
 }

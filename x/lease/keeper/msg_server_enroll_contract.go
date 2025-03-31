@@ -64,9 +64,17 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
 	// Saving payment
-	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "")
-
-
+	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "module:lease")
+	k.Logger().Info("Recording transaction", 
+    "type", paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT.String(),
+    "moduleId", paymentstypes.ModuleID_MODULE_ID_LEASE.String(),
+    "entityId", msg.ContractId,
+    "amount", contract.Price.String(),
+    "fromOrgId", msg.LesseeOrg,
+    "toOrgId", contract.OwnerOrg,
+    "fromAddress", msg.Creator,
+    "toAddress", "module:lease",
+	)
 	//Updating the contract:
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
 	contract.LesseeOrg = msg.LesseeOrg
