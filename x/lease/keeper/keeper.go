@@ -25,6 +25,7 @@ type (
 		bankKeeper    types.BankKeeper
 		orgKeeper     types.OrgKeeper
 		subnetKeeper  types.SubnetKeeper
+		paymentsKeeper types.PaymentsKeeper
 	}
 )
 

@@ -3,6 +3,8 @@ package types
 import (
 	"context"
 
+	paymentstypes "ipex/x/payments/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -39,3 +41,18 @@ type SubnetKeeper interface {
 	SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64)
 	RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64)
 }
+
+type PaymentsKeeper interface {
+	RecordTransaction(
+		ctx context.Context,
+		transactionType paymentstypes.TransactionType,
+		relatedModuleId paymentstypes.ModuleID,
+		entityId uint64,
+		amount sdk.Coin,
+		fromOrgId uint64,
+		toOrgId uint64,
+		fromAddress string,
+		toAddress string,
+	) uint64
+}
+

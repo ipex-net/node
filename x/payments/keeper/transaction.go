@@ -3,7 +3,6 @@ package keeper
 import (
 	"context"
 	"encoding/binary"
-	"fmt"
 
 	"ipex/x/payments/types"
 
@@ -123,8 +122,6 @@ func (k Keeper) RecordTransaction(
     toOrgId uint64,
     fromAddress string,
     toAddress string,
-    referenceId uint64,
-    memo string,
 ) uint64 {
     // Unwrap the SDK context for methods that require it
     ctx := sdk.UnwrapSDKContext(goCtx)
@@ -139,8 +136,6 @@ func (k Keeper) RecordTransaction(
         ToOrgId:         toOrgId,
         FromAddress:     fromAddress,
         ToAddress:       toAddress,
-        ReferenceId:     referenceId,
-        Memo:            memo,
         Timestamp:       &blockTime,
 		BlockHeight: 	 ctx.BlockHeight(),
     }
@@ -148,22 +143,5 @@ func (k Keeper) RecordTransaction(
 	//Append the transaction
     id :=k.AppendTransaction(ctx, transaction)
 
-    // Emit event with all relevant transaction details
-    ctx.EventManager().EmitEvent(
-        sdk.NewEvent(
-            types.EventTypeTransactionRecorded,
-            sdk.NewAttribute(types.AttributeKeyTransactionID, fmt.Sprintf("%d", id)),
-            sdk.NewAttribute(types.AttributeKeyTransactionType, transaction.TransactionType.String()),
-            sdk.NewAttribute(types.AttributeKeyModuleID, transaction.RelatedModuleId.String()),
-            sdk.NewAttribute(types.AttributeKeyEntityID, fmt.Sprintf("%d", transaction.EntityId)),
-            sdk.NewAttribute(types.AttributeKeyAmount, transaction.Amount.String()),
-            sdk.NewAttribute(types.AttributeKeyFromOrgID, fmt.Sprintf("%d", transaction.FromOrgId)),
-            sdk.NewAttribute(types.AttributeKeyToOrgID, fmt.Sprintf("%d", transaction.ToOrgId)),
-            sdk.NewAttribute(types.AttributeKeyFromAddress, transaction.FromAddress),
-            sdk.NewAttribute(types.AttributeKeyToAddress, transaction.ToAddress),
-            sdk.NewAttribute(types.AttributeKeyBlockHeight, fmt.Sprintf("%d", transaction.BlockHeight)),
-            sdk.NewAttribute(types.AttributeKeyReferenceID, fmt.Sprintf("%d", transaction.ReferenceId)),
-        ),
-    )
     return id
 }

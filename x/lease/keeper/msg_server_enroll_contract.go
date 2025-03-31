@@ -6,6 +6,8 @@ import (
 
 	"ipex/x/lease/types"
 
+	paymentstypes "ipex/x/payments/types"
+
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -56,10 +58,14 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			contract.Price.String(), userBalance.String())
 	}
 
+	// Performing transaction
 	if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, sdk.NewCoins(contract.Price)); err != nil {
 		k.Logger().Error("failed to send coins to escrow", "error", err)
 		return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
+	// Saving payment
+	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "")
+
 
 	//Updating the contract:
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED

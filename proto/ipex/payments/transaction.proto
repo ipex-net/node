@@ -10,11 +10,10 @@ enum TransactionType {
   TRANSACTION_TYPE_UNSPECIFIED = 0;
   TRANSACTION_TYPE_LEASE_PAYMENT = 1;
   TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT = 2;
-  TRANSACTION_TYPE_SAFETY_DEPOSIT_RETAIN = 3;
-  TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND = 4;
-  TRANSACTION_TYPE_REFUND = 5;
-  TRANSACTION_TYPE_SUBNET_SALE = 6;
-  TRANSACTION_TYPE_ASN_SALE = 7;
+  TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND = 3;
+  TRANSACTION_TYPE_REFUND = 4;
+  TRANSACTION_TYPE_SUBNET_SALE = 5;
+  TRANSACTION_TYPE_ASN_SALE = 6;
 }
 
 enum ModuleID {
@@ -34,8 +33,6 @@ message Transaction {
   uint64 toOrgId = 7; 
   string fromAddress = 8; 
   string toAddress = 9; 
-  uint64 referenceId = 10; 
-  string memo = 11; 
-  int64 blockHeight = 12; 
-  google.protobuf.Timestamp timestamp = 13 [(gogoproto.stdtime) = true]; 
+  int64 blockHeight = 10; 
+  google.protobuf.Timestamp timestamp = 11 [(gogoproto.stdtime) = true]; 
 }
