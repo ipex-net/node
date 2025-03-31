@@ -107,7 +107,6 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 			sdk.NewAttribute(types.ContractCreatedEventRevocationPeriodDuration, strconv.FormatUint(msg.RevocationPeriodMonth, 10)),
 		),
 	)
-	
 
 	return &types.MsgCreateContractResponse{
 		Id: id,

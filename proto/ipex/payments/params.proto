@@ -1,0 +1,15 @@
+syntax = "proto3";
+package ipex.payments;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "ipex/x/payments/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "ipex/x/payments/Params";
+  option (gogoproto.equal) = true;
+
+  
+}

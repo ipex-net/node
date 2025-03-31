@@ -33,7 +33,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	}
 
 	//Checking the contract status
-	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER && contract.Status != types.ContractStatus_CONTRACT_STATUS_EXPIRED{
+	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER && contract.Status != types.ContractStatus_CONTRACT_STATUS_EXPIRED {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in leased, canceled by owner or expired status to be renewed")
 	}
 
@@ -43,10 +43,9 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	}
 
 	//Checking that if we renew the contract we won't go beyond the revocation date
-	if contract.PrepaidUntil.AddDate(0,1,0).After(*contract.RevocationEffectiveAt) {
-	 		return nil, errorsmod.Wrap(types.ErrRenewalBeyondRevocationDate, "renewal period extends beyond contract revocation effective date")
- 	}
-	
+	if contract.PrepaidUntil.AddDate(0, 1, 0).After(*contract.RevocationEffectiveAt) {
+		return nil, errorsmod.Wrap(types.ErrRenewalBeyondRevocationDate, "renewal period extends beyond contract revocation effective date")
+	}
 
 	// Check if the lessee org exists
 	if contract.LesseeOrg != 0 {

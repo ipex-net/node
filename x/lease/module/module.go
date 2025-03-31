@@ -152,8 +152,8 @@ func (am AppModule) BeginBlock(_ context.Context) error {
 // EndBlock contains the logic that is automatically triggered at the end of each block.
 // The end block implementation is optional.
 func (am AppModule) EndBlock(ctx context.Context) error {
-    am.keeper.ProcessExpiredContracts(ctx)
-    return nil
+	am.keeper.ProcessExpiredContracts(ctx)
+	return nil
 }
 
 // IsOnePerModuleType implements the depinject.OnePerModuleType interface.

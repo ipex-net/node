@@ -78,7 +78,9 @@ import (
 	leasemodulekeeper "ipex/x/lease/keeper"
 	orgmodulekeeper "ipex/x/org/keeper"
 
+	paymentsmodulekeeper "ipex/x/payments/keeper"
 	subnetmodulekeeper "ipex/x/subnet/keeper"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"ipex/docs"
@@ -144,9 +146,10 @@ type App struct {
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
 	ScopedKeepers             map[string]capabilitykeeper.ScopedKeeper
 
-	LeaseKeeper  leasemodulekeeper.Keeper
-	OrgKeeper    orgmodulekeeper.Keeper
-	SubnetKeeper subnetmodulekeeper.Keeper
+	LeaseKeeper    leasemodulekeeper.Keeper
+	OrgKeeper      orgmodulekeeper.Keeper
+	SubnetKeeper   subnetmodulekeeper.Keeper
+	PaymentsKeeper paymentsmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -253,6 +256,7 @@ func New(
 		&app.LeaseKeeper,
 		&app.OrgKeeper,
 		&app.SubnetKeeper,
+		&app.PaymentsKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)

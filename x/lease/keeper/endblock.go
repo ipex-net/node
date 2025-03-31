@@ -26,33 +26,33 @@ func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 		// contract was cancelled and prepaid period has passed
 		// contract expired and grace period has passed
 		//
-		if ((contract.Status==types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE || contract.Status==types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER) && contract.PrepaidUntil.Before(ctx.BlockTime())) ||
-		(contract.Status == types.ContractStatus_CONTRACT_STATUS_EXPIRED && contract.PrepaidUntil.AddDate(0, 0, gracePeriodDays).Before(ctx.BlockTime())){
+		if ((contract.Status == types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE || contract.Status == types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER) && contract.PrepaidUntil.Before(ctx.BlockTime())) ||
+			(contract.Status == types.ContractStatus_CONTRACT_STATUS_EXPIRED && contract.PrepaidUntil.AddDate(0, 0, gracePeriodDays).Before(ctx.BlockTime())) {
 			//releasing the Safetydeposit if any
 			if contract.SafetyDepositRetained != nil {
 				coins := sdk.NewCoins(*contract.SafetyDepositRetained)
 				//Getting the treasury
 				refundAddress, found := k.orgKeeper.GetOrgTreasury(ctx, contract.OwnerOrg)
-				
+
 				//Failing over to orgAdmin if not found
 				if !found {
 					refundAddress, found = k.orgKeeper.GetOrgAdmin(ctx, contract.OwnerOrg)
 				}
 				if !found {
 					k.logger.Error("can't locate treasury or admin address to process refund on contract termination",
-					"contract_id", contract.Id,
-					"refund_amount", contract.SafetyDepositRetained,)
+						"contract_id", contract.Id,
+						"refund_amount", contract.SafetyDepositRetained)
 					continue
 				}
 				if err := k.bankKeeper.SendCoinsFromModuleToAccount(
 					ctx,
 					types.ModuleAccountName,
-					refundAddress, 
+					refundAddress,
 					coins,
 				); err != nil {
 					k.logger.Error("can't process refund on contract termination",
-					"contract_id", contract.Id,
-					"refund_amount", contract.SafetyDepositRetained,)
+						"contract_id", contract.Id,
+						"refund_amount", contract.SafetyDepositRetained)
 					continue
 				}
 				//Ressetting safety deposit
@@ -67,7 +67,7 @@ func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 			contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED
 			k.SetContract(ctx, contract)
 			k.logger.Info("Contract terminated",
-			"contract_id", contract.Id,
+				"contract_id", contract.Id,
 			)
 		}
 		// If contract is in grace period we just change the status to expired
@@ -76,7 +76,7 @@ func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 			contract.UpdatedAt = ctx.BlockTime()
 			k.SetContract(ctx, contract)
 			k.logger.Info("contract expired",
-			"contract_id", contract.Id,
+				"contract_id", contract.Id,
 			)
 		}
 	}

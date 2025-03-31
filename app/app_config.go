@@ -15,6 +15,10 @@ import (
 	_ "ipex/x/subnet/module" // import for side-effects
 	subnetmoduletypes "ipex/x/subnet/types"
 
+	paymentsmodulev1 "ipex/api/ipex/payments/module"
+	_ "ipex/x/payments/module" // import for side-effects
+	paymentsmoduletypes "ipex/x/payments/types"
+
 	runtimev1alpha1 "cosmossdk.io/api/cosmos/app/runtime/v1alpha1"
 	appv1alpha1 "cosmossdk.io/api/cosmos/app/v1alpha1"
 	authmodulev1 "cosmossdk.io/api/cosmos/auth/module/v1"
@@ -104,6 +108,7 @@ var (
 		leasemoduletypes.ModuleName,
 		orgmoduletypes.ModuleName,
 		subnetmoduletypes.ModuleName,
+		paymentsmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -131,6 +136,7 @@ var (
 		leasemoduletypes.ModuleName,
 		orgmoduletypes.ModuleName,
 		subnetmoduletypes.ModuleName,
+		paymentsmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -152,6 +158,7 @@ var (
 		leasemoduletypes.ModuleName,
 		orgmoduletypes.ModuleName,
 		subnetmoduletypes.ModuleName,
+		paymentsmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -319,6 +326,10 @@ var (
 			{
 				Name:   subnetmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&subnetmodulev1.Module{}),
+			},
+			{
+				Name:   paymentsmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&paymentsmodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
