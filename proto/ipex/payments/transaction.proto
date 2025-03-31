@@ -1,0 +1,41 @@
+syntax = "proto3";
+package ipex.payments;
+
+option go_package = "ipex/x/payments/types";
+import "gogoproto/gogo.proto"; 
+import "cosmos/base/v1beta1/coin.proto"; 
+import "google/protobuf/timestamp.proto";
+
+enum TransactionType {
+  TRANSACTION_TYPE_UNSPECIFIED = 0;
+  TRANSACTION_TYPE_LEASE_PAYMENT = 1;
+  TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT = 2;
+  TRANSACTION_TYPE_SAFETY_DEPOSIT_RETAIN = 3;
+  TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND = 4;
+  TRANSACTION_TYPE_REFUND = 5;
+  TRANSACTION_TYPE_SUBNET_SALE = 6;
+  TRANSACTION_TYPE_ASN_SALE = 7;
+}
+
+enum ModuleID {
+  MODULE_ID_UNSPECIFIED = 0;
+  MODULE_ID_LEASE = 1;
+  MODULE_ID_SUBNET_SALE = 2;
+  MODULE_ID_ASN_SALE = 3;
+}
+
+message Transaction {
+  uint64 id = 1;
+  TransactionType transactionType = 2; 
+  ModuleID relatedModuleId = 3; 
+  uint64 entityId = 4; 
+  cosmos.base.v1beta1.Coin amount = 5 [(gogoproto.nullable) = false]; 
+  uint64 fromOrgId = 6; 
+  uint64 toOrgId = 7; 
+  string fromAddress = 8; 
+  string toAddress = 9; 
+  uint64 referenceId = 10; 
+  string memo = 11; 
+  string txHash = 12; 
+  google.protobuf.Timestamp timestamp = 13 [(gogoproto.stdtime) = true]; 
+}

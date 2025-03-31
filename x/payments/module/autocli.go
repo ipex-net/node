@@ -17,6 +17,17 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "params",
 					Short:     "Shows the parameters of the module",
 				},
+				{
+					RpcMethod: "TransactionAll",
+					Use:       "list-transaction",
+					Short:     "List all transaction",
+				},
+				{
+					RpcMethod:      "Transaction",
+					Use:            "show-transaction [id]",
+					Short:          "Shows a transaction by id",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
