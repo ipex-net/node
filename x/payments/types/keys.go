@@ -23,3 +23,19 @@ const (
 	TransactionKey      = "Transaction/value/"
 	TransactionCountKey = "Transaction/count/"
 )
+
+const (
+    EventTypeTransactionRecorded = "transaction_recorded"
+
+    AttributeKeyTransactionID   = "transaction_id"
+    AttributeKeyTransactionType = "transaction_type"
+    AttributeKeyModuleID        = "module_id"
+    AttributeKeyEntityID        = "entity_id"
+    AttributeKeyAmount          = "amount"
+    AttributeKeyFromOrgID       = "from_org_id"
+    AttributeKeyToOrgID         = "to_org_id"
+    AttributeKeyFromAddress     = "from_address"
+    AttributeKeyToAddress       = "to_address"
+    AttributeKeyBlockHeight     = "block_height"
+    AttributeKeyReferenceID     = "reference_id"
+)

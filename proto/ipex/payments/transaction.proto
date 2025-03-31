@@ -36,6 +36,6 @@ message Transaction {
   string toAddress = 9; 
   uint64 referenceId = 10; 
   string memo = 11; 
-  string txHash = 12; 
+  int64 blockHeight = 12; 
   google.protobuf.Timestamp timestamp = 13 [(gogoproto.stdtime) = true]; 
 }
