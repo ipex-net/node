@@ -114,8 +114,8 @@ func GetTransactionIDBytes(id uint64) []byte {
 
 func (k Keeper) RecordTransaction(
 	goCtx context.Context,
-	transactionType types.TransactionType,
-	relatedModuleId types.ModuleID,
+	transactionType int32,
+	relatedModuleId int32,
 	entityId uint64,
 	amount sdk.Coin,
 	fromOrgId uint64,
@@ -128,8 +128,8 @@ func (k Keeper) RecordTransaction(
 	blockTime := ctx.BlockTime()
 	// Create the transaction
 	transaction := types.Transaction{
-		TransactionType: transactionType,
-		RelatedModuleId: relatedModuleId,
+		TransactionType: types.TransactionType(transactionType),
+		RelatedModuleId: types.ModuleID(relatedModuleId),
 		EntityId:        entityId,
 		Amount:          amount,
 		FromOrgId:       fromOrgId,

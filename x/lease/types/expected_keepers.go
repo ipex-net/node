@@ -2,8 +2,8 @@ package types
 
 import (
 	"context"
-
-	paymentstypes "ipex/x/payments/types"
+	//paymentstypes "ipex/x/payments/types"
+	//paymentstypes "ipex/x/payments/exported"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -45,8 +45,10 @@ type SubnetKeeper interface {
 type PaymentsKeeper interface {
 	RecordTransaction(
 		ctx context.Context,
-		transactionType paymentstypes.TransactionType,
-		relatedModuleId paymentstypes.ModuleID,
+		// transactionType paymentstypes.TransactionType,
+		// relatedModuleId paymentstypes.ModuleID,
+		transactionType int32,
+		relatedModuleId int32,
 		entityId uint64,
 		amount sdk.Coin,
 		fromOrgId uint64,
