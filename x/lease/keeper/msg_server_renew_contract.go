@@ -139,6 +139,9 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	//Testing:
 	prepaidUntil := contract.PrepaidUntil.Add(time.Minute)
 	//If the contract was in expired state we set it back to active
+	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED {
+		contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
+	}
 	contract.UpdatedAt = blockTime
 	contract.PrepaidUntil = &prepaidUntil
 	// Store updated contract
