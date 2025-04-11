@@ -3,6 +3,8 @@ package keeper
 import (
 	"context"
 	"ipex/x/lease/types"
+	paymentstypes "ipex/x/payments/types"
+	"time"
 
 	"cosmossdk.io/store/prefix"
 	"github.com/cosmos/cosmos-sdk/runtime"
@@ -10,6 +12,7 @@ import (
 )
 
 const gracePeriodDays = 7
+const gracePeriodDaysTest = 2
 
 // TerminateCancelledContracts terminates expired contracts
 func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
@@ -27,7 +30,10 @@ func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 		// contract expired and grace period has passed
 		//
 		if ((contract.Status == types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE || contract.Status == types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER) && contract.PrepaidUntil.Before(ctx.BlockTime())) ||
-			(contract.Status == types.ContractStatus_CONTRACT_STATUS_EXPIRED && contract.PrepaidUntil.AddDate(0, 0, gracePeriodDays).Before(ctx.BlockTime())) {
+			//Production
+			// (contract.Status == types.ContractStatus_CONTRACT_STATUS_EXPIRED && contract.PrepaidUntil.AddDate(0, 0, gracePeriodDays).Before(ctx.BlockTime())) {
+			//Testing
+			(contract.Status == types.ContractStatus_CONTRACT_STATUS_EXPIRED && contract.PrepaidUntil.Add(time.Minute*gracePeriodDaysTest).Before(ctx.BlockTime())) {
 			//releasing the Safetydeposit if any
 			if contract.SafetyDepositRetained != nil {
 				coins := sdk.NewCoins(*contract.SafetyDepositRetained)
@@ -53,8 +59,11 @@ func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 					k.logger.Error("can't process refund on contract termination",
 						"contract_id", contract.Id,
 						"refund_amount", contract.SafetyDepositRetained)
+				
 					continue
 				}
+				k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND  , paymentstypes.ModuleID_MODULE_ID_LEASE, contract.Id, (*contract.SafetyDepositRetained), contract.LesseeOrg, contract.OwnerOrg, "module:lease", refundAddress.String())
+
 				//Ressetting safety deposit
 				contract.SafetyDepositRetained = nil
 			}
