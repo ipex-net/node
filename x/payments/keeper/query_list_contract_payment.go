@@ -17,13 +17,13 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
-	//TODO: access control and specify contract id
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TransactionKey))
 
 	var transactions []types.Transaction
+
 
 	pageRes, err := query.Paginate(store, req.Pagination, func(key []byte, value []byte) error {
 		var transaction types.Transaction
