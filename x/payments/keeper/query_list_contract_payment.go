@@ -24,7 +24,6 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 
 	var transactions []types.Transaction
 
-
 	pageRes, err := query.Paginate(store, req.Pagination, func(key []byte, value []byte) error {
 		var transaction types.Transaction
 		if err := k.cdc.Unmarshal(value, &transaction); err != nil {

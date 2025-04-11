@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"strconv"
+	"time"
 
 	"ipex/x/lease/types"
 
@@ -65,21 +66,14 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	}
 	// Saving payment
 	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT  , paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "module:lease")
-	k.Logger().Info("Recording transaction", 
-    "type", paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT.String(),
-    "moduleId", paymentstypes.ModuleID_MODULE_ID_LEASE.String(),
-    "entityId", msg.ContractId,
-    "amount", contract.Price.String(),
-    "fromOrgId", msg.LesseeOrg,
-    "toOrgId", contract.OwnerOrg,
-    "fromAddress", msg.Creator,
-    "toAddress", "module:lease",
-	)
 	//Updating the contract:
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
 	contract.LesseeOrg = msg.LesseeOrg
 	blockTime := ctx.BlockTime()
-	prepaidUntil := blockTime.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
+	//Production:
+	//prepaidUntil := blockTime.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
+	//Testing:
+	prepaidUntil := blockTime.Add(time.Minute) 
 	contract.UpdatedAt = blockTime
 	contract.ActivatedAt = &blockTime
 	depositRetained := contract.Price

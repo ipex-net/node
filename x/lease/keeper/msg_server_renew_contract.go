@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"ipex/x/lease/types"
+	paymentstypes "ipex/x/payments/types"
 
 	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/math"
@@ -43,7 +44,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	}
 
 	//Checking that if we renew the contract we won't go beyond the revocation date
-	if contract.PrepaidUntil.AddDate(0, 1, 0).After(*contract.RevocationEffectiveAt) {
+	if contract.RevocationEffectiveAt != nil && contract.PrepaidUntil.AddDate(0, 1, 0).After(*contract.RevocationEffectiveAt) {
 		return nil, errorsmod.Wrap(types.ErrRenewalBeyondRevocationDate, "renewal period extends beyond contract revocation effective date")
 	}
 
@@ -109,28 +110,34 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	}
 
 	// Convert amounts back to Coins for the payout
-	payoutOwner := sdk.NewCoins(sdk.NewCoin(contract.Price.Denom, payoutOwnerAmount))
+	payoutOwner := sdk.NewCoin(contract.Price.Denom, payoutOwnerAmount)
 
 	//Collecting the retainer to module account
 	if payoutEscrowAmount != math.ZeroInt() {
-		payoutEscrow := sdk.NewCoins(sdk.NewCoin(contract.Price.Denom, payoutEscrowAmount))
-		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, payoutEscrow); err != nil {
+		payoutEscrow := sdk.NewCoin(contract.Price.Denom, payoutEscrowAmount)
+		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, sdk.NewCoins(payoutEscrow)); err != nil {
 			k.Logger().Error("failed to transfer funds to safety deposit", "error", err)
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to safety deposit: %s", err)
 		}
+		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT  , paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, payoutEscrow, contract.LesseeOrg, contract.OwnerOrg, creator.String(), "module:lease")
+
 		depositRetainedAmount = depositRetainedAmount.Add(payoutEscrowAmount)
 		contract.SafetyDepositRetained.Amount = depositRetainedAmount
 	}
 
 	//Sending the payout to owner's treasury
-	if err := k.bankKeeper.SendCoins(ctx, creator, ownerTreasury, payoutOwner); err != nil {
+	if err := k.bankKeeper.SendCoins(ctx, creator, ownerTreasury, sdk.NewCoins(payoutOwner)); err != nil {
 		k.Logger().Error("failed to send coins to escrow", "error", err)
 		return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
+	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT  , paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, payoutOwner, contract.LesseeOrg, contract.OwnerOrg, creator.String(), ownerTreasury.String())
 
 	//Updating the contract:
 	blockTime := ctx.BlockTime()
-	prepaidUntil := contract.PrepaidUntil.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
+	//Production:
+	//prepaidUntil := contract.PrepaidUntil.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
+	//Testing:
+	prepaidUntil := contract.PrepaidUntil.Add(time.Minute)
 	//If the contract was in expired state we set it back to active
 	contract.UpdatedAt = blockTime
 	contract.PrepaidUntil = &prepaidUntil
@@ -146,7 +153,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 			sdk.NewAttribute(types.ContractRenewedLesseeOrg, strconv.FormatUint(contract.LesseeOrg, 10)),
 			sdk.NewAttribute(types.ContractRenewedPriceAmount, contract.Price.Amount.String()),
 			sdk.NewAttribute(types.ContractRenewedPriceDenom, contract.Price.Denom),
-			sdk.NewAttribute(types.ContractRenewedPrepaidUntil, prepaidUntil.Format(time.RFC3339)),
+			//sdk.NewAttribute(types.ContractRenewedPrepaidUntil, prepaidUntil.Format(time.RFC3339)),
 			sdk.NewAttribute(types.ContractRenewedDepositRetained, contract.SafetyDepositRetained.Amount.String()),
 		),
 	)
