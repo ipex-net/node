@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"ipex/x/lease/types"
+	paymentstypes "ipex/x/payments/types"
 
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -55,11 +56,13 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		if err := k.bankKeeper.SendCoinsFromModuleToAccount(
 			ctx,
 			types.ModuleAccountName,
-			lesseeAdmin, // Add the recipient address here
+			lesseeAdmin, 
 			coins,
 		); err != nil {
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer safety deposit to lessee org admin: %s", err)
 		}
+		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COMPENSATION, paymentstypes.ModuleID_MODULE_ID_LEASE, contract.Id, (*contract.SafetyDepositRetained), contract.LesseeOrg, contract.OwnerOrg, "module:lease", lesseeAdmin.String())
+
 		contract.SafetyDepositRetained = nil
 	}
 

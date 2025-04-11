@@ -156,7 +156,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 			sdk.NewAttribute(types.ContractRenewedLesseeOrg, strconv.FormatUint(contract.LesseeOrg, 10)),
 			sdk.NewAttribute(types.ContractRenewedPriceAmount, contract.Price.Amount.String()),
 			sdk.NewAttribute(types.ContractRenewedPriceDenom, contract.Price.Denom),
-			//sdk.NewAttribute(types.ContractRenewedPrepaidUntil, prepaidUntil.Format(time.RFC3339)),
+			sdk.NewAttribute(types.ContractRenewedPrepaidUntil, prepaidUntil.Format(time.RFC3339)),
 			sdk.NewAttribute(types.ContractRenewedDepositRetained, contract.SafetyDepositRetained.Amount.String()),
 		),
 	)
