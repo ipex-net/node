@@ -27,7 +27,7 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		Website:            msg.Website,
 		AbuseEmail:         msg.AbuseEmail,
 		ContactEmail:       msg.ContactEmail,
-		Verified:           false,
+		DomainVerified:     false,
 		Treasury:           msg.Treasury,
 		CreatedAt:          ctx.BlockTime(),
 		UpdatedAt:          ctx.BlockTime(),

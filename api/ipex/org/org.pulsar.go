@@ -20,6 +20,7 @@ var (
 	fd_Org_id                 protoreflect.FieldDescriptor
 	fd_Org_creator            protoreflect.FieldDescriptor
 	fd_Org_admin              protoreflect.FieldDescriptor
+	fd_Org_treasury           protoreflect.FieldDescriptor
 	fd_Org_name               protoreflect.FieldDescriptor
 	fd_Org_legalName          protoreflect.FieldDescriptor
 	fd_Org_address            protoreflect.FieldDescriptor
@@ -29,8 +30,8 @@ var (
 	fd_Org_website            protoreflect.FieldDescriptor
 	fd_Org_abuseEmail         protoreflect.FieldDescriptor
 	fd_Org_contactEmail       protoreflect.FieldDescriptor
-	fd_Org_verified           protoreflect.FieldDescriptor
-	fd_Org_treasury           protoreflect.FieldDescriptor
+	fd_Org_domainVerified     protoreflect.FieldDescriptor
+	fd_Org_domainVerifiedAt   protoreflect.FieldDescriptor
 	fd_Org_createdAt          protoreflect.FieldDescriptor
 	fd_Org_updatedAt          protoreflect.FieldDescriptor
 )
@@ -41,6 +42,7 @@ func init() {
 	fd_Org_id = md_Org.Fields().ByName("id")
 	fd_Org_creator = md_Org.Fields().ByName("creator")
 	fd_Org_admin = md_Org.Fields().ByName("admin")
+	fd_Org_treasury = md_Org.Fields().ByName("treasury")
 	fd_Org_name = md_Org.Fields().ByName("name")
 	fd_Org_legalName = md_Org.Fields().ByName("legalName")
 	fd_Org_address = md_Org.Fields().ByName("address")
@@ -50,8 +52,8 @@ func init() {
 	fd_Org_website = md_Org.Fields().ByName("website")
 	fd_Org_abuseEmail = md_Org.Fields().ByName("abuseEmail")
 	fd_Org_contactEmail = md_Org.Fields().ByName("contactEmail")
-	fd_Org_verified = md_Org.Fields().ByName("verified")
-	fd_Org_treasury = md_Org.Fields().ByName("treasury")
+	fd_Org_domainVerified = md_Org.Fields().ByName("domainVerified")
+	fd_Org_domainVerifiedAt = md_Org.Fields().ByName("domainVerifiedAt")
 	fd_Org_createdAt = md_Org.Fields().ByName("createdAt")
 	fd_Org_updatedAt = md_Org.Fields().ByName("updatedAt")
 }
@@ -139,6 +141,12 @@ func (x *fastReflection_Org) Range(f func(protoreflect.FieldDescriptor, protoref
 			return
 		}
 	}
+	if x.Treasury != "" {
+		value := protoreflect.ValueOfString(x.Treasury)
+		if !f(fd_Org_treasury, value) {
+			return
+		}
+	}
 	if x.Name != "" {
 		value := protoreflect.ValueOfString(x.Name)
 		if !f(fd_Org_name, value) {
@@ -193,15 +201,15 @@ func (x *fastReflection_Org) Range(f func(protoreflect.FieldDescriptor, protoref
 			return
 		}
 	}
-	if x.Verified != false {
-		value := protoreflect.ValueOfBool(x.Verified)
-		if !f(fd_Org_verified, value) {
+	if x.DomainVerified != false {
+		value := protoreflect.ValueOfBool(x.DomainVerified)
+		if !f(fd_Org_domainVerified, value) {
 			return
 		}
 	}
-	if x.Treasury != "" {
-		value := protoreflect.ValueOfString(x.Treasury)
-		if !f(fd_Org_treasury, value) {
+	if x.DomainVerifiedAt != nil {
+		value := protoreflect.ValueOfMessage(x.DomainVerifiedAt.ProtoReflect())
+		if !f(fd_Org_domainVerifiedAt, value) {
 			return
 		}
 	}
@@ -238,6 +246,8 @@ func (x *fastReflection_Org) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.Creator != ""
 	case "ipex.org.Org.admin":
 		return x.Admin != ""
+	case "ipex.org.Org.treasury":
+		return x.Treasury != ""
 	case "ipex.org.Org.name":
 		return x.Name != ""
 	case "ipex.org.Org.legalName":
@@ -256,10 +266,10 @@ func (x *fastReflection_Org) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.AbuseEmail != ""
 	case "ipex.org.Org.contactEmail":
 		return x.ContactEmail != ""
-	case "ipex.org.Org.verified":
-		return x.Verified != false
-	case "ipex.org.Org.treasury":
-		return x.Treasury != ""
+	case "ipex.org.Org.domainVerified":
+		return x.DomainVerified != false
+	case "ipex.org.Org.domainVerifiedAt":
+		return x.DomainVerifiedAt != nil
 	case "ipex.org.Org.createdAt":
 		return x.CreatedAt != nil
 	case "ipex.org.Org.updatedAt":
@@ -286,6 +296,8 @@ func (x *fastReflection_Org) Clear(fd protoreflect.FieldDescriptor) {
 		x.Creator = ""
 	case "ipex.org.Org.admin":
 		x.Admin = ""
+	case "ipex.org.Org.treasury":
+		x.Treasury = ""
 	case "ipex.org.Org.name":
 		x.Name = ""
 	case "ipex.org.Org.legalName":
@@ -304,10 +316,10 @@ func (x *fastReflection_Org) Clear(fd protoreflect.FieldDescriptor) {
 		x.AbuseEmail = ""
 	case "ipex.org.Org.contactEmail":
 		x.ContactEmail = ""
-	case "ipex.org.Org.verified":
-		x.Verified = false
-	case "ipex.org.Org.treasury":
-		x.Treasury = ""
+	case "ipex.org.Org.domainVerified":
+		x.DomainVerified = false
+	case "ipex.org.Org.domainVerifiedAt":
+		x.DomainVerifiedAt = nil
 	case "ipex.org.Org.createdAt":
 		x.CreatedAt = nil
 	case "ipex.org.Org.updatedAt":
@@ -337,6 +349,9 @@ func (x *fastReflection_Org) Get(descriptor protoreflect.FieldDescriptor) protor
 	case "ipex.org.Org.admin":
 		value := x.Admin
 		return protoreflect.ValueOfString(value)
+	case "ipex.org.Org.treasury":
+		value := x.Treasury
+		return protoreflect.ValueOfString(value)
 	case "ipex.org.Org.name":
 		value := x.Name
 		return protoreflect.ValueOfString(value)
@@ -364,12 +379,12 @@ func (x *fastReflection_Org) Get(descriptor protoreflect.FieldDescriptor) protor
 	case "ipex.org.Org.contactEmail":
 		value := x.ContactEmail
 		return protoreflect.ValueOfString(value)
-	case "ipex.org.Org.verified":
-		value := x.Verified
+	case "ipex.org.Org.domainVerified":
+		value := x.DomainVerified
 		return protoreflect.ValueOfBool(value)
-	case "ipex.org.Org.treasury":
-		value := x.Treasury
-		return protoreflect.ValueOfString(value)
+	case "ipex.org.Org.domainVerifiedAt":
+		value := x.DomainVerifiedAt
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.org.Org.createdAt":
 		value := x.CreatedAt
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
@@ -402,6 +417,8 @@ func (x *fastReflection_Org) Set(fd protoreflect.FieldDescriptor, value protoref
 		x.Creator = value.Interface().(string)
 	case "ipex.org.Org.admin":
 		x.Admin = value.Interface().(string)
+	case "ipex.org.Org.treasury":
+		x.Treasury = value.Interface().(string)
 	case "ipex.org.Org.name":
 		x.Name = value.Interface().(string)
 	case "ipex.org.Org.legalName":
@@ -420,10 +437,10 @@ func (x *fastReflection_Org) Set(fd protoreflect.FieldDescriptor, value protoref
 		x.AbuseEmail = value.Interface().(string)
 	case "ipex.org.Org.contactEmail":
 		x.ContactEmail = value.Interface().(string)
-	case "ipex.org.Org.verified":
-		x.Verified = value.Bool()
-	case "ipex.org.Org.treasury":
-		x.Treasury = value.Interface().(string)
+	case "ipex.org.Org.domainVerified":
+		x.DomainVerified = value.Bool()
+	case "ipex.org.Org.domainVerifiedAt":
+		x.DomainVerifiedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.org.Org.createdAt":
 		x.CreatedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.org.Org.updatedAt":
@@ -448,6 +465,11 @@ func (x *fastReflection_Org) Set(fd protoreflect.FieldDescriptor, value protoref
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Org) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.org.Org.domainVerifiedAt":
+		if x.DomainVerifiedAt == nil {
+			x.DomainVerifiedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.DomainVerifiedAt.ProtoReflect())
 	case "ipex.org.Org.createdAt":
 		if x.CreatedAt == nil {
 			x.CreatedAt = new(timestamppb.Timestamp)
@@ -464,6 +486,8 @@ func (x *fastReflection_Org) Mutable(fd protoreflect.FieldDescriptor) protorefle
 		panic(fmt.Errorf("field creator of message ipex.org.Org is not mutable"))
 	case "ipex.org.Org.admin":
 		panic(fmt.Errorf("field admin of message ipex.org.Org is not mutable"))
+	case "ipex.org.Org.treasury":
+		panic(fmt.Errorf("field treasury of message ipex.org.Org is not mutable"))
 	case "ipex.org.Org.name":
 		panic(fmt.Errorf("field name of message ipex.org.Org is not mutable"))
 	case "ipex.org.Org.legalName":
@@ -482,10 +506,8 @@ func (x *fastReflection_Org) Mutable(fd protoreflect.FieldDescriptor) protorefle
 		panic(fmt.Errorf("field abuseEmail of message ipex.org.Org is not mutable"))
 	case "ipex.org.Org.contactEmail":
 		panic(fmt.Errorf("field contactEmail of message ipex.org.Org is not mutable"))
-	case "ipex.org.Org.verified":
-		panic(fmt.Errorf("field verified of message ipex.org.Org is not mutable"))
-	case "ipex.org.Org.treasury":
-		panic(fmt.Errorf("field treasury of message ipex.org.Org is not mutable"))
+	case "ipex.org.Org.domainVerified":
+		panic(fmt.Errorf("field domainVerified of message ipex.org.Org is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.Org"))
@@ -505,6 +527,8 @@ func (x *fastReflection_Org) NewField(fd protoreflect.FieldDescriptor) protorefl
 		return protoreflect.ValueOfString("")
 	case "ipex.org.Org.admin":
 		return protoreflect.ValueOfString("")
+	case "ipex.org.Org.treasury":
+		return protoreflect.ValueOfString("")
 	case "ipex.org.Org.name":
 		return protoreflect.ValueOfString("")
 	case "ipex.org.Org.legalName":
@@ -523,10 +547,11 @@ func (x *fastReflection_Org) NewField(fd protoreflect.FieldDescriptor) protorefl
 		return protoreflect.ValueOfString("")
 	case "ipex.org.Org.contactEmail":
 		return protoreflect.ValueOfString("")
-	case "ipex.org.Org.verified":
+	case "ipex.org.Org.domainVerified":
 		return protoreflect.ValueOfBool(false)
-	case "ipex.org.Org.treasury":
-		return protoreflect.ValueOfString("")
+	case "ipex.org.Org.domainVerifiedAt":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.org.Org.createdAt":
 		m := new(timestamppb.Timestamp)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
@@ -613,6 +638,10 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		l = len(x.Treasury)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		l = len(x.Name)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
@@ -649,16 +678,16 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Verified {
+		if x.DomainVerified {
 			n += 2
 		}
-		l = len(x.Treasury)
-		if l > 0 {
+		if x.DomainVerifiedAt != nil {
+			l = options.Size(x.DomainVerifiedAt)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.CreatedAt != nil {
 			l = options.Size(x.CreatedAt)
-			n += 1 + l + runtime.Sov(uint64(l))
+			n += 2 + l + runtime.Sov(uint64(l))
 		}
 		if x.UpdatedAt != nil {
 			l = options.Size(x.UpdatedAt)
@@ -707,7 +736,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x1
 			i--
-			dAtA[i] = 0x82
+			dAtA[i] = 0x8a
 		}
 		if x.CreatedAt != nil {
 			encoded, err := options.Marshal(x.CreatedAt)
@@ -721,85 +750,101 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 			copy(dAtA[i:], encoded)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
+			dAtA[i] = 0x1
+			i--
+			dAtA[i] = 0x82
+		}
+		if x.DomainVerifiedAt != nil {
+			encoded, err := options.Marshal(x.DomainVerifiedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
 			dAtA[i] = 0x7a
 		}
-		if len(x.Treasury) > 0 {
-			i -= len(x.Treasury)
-			copy(dAtA[i:], x.Treasury)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Treasury)))
+		if x.DomainVerified {
 			i--
-			dAtA[i] = 0x72
-		}
-		if x.Verified {
-			i--
-			if x.Verified {
+			if x.DomainVerified {
 				dAtA[i] = 1
 			} else {
 				dAtA[i] = 0
 			}
 			i--
-			dAtA[i] = 0x68
+			dAtA[i] = 0x70
 		}
 		if len(x.ContactEmail) > 0 {
 			i -= len(x.ContactEmail)
 			copy(dAtA[i:], x.ContactEmail)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ContactEmail)))
 			i--
-			dAtA[i] = 0x62
+			dAtA[i] = 0x6a
 		}
 		if len(x.AbuseEmail) > 0 {
 			i -= len(x.AbuseEmail)
 			copy(dAtA[i:], x.AbuseEmail)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AbuseEmail)))
 			i--
-			dAtA[i] = 0x5a
+			dAtA[i] = 0x62
 		}
 		if len(x.Website) > 0 {
 			i -= len(x.Website)
 			copy(dAtA[i:], x.Website)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Website)))
 			i--
-			dAtA[i] = 0x52
+			dAtA[i] = 0x5a
 		}
 		if len(x.TaxId) > 0 {
 			i -= len(x.TaxId)
 			copy(dAtA[i:], x.TaxId)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TaxId)))
 			i--
-			dAtA[i] = 0x4a
+			dAtA[i] = 0x52
 		}
 		if len(x.CountryCode) > 0 {
 			i -= len(x.CountryCode)
 			copy(dAtA[i:], x.CountryCode)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.CountryCode)))
 			i--
-			dAtA[i] = 0x42
+			dAtA[i] = 0x4a
 		}
 		if len(x.RegistrationNumber) > 0 {
 			i -= len(x.RegistrationNumber)
 			copy(dAtA[i:], x.RegistrationNumber)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.RegistrationNumber)))
 			i--
-			dAtA[i] = 0x3a
+			dAtA[i] = 0x42
 		}
 		if len(x.Address) > 0 {
 			i -= len(x.Address)
 			copy(dAtA[i:], x.Address)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Address)))
 			i--
-			dAtA[i] = 0x32
+			dAtA[i] = 0x3a
 		}
 		if len(x.LegalName) > 0 {
 			i -= len(x.LegalName)
 			copy(dAtA[i:], x.LegalName)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.LegalName)))
 			i--
-			dAtA[i] = 0x2a
+			dAtA[i] = 0x32
 		}
 		if len(x.Name) > 0 {
 			i -= len(x.Name)
 			copy(dAtA[i:], x.Name)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Name)))
+			i--
+			dAtA[i] = 0x2a
+		}
+		if len(x.Treasury) > 0 {
+			i -= len(x.Treasury)
+			copy(dAtA[i:], x.Treasury)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Treasury)))
 			i--
 			dAtA[i] = 0x22
 		}
@@ -956,6 +1001,38 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 4:
 				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Treasury", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Treasury = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 5:
+				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
 				}
 				var stringLen uint64
@@ -986,7 +1063,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				}
 				x.Name = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 5:
+			case 6:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LegalName", wireType)
 				}
@@ -1018,7 +1095,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				}
 				x.LegalName = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 6:
+			case 7:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
 				}
@@ -1050,7 +1127,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				}
 				x.Address = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 7:
+			case 8:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RegistrationNumber", wireType)
 				}
@@ -1082,7 +1159,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				}
 				x.RegistrationNumber = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 8:
+			case 9:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CountryCode", wireType)
 				}
@@ -1114,7 +1191,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				}
 				x.CountryCode = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 9:
+			case 10:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TaxId", wireType)
 				}
@@ -1146,7 +1223,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				}
 				x.TaxId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 10:
+			case 11:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Website", wireType)
 				}
@@ -1178,7 +1255,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				}
 				x.Website = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 11:
+			case 12:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AbuseEmail", wireType)
 				}
@@ -1210,7 +1287,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				}
 				x.AbuseEmail = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 12:
+			case 13:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ContactEmail", wireType)
 				}
@@ -1242,9 +1319,9 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 				}
 				x.ContactEmail = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 13:
+			case 14:
 				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Verified", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field DomainVerified", wireType)
 				}
 				var v int
 				for shift := uint(0); ; shift += 7 {
@@ -1261,12 +1338,12 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-				x.Verified = bool(v != 0)
-			case 14:
+				x.DomainVerified = bool(v != 0)
+			case 15:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Treasury", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field DomainVerifiedAt", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1276,25 +1353,29 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Treasury = string(dAtA[iNdEx:postIndex])
+				if x.DomainVerifiedAt == nil {
+					x.DomainVerifiedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.DomainVerifiedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
-			case 15:
+			case 16:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreatedAt", wireType)
 				}
@@ -1330,7 +1411,7 @@ func (x *fastReflection_Org) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
-			case 16:
+			case 17:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UpdatedAt", wireType)
 				}
@@ -1422,19 +1503,20 @@ type Org struct {
 	Id                 uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Creator            string                 `protobuf:"bytes,2,opt,name=creator,proto3" json:"creator,omitempty"`
 	Admin              string                 `protobuf:"bytes,3,opt,name=admin,proto3" json:"admin,omitempty"`
-	Name               string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
-	LegalName          string                 `protobuf:"bytes,5,opt,name=legalName,proto3" json:"legalName,omitempty"`
-	Address            string                 `protobuf:"bytes,6,opt,name=address,proto3" json:"address,omitempty"`
-	RegistrationNumber string                 `protobuf:"bytes,7,opt,name=registrationNumber,proto3" json:"registrationNumber,omitempty"`
-	CountryCode        string                 `protobuf:"bytes,8,opt,name=countryCode,proto3" json:"countryCode,omitempty"`
-	TaxId              string                 `protobuf:"bytes,9,opt,name=taxId,proto3" json:"taxId,omitempty"`
-	Website            string                 `protobuf:"bytes,10,opt,name=website,proto3" json:"website,omitempty"`
-	AbuseEmail         string                 `protobuf:"bytes,11,opt,name=abuseEmail,proto3" json:"abuseEmail,omitempty"`
-	ContactEmail       string                 `protobuf:"bytes,12,opt,name=contactEmail,proto3" json:"contactEmail,omitempty"`
-	Verified           bool                   `protobuf:"varint,13,opt,name=verified,proto3" json:"verified,omitempty"`
-	Treasury           string                 `protobuf:"bytes,14,opt,name=treasury,proto3" json:"treasury,omitempty"`
-	CreatedAt          *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt          *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
+	Treasury           string                 `protobuf:"bytes,4,opt,name=treasury,proto3" json:"treasury,omitempty"`
+	Name               string                 `protobuf:"bytes,5,opt,name=name,proto3" json:"name,omitempty"`
+	LegalName          string                 `protobuf:"bytes,6,opt,name=legalName,proto3" json:"legalName,omitempty"`
+	Address            string                 `protobuf:"bytes,7,opt,name=address,proto3" json:"address,omitempty"`
+	RegistrationNumber string                 `protobuf:"bytes,8,opt,name=registrationNumber,proto3" json:"registrationNumber,omitempty"`
+	CountryCode        string                 `protobuf:"bytes,9,opt,name=countryCode,proto3" json:"countryCode,omitempty"`
+	TaxId              string                 `protobuf:"bytes,10,opt,name=taxId,proto3" json:"taxId,omitempty"`
+	Website            string                 `protobuf:"bytes,11,opt,name=website,proto3" json:"website,omitempty"`
+	AbuseEmail         string                 `protobuf:"bytes,12,opt,name=abuseEmail,proto3" json:"abuseEmail,omitempty"`
+	ContactEmail       string                 `protobuf:"bytes,13,opt,name=contactEmail,proto3" json:"contactEmail,omitempty"`
+	DomainVerified     bool                   `protobuf:"varint,14,opt,name=domainVerified,proto3" json:"domainVerified,omitempty"`
+	DomainVerifiedAt   *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=domainVerifiedAt,proto3" json:"domainVerifiedAt,omitempty"`
+	CreatedAt          *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	UpdatedAt          *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
 }
 
 func (x *Org) Reset() {
@@ -1474,6 +1556,13 @@ func (x *Org) GetCreator() string {
 func (x *Org) GetAdmin() string {
 	if x != nil {
 		return x.Admin
+	}
+	return ""
+}
+
+func (x *Org) GetTreasury() string {
+	if x != nil {
+		return x.Treasury
 	}
 	return ""
 }
@@ -1541,18 +1630,18 @@ func (x *Org) GetContactEmail() string {
 	return ""
 }
 
-func (x *Org) GetVerified() bool {
+func (x *Org) GetDomainVerified() bool {
 	if x != nil {
-		return x.Verified
+		return x.DomainVerified
 	}
 	return false
 }
 
-func (x *Org) GetTreasury() string {
+func (x *Org) GetDomainVerifiedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.Treasury
+		return x.DomainVerifiedAt
 	}
-	return ""
+	return nil
 }
 
 func (x *Org) GetCreatedAt() *timestamppb.Timestamp {
@@ -1579,53 +1668,59 @@ var file_ipex_org_org_proto_rawDesc = []byte{
 	0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d,
 	0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f,
 	0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x22, 0xe5, 0x04, 0x0a, 0x03, 0x4f, 0x72, 0x67, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
+	0x74, 0x6f, 0x22, 0xc3, 0x05, 0x0a, 0x03, 0x4f, 0x72, 0x67, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x32, 0x0a, 0x07, 0x63, 0x72,
 	0x65, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2, 0xb4, 0x2d,
 	0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x53,
 	0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x2e,
 	0x0a, 0x05, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,
 	0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x12,
-	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
-	0x6d, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x6c, 0x65, 0x67, 0x61, 0x6c, 0x4e, 0x61, 0x6d, 0x65, 0x18,
-	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6c, 0x65, 0x67, 0x61, 0x6c, 0x4e, 0x61, 0x6d, 0x65,
-	0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2e, 0x0a, 0x12, 0x72, 0x65,
+	0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x05, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x34,
+	0x0a, 0x08, 0x74, 0x72, 0x65, 0x61, 0x73, 0x75, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
+	0x42, 0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64,
+	0x72, 0x65, 0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x74, 0x72, 0x65, 0x61,
+	0x73, 0x75, 0x72, 0x79, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x05, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x6c, 0x65, 0x67, 0x61,
+	0x6c, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6c, 0x65, 0x67,
+	0x61, 0x6c, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x12, 0x2e, 0x0a, 0x12, 0x72, 0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x12, 0x72, 0x65,
 	0x67, 0x69, 0x73, 0x74, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
-	0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x12, 0x72, 0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x6f,
-	0x75, 0x6e, 0x74, 0x72, 0x79, 0x43, 0x6f, 0x64, 0x65, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x0b, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x14, 0x0a, 0x05,
-	0x74, 0x61, 0x78, 0x49, 0x64, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x61, 0x78,
-	0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x77, 0x65, 0x62, 0x73, 0x69, 0x74, 0x65, 0x18, 0x0a, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x07, 0x77, 0x65, 0x62, 0x73, 0x69, 0x74, 0x65, 0x12, 0x1e, 0x0a, 0x0a,
-	0x61, 0x62, 0x75, 0x73, 0x65, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0a, 0x61, 0x62, 0x75, 0x73, 0x65, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x22, 0x0a, 0x0c,
-	0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x0c, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0c, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x45, 0x6d, 0x61, 0x69, 0x6c,
-	0x12, 0x1a, 0x0a, 0x08, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x18, 0x0d, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x08, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x12, 0x34, 0x0a, 0x08,
-	0x74, 0x72, 0x65, 0x61, 0x73, 0x75, 0x72, 0x79, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18,
-	0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x52, 0x08, 0x74, 0x72, 0x65, 0x61, 0x73, 0x75,
-	0x72, 0x79, 0x12, 0x42, 0x0a, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18,
-	0x0f, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d,
-	0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x09, 0x63, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x42, 0x0a, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
-	0x64, 0x41, 0x74, 0x18, 0x10, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
-	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65,
-	0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52,
-	0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x42, 0x73, 0x0a, 0x0d, 0x63, 0x6f,
-	0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x42, 0x08, 0x4f, 0x72, 0x67,
-	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x13, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61,
-	0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0xa2, 0x02, 0x03, 0x49,
-	0x4f, 0x58, 0xaa, 0x02, 0x09, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x4f, 0x72, 0x67, 0xca, 0x02,
-	0x09, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x4f, 0x72, 0x67, 0xe2, 0x02, 0x15, 0x49, 0x70, 0x64,
-	0x65, 0x78, 0x5c, 0x4f, 0x72, 0x67, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0xea, 0x02, 0x0a, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x4f, 0x72, 0x67, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x12, 0x20, 0x0a, 0x0b, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x43, 0x6f, 0x64, 0x65, 0x18,
+	0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x43, 0x6f,
+	0x64, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x61, 0x78, 0x49, 0x64, 0x18, 0x0a, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x74, 0x61, 0x78, 0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x77, 0x65, 0x62, 0x73,
+	0x69, 0x74, 0x65, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x77, 0x65, 0x62, 0x73, 0x69,
+	0x74, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x61, 0x62, 0x75, 0x73, 0x65, 0x45, 0x6d, 0x61, 0x69, 0x6c,
+	0x18, 0x0c, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x61, 0x62, 0x75, 0x73, 0x65, 0x45, 0x6d, 0x61,
+	0x69, 0x6c, 0x12, 0x22, 0x0a, 0x0c, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x45, 0x6d, 0x61,
+	0x69, 0x6c, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63,
+	0x74, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x26, 0x0a, 0x0e, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e,
+	0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0e,
+	0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x12, 0x50,
+	0x0a, 0x10, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64,
+	0x41, 0x74, 0x18, 0x0f, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73,
+	0x74, 0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x01, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x10,
+	0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x41, 0x74,
+	0x12, 0x42, 0x0a, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x10, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42,
+	0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x64, 0x41, 0x74, 0x12, 0x42, 0x0a, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41,
+	0x74, 0x18, 0x11, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74,
+	0x61, 0x6d, 0x70, 0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x09, 0x75,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x42, 0x73, 0x0a, 0x0d, 0x63, 0x6f, 0x6d, 0x2e,
+	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x42, 0x08, 0x4f, 0x72, 0x67, 0x50, 0x72,
+	0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x13, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69,
+	0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0xa2, 0x02, 0x03, 0x49, 0x4f, 0x58,
+	0xaa, 0x02, 0x09, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x4f, 0x72, 0x67, 0xca, 0x02, 0x09, 0x49,
+	0x70, 0x64, 0x65, 0x78, 0x5c, 0x4f, 0x72, 0x67, 0xe2, 0x02, 0x15, 0x49, 0x70, 0x64, 0x65, 0x78,
+	0x5c, 0x4f, 0x72, 0x67, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
+	0xea, 0x02, 0x0a, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x4f, 0x72, 0x67, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1646,13 +1741,14 @@ var file_ipex_org_org_proto_goTypes = []interface{}{
 	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
 }
 var file_ipex_org_org_proto_depIdxs = []int32{
-	1, // 0: ipex.org.Org.createdAt:type_name -> google.protobuf.Timestamp
-	1, // 1: ipex.org.Org.updatedAt:type_name -> google.protobuf.Timestamp
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	1, // 0: ipex.org.Org.domainVerifiedAt:type_name -> google.protobuf.Timestamp
+	1, // 1: ipex.org.Org.createdAt:type_name -> google.protobuf.Timestamp
+	1, // 2: ipex.org.Org.updatedAt:type_name -> google.protobuf.Timestamp
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_ipex_org_org_proto_init() }
