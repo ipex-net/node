@@ -22,6 +22,7 @@ message Org {
   string contactEmail = 13; 
   bool domainVerified = 14;
   google.protobuf.Timestamp domainVerifiedAt = 15 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true];
-  google.protobuf.Timestamp createdAt = 16 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
-  google.protobuf.Timestamp updatedAt = 17 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp domainVerifAttemptedAt = 16 [(gogoproto.stdtime) = true, (gogoproto.nullable) = true];
+  google.protobuf.Timestamp createdAt = 17 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false]; 
+  google.protobuf.Timestamp updatedAt = 18 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"encoding/binary"
+	"time"
 
 	"ipex/x/org/types"
 
@@ -162,4 +163,69 @@ func (k Keeper) GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAddress, 
 
 	return treasuryAddr, true
 
+}
+
+
+func (k Keeper) GetOrgsForValidation(ctx context.Context) (list []types.Org) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	now := time.Now()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.Org
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+
+		// Skip already verified domains
+		if val.DomainVerified {
+			continue
+		}
+
+		// Skip orgs without websites
+		if val.Website == "" {
+			continue
+		}
+
+		// Check if enough time has passed since last attempt
+		if val.DomainVerifAttemptedAt != nil {
+			lastAttempt := *val.DomainVerifAttemptedAt
+			orgAge := now.Sub(val.CreatedAt)
+			
+			// Determine required interval based on org age
+			var requiredInterval time.Duration
+			
+			switch {
+			case orgAge < 72*time.Hour: // < 3 days
+				requiredInterval = 1 * time.Minute
+			case orgAge < 7*24*time.Hour: // < 7 days
+				requiredInterval = 5 * time.Minute
+			case orgAge < 14*24*time.Hour: // < 14 days
+				requiredInterval = 10 * time.Minute
+			case orgAge < 30*24*time.Hour: // < 30 days
+				requiredInterval = 30 * time.Minute
+			default: // > 30 days
+				requiredInterval = 1 * time.Hour
+			}
+
+			// Skip if not enough time has passed
+			if now.Sub(lastAttempt) < requiredInterval {
+				continue
+			}
+		}
+
+		// Update the verification attempt timestamp
+		val.DomainVerifAttemptedAt = &now
+		
+		// Save the updated org back to the store
+		k.cdc.MustMarshal(&val)
+		store.Set(iterator.Key(), k.cdc.MustMarshal(&val))
+		
+		// Add to the list for validation
+		list = append(list, val)
+	}
+
+	return
 }
