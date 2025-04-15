@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"encoding/binary"
+	"fmt"
 	"time"
 
 	"ipex/x/org/types"
@@ -166,7 +167,7 @@ func (k Keeper) GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAddress, 
 }
 
 
-func (k Keeper) GetOrgsForValidation(ctx context.Context) (list []types.Org) {
+func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Org) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
@@ -229,3 +230,27 @@ func (k Keeper) GetOrgsForValidation(ctx context.Context) (list []types.Org) {
 
 	return
 }
+
+// UpdateOrgValidationStatus updates the domain validation status for an organization
+func (k Keeper) UpdateOrgDomainValidationStatus(ctx context.Context, orgID uint64, isValid bool) error {
+    // Get the organization
+    org, found := k.GetOrg(ctx, orgID)
+    if !found {
+        return fmt.Errorf("org with ID %d not found", orgID)
+    }
+    
+    // Update validation status
+    org.DomainVerified = isValid
+    
+    // Update timestamp
+    nowTime := time.Now()
+    org.DomainVerifiedAt = &nowTime
+    
+    // Save the updated organization
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
+    store.Set(GetOrgIDBytes(orgID), k.cdc.MustMarshal(&org))
+    
+    return nil
+}
+

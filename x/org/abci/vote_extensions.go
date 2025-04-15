@@ -16,7 +16,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"ipex/x/org/keeper"
-	"ipex/x/org/types"
 )
 
 
@@ -50,8 +49,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
         h.logger.Info("performing domain validations for vote extension", "height", req.Height, "time", h.lastCheckTime)
         
         // Get list of organizations that need validation
-        // This could be orgs that have never been validated or those whose validation has expired
-        orgsToValidate := h.Keeper.GetOrgsForValidation(ctx)
+        orgsToValidate := h.Keeper.GetOrgsForDomainValidation(ctx)
         
         if len(orgsToValidate) == 0 {
             // No orgs need validation, return empty extension
@@ -100,7 +98,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
         }
         
         // Create vote extension
-        voteExt := types.OracleVoteExtension{
+        voteExt := OracleVoteExtension{
             Height: req.Height,
             OrgDomainValidation: validationResults,
         }
@@ -163,4 +161,47 @@ func extractDomain(websiteURL string) (string, error) {
     }
     
     return domain, nil
+}
+
+func (h *VoteExtHandler) VerifyVoteExtensionHandler() sdk.VerifyVoteExtensionHandler {
+    return func(ctx sdk.Context, req *abci.RequestVerifyVoteExtension) (*abci.ResponseVerifyVoteExtension, error) {
+        // If extension is empty, accept it (no validations needed)
+        if len(req.VoteExtension) == 0 {
+            return &abci.ResponseVerifyVoteExtension{Status: abci.ResponseVerifyVoteExtension_ACCEPT}, nil
+        }
+        
+        // Unmarshal the vote extension
+        var voteExt OracleVoteExtension
+        err := json.Unmarshal(req.VoteExtension, &voteExt)
+        if err != nil {
+            return nil, fmt.Errorf("failed to unmarshal vote extension: %w", err)
+        }
+        
+        // Verify the height matches
+        if voteExt.Height != req.Height {
+            return nil, fmt.Errorf("vote extension height does not match request height; expected: %d, got: %d", req.Height, voteExt.Height)
+        }
+        
+        // Verify the structure of the validation results
+        if voteExt.OrgDomainValidation == nil {
+            return nil, fmt.Errorf("org domain validation map is nil")
+        }
+        
+        // Check that all org IDs are valid
+        for orgID := range voteExt.OrgDomainValidation {
+            // Verify the org exists in state
+            org, found := h.Keeper.GetOrg(ctx, orgID)
+            if !found {
+                return nil, fmt.Errorf("org ID %d in vote extension does not exist", orgID)
+            }
+            
+            // Check if the org has a website
+            if org.Website == "" {
+                return nil, fmt.Errorf("org ID %d has no website", orgID)
+            }
+        }
+        
+        // Accept the vote extension
+        return &abci.ResponseVerifyVoteExtension{Status: abci.ResponseVerifyVoteExtension_ACCEPT}, nil
+    }
 }
