@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cometbft/cometbft/libs/log"
+	"cosmossdk.io/log"
 	"golang.org/x/sync/errgroup"
 
 	abci "github.com/cometbft/cometbft/abci/types"

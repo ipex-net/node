@@ -2,6 +2,8 @@ package app
 
 import (
 	"io"
+	orgabci "ipex/x/org/abci"
+	"time"
 
 	_ "cosmossdk.io/api/cosmos/tx/config/v1" // import for side-effects
 	clienthelpers "cosmossdk.io/client/v2/helpers"
@@ -261,10 +263,31 @@ func New(
 	); err != nil {
 		panic(err)
 	}
+	// Create the vote extension handler for domain validation
+	voteExtHandler := orgabci.NewVoteExtHandler(
+		logger,
+		5*time.Second, // Timeout for DNS lookups
+		app.OrgKeeper,
+	)
+	// Create the proposal handler for domain validation
+	proposalHandler := orgabci.NewProposalHandler(
+		logger,
+		app.OrgKeeper,
+		app.StakingKeeper, // This will be used as the validator store
+	)
 
 	// add to default baseapp options
-	// enable optimistic execution
-	baseAppOptions = append(baseAppOptions, baseapp.SetOptimisticExecution())
+	baseAppOptions = append(baseAppOptions, 
+		func(ba *baseapp.BaseApp) {
+			ba.SetExtendVoteHandler(voteExtHandler.ExtendVoteHandler())
+			ba.SetVerifyVoteExtensionHandler(voteExtHandler.VerifyVoteExtensionHandler())
+			ba.SetPrepareProposal(proposalHandler.PrepareProposal())
+			ba.SetProcessProposal(proposalHandler.ProcessProposal())
+			ba.SetPreBlocker(proposalHandler.PreBlocker)
+		},
+		// enable optimistic execution
+		baseapp.SetOptimisticExecution(),
+	)
 
 	// build app
 	app.App = appBuilder.Build(db, traceStore, baseAppOptions...)

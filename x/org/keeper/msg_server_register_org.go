@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"ipex/x/org/types"
 
@@ -39,18 +40,41 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		return nil, errorsmod.Wrapf(ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	// Checking that all fields are set
-	if msg.Name == "" ||
-		msg.LegalName == "" ||
-		msg.Address == "" ||
-		msg.RegistrationNumber == "" ||
-		msg.CountryCode == "" ||
-		msg.TaxId == "" ||
-		msg.Website == "" ||
-		msg.AbuseEmail == "" ||
-		msg.ContactEmail == "" ||
-		msg.Treasury == "" {
-		return nil, errorsmod.Wrap(ErrRequiredFields, "name must be 3-50 characters and can only contain letters, numbers, spaces, dots, and hyphens")
+	var missingFields []string
+
+	if msg.Name == "" {
+		missingFields = append(missingFields, "name")
+	}
+	if msg.LegalName == "" {
+		missingFields = append(missingFields, "legal_name")
+	}
+	if msg.Address == "" {
+		missingFields = append(missingFields, "address")
+	}
+	if msg.RegistrationNumber == "" {
+		missingFields = append(missingFields, "registration_number")
+	}
+	if msg.CountryCode == "" {
+		missingFields = append(missingFields, "country_code")
+	}
+	if msg.TaxId == "" {
+		missingFields = append(missingFields, "tax_id")
+	}
+	if msg.Website == "" {
+		missingFields = append(missingFields, "website")
+	}
+	if msg.AbuseEmail == "" {
+		missingFields = append(missingFields, "abuse_email")
+	}
+	if msg.ContactEmail == "" {
+		missingFields = append(missingFields, "contact_email")
+	}
+	if msg.Treasury == "" {
+		missingFields = append(missingFields, "treasury")
+	}
+	
+	if len(missingFields) > 0 {
+		return nil, errorsmod.Wrapf(ErrRequiredFields, "missing required fields: %s", strings.Join(missingFields, ", "))
 	}
 
 	//Validating the format
