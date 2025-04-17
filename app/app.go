@@ -83,6 +83,7 @@ import (
 	paymentsmodulekeeper "ipex/x/payments/keeper"
 	subnetmodulekeeper "ipex/x/subnet/keeper"
 
+	oraclemodulekeeper "ipex/x/oracle/keeper"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"ipex/docs"
@@ -152,6 +153,7 @@ type App struct {
 	OrgKeeper      orgmodulekeeper.Keeper
 	SubnetKeeper   subnetmodulekeeper.Keeper
 	PaymentsKeeper paymentsmodulekeeper.Keeper
+	OracleKeeper   oraclemodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -259,6 +261,7 @@ func New(
 		&app.OrgKeeper,
 		&app.SubnetKeeper,
 		&app.PaymentsKeeper,
+		&app.OracleKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)
@@ -277,7 +280,7 @@ func New(
 	)
 
 	// add to default baseapp options
-	baseAppOptions = append(baseAppOptions, 
+	baseAppOptions = append(baseAppOptions,
 		func(ba *baseapp.BaseApp) {
 			ba.SetExtendVoteHandler(voteExtHandler.ExtendVoteHandler())
 			ba.SetVerifyVoteExtensionHandler(voteExtHandler.VerifyVoteExtensionHandler())

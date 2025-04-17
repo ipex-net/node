@@ -56,7 +56,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		if err := k.bankKeeper.SendCoinsFromModuleToAccount(
 			ctx,
 			types.ModuleAccountName,
-			lesseeAdmin, 
+			lesseeAdmin,
 			coins,
 		); err != nil {
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer safety deposit to lessee org admin: %s", err)

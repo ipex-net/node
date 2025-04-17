@@ -59,10 +59,10 @@ func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 					k.logger.Error("can't process refund on contract termination",
 						"contract_id", contract.Id,
 						"refund_amount", contract.SafetyDepositRetained)
-				
+
 					continue
 				}
-				k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND  , paymentstypes.ModuleID_MODULE_ID_LEASE, contract.Id, (*contract.SafetyDepositRetained), contract.LesseeOrg, contract.OwnerOrg, "module:lease", refundAddress.String())
+				k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND, paymentstypes.ModuleID_MODULE_ID_LEASE, contract.Id, (*contract.SafetyDepositRetained), contract.LesseeOrg, contract.OwnerOrg, "module:lease", refundAddress.String())
 
 				//Ressetting safety deposit
 				contract.SafetyDepositRetained = nil

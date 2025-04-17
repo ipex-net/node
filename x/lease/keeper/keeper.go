@@ -51,10 +51,10 @@ func NewKeeper(
 		authority:    authority,
 		logger:       logger,
 
-		accountKeeper: accountKeeper,
-		bankKeeper:    bankKeeper,
-		orgKeeper:     orgKeeper,
-		subnetKeeper:  subnetKeeper,
+		accountKeeper:  accountKeeper,
+		bankKeeper:     bankKeeper,
+		orgKeeper:      orgKeeper,
+		subnetKeeper:   subnetKeeper,
 		paymentsKeeper: paymentsKeeper,
 	}
 }

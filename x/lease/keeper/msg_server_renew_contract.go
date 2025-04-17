@@ -119,7 +119,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 			k.Logger().Error("failed to transfer funds to safety deposit", "error", err)
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to safety deposit: %s", err)
 		}
-		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT  , paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, payoutEscrow, contract.LesseeOrg, contract.OwnerOrg, creator.String(), "module:lease")
+		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, payoutEscrow, contract.LesseeOrg, contract.OwnerOrg, creator.String(), "module:lease")
 
 		depositRetainedAmount = depositRetainedAmount.Add(payoutEscrowAmount)
 		contract.SafetyDepositRetained.Amount = depositRetainedAmount
@@ -130,7 +130,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 		k.Logger().Error("failed to send coins to escrow", "error", err)
 		return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
-	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT  , paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, payoutOwner, contract.LesseeOrg, contract.OwnerOrg, creator.String(), ownerTreasury.String())
+	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, payoutOwner, contract.LesseeOrg, contract.OwnerOrg, creator.String(), ownerTreasury.String())
 
 	//Updating the contract:
 	blockTime := ctx.BlockTime()

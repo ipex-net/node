@@ -1,0 +1,17 @@
+syntax = "proto3";
+package ipex.oracle;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "ipex/oracle/params.proto";
+
+option go_package = "ipex/x/oracle/types";
+
+// GenesisState defines the oracle module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

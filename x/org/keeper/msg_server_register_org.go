@@ -72,7 +72,7 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 	if msg.Treasury == "" {
 		missingFields = append(missingFields, "treasury")
 	}
-	
+
 	if len(missingFields) > 0 {
 		return nil, errorsmod.Wrapf(ErrRequiredFields, "missing required fields: %s", strings.Join(missingFields, ", "))
 	}

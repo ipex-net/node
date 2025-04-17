@@ -166,7 +166,6 @@ func (k Keeper) GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAddress, 
 
 }
 
-
 func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Org) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
@@ -194,10 +193,10 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 		if val.DomainVerifAttemptedAt != nil {
 			lastAttempt := *val.DomainVerifAttemptedAt
 			orgAge := now.Sub(val.CreatedAt)
-			
+
 			// Determine required interval based on org age
 			var requiredInterval time.Duration
-			
+
 			switch {
 			case orgAge < 72*time.Hour: // < 3 days
 				requiredInterval = 1 * time.Minute
@@ -219,11 +218,11 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 
 		// Update the verification attempt timestamp
 		val.DomainVerifAttemptedAt = &now
-		
+
 		// Save the updated org back to the store
 		k.cdc.MustMarshal(&val)
 		store.Set(iterator.Key(), k.cdc.MustMarshal(&val))
-		
+
 		// Add to the list for validation
 		list = append(list, val)
 	}
@@ -233,24 +232,23 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 
 // UpdateOrgValidationStatus updates the domain validation status for an organization
 func (k Keeper) UpdateOrgDomainValidationStatus(ctx context.Context, orgID uint64, isValid bool) error {
-    // Get the organization
-    org, found := k.GetOrg(ctx, orgID)
-    if !found {
-        return fmt.Errorf("org with ID %d not found", orgID)
-    }
-    
-    // Update validation status
-    org.DomainVerified = isValid
-    
-    // Update timestamp
-    nowTime := time.Now()
-    org.DomainVerifiedAt = &nowTime
-    
-    // Save the updated organization
-    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-    store.Set(GetOrgIDBytes(orgID), k.cdc.MustMarshal(&org))
-    
-    return nil
-}
+	// Get the organization
+	org, found := k.GetOrg(ctx, orgID)
+	if !found {
+		return fmt.Errorf("org with ID %d not found", orgID)
+	}
 
+	// Update validation status
+	org.DomainVerified = isValid
+
+	// Update timestamp
+	nowTime := time.Now()
+	org.DomainVerifiedAt = &nowTime
+
+	// Save the updated organization
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
+	store.Set(GetOrgIDBytes(orgID), k.cdc.MustMarshal(&org))
+
+	return nil
+}

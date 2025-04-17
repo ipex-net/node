@@ -17,8 +17,8 @@ import (
 // and submit the stake-weighted domain validation results, in addition to the vote
 // extensions used to calculate them.
 type StakeDomainValidation struct {
-	ValidationResults   map[uint64]bool
-	ExtendedCommitInfo  abci.ExtendedCommitInfo
+	ValidationResults  map[uint64]bool
+	ExtendedCommitInfo abci.ExtendedCommitInfo
 }
 
 type ProposalHandler struct {
@@ -54,7 +54,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 
 			// Create the injected transaction with validation results
 			injectedVoteExtTx := StakeDomainValidation{
-				ValidationResults: validationResults,
+				ValidationResults:  validationResults,
 				ExtendedCommitInfo: req.LocalLastCommit,
 			}
 
@@ -80,30 +80,30 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	// Map to store aggregated validation results
 	// org ID -> validation result
 	validationResults := make(map[uint64]bool)
-	
+
 	// Maps to track voting power for each validation
 	validPower := make(map[uint64]int64)
 	invalidPower := make(map[uint64]int64)
-	
+
 	// Process each vote extension
 	for _, v := range ci.Votes {
 		// Skip votes that don't commit
 		if v.BlockIdFlag != 2 { // BlockIDFlagCommit
 			continue
 		}
-		
+
 		// Skip empty vote extensions
 		if len(v.VoteExtension) == 0 {
 			continue
 		}
-		
+
 		// Parse the vote extension
 		var voteExt OracleVoteExtension
 		if err := json.Unmarshal(v.VoteExtension, &voteExt); err != nil {
 			h.logger.Error("failed to decode vote extension", "err", err, "validator", fmt.Sprintf("%x", v.Validator.Address))
 			continue // Skip this vote extension but process others
 		}
-		
+
 		// Aggregate validation results based on voting power
 		for orgID, isValid := range voteExt.OrgDomainValidation {
 			if isValid {
@@ -113,7 +113,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			}
 		}
 	}
-	
+
 	// Determine final validation result based on majority voting power
 	for orgID := range validPower {
 		total := validPower[orgID] + invalidPower[orgID]
@@ -125,7 +125,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			validationResults[orgID] = false
 		}
 	}
-	
+
 	return validationResults, nil
 }
 
@@ -195,33 +195,33 @@ func compareValidationResults(r1, r2 map[uint64]bool) error {
 
 func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeBlock) (*sdk.ResponsePreBlock, error) {
 	res := &sdk.ResponsePreBlock{}
-	
+
 	// Skip if no transactions or if vote extensions aren't enabled yet
 	if len(req.Txs) == 0 || ctx.BlockHeight() <= ctx.ConsensusParams().Abci.VoteExtensionsEnableHeight {
 		return res, nil
 	}
-	
+
 	// Unmarshal the injected vote extension transaction
 	var injectedVoteExtTx StakeDomainValidation
 	if err := json.Unmarshal(req.Txs[0], &injectedVoteExtTx); err != nil {
 		h.logger.Error("failed to decode injected vote extension tx", "err", err)
 		return nil, err
 	}
-	
+
 	// Update the validation status for each organization
 	for orgID, isValid := range injectedVoteExtTx.ValidationResults {
 		if err := h.keeper.UpdateOrgDomainValidationStatus(ctx, orgID, isValid); err != nil {
 			// Log error but continue with other organizations
-			h.logger.Error("failed to update org domain validation status", 
-				"org_id", orgID, 
-				"is_valid", isValid, 
+			h.logger.Error("failed to update org domain validation status",
+				"org_id", orgID,
+				"is_valid", isValid,
 				"error", err)
 		} else {
-			h.logger.Info("updated org domain validation status", 
-				"org_id", orgID, 
+			h.logger.Info("updated org domain validation status",
+				"org_id", orgID,
 				"is_valid", isValid)
 		}
 	}
-	
+
 	return res, nil
 }

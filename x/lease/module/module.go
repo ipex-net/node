@@ -181,11 +181,11 @@ type ModuleInputs struct {
 	Config       *modulev1.Module
 	Logger       log.Logger
 
-	AccountKeeper types.AccountKeeper
-	BankKeeper    types.BankKeeper
-	OrgKeeper     types.OrgKeeper
-	SubnetKeeper  types.SubnetKeeper
-	PaymentsKeeper 	types.PaymentsKeeper
+	AccountKeeper  types.AccountKeeper
+	BankKeeper     types.BankKeeper
+	OrgKeeper      types.OrgKeeper
+	SubnetKeeper   types.SubnetKeeper
+	PaymentsKeeper types.PaymentsKeeper
 }
 
 type ModuleOutputs struct {

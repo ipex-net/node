@@ -29,9 +29,9 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 		if err := k.cdc.Unmarshal(value, &transaction); err != nil {
 			return err
 		}
-		if transaction.EntityId==req.Id {
+		if transaction.EntityId == req.Id {
 			transactions = append(transactions, transaction)
-		  }
+		}
 		return nil
 	})
 
