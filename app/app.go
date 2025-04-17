@@ -2,7 +2,7 @@ package app
 
 import (
 	"io"
-	orgabci "ipex/x/org/abci"
+	oracleabci "ipex/x/oracle/abci"
 	"time"
 
 	_ "cosmossdk.io/api/cosmos/tx/config/v1" // import for side-effects
@@ -267,13 +267,13 @@ func New(
 		panic(err)
 	}
 	// Create the vote extension handler for domain validation
-	voteExtHandler := orgabci.NewVoteExtHandler(
+	voteExtHandler := oracleabci.NewVoteExtHandler(
 		logger,
 		5*time.Second, // Timeout for DNS lookups
 		app.OrgKeeper,
 	)
 	// Create the proposal handler for domain validation
-	proposalHandler := orgabci.NewProposalHandler(
+	proposalHandler := oracleabci.NewProposalHandler(
 		logger,
 		app.OrgKeeper,
 		app.StakingKeeper, // This will be used as the validator store
