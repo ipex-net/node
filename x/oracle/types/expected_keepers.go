@@ -20,6 +20,7 @@ type OrgKeeper interface {
    SetOrg(ctx context.Context, org orgtypes.Org)
    // GetOrgsForDomainValidation returns all orgs eligible for domain validation.
    GetOrgsForDomainValidation(ctx context.Context) []orgtypes.Org
+   UpdateOrgDomainValidationStatus(ctx context.Context, orgID uint64, isValid bool) error
 }
 
 // SubnetKeeper defines the expected interface for the subnet module.

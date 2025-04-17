@@ -15,7 +15,7 @@ import (
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"ipex/x/org/keeper"
+	"ipex/x/oracle/types"
 )
 
 type VoteExtHandler struct {
@@ -24,14 +24,25 @@ type VoteExtHandler struct {
 	lastCheckTime time.Time     // last time we performed domain validations
 	checkTimeout  time.Duration // timeout for DNS lookups
 
-	Keeper keeper.Keeper // keeper of the org module itself
+    OrgKeeper    types.OrgKeeper
+    SubnetKeeper types.SubnetKeeper
+    LeaseKeeper  types.LeaseKeeper
+
 }
 
-func NewVoteExtHandler(logger log.Logger, timeout time.Duration, k keeper.Keeper) *VoteExtHandler {
+func NewVoteExtHandler(
+	logger log.Logger, 
+	timeout time.Duration, 
+	orgK types.OrgKeeper,
+    subnetK types.SubnetKeeper,
+    leaseK types.LeaseKeeper,
+	) *VoteExtHandler {
 	return &VoteExtHandler{
 		logger:       logger,
-		checkTimeout: timeout,
-		Keeper:       k,
+        checkTimeout: timeout,
+        OrgKeeper:    orgK,
+        SubnetKeeper: subnetK,
+        LeaseKeeper:  leaseK,
 	}
 }
 
@@ -47,7 +58,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		h.logger.Info("performing domain validations for vote extension", "height", req.Height, "time", h.lastCheckTime)
 
 		// Get list of organizations that need validation
-		orgsToValidate := h.Keeper.GetOrgsForDomainValidation(ctx)
+		orgsToValidate := h.OrgKeeper.GetOrgsForDomainValidation(ctx)
 
 		if len(orgsToValidate) == 0 {
 			// No orgs need validation, return empty extension
@@ -188,7 +199,7 @@ func (h *VoteExtHandler) VerifyVoteExtensionHandler() sdk.VerifyVoteExtensionHan
 		// Check that all org IDs are valid
 		for orgID := range voteExt.OrgDomainValidation {
 			// Verify the org exists in state
-			org, found := h.Keeper.GetOrg(ctx, orgID)
+			org, found := h.OrgKeeper.GetOrg(ctx, orgID)
 			if !found {
 				return nil, fmt.Errorf("org ID %d in vote extension does not exist", orgID)
 			}

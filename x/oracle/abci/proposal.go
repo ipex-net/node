@@ -10,7 +10,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"ipex/x/org/keeper"
+	"ipex/x/oracle/types"
 )
 
 // StakeDomainValidation defines the structure a proposer should use to calculate
@@ -23,14 +23,24 @@ type StakeDomainValidation struct {
 
 type ProposalHandler struct {
 	logger   log.Logger
-	keeper   keeper.Keeper
+    orgKeeper    types.OrgKeeper
+    subnetKeeper types.SubnetKeeper
+    leaseKeeper  types.LeaseKeeper
 	valStore baseapp.ValidatorStore
 }
 
-func NewProposalHandler(logger log.Logger, keeper keeper.Keeper, valStore baseapp.ValidatorStore) *ProposalHandler {
+func NewProposalHandler(
+	logger log.Logger, 
+	orgK types.OrgKeeper,
+    subnetK types.SubnetKeeper,
+    leaseK types.LeaseKeeper, 
+	valStore baseapp.ValidatorStore,
+	) *ProposalHandler {
 	return &ProposalHandler{
 		logger:   logger,
-		keeper:   keeper,
+        orgKeeper:    orgK,
+        subnetKeeper: subnetK,
+        leaseKeeper:  leaseK,
 		valStore: valStore,
 	}
 }
@@ -210,7 +220,7 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 
 	// Update the validation status for each organization
 	for orgID, isValid := range injectedVoteExtTx.ValidationResults {
-		if err := h.keeper.UpdateOrgDomainValidationStatus(ctx, orgID, isValid); err != nil {
+		if err := h.orgKeeper.UpdateOrgDomainValidationStatus(ctx, orgID, isValid); err != nil {
 			// Log error but continue with other organizations
 			h.logger.Error("failed to update org domain validation status",
 				"org_id", orgID,

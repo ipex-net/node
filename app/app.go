@@ -271,11 +271,15 @@ func New(
 		logger,
 		5*time.Second, // Timeout for DNS lookups
 		app.OrgKeeper,
+		app.SubnetKeeper,
+		app.LeaseKeeper,
 	)
 	// Create the proposal handler for domain validation
 	proposalHandler := oracleabci.NewProposalHandler(
 		logger,
 		app.OrgKeeper,
+		app.SubnetKeeper,
+		app.LeaseKeeper,
 		app.StakingKeeper, // This will be used as the validator store
 	)
 
