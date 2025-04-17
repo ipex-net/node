@@ -176,30 +176,30 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 	now := time.Now()
 
 	for ; iterator.Valid(); iterator.Next() {
-		var val types.Org
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-
-		// Skip already verified domains
-		if val.DomainVerified {
-			continue
-		}
+		var org types.Org
+		k.cdc.MustUnmarshal(iterator.Value(), &org)
 
 		// Skip orgs without websites
-		if val.Website == "" {
+		if org.Website == "" {
 			continue
 		}
 
 		// Check if enough time has passed since last attempt
-		if val.DomainVerifAttemptedAt != nil {
-			lastAttempt := *val.DomainVerifAttemptedAt
-			orgAge := now.Sub(val.CreatedAt)
+		if org.DomainVerifAttemptedAt != nil {
+			lastAttempt := *org.DomainVerifAttemptedAt
+			orgAge := now.Sub(org.CreatedAt)
 
-			// Determine required interval based on org age
+			// Determine required interval based on org age and validity status
 			var requiredInterval time.Duration
 
 			switch {
-			case orgAge < 72*time.Hour: // < 3 days
+			
+			case org.DomainVerified:
+				requiredInterval = 72 * time.Hour //If org is verified we run re-verification every 3 days
+			case orgAge < 24*time.Hour: // Org age < 1 day
 				requiredInterval = 1 * time.Minute
+			case orgAge < 72*time.Hour: // < 3 days
+				requiredInterval = 3 * time.Minute
 			case orgAge < 7*24*time.Hour: // < 7 days
 				requiredInterval = 5 * time.Minute
 			case orgAge < 14*24*time.Hour: // < 14 days
@@ -207,7 +207,7 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 			case orgAge < 30*24*time.Hour: // < 30 days
 				requiredInterval = 30 * time.Minute
 			default: // > 30 days
-				requiredInterval = 1 * time.Hour
+				requiredInterval = 4 * time.Hour
 			}
 
 			// Skip if not enough time has passed
@@ -216,15 +216,8 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 			}
 		}
 
-		// Update the verification attempt timestamp
-		val.DomainVerifAttemptedAt = &now
-
-		// Save the updated org back to the store
-		k.cdc.MustMarshal(&val)
-		store.Set(iterator.Key(), k.cdc.MustMarshal(&val))
-
 		// Add to the list for validation
-		list = append(list, val)
+		list = append(list, org)
 	}
 
 	return
@@ -243,12 +236,15 @@ func (k Keeper) UpdateOrgDomainValidationStatus(ctx context.Context, orgID uint6
 
 	// Update timestamp
 	nowTime := time.Now()
-	org.DomainVerifiedAt = &nowTime
+	if isValid {
+		org.DomainVerifiedAt = &nowTime
+	}
+
+	//Updating verification attempt time
+	org.DomainVerifAttemptedAt = &nowTime
 
 	// Save the updated organization
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-	store.Set(GetOrgIDBytes(orgID), k.cdc.MustMarshal(&org))
+	k.SetOrg(ctx, org)
 
 	return nil
 }

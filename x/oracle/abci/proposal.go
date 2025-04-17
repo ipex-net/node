@@ -206,8 +206,9 @@ func compareValidationResults(r1, r2 map[uint64]bool) error {
 func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeBlock) (*sdk.ResponsePreBlock, error) {
 	res := &sdk.ResponsePreBlock{}
 
-	// Skip if no transactions or if vote extensions aren't enabled yet
-	if len(req.Txs) == 0 || ctx.BlockHeight() <= ctx.ConsensusParams().Abci.VoteExtensionsEnableHeight {
+	// Skip if vote extensions aren't enabled yet
+	// (we always run validation update regardless of other txs)
+	if ctx.BlockHeight() <= ctx.ConsensusParams().Abci.VoteExtensionsEnableHeight {
 		return res, nil
 	}
 
