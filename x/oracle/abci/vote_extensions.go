@@ -53,10 +53,6 @@ type OracleVoteExtension struct {
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 	return func(ctx sdk.Context, req *abci.RequestExtendVote) (*abci.ResponseExtendVote, error) {
-		h.currentBlock = req.Height
-		h.lastCheckTime = time.Now()
-		h.logger.Info("performing domain validations for vote extension", "height", req.Height, "time", h.lastCheckTime)
-
 		// Get list of organizations that need validation
 		orgsToValidate := h.OrgKeeper.GetOrgsForDomainValidation(ctx)
 
@@ -64,7 +60,9 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			// No orgs need validation, return empty extension
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
 		}
-
+		h.currentBlock = req.Height
+		h.lastCheckTime = time.Now()
+		h.logger.Info("performing domain validations for vote extension", "height", req.Height, "time", h.lastCheckTime)
 		// Map to store validation results
 		validationResults := make(map[uint64]bool)
 
