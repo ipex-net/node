@@ -85,19 +85,17 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 				isValid, err := h.validateDomain(dnsCtx, org.Id, org.Website)
 				if err != nil {
 					h.logger.Error("domain validation failed", "org_id", org.Id, "domain", org.Website, "error", err)
-					isValid = false
 				}
 
-				// Safely update the results map
 				mu.Lock()
 				validationResults[org.Id] = isValid
 				mu.Unlock()
-
+				
 				return nil
 			})
 		}
 
-		// Wait for all validations to complete
+		// Wait for all DNS validations to complete
 		if err := g.Wait(); err != nil {
 			h.logger.Error("some domain validations failed", "error", err)
 			// Continue even if some validations failed

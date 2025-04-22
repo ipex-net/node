@@ -127,6 +127,9 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 	}
 	if msg.Website != "" {
 		org.Website = msg.Website
+		org.DomainVerified = false
+		org.DomainVerifAttemptedAt = nil
+		org.DomainVerifiedAt = nil
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventWebsite, msg.Website))
 	}
 	if msg.AbuseEmail != "" {

@@ -48,6 +48,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestPrepareProposal) (*abci.ResponsePrepareProposal, error) {
 		proposalTxs := req.Txs
 
+		//Only execute if vote exstensions are enabled
         if req.Height > ctx.ConsensusParams().Abci.VoteExtensionsEnableHeight {
             // Attempt to validate vote extensions, but do not abort proposal on error
             if err := baseapp.ValidateVoteExtensions(ctx, h.valStore, req.Height, ctx.ChainID(), req.LocalLastCommit); err != nil {
