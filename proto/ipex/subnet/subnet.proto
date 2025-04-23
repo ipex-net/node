@@ -8,10 +8,10 @@ import "gogoproto/gogo.proto";
 enum SubnetStatus {
   // Initial state, for freshly added subnets
   SUBNET_STATUS_INITIAL = 0;
-  // When ownership is verified
+  // When subnet got initial 
   SUBNET_STATUS_READY = 1; 
   // When ownership verification failed in certaing amount of blocks
-  SUBNET_STATUS_ERROR = 2;
+  SUBNET_STATUS_REJECTED = 2;
   //When subnet is 
   SUBNET_STATUS_LEASED = 3;
 }
@@ -44,26 +44,35 @@ message Subnet {
 
   Rir rir = 15; 
 
-  string rirOwnerOrg = 16; 
-  string rirAbuseEmail = 17; 
-  uint64 rirAllocationType = 18; 
-  google.protobuf.Timestamp rirSyncedAt = 19 [(gogoproto.stdtime) = true]; 
+  string rirOwnerOrgId = 16; 
+  string rirOwnerOrgName = 17; 
+  string rirAbuseEmail = 18; 
+  uint64 rirAllocationType = 19;
+  bool rirRecordExists = 20; 
+  google.protobuf.Timestamp rirSyncedAt = 21 [(gogoproto.stdtime) = true]; 
 
-  uint64 ownerOrgId = 20; 
-  uint64 userOrgId = 21; 
+  uint64 ownerOrgId = 22; 
+  uint64 userOrgId = 23; 
 
-  uint64 origin = 22; 
-  bool originTransferRequested = 23; 
-  google.protobuf.Timestamp originTransferRequestedAt = 24 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp originTransferFulfilledAt = 25 [(gogoproto.stdtime) = true]; 
+  uint64 origin = 24; 
+  bool originTransferRequested = 25; 
+  google.protobuf.Timestamp originTransferRequestedAt = 26 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp originTransferFulfilledAt = 27 [(gogoproto.stdtime) = true]; 
 
-  string irrOrigin = 26; 
-  string irrMntBy = 27; 
-  google.protobuf.Timestamp irrCreatedAt = 28 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp irrModifiedAt = 29 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp irrSyncedAt = 30 [(gogoproto.stdtime) = true]; 
-  string rpkiOrigin = 31; 
-  google.protobuf.Timestamp rpkiSyncedAt = 32 [(gogoproto.stdtime) = true]; 
+  string irrOrigin = 28; 
+  string irrMntBy = 29; 
+  google.protobuf.Timestamp irrCreatedAt = 30 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp irrModifiedAt = 31 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp irrSyncedAt = 32 [(gogoproto.stdtime) = true]; 
+  bool irrRecordExists = 33;
+
+  string rpkiOrigin = 34; 
+  bool rpkiRecordExists = 35;
+  google.protobuf.Timestamp rpkiSyncedAt = 36 [(gogoproto.stdtime) = true]; 
   
-  google.protobuf.Timestamp updatedAt = 33 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp updatedAt = 37 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+
+  bool abuseEmailDomainVerified = 38;
+  google.protobuf.Timestamp abuseEmailDomainVerifiedAt = 39 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp abuseEmailDomainVerifAttemptedAt = 40 [(gogoproto.stdtime) = true];
 }
