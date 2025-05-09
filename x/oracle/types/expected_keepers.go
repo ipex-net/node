@@ -31,6 +31,7 @@ type SubnetKeeper interface {
    GetSubnet(ctx context.Context, id uint64) (subnettypes.Subnet, bool)
    // SetSubnet updates the given Subnet.
    SetSubnet(ctx context.Context, subnet subnettypes.Subnet)
+   GetSubnetsForRirSync(ctx context.Context) []uint64
 }
 
 // LeaseKeeper defines the expected interface for the lease module.

@@ -19,9 +19,9 @@ enum SubnetStatus {
 enum Rir {
   RIPE = 0;
   ARIN = 1;
-  LACNIC = 2;
-  AFRINIC = 3;
-  APNIC = 4;
+  //LACNIC = 2;
+  //AFRINIC = 3;
+  //APNIC = 4;
 }
 
 message Subnet {
@@ -47,9 +47,9 @@ message Subnet {
   string rirOwnerOrgId = 16; 
   string rirOwnerOrgName = 17; 
   string rirAbuseEmail = 18; 
-  uint64 rirAllocationType = 19;
-  bool rirRecordExists = 20; 
-  google.protobuf.Timestamp rirSyncedAt = 21 [(gogoproto.stdtime) = true]; 
+  string rirAllocationType = 19;
+  bool rirRecordValid = 20; 
+  google.protobuf.Timestamp rirSyncAttemptedAt = 21 [(gogoproto.stdtime) = true]; 
 
   uint64 ownerOrgId = 22; 
   uint64 userOrgId = 23; 
@@ -64,10 +64,10 @@ message Subnet {
   google.protobuf.Timestamp irrCreatedAt = 30 [(gogoproto.stdtime) = true]; 
   google.protobuf.Timestamp irrModifiedAt = 31 [(gogoproto.stdtime) = true]; 
   google.protobuf.Timestamp irrSyncedAt = 32 [(gogoproto.stdtime) = true]; 
-  bool irrRecordExists = 33;
+  bool irrOriginExists = 33;
 
   string rpkiOrigin = 34; 
-  bool rpkiRecordExists = 35;
+  bool rpkiOriginExists = 35;
   google.protobuf.Timestamp rpkiSyncedAt = 36 [(gogoproto.stdtime) = true]; 
   
   google.protobuf.Timestamp updatedAt = 37 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];

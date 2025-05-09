@@ -22,12 +22,11 @@ type VoteExtHandler struct {
 	logger        log.Logger
 	currentBlock  int64         // current block height
 	lastCheckTime time.Time     // last time we performed domain validations
-	checkTimeout  time.Duration // timeout for DNS lookups
+	checkTimeout  time.Duration // timeout for lookups
 
     OrgKeeper    types.OrgKeeper
     SubnetKeeper types.SubnetKeeper
     LeaseKeeper  types.LeaseKeeper
-
 }
 
 func NewVoteExtHandler(
@@ -46,16 +45,25 @@ func NewVoteExtHandler(
 	}
 }
 
+type SubnetInfo struct {
+    Valid          bool
+    OrgID          string
+    OrgName        string
+    AbuseEmail     string
+    AllocationType string
+}
+
 type OracleVoteExtension struct {
 	Height              int64
 	OrgDomainValidation map[uint64]bool
+	//SubnetSync map[uint64]SubnetInfo
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 	return func(ctx sdk.Context, req *abci.RequestExtendVote) (*abci.ResponseExtendVote, error) {
 		// Get list of organizations that need validation
 		orgsToValidate := h.OrgKeeper.GetOrgsForDomainValidation(ctx)
-
+		//subnetsToRirSync := h.SubnetKeeper.GetSubnetsForRirSync(ctx)
 		if len(orgsToValidate) == 0 {
 			// No orgs need validation, return empty extension
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil

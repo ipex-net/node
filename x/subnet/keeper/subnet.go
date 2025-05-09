@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"encoding/binary"
+	"time"
 
 	"ipex/x/subnet/types"
 
@@ -191,4 +192,57 @@ func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 	subnet.UserOrgId = 0
 	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
+}
+
+func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []uint64) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	now := time.Now()
+	count := 0
+	maxSubnets := 5
+	for ; iterator.Valid(); iterator.Next() {
+		var subnet types.Subnet
+		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
+
+		// Check if enough time has passed since last attempt
+		if subnet.RirSyncAttemptedAt != nil {
+			lastAttempt := *subnet.RirSyncAttemptedAt
+
+			// Determine required interval based on org age and validity status
+			var requiredInterval time.Duration
+
+			switch {
+			
+			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_READY:
+				requiredInterval = 72 * time.Hour //If subnet was succesfully synced, rerun the sync after x hours
+			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_LEASED:
+				requiredInterval = 72 * time.Hour //If subnet was succesfully synced, rerun the sync after x hours
+			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_REJECTED:
+				continue //If synced and was rejected
+			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_INITIAL:
+				requiredInterval = time.Second
+			default: // 1 minute
+				requiredInterval = time.Minute
+			}
+
+			// Skip if not enough time has passed
+			if now.Sub(lastAttempt) < requiredInterval {
+				continue
+			}
+		}
+
+		// Add to the list for validation
+		list = append(list, subnet.Id)
+		// Increment count and check if we've reached the maximum
+		count++
+		if count >= maxSubnets {
+			break // Exit loop once we have collected maxSubnets
+		}
+	}
+
+	return
 }

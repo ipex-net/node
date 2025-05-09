@@ -74,6 +74,11 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "invalid IPv4 address format (%s)", parsedIp.String())
 	}
 
+	//Validate that the last octet is equal to zero, as the smallest subnet size is /24
+	if parsedIp[3] != 0 {
+		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "subnet fourth octet must be zero for address (%s)", parsedIp.String())
+	}
+
 	// Check if IP is in a reserved range
 	if isReservedIPRange(parsedIp) {
 		return nil, errorsmod.Wrapf(ErrReservedIPRange, "IP address is in a reserved range (%s)", parsedIp.String())
