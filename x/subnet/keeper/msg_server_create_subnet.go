@@ -89,8 +89,8 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrap(ErrInvalidMask, "prefix length must be between 8 and 24")
 	}
 
-	if msg.Rir > 4 {
-		return nil, errorsmod.Wrap(ErrUnknownRIR, "Unknown RIR")
+	if msg.Rir != "ARIN" && msg.Rir !="RIPE" {
+		return nil, errorsmod.Wrap(ErrUnknownRIR, "Unsopprted RIR")
 	}
 
 	//Validate Geofeed
@@ -142,7 +142,7 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		NetworkAddress: msg.NetworkAddress,
 		Mask:           msg.Mask,
 		Status:         types.SubnetStatus_SUBNET_STATUS_INITIAL,
-		Rir:            types.Rir(msg.Rir),
+		Rir:            msg.Rir,
 		GeofeedUrl:     msg.GeofeedUrl,
 		OwnerOrgId:     msg.OwnerOrgId,
 		CreatedAt:      ctx.BlockTime(),

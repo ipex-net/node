@@ -194,7 +194,7 @@ func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 	k.SetSubnet(ctx, subnet)
 }
 
-func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []uint64) {
+func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
@@ -236,11 +236,11 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []uint64) {
 		}
 
 		// Add to the list for validation
-		list = append(list, subnet.Id)
+		list = append(list, subnet)
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break // Exit loop once we have collected maxSubnets
+			break 
 		}
 	}
 

@@ -987,8 +987,8 @@ func (x *fastReflection_MsgCreateSubnet) Range(f func(protoreflect.FieldDescript
 			return
 		}
 	}
-	if x.Rir != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Rir)
+	if x.Rir != "" {
+		value := protoreflect.ValueOfString(x.Rir)
 		if !f(fd_MsgCreateSubnet_rir, value) {
 			return
 		}
@@ -1019,7 +1019,7 @@ func (x *fastReflection_MsgCreateSubnet) Has(fd protoreflect.FieldDescriptor) bo
 	case "ipex.subnet.MsgCreateSubnet.geofeedUrl":
 		return x.GeofeedUrl != ""
 	case "ipex.subnet.MsgCreateSubnet.rir":
-		return x.Rir != uint64(0)
+		return x.Rir != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.MsgCreateSubnet"))
@@ -1047,7 +1047,7 @@ func (x *fastReflection_MsgCreateSubnet) Clear(fd protoreflect.FieldDescriptor) 
 	case "ipex.subnet.MsgCreateSubnet.geofeedUrl":
 		x.GeofeedUrl = ""
 	case "ipex.subnet.MsgCreateSubnet.rir":
-		x.Rir = uint64(0)
+		x.Rir = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.MsgCreateSubnet"))
@@ -1081,7 +1081,7 @@ func (x *fastReflection_MsgCreateSubnet) Get(descriptor protoreflect.FieldDescri
 		return protoreflect.ValueOfString(value)
 	case "ipex.subnet.MsgCreateSubnet.rir":
 		value := x.Rir
-		return protoreflect.ValueOfUint64(value)
+		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.MsgCreateSubnet"))
@@ -1113,7 +1113,7 @@ func (x *fastReflection_MsgCreateSubnet) Set(fd protoreflect.FieldDescriptor, va
 	case "ipex.subnet.MsgCreateSubnet.geofeedUrl":
 		x.GeofeedUrl = value.Interface().(string)
 	case "ipex.subnet.MsgCreateSubnet.rir":
-		x.Rir = value.Uint()
+		x.Rir = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.MsgCreateSubnet"))
@@ -1170,7 +1170,7 @@ func (x *fastReflection_MsgCreateSubnet) NewField(fd protoreflect.FieldDescripto
 	case "ipex.subnet.MsgCreateSubnet.geofeedUrl":
 		return protoreflect.ValueOfString("")
 	case "ipex.subnet.MsgCreateSubnet.rir":
-		return protoreflect.ValueOfUint64(uint64(0))
+		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.MsgCreateSubnet"))
@@ -1257,8 +1257,9 @@ func (x *fastReflection_MsgCreateSubnet) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Rir != 0 {
-			n += 1 + runtime.Sov(uint64(x.Rir))
+		l = len(x.Rir)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -1289,10 +1290,12 @@ func (x *fastReflection_MsgCreateSubnet) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.Rir != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.Rir))
+		if len(x.Rir) > 0 {
+			i -= len(x.Rir)
+			copy(dAtA[i:], x.Rir)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Rir)))
 			i--
-			dAtA[i] = 0x30
+			dAtA[i] = 0x32
 		}
 		if len(x.GeofeedUrl) > 0 {
 			i -= len(x.GeofeedUrl)
@@ -1494,10 +1497,10 @@ func (x *fastReflection_MsgCreateSubnet) ProtoMethods() *protoiface.Methods {
 				x.GeofeedUrl = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 6:
-				if wireType != 0 {
+				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Rir", wireType)
 				}
-				x.Rir = 0
+				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1507,11 +1510,24 @@ func (x *fastReflection_MsgCreateSubnet) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Rir |= uint64(b&0x7F) << shift
+					stringLen |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Rir = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -6584,7 +6600,7 @@ type MsgCreateSubnet struct {
 	NetworkAddress uint64 `protobuf:"varint,3,opt,name=networkAddress,proto3" json:"networkAddress,omitempty"`
 	Mask           uint64 `protobuf:"varint,4,opt,name=mask,proto3" json:"mask,omitempty"`
 	GeofeedUrl     string `protobuf:"bytes,5,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
-	Rir            uint64 `protobuf:"varint,6,opt,name=rir,proto3" json:"rir,omitempty"`
+	Rir            string `protobuf:"bytes,6,opt,name=rir,proto3" json:"rir,omitempty"`
 }
 
 func (x *MsgCreateSubnet) Reset() {
@@ -6642,11 +6658,11 @@ func (x *MsgCreateSubnet) GetGeofeedUrl() string {
 	return ""
 }
 
-func (x *MsgCreateSubnet) GetRir() uint64 {
+func (x *MsgCreateSubnet) GetRir() string {
 	if x != nil {
 		return x.Rir
 	}
-	return 0
+	return ""
 }
 
 type MsgCreateSubnetResponse struct {
@@ -7124,7 +7140,7 @@ var file_ipex_subnet_tx_proto_rawDesc = []byte{
 	0x6d, 0x61, 0x73, 0x6b, 0x12, 0x1e, 0x0a, 0x0a, 0x67, 0x65, 0x6f, 0x66, 0x65, 0x65, 0x64, 0x55,
 	0x72, 0x6c, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x67, 0x65, 0x6f, 0x66, 0x65, 0x65,
 	0x64, 0x55, 0x72, 0x6c, 0x12, 0x10, 0x0a, 0x03, 0x72, 0x69, 0x72, 0x18, 0x06, 0x20, 0x01, 0x28,
-	0x04, 0x52, 0x03, 0x72, 0x69, 0x72, 0x3a, 0x0c, 0x82, 0xe7, 0xb0, 0x2a, 0x07, 0x63, 0x72, 0x65,
+	0x09, 0x52, 0x03, 0x72, 0x69, 0x72, 0x3a, 0x0c, 0x82, 0xe7, 0xb0, 0x2a, 0x07, 0x63, 0x72, 0x65,
 	0x61, 0x74, 0x6f, 0x72, 0x22, 0x29, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x43, 0x72, 0x65, 0x61, 0x74,
 	0x65, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
 	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x22,

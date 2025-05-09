@@ -16,13 +16,6 @@ enum SubnetStatus {
   SUBNET_STATUS_LEASED = 3;
 }
 
-enum Rir {
-  RIPE = 0;
-  ARIN = 1;
-  //LACNIC = 2;
-  //AFRINIC = 3;
-  //APNIC = 4;
-}
 
 message Subnet {
   uint64 id = 1;
@@ -42,7 +35,7 @@ message Subnet {
   string geofeedUrl = 13; 
   google.protobuf.Timestamp geofeedSyncedAt = 14 [(gogoproto.stdtime) = true]; 
 
-  Rir rir = 15; 
+  string rir = 15; 
 
   string rirOwnerOrgId = 16; 
   string rirOwnerOrgName = 17; 

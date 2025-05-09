@@ -6,10 +6,12 @@ import (
 	"fmt"
 	"net"
 	"net/url"
+	"strings"
 	"sync"
 	"time"
 
 	"cosmossdk.io/log"
+	"github.com/openrdap/rdap"
 	"golang.org/x/sync/errgroup"
 
 	abci "github.com/cometbft/cometbft/abci/types"
@@ -56,67 +58,82 @@ type SubnetInfo struct {
 type OracleVoteExtension struct {
 	Height              int64
 	OrgDomainValidation map[uint64]bool
-	//SubnetSync map[uint64]SubnetInfo
+	SubnetRirSync map[uint64]SubnetInfo
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 	return func(ctx sdk.Context, req *abci.RequestExtendVote) (*abci.ResponseExtendVote, error) {
 		// Get list of organizations that need validation
 		orgsToValidate := h.OrgKeeper.GetOrgsForDomainValidation(ctx)
-		//subnetsToRirSync := h.SubnetKeeper.GetSubnetsForRirSync(ctx)
-		if len(orgsToValidate) == 0 {
-			// No orgs need validation, return empty extension
+		subnetsToRirSync := h.SubnetKeeper.GetSubnetsForRirSync(ctx)
+		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 {
+			// Nothing to validate or sync, returning empty Vote
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
 		}
 		h.currentBlock = req.Height
 		h.lastCheckTime = time.Now()
 		h.logger.Info("performing domain validations for vote extension", "height", req.Height, "time", h.lastCheckTime)
 		// Map to store validation results
-		validationResults := make(map[uint64]bool)
+		domainValidationResults := make(map[uint64]bool)
+		subnetSyncResults := make(map[uint64]SubnetInfo)
 
-		// Use errgroup to perform DNS lookups concurrently
-		g := new(errgroup.Group)
 
-		// Mutex to protect concurrent map access
-		var mu sync.Mutex
+		if len(orgsToValidate) > 0 {
+			// Use errgroup to perform DNS lookups concurrently
+			g := new(errgroup.Group)
 
-		for _, org := range orgsToValidate {
-			// Create local variables to avoid closure issues
-			org := org
+			// Mutex to protect concurrent map access
+			var mu sync.Mutex
 
-			g.Go(func() error {
-				// Set a context with timeout for DNS lookup
-				dnsCtx, cancel := context.WithTimeout(context.Background(), h.checkTimeout)
-				defer cancel()
+			for _, org := range orgsToValidate {
+				// Create local variables to avoid closure issues
+				org := org
 
-				// Perform DNS lookup
-				isValid, err := h.validateDomain(dnsCtx, org.Id, org.Website)
-				if err != nil {
-					h.logger.Error("domain validation failed", "org_id", org.Id, "domain", org.Website, "error", err)
-				}
+				g.Go(func() error {
+					// Set a context with timeout for DNS lookup
+					dnsCtx, cancel := context.WithTimeout(context.Background(), h.checkTimeout)
+					defer cancel()
 
-				mu.Lock()
-				validationResults[org.Id] = isValid
-				mu.Unlock()
-				
-				return nil
-			})
+					// Perform DNS lookup
+					isValid, err := h.validateDomain(dnsCtx, org.Id, org.Website)
+					if err != nil {
+						h.logger.Error("domain validation failed", "org_id", org.Id, "domain", org.Website, "error", err)
+					}
+
+					mu.Lock()
+					domainValidationResults[org.Id] = isValid
+					mu.Unlock()
+					
+					return nil
+				})
+			}
+
+			// Wait for all DNS validations to complete
+			if err := g.Wait(); err != nil {
+				h.logger.Error("some domain validations failed", "error", err)
+				// Continue even if some validations failed
+			}
+
 		}
 
-		// Wait for all DNS validations to complete
-		if err := g.Wait(); err != nil {
-			h.logger.Error("some domain validations failed", "error", err)
-			// Continue even if some validations failed
+		if len(subnetsToRirSync) > 0 {
+			for _, subnet := range subnetsToRirSync {
+				subnetDetails:= h.SyncSubnetData(subnet.NetworkAddress, subnet.Mask, subnet.Rir)
+				subnetSyncResults[subnet.Id] = subnetDetails
+			}
 		}
+
+
 
 		// Create vote extension
 		voteExt := OracleVoteExtension{
 			Height:              req.Height,
-			OrgDomainValidation: validationResults,
+			OrgDomainValidation: domainValidationResults,
+			SubnetRirSync : subnetSyncResults,
 		}
 
 		// Log the results
-		h.logger.Info("domain validation complete", "validated_count", len(validationResults))
+		h.logger.Info("Vote extension complete")
 
 		// Marshal the results
 		bz, err := json.Marshal(voteExt)
@@ -175,6 +192,249 @@ func extractDomain(websiteURL string) (string, error) {
 	return domain, nil
 }
 
+// SyncSubnetData looks up subnet information via RDAP for validation and metadata extraction.
+// It queries the RDAP registry for information about the given IP/subnet and validates
+// that it belongs to the expected Regional Internet Registry (RIR).
+//
+// The function performs multiple validation steps:
+// 1. Validates that the subnet belongs to the expected RIR
+// 2. Verifies that the subnet fits within the allocated range returned by RDAP
+// 3. Extracts organization information (ID and name)
+// 4. Finds an abuse contact email
+//
+// Parameters:
+//   - ipDecimal: The starting IP address of the subnet in decimal format
+//   - mask: The subnet mask length (e.g., 24 for a /24 subnet)
+//   - rir: The expected Regional Internet Registry code (e.g., "ARIN", "RIPE")
+//
+// Returns:
+//
+//	A SubnetInfo struct containing:
+//	- Valid: true if all validations pass, otherwise false
+//	- OrgID: The organization identifier from RDAP
+//	- OrgName: The organization name from RDAP
+//	- AbuseEmail: Contact email for abuse reports
+//	- AllocationType: The allocation type from RDAP (e.g., "ALLOCATED")
+//
+// The function returns an invalid SubnetInfo (Valid=false) if any validation step fails
+// or if required information cannot be extracted.
+func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64, rir string) SubnetInfo {
+	// Convert decimal IP to string format for RDAP query
+	ipStr := convertDecimalIPToString(ipDecimal)
+	// Prepare empty result
+	result := SubnetInfo{
+		Valid:          false,
+		OrgID:          "",
+		OrgName:        "",
+		AbuseEmail:     "",
+		AllocationType: "",
+	}
+	// Initialize RDAP client
+	client := &rdap.Client{}
+
+	// Perform the RDAP query
+	response, err := client.QueryIP(ipStr)
+	if err != nil {
+		errMsg := err.Error()
+		if strings.Contains(errMsg, "No RDAP servers responded successfully") {
+			fmt.Printf("Rate limit detected: %v\n", err)
+		} else {
+			fmt.Printf("RDAP query failed: %v\n", err)
+		}
+		return result
+	}
+
+	// Validate RIR
+	responseRIR := getRIRFromWhoisServer(response.Port43)
+
+	if responseRIR != rir {
+		return result
+	}
+
+	// Calculate end IP based on the input IP and mask
+	endIp := calculateSubnetEndIP(ipDecimal, mask)
+
+	// Get the inetnum end IP from the RDAP response
+	inetnumEndIp, err := IpToDecimal(response.EndAddress)
+	if err != nil {
+		fmt.Printf("Error converting RDAP end address to decimal: %v\n", err)
+		return result
+	}
+
+	// Checking that the subnet we've received is within the inetnum range
+	if endIp > inetnumEndIp {
+		fmt.Printf("Subnet exceeds the inetnum range")
+		return result
+	}
+
+	// Extract allocation type
+	result.AllocationType = response.Type
+
+	// Extract registrant information
+	result.OrgID, result.OrgName = extractOrgInfoFromEntities(response.Entities)
+
+	// Extract abuse email
+	result.AbuseEmail = findAbuseEmail(response.Entities)
+
+	// If no orgId, orgName or abuseEmail extracted
+	if result.OrgID == "" || result.OrgName == "" || result.AbuseEmail == "" {
+		return result
+	}
+	// Otherwise subnet is valid
+	result.Valid = true
+	// Return the validation result and extracted data
+	return result
+}
+
+// getRIRFromWhoisServer maps a WHOIS server address to its corresponding RIR name.
+// Returns an empty string if the server is not recognized.
+func getRIRFromWhoisServer(port43 string) string {
+	// Map of WHOIS servers to RIR names
+	whoisToRIR := map[string]string{
+		"whois.arin.net":    "ARIN",
+		"whois.ripe.net":    "RIPE",
+		"whois.apnic.net":   "APNIC",
+		"whois.lacnic.net":  "LACNIC",
+		"whois.afrinic.net": "AFRINIC",
+	}
+
+	// Look up the RIR name for the given WHOIS server
+	return whoisToRIR[port43]
+}
+
+// extractEmailFromVCard extracts an email address from a VCard if present.
+// Returns an empty string if no email is found or if vcard is nil.
+func extractEmailFromVCard(vcard *rdap.VCard) string {
+	// Handle nil VCard
+	if vcard == nil {
+		return ""
+	}
+
+	// Look for email property in VCard
+	for _, prop := range vcard.Properties {
+		if prop.Name == "email" {
+			if value, ok := prop.Value.(string); ok {
+				return value
+			}
+		}
+	}
+
+	// No email found
+	return ""
+}
+
+// findAbuseEmail recursively searches for an abuse email in entities and their nested entities.
+// Returns the first abuse email found, or an empty string if none is found.
+func findAbuseEmail(entities []rdap.Entity) string {
+	// Iterate through all entities at current level
+	for _, entity := range entities {
+		// Check if current entity has abuse role
+		for _, role := range entity.Roles {
+			if role == "abuse" {
+				// Try to extract email from this entity
+				email := extractEmailFromVCard(entity.VCard)
+				if email != "" {
+					return email
+				}
+			}
+		}
+
+		// If no email found and entity has nested entities, search those
+		if len(entity.Entities) > 0 {
+			// Recursive call to search nested entities
+			email := findAbuseEmail(entity.Entities)
+			if email != "" {
+				return email
+			}
+		}
+	}
+
+	// No abuse email found in any entity
+	return ""
+}
+
+// convertDecimalIPToString converts a uint64 decimal IP representation to a string
+// in the standard dotted-decimal format (e.g., "192.168.1.1").
+func convertDecimalIPToString(ipDecimal uint64) string {
+	// Extract each octet from the decimal representation
+	ipBytes := []byte{
+		byte(ipDecimal >> 24),
+		byte(ipDecimal >> 16),
+		byte(ipDecimal >> 8),
+		byte(ipDecimal),
+	}
+
+	// Format as a dotted-decimal string
+	return fmt.Sprintf("%d.%d.%d.%d", ipBytes[0], ipBytes[1], ipBytes[2], ipBytes[3])
+}
+
+// calculateSubnetEndIP calculates the last IP address in a subnet
+// given the start IP in decimal form and the subnet mask.
+func calculateSubnetEndIP(ipDecimal uint64, mask uint64) uint64 {
+	// Calculate number of host bits (32 - mask for IPv4)
+	hostBits := uint64(32 - mask)
+
+	// Create a mask with 1s in the host portion
+	hostMask := (uint64(1) << hostBits) - 1
+
+	// Calculate end IP by setting all host bits to 1
+	// (This is equivalent to adding the maximum number of hosts to the start IP)
+	return ipDecimal | hostMask
+}
+
+// extractOrgInfoFromEntities searches for a registrant entity in the provided entities list
+// and extracts organization ID and name information.
+// Returns empty strings if no registrant entity is found or if information is incomplete.
+func extractOrgInfoFromEntities(entities []rdap.Entity) (orgID, orgName string) {
+	// Default return values
+	orgID = ""
+	orgName = ""
+
+	// Iterate through all entities
+	for _, entity := range entities {
+		// Check if entity has the registrant role
+		for _, role := range entity.Roles {
+			if role == "registrant" {
+				// Extract organization ID from entity handle
+				orgID = entity.Handle
+
+				// Extract organization name from vCard
+				if entity.VCard != nil {
+					for _, prop := range entity.VCard.Properties {
+						if prop.Name == "fn" {
+							if value, ok := prop.Value.(string); ok {
+								orgName = value
+							}
+						}
+					}
+				}
+
+				// If we've found both pieces of information, return early
+				if orgID != "" && orgName != "" {
+					return orgID, orgName
+				}
+			}
+		}
+	}
+
+	// Return whatever we found (may be incomplete or empty)
+	return orgID, orgName
+}
+
+// Helper function to convert IP string to decimal
+func IpToDecimal(ipStr string) (uint64, error) {
+	ip := net.ParseIP(ipStr)
+	if ip == nil {
+		return 0, fmt.Errorf("invalid IP address: %s", ipStr)
+	}
+	ip = ip.To4()
+	if ip == nil {
+		return 0, fmt.Errorf("not an IPv4 address: %s", ipStr)
+	}
+
+	return uint64(ip[0])<<24 | uint64(ip[1])<<16 | uint64(ip[2])<<8 | uint64(ip[3]), nil
+}
+
 func (h *VoteExtHandler) VerifyVoteExtensionHandler() sdk.VerifyVoteExtensionHandler {
 	return func(ctx sdk.Context, req *abci.RequestVerifyVoteExtension) (*abci.ResponseVerifyVoteExtension, error) {
 		// If extension is empty, accept it (no validations needed)
@@ -195,24 +455,36 @@ func (h *VoteExtHandler) VerifyVoteExtensionHandler() sdk.VerifyVoteExtensionHan
 		}
 
 		// Verify the structure of the validation results
-		if voteExt.OrgDomainValidation == nil {
-			return nil, fmt.Errorf("org domain validation map is nil")
+		if voteExt.OrgDomainValidation == nil && voteExt.SubnetRirSync == nil {
+			return nil, fmt.Errorf("vote extension data is nil")
 		}
 
 		// Check that all org IDs are valid
-		for orgID := range voteExt.OrgDomainValidation {
-			// Verify the org exists in state
-			org, found := h.OrgKeeper.GetOrg(ctx, orgID)
-			if !found {
-				return nil, fmt.Errorf("org ID %d in vote extension does not exist", orgID)
-			}
+		if voteExt.OrgDomainValidation != nil {
+			for orgID := range voteExt.OrgDomainValidation {
+				// Verify the org exists in state
+				org, found := h.OrgKeeper.GetOrg(ctx, orgID)
+				if !found {
+					return nil, fmt.Errorf("org ID %d in vote extension does not exist", orgID)
+				}
 
-			// Check if the org has a website
-			if org.Website == "" {
-				return nil, fmt.Errorf("org ID %d has no website", orgID)
+				// Check if the org has a website
+				if org.Website == "" {
+					return nil, fmt.Errorf("org ID %d has no website", orgID)
+				}
 			}
 		}
 
+		// Check that all subnet IDs are valid
+		if voteExt.SubnetRirSync != nil {
+			for subnetID := range voteExt.SubnetRirSync {
+				// Verify the org exists in state
+				_, found := h.SubnetKeeper.GetSubnet(ctx, subnetID)
+				if !found {
+					return nil, fmt.Errorf("subnet ID %d in vote extension does not exist", subnetID)
+				}
+			}
+		}
 		// Accept the vote extension
 		return &abci.ResponseVerifyVoteExtension{Status: abci.ResponseVerifyVoteExtension_ACCEPT}, nil
 	}

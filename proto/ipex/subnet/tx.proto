@@ -49,7 +49,7 @@ message MsgCreateSubnet {
   uint64 networkAddress = 3;
   uint64 mask           = 4;
   string geofeedUrl     = 5;
-  uint64 rir            = 6;
+  string rir            = 6;
 }
 
 message MsgCreateSubnetResponse {
