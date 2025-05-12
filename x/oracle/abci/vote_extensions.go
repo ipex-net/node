@@ -112,7 +112,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 
 		if len(subnetsToRirSync) > 0 {
 			for _, subnet := range subnetsToRirSync {
-				subnetDetails:= h.SyncSubnetData(subnet.NetworkAddress, subnet.Mask, subnet.Rir)
+				subnetDetails:= h.SyncSubnetData(subnet.NetworkAddress, subnet.Mask)
 				subnetSyncResults[subnet.Id] = subnetDetails
 			}
 		}
@@ -187,19 +187,15 @@ func extractDomain(websiteURL string) (string, error) {
 }
 
 // SyncSubnetData looks up subnet information via RDAP for validation and metadata extraction.
-// It queries the RDAP registry for information about the given IP/subnet and validates
-// that it belongs to the expected Regional Internet Registry (RIR).
+// It queries the RDAP registry for information about the given IP/subnet and validates the following:
 //
-// The function performs multiple validation steps:
-// 1. Validates that the subnet belongs to the expected RIR
-// 2. Verifies that the subnet fits within the allocated range returned by RDAP
-// 3. Extracts organization information (ID and name)
-// 4. Finds an abuse contact email
+// 1. That the subnet fits within the allocated range returned by RDAP
+// 2. Organization information (ID and name)
+// 4. Valid abuse contact email
 //
 // Parameters:
 //   - ipDecimal: The starting IP address of the subnet in decimal format
 //   - mask: The subnet mask length (e.g., 24 for a /24 subnet)
-//   - rir: The expected Regional Internet Registry code (e.g., "ARIN", "RIPE")
 //
 // Returns:
 //
@@ -209,10 +205,11 @@ func extractDomain(websiteURL string) (string, error) {
 //	- OrgName: The organization name from RDAP
 //	- AbuseEmail: Contact email for abuse reports
 //	- AllocationType: The allocation type from RDAP (e.g., "ALLOCATED")
+//	- RIR: corresponding Regional Internet Registry("RIPE", "ARIN")
 //
 // The function returns an invalid SubnetInfo (Valid=false) if any validation step fails
 // or if required information cannot be extracted.
-func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64, rir string) subnettypes.SubnetInfo {
+func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64) subnettypes.SubnetInfo {
 	// Convert decimal IP to string format for RDAP query
 	ipStr := convertDecimalIPToString(ipDecimal)
 	// Prepare empty result
@@ -222,6 +219,7 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64, rir strin
 		OrgName:        "",
 		AbuseEmail:     "",
 		AllocationType: "",
+		Rir: "",
 	}
 	// Initialize RDAP client
 	client := &rdap.Client{}
@@ -238,13 +236,15 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64, rir strin
 		return result
 	}
 
-	// Validate RIR
+	// Extract and validate RIR
 	responseRIR := getRIRFromWhoisServer(response.Port43)
 
-	if responseRIR != rir {
+	// We only support ARIN and RIPE
+	if responseRIR != "RIPE" && responseRIR != "ARIN" {
 		return result
 	}
 
+	
 	// Calculate end IP based on the input IP and mask
 	endIp := calculateSubnetEndIP(ipDecimal, mask)
 
@@ -269,6 +269,9 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64, rir strin
 
 	// Extract abuse email
 	result.AbuseEmail = findAbuseEmail(response.Entities)
+
+	// Set the RIR 
+	result.Rir = responseRIR
 
 	// If no orgId, orgName or abuseEmail extracted
 	if result.OrgID == "" || result.OrgName == "" || result.AbuseEmail == "" {

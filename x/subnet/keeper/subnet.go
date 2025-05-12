@@ -251,26 +251,31 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) 
 
 // UpdateOrgValidationStatus updates the domain validation status for an organization
 func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info types.SubnetInfo) error {
-	// Get the organization
+	// Get the subnet
 	subnet, found := k.GetSubnet(ctx, subnetID)
 	if !found {
-		return fmt.Errorf("org with ID %d not found", subnetID)
+		return fmt.Errorf("subnet with ID %d not found", subnetID)
 	}
-	// If RIR record consisten - update subnet details
-	if info.Valid {
-		subnet.RirRecordValid = info.Valid
-		subnet.RirAbuseEmail = info.AbuseEmail
-		subnet.RirOwnerOrgId = info.OrgID
-		subnet.RirOwnerOrgName = info.OrgName
-		subnet.RirAllocationType = info.AllocationType
+
+	// Removing invalid subnet from chain
+	if subnet.Status== types.SubnetStatus_SUBNET_STATUS_INITIAL && !info.Valid{
+		k.RemoveSubnet(ctx, subnetID)
+		return fmt.Errorf("Subnet with address %d failed RIR validation and was removed", subnet.NetworkAddress)
 	}
-	// If subnet in initial status - either set to READY or REJECT
-	if subnet.Status== types.SubnetStatus_SUBNET_STATUS_INITIAL && info.Valid{
+
+	// Update subnet details
+	subnet.RirRecordValid = info.Valid
+	subnet.RirAbuseEmail = info.AbuseEmail
+	subnet.RirOwnerOrgId = info.OrgID
+	subnet.RirOwnerOrgName = info.OrgName
+	subnet.RirAllocationType = info.AllocationType
+	subnet.Rir = info.Rir
+
+	// Change the status for initial subnet
+	if subnet.Status== types.SubnetStatus_SUBNET_STATUS_INITIAL{
 		subnet.Status = types.SubnetStatus_SUBNET_STATUS_READY
 	}
-	if subnet.Status== types.SubnetStatus_SUBNET_STATUS_INITIAL && !info.Valid{
-		subnet.Status = types.SubnetStatus_SUBNET_STATUS_REJECTED
-	}
+
 	// Update timestamp
 	nowTime := time.Now()
 	subnet.RirSyncedAt = &nowTime

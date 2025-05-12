@@ -6,4 +6,5 @@ type SubnetInfo struct {
     OrgName        string
     AbuseEmail     string
     AllocationType string
+    Rir            string
 }

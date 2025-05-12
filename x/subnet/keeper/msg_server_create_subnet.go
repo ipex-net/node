@@ -3,7 +3,6 @@ package keeper
 import (
 	"context"
 	"net"
-	"net/url"
 	"strings"
 
 	"ipex/x/subnet/types"
@@ -89,30 +88,10 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrap(ErrInvalidMask, "prefix length must be between 8 and 24")
 	}
 
-	if msg.Rir != "ARIN" && msg.Rir !="RIPE" {
-		return nil, errorsmod.Wrap(ErrUnknownRIR, "Unsopprted RIR")
-	}
-
-	//Validate Geofeed - not obligatory
-	// if msg.GeofeedUrl == "" {
-	// 	return nil, errorsmod.Wrap(ErrInvalidGeofeedURL, "geofeed URL not provided")
-	// }
-
 	// Check if URL starts with http:// or https://
 	if strings.HasPrefix(strings.ToLower(msg.GeofeedUrl), "http://") ||
 		strings.HasPrefix(strings.ToLower(msg.GeofeedUrl), "https://") {
 		return nil, errorsmod.Wrap(ErrInvalidGeofeedURL, "geofeed URL should not include http:// or https://")
-	}
-
-	//Check if URL parses
-	parsedUrl, err := url.Parse("https://" + msg.GeofeedUrl)
-	if err != nil {
-		return nil, errorsmod.Wrapf(ErrInvalidGeofeedURL, "invalid geofeed URL format (%s)", msg.GeofeedUrl)
-	}
-
-	// Check if host is present
-	if parsedUrl.Host == "" {
-		return nil, errorsmod.Wrapf(ErrInvalidGeofeedURL, "geofeed URL must have a valid host (%s)", msg.GeofeedUrl)
 	}
 
 	// Check if the org id exists
@@ -142,8 +121,6 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		NetworkAddress: msg.NetworkAddress,
 		Mask:           msg.Mask,
 		Status:         types.SubnetStatus_SUBNET_STATUS_INITIAL,
-		Rir:            msg.Rir,
-		GeofeedUrl:     msg.GeofeedUrl,
 		OwnerOrgId:     msg.OwnerOrgId,
 		CreatedAt:      ctx.BlockTime(),
 		UpdatedAt:      ctx.BlockTime(),

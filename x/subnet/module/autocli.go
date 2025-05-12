@@ -55,9 +55,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "CreateSubnet",
-					Use:            "create-subnet [owner-org-id] [network-address] [mask] [geofeed-url] [rir]",
+					Use:            "create-subnet [owner-org-id] [network-address] [mask]",
 					Short:          "Send a create-subnet tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ownerOrgId"}, {ProtoField: "networkAddress"}, {ProtoField: "mask"}, {ProtoField: "geofeedUrl"}, {ProtoField: "rir"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ownerOrgId"}, {ProtoField: "networkAddress"}, {ProtoField: "mask"}},
 				},
 				{
 					RpcMethod:      "UpdateSubnetUser",
