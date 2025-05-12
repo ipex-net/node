@@ -210,8 +210,8 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) 
 		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
 
 		// Check if enough time has passed since last attempt
-		if subnet.RirSyncAttemptedAt != nil {
-			lastAttempt := *subnet.RirSyncAttemptedAt
+		if subnet.RirSyncAt != nil {
+			lastAttempt := *subnet.RirSyncAt
 
 			// Determine required interval based on org age and validity status
 			var requiredInterval time.Duration
@@ -265,8 +265,8 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 	subnet.RirAllocationType = info.AllocationType
 	// Update timestamp
 	nowTime := time.Now()
-	subnet.RirSyncAttemptedAt = &nowTime
-	
+	subnet.RirSyncAt = &nowTime
+	subnet.UpdatedAt = nowTime
 	// Save the updated organization
 	k.SetSubnet(ctx, subnet)
 

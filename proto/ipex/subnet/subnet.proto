@@ -42,7 +42,7 @@ message Subnet {
   string rirAbuseEmail = 18; 
   string rirAllocationType = 19;
   bool rirRecordValid = 20; 
-  google.protobuf.Timestamp rirSyncAttemptedAt = 21 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp rirSyncAt = 21 [(gogoproto.stdtime) = true]; 
 
   uint64 ownerOrgId = 22; 
   uint64 userOrgId = 23; 
