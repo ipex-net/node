@@ -32,6 +32,7 @@ type SubnetKeeper interface {
    // SetSubnet updates the given Subnet.
    SetSubnet(ctx context.Context, subnet subnettypes.Subnet)
    GetSubnetsForRirSync(ctx context.Context) []subnettypes.Subnet
+   UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info subnettypes.SubnetInfo) error 
 }
 
 // LeaseKeeper defines the expected interface for the lease module.

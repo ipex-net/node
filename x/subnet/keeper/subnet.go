@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"encoding/binary"
+	"fmt"
 	"time"
 
 	"ipex/x/subnet/types"
@@ -245,4 +246,30 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) 
 	}
 
 	return
+}
+
+
+// UpdateOrgValidationStatus updates the domain validation status for an organization
+func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info types.SubnetInfo) error {
+	// Get the organization
+	subnet, found := k.GetSubnet(ctx, subnetID)
+	if !found {
+		return fmt.Errorf("org with ID %d not found", subnetID)
+	}
+
+	// Update validation status
+	subnet.RirRecordValid = info.Valid
+	subnet.RirAbuseEmail = info.AbuseEmail
+	subnet.RirOwnerOrgId = info.OrgID
+	subnet.RirOwnerOrgName = info.OrgName
+	subnet.RirAllocationType = info.AllocationType
+	// Update timestamp
+	nowTime := time.Now()
+	subnet.RirSyncAttemptedAt = &nowTime
+	
+	// Save the updated organization
+	k.SetSubnet(ctx, subnet)
+
+
+	return nil
 }

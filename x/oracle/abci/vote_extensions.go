@@ -14,10 +14,11 @@ import (
 	"github.com/openrdap/rdap"
 	"golang.org/x/sync/errgroup"
 
+	"ipex/x/oracle/types"
+	subnettypes "ipex/x/subnet/types"
+
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-
-	"ipex/x/oracle/types"
 )
 
 type VoteExtHandler struct {
@@ -47,18 +48,11 @@ func NewVoteExtHandler(
 	}
 }
 
-type SubnetInfo struct {
-    Valid          bool
-    OrgID          string
-    OrgName        string
-    AbuseEmail     string
-    AllocationType string
-}
 
 type OracleVoteExtension struct {
 	Height              int64
 	OrgDomainValidation map[uint64]bool
-	SubnetRirSync map[uint64]SubnetInfo
+	SubnetRirSync map[uint64]subnettypes.SubnetInfo
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
@@ -75,7 +69,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		h.logger.Info("performing domain validations for vote extension", "height", req.Height, "time", h.lastCheckTime)
 		// Map to store validation results
 		domainValidationResults := make(map[uint64]bool)
-		subnetSyncResults := make(map[uint64]SubnetInfo)
+		subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
 
 
 		if len(orgsToValidate) > 0 {
@@ -218,11 +212,11 @@ func extractDomain(websiteURL string) (string, error) {
 //
 // The function returns an invalid SubnetInfo (Valid=false) if any validation step fails
 // or if required information cannot be extracted.
-func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64, rir string) SubnetInfo {
+func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64, rir string) subnettypes.SubnetInfo {
 	// Convert decimal IP to string format for RDAP query
 	ipStr := convertDecimalIPToString(ipDecimal)
 	// Prepare empty result
-	result := SubnetInfo{
+	result := subnettypes.SubnetInfo{
 		Valid:          false,
 		OrgID:          "",
 		OrgName:        "",

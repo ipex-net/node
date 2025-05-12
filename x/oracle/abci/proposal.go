@@ -10,37 +10,39 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"ipex/x/oracle/types"
+	subnettypes "ipex/x/subnet/types"
 )
 
 // StakeDomainValidation defines the structure a proposer should use to calculate
 // and submit the stake-weighted domain validation results, in addition to the vote
 // extensions used to calculate them.
 type StakeDomainValidation struct {
-	ValidationResults  map[uint64]bool
-	ExtendedCommitInfo abci.ExtendedCommitInfo
+	OrgValidationResults map[uint64]bool
+	SubnetSyncResults    map[uint64]subnettypes.SubnetInfo
+	ExtendedCommitInfo   abci.ExtendedCommitInfo
 }
 
 type ProposalHandler struct {
-	logger   log.Logger
-    orgKeeper    types.OrgKeeper
-    subnetKeeper types.SubnetKeeper
-    leaseKeeper  types.LeaseKeeper
-	valStore baseapp.ValidatorStore
+	logger       log.Logger
+	orgKeeper    types.OrgKeeper
+	subnetKeeper types.SubnetKeeper
+	leaseKeeper  types.LeaseKeeper
+	valStore     baseapp.ValidatorStore
 }
 
 func NewProposalHandler(
-	logger log.Logger, 
+	logger log.Logger,
 	orgK types.OrgKeeper,
-    subnetK types.SubnetKeeper,
-    leaseK types.LeaseKeeper, 
+	subnetK types.SubnetKeeper,
+	leaseK types.LeaseKeeper,
 	valStore baseapp.ValidatorStore,
-	) *ProposalHandler {
+) *ProposalHandler {
 	return &ProposalHandler{
-		logger:   logger,
-        orgKeeper:    orgK,
-        subnetKeeper: subnetK,
-        leaseKeeper:  leaseK,
-		valStore: valStore,
+		logger:       logger,
+		orgKeeper:    orgK,
+		subnetKeeper: subnetK,
+		leaseKeeper:  leaseK,
+		valStore:     valStore,
 	}
 }
 
@@ -48,35 +50,37 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 	return func(ctx sdk.Context, req *abci.RequestPrepareProposal) (*abci.ResponsePrepareProposal, error) {
 		proposalTxs := req.Txs
 
-		//Only execute if vote exstensions are enabled
-        if req.Height > ctx.ConsensusParams().Abci.VoteExtensionsEnableHeight {
-            // Attempt to validate vote extensions, but do not abort proposal on error
-            if err := baseapp.ValidateVoteExtensions(ctx, h.valStore, req.Height, ctx.ChainID(), req.LocalLastCommit); err != nil {
-                h.logger.Error("failed to validate vote extensions; injecting empty domain validation", "err", err)
-            }
+		//Only execute if vote extensions are enabled
+		if req.Height > ctx.ConsensusParams().Abci.VoteExtensionsEnableHeight {
+			// Attempt to validate vote extensions, but do not abort proposal on error
+			if err := baseapp.ValidateVoteExtensions(ctx, h.valStore, req.Height, ctx.ChainID(), req.LocalLastCommit); err != nil {
+				h.logger.Error("failed to validate vote extensions; injecting empty validation results", "err", err)
+			}
 
-            // Compute consensus on domain validation results (produce empty map on error)
-            validationResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
-            if err != nil {
-                h.logger.Error("failed to compute domain validation results; injecting empty map", "err", err)
-                validationResults = make(map[uint64]bool)
-            }
+			// Compute consensus on validation results (produce empty maps on error)
+			orgValidationResults, subnetSyncResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
+			if err != nil {
+				h.logger.Error("failed to compute validation results; injecting empty maps", "err", err)
+				orgValidationResults = make(map[uint64]bool)
+				subnetSyncResults = make(map[uint64]subnettypes.SubnetInfo)
+			}
 
-            // Create the injected transaction with validation results
-            injectedVoteExtTx := StakeDomainValidation{
-                ValidationResults:  validationResults,
-                ExtendedCommitInfo: req.LocalLastCommit,
-            }
+			// Create the injected transaction with validation results
+			injectedVoteExtTx := StakeDomainValidation{
+				OrgValidationResults: orgValidationResults,
+				SubnetSyncResults:    subnetSyncResults,
+				ExtendedCommitInfo:   req.LocalLastCommit,
+			}
 
-            // Marshal to JSON for injection
-            bz, err := json.Marshal(injectedVoteExtTx)
-            if err != nil {
-                h.logger.Error("failed to encode injected vote extension tx; skipping injection", "err", err)
-            } else {
-                // Inject as first transaction in the block
-                proposalTxs = append([][]byte{bz}, proposalTxs...)
-            }
-        }
+			// Marshal to JSON for injection
+			bz, err := json.Marshal(injectedVoteExtTx)
+			if err != nil {
+				h.logger.Error("failed to encode injected vote extension tx; skipping injection", "err", err)
+			} else {
+				// Inject as first transaction in the block
+				proposalTxs = append([][]byte{bz}, proposalTxs...)
+			}
+		}
 
 		return &abci.ResponsePrepareProposal{
 			Txs: proposalTxs,
@@ -85,65 +89,130 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 }
 
 // computeValidationResults aggregates validation results from vote extensions
-func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, error) {
-   // Map to store aggregated validation results
-   validationResults := make(map[uint64]bool)
+func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, error) {
+	// Maps to store aggregated validation results
+	orgValidationResults := make(map[uint64]bool)
+	subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
 
-   // Maps to track voting power for each validation
-   validPower := make(map[uint64]int64)
-   invalidPower := make(map[uint64]int64)
+	// Maps to track voting power for org validations
+	orgValidPower := make(map[uint64]int64)
+	orgInvalidPower := make(map[uint64]int64)
 
-   // Process each vote extension
-   for _, v := range ci.Votes {
-       // Skip votes that don't commit
-       if v.BlockIdFlag != 2 { // BlockIDFlagCommit
-           continue
-       }
+	// Map to track voting power for subnet info by subnet ID and unique SubnetInfo
+	// Using string representation of SubnetInfo for map key to handle struct comparison
+	type subnetVotePower struct {
+		subnetID uint64
+		infoJSON string
+		power    int64
+		info     subnettypes.SubnetInfo
+	}
+	// List to store subnet voting power entries
+	subnetVotePowers := []subnetVotePower{}
 
-       // Skip empty vote extensions
-       if len(v.VoteExtension) == 0 {
-           continue
-       }
+	// Process each vote extension
+	for _, v := range ci.Votes {
+		// Skip votes that don't commit
+		if v.BlockIdFlag != 2 { // BlockIDFlagCommit
+			continue
+		}
 
-       // Parse the vote extension
-       var voteExt OracleVoteExtension
-       if err := json.Unmarshal(v.VoteExtension, &voteExt); err != nil {
-           h.logger.Error("failed to decode vote extension", "err", err, "validator", fmt.Sprintf("%x", v.Validator.Address))
-           continue // Skip this vote extension but process others
-       }
+		// Skip empty vote extensions
+		if len(v.VoteExtension) == 0 {
+			continue
+		}
 
-       // Aggregate validation results based on voting power
-       for orgID, isValid := range voteExt.OrgDomainValidation {
-           if isValid {
-               validPower[orgID] += v.Validator.Power
-           } else {
-               invalidPower[orgID] += v.Validator.Power
-           }
-       }
-   }
+		// Parse the vote extension
+		var voteExt OracleVoteExtension
+		if err := json.Unmarshal(v.VoteExtension, &voteExt); err != nil {
+			h.logger.Error("failed to decode vote extension", "err", err, "validator", fmt.Sprintf("%x", v.Validator.Address))
+			continue // Skip this vote extension but process others
+		}
 
-   // Build the union of all org IDs that appeared in any vote extension
-   allOrgIDs := make(map[uint64]struct{})
-   for orgID := range validPower {
-       allOrgIDs[orgID] = struct{}{}
-   }
-   for orgID := range invalidPower {
-       allOrgIDs[orgID] = struct{}{}
-   }
+		// Aggregate org validation results based on voting power
+		for orgID, isValid := range voteExt.OrgDomainValidation {
+			if isValid {
+				orgValidPower[orgID] += v.Validator.Power
+			} else {
+				orgInvalidPower[orgID] += v.Validator.Power
+			}
+		}
 
-   // Determine final validation result based on majority voting power
-   for orgID := range allOrgIDs {
-       vp := validPower[orgID]
-       ip := invalidPower[orgID]
-       total := vp + ip
-       if total > 0 && vp > total/2 {
-           validationResults[orgID] = true
-       } else {
-           validationResults[orgID] = false
-       }
-   }
+		// Aggregate subnet sync results
+		for subnetID, subnetInfo := range voteExt.SubnetRirSync {
+			// Convert the SubnetInfo to JSON for consistent comparison
+			infoJSON, err := json.Marshal(subnetInfo)
+			if err != nil {
+				h.logger.Error("failed to marshal subnet info", "err", err, "subnet_id", subnetID)
+				continue
+			}
 
-   return validationResults, nil
+			// Add to subnet vote powers list
+			subnetVotePowers = append(subnetVotePowers, subnetVotePower{
+				subnetID: subnetID,
+				infoJSON: string(infoJSON),
+				power:    v.Validator.Power,
+				info:     subnetInfo,
+			})
+		}
+	}
+
+	// Build the union of all org IDs that appeared in any vote extension
+	allOrgIDs := make(map[uint64]struct{})
+	for orgID := range orgValidPower {
+		allOrgIDs[orgID] = struct{}{}
+	}
+	for orgID := range orgInvalidPower {
+		allOrgIDs[orgID] = struct{}{}
+	}
+
+	// Determine final org validation result based on majority voting power
+	for orgID := range allOrgIDs {
+		vp := orgValidPower[orgID]
+		ip := orgInvalidPower[orgID]
+		total := vp + ip
+		if total > 0 && vp > total/2 {
+			orgValidationResults[orgID] = true
+		} else {
+			orgValidationResults[orgID] = false
+		}
+	}
+
+	// Group subnet voting powers by subnet ID
+	subnetInfoVotingPower := make(map[uint64]map[string]int64)
+	subnetInfoMap := make(map[uint64]map[string]subnettypes.SubnetInfo)
+
+	for _, sv := range subnetVotePowers {
+		// Initialize maps for this subnet ID if they don't exist
+		if _, exists := subnetInfoVotingPower[sv.subnetID]; !exists {
+			subnetInfoVotingPower[sv.subnetID] = make(map[string]int64)
+			subnetInfoMap[sv.subnetID] = make(map[string]subnettypes.SubnetInfo)
+		}
+
+		// Add voting power for this subnet info
+		subnetInfoVotingPower[sv.subnetID][sv.infoJSON] += sv.power
+		subnetInfoMap[sv.subnetID][sv.infoJSON] = sv.info
+	}
+
+	// For each subnet ID, find the SubnetInfo with the highest voting power
+	for subnetID, infoPowers := range subnetInfoVotingPower {
+		var maxPower int64
+		var maxInfoJSON string
+
+		// Find the SubnetInfo with the highest voting power
+		for infoJSON, power := range infoPowers {
+			if power > maxPower {
+				maxPower = power
+				maxInfoJSON = infoJSON
+			}
+		}
+
+		// Only include subnets where at least one validator provided info
+		if maxPower > 0 {
+			subnetSyncResults[subnetID] = subnetInfoMap[subnetID][maxInfoJSON]
+		}
+	}
+
+	return orgValidationResults, subnetSyncResults, nil
 }
 
 func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
@@ -161,8 +230,8 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		// Unmarshal the injected vote extension transaction
 		var injectedVoteExtTx StakeDomainValidation
 		if err := json.Unmarshal(req.Txs[0], &injectedVoteExtTx); err != nil {
-			h.logger.Error("failed to decode injected vote extension tx; skipping domain validation", "err", err)
-			// Accept proposal, skip domain validation verification
+			h.logger.Error("failed to decode injected vote extension tx; skipping validation", "err", err)
+			// Accept proposal, skip validation verification
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_ACCEPT}, nil
 		}
 
@@ -174,15 +243,21 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		}
 
 		// Verify the proposer's validation results by computing the same calculation
-		validationResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
+		orgValidationResults, subnetSyncResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
 		if err != nil {
 			h.logger.Error("failed to compute validation results", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
 		}
 
-		// Compare the proposer's validation results with our own calculation
-		if err := compareValidationResults(injectedVoteExtTx.ValidationResults, validationResults); err != nil {
-			h.logger.Error("validation results don't match", "err", err)
+		// Compare the proposer's organization validation results with our own calculation
+		if err := compareOrgValidationResults(injectedVoteExtTx.OrgValidationResults, orgValidationResults); err != nil {
+			h.logger.Error("organization validation results don't match", "err", err)
+			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
+		}
+
+		// Compare the proposer's subnet sync results with our own calculation
+		if err := compareSubnetSyncResults(injectedVoteExtTx.SubnetSyncResults, subnetSyncResults); err != nil {
+			h.logger.Error("subnet sync results don't match", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
 		}
 
@@ -190,11 +265,11 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 	}
 }
 
-// compareValidationResults checks if two validation result maps match
-func compareValidationResults(r1, r2 map[uint64]bool) error {
+// compareOrgValidationResults checks if two organization validation result maps match
+func compareOrgValidationResults(r1, r2 map[uint64]bool) error {
 	// Check if both maps have the same number of entries
 	if len(r1) != len(r2) {
-		return fmt.Errorf("validation result maps have different sizes: %d vs %d", len(r1), len(r2))
+		return fmt.Errorf("organization validation result maps have different sizes: %d vs %d", len(r1), len(r2))
 	}
 
 	// Check if all entries match
@@ -205,6 +280,40 @@ func compareValidationResults(r1, r2 map[uint64]bool) error {
 		}
 		if valid1 != valid2 {
 			return fmt.Errorf("validation result mismatch for organization ID %d: %t vs %t", orgID, valid1, valid2)
+		}
+	}
+
+	return nil
+}
+
+// compareSubnetSyncResults checks if two subnet sync result maps match
+func compareSubnetSyncResults(r1, r2 map[uint64]subnettypes.SubnetInfo) error {
+	// Check if both maps have the same number of entries
+	if len(r1) != len(r2) {
+		return fmt.Errorf("subnet sync result maps have different sizes: %d vs %d", len(r1), len(r2))
+	}
+
+	// Check if all entries match
+	for subnetID, info1 := range r1 {
+		info2, exists := r2[subnetID]
+		if !exists {
+			return fmt.Errorf("subnet ID %d missing from second result map", subnetID)
+		}
+
+		// Convert both SubnetInfo structs to JSON for comparison
+		info1JSON, err := json.Marshal(info1)
+		if err != nil {
+			return fmt.Errorf("failed to marshal subnet info for comparison: %w", err)
+		}
+
+		info2JSON, err := json.Marshal(info2)
+		if err != nil {
+			return fmt.Errorf("failed to marshal subnet info for comparison: %w", err)
+		}
+
+		// Compare JSON representations
+		if string(info1JSON) != string(info2JSON) {
+			return fmt.Errorf("subnet sync result mismatch for subnet ID %d", subnetID)
 		}
 	}
 
@@ -227,7 +336,7 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 	}
 
 	// Update the validation status for each organization
-	for orgID, isValid := range injectedVoteExtTx.ValidationResults {
+	for orgID, isValid := range injectedVoteExtTx.OrgValidationResults {
 		if err := h.orgKeeper.UpdateOrgDomainValidationStatus(ctx, orgID, isValid); err != nil {
 			// Log error but continue with other organizations
 			h.logger.Error("failed to update org domain validation status",
@@ -238,6 +347,23 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 			h.logger.Info("updated org domain validation status",
 				"org_id", orgID,
 				"is_valid", isValid)
+		}
+	}
+
+	// Update the subnet information for each subnet
+	for subnetID, subnetInfo := range injectedVoteExtTx.SubnetSyncResults {
+		if err := h.subnetKeeper.UpdateSubnetRirDetails(ctx, subnetID, subnetInfo); err != nil {
+			// Log error but continue with other subnets
+			h.logger.Error("failed to update subnet sync data",
+				"subnet_id", subnetID,
+				"valid", subnetInfo.Valid,
+				"error", err)
+		} else {
+			h.logger.Info("updated subnet sync data",
+				"subnet_id", subnetID,
+				"valid", subnetInfo.Valid,
+				"org_id", subnetInfo.OrgID,
+				"org_name", subnetInfo.OrgName)
 		}
 	}
 
