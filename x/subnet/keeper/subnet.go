@@ -210,8 +210,8 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) 
 		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
 
 		// Check if enough time has passed since last attempt
-		if subnet.RirSyncAt != nil {
-			lastAttempt := *subnet.RirSyncAt
+		if subnet.RirSyncedAt != nil {
+			lastAttempt := *subnet.RirSyncedAt
 
 			// Determine required interval based on org age and validity status
 			var requiredInterval time.Duration
@@ -256,20 +256,27 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 	if !found {
 		return fmt.Errorf("org with ID %d not found", subnetID)
 	}
-
-	// Update validation status
-	subnet.RirRecordValid = info.Valid
-	subnet.RirAbuseEmail = info.AbuseEmail
-	subnet.RirOwnerOrgId = info.OrgID
-	subnet.RirOwnerOrgName = info.OrgName
-	subnet.RirAllocationType = info.AllocationType
+	// If RIR record consisten - update subnet details
+	if info.Valid {
+		subnet.RirRecordValid = info.Valid
+		subnet.RirAbuseEmail = info.AbuseEmail
+		subnet.RirOwnerOrgId = info.OrgID
+		subnet.RirOwnerOrgName = info.OrgName
+		subnet.RirAllocationType = info.AllocationType
+	}
+	// If subnet in initial status - either set to READY or REJECT
+	if subnet.Status== types.SubnetStatus_SUBNET_STATUS_INITIAL && info.Valid{
+		subnet.Status = types.SubnetStatus_SUBNET_STATUS_READY
+	}
+	if subnet.Status== types.SubnetStatus_SUBNET_STATUS_INITIAL && !info.Valid{
+		subnet.Status = types.SubnetStatus_SUBNET_STATUS_REJECTED
+	}
 	// Update timestamp
 	nowTime := time.Now()
-	subnet.RirSyncAt = &nowTime
+	subnet.RirSyncedAt = &nowTime
 	subnet.UpdatedAt = nowTime
 	// Save the updated organization
 	k.SetSubnet(ctx, subnet)
-
 
 	return nil
 }

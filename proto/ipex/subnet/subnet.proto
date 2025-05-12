@@ -36,13 +36,12 @@ message Subnet {
   google.protobuf.Timestamp geofeedSyncedAt = 14 [(gogoproto.stdtime) = true]; 
 
   string rir = 15; 
-
   string rirOwnerOrgId = 16; 
   string rirOwnerOrgName = 17; 
   string rirAbuseEmail = 18; 
   string rirAllocationType = 19;
   bool rirRecordValid = 20; 
-  google.protobuf.Timestamp rirSyncAt = 21 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp rirSyncedAt = 21 [(gogoproto.stdtime) = true]; 
 
   uint64 ownerOrgId = 22; 
   uint64 userOrgId = 23; 
@@ -52,20 +51,9 @@ message Subnet {
   google.protobuf.Timestamp originTransferRequestedAt = 26 [(gogoproto.stdtime) = true]; 
   google.protobuf.Timestamp originTransferFulfilledAt = 27 [(gogoproto.stdtime) = true]; 
 
-  string irrOrigin = 28; 
-  string irrMntBy = 29; 
-  google.protobuf.Timestamp irrCreatedAt = 30 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp irrModifiedAt = 31 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp irrSyncedAt = 32 [(gogoproto.stdtime) = true]; 
-  bool irrOriginExists = 33;
-
-  string rpkiOrigin = 34; 
-  bool rpkiOriginExists = 35;
-  google.protobuf.Timestamp rpkiSyncedAt = 36 [(gogoproto.stdtime) = true]; 
+  string rpkiOrigin = 28; 
+  bool rpkiOriginExists = 29;
+  google.protobuf.Timestamp rpkiSyncedAt = 30 [(gogoproto.stdtime) = true]; 
   
-  google.protobuf.Timestamp updatedAt = 37 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
-
-  bool abuseEmailDomainVerified = 38;
-  google.protobuf.Timestamp abuseEmailDomainVerifiedAt = 39 [(gogoproto.stdtime) = true];
-  google.protobuf.Timestamp abuseEmailDomainVerifAttemptedAt = 40 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp updatedAt = 31 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

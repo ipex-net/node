@@ -63,46 +63,37 @@ func (SubnetStatus) EnumDescriptor() ([]byte, []int) {
 }
 
 type Subnet struct {
-	Id                               uint64       `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	CreatedAt                        time.Time    `protobuf:"bytes,2,opt,name=createdAt,proto3,stdtime" json:"createdAt"`
-	NetworkAddress                   uint64       `protobuf:"varint,3,opt,name=networkAddress,proto3" json:"networkAddress,omitempty"`
-	Mask                             uint64       `protobuf:"varint,4,opt,name=mask,proto3" json:"mask,omitempty"`
-	Status                           SubnetStatus `protobuf:"varint,5,opt,name=status,proto3,enum=ipex.subnet.SubnetStatus" json:"status,omitempty"`
-	Country                          string       `protobuf:"bytes,6,opt,name=country,proto3" json:"country,omitempty"`
-	Region                           string       `protobuf:"bytes,7,opt,name=region,proto3" json:"region,omitempty"`
-	City                             string       `protobuf:"bytes,8,opt,name=city,proto3" json:"city,omitempty"`
-	PostalCode                       string       `protobuf:"bytes,9,opt,name=postalCode,proto3" json:"postalCode,omitempty"`
-	GeoChangeRequested               bool         `protobuf:"varint,10,opt,name=geoChangeRequested,proto3" json:"geoChangeRequested,omitempty"`
-	GeoChangeRequestedAt             *time.Time   `protobuf:"bytes,11,opt,name=geoChangeRequestedAt,proto3,stdtime" json:"geoChangeRequestedAt,omitempty"`
-	GeoChangeFulfilledAt             *time.Time   `protobuf:"bytes,12,opt,name=geoChangeFulfilledAt,proto3,stdtime" json:"geoChangeFulfilledAt,omitempty"`
-	GeofeedUrl                       string       `protobuf:"bytes,13,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
-	GeofeedSyncedAt                  *time.Time   `protobuf:"bytes,14,opt,name=geofeedSyncedAt,proto3,stdtime" json:"geofeedSyncedAt,omitempty"`
-	Rir                              string       `protobuf:"bytes,15,opt,name=rir,proto3" json:"rir,omitempty"`
-	RirOwnerOrgId                    string       `protobuf:"bytes,16,opt,name=rirOwnerOrgId,proto3" json:"rirOwnerOrgId,omitempty"`
-	RirOwnerOrgName                  string       `protobuf:"bytes,17,opt,name=rirOwnerOrgName,proto3" json:"rirOwnerOrgName,omitempty"`
-	RirAbuseEmail                    string       `protobuf:"bytes,18,opt,name=rirAbuseEmail,proto3" json:"rirAbuseEmail,omitempty"`
-	RirAllocationType                string       `protobuf:"bytes,19,opt,name=rirAllocationType,proto3" json:"rirAllocationType,omitempty"`
-	RirRecordValid                   bool         `protobuf:"varint,20,opt,name=rirRecordValid,proto3" json:"rirRecordValid,omitempty"`
-	RirSyncAt                        *time.Time   `protobuf:"bytes,21,opt,name=rirSyncAt,proto3,stdtime" json:"rirSyncAt,omitempty"`
-	OwnerOrgId                       uint64       `protobuf:"varint,22,opt,name=ownerOrgId,proto3" json:"ownerOrgId,omitempty"`
-	UserOrgId                        uint64       `protobuf:"varint,23,opt,name=userOrgId,proto3" json:"userOrgId,omitempty"`
-	Origin                           uint64       `protobuf:"varint,24,opt,name=origin,proto3" json:"origin,omitempty"`
-	OriginTransferRequested          bool         `protobuf:"varint,25,opt,name=originTransferRequested,proto3" json:"originTransferRequested,omitempty"`
-	OriginTransferRequestedAt        *time.Time   `protobuf:"bytes,26,opt,name=originTransferRequestedAt,proto3,stdtime" json:"originTransferRequestedAt,omitempty"`
-	OriginTransferFulfilledAt        *time.Time   `protobuf:"bytes,27,opt,name=originTransferFulfilledAt,proto3,stdtime" json:"originTransferFulfilledAt,omitempty"`
-	IrrOrigin                        string       `protobuf:"bytes,28,opt,name=irrOrigin,proto3" json:"irrOrigin,omitempty"`
-	IrrMntBy                         string       `protobuf:"bytes,29,opt,name=irrMntBy,proto3" json:"irrMntBy,omitempty"`
-	IrrCreatedAt                     *time.Time   `protobuf:"bytes,30,opt,name=irrCreatedAt,proto3,stdtime" json:"irrCreatedAt,omitempty"`
-	IrrModifiedAt                    *time.Time   `protobuf:"bytes,31,opt,name=irrModifiedAt,proto3,stdtime" json:"irrModifiedAt,omitempty"`
-	IrrSyncedAt                      *time.Time   `protobuf:"bytes,32,opt,name=irrSyncedAt,proto3,stdtime" json:"irrSyncedAt,omitempty"`
-	IrrOriginExists                  bool         `protobuf:"varint,33,opt,name=irrOriginExists,proto3" json:"irrOriginExists,omitempty"`
-	RpkiOrigin                       string       `protobuf:"bytes,34,opt,name=rpkiOrigin,proto3" json:"rpkiOrigin,omitempty"`
-	RpkiOriginExists                 bool         `protobuf:"varint,35,opt,name=rpkiOriginExists,proto3" json:"rpkiOriginExists,omitempty"`
-	RpkiSyncedAt                     *time.Time   `protobuf:"bytes,36,opt,name=rpkiSyncedAt,proto3,stdtime" json:"rpkiSyncedAt,omitempty"`
-	UpdatedAt                        time.Time    `protobuf:"bytes,37,opt,name=updatedAt,proto3,stdtime" json:"updatedAt"`
-	AbuseEmailDomainVerified         bool         `protobuf:"varint,38,opt,name=abuseEmailDomainVerified,proto3" json:"abuseEmailDomainVerified,omitempty"`
-	AbuseEmailDomainVerifiedAt       *time.Time   `protobuf:"bytes,39,opt,name=abuseEmailDomainVerifiedAt,proto3,stdtime" json:"abuseEmailDomainVerifiedAt,omitempty"`
-	AbuseEmailDomainVerifAttemptedAt *time.Time   `protobuf:"bytes,40,opt,name=abuseEmailDomainVerifAttemptedAt,proto3,stdtime" json:"abuseEmailDomainVerifAttemptedAt,omitempty"`
+	Id                        uint64       `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	CreatedAt                 time.Time    `protobuf:"bytes,2,opt,name=createdAt,proto3,stdtime" json:"createdAt"`
+	NetworkAddress            uint64       `protobuf:"varint,3,opt,name=networkAddress,proto3" json:"networkAddress,omitempty"`
+	Mask                      uint64       `protobuf:"varint,4,opt,name=mask,proto3" json:"mask,omitempty"`
+	Status                    SubnetStatus `protobuf:"varint,5,opt,name=status,proto3,enum=ipex.subnet.SubnetStatus" json:"status,omitempty"`
+	Country                   string       `protobuf:"bytes,6,opt,name=country,proto3" json:"country,omitempty"`
+	Region                    string       `protobuf:"bytes,7,opt,name=region,proto3" json:"region,omitempty"`
+	City                      string       `protobuf:"bytes,8,opt,name=city,proto3" json:"city,omitempty"`
+	PostalCode                string       `protobuf:"bytes,9,opt,name=postalCode,proto3" json:"postalCode,omitempty"`
+	GeoChangeRequested        bool         `protobuf:"varint,10,opt,name=geoChangeRequested,proto3" json:"geoChangeRequested,omitempty"`
+	GeoChangeRequestedAt      *time.Time   `protobuf:"bytes,11,opt,name=geoChangeRequestedAt,proto3,stdtime" json:"geoChangeRequestedAt,omitempty"`
+	GeoChangeFulfilledAt      *time.Time   `protobuf:"bytes,12,opt,name=geoChangeFulfilledAt,proto3,stdtime" json:"geoChangeFulfilledAt,omitempty"`
+	GeofeedUrl                string       `protobuf:"bytes,13,opt,name=geofeedUrl,proto3" json:"geofeedUrl,omitempty"`
+	GeofeedSyncedAt           *time.Time   `protobuf:"bytes,14,opt,name=geofeedSyncedAt,proto3,stdtime" json:"geofeedSyncedAt,omitempty"`
+	Rir                       string       `protobuf:"bytes,15,opt,name=rir,proto3" json:"rir,omitempty"`
+	RirOwnerOrgId             string       `protobuf:"bytes,16,opt,name=rirOwnerOrgId,proto3" json:"rirOwnerOrgId,omitempty"`
+	RirOwnerOrgName           string       `protobuf:"bytes,17,opt,name=rirOwnerOrgName,proto3" json:"rirOwnerOrgName,omitempty"`
+	RirAbuseEmail             string       `protobuf:"bytes,18,opt,name=rirAbuseEmail,proto3" json:"rirAbuseEmail,omitempty"`
+	RirAllocationType         string       `protobuf:"bytes,19,opt,name=rirAllocationType,proto3" json:"rirAllocationType,omitempty"`
+	RirRecordValid            bool         `protobuf:"varint,20,opt,name=rirRecordValid,proto3" json:"rirRecordValid,omitempty"`
+	RirSyncedAt               *time.Time   `protobuf:"bytes,21,opt,name=rirSyncedAt,proto3,stdtime" json:"rirSyncedAt,omitempty"`
+	OwnerOrgId                uint64       `protobuf:"varint,22,opt,name=ownerOrgId,proto3" json:"ownerOrgId,omitempty"`
+	UserOrgId                 uint64       `protobuf:"varint,23,opt,name=userOrgId,proto3" json:"userOrgId,omitempty"`
+	Origin                    uint64       `protobuf:"varint,24,opt,name=origin,proto3" json:"origin,omitempty"`
+	OriginTransferRequested   bool         `protobuf:"varint,25,opt,name=originTransferRequested,proto3" json:"originTransferRequested,omitempty"`
+	OriginTransferRequestedAt *time.Time   `protobuf:"bytes,26,opt,name=originTransferRequestedAt,proto3,stdtime" json:"originTransferRequestedAt,omitempty"`
+	OriginTransferFulfilledAt *time.Time   `protobuf:"bytes,27,opt,name=originTransferFulfilledAt,proto3,stdtime" json:"originTransferFulfilledAt,omitempty"`
+	RpkiOrigin                string       `protobuf:"bytes,28,opt,name=rpkiOrigin,proto3" json:"rpkiOrigin,omitempty"`
+	RpkiOriginExists          bool         `protobuf:"varint,29,opt,name=rpkiOriginExists,proto3" json:"rpkiOriginExists,omitempty"`
+	RpkiSyncedAt              *time.Time   `protobuf:"bytes,30,opt,name=rpkiSyncedAt,proto3,stdtime" json:"rpkiSyncedAt,omitempty"`
+	UpdatedAt                 time.Time    `protobuf:"bytes,31,opt,name=updatedAt,proto3,stdtime" json:"updatedAt"`
 }
 
 func (m *Subnet) Reset()         { *m = Subnet{} }
@@ -278,9 +269,9 @@ func (m *Subnet) GetRirRecordValid() bool {
 	return false
 }
 
-func (m *Subnet) GetRirSyncAt() *time.Time {
+func (m *Subnet) GetRirSyncedAt() *time.Time {
 	if m != nil {
-		return m.RirSyncAt
+		return m.RirSyncedAt
 	}
 	return nil
 }
@@ -327,48 +318,6 @@ func (m *Subnet) GetOriginTransferFulfilledAt() *time.Time {
 	return nil
 }
 
-func (m *Subnet) GetIrrOrigin() string {
-	if m != nil {
-		return m.IrrOrigin
-	}
-	return ""
-}
-
-func (m *Subnet) GetIrrMntBy() string {
-	if m != nil {
-		return m.IrrMntBy
-	}
-	return ""
-}
-
-func (m *Subnet) GetIrrCreatedAt() *time.Time {
-	if m != nil {
-		return m.IrrCreatedAt
-	}
-	return nil
-}
-
-func (m *Subnet) GetIrrModifiedAt() *time.Time {
-	if m != nil {
-		return m.IrrModifiedAt
-	}
-	return nil
-}
-
-func (m *Subnet) GetIrrSyncedAt() *time.Time {
-	if m != nil {
-		return m.IrrSyncedAt
-	}
-	return nil
-}
-
-func (m *Subnet) GetIrrOriginExists() bool {
-	if m != nil {
-		return m.IrrOriginExists
-	}
-	return false
-}
-
 func (m *Subnet) GetRpkiOrigin() string {
 	if m != nil {
 		return m.RpkiOrigin
@@ -397,27 +346,6 @@ func (m *Subnet) GetUpdatedAt() time.Time {
 	return time.Time{}
 }
 
-func (m *Subnet) GetAbuseEmailDomainVerified() bool {
-	if m != nil {
-		return m.AbuseEmailDomainVerified
-	}
-	return false
-}
-
-func (m *Subnet) GetAbuseEmailDomainVerifiedAt() *time.Time {
-	if m != nil {
-		return m.AbuseEmailDomainVerifiedAt
-	}
-	return nil
-}
-
-func (m *Subnet) GetAbuseEmailDomainVerifAttemptedAt() *time.Time {
-	if m != nil {
-		return m.AbuseEmailDomainVerifAttemptedAt
-	}
-	return nil
-}
-
 func init() {
 	proto.RegisterEnum("ipex.subnet.SubnetStatus", SubnetStatus_name, SubnetStatus_value)
 	proto.RegisterType((*Subnet)(nil), "ipex.subnet.Subnet")
@@ -426,62 +354,53 @@ func init() {
 func init() { proto.RegisterFile("ipex/subnet/subnet.proto", fileDescriptor_ed6a43f7cb193f15) }
 
 var fileDescriptor_ed6a43f7cb193f15 = []byte{
-	// 865 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x56, 0xcd, 0x6e, 0xdb, 0x46,
-	0x10, 0x16, 0x6d, 0x57, 0xb1, 0xc6, 0x7f, 0xca, 0x44, 0xb1, 0xd7, 0xaa, 0x2b, 0xab, 0x69, 0x9a,
-	0x0a, 0x41, 0x41, 0x03, 0xee, 0xa5, 0xe8, 0xa1, 0x00, 0x65, 0x31, 0x80, 0x83, 0xd4, 0x06, 0x28,
-	0x3a, 0x40, 0x7b, 0x68, 0x4a, 0x8b, 0x2b, 0x76, 0x61, 0x8a, 0xcb, 0x2e, 0x97, 0x88, 0x75, 0xeb,
-	0x23, 0xe4, 0xb1, 0x72, 0xcc, 0xb1, 0xa7, 0xb6, 0xb0, 0x5f, 0xa4, 0xe0, 0x92, 0x26, 0x29, 0xd9,
-	0x6a, 0xe8, 0x9c, 0x34, 0xf3, 0x7d, 0x3b, 0xdf, 0xec, 0xcc, 0xce, 0x6a, 0x09, 0xbb, 0x2c, 0x74,
-	0xe9, 0xe5, 0x41, 0x14, 0x9f, 0x07, 0x54, 0x66, 0x3f, 0x7a, 0x28, 0xb8, 0xe4, 0xb8, 0xae, 0x28,
-	0x3d, 0xc5, 0xda, 0xfb, 0x1e, 0xe7, 0x9e, 0x4f, 0x0f, 0x14, 0x77, 0x1e, 0x8f, 0x0f, 0x24, 0x9b,
-	0xd0, 0x48, 0x3a, 0x93, 0x30, 0x5d, 0xde, 0x6e, 0x79, 0xdc, 0xe3, 0xca, 0x3c, 0x48, 0xac, 0x14,
-	0x7d, 0xf2, 0x67, 0x13, 0xea, 0x43, 0xa5, 0x80, 0x9b, 0xb0, 0xc4, 0x5c, 0xa2, 0x75, 0xb5, 0xde,
-	0x8a, 0xb5, 0xc4, 0x5c, 0xec, 0x43, 0x63, 0x24, 0xa8, 0x23, 0xa9, 0x6b, 0x48, 0xb2, 0xd4, 0xd5,
-	0x7a, 0x6b, 0x87, 0x6d, 0x3d, 0xcd, 0xa2, 0xdf, 0x64, 0xd1, 0xed, 0x9b, 0x2c, 0xfd, 0xd5, 0xf7,
-	0x7f, 0xef, 0xd7, 0xde, 0xfd, 0xb3, 0xaf, 0x59, 0x45, 0x18, 0x3e, 0x83, 0xcd, 0x80, 0xca, 0xb7,
-	0x5c, 0x5c, 0x18, 0xae, 0x2b, 0x68, 0x14, 0x91, 0x65, 0xa5, 0x3f, 0x87, 0x22, 0xc2, 0xca, 0xc4,
-	0x89, 0x2e, 0xc8, 0x8a, 0x62, 0x95, 0x8d, 0x87, 0x50, 0x8f, 0xa4, 0x23, 0xe3, 0x88, 0x7c, 0xd6,
-	0xd5, 0x7a, 0x9b, 0x87, 0x6d, 0xbd, 0x5c, 0xb0, 0x9e, 0xee, 0x7a, 0xa8, 0x56, 0x58, 0xd9, 0x4a,
-	0x24, 0xf0, 0x60, 0xc4, 0xe3, 0x40, 0x8a, 0x29, 0xa9, 0x77, 0xb5, 0x5e, 0xc3, 0xba, 0x71, 0x71,
-	0x1b, 0xea, 0x82, 0x7a, 0x8c, 0x07, 0xe4, 0x81, 0x22, 0x32, 0x2f, 0xc9, 0x3c, 0x62, 0x72, 0x4a,
-	0x56, 0x15, 0xaa, 0x6c, 0xec, 0x00, 0x84, 0x3c, 0x92, 0x8e, 0x7f, 0xc4, 0x5d, 0x4a, 0x1a, 0x8a,
-	0x29, 0x21, 0xa8, 0x03, 0x7a, 0x94, 0x1f, 0xfd, 0xee, 0x04, 0x1e, 0xb5, 0xe8, 0x1f, 0x31, 0x8d,
-	0x24, 0x75, 0x09, 0x74, 0xb5, 0xde, 0xaa, 0x75, 0x07, 0x83, 0x36, 0xb4, 0x6e, 0xa3, 0x86, 0x24,
-	0x6b, 0x1f, 0x6d, 0xea, 0x8a, 0x6a, 0xe8, 0x9d, 0xd1, 0x33, 0xaa, 0x2f, 0x62, 0x7f, 0xcc, 0x7c,
-	0x5f, 0xa9, 0xae, 0xdf, 0x5b, 0xb5, 0x14, 0x9d, 0xd4, 0xee, 0x51, 0x3e, 0xa6, 0xd4, 0x3d, 0x13,
-	0x3e, 0xd9, 0x48, 0x6b, 0x2f, 0x10, 0x7c, 0x09, 0x5b, 0x99, 0x37, 0x9c, 0x06, 0x23, 0x95, 0x70,
-	0xb3, 0x62, 0xc2, 0xf9, 0x40, 0x6c, 0xc2, 0xb2, 0x60, 0x82, 0x6c, 0xa9, 0x24, 0x89, 0x89, 0x4f,
-	0x61, 0x43, 0x30, 0x71, 0xfa, 0x36, 0xa0, 0xe2, 0x54, 0x78, 0xc7, 0x2e, 0x69, 0x2a, 0x6e, 0x16,
-	0xc4, 0x1e, 0x6c, 0x95, 0x80, 0x13, 0x67, 0x42, 0xc9, 0x43, 0xb5, 0x6e, 0x1e, 0xce, 0xf4, 0x8c,
-	0xf3, 0x38, 0xa2, 0xe6, 0xc4, 0x61, 0x3e, 0xc1, 0x5c, 0xaf, 0x00, 0xf1, 0x5b, 0x78, 0x98, 0x00,
-	0xbe, 0xcf, 0x47, 0x8e, 0x64, 0x3c, 0xb0, 0xa7, 0x21, 0x25, 0x8f, 0xd4, 0xca, 0xdb, 0x44, 0x32,
-	0xd3, 0x82, 0x09, 0x8b, 0x8e, 0xb8, 0x70, 0x5f, 0x3b, 0x3e, 0x73, 0x49, 0x4b, 0x9d, 0xfc, 0x1c,
-	0x8a, 0x3f, 0x42, 0x43, 0x30, 0x91, 0x14, 0x6b, 0x48, 0xf2, 0xb8, 0x62, 0x8f, 0x8a, 0x90, 0xe4,
-	0x24, 0x78, 0xd1, 0x88, 0x6d, 0x75, 0x33, 0x4a, 0x08, 0xee, 0x41, 0x23, 0x8e, 0x6e, 0xe8, 0x1d,
-	0x45, 0x17, 0x40, 0x32, 0xef, 0x5c, 0x30, 0x8f, 0x05, 0x84, 0x28, 0x2a, 0xf3, 0xf0, 0x7b, 0xd8,
-	0x49, 0x2d, 0x5b, 0x38, 0x41, 0x34, 0xa6, 0xa2, 0x18, 0xe0, 0x5d, 0x55, 0xc6, 0x22, 0x1a, 0x7f,
-	0x85, 0xdd, 0x05, 0x94, 0x21, 0x49, 0xbb, 0x62, 0x7d, 0x8b, 0x25, 0x6e, 0xeb, 0x97, 0x87, 0xfa,
-	0xf3, 0x4f, 0xd3, 0x2f, 0x4f, 0xf6, 0x1e, 0x34, 0x98, 0x10, 0xa7, 0x69, 0x53, 0xf6, 0xd4, 0xe9,
-	0x16, 0x00, 0xb6, 0x61, 0x95, 0x09, 0xf1, 0x53, 0x20, 0xfb, 0x53, 0xf2, 0x85, 0x22, 0x73, 0x1f,
-	0x07, 0xb0, 0xce, 0x84, 0x38, 0xca, 0xff, 0x0c, 0x3b, 0x15, 0x37, 0x33, 0x13, 0x85, 0x2f, 0x60,
-	0x23, 0x51, 0xe4, 0x2e, 0x1b, 0x33, 0x25, 0xb3, 0x5f, 0x51, 0x66, 0x36, 0x0c, 0xfb, 0xb0, 0xc6,
-	0x84, 0xc8, 0x6f, 0x5f, 0xb7, 0xa2, 0x4a, 0x39, 0x28, 0xb9, 0x41, 0x79, 0xe9, 0xe6, 0x25, 0x8b,
-	0x64, 0x44, 0xbe, 0x54, 0xa7, 0x3f, 0x0f, 0x27, 0x53, 0x28, 0xc2, 0x0b, 0x96, 0xb5, 0xed, 0x49,
-	0xfa, 0x7f, 0x50, 0x20, 0xf8, 0x1c, 0x9a, 0x85, 0x97, 0x49, 0x7d, 0xa5, 0xa4, 0x6e, 0xe1, 0x49,
-	0x1f, 0x13, 0x2c, 0xdf, 0xfa, 0xd3, 0xaa, 0x7d, 0x2c, 0x47, 0x25, 0xef, 0x52, 0x1c, 0xba, 0xd9,
-	0x51, 0x7c, 0x7d, 0x9f, 0x77, 0x29, 0x0f, 0xc3, 0x1f, 0x80, 0x38, 0xf9, 0xfd, 0x1f, 0xf0, 0x89,
-	0xc3, 0x82, 0xd7, 0x54, 0xa8, 0x0e, 0x93, 0x67, 0x6a, 0xf7, 0x0b, 0x79, 0xfc, 0x0d, 0xda, 0x8b,
-	0x38, 0x43, 0x92, 0x6f, 0x2a, 0xd6, 0xf4, 0x3f, 0x1a, 0xe8, 0x43, 0xf7, 0x4e, 0xd6, 0x90, 0x92,
-	0x4e, 0xc2, 0xb4, 0xf0, 0x5e, 0xc5, 0x3c, 0x1f, 0x55, 0x7a, 0x7e, 0x09, 0xeb, 0xe5, 0xb7, 0x14,
-	0x77, 0xe1, 0xf1, 0xf0, 0xac, 0x7f, 0x62, 0xda, 0x6f, 0x86, 0xb6, 0x61, 0x9f, 0x0d, 0xdf, 0x1c,
-	0x9f, 0x1c, 0xdb, 0xc7, 0xc6, 0xab, 0x66, 0x0d, 0x77, 0xe0, 0xd1, 0x2c, 0x65, 0x99, 0xc6, 0xe0,
-	0xe7, 0xa6, 0x86, 0x6d, 0xd8, 0x9e, 0x27, 0x5e, 0x9a, 0x47, 0xb6, 0x39, 0x68, 0x2e, 0x21, 0x81,
-	0xd6, 0x2c, 0xf7, 0xca, 0x34, 0x86, 0xe6, 0xa0, 0xb9, 0xdc, 0xd7, 0xdf, 0x5f, 0x75, 0xb4, 0x0f,
-	0x57, 0x1d, 0xed, 0xdf, 0xab, 0x8e, 0xf6, 0xee, 0xba, 0x53, 0xfb, 0x70, 0xdd, 0xa9, 0xfd, 0x75,
-	0xdd, 0xa9, 0xfd, 0xd2, 0x4a, 0x3f, 0x7b, 0xf2, 0x0f, 0x1f, 0x39, 0x0d, 0x69, 0x74, 0x5e, 0x57,
-	0x55, 0x7e, 0xf7, 0x5f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x1f, 0xff, 0xad, 0x1c, 0x15, 0x09, 0x00,
-	0x00,
+	// 727 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x55, 0xc1, 0x6e, 0xe2, 0x48,
+	0x10, 0xc5, 0x84, 0x25, 0xa1, 0x21, 0x84, 0x74, 0x48, 0xd2, 0xb0, 0x59, 0x83, 0x56, 0xab, 0x15,
+	0x8a, 0x56, 0x46, 0xca, 0x5e, 0xf6, 0x6a, 0x82, 0x57, 0x22, 0x8a, 0x12, 0xc9, 0x38, 0x2b, 0xed,
+	0x1c, 0x26, 0x32, 0xb8, 0xf1, 0xb4, 0x62, 0xdc, 0x9e, 0xee, 0xb6, 0x12, 0xfe, 0x22, 0xdf, 0x34,
+	0xa7, 0x1c, 0x73, 0x9c, 0xd3, 0xcc, 0x28, 0xf9, 0x91, 0x91, 0xdb, 0x80, 0x0d, 0x24, 0x1a, 0x32,
+	0x27, 0xaa, 0xde, 0xab, 0x7a, 0xe5, 0xaa, 0x2e, 0xba, 0x41, 0x8d, 0x04, 0x0e, 0xbe, 0x6b, 0xf3,
+	0x70, 0xe0, 0x63, 0x31, 0xfd, 0xd1, 0x02, 0x46, 0x05, 0x85, 0x25, 0x49, 0x69, 0x31, 0x56, 0x6f,
+	0xb8, 0x94, 0xba, 0x1e, 0x6e, 0x4b, 0x6e, 0x10, 0x8e, 0xda, 0x82, 0x8c, 0x31, 0x17, 0xf6, 0x38,
+	0x88, 0xc3, 0xeb, 0x55, 0x97, 0xba, 0x54, 0x9a, 0xed, 0xc8, 0x8a, 0xd1, 0xdf, 0x3f, 0x15, 0x41,
+	0xbe, 0x2f, 0x15, 0x60, 0x19, 0x64, 0x89, 0x83, 0x94, 0xa6, 0xd2, 0xca, 0x99, 0x59, 0xe2, 0xc0,
+	0x0e, 0x28, 0x0c, 0x19, 0xb6, 0x05, 0x76, 0x74, 0x81, 0xb2, 0x4d, 0xa5, 0x55, 0x3c, 0xa9, 0x6b,
+	0x71, 0x15, 0x6d, 0x56, 0x45, 0xb3, 0x66, 0x55, 0x3a, 0x5b, 0x0f, 0x5f, 0x1a, 0x99, 0xfb, 0xaf,
+	0x0d, 0xc5, 0x4c, 0xd2, 0xe0, 0x9f, 0xa0, 0xec, 0x63, 0x71, 0x4b, 0xd9, 0x8d, 0xee, 0x38, 0x0c,
+	0x73, 0x8e, 0x36, 0xa4, 0xfe, 0x12, 0x0a, 0x21, 0xc8, 0x8d, 0x6d, 0x7e, 0x83, 0x72, 0x92, 0x95,
+	0x36, 0x3c, 0x01, 0x79, 0x2e, 0x6c, 0x11, 0x72, 0xf4, 0x4b, 0x53, 0x69, 0x95, 0x4f, 0xea, 0x5a,
+	0xba, 0x61, 0x2d, 0xfe, 0xea, 0xbe, 0x8c, 0x30, 0xa7, 0x91, 0x10, 0x81, 0xcd, 0x21, 0x0d, 0x7d,
+	0xc1, 0x26, 0x28, 0xdf, 0x54, 0x5a, 0x05, 0x73, 0xe6, 0xc2, 0x03, 0x90, 0x67, 0xd8, 0x25, 0xd4,
+	0x47, 0x9b, 0x92, 0x98, 0x7a, 0x51, 0xe5, 0x21, 0x11, 0x13, 0xb4, 0x25, 0x51, 0x69, 0x43, 0x15,
+	0x80, 0x80, 0x72, 0x61, 0x7b, 0xa7, 0xd4, 0xc1, 0xa8, 0x20, 0x99, 0x14, 0x02, 0x35, 0x00, 0x5d,
+	0x4c, 0x4f, 0x3f, 0xd8, 0xbe, 0x8b, 0x4d, 0xfc, 0x31, 0xc4, 0x5c, 0x60, 0x07, 0x81, 0xa6, 0xd2,
+	0xda, 0x32, 0x5f, 0x60, 0xa0, 0x05, 0xaa, 0xab, 0xa8, 0x2e, 0x50, 0xf1, 0x87, 0x43, 0xcd, 0xc9,
+	0x81, 0xbe, 0x98, 0xbd, 0xa0, 0xfa, 0x6f, 0xe8, 0x8d, 0x88, 0xe7, 0x49, 0xd5, 0xd2, 0x9b, 0x55,
+	0x53, 0xd9, 0x51, 0xef, 0x2e, 0xa6, 0x23, 0x8c, 0x9d, 0x2b, 0xe6, 0xa1, 0xed, 0xb8, 0xf7, 0x04,
+	0x81, 0x67, 0x60, 0x67, 0xea, 0xf5, 0x27, 0xfe, 0x50, 0x16, 0x2c, 0xaf, 0x59, 0x70, 0x39, 0x11,
+	0x56, 0xc0, 0x06, 0x23, 0x0c, 0xed, 0xc8, 0x22, 0x91, 0x09, 0xff, 0x00, 0xdb, 0x8c, 0xb0, 0xcb,
+	0x5b, 0x1f, 0xb3, 0x4b, 0xe6, 0xf6, 0x1c, 0x54, 0x91, 0xdc, 0x22, 0x08, 0x5b, 0x60, 0x27, 0x05,
+	0x5c, 0xd8, 0x63, 0x8c, 0x76, 0x65, 0xdc, 0x32, 0x3c, 0xd5, 0xd3, 0x07, 0x21, 0xc7, 0xc6, 0xd8,
+	0x26, 0x1e, 0x82, 0x73, 0xbd, 0x04, 0x84, 0x7f, 0x81, 0xdd, 0x08, 0xf0, 0x3c, 0x3a, 0xb4, 0x05,
+	0xa1, 0xbe, 0x35, 0x09, 0x30, 0xda, 0x93, 0x91, 0xab, 0x44, 0xb4, 0xd3, 0x8c, 0x30, 0x13, 0x0f,
+	0x29, 0x73, 0xfe, 0xb3, 0x3d, 0xe2, 0xa0, 0xaa, 0x3c, 0xf9, 0x25, 0x14, 0x76, 0x40, 0x91, 0x11,
+	0x36, 0x9f, 0xd2, 0xfe, 0x9a, 0x53, 0x4a, 0x27, 0x45, 0xa7, 0x41, 0x93, 0x61, 0x1c, 0xc8, 0x7f,
+	0x47, 0x0a, 0x81, 0x47, 0xa0, 0x10, 0xf2, 0x19, 0x7d, 0x28, 0xe9, 0x04, 0x88, 0x76, 0x9e, 0x32,
+	0xe2, 0x12, 0x1f, 0x21, 0x49, 0x4d, 0x3d, 0xf8, 0x0f, 0x38, 0x8c, 0x2d, 0x8b, 0xd9, 0x3e, 0x1f,
+	0x61, 0x96, 0x2c, 0x71, 0x4d, 0xb6, 0xf2, 0x1a, 0x0d, 0xdf, 0x83, 0xda, 0x2b, 0x94, 0x2e, 0x50,
+	0x7d, 0xcd, 0x0e, 0x5f, 0x97, 0x58, 0xd5, 0x4f, 0x2f, 0xf6, 0xaf, 0x3f, 0xa7, 0xbf, 0xb4, 0xdd,
+	0x2c, 0xb8, 0x21, 0x97, 0xf1, 0x54, 0x8e, 0xe2, 0xed, 0x4e, 0x10, 0x78, 0x0c, 0x2a, 0x89, 0x67,
+	0xdc, 0x11, 0x2e, 0x38, 0xfa, 0x4d, 0x8e, 0x64, 0x05, 0x87, 0x5d, 0x50, 0x8a, 0xb0, 0xf9, 0x01,
+	0xab, 0x6b, 0x7e, 0xde, 0x42, 0x56, 0x74, 0xcb, 0x86, 0x81, 0x33, 0xbd, 0x65, 0x1b, 0x6f, 0xb9,
+	0x65, 0xe7, 0x69, 0xc7, 0x77, 0xa0, 0x94, 0xbe, 0x0d, 0x61, 0x0d, 0xec, 0xf7, 0xaf, 0x3a, 0x17,
+	0x86, 0x75, 0xdd, 0xb7, 0x74, 0xeb, 0xaa, 0x7f, 0xdd, 0xbb, 0xe8, 0x59, 0x3d, 0xfd, 0xbc, 0x92,
+	0x81, 0x87, 0x60, 0x6f, 0x91, 0x32, 0x0d, 0xbd, 0xfb, 0x7f, 0x45, 0x81, 0x75, 0x70, 0xb0, 0x4c,
+	0x9c, 0x19, 0xa7, 0x96, 0xd1, 0xad, 0x64, 0x21, 0x02, 0xd5, 0x45, 0xee, 0xdc, 0xd0, 0xfb, 0x46,
+	0xb7, 0xb2, 0xd1, 0xd1, 0x1e, 0x9e, 0x54, 0xe5, 0xf1, 0x49, 0x55, 0xbe, 0x3d, 0xa9, 0xca, 0xfd,
+	0xb3, 0x9a, 0x79, 0x7c, 0x56, 0x33, 0x9f, 0x9f, 0xd5, 0xcc, 0xbb, 0x6a, 0xfc, 0x70, 0xcd, 0x9f,
+	0x2e, 0x31, 0x09, 0x30, 0x1f, 0xe4, 0x65, 0x4b, 0x7f, 0x7f, 0x0f, 0x00, 0x00, 0xff, 0xff, 0xda,
+	0x5d, 0x50, 0xf2, 0xd7, 0x06, 0x00, 0x00,
 }
 
 func (m *Subnet) Marshal() (dAtA []byte, err error) {
@@ -504,63 +423,27 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.AbuseEmailDomainVerifAttemptedAt != nil {
-		n1, err1 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.AbuseEmailDomainVerifAttemptedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.AbuseEmailDomainVerifAttemptedAt):])
-		if err1 != nil {
-			return 0, err1
-		}
-		i -= n1
-		i = encodeVarintSubnet(dAtA, i, uint64(n1))
-		i--
-		dAtA[i] = 0x2
-		i--
-		dAtA[i] = 0xc2
+	n1, err1 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.UpdatedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.UpdatedAt):])
+	if err1 != nil {
+		return 0, err1
 	}
-	if m.AbuseEmailDomainVerifiedAt != nil {
-		n2, err2 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.AbuseEmailDomainVerifiedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.AbuseEmailDomainVerifiedAt):])
+	i -= n1
+	i = encodeVarintSubnet(dAtA, i, uint64(n1))
+	i--
+	dAtA[i] = 0x1
+	i--
+	dAtA[i] = 0xfa
+	if m.RpkiSyncedAt != nil {
+		n2, err2 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.RpkiSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RpkiSyncedAt):])
 		if err2 != nil {
 			return 0, err2
 		}
 		i -= n2
 		i = encodeVarintSubnet(dAtA, i, uint64(n2))
 		i--
-		dAtA[i] = 0x2
+		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xba
-	}
-	if m.AbuseEmailDomainVerified {
-		i--
-		if m.AbuseEmailDomainVerified {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
-		i--
-		dAtA[i] = 0x2
-		i--
-		dAtA[i] = 0xb0
-	}
-	n3, err3 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.UpdatedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.UpdatedAt):])
-	if err3 != nil {
-		return 0, err3
-	}
-	i -= n3
-	i = encodeVarintSubnet(dAtA, i, uint64(n3))
-	i--
-	dAtA[i] = 0x2
-	i--
-	dAtA[i] = 0xaa
-	if m.RpkiSyncedAt != nil {
-		n4, err4 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.RpkiSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RpkiSyncedAt):])
-		if err4 != nil {
-			return 0, err4
-		}
-		i -= n4
-		i = encodeVarintSubnet(dAtA, i, uint64(n4))
-		i--
-		dAtA[i] = 0x2
-		i--
-		dAtA[i] = 0xa2
+		dAtA[i] = 0xf2
 	}
 	if m.RpkiOriginExists {
 		i--
@@ -570,104 +453,38 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0
 		}
 		i--
-		dAtA[i] = 0x2
+		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x98
+		dAtA[i] = 0xe8
 	}
 	if len(m.RpkiOrigin) > 0 {
 		i -= len(m.RpkiOrigin)
 		copy(dAtA[i:], m.RpkiOrigin)
 		i = encodeVarintSubnet(dAtA, i, uint64(len(m.RpkiOrigin)))
 		i--
-		dAtA[i] = 0x2
-		i--
-		dAtA[i] = 0x92
-	}
-	if m.IrrOriginExists {
-		i--
-		if m.IrrOriginExists {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
-		i--
-		dAtA[i] = 0x2
-		i--
-		dAtA[i] = 0x88
-	}
-	if m.IrrSyncedAt != nil {
-		n5, err5 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.IrrSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrSyncedAt):])
-		if err5 != nil {
-			return 0, err5
-		}
-		i -= n5
-		i = encodeVarintSubnet(dAtA, i, uint64(n5))
-		i--
-		dAtA[i] = 0x2
-		i--
-		dAtA[i] = 0x82
-	}
-	if m.IrrModifiedAt != nil {
-		n6, err6 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.IrrModifiedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrModifiedAt):])
-		if err6 != nil {
-			return 0, err6
-		}
-		i -= n6
-		i = encodeVarintSubnet(dAtA, i, uint64(n6))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0xfa
-	}
-	if m.IrrCreatedAt != nil {
-		n7, err7 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.IrrCreatedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrCreatedAt):])
-		if err7 != nil {
-			return 0, err7
-		}
-		i -= n7
-		i = encodeVarintSubnet(dAtA, i, uint64(n7))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0xf2
-	}
-	if len(m.IrrMntBy) > 0 {
-		i -= len(m.IrrMntBy)
-		copy(dAtA[i:], m.IrrMntBy)
-		i = encodeVarintSubnet(dAtA, i, uint64(len(m.IrrMntBy)))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0xea
-	}
-	if len(m.IrrOrigin) > 0 {
-		i -= len(m.IrrOrigin)
-		copy(dAtA[i:], m.IrrOrigin)
-		i = encodeVarintSubnet(dAtA, i, uint64(len(m.IrrOrigin)))
-		i--
 		dAtA[i] = 0x1
 		i--
 		dAtA[i] = 0xe2
 	}
 	if m.OriginTransferFulfilledAt != nil {
-		n8, err8 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.OriginTransferFulfilledAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.OriginTransferFulfilledAt):])
-		if err8 != nil {
-			return 0, err8
+		n3, err3 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.OriginTransferFulfilledAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.OriginTransferFulfilledAt):])
+		if err3 != nil {
+			return 0, err3
 		}
-		i -= n8
-		i = encodeVarintSubnet(dAtA, i, uint64(n8))
+		i -= n3
+		i = encodeVarintSubnet(dAtA, i, uint64(n3))
 		i--
 		dAtA[i] = 0x1
 		i--
 		dAtA[i] = 0xda
 	}
 	if m.OriginTransferRequestedAt != nil {
-		n9, err9 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.OriginTransferRequestedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.OriginTransferRequestedAt):])
-		if err9 != nil {
-			return 0, err9
+		n4, err4 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.OriginTransferRequestedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.OriginTransferRequestedAt):])
+		if err4 != nil {
+			return 0, err4
 		}
-		i -= n9
-		i = encodeVarintSubnet(dAtA, i, uint64(n9))
+		i -= n4
+		i = encodeVarintSubnet(dAtA, i, uint64(n4))
 		i--
 		dAtA[i] = 0x1
 		i--
@@ -706,13 +523,13 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0xb0
 	}
-	if m.RirSyncAt != nil {
-		n10, err10 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.RirSyncAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RirSyncAt):])
-		if err10 != nil {
-			return 0, err10
+	if m.RirSyncedAt != nil {
+		n5, err5 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.RirSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RirSyncedAt):])
+		if err5 != nil {
+			return 0, err5
 		}
-		i -= n10
-		i = encodeVarintSubnet(dAtA, i, uint64(n10))
+		i -= n5
+		i = encodeVarintSubnet(dAtA, i, uint64(n5))
 		i--
 		dAtA[i] = 0x1
 		i--
@@ -774,12 +591,12 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x7a
 	}
 	if m.GeofeedSyncedAt != nil {
-		n11, err11 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.GeofeedSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeofeedSyncedAt):])
-		if err11 != nil {
-			return 0, err11
+		n6, err6 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.GeofeedSyncedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeofeedSyncedAt):])
+		if err6 != nil {
+			return 0, err6
 		}
-		i -= n11
-		i = encodeVarintSubnet(dAtA, i, uint64(n11))
+		i -= n6
+		i = encodeVarintSubnet(dAtA, i, uint64(n6))
 		i--
 		dAtA[i] = 0x72
 	}
@@ -791,22 +608,22 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x6a
 	}
 	if m.GeoChangeFulfilledAt != nil {
-		n12, err12 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.GeoChangeFulfilledAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeoChangeFulfilledAt):])
-		if err12 != nil {
-			return 0, err12
+		n7, err7 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.GeoChangeFulfilledAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeoChangeFulfilledAt):])
+		if err7 != nil {
+			return 0, err7
 		}
-		i -= n12
-		i = encodeVarintSubnet(dAtA, i, uint64(n12))
+		i -= n7
+		i = encodeVarintSubnet(dAtA, i, uint64(n7))
 		i--
 		dAtA[i] = 0x62
 	}
 	if m.GeoChangeRequestedAt != nil {
-		n13, err13 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.GeoChangeRequestedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeoChangeRequestedAt):])
-		if err13 != nil {
-			return 0, err13
+		n8, err8 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.GeoChangeRequestedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.GeoChangeRequestedAt):])
+		if err8 != nil {
+			return 0, err8
 		}
-		i -= n13
-		i = encodeVarintSubnet(dAtA, i, uint64(n13))
+		i -= n8
+		i = encodeVarintSubnet(dAtA, i, uint64(n8))
 		i--
 		dAtA[i] = 0x5a
 	}
@@ -863,12 +680,12 @@ func (m *Subnet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x18
 	}
-	n14, err14 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.CreatedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.CreatedAt):])
-	if err14 != nil {
-		return 0, err14
+	n9, err9 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(m.CreatedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(m.CreatedAt):])
+	if err9 != nil {
+		return 0, err9
 	}
-	i -= n14
-	i = encodeVarintSubnet(dAtA, i, uint64(n14))
+	i -= n9
+	i = encodeVarintSubnet(dAtA, i, uint64(n9))
 	i--
 	dAtA[i] = 0x12
 	if m.Id != 0 {
@@ -968,8 +785,8 @@ func (m *Subnet) Size() (n int) {
 	if m.RirRecordValid {
 		n += 3
 	}
-	if m.RirSyncAt != nil {
-		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RirSyncAt)
+	if m.RirSyncedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.RirSyncedAt)
 		n += 2 + l + sovSubnet(uint64(l))
 	}
 	if m.OwnerOrgId != 0 {
@@ -992,29 +809,6 @@ func (m *Subnet) Size() (n int) {
 		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.OriginTransferFulfilledAt)
 		n += 2 + l + sovSubnet(uint64(l))
 	}
-	l = len(m.IrrOrigin)
-	if l > 0 {
-		n += 2 + l + sovSubnet(uint64(l))
-	}
-	l = len(m.IrrMntBy)
-	if l > 0 {
-		n += 2 + l + sovSubnet(uint64(l))
-	}
-	if m.IrrCreatedAt != nil {
-		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrCreatedAt)
-		n += 2 + l + sovSubnet(uint64(l))
-	}
-	if m.IrrModifiedAt != nil {
-		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrModifiedAt)
-		n += 2 + l + sovSubnet(uint64(l))
-	}
-	if m.IrrSyncedAt != nil {
-		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IrrSyncedAt)
-		n += 2 + l + sovSubnet(uint64(l))
-	}
-	if m.IrrOriginExists {
-		n += 3
-	}
 	l = len(m.RpkiOrigin)
 	if l > 0 {
 		n += 2 + l + sovSubnet(uint64(l))
@@ -1028,17 +822,6 @@ func (m *Subnet) Size() (n int) {
 	}
 	l = github_com_cosmos_gogoproto_types.SizeOfStdTime(m.UpdatedAt)
 	n += 2 + l + sovSubnet(uint64(l))
-	if m.AbuseEmailDomainVerified {
-		n += 3
-	}
-	if m.AbuseEmailDomainVerifiedAt != nil {
-		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.AbuseEmailDomainVerifiedAt)
-		n += 2 + l + sovSubnet(uint64(l))
-	}
-	if m.AbuseEmailDomainVerifAttemptedAt != nil {
-		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.AbuseEmailDomainVerifAttemptedAt)
-		n += 2 + l + sovSubnet(uint64(l))
-	}
 	return n
 }
 
@@ -1656,7 +1439,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			m.RirRecordValid = bool(v != 0)
 		case 21:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RirSyncAt", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field RirSyncedAt", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1683,10 +1466,10 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.RirSyncAt == nil {
-				m.RirSyncAt = new(time.Time)
+			if m.RirSyncedAt == nil {
+				m.RirSyncedAt = new(time.Time)
 			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.RirSyncAt, dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.RirSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1841,198 +1624,6 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 28:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IrrOrigin", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubnet
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.IrrOrigin = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 29:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IrrMntBy", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubnet
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.IrrMntBy = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 30:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IrrCreatedAt", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubnet
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.IrrCreatedAt == nil {
-				m.IrrCreatedAt = new(time.Time)
-			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.IrrCreatedAt, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 31:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IrrModifiedAt", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubnet
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.IrrModifiedAt == nil {
-				m.IrrModifiedAt = new(time.Time)
-			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.IrrModifiedAt, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 32:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IrrSyncedAt", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubnet
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.IrrSyncedAt == nil {
-				m.IrrSyncedAt = new(time.Time)
-			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.IrrSyncedAt, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 33:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IrrOriginExists", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubnet
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.IrrOriginExists = bool(v != 0)
-		case 34:
-			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RpkiOrigin", wireType)
 			}
 			var stringLen uint64
@@ -2063,7 +1654,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 			}
 			m.RpkiOrigin = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 35:
+		case 29:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RpkiOriginExists", wireType)
 			}
@@ -2083,7 +1674,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 				}
 			}
 			m.RpkiOriginExists = bool(v != 0)
-		case 36:
+		case 30:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RpkiSyncedAt", wireType)
 			}
@@ -2119,7 +1710,7 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 37:
+		case 31:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UpdatedAt", wireType)
 			}
@@ -2149,98 +1740,6 @@ func (m *Subnet) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(&m.UpdatedAt, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 38:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AbuseEmailDomainVerified", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubnet
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.AbuseEmailDomainVerified = bool(v != 0)
-		case 39:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AbuseEmailDomainVerifiedAt", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubnet
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.AbuseEmailDomainVerifiedAt == nil {
-				m.AbuseEmailDomainVerifiedAt = new(time.Time)
-			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.AbuseEmailDomainVerifiedAt, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 40:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AbuseEmailDomainVerifAttemptedAt", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSubnet
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSubnet
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.AbuseEmailDomainVerifAttemptedAt == nil {
-				m.AbuseEmailDomainVerifAttemptedAt = new(time.Time)
-			}
-			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.AbuseEmailDomainVerifAttemptedAt, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

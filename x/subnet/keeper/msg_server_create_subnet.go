@@ -75,8 +75,8 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 	}
 
 	//Validate that the last octet is equal to zero, as the smallest subnet size is /24
-	if parsedIp[3] != 0 {
-		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "subnet fourth octet must be zero for address (%s)", parsedIp.String())
+	if msg.NetworkAddress & 0xFF != 0 {
+		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "fourth octet must be zero for subnet (%s)", parsedIp.String())
 	}
 
 	// Check if IP is in a reserved range
@@ -93,10 +93,10 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrap(ErrUnknownRIR, "Unsopprted RIR")
 	}
 
-	//Validate Geofeed
-	if msg.GeofeedUrl == "" {
-		return nil, errorsmod.Wrap(ErrInvalidGeofeedURL, "geofeed URL not provided")
-	}
+	//Validate Geofeed - not obligatory
+	// if msg.GeofeedUrl == "" {
+	// 	return nil, errorsmod.Wrap(ErrInvalidGeofeedURL, "geofeed URL not provided")
+	// }
 
 	// Check if URL starts with http:// or https://
 	if strings.HasPrefix(strings.ToLower(msg.GeofeedUrl), "http://") ||
