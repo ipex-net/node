@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
+	"net/http"
 	"net/url"
 	"strings"
 	"sync"
@@ -53,7 +54,7 @@ type OracleVoteExtension struct {
 	Height              int64
 	OrgDomainValidation map[uint64]bool
 	SubnetRirSync map[uint64]subnettypes.SubnetInfo
-	// AsnPrefixValidation map[uint64]bool
+	AsnPrefixValidation map[uint64]bool
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
@@ -61,8 +62,9 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		// Get list of organizations that need validation
 		orgsToValidate := h.OrgKeeper.GetOrgsForDomainValidation(ctx)
 		subnetsToRirSync := h.SubnetKeeper.GetSubnetsForRirSync(ctx)
-		// subnetsToValidateRPKI := h.SubnetKeeper.Get
-		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 {
+		subnetsForRPKIValidation := h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx)
+
+		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 {
 			// Nothing to validate or sync, returning empty Vote
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
 		}
@@ -72,7 +74,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		// Map to store validation results
 		domainValidationResults := make(map[uint64]bool)
 		subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
-
+		subnetRPKIValidationResults := make(map[uint64]bool)
 
 		if len(orgsToValidate) > 0 {
 			// Use errgroup to perform DNS lookups concurrently
@@ -119,6 +121,13 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			}
 		}
 
+		if len(subnetsForRPKIValidation) > 0 {
+			for _, subnet := range subnetsForRPKIValidation {
+				prefix :=  fmt.Sprintf("%s/%d", convertDecimalIPToString(subnet.NetworkAddress), subnet.Mask)
+				isValid := h.IsASNValidForPrefix(prefix, subnet.OriginAsn)
+				subnetRPKIValidationResults[subnet.Id] = isValid
+			}
+		}
 
 
 		// Create vote extension
@@ -126,6 +135,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			Height:              req.Height,
 			OrgDomainValidation: domainValidationResults,
 			SubnetRirSync : subnetSyncResults,
+			AsnPrefixValidation : subnetRPKIValidationResults,
 		}
 
 		// Log the results
@@ -231,9 +241,9 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64) subnettyp
 	if err != nil {
 		errMsg := err.Error()
 		if strings.Contains(errMsg, "No RDAP servers responded successfully") {
-			fmt.Printf("Rate limit detected: %v\n", err)
+			h.logger.Info("Rate limit detected: %v\n", err)
 		} else {
-			fmt.Printf("RDAP query failed: %v\n", err)
+			h.logger.Info("RDAP query failed: %v\n", err)
 		}
 		return result
 	}
@@ -253,13 +263,13 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64) subnettyp
 	// Get the inetnum end IP from the RDAP response
 	inetnumEndIp, err := IpToDecimal(response.EndAddress)
 	if err != nil {
-		fmt.Printf("Error converting RDAP end address to decimal: %v\n", err)
+		h.logger.Info("Error converting RDAP end address to decimal: %v\n", err)
 		return result
 	}
 
 	// Checking that the subnet we've received is within the inetnum range
 	if endIp > inetnumEndIp {
-		fmt.Printf("Subnet exceeds the inetnum range")
+		h.logger.Info("Subnet exceeds the inetnum range")
 		return result
 	}
 
@@ -487,4 +497,68 @@ func (h *VoteExtHandler) VerifyVoteExtensionHandler() sdk.VerifyVoteExtensionHan
 		// Accept the vote extension
 		return &abci.ResponseVerifyVoteExtension{Status: abci.ResponseVerifyVoteExtension_ACCEPT}, nil
 	}
+}
+
+// IsASNValidForPrefix checks if the given ASN is a valid origin for the specified prefix
+func (h *VoteExtHandler) IsASNValidForPrefix(prefix string, asn uint64) bool {
+	routinatorURLs := []string{
+		"http://127.0.0.1:1337",           // Local Routinator
+		"https://rpki-validator.ripe.net", // RIPE Routinator (fallback)
+	}
+
+	client := &http.Client{
+		Timeout: time.Second * 5,
+	}
+
+	var resp *http.Response
+	var err error
+
+	// Try each Routinator URL until one succeeds
+	for i, baseURL := range routinatorURLs {
+		url := fmt.Sprintf("%s/api/v1/validity/%d/%s", baseURL, asn, prefix)
+
+		resp, err = client.Get(url)
+		if err == nil && resp.StatusCode == http.StatusOK {
+			break // Successfully connected to this Routinator
+		}
+
+		if resp != nil {
+			resp.Body.Close() // Close the body if we got a response but it wasn't OK
+		}
+
+		if i < len(routinatorURLs)-1 {
+			// Log fallback message only if there are more URLs to try
+			h.logger.Info("Cannot reach Routinator at %s: %v. Trying fallback.\n", baseURL, err)
+		} else {
+			// All URLs failed
+			h.logger.Error("Error querying all Routinator instances: %v\n", err)
+			return false
+		}
+	}
+
+	// At this point we have a valid response
+	defer resp.Body.Close()
+
+	// Parse the validation response
+	var validationResp struct {
+		ValidatedRoute struct {
+			Route struct {
+				OriginASN string `json:"origin_asn"`
+				Prefix    string `json:"prefix"`
+			} `json:"route"`
+			Validity struct {
+				State       string `json:"state"`
+				Description string `json:"description"`
+				Reason      string `json:"reason,omitempty"`
+			} `json:"validity"`
+		} `json:"validated_route"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&validationResp); err != nil {
+		h.logger.Error("Error decoding validation response: %v\n", err)
+		return false
+	}
+
+	// Check if state is "valid"
+	return validationResp.ValidatedRoute.Validity.State == "valid"
 }
