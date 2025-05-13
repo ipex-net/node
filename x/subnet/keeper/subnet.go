@@ -189,9 +189,14 @@ func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 	if !found {
 		return
 	}
-	subnet.Origin = 0
+	subnet.OriginAs = 0
 	subnet.UserOrgId = 0
 	subnet.UpdatedAt = ctx.BlockTime()
+	subnet.OriginTransferRequestedAt = nil
+	subnet.OriginTransferFulfilledAt = nil
+	subnet.Status = types.SubnetStatus_SUBNET_STATUS_READY
+
+	//REBUILD THIS ONCE subnet structure is ready
 	k.SetSubnet(ctx, subnet)
 }
 
@@ -257,7 +262,7 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 		return fmt.Errorf("subnet with ID %d not found", subnetID)
 	}
 
-	// Removing invalid subnet from chain
+	// If subnet is in initial status and rir record is invalid - we remove it
 	if subnet.Status== types.SubnetStatus_SUBNET_STATUS_INITIAL && !info.Valid{
 		k.RemoveSubnet(ctx, subnetID)
 		return fmt.Errorf("Subnet with address %d failed RIR validation and was removed", subnet.NetworkAddress)
