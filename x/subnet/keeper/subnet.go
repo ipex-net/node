@@ -189,11 +189,12 @@ func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 	if !found {
 		return
 	}
-	subnet.OriginAs = 0
+	subnet.OriginAsn = 0
 	subnet.UserOrgId = 0
 	subnet.UpdatedAt = ctx.BlockTime()
 	subnet.OriginTransferRequestedAt = nil
-	subnet.OriginTransferFulfilledAt = nil
+	subnet.RpkiValidityChangedAt = nil
+	subnet.RpkiOriginValid = false
 	subnet.Status = types.SubnetStatus_SUBNET_STATUS_READY
 
 	//REBUILD THIS ONCE subnet structure is ready
@@ -289,4 +290,62 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 	k.SetSubnet(ctx, subnet)
 
 	return nil
+}
+
+// GetSubnetsForRPKIValidation retrieves subnets for rpki validation
+func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context) (list []types.Subnet) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	now := time.Now()
+	count := 0
+	maxSubnets := 5
+	for ; iterator.Valid(); iterator.Next() {
+		var subnet types.Subnet
+		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
+
+		// If no origin set - don't validate
+		if subnet.OriginAsn == 0 {
+			continue
+		}
+
+		// If no origin transfer requested timestamp - skip
+		if subnet.OriginTransferRequestedAt == nil {
+			continue
+		}
+
+		originTransferAge := now.Sub(*subnet.OriginTransferRequestedAt)
+
+		// Determine required interval
+		var requiredInterval time.Duration
+
+		switch {
+			case subnet.RpkiOriginValid:
+				requiredInterval = 6 * time.Hour
+			case originTransferAge < 6 * time.Hour: // Org age < 1 day
+				requiredInterval = 1 * time.Minute
+			case originTransferAge < 24 * time.Hour: // Org age < 1 day
+				requiredInterval = 5 * time.Minute
+			default: 
+				requiredInterval = time.Hour
+		}
+
+		// Skip if not enough time has passed
+		if subnet.RpkiLastSyncedAt != nil && now.Sub(*subnet.RpkiLastSyncedAt) < requiredInterval {
+			continue
+		}
+		
+		// Add to the list for validation
+		list = append(list, subnet)
+		// Increment count and check if we've reached the maximum
+		count++
+		if count >= maxSubnets {
+			break 
+		}
+	}
+
+	return
 }

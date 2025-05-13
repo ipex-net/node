@@ -54,11 +54,13 @@ func (k msgServer) UpdateSubnetOrigin(goCtx context.Context, msg *types.MsgUpdat
 		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.UserOrgId)
 	}
 
-	//Updating the subnet origin
-	subnet.OriginAs = msg.As
+	subnet.OriginAsn = msg.As
 	currentTime := ctx.BlockTime()
-	//Logging the block the origin transfer was requested
+
 	subnet.OriginTransferRequestedAt = &currentTime
+	subnet.RpkiOriginValid = false
+	subnet.RpkiValidityChangedAt = &currentTime
+	
 	subnet.UpdatedAt = currentTime
 	k.SetSubnet(ctx, subnet)
 	return &types.MsgUpdateSubnetOriginResponse{}, nil

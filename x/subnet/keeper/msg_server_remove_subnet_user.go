@@ -26,7 +26,11 @@ func (k msgServer) RemoveSubnetUser(goCtx context.Context, msg *types.MsgRemoveS
 
 	//TODO: Process contract termination logic
 
-	subnet.OriginAs = 0
+	subnet.OriginAsn = 0
+	subnet.OriginTransferRequestedAt = nil
+	subnet.RpkiValidityChangedAt = nil
+	subnet.RpkiOriginValid = false
+	subnet.UpdatedAt = ctx.BlockTime()
 	//Updating the subnet
 	subnet.UserOrgId = 0
 	k.SetSubnet(ctx, subnet)

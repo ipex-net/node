@@ -53,6 +53,7 @@ type OracleVoteExtension struct {
 	Height              int64
 	OrgDomainValidation map[uint64]bool
 	SubnetRirSync map[uint64]subnettypes.SubnetInfo
+	// AsnPrefixValidation map[uint64]bool
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
@@ -60,6 +61,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		// Get list of organizations that need validation
 		orgsToValidate := h.OrgKeeper.GetOrgsForDomainValidation(ctx)
 		subnetsToRirSync := h.SubnetKeeper.GetSubnetsForRirSync(ctx)
+		// subnetsToValidateRPKI := h.SubnetKeeper.Get
 		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 {
 			// Nothing to validate or sync, returning empty Vote
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil

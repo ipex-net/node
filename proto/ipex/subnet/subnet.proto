@@ -46,12 +46,12 @@ message Subnet {
   bool rirRecordValid = 22; 
   google.protobuf.Timestamp rirSyncedAt = 23 [(gogoproto.stdtime) = true]; 
 
-  uint64 originAs = 24; 
+  uint64 originAsn = 24; 
   google.protobuf.Timestamp originTransferRequestedAt = 25 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp originTransferFulfilledAt = 26 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp rpkiValidityChangedAt = 26 [(gogoproto.stdtime) = true]; 
 
   bool rpkiOriginValid = 27;
-  google.protobuf.Timestamp rpkiSyncedAt = 28 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp rpkiLastSyncedAt = 28 [(gogoproto.stdtime) = true]; 
   
   google.protobuf.Timestamp updatedAt = 29 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }
