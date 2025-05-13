@@ -349,3 +349,29 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context) (list []types.S
 
 	return
 }
+
+
+// UpdateOrgValidationStatus updates the domain validation status for an organization
+func (k Keeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
+	// Get the subnet
+	subnet, found := k.GetSubnet(ctx, subnetID)
+	if !found {
+		return fmt.Errorf("subnet with ID %d not found", subnetID)
+	}
+
+	// Get the timestamp
+	nowTime := time.Now()
+
+	// If status changed - reflecting changes
+	if subnet.RpkiOriginValid != isValid{
+		subnet.RpkiOriginValid = isValid
+		subnet.RpkiValidityChangedAt = &nowTime
+	}
+	// In any case we update timestamps
+	subnet.UpdatedAt = nowTime
+	subnet.RpkiLastSyncedAt = &nowTime
+	// Save the updated organization
+	k.SetSubnet(ctx, subnet)
+
+	return nil
+}

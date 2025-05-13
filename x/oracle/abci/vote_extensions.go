@@ -54,7 +54,7 @@ type OracleVoteExtension struct {
 	Height              int64
 	OrgDomainValidation map[uint64]bool
 	SubnetRirSync map[uint64]subnettypes.SubnetInfo
-	AsnPrefixValidation map[uint64]bool
+	RpkiValidation map[uint64]bool
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
@@ -74,7 +74,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		// Map to store validation results
 		domainValidationResults := make(map[uint64]bool)
 		subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
-		subnetRPKIValidationResults := make(map[uint64]bool)
+		subnetRpkiValidationResults := make(map[uint64]bool)
 
 		if len(orgsToValidate) > 0 {
 			// Use errgroup to perform DNS lookups concurrently
@@ -125,7 +125,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			for _, subnet := range subnetsForRPKIValidation {
 				prefix :=  fmt.Sprintf("%s/%d", convertDecimalIPToString(subnet.NetworkAddress), subnet.Mask)
 				isValid := h.IsASNValidForPrefix(prefix, subnet.OriginAsn)
-				subnetRPKIValidationResults[subnet.Id] = isValid
+				subnetRpkiValidationResults[subnet.Id] = isValid
 			}
 		}
 
@@ -135,7 +135,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			Height:              req.Height,
 			OrgDomainValidation: domainValidationResults,
 			SubnetRirSync : subnetSyncResults,
-			AsnPrefixValidation : subnetRPKIValidationResults,
+			RpkiValidation : subnetRpkiValidationResults,
 		}
 
 		// Log the results

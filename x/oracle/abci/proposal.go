@@ -19,6 +19,7 @@ import (
 type StakeDomainValidation struct {
 	OrgValidationResults map[uint64]bool
 	SubnetSyncResults    map[uint64]subnettypes.SubnetInfo
+	RpkiValidationResults map[uint64]bool 
 	ExtendedCommitInfo   abci.ExtendedCommitInfo
 }
 
@@ -58,17 +59,19 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 			}
 
 			// Compute consensus on validation results (produce empty maps on error)
-			orgValidationResults, subnetSyncResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
+			orgValidationResults, subnetSyncResults, rpkiValidationResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
 			if err != nil {
 				h.logger.Error("failed to compute validation results; injecting empty maps", "err", err)
 				orgValidationResults = make(map[uint64]bool)
 				subnetSyncResults = make(map[uint64]subnettypes.SubnetInfo)
+				rpkiValidationResults = make(map[uint64]bool) 
 			}
 
 			// Create the injected transaction with validation results
 			injectedVoteExtTx := StakeDomainValidation{
 				OrgValidationResults: orgValidationResults,
 				SubnetSyncResults:    subnetSyncResults,
+				RpkiValidationResults: rpkiValidationResults,
 				ExtendedCommitInfo:   req.LocalLastCommit,
 			}
 
@@ -89,14 +92,19 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 }
 
 // computeValidationResults aggregates validation results from vote extensions
-func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, error) {
+func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, map[uint64]bool, error) {
 	// Maps to store aggregated validation results
 	orgValidationResults := make(map[uint64]bool)
 	subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
+	rpkiValidationResults := make(map[uint64]bool) 
 
 	// Maps to track voting power for org validations
 	orgValidPower := make(map[uint64]int64)
 	orgInvalidPower := make(map[uint64]int64)
+
+	// Maps to track voting power for RPKI validations
+	rpkiValidPower := make(map[uint64]int64)
+	rpkiInvalidPower := make(map[uint64]int64)
 
 	// Map to track voting power for subnet info by subnet ID and unique SubnetInfo
 	// Using string representation of SubnetInfo for map key to handle struct comparison
@@ -134,6 +142,15 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 				orgValidPower[orgID] += v.Validator.Power
 			} else {
 				orgInvalidPower[orgID] += v.Validator.Power
+			}
+		}
+
+		// Aggregate RPKI validation results based on voting power
+		for subnetID, isValid := range voteExt.RpkiValidation {
+			if isValid {
+				rpkiValidPower[subnetID] += v.Validator.Power
+			} else {
+				rpkiInvalidPower[subnetID] += v.Validator.Power
 			}
 		}
 
@@ -177,6 +194,29 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		}
 	}
 
+	// Build the union of all subnet IDs that appeared in RPKI validation
+	allRpkiSubnetIDs := make(map[uint64]struct{})
+	for subnetID := range rpkiValidPower {
+		allRpkiSubnetIDs[subnetID] = struct{}{}
+	}
+	for subnetID := range rpkiInvalidPower {
+		allRpkiSubnetIDs[subnetID] = struct{}{}
+	}
+
+	// Determine final RPKI validation result based on majority voting power
+	for subnetID := range allRpkiSubnetIDs {
+		vp := rpkiValidPower[subnetID]
+		ip := rpkiInvalidPower[subnetID]
+		total := vp + ip
+		if total > 0 && vp > total/2 {
+			rpkiValidationResults[subnetID] = true
+		} else {
+			rpkiValidationResults[subnetID] = false
+		}
+	}
+
+
+
 	// Group subnet voting powers by subnet ID
 	subnetInfoVotingPower := make(map[uint64]map[string]int64)
 	subnetInfoMap := make(map[uint64]map[string]subnettypes.SubnetInfo)
@@ -212,7 +252,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		}
 	}
 
-	return orgValidationResults, subnetSyncResults, nil
+	return orgValidationResults, subnetSyncResults, rpkiValidationResults, nil
 }
 
 func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
@@ -243,7 +283,7 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		}
 
 		// Verify the proposer's validation results by computing the same calculation
-		orgValidationResults, subnetSyncResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
+		orgValidationResults, subnetSyncResults, rpkiValidationResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
 		if err != nil {
 			h.logger.Error("failed to compute validation results", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
@@ -254,6 +294,12 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 			h.logger.Error("organization validation results don't match", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
 		}
+
+        // Compare the proposer's RPKI validation results with our own calculation
+        if err := compareRpkiValidationResults(injectedVoteExtTx.RpkiValidationResults, rpkiValidationResults); err != nil {
+            h.logger.Error("RPKI validation results don't match", "err", err)
+            return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
+        }
 
 		// Compare the proposer's subnet sync results with our own calculation
 		if err := compareSubnetSyncResults(injectedVoteExtTx.SubnetSyncResults, subnetSyncResults); err != nil {
@@ -286,6 +332,26 @@ func compareOrgValidationResults(r1, r2 map[uint64]bool) error {
 	return nil
 }
 
+// compareRpkiValidationResults checks if two RPKI validation result maps match
+func compareRpkiValidationResults(r1, r2 map[uint64]bool) error {
+    // Check if both maps have the same number of entries
+    if len(r1) != len(r2) {
+        return fmt.Errorf("RPKI validation result maps have different sizes: %d vs %d", len(r1), len(r2))
+    }
+
+    // Check if all entries match
+    for subnetID, valid1 := range r1 {
+        valid2, exists := r2[subnetID]
+        if !exists {
+            return fmt.Errorf("subnet ID %d missing from second result map", subnetID)
+        }
+        if valid1 != valid2 {
+            return fmt.Errorf("RPKI validation result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
+        }
+    }
+
+    return nil
+}
 // compareSubnetSyncResults checks if two subnet sync result maps match
 func compareSubnetSyncResults(r1, r2 map[uint64]subnettypes.SubnetInfo) error {
 	// Check if both maps have the same number of entries
@@ -366,6 +432,21 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 				"org_name", subnetInfo.OrgName)
 		}
 	}
+
+	// Update the RPKI validation status for each subnet
+	for subnetID, isValid := range injectedVoteExtTx.RpkiValidationResults {
+	if err := h.subnetKeeper.UpdateSubnetRpkiValidationStatus(ctx, subnetID, isValid); err != nil {
+		// Log error but continue with other subnets
+		h.logger.Error("failed to update subnet RPKI validation status",
+			"subnet_id", subnetID,
+			"is_valid", isValid,
+			"error", err)
+	} else {
+		h.logger.Info("updated subnet RPKI validation status",
+			"subnet_id", subnetID,
+			"is_valid", isValid)
+	}
+}
 
 	return res, nil
 }
