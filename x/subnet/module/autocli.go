@@ -66,12 +66,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "userOrgId"}},
 				},
 				{
-					RpcMethod:      "UpdateSubnetGeofeed",
-					Use:            "update-subnet-geofeed [id] [geofeed]",
-					Short:          "Send a update-subnet-geofeed tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "geofeed"}},
-				},
-				{
 					RpcMethod:      "RemoveSubnetUser",
 					Use:            "remove-subnet-user [id]",
 					Short:          "Send a remove-subnet-user tx",

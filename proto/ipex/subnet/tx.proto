@@ -19,7 +19,6 @@ service Msg {
   rpc UpdateParams            (MsgUpdateParams           ) returns (MsgUpdateParamsResponse           );
   rpc CreateSubnet            (MsgCreateSubnet           ) returns (MsgCreateSubnetResponse           );
   rpc UpdateSubnetUser        (MsgUpdateSubnetUser       ) returns (MsgUpdateSubnetUserResponse       );
-  rpc UpdateSubnetGeofeed     (MsgUpdateSubnetGeofeed    ) returns (MsgUpdateSubnetGeofeedResponse    );
   rpc RemoveSubnetUser        (MsgRemoveSubnetUser       ) returns (MsgRemoveSubnetUserResponse       );
   rpc UpdateSubnetOrigin      (MsgUpdateSubnetOrigin     ) returns (MsgUpdateSubnetOriginResponse     );
   rpc UpdateSubnetGeolocation (MsgUpdateSubnetGeolocation) returns (MsgUpdateSubnetGeolocationResponse);
@@ -48,8 +47,7 @@ message MsgCreateSubnet {
   uint64 ownerOrgId     = 2;
   uint64 networkAddress = 3;
   uint64 mask           = 4;
-  string geofeedUrl     = 5;
-  string rir            = 6;
+  string rir            = 5;
 }
 
 message MsgCreateSubnetResponse {
@@ -64,15 +62,6 @@ message MsgUpdateSubnetUser {
 }
 
 message MsgUpdateSubnetUserResponse {}
-
-message MsgUpdateSubnetGeofeed {
-  option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  uint64 id      = 2;
-  string geofeed = 3;
-}
-
-message MsgUpdateSubnetGeofeedResponse {}
 
 message MsgRemoveSubnetUser {
   option (cosmos.msg.v1.signer) = "creator";

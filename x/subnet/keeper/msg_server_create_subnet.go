@@ -3,7 +3,6 @@ package keeper
 import (
 	"context"
 	"net"
-	"strings"
 
 	"ipex/x/subnet/types"
 
@@ -88,11 +87,6 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrap(ErrInvalidMask, "prefix length must be between 8 and 24")
 	}
 
-	// Check if URL starts with http:// or https://
-	if strings.HasPrefix(strings.ToLower(msg.GeofeedUrl), "http://") ||
-		strings.HasPrefix(strings.ToLower(msg.GeofeedUrl), "https://") {
-		return nil, errorsmod.Wrap(ErrInvalidGeofeedURL, "geofeed URL should not include http:// or https://")
-	}
 
 	// Check if the org id exists
 	if msg.OwnerOrgId != 0 {

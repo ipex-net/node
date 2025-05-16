@@ -41,11 +41,12 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 	}
 
 	//TODO: input field validation. We'd need to use a common source of truth for both on chain and off chain validation for geolocation data
-
+	//Only things to validate are Country: a 2-letter ISO country code conforming to ISO 3166-1.
+	//Region: a region code conforming to ISO 3166-2. For example, US-TX is the ISO 3166-2 code for Texas in the United States.
 	//Applying the changes
-	currentTime := ctx.BlockTime()
-	subnet.GeoChangeRequested = true
-	subnet.GeoChangeRequestedAt = &currentTime
+	//currentTime := ctx.BlockTime()
+	//subnet.GeoChangeRequested = true
+	//subnet.geoDetailsChangedAt = &currentTime
 	subnet.Country = msg.Country
 	subnet.Region = msg.Region
 	subnet.City = msg.City

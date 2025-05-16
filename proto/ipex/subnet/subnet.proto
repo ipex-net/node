@@ -27,17 +27,18 @@ message Subnet {
   uint64 ownerOrgId = 6; 
   uint64 userOrgId = 7; 
 
+  // Geofeed
   string country = 8; 
   string region = 9;
   string city = 10;
   string postalCode = 11;
-  bool geoChangeRequested = 12; 
-  google.protobuf.Timestamp geoChangeRequestedAt = 13 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp geoChangeFulfilledAt = 14 [(gogoproto.stdtime) = true]; 
+  bool publishInGeofeed = 12;
+  bool allowLesseeGeoChange = 13; 
+  google.protobuf.Timestamp geoDetailsChangedAt = 14 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp geoVerifAttemptedAt = 15 [(gogoproto.stdtime) = true]; 
+  bool traceGeoVerified =16;
 
-  string geofeedUrl = 15; 
-  google.protobuf.Timestamp geofeedSyncedAt = 16 [(gogoproto.stdtime) = true]; 
-
+  // RIR details
   string rir = 17; 
   string rirOwnerOrgId = 18; 
   string rirOwnerOrgName = 19; 
@@ -46,12 +47,14 @@ message Subnet {
   bool rirRecordValid = 22; 
   google.protobuf.Timestamp rirSyncedAt = 23 [(gogoproto.stdtime) = true]; 
 
+
+  // RPKI
   uint64 originAsn = 24; 
   google.protobuf.Timestamp originTransferRequestedAt = 25 [(gogoproto.stdtime) = true]; 
   google.protobuf.Timestamp rpkiValidityChangedAt = 26 [(gogoproto.stdtime) = true]; 
-
   bool rpkiOriginValid = 27;
   google.protobuf.Timestamp rpkiLastSyncedAt = 28 [(gogoproto.stdtime) = true]; 
+  // Origin presence in blocklists
   
   google.protobuf.Timestamp updatedAt = 29 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

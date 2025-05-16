@@ -15,9 +15,6 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgUpdateSubnetUser{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgUpdateSubnetGeofeed{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgRemoveSubnetUser{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
