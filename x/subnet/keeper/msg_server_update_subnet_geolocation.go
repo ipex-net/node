@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"ipex/x/subnet/types"
 
@@ -22,6 +23,7 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
+
 	//Checking that the provided values are not nil
 	if msg.Country == "" || msg.Region == "" || msg.City == "" || msg.PostalCode == "" {
 		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "Geolocation data can not be empty")
@@ -35,6 +37,24 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		return nil, errorsmod.Wrapf(ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
 	}
 
+	// Check that data is actually different
+	if subnet.Country == msg.Country && subnet.Region == msg.Region && subnet.City == msg.City && subnet.PostalCode == msg.PostalCode {
+		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "Geolocation data can not be identical")
+	}
+
+	// Implementing 6 hour geo cooldown
+	currentTime := ctx.BlockTime()
+	if subnet.GeoDetailsChangedAt != nil && currentTime.Sub(*subnet.GeoDetailsChangedAt) < 6 * time.Hour {
+		// Calculate remaining time in hours (rounded up)
+        remainingTime := (6*time.Hour) - currentTime.Sub(*subnet.GeoDetailsChangedAt)
+        remainingHours := int(remainingTime.Hours()) + 1  // Round up
+		return nil, errorsmod.Wrapf(
+			ErrGeoCooldownPeriod,
+			"geo location cooldown period in effect - must wait %d hours before updating geolocation",
+			remainingHours,
+		)
+	
+	}
 	// convenience flags
 	isOwnerAdmin := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator)
 	isUserAdmin  := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.UserOrgId, msg.Creator)
@@ -49,12 +69,12 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		)
 	}
 	
-	//Applying the changes
-	currentTime := ctx.BlockTime()
 	// Updating the timestamp
 	subnet.GeoDetailsChangedAt = &currentTime
 	// Resetting the verification flag
 	subnet.TraceGeoVerified = false
+	// Resetting the last check timestamp
+	subnet.GeoVerifAttemptedAt = nil
 	// Updating geo details
 	subnet.Country = msg.Country
 	subnet.Region = msg.Region

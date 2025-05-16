@@ -655,6 +655,10 @@ func LookupGeo(ip string) string {
 // VerifyGeoTrace performs geo validation on subnets by running traceroutes
 // and checking if the geographic location of the last hop matches the expected location
 func (h *VoteExtHandler) VerifyGeoTrace(subnets []subnettypes.Subnet) map[uint64]bool {
+    // Set timeout context for the entire operation
+    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+    defer cancel()
+    
     // Record start time for total execution
     totalStart := time.Now()
     
@@ -663,22 +667,39 @@ func (h *VoteExtHandler) VerifyGeoTrace(subnets []subnettypes.Subnet) map[uint64
     
     // Channel for receiving and ordering trace results
     type traceResult struct {
-        subnetId    uint64
-        lastIp      string
-        lastHopGeo  string
-        isGeoMatched bool
-        err         error
+        subnetId        uint64
+        country         string  // Store the country for comparison when processing results
+        lastIp1_3       string
+        lastIp3_5       string
+        lastIp5_7       string
+        lastIp7_9       string
+        lastIp9_11      string
+        lastIp11_13     string
+        lastIp13_15     string
+        lastIp15_17     string
+        lastIp17_19     string
+        lastIp19_21     string
+        err             error
     }
     
     resultChan := make(chan traceResult, len(subnets))
     
     var wg sync.WaitGroup
-    semaphore := make(chan struct{}, 100) // Limit concurrent traces
+    // Limit concurrent subnet processing (adjust based on system capacity)
+    semaphore := make(chan struct{}, 20)
     
     h.logger.Info("Starting geo validation via traceroutes", "subnets_count", len(subnets))
     
     // Start the trace for each subnet in a goroutine
     for _, subnet := range subnets {
+        select {
+        case <-ctx.Done():
+            h.logger.Info("Geo validation timeout reached, processing results so far")
+            goto ProcessResults
+        default:
+            // Continue processing
+        }
+        
         wg.Add(1)
         
         go func(s subnettypes.Subnet) {
@@ -687,62 +708,115 @@ func (h *VoteExtHandler) VerifyGeoTrace(subnets []subnettypes.Subnet) map[uint64
             defer func() { <-semaphore }() // Release when done
             defer wg.Done()
             
-			targetIp := s.NetworkAddress+1
-            // Convert subnet to IP string format for traceroute
+            // Calculate target IP (.1 in the subnet)
+            targetIp := s.NetworkAddress + 1
             ipStr := convertDecimalIPToString(targetIp)
             
-            // Use multiple traceroute segments to increase the chances of getting a valid result
-            var lastIp string
+            // Run all traceroutes in parallel with their own wait group
+            var traceWg sync.WaitGroup
+            var lastIp1_3, lastIp3_5, lastIp5_7, lastIp7_9, lastIp9_11, lastIp11_13, lastIp13_15, lastIp15_17, lastIp17_19, lastIp19_21 string
+            var err1, err2, err3, err4, err5, err6, err7, err8, err9, err10 error
             
-            // Run traceroutes with different hop ranges
-            // Try multiple hop ranges and take the farthest one that returns a result
-            hopRanges := []struct{start, stop int}{
-                {19, 21}, {17, 19}, {15, 17}, {13, 15}, {11, 13},
-                {9, 11}, {7, 9}, {5, 7}, {3, 5}, {1, 3},
+            traceWg.Add(10)
+            
+            // Run traceroute 1-3 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp1_3, err1 = Traceroute(ipStr, 1, 3)
+            }()
+            
+            // Run traceroute 3-5 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp3_5, err2 = Traceroute(ipStr, 3, 5)
+            }()
+            
+            // Run traceroute 5-7 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp5_7, err3 = Traceroute(ipStr, 5, 7)
+            }()
+            
+            // Run traceroute 7-9 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp7_9, err4 = Traceroute(ipStr, 7, 9)
+            }()
+            
+            // Run traceroute 9-11 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp9_11, err5 = Traceroute(ipStr, 9, 11)
+            }()
+            
+            // Run traceroute 11-13 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp11_13, err6 = Traceroute(ipStr, 11, 13)
+            }()
+            
+            // Run traceroute 13-15 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp13_15, err7 = Traceroute(ipStr, 13, 15)
+            }()
+            
+            // Run traceroute 15-17 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp15_17, err8 = Traceroute(ipStr, 15, 17)
+            }()
+            
+            // Run traceroute 17-19 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp17_19, err9 = Traceroute(ipStr, 17, 19)
+            }()
+            
+            // Run traceroute 19-21 (2 hops)
+            go func() {
+                defer traceWg.Done()
+                lastIp19_21, err10 = Traceroute(ipStr, 19, 21)
+            }()
+            
+            // Wait for all traceroutes to complete with timeout
+            traceDone := make(chan struct{})
+            go func() {
+                traceWg.Wait()
+                close(traceDone)
+            }()
+            
+            select {
+            case <-traceDone:
+                // All traces completed normally
+            case <-time.After(5 * time.Second):
+                // Timeout occurred, proceed with what we have
+                h.logger.Info("Traceroute timeout reached for subnet", "subnet_id", s.Id)
             }
             
-            for _, hops := range hopRanges {
-                lastHopIp, traceErr := Traceroute(ipStr, hops.start, hops.stop)
-                if traceErr == nil && lastHopIp != "" {
-                    lastIp = lastHopIp
-                    break
-                }
+            // Determine which error to report - prioritize reporting errors only if all failed
+            var resultErr error
+            if err1 != nil && err2 != nil && err3 != nil && err4 != nil &&
+               err5 != nil && err6 != nil && err7 != nil && err8 != nil &&
+               err9 != nil && err10 != nil {
+                resultErr = fmt.Errorf("all traceroutes failed for subnet %d", s.Id)
             }
-            
-            // If we couldn't get any last hop
-            if lastIp == "" {
-                h.logger.Info("No valid last hop found for subnet", "subnet_id", s.Id, "ip", ipStr)
-                resultChan <- traceResult{
-                    subnetId:    s.Id,
-                    lastIp:      "",
-                    lastHopGeo:  "",
-                    isGeoMatched: false,
-                    err:         fmt.Errorf("no valid last hop found"),
-                }
-                return
-            }
-            
-            // Look up geo location of the last hop
-            lastHopGeo := LookupGeo(lastIp)
-            
-            // Check if geo location matches the expected subnet geo location
-            isGeoMatched := (lastHopGeo == s.Country)
-            
-            h.logger.Info("Geo validation result", 
-                "subnet_id", s.Id, 
-                "ip", ipStr,
-                "expected_geo", s.Country, 
-                "last_hop_ip", lastIp,
-                "last_hop_geo", lastHopGeo,
-                "match", isGeoMatched)
             
             // Send result back through channel
             resultChan <- traceResult{
                 subnetId:    s.Id,
-                lastIp:      lastIp,
-                lastHopGeo:  lastHopGeo,
-                isGeoMatched: isGeoMatched,
-                err:         nil,
+                country:     s.Country,  // Store the country for later comparison
+                lastIp1_3:   lastIp1_3,
+                lastIp3_5:   lastIp3_5,
+                lastIp5_7:   lastIp5_7,
+                lastIp7_9:   lastIp7_9,
+                lastIp9_11:  lastIp9_11,
+                lastIp11_13: lastIp11_13,
+                lastIp13_15: lastIp13_15,
+                lastIp15_17: lastIp15_17,
+                lastIp17_19: lastIp17_19,
+                lastIp19_21: lastIp19_21,
+                err:         resultErr,
             }
         }(subnet)
     }
@@ -753,19 +827,69 @@ func (h *VoteExtHandler) VerifyGeoTrace(subnets []subnettypes.Subnet) map[uint64
         close(resultChan)
     }()
     
+ProcessResults:
     // Process results as they come in
     var matchCount, totalCount int
+    
     for res := range resultChan {
-        if res.err == nil {
-            totalCount++
-            results[res.subnetId] = res.isGeoMatched
-            
-            if res.isGeoMatched {
-                matchCount++
-            }
-        } else {
-            // If error occurred, subnet validation fails
+        // If all traceroutes failed, mark subnet as not validated
+        if res.err != nil {
+            h.logger.Info("All traceroutes failed for subnet", "subnet_id", res.subnetId)
             results[res.subnetId] = false
+            continue
+        }
+        
+        // Prioritize farthest traceroute result that has an IP
+        var lastIp string
+        
+        // Check traceroutes in reverse order (farthest first)
+        if res.lastIp19_21 != "" {
+            lastIp = res.lastIp19_21
+        } else if res.lastIp17_19 != "" {
+            lastIp = res.lastIp17_19
+        } else if res.lastIp15_17 != "" {
+            lastIp = res.lastIp15_17
+        } else if res.lastIp13_15 != "" {
+            lastIp = res.lastIp13_15
+        } else if res.lastIp11_13 != "" {
+            lastIp = res.lastIp11_13
+        } else if res.lastIp9_11 != "" {
+            lastIp = res.lastIp9_11
+        } else if res.lastIp7_9 != "" {
+            lastIp = res.lastIp7_9
+        } else if res.lastIp5_7 != "" {
+            lastIp = res.lastIp5_7
+        } else if res.lastIp3_5 != "" {
+            lastIp = res.lastIp3_5
+        } else if res.lastIp1_3 != "" {
+            lastIp = res.lastIp1_3
+        }
+        
+        if lastIp == "" {
+            h.logger.Info("No valid last hop found for subnet", "subnet_id", res.subnetId)
+            results[res.subnetId] = false
+            continue
+        }
+        
+        // Look up geo location of the last hop
+        lastHopGeo := LookupGeo(lastIp)
+        
+        // Check if geo location matches the expected subnet geo location
+        isGeoMatched := (lastHopGeo == res.country)
+        
+        h.logger.Info("Geo validation result", 
+            "subnet_id", res.subnetId,
+            "expected_geo", res.country,
+            "last_hop_ip", lastIp,
+            "last_hop_geo", lastHopGeo,
+            "match", isGeoMatched)
+        
+        // Update results
+        results[res.subnetId] = isGeoMatched
+        totalCount++
+        
+        if isGeoMatched {
+            matchCount++
         }
     }
     
