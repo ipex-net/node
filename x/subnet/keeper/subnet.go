@@ -375,3 +375,94 @@ func (k Keeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID u
 
 	return nil
 }
+
+
+// GetSubnetsForRPKIValidation retrieves subnets for rpki validation
+func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context) (list []types.Subnet) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	now := time.Now()
+	count := 0
+	maxSubnets := 5
+	for ; iterator.Valid(); iterator.Next() {
+		var subnet types.Subnet
+		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
+
+		// If no country set - don't validate
+		if subnet.Country == "" {
+			continue
+		}
+
+		// Skip if no geo details change requested timestamp present
+		if subnet.GeoDetailsChangedAt == nil {
+			continue
+		}
+
+		// Skip if subnet already passed verification
+		if subnet.TraceGeoVerified {
+			continue
+		}
+
+		geoChangeAge := now.Sub(*subnet.GeoDetailsChangedAt)
+
+		// Determine required interval
+		var requiredInterval time.Duration
+
+		switch {
+			// If no verification attempted yet
+			case subnet.GeoVerifAttemptedAt == nil:
+				requiredInterval = 1 * time.Second
+			// If geo change is recent - attempt the validation every hours
+			case geoChangeAge < 72 * time.Hour: // Org age < 1 day
+				requiredInterval = 1 * time.Hour
+			case geoChangeAge < 240 * time.Hour: // Org age < 1 day
+				requiredInterval = 6 * time.Hour
+			default: 
+				requiredInterval = 72 * time.Hour
+		}
+
+		// Skip if not enough time has passed
+		if subnet.GeoVerifAttemptedAt != nil && now.Sub(*subnet.GeoVerifAttemptedAt) < requiredInterval {
+			continue
+		}
+		
+		// Add to the list for validation
+		list = append(list, subnet)
+		// Increment count and check if we've reached the maximum
+		count++
+		if count >= maxSubnets {
+			break 
+		}
+	}
+
+	return
+}
+
+
+// UpdateOrgValidationStatus updates the domain validation status for an organization
+func (k Keeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
+	// Get the subnet
+	subnet, found := k.GetSubnet(ctx, subnetID)
+	if !found {
+		return fmt.Errorf("subnet with ID %d not found", subnetID)
+	}
+
+	// Get the timestamp
+	nowTime := time.Now()
+
+	// If status changed - reflecting changes
+	if subnet.TraceGeoVerified != isValid{
+		subnet.TraceGeoVerified = isValid
+	}
+	// In any case we update timestamps
+	subnet.UpdatedAt = nowTime
+	subnet.GeoVerifAttemptedAt = &nowTime
+	// Save the updated organization
+	k.SetSubnet(ctx, subnet)
+
+	return nil
+}

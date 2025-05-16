@@ -1,22 +1,27 @@
 package abci
 
 import (
+	"bufio"
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"net"
 	"net/http"
 	"net/url"
+	"os/exec"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
 
-	"cosmossdk.io/log"
-	"github.com/openrdap/rdap"
-	"golang.org/x/sync/errgroup"
-
 	"ipex/x/oracle/types"
 	subnettypes "ipex/x/subnet/types"
+
+	"cosmossdk.io/log"
+	"github.com/openrdap/rdap"
+	geoip "github.com/oschwald/geoip2-golang"
+	"golang.org/x/sync/errgroup"
 
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -55,6 +60,7 @@ type OracleVoteExtension struct {
 	OrgDomainValidation map[uint64]bool
 	SubnetRirSync map[uint64]subnettypes.SubnetInfo
 	RpkiValidation map[uint64]bool
+	SubnetGeoValidation map[uint64]bool
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
@@ -63,18 +69,27 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		orgsToValidate := h.OrgKeeper.GetOrgsForDomainValidation(ctx)
 		subnetsToRirSync := h.SubnetKeeper.GetSubnetsForRirSync(ctx)
 		subnetsForRPKIValidation := h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx)
+		subnetsForGeoValidation := h.SubnetKeeper.GetSubnetsForGeoValidation(ctx)
 
-		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 {
+		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 {
 			// Nothing to validate or sync, returning empty Vote
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
 		}
 		h.currentBlock = req.Height
 		h.lastCheckTime = time.Now()
+		h.logger.Info("performing validations for vote extension", 
+		"height", req.Height, 
+		"time", h.lastCheckTime,
+		"orgs_count", len(orgsToValidate),
+		"subnets_rir_count", len(subnetsToRirSync),
+		"subnets_rpki_count", len(subnetsForRPKIValidation),
+		"subnets_geo_count", len(subnetsForGeoValidation))
 		h.logger.Info("performing domain validations for vote extension", "height", req.Height, "time", h.lastCheckTime)
 		// Map to store validation results
 		domainValidationResults := make(map[uint64]bool)
 		subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
 		subnetRpkiValidationResults := make(map[uint64]bool)
+		subnetGeoValidationResults := make(map[uint64]bool)
 
 		if len(orgsToValidate) > 0 {
 			// Use errgroup to perform DNS lookups concurrently
@@ -129,6 +144,10 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			}
 		}
 
+		if len(subnetsForGeoValidation) > 0 {
+			subnetGeoValidationResults = h.VerifyGeoTrace(subnetsForGeoValidation)
+		}
+
 
 		// Create vote extension
 		voteExt := OracleVoteExtension{
@@ -136,6 +155,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			OrgDomainValidation: domainValidationResults,
 			SubnetRirSync : subnetSyncResults,
 			RpkiValidation : subnetRpkiValidationResults,
+			SubnetGeoValidation: subnetGeoValidationResults,
 		}
 
 		// Log the results
@@ -561,4 +581,202 @@ func (h *VoteExtHandler) IsASNValidForPrefix(prefix string, asn uint64) bool {
 
 	// Check if state is "valid"
 	return validationResp.ValidatedRoute.Validity.State == "valid"
+}
+
+func Traceroute(ip string, startHop int, stopHop int) (lastIP string, err error) {
+	// Prepare traceroute arguments
+	args := []string{"-n", "-m", strconv.Itoa(stopHop), "-q", "1", "-w", "1", "-f", strconv.Itoa(startHop), ip}
+	cmd := exec.Command("traceroute", args...)
+
+	// Capture combined stdout and stderr
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &out
+
+	// Execute the command
+	if err = cmd.Run(); err != nil {
+		return
+	}
+
+	// Scan all output lines
+	scanner := bufio.NewScanner(&out)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		// Skip the header line
+		if strings.HasPrefix(line, "traceroute to") {
+			continue
+		}
+
+		// Get the last non-target IP
+		for _, tok := range strings.Fields(line) {
+			t := strings.Trim(tok, "(),")
+			if curIp := net.ParseIP(t); curIp != nil && curIp.String() != ip {
+				lastIP = curIp.String()
+				break
+			}
+		}
+	}
+
+	return
+}
+
+func LookupGeo(ip string) string {
+	// Path to the MaxMind database file
+	dbPath := "data/maxmind/GeoLite2-Country.mmdb" // This is a Country database
+
+	// Open the MaxMind database
+	db, err := geoip.Open(dbPath)
+	if err != nil {
+		return ""
+	}
+	defer db.Close()
+
+	// Parse the IP address
+	ipAddr := net.ParseIP(ip)
+	if ipAddr == nil {
+		return ""
+	}
+
+	// Use Country lookup instead of City for a Country database
+	record, err := db.Country(ipAddr)
+	if err != nil {
+		return ""
+	}
+
+	if record.Country.IsoCode != "" {
+		return strings.ToUpper(record.Country.IsoCode) // Convert to uppercase
+	}
+
+	return ""
+}
+
+// VerifyGeoTrace performs geo validation on subnets by running traceroutes
+// and checking if the geographic location of the last hop matches the expected location
+func (h *VoteExtHandler) VerifyGeoTrace(subnets []subnettypes.Subnet) map[uint64]bool {
+    // Record start time for total execution
+    totalStart := time.Now()
+    
+    // Initialize results map to store validation outcomes by subnet ID
+    results := make(map[uint64]bool)
+    
+    // Channel for receiving and ordering trace results
+    type traceResult struct {
+        subnetId    uint64
+        lastIp      string
+        lastHopGeo  string
+        isGeoMatched bool
+        err         error
+    }
+    
+    resultChan := make(chan traceResult, len(subnets))
+    
+    var wg sync.WaitGroup
+    semaphore := make(chan struct{}, 100) // Limit concurrent traces
+    
+    h.logger.Info("Starting geo validation via traceroutes", "subnets_count", len(subnets))
+    
+    // Start the trace for each subnet in a goroutine
+    for _, subnet := range subnets {
+        wg.Add(1)
+        
+        go func(s subnettypes.Subnet) {
+            // Acquire a spot in the semaphore
+            semaphore <- struct{}{}
+            defer func() { <-semaphore }() // Release when done
+            defer wg.Done()
+            
+			targetIp := s.NetworkAddress+1
+            // Convert subnet to IP string format for traceroute
+            ipStr := convertDecimalIPToString(targetIp)
+            
+            // Use multiple traceroute segments to increase the chances of getting a valid result
+            var lastIp string
+            
+            // Run traceroutes with different hop ranges
+            // Try multiple hop ranges and take the farthest one that returns a result
+            hopRanges := []struct{start, stop int}{
+                {19, 21}, {17, 19}, {15, 17}, {13, 15}, {11, 13},
+                {9, 11}, {7, 9}, {5, 7}, {3, 5}, {1, 3},
+            }
+            
+            for _, hops := range hopRanges {
+                lastHopIp, traceErr := Traceroute(ipStr, hops.start, hops.stop)
+                if traceErr == nil && lastHopIp != "" {
+                    lastIp = lastHopIp
+                    break
+                }
+            }
+            
+            // If we couldn't get any last hop
+            if lastIp == "" {
+                h.logger.Info("No valid last hop found for subnet", "subnet_id", s.Id, "ip", ipStr)
+                resultChan <- traceResult{
+                    subnetId:    s.Id,
+                    lastIp:      "",
+                    lastHopGeo:  "",
+                    isGeoMatched: false,
+                    err:         fmt.Errorf("no valid last hop found"),
+                }
+                return
+            }
+            
+            // Look up geo location of the last hop
+            lastHopGeo := LookupGeo(lastIp)
+            
+            // Check if geo location matches the expected subnet geo location
+            isGeoMatched := (lastHopGeo == s.Country)
+            
+            h.logger.Info("Geo validation result", 
+                "subnet_id", s.Id, 
+                "ip", ipStr,
+                "expected_geo", s.Country, 
+                "last_hop_ip", lastIp,
+                "last_hop_geo", lastHopGeo,
+                "match", isGeoMatched)
+            
+            // Send result back through channel
+            resultChan <- traceResult{
+                subnetId:    s.Id,
+                lastIp:      lastIp,
+                lastHopGeo:  lastHopGeo,
+                isGeoMatched: isGeoMatched,
+                err:         nil,
+            }
+        }(subnet)
+    }
+    
+    // Wait in a separate goroutine and close the channel when done
+    go func() {
+        wg.Wait()
+        close(resultChan)
+    }()
+    
+    // Process results as they come in
+    var matchCount, totalCount int
+    for res := range resultChan {
+        if res.err == nil {
+            totalCount++
+            results[res.subnetId] = res.isGeoMatched
+            
+            if res.isGeoMatched {
+                matchCount++
+            }
+        } else {
+            // If error occurred, subnet validation fails
+            results[res.subnetId] = false
+        }
+    }
+    
+    if totalCount > 0 {
+        h.logger.Info("Geo validation statistics",
+            "total_verified", totalCount,
+            "matches", matchCount,
+            "match_percent", float64(matchCount)/float64(totalCount)*100)
+    }
+    
+    h.logger.Info("Geo validation completed", "duration_seconds", time.Since(totalStart).Seconds())
+    
+    return results
 }
