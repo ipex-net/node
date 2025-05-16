@@ -2,10 +2,13 @@ package keeper
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"ipex/x/subnet/types"
 
 	errorsmod "cosmossdk.io/errors"
+	"github.com/biter777/countries"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -22,7 +25,9 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 	//Checking that the provided values are not nil
 	if msg.Country == "" || msg.Region == "" || msg.City == "" || msg.PostalCode == "" {
 		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "Geolocation data can not be empty")
-
+	}
+	if err := validateGeo(msg.Country, msg.Region); err != nil {
+		return nil, errorsmod.Wrap(ErrInvalidGeolocationData, err.Error())
 	}
 	//Fetching the subnet
 	subnet, found := k.GetSubnet(ctx, msg.Id)
@@ -30,29 +35,51 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		return nil, errorsmod.Wrapf(ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
 	}
 
-	//Owner can't change geolocation if there's a user
-	//User can change geo anytime
-	if subnet.UserOrgId == 0 && !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator) {
-		//Subnet don't have a user and the msg.Creator is not an admin of owner org
-		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of owner org %d", msg.Creator, subnet.OwnerOrgId)
-	} else if !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.UserOrgId, msg.Creator) {
-		//Subnet has a user org but the msg.Creator is not an admin of the user org
-		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of user org %d", msg.Creator, subnet.UserOrgId)
-	}
+	// convenience flags
+	isOwnerAdmin := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator)
+	isUserAdmin  := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.UserOrgId, msg.Creator)
 
-	//TODO: input field validation. We'd need to use a common source of truth for both on chain and off chain validation for geolocation data
-	//Only things to validate are Country: a 2-letter ISO country code conforming to ISO 3166-1.
-	//Region: a region code conforming to ISO 3166-2. For example, US-TX is the ISO 3166-2 code for Texas in the United States.
+	allowed := (subnet.UserOrgId == 0 && isOwnerAdmin) || (subnet.UserOrgId != 0 && subnet.AllowLesseeGeoChange && isUserAdmin)
+
+	if !allowed {
+		return nil, errorsmod.Wrapf(
+			ErrNotOrgAdmin,
+			"address %s is not authorised to update geolocation for subnet %d",
+			msg.Creator, subnet.Id,
+		)
+	}
+	
 	//Applying the changes
-	//currentTime := ctx.BlockTime()
-	//subnet.GeoChangeRequested = true
-	//subnet.geoDetailsChangedAt = &currentTime
+	currentTime := ctx.BlockTime()
+	// Updating the timestamp
+	subnet.GeoDetailsChangedAt = &currentTime
+	// Resetting the verification flag
+	subnet.TraceGeoVerified = false
+	// Updating geo details
 	subnet.Country = msg.Country
 	subnet.Region = msg.Region
 	subnet.City = msg.City
 	subnet.PostalCode = msg.PostalCode
+	// Updating the subnet change timestamp
 	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
 
 	return &types.MsgUpdateSubnetGeolocationResponse{}, nil
+}
+
+// validateGeo returns nil on success or an error explaining why it failed.
+func validateGeo(alpha2, iso31662 string) error {
+	country := countries.ByName(strings.ToUpper(alpha2))
+	if !country.IsValid() { // ISO-3166-1 check
+		return fmt.Errorf("invalid ISO-3166-1 alpha-2 country code: %s", alpha2)
+	}
+
+	sub := countries.SubdivisionCode(strings.ToUpper(iso31662))
+	if !sub.IsValid() { // ISO-3166-2 check
+		return fmt.Errorf("invalid ISO-3166-2 code: %s", iso31662)
+	}
+	if sub.Country() != country { // “US-TX” must match “US”
+		return fmt.Errorf("%s does not belong to country %s", iso31662, alpha2)
+	}
+	return nil
 }
