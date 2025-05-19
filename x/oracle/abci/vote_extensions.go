@@ -28,8 +28,8 @@ import (
 )
 
 const (
-    DNSLookupTimeout  = 3 * time.Second
-    RDAPQueryTimeout  = 5 * time.Second
+    DNSLookupTimeout  = 1 * time.Second
+    RDAPQueryTimeout  = 1 * time.Second
     TracerouteTimeout = 5 * time.Second
 )
 
@@ -92,10 +92,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		subnetGeoValidationResults := make(map[uint64]bool)
 
 		if len(orgsToValidate) > 0 {
-			// Use errgroup to perform DNS lookups concurrently
 			g := new(errgroup.Group)
-
-			// Mutex to protect concurrent map access
 			var mu sync.Mutex
 
 			for _, org := range orgsToValidate {
@@ -144,7 +141,8 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			}
 		}
 
-		if len(subnetsForGeoValidation) > 0 {
+		// This is the longest process. We only want to execute it if there's no other processes in this vote extension.
+		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 {
 			subnetGeoValidationResults = h.VerifyGeoTrace(subnetsForGeoValidation)
 		}
 
@@ -253,8 +251,12 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64) subnettyp
 		AllocationType: "",
 		Rir: "",
 	}
-	// Initialize RDAP client
-	client := &rdap.Client{}
+	// Initialize RDAP client using the http client with timeout
+	client := &rdap.Client{
+		HTTP: &http.Client{
+			Timeout: RDAPQueryTimeout,
+		},
+	}
 
 	// Perform the RDAP query
 	response, err := client.QueryIP(ipStr)
