@@ -36,7 +36,7 @@ message Subnet {
   bool allowLesseeGeoChange = 13; 
   google.protobuf.Timestamp geoDetailsChangedAt = 14 [(gogoproto.stdtime) = true]; 
   google.protobuf.Timestamp geoVerifAttemptedAt = 15 [(gogoproto.stdtime) = true]; 
-  bool traceGeoVerified =16;
+  bool traceGeoVerified = 16;
 
   // RIR details
   string rir = 17; 
@@ -54,7 +54,18 @@ message Subnet {
   google.protobuf.Timestamp rpkiValidityChangedAt = 26 [(gogoproto.stdtime) = true]; 
   bool rpkiOriginValid = 27;
   google.protobuf.Timestamp rpkiLastSyncedAt = 28 [(gogoproto.stdtime) = true]; 
-  // Origin presence in blocklists
-  
-  google.protobuf.Timestamp updatedAt = 29 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+
+  // rDNS
+  string subnetRdnsDomain = 29; 
+  string requestedRdns = 30;
+  google.protobuf.Timestamp rdnsChangeRequestedAt = 31 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp resolvedRdnsChangeddAt = 32 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp rdnsLastSyncedAt = 32 [(gogoproto.stdtime) = true]; 
+
+  // Ownership verification through rDNS or RIR record
+  bool subnetOwnershipVerified = 33;
+  google.protobuf.Timestamp subnetOwnershipVerifiedAt = 34 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp subnetOwnershipLastAttemptedAt = 35 [(gogoproto.stdtime) = true];
+
+  google.protobuf.Timestamp updatedAt = 33 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

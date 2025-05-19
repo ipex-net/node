@@ -413,9 +413,6 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context) (list []types.Su
 		var requiredInterval time.Duration
 
 		switch {
-			// If no verification attempted yet
-			case subnet.GeoVerifAttemptedAt == nil:
-				requiredInterval = 1 * time.Minute
 			// If geo change is recent - attempt the validation every hours
 			case geoChangeAge < 72 * time.Hour: // Org age < 1 day
 				requiredInterval = 1 * time.Hour
