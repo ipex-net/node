@@ -27,11 +27,15 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
+const (
+    DNSLookupTimeout  = 3 * time.Second
+    RDAPQueryTimeout  = 5 * time.Second
+    TracerouteTimeout = 5 * time.Second
+)
+
 type VoteExtHandler struct {
 	logger        log.Logger
-	currentBlock  int64         // current block height
-	lastCheckTime time.Time     // last time we performed domain validations
-	checkTimeout  time.Duration // timeout for lookups
+	currentBlock  int64        
 
     OrgKeeper    types.OrgKeeper
     SubnetKeeper types.SubnetKeeper
@@ -40,14 +44,12 @@ type VoteExtHandler struct {
 
 func NewVoteExtHandler(
 	logger log.Logger, 
-	timeout time.Duration, 
 	orgK types.OrgKeeper,
     subnetK types.SubnetKeeper,
     leaseK types.LeaseKeeper,
 	) *VoteExtHandler {
 	return &VoteExtHandler{
 		logger:       logger,
-        checkTimeout: timeout,
         OrgKeeper:    orgK,
         SubnetKeeper: subnetK,
         LeaseKeeper:  leaseK,
@@ -76,15 +78,13 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
 		}
 		h.currentBlock = req.Height
-		h.lastCheckTime = time.Now()
 		h.logger.Info("performing validations for vote extension", 
 		"height", req.Height, 
-		"time", h.lastCheckTime,
 		"orgs_count", len(orgsToValidate),
 		"subnets_rir_count", len(subnetsToRirSync),
 		"subnets_rpki_count", len(subnetsForRPKIValidation),
 		"subnets_geo_count", len(subnetsForGeoValidation))
-		h.logger.Info("performing domain validations for vote extension", "height", req.Height, "time", h.lastCheckTime)
+		h.logger.Info("performing domain validations for vote extension", "height", req.Height)
 		// Map to store validation results
 		domainValidationResults := make(map[uint64]bool)
 		subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
@@ -104,7 +104,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 
 				g.Go(func() error {
 					// Set a context with timeout for DNS lookup
-					dnsCtx, cancel := context.WithTimeout(context.Background(), h.checkTimeout)
+					dnsCtx, cancel := context.WithTimeout(context.Background(), DNSLookupTimeout)
 					defer cancel()
 
 					// Perform DNS lookup
@@ -656,7 +656,7 @@ func LookupGeo(ip string) string {
 // and checking if the geographic location of the last hop matches the expected location
 func (h *VoteExtHandler) VerifyGeoTrace(subnets []subnettypes.Subnet) map[uint64]bool {
     // Set timeout context for the entire operation
-    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+    ctx, cancel := context.WithTimeout(context.Background(), TracerouteTimeout)
     defer cancel()
     
     // Record start time for total execution

@@ -3,7 +3,6 @@ package app
 import (
 	"io"
 	oracleabci "ipex/x/oracle/abci"
-	"time"
 
 	_ "cosmossdk.io/api/cosmos/tx/config/v1" // import for side-effects
 	clienthelpers "cosmossdk.io/client/v2/helpers"
@@ -269,7 +268,6 @@ func New(
 	// Create the vote extension handler for domain validation
 	voteExtHandler := oracleabci.NewVoteExtHandler(
 		logger,
-		5*time.Second, // Timeout for DNS lookups
 		app.OrgKeeper,
 		app.SubnetKeeper,
 		app.LeaseKeeper,
