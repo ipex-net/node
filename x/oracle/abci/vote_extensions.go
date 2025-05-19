@@ -30,6 +30,7 @@ import (
 const (
     DNSLookupTimeout  = 1 * time.Second
     RDAPQueryTimeout  = 1 * time.Second
+	RPKIQueryTimeout  = 1 * time.Second
     TracerouteTimeout = 5 * time.Second
 )
 
@@ -529,7 +530,7 @@ func (h *VoteExtHandler) IsASNValidForPrefix(prefix string, asn uint64) bool {
 	}
 
 	client := &http.Client{
-		Timeout: time.Second * 5,
+		Timeout: RPKIQueryTimeout,
 	}
 
 	var resp *http.Response
