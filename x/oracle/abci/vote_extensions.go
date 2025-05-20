@@ -131,16 +131,66 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 
 		}
 
+
+		if len(subnetsToRirSync) > 0 {
+			for _, subnet := range subnetsToRirSync {
+				subnetDetails:= h.SyncSubnetData(subnet.NetworkAddress, subnet.Mask)
+				subnetSyncResults[subnet.Id] = subnetDetails
+			}
+		}
+
+		if len(subnetsForRPKIValidation) > 0 {
+			for _, subnet := range subnetsForRPKIValidation {
+				prefix :=  fmt.Sprintf("%s/%d", convertDecimalIPToString(subnet.NetworkAddress), subnet.Mask)
+				isValid := h.IsASNValidForPrefix(prefix, subnet.OriginAsn)
+				subnetRpkiValidationResults[subnet.Id] = isValid
+			}
+		}
+
+		// This is the longest process. We only want to execute it if there's no other processes in this vote extension.
+		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 {
+			subnetGeoValidationResults = h.VerifyGeoTrace(subnetsForGeoValidation)
+		}
+
 		if len(subnetsForOwnershipVerification) > 0 {
+
+			// Performing abuse mailbox to org domain verification first
+			for _, subnet := range subnetsForOwnershipVerification {
+				if subnet.RirAbuseEmail == "" {
+					continue
+				}
+				org, found := h.OrgKeeper.GetOrg(ctx, subnet.OwnerOrgId)
+
+				if found && org.DomainVerified {
+					emailDomain, err := ExtractDomainFromEmail(subnet.RirAbuseEmail)
+					if err != nil {
+						h.logger.Info("Failed to extract email domain", "subnet_id", subnet.Id, "error", err)
+						continue  // or handle the error as appropriate
+					}
+					orgDomain, err := extractDomain(org.Website)
+					if err != nil {
+						h.logger.Info("Failed to extract organization domain", "org_id", org.Id, "error", err)
+						continue  // or handle the error as appropriate
+					}
+					if  emailDomain == orgDomain {
+						subnetOwnershipVerifResults[subnet.Id] = true
+					}
+				}
+			}
 
 			// Running the rDNS verification first as it can be executed concurrently
 			g := new(errgroup.Group)
 			var mu sync.Mutex
 
+
 			for _, subnet := range subnetsForOwnershipVerification {
+				//if verification succeeded previously we skip the rDNS verification
+				isValid, exists := subnetOwnershipVerifResults[subnet.Id]
+				if exists && isValid {
+					continue
+				}
 				// Create local variables to avoid closure issues
 				subnet := subnet
-
 				g.Go(func() error {
 					// Set a context with timeout for DNS lookup
 					rdnsCtx, cancel := context.WithTimeout(context.Background(), rDNSLookupTimeout)
@@ -183,28 +233,6 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 				subnetOwnershipVerifResults[subnet.Id] = isValid
 			}
 		}
-
-		if len(subnetsToRirSync) > 0 {
-			for _, subnet := range subnetsToRirSync {
-				subnetDetails:= h.SyncSubnetData(subnet.NetworkAddress, subnet.Mask)
-				subnetSyncResults[subnet.Id] = subnetDetails
-			}
-		}
-
-		if len(subnetsForRPKIValidation) > 0 {
-			for _, subnet := range subnetsForRPKIValidation {
-				prefix :=  fmt.Sprintf("%s/%d", convertDecimalIPToString(subnet.NetworkAddress), subnet.Mask)
-				isValid := h.IsASNValidForPrefix(prefix, subnet.OriginAsn)
-				subnetRpkiValidationResults[subnet.Id] = isValid
-			}
-		}
-
-		// This is the longest process. We only want to execute it if there's no other processes in this vote extension.
-		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 {
-			subnetGeoValidationResults = h.VerifyGeoTrace(subnetsForGeoValidation)
-		}
-
-
 		// Create vote extension
 		voteExt := OracleVoteExtension{
 			Height:              req.Height,
@@ -1089,10 +1117,38 @@ func CheckSubnetRdapVerification(ipv4 string, id uint64) (bool, error) {
 	}
 
 	// Construct the exact string to search for
-	//searchString := "ipex=" + strconv.FormatUint(id, 10)
-	// Testing
-	searchString := "noc@example.net"
+	searchString := "ipex=" + strconv.FormatUint(id, 10)
+
 	rdapStr := fmt.Sprintf("%+v", ipQuery)
 
 	return strings.Contains(rdapStr, searchString), nil
+}
+
+func ExtractDomainFromEmail(email string) (string, error) {
+	// Check if email is empty
+	if email == "" {
+        return "", fmt.Errorf("empty email address")
+    }
+    
+    // Split by @ character
+    parts := strings.Split(email, "@")
+    
+    // Valid email should have exactly two parts after splitting by @
+    if len(parts) != 2 {
+        return "", fmt.Errorf("invalid email format: %s", email)
+    }
+    
+    domain := parts[1]
+    
+    // Ensure domain is not empty
+    if domain == "" {
+        return "", fmt.Errorf("empty domain in email: %s", email)
+    }
+    
+    // Basic check that domain has at least one dot (e.g., "example.com")
+    if !strings.Contains(domain, ".") {
+        return "", fmt.Errorf("invalid domain format in email: %s", email)
+    }
+    
+    return domain, nil
 }
