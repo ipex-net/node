@@ -463,3 +463,91 @@ func (k Keeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID ui
 
 	return nil
 }
+
+
+// GetSubnetsForOwnershipVerification retrieves subnets for ownership verification
+func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []types.Subnet) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	now := time.Now()
+	count := 0
+	maxSubnets := 5
+	for ; iterator.Valid(); iterator.Next() {
+		var subnet types.Subnet
+		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
+
+
+		lastAttempt := *subnet.OwnershipVerifLastAttemptedAt
+		subnetAge := now.Sub(subnet.CreatedAt)
+
+		// Determine required interval based on subnet age and validity status
+		var requiredInterval time.Duration
+
+		// While the subnet is in active lease we don't want to perform verification
+		if subnet.OwnershipVerified && subnet.Status==types.SubnetStatus_SUBNET_STATUS_LEASED {
+			continue
+		}
+
+		switch {
+		// If ownership was verified previously - we re-check every 3 days
+		case subnet.OwnershipVerified:
+			requiredInterval = 72 * time.Hour //If subnet is verified we run re-verification every 3 days
+		// We want to gradually decrease the verification intervals for increased subnet ages
+		case subnetAge < 24*time.Hour: // Org age < 1 day
+			requiredInterval = 1 * time.Minute
+		case subnetAge < 7*24*time.Hour: // < 7 days
+			requiredInterval = 15 * time.Minute
+		case subnetAge < 14*24*time.Hour: // < 14 days
+			requiredInterval = 30 * time.Minute
+		case subnetAge < 30*24*time.Hour: // < 30 days
+			requiredInterval = 1 * time.Hour
+		default: // > 30 days
+			requiredInterval = 72 * time.Hour
+		}
+
+		// Skip if not enough time has passed
+		if now.Sub(lastAttempt) < requiredInterval {
+			continue
+		}
+		
+	
+		// Add to the list for validation
+		list = append(list, subnet)
+		// Increment count and check if we've reached the maximum
+		count++
+		if count >= maxSubnets {
+			break 
+		}
+	}
+
+	return
+}
+
+// UpdateOrgValidationStatus updates the domain validation status for an organization
+func (k Keeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetID uint64, isValid bool) error {
+	// Get the subnet
+	subnet, found := k.GetSubnet(ctx, subnetID)
+	if !found {
+		return fmt.Errorf("subnet with ID %d not found", subnetID)
+	}
+
+	// Get the timestamp
+	nowTime := time.Now()
+
+	// If status changed - reflecting changes
+	if subnet.OwnershipVerified != isValid{
+		subnet.OwnershipVerified = isValid
+		subnet.OwnershipVerifChangedAt = &nowTime
+	}
+	// In any case we update timestamps
+	subnet.UpdatedAt = nowTime
+	subnet.OwnershipVerifLastAttemptedAt = &nowTime
+	// Save the updated organization
+	k.SetSubnet(ctx, subnet)
+
+	return nil
+}

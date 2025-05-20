@@ -55,17 +55,10 @@ message Subnet {
   bool rpkiOriginValid = 27;
   google.protobuf.Timestamp rpkiLastSyncedAt = 28 [(gogoproto.stdtime) = true]; 
 
-  // rDNS
-  string subnetRdnsDomain = 29; 
-  string requestedRdns = 30;
-  google.protobuf.Timestamp rdnsChangeRequestedAt = 31 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp resolvedRdnsChangeddAt = 32 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp rdnsLastSyncedAt = 32 [(gogoproto.stdtime) = true]; 
+  // Ownership verification through rDNS or RIR remarks record
+  bool ownershipVerified = 29;
+  google.protobuf.Timestamp ownershipVerifChangedAt = 30 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp ownershipVerifLastAttemptedAt = 31 [(gogoproto.stdtime) = true];
 
-  // Ownership verification through rDNS or RIR record
-  bool subnetOwnershipVerified = 33;
-  google.protobuf.Timestamp subnetOwnershipVerifiedAt = 34 [(gogoproto.stdtime) = true];
-  google.protobuf.Timestamp subnetOwnershipLastAttemptedAt = 35 [(gogoproto.stdtime) = true];
-
-  google.protobuf.Timestamp updatedAt = 33 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp updatedAt = 32 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }
