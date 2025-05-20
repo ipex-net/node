@@ -32,6 +32,7 @@ const (
     RDAPQueryTimeout  = 1 * time.Second
 	RPKIQueryTimeout  = 1 * time.Second
     TracerouteTimeout = 5 * time.Second
+	rDNSLookupTimeout = 1 * time.Second
 )
 
 type VoteExtHandler struct {
@@ -64,6 +65,7 @@ type OracleVoteExtension struct {
 	SubnetRirSync map[uint64]subnettypes.SubnetInfo
 	RpkiValidation map[uint64]bool
 	SubnetGeoValidation map[uint64]bool
+	SubnetOwnerValidation map[uint64]bool
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
@@ -73,8 +75,9 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		subnetsToRirSync := h.SubnetKeeper.GetSubnetsForRirSync(ctx)
 		subnetsForRPKIValidation := h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx)
 		subnetsForGeoValidation := h.SubnetKeeper.GetSubnetsForGeoValidation(ctx)
+		subnetsForOwnershipVerification := h.SubnetKeeper.GetSubnetsForOwnershipVerification(ctx)
 
-		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 {
+		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 {
 			// Nothing to validate or sync, returning empty Vote
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
 		}
@@ -91,6 +94,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
 		subnetRpkiValidationResults := make(map[uint64]bool)
 		subnetGeoValidationResults := make(map[uint64]bool)
+		subnetOwnershipVerifResults := make(map[uint64]bool)
 
 		if len(orgsToValidate) > 0 {
 			g := new(errgroup.Group)
@@ -125,6 +129,43 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 				// Continue even if some validations failed
 			}
 
+		}
+
+		if len(subnetsForOwnershipVerification) > 0 {
+
+			// Running the rDNS verification first as it can be executed concurrently
+			g := new(errgroup.Group)
+			var mu sync.Mutex
+
+			for _, subnet := range subnetsForOwnershipVerification {
+				// Create local variables to avoid closure issues
+				subnet := subnet
+
+				g.Go(func() error {
+					// Set a context with timeout for DNS lookup
+					rdnsCtx, cancel := context.WithTimeout(context.Background(), rDNSLookupTimeout)
+					defer cancel()
+
+					// Perform rDNS verification
+					ip := convertDecimalIPToString(subnet.NetworkAddress+1)
+					isValid, err := CheckSubnetRdnsVerification(rdnsCtx, ip, subnet.Id)
+					if err != nil {
+						h.logger.Error("subnet ownership verification through rDNS failed", "subnet_id", subnet.Id, "rDNS host", ip, "error", err)
+					}
+
+					mu.Lock()
+					subnetOwnershipVerifResults[subnet.Id] = isValid
+					mu.Unlock()
+					
+					return nil
+				})
+			}
+
+			// Wait for all DNS validations to complete
+			if err := g.Wait(); err != nil {
+				h.logger.Error("Some subnet ownership verifications through rDNS failed", "error", err)
+				// Continue even if some validations failed
+			}
 		}
 
 		if len(subnetsToRirSync) > 0 {
@@ -906,4 +947,101 @@ ProcessResults:
     h.logger.Info("Geo validation completed", "duration_seconds", time.Since(totalStart).Seconds())
     
     return results
+}
+
+// CheckSubnetRdnsVerification takes an IPv4 address and an ID, performs a reverse
+// DNS lookup, and checks if a TXT record with "ipex=$id" exists on the
+// second and third level domains of the resolved hostname.
+func CheckSubnetRdnsVerification(ctx context.Context, ipv4 string, id uint64) (bool, error) {
+	// Validate the IPv4 address
+	ip := net.ParseIP(ipv4)
+	if ip == nil || strings.Count(ipv4, ".") != 3 {
+		return false, fmt.Errorf("invalid IPv4 address: %s", ipv4)
+	}
+	// Use net.DefaultResolver with context for timeout control
+	resolver := &net.Resolver{}
+
+	// Perform the reverse DNS lookup
+	names, err := resolver.LookupAddr(ctx, ipv4)
+	if err != nil {
+		return false, fmt.Errorf("reverse DNS lookup failed: %w", err)
+	}
+
+	// If no results found
+	if len(names) == 0 {
+		return false, fmt.Errorf("no reverse DNS records found for %s", ipv4)
+	}
+
+	// Get the domain name (remove trailing dot if present)
+	domain := strings.TrimSuffix(names[0], ".")
+
+	// Extract second and third level domains
+	parts := strings.Split(domain, ".")
+	if len(parts) < 2 {
+		return false, fmt.Errorf("domain %s doesn't have enough levels", domain)
+	}
+
+	// Determine second and third level domains
+	var secondLevelDomain, thirdLevelDomain string
+
+	if len(parts) >= 3 {
+		// For domains like sub.example.com:
+		// Third level: sub.example.com
+		// Second level: example.com
+		secondLevelDomain = strings.Join(parts[len(parts)-2:], ".")
+		thirdLevelDomain = domain
+	} else {
+		// For domains like example.com:
+		// Second level: example.com
+		// No third level
+		secondLevelDomain = domain
+		thirdLevelDomain = "" // No third level available
+	}
+
+	// Construct the expected TXT record value
+	expectedTXT := "ipex=" + strconv.FormatUint(id, 10)
+
+	// Check TXT records on the second level domain
+	secondLevelTXTFound := false
+	txtRecordsSecond, err := resolver.LookupTXT(ctx, secondLevelDomain)
+	if err == nil {
+		// Check if any of the TXT records match our expected value
+		for _, txt := range txtRecordsSecond {
+			if txt == expectedTXT {
+				secondLevelTXTFound = true
+				break
+			}
+		}
+	} else {
+		// If the error is not "no such host" or similar, return it
+		if dnsErr, ok := err.(*net.DNSError); !ok || !dnsErr.IsNotFound {
+			return false, fmt.Errorf("error checking TXT record for %s: %w", secondLevelDomain, err)
+		}
+	}
+
+	// If no third level domain or we already found the TXT record on second level
+	if thirdLevelDomain == "" || secondLevelTXTFound {
+		return secondLevelTXTFound, nil
+	}
+
+	// Check TXT records on the third level domain
+	thirdLevelTXTFound := false
+	txtRecordsThird, err := resolver.LookupTXT(ctx, thirdLevelDomain)
+	if err == nil {
+		// Check if any of the TXT records match our expected value
+		for _, txt := range txtRecordsThird {
+			if txt == expectedTXT {
+				thirdLevelTXTFound = true
+				break
+			}
+		}
+	} else {
+		// If the error is not "no such host" or similar, return it
+		if dnsErr, ok := err.(*net.DNSError); !ok || !dnsErr.IsNotFound {
+			return false, fmt.Errorf("error checking TXT record for %s: %w", thirdLevelDomain, err)
+		}
+	}
+
+	// Return true if either domain has the TXT record
+	return secondLevelTXTFound || thirdLevelTXTFound, nil
 }
