@@ -480,8 +480,12 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []
 		var subnet types.Subnet
 		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
 
-
-		lastAttempt := *subnet.OwnershipVerifLastAttemptedAt
+		var lastAttempt time.Time
+		if subnet.OwnershipVerifLastAttemptedAt != nil {
+            lastAttempt = *subnet.OwnershipVerifLastAttemptedAt
+        } else {
+            lastAttempt = time.Time{}
+        }
 		subnetAge := now.Sub(subnet.CreatedAt)
 
 		// Determine required interval based on subnet age and validity status

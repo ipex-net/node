@@ -148,6 +148,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 
 					// Perform rDNS verification
 					ip := convertDecimalIPToString(subnet.NetworkAddress+1)
+
 					isValid, err := CheckSubnetRdnsVerification(rdnsCtx, ip, subnet.Id)
 					if err != nil {
 						h.logger.Error("subnet ownership verification through rDNS failed", "subnet_id", subnet.Id, "rDNS host", ip, "error", err)
@@ -161,10 +162,25 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 				})
 			}
 
-			// Wait for all DNS validations to complete
+			// Wait for all rDNS validations to complete
 			if err := g.Wait(); err != nil {
 				h.logger.Error("Some subnet ownership verifications through rDNS failed", "error", err)
 				// Continue even if some validations failed
+			}
+
+			// After that we attempt to verify subnets through RDAP record
+			for _, subnet := range subnetsForOwnershipVerification {
+				//if rDNS verification succeeded we skip the RDAP verification
+				isValid, exists := subnetOwnershipVerifResults[subnet.Id]
+				if exists && isValid {
+					continue
+				}
+				ip := convertDecimalIPToString(subnet.NetworkAddress)
+				isValid, err := CheckSubnetRdapVerification(ip, subnet.Id)
+				if err != nil {
+					h.logger.Error("subnet ownership verification through RDAP failed", "subnet_id", subnet.Id, "rDNS host", ip, "error", err)
+				}
+				subnetOwnershipVerifResults[subnet.Id] = isValid
 			}
 		}
 
@@ -196,6 +212,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			SubnetRirSync : subnetSyncResults,
 			RpkiValidation : subnetRpkiValidationResults,
 			SubnetGeoValidation: subnetGeoValidationResults,
+			SubnetOwnerValidation: subnetOwnershipVerifResults,
 		}
 
 		// Log the results
@@ -685,7 +702,7 @@ func LookupGeo(ip string) string {
 
 	// Use Country lookup instead of City for a Country database
 	record, err := db.Country(ipAddr)
-	if err != nil {
+	if err != nil || record == nil {
 		return ""
 	}
 
@@ -975,6 +992,9 @@ func CheckSubnetRdnsVerification(ctx context.Context, ipv4 string, id uint64) (b
 	// Get the domain name (remove trailing dot if present)
 	domain := strings.TrimSuffix(names[0], ".")
 
+    if domain == "" {
+        return false, fmt.Errorf("empty domain returned for %s", ipv4)
+    }
 	// Extract second and third level domains
 	parts := strings.Split(domain, ".")
 	if len(parts) < 2 {
@@ -1044,4 +1064,35 @@ func CheckSubnetRdnsVerification(ctx context.Context, ipv4 string, id uint64) (b
 
 	// Return true if either domain has the TXT record
 	return secondLevelTXTFound || thirdLevelTXTFound, nil
+}
+
+// CheckSubnetRdapVerification takes an IPv4 address and an ID, performs an RDAP lookup,
+// and checks if the raw RDAP response contains the string "ipex=ID".
+func CheckSubnetRdapVerification(ipv4 string, id uint64) (bool, error) {
+	// Validate the IPv4 address
+	ip := net.ParseIP(ipv4)
+	if ip == nil || strings.Count(ipv4, ".") != 3 {
+		return false, fmt.Errorf("invalid IPv4 address: %s", ipv4)
+	}
+
+	// Create a new RDAP client with a timeout
+	client := &rdap.Client{
+		HTTP: &http.Client{
+			Timeout: RDAPQueryTimeout,
+		},
+	}
+
+	// Perform the RDAP lookup for the IP address
+	ipQuery, err := client.QueryIP(ipv4)
+	if err != nil {
+		return false, fmt.Errorf("RDAP lookup failed: %w", err)
+	}
+
+	// Construct the exact string to search for
+	//searchString := "ipex=" + strconv.FormatUint(id, 10)
+	// Testing
+	searchString := "noc@example.net"
+	rdapStr := fmt.Sprintf("%+v", ipQuery)
+
+	return strings.Contains(rdapStr, searchString), nil
 }

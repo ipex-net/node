@@ -13,14 +13,17 @@ import (
 	subnettypes "ipex/x/subnet/types"
 )
 
-// StakeDomainValidation defines the structure a proposer should use to calculate
-// and submit the stake-weighted domain validation results, in addition to the vote
-// extensions used to calculate them.
-type StakeDomainValidation struct {
+// NetworkValidationResults defines the consolidated results of all network resource validations
+// performed by validators and aggregated by stake-weighted voting power. This structure
+// contains the final validation outcomes for organizations, subnets, and their associated
+// properties, along with the extended commit info used to calculate these results.
+
+type NetworkValidationResults struct {
 	OrgValidationResults map[uint64]bool
 	SubnetSyncResults    map[uint64]subnettypes.SubnetInfo
 	RpkiValidationResults map[uint64]bool 
 	GeoValidationResults    map[uint64]bool
+	SubnetOwnerValidation      map[uint64]bool
 	ExtendedCommitInfo   abci.ExtendedCommitInfo
 }
 
@@ -60,21 +63,23 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 			}
 
 			// Compute consensus on validation results (produce empty maps on error)
-			orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
+			orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
 			if err != nil {
 				h.logger.Error("failed to compute validation results; injecting empty maps", "err", err)
 				orgValidationResults = make(map[uint64]bool)
 				subnetSyncResults = make(map[uint64]subnettypes.SubnetInfo)
 				rpkiValidationResults = make(map[uint64]bool) 
 				geoValidationResults = make(map[uint64]bool)
+				subnetOwnershipResults = make(map[uint64]bool)
 			}
 
 			// Create the injected transaction with validation results
-			injectedVoteExtTx := StakeDomainValidation{
+			injectedVoteExtTx := NetworkValidationResults{
 				OrgValidationResults: orgValidationResults,
 				SubnetSyncResults:    subnetSyncResults,
 				RpkiValidationResults: rpkiValidationResults,
 				GeoValidationResults: geoValidationResults,
+				SubnetOwnerValidation: subnetOwnershipResults,
 				ExtendedCommitInfo:   req.LocalLastCommit,
 			}
 
@@ -95,12 +100,13 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 }
 
 // computeValidationResults aggregates validation results from vote extensions
-func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, map[uint64]bool, map[uint64]bool, error) {
+func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, map[uint64]bool, map[uint64]bool, map[uint64]bool, error) {
 	// Maps to store aggregated validation results
 	orgValidationResults := make(map[uint64]bool)
 	subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
 	rpkiValidationResults := make(map[uint64]bool) 
 	geoValidationResults := make(map[uint64]bool)
+	subnetOwnershipResults := make(map[uint64]bool)
 
 	// Maps to track voting power for org validations
 	orgValidPower := make(map[uint64]int64)
@@ -113,6 +119,10 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	// Maps to track voting power for TraceGeo validations
 	geoValidPower := make(map[uint64]int64)
 	geoInvalidPower := make(map[uint64]int64)
+
+	// Maps to track voting power for subnet ownership validation
+	subnetOwnerValidPower := make(map[uint64]int64)
+    subnetOwnerInvalidPower := make(map[uint64]int64)
 
 	// Map to track voting power for subnet info by subnet ID and unique SubnetInfo
 	// Using string representation of SubnetInfo for map key to handle struct comparison
@@ -180,14 +190,23 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			})
 		}
 
-			// Aggregate geo validation results based on voting power
-			for subnetID, isValid := range voteExt.SubnetGeoValidation {
-				if isValid {
-					geoValidPower[subnetID] += v.Validator.Power
-				} else {
-					geoInvalidPower[subnetID] += v.Validator.Power
-				}
+		// Aggregate geo validation results based on voting power
+		for subnetID, isValid := range voteExt.SubnetGeoValidation {
+			if isValid {
+				geoValidPower[subnetID] += v.Validator.Power
+			} else {
+				geoInvalidPower[subnetID] += v.Validator.Power
 			}
+		}
+
+		// Aggregate subnet ownership verification results based on voting power
+        for subnetID, isValid := range voteExt.SubnetOwnerValidation {
+            if isValid {
+                subnetOwnerValidPower[subnetID] += v.Validator.Power
+            } else {
+                subnetOwnerInvalidPower[subnetID] += v.Validator.Power
+            }
+        }
 	}
 
 	// Build the union of all org IDs that appeared in any vote extension
@@ -253,6 +272,15 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		}
 	}
 
+    // Build the union of all subnet IDs that appeared in ownership verification
+    allOwnershipSubnetIDs := make(map[uint64]struct{})
+    for subnetID := range subnetOwnerValidPower {
+        allOwnershipSubnetIDs[subnetID] = struct{}{}
+    }
+    for subnetID := range subnetOwnerInvalidPower {
+        allOwnershipSubnetIDs[subnetID] = struct{}{}
+    }
+
 	// Group subnet voting powers by subnet ID
 	subnetInfoVotingPower := make(map[uint64]map[string]int64)
 	subnetInfoMap := make(map[uint64]map[string]subnettypes.SubnetInfo)
@@ -288,7 +316,19 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		}
 	}
 
-	return orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, nil
+    // Determine final ownership verification result based on majority voting power
+    for subnetID := range allOwnershipSubnetIDs {
+        vp := subnetOwnerValidPower[subnetID]
+        ip := subnetOwnerInvalidPower[subnetID]
+        total := vp + ip
+        if total > 0 && vp > total/2 {
+            subnetOwnershipResults[subnetID] = true
+        } else {
+            subnetOwnershipResults[subnetID] = false
+        }
+    }
+
+	return orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, nil
 }
 
 func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
@@ -304,7 +344,7 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		}
 
 		// Unmarshal the injected vote extension transaction
-		var injectedVoteExtTx StakeDomainValidation
+		var injectedVoteExtTx NetworkValidationResults
 		if err := json.Unmarshal(req.Txs[0], &injectedVoteExtTx); err != nil {
 			h.logger.Error("failed to decode injected vote extension tx; skipping validation", "err", err)
 			// Accept proposal, skip validation verification
@@ -319,7 +359,7 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		}
 
 		// Verify the proposer's validation results by computing the same calculation
-		orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
+		orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
 		if err != nil {
 			h.logger.Error("failed to compute validation results", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
@@ -348,6 +388,13 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 			h.logger.Error("geo validation results don't match", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
 		}
+
+		// Compare the proposer's subnet ownership verification results with our own calculation
+        if err := compareSubnetOwnershipResults(injectedVoteExtTx.SubnetOwnerValidation, subnetOwnershipResults); err != nil {
+            h.logger.Error("subnet ownership verification results don't match", "err", err)
+            return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
+        }
+
 		return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_ACCEPT}, nil
 	}
 }
@@ -448,6 +495,27 @@ func compareGeoValidationResults(r1, r2 map[uint64]bool) error {
 	
 	return nil
 }
+
+// compareGeoValidationResults checks if two subnet ownership verification result maps match
+func compareSubnetOwnershipResults(r1, r2 map[uint64]bool) error {
+    // Check if both maps have the same number of entries
+    if len(r1) != len(r2) {
+        return fmt.Errorf("subnet ownership verification result maps have different sizes: %d vs %d", len(r1), len(r2))
+    }
+    
+    // Check if all entries match
+    for subnetID, valid1 := range r1 {
+        valid2, exists := r2[subnetID]
+        if !exists {
+            return fmt.Errorf("subnet ID %d missing from second result map", subnetID)
+        }
+        if valid1 != valid2 {
+            return fmt.Errorf("subnet ownership verification result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
+        }
+    }
+    
+    return nil
+}
 func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeBlock) (*sdk.ResponsePreBlock, error) {
 	res := &sdk.ResponsePreBlock{}
 
@@ -457,7 +525,7 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 	}
 
 	// Unmarshal the injected vote extension transaction
-	var injectedVoteExtTx StakeDomainValidation
+	var injectedVoteExtTx NetworkValidationResults
 	if err := json.Unmarshal(req.Txs[0], &injectedVoteExtTx); err != nil {
 		h.logger.Error("failed to decode injected vote extension tx", "err", err)
 		return nil, err
@@ -524,6 +592,21 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 				"is_valid", isValid)
 		}
 	}
+
+	  // Update the subnet ownership verification status for each subnet
+	  for subnetID, isValid := range injectedVoteExtTx.SubnetOwnerValidation {
+        if err := h.subnetKeeper.UpdateSubnetOwnershipVerification(ctx, subnetID, isValid); err != nil {
+            // Log error but continue with other subnets
+            h.logger.Error("failed to update subnet ownership verification status",
+                "subnet_id", subnetID,
+                "is_valid", isValid,
+                "error", err)
+        } else {
+            h.logger.Info("updated subnet ownership verification status",
+                "subnet_id", subnetID,
+                "is_valid", isValid)
+        }
+    }
 
 	return res, nil
 }
