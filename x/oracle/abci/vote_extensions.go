@@ -474,6 +474,10 @@ func findAbuseEmail(entities []rdap.Entity) string {
 // convertDecimalIPToString converts a uint64 decimal IP representation to a string
 // in the standard dotted-decimal format (e.g., "192.168.1.1").
 func convertDecimalIPToString(ipDecimal uint64) string {
+
+	if ipDecimal > 0xFFFFFFFF {
+		ipDecimal = 0xFFFFFFFF
+	}
 	// Extract each octet from the decimal representation
 	ipBytes := []byte{
 		byte(ipDecimal >> 24),
