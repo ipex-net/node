@@ -20,7 +20,6 @@ import (
 
 	"cosmossdk.io/log"
 	"github.com/openrdap/rdap"
-	geoip "github.com/oschwald/geoip2-golang"
 	"golang.org/x/sync/errgroup"
 
 	abci "github.com/cometbft/cometbft/abci/types"
@@ -718,35 +717,7 @@ func Traceroute(ip string, startHop int, stopHop int) (lastIP string, err error)
 	return
 }
 
-func LookupGeo(ip string) string {
-	// Path to the MaxMind database file
-	dbPath := "data/maxmind/GeoLite2-Country.mmdb" // This is a Country database
 
-	// Open the MaxMind database
-	db, err := geoip.Open(dbPath)
-	if err != nil {
-		return ""
-	}
-	defer db.Close()
-
-	// Parse the IP address
-	ipAddr := net.ParseIP(ip)
-	if ipAddr == nil {
-		return ""
-	}
-
-	// Use Country lookup instead of City for a Country database
-	record, err := db.Country(ipAddr)
-	if err != nil || record == nil {
-		return ""
-	}
-
-	if record.Country.IsoCode != "" {
-		return strings.ToUpper(record.Country.IsoCode) // Convert to uppercase
-	}
-
-	return ""
-}
 
 // VerifyGeoTrace performs geo validation on subnets by running traceroutes
 // and checking if the geographic location of the last hop matches the expected location
@@ -967,19 +938,28 @@ ProcessResults:
             continue
         }
         
-        // Look up geo location of the last hop
-        lastHopGeo := LookupGeo(lastIp)
+        // IP to country validation
+		var isGeoMatched bool
+		if h.NetIntelService != nil && h.NetIntelService.IsReady() {
+			// Use NetIntel service to check if IP is in the expected country
+			isGeoMatched = h.NetIntelService.CheckCountry(lastIp, res.country)
+			
+			h.logger.Info("NetIntel geo validation result", 
+				"subnet_id", res.subnetId,
+				"expected_country", res.country,
+				"last_hop_ip", lastIp,
+				"netintel_match", isGeoMatched,
+				"netintel_ready", true)
+		} else {
+
+			h.logger.Info("NetIntel geo validation failed ", 
+				"subnet_id", res.subnetId,
+				"expected_country", res.country,
+				"last_hop_ip", lastIp,
+				"netintel_ready", false)
+		}
         
-        // Check if geo location matches the expected subnet geo location
-        isGeoMatched := (lastHopGeo == res.country)
-        
-        h.logger.Info("Geo validation result", 
-            "subnet_id", res.subnetId,
-            "expected_geo", res.country,
-            "last_hop_ip", lastIp,
-            "last_hop_geo", lastHopGeo,
-            "match", isGeoMatched)
-        
+
         // Update results
         results[res.subnetId] = isGeoMatched
         totalCount++
