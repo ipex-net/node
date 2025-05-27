@@ -41,14 +41,14 @@ func (d *HTTPDownloader) DownloadReputationLevel(level int) error {
 	url := fmt.Sprintf("https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level%d.netset", level)
 	destPath := filepath.Join(d.dataDir, "sources", fmt.Sprintf("firehol_level%d.netset", level))
 
-	d.logger.Info("Downloading reputation level", "level", level, "url", url)
+	d.logger.Info("[NetIntel] Downloading reputation level", "level", level, "url", url)
 
 	if err := d.downloadFile(url, destPath); err != nil {
 		return fmt.Errorf("failed to download reputation level %d: %w", level, err)
 	}
 
 	d.updateLastDownload()
-	d.logger.Info("Successfully downloaded reputation level", "level", level, "path", destPath)
+	d.logger.Info("[NetIntel] Successfully downloaded reputation level", "level", level, "path", destPath)
 	return nil
 }
 
@@ -81,7 +81,7 @@ func (d *HTTPDownloader) DownloadAllReputationLevels() error {
 		return fmt.Errorf("failed to download %d reputation levels: %v", len(errors), errors)
 	}
 
-	d.logger.Info("Successfully downloaded all reputation levels")
+	d.logger.Info("[NetIntel] Successfully downloaded all reputation levels")
 	return nil
 }
 
@@ -162,7 +162,7 @@ func (d *HTTPDownloader) DownloadCountryData(countryCode string) error {
 	}
 
 	d.updateLastDownload()
-	d.logger.Info("Downloaded country data", "country", countryCode, "sources", successCount, "total", len(sources))
+	d.logger.Info("[NetIntel] Downloaded country data", "country", countryCode, "sources", successCount, "total", len(sources))
 	return nil
 }
 
@@ -188,7 +188,7 @@ func (d *HTTPDownloader) DownloadAllCountryData() error {
 		"vn", "vu", "wf", "ws", "ye", "yt", "za", "zm", "zw",
 	}
 
-	d.logger.Info("Starting download of all country data", "countries", len(countryCodes))
+	d.logger.Info("[NetIntel] Starting download of all country data", "countries", len(countryCodes))
 
 	// Use a worker pool to limit concurrent downloads
 	const maxWorkers = 10
@@ -221,13 +221,13 @@ func (d *HTTPDownloader) DownloadAllCountryData() error {
 
 	wg.Wait()
 
-	d.logger.Info("Completed download of country data", "successful", successCount, "total", len(countryCodes))
+	d.logger.Info("[NetIntel] Completed download of country data", "successful", successCount, "total", len(countryCodes))
 	return nil
 }
 
 // DownloadAll downloads all data (reputation levels + all countries)
 func (d *HTTPDownloader) DownloadAll() error {
-	d.logger.Info("Starting download of all NetIntel data")
+	d.logger.Info("[NetIntel] Starting download of all NetIntel data")
 
 	// Download reputation levels first (smaller, faster)
 	if err := d.DownloadAllReputationLevels(); err != nil {
@@ -239,7 +239,7 @@ func (d *HTTPDownloader) DownloadAll() error {
 		return fmt.Errorf("failed to download country data: %w", err)
 	}
 
-	d.logger.Info("Successfully downloaded all NetIntel data")
+	d.logger.Info("[NetIntel] Successfully downloaded all NetIntel data")
 	return nil
 }
 

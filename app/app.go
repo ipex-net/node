@@ -3,6 +3,7 @@ package app
 import (
 	"io"
 	oracleabci "ipex/x/oracle/abci"
+	"path/filepath"
 
 	_ "cosmossdk.io/api/cosmos/tx/config/v1" // import for side-effects
 	clienthelpers "cosmossdk.io/client/v2/helpers"
@@ -86,6 +87,11 @@ import (
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"ipex/docs"
+	// NetIntel import
+	"ipex/internal/netintel"
+
+	// Required for type casting
+	"github.com/spf13/cast"
 )
 
 const (
@@ -155,6 +161,8 @@ type App struct {
 	OracleKeeper   oraclemodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
+	// NetIntel service for IP reputation and geolocation
+	NetIntelService *netintel.Service
 	// simulation manager
 	sm *module.SimulationManager
 }
@@ -265,12 +273,18 @@ func New(
 	); err != nil {
 		panic(err)
 	}
+
+	// Initialize NetIntel service
+	netintelDataDir := getNetIntelDataDir(appOpts)
+	app.NetIntelService = netintel.NewService(netintelDataDir, logger.With("module", "netintel"))
+	
 	// Create the vote extension handler for domain validation
 	voteExtHandler := oracleabci.NewVoteExtHandler(
 		logger,
 		app.OrgKeeper,
 		app.SubnetKeeper,
 		app.LeaseKeeper,
+		app.NetIntelService,
 	)
 	// Create the proposal handler for domain validation
 	proposalHandler := oracleabci.NewProposalHandler(
@@ -329,11 +343,30 @@ func New(
 		return app.App.InitChainer(ctx, req)
 	})
 
+	// Start NetIntel service after app is fully initialized
+	go func() {
+		if err := app.NetIntelService.Start(); err != nil {
+			logger.Error("Failed to start NetIntel service", "error", err)
+		}
+	}()
+
 	if err := app.Load(loadLatest); err != nil {
 		return nil, err
 	}
 
 	return app, nil
+}
+
+// getNetIntelDataDir returns the data directory for NetIntel files
+func getNetIntelDataDir(appOpts servertypes.AppOptions) string {
+	// Get home directory from app options
+	homeDir := cast.ToString(appOpts.Get("home"))
+	if homeDir == "" {
+		homeDir = DefaultNodeHome
+	}
+	
+	// NetIntel data will be stored in {home}/data/netintel
+	return filepath.Join(homeDir, "data", "netintel")
 }
 
 // LegacyAmino returns App's amino codec.

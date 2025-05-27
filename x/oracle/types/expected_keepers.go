@@ -2,6 +2,7 @@ package types
 
 import (
 	"context"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -65,4 +66,19 @@ type BankKeeper interface {
 type ParamSubspace interface {
 	Get(context.Context, []byte, interface{})
 	Set(context.Context, []byte, interface{})
+}
+
+type NetIntelService interface {
+	// Service status
+	IsReady() bool
+	GetLastUpdate() time.Time
+	GetLoadedLevels() []int
+	GetLoadedCountries() []string
+	
+	// IP reputation checking
+	CheckReputation(ip string, level int) int
+	ScanSubnetReputation(subnet string, level int) int
+	
+	// Geolocation checking
+	CheckCountry(ip string, countryCode string) bool
 }

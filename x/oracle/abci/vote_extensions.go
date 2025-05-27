@@ -42,6 +42,7 @@ type VoteExtHandler struct {
     OrgKeeper    types.OrgKeeper
     SubnetKeeper types.SubnetKeeper
     LeaseKeeper  types.LeaseKeeper
+	NetIntelService types.NetIntelService
 }
 
 func NewVoteExtHandler(
@@ -49,12 +50,14 @@ func NewVoteExtHandler(
 	orgK types.OrgKeeper,
     subnetK types.SubnetKeeper,
     leaseK types.LeaseKeeper,
+	netintelService types.NetIntelService,
 	) *VoteExtHandler {
 	return &VoteExtHandler{
 		logger:       logger,
         OrgKeeper:    orgK,
         SubnetKeeper: subnetK,
         LeaseKeeper:  leaseK,
+		NetIntelService: netintelService,
 	}
 }
 

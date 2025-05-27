@@ -13,8 +13,8 @@ import (
 const (
 	// Update intervals
 	reputationUpdateInterval = 1 * time.Minute  // Reputation updates every minute
-	countryUpdateInterval    = 24 * time.Hour   // Country updates every 24 hours
-	
+//	countryUpdateInterval    = 24 * time.Hour   // Country updates every 24 hours
+	countryUpdateInterval    = 5 * time.Minute   // Country updates every 24 hours	
 	// Startup timeout
 	initialLoadTimeout = 5 * time.Minute
 )
@@ -54,7 +54,7 @@ func (s *Service) Start() error {
 		return fmt.Errorf("service is already running")
 	}
 
-	s.logger.Info("Starting NetIntel service", "data_dir", s.dataDir)
+	s.logger.Info("[NetIntel] Starting NetIntel service", "data_dir", s.dataDir)
 
 	// Load initial data from disk (blocking)
 	if err := s.loadInitialData(); err != nil {
@@ -65,7 +65,7 @@ func (s *Service) Start() error {
 	// Start background update loops
 	s.startBackgroundUpdates()
 
-	s.logger.Info("NetIntel service started successfully")
+	s.logger.Info("[NetIntel] NetIntel service started successfully")
 	return nil
 }
 
@@ -75,7 +75,7 @@ func (s *Service) Stop() error {
 		return nil
 	}
 
-	s.logger.Info("Stopping NetIntel service")
+	s.logger.Info("[NetIntel] Stopping NetIntel service")
 
 	s.stopOnce.Do(func() {
 		close(s.stopChan)
@@ -92,9 +92,9 @@ func (s *Service) Stop() error {
 	// Wait for shutdown with timeout
 	select {
 	case <-done:
-		s.logger.Info("NetIntel service stopped successfully")
+		s.logger.Info("[NetIntel] NetIntel service stopped successfully")
 	case <-time.After(30 * time.Second):
-		s.logger.Warn("NetIntel service shutdown timed out")
+		s.logger.Warn("[NetIntel] NetIntel service shutdown timed out")
 	}
 
 	return nil
@@ -159,7 +159,7 @@ func (s *Service) GetLoadedCountries() []string {
 
 // loadInitialData loads existing data from disk on startup
 func (s *Service) loadInitialData() error {
-	s.logger.Info("Loading initial data from disk")
+	s.logger.Info("[NetIntel] Loading initial data from disk")
 
 	ctx, cancel := context.WithTimeout(context.Background(), initialLoadTimeout)
 	defer cancel()
@@ -183,16 +183,16 @@ func (s *Service) loadInitialData() error {
 	// Update cache with loaded data
 	if len(repChecker.GetLoadedLevels()) > 0 {
 		s.cache.UpdateReputationChecker(repChecker)
-		s.logger.Info("Loaded reputation data", "levels", repChecker.GetLoadedLevels())
+		s.logger.Info("[NetIntel] Loaded reputation data", "levels", repChecker.GetLoadedLevels())
 	}
 
 	if len(geoChecker.GetLoadedCountries()) > 0 {
 		s.cache.UpdateGeolocationChecker(geoChecker)
-		s.logger.Info("Loaded geolocation data", "countries", len(geoChecker.GetLoadedCountries()))
+		s.logger.Info("[NetIntel] Loaded geolocation data", "countries", len(geoChecker.GetLoadedCountries()))
 	}
 
 	s.initialLoadDone.Store(true)
-	s.logger.Info("Initial data loading completed")
+	s.logger.Info("[NetIntel] Initial data loading completed")
 	return nil
 }
 
@@ -230,7 +230,7 @@ func (s *Service) startBackgroundUpdates() {
 
 // reputationUpdateLoop runs the reputation data update loop
 func (s *Service) reputationUpdateLoop() {
-	s.logger.Info("Starting reputation update loop", "interval", reputationUpdateInterval)
+	s.logger.Info("[NetIntel] Starting reputation update loop", "interval", reputationUpdateInterval)
 	
 	ticker := time.NewTicker(reputationUpdateInterval)
 	defer ticker.Stop()
@@ -238,7 +238,7 @@ func (s *Service) reputationUpdateLoop() {
 	for {
 		select {
 		case <-s.stopChan:
-			s.logger.Info("Reputation update loop stopped")
+			s.logger.Info("[NetIntel] Reputation update loop stopped")
 			return
 		case <-ticker.C:
 			s.updateReputationData()
@@ -248,15 +248,15 @@ func (s *Service) reputationUpdateLoop() {
 
 // countryUpdateLoop runs the country data update loop  
 func (s *Service) countryUpdateLoop() {
-	s.logger.Info("Starting country update loop", "interval", countryUpdateInterval)
-	
+	s.logger.Info("[NetIntel] Starting country update loop", "interval", countryUpdateInterval)
+	s.updateCountryData()
 	ticker := time.NewTicker(countryUpdateInterval)
 	defer ticker.Stop()
 
 	for {
 		select {
 		case <-s.stopChan:
-			s.logger.Info("Country update loop stopped")
+			s.logger.Info("[NetIntel] Country update loop stopped")
 			return
 		case <-ticker.C:
 			s.updateCountryData()
@@ -266,7 +266,7 @@ func (s *Service) countryUpdateLoop() {
 
 // updateReputationData downloads and updates reputation data
 func (s *Service) updateReputationData() {
-	s.logger.Info("Updating reputation data")
+	s.logger.Info("[NetIntel] Updating reputation data")
 	
 	start := time.Now()
 
@@ -287,14 +287,14 @@ func (s *Service) updateReputationData() {
 	s.cache.UpdateReputationChecker(newRepChecker)
 
 	duration := time.Since(start)
-	s.logger.Info("Reputation data updated successfully", 
+	s.logger.Info("[NetIntel] Reputation data updated successfully", 
 		"duration", duration,
 		"levels", newRepChecker.GetLoadedLevels())
 }
 
 // updateCountryData downloads and updates country data
 func (s *Service) updateCountryData() {
-	s.logger.Info("Updating country data")
+	s.logger.Info("[NetIntel] Updating country data")
 	
 	start := time.Now()
 
@@ -315,7 +315,7 @@ func (s *Service) updateCountryData() {
 	s.cache.UpdateGeolocationChecker(newGeoChecker)
 
 	duration := time.Since(start)
-	s.logger.Info("Country data updated successfully", 
+	s.logger.Info("[NetIntel] Country data updated successfully", 
 		"duration", duration,
 		"countries", len(newGeoChecker.GetLoadedCountries()))
 }
