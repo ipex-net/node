@@ -27,46 +27,45 @@ import (
 )
 
 const (
-    DNSLookupTimeout  = 1 * time.Second
-    RDAPQueryTimeout  = 1 * time.Second
+	DNSLookupTimeout  = 1 * time.Second
+	RDAPQueryTimeout  = 1 * time.Second
 	RPKIQueryTimeout  = 1 * time.Second
-    TracerouteTimeout = 5 * time.Second
+	TracerouteTimeout = 5 * time.Second
 	rDNSLookupTimeout = 1 * time.Second
 )
 
 type VoteExtHandler struct {
-	logger        log.Logger
-	currentBlock  int64        
+	logger       log.Logger
+	currentBlock int64
 
-    OrgKeeper    types.OrgKeeper
-    SubnetKeeper types.SubnetKeeper
-    LeaseKeeper  types.LeaseKeeper
+	OrgKeeper       types.OrgKeeper
+	SubnetKeeper    types.SubnetKeeper
+	LeaseKeeper     types.LeaseKeeper
 	NetIntelService types.NetIntelService
 }
 
 func NewVoteExtHandler(
-	logger log.Logger, 
+	logger log.Logger,
 	orgK types.OrgKeeper,
-    subnetK types.SubnetKeeper,
-    leaseK types.LeaseKeeper,
+	subnetK types.SubnetKeeper,
+	leaseK types.LeaseKeeper,
 	netintelService types.NetIntelService,
-	) *VoteExtHandler {
+) *VoteExtHandler {
 	return &VoteExtHandler{
-		logger:       logger,
-        OrgKeeper:    orgK,
-        SubnetKeeper: subnetK,
-        LeaseKeeper:  leaseK,
+		logger:          logger,
+		OrgKeeper:       orgK,
+		SubnetKeeper:    subnetK,
+		LeaseKeeper:     leaseK,
 		NetIntelService: netintelService,
 	}
 }
 
-
 type OracleVoteExtension struct {
-	Height              int64
-	OrgDomainValidation map[uint64]bool
-	SubnetRirSync map[uint64]subnettypes.SubnetInfo
-	RpkiValidation map[uint64]bool
-	SubnetGeoValidation map[uint64]bool
+	Height                int64
+	OrgDomainValidation   map[uint64]bool
+	SubnetRirSync         map[uint64]subnettypes.SubnetInfo
+	RpkiValidation        map[uint64]bool
+	SubnetGeoValidation   map[uint64]bool
 	SubnetOwnerValidation map[uint64]bool
 }
 
@@ -84,12 +83,12 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
 		}
 		h.currentBlock = req.Height
-		h.logger.Info("performing validations for vote extension", 
-		"height", req.Height, 
-		"orgs_count", len(orgsToValidate),
-		"subnets_rir_count", len(subnetsToRirSync),
-		"subnets_rpki_count", len(subnetsForRPKIValidation),
-		"subnets_geo_count", len(subnetsForGeoValidation))
+		h.logger.Info("performing validations for vote extension",
+			"height", req.Height,
+			"orgs_count", len(orgsToValidate),
+			"subnets_rir_count", len(subnetsToRirSync),
+			"subnets_rpki_count", len(subnetsForRPKIValidation),
+			"subnets_geo_count", len(subnetsForGeoValidation))
 		h.logger.Info("performing domain validations for vote extension", "height", req.Height)
 		// Map to store validation results
 		domainValidationResults := make(map[uint64]bool)
@@ -120,7 +119,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 					mu.Lock()
 					domainValidationResults[org.Id] = isValid
 					mu.Unlock()
-					
+
 					return nil
 				})
 			}
@@ -133,17 +132,16 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 
 		}
 
-
 		if len(subnetsToRirSync) > 0 {
 			for _, subnet := range subnetsToRirSync {
-				subnetDetails:= h.SyncSubnetData(subnet.NetworkAddress, subnet.Mask)
+				subnetDetails := h.SyncSubnetData(subnet.NetworkAddress, subnet.Mask)
 				subnetSyncResults[subnet.Id] = subnetDetails
 			}
 		}
 
 		if len(subnetsForRPKIValidation) > 0 {
 			for _, subnet := range subnetsForRPKIValidation {
-				prefix :=  fmt.Sprintf("%s/%d", convertDecimalIPToString(subnet.NetworkAddress), subnet.Mask)
+				prefix := fmt.Sprintf("%s/%d", convertDecimalIPToString(subnet.NetworkAddress), subnet.Mask)
 				isValid := h.IsASNValidForPrefix(prefix, subnet.OriginAsn)
 				subnetRpkiValidationResults[subnet.Id] = isValid
 			}
@@ -167,14 +165,14 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 					emailDomain, err := ExtractDomainFromEmail(subnet.RirAbuseEmail)
 					if err != nil {
 						h.logger.Info("Failed to extract email domain", "subnet_id", subnet.Id, "error", err)
-						continue  // or handle the error as appropriate
+						continue // or handle the error as appropriate
 					}
 					orgDomain, err := extractDomain(org.Website)
 					if err != nil {
 						h.logger.Info("Failed to extract organization domain", "org_id", org.Id, "error", err)
-						continue  // or handle the error as appropriate
+						continue // or handle the error as appropriate
 					}
-					if  emailDomain == orgDomain {
+					if emailDomain == orgDomain {
 						subnetOwnershipVerifResults[subnet.Id] = true
 					}
 				}
@@ -183,7 +181,6 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			// Running the rDNS verification first as it can be executed concurrently
 			g := new(errgroup.Group)
 			var mu sync.Mutex
-
 
 			for _, subnet := range subnetsForOwnershipVerification {
 				//if verification succeeded previously we skip the rDNS verification
@@ -199,7 +196,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 					defer cancel()
 
 					// Perform rDNS verification
-					ip := convertDecimalIPToString(subnet.NetworkAddress+1)
+					ip := convertDecimalIPToString(subnet.NetworkAddress + 1)
 
 					isValid, err := CheckSubnetRdnsVerification(rdnsCtx, ip, subnet.Id)
 					if err != nil {
@@ -209,7 +206,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 					mu.Lock()
 					subnetOwnershipVerifResults[subnet.Id] = isValid
 					mu.Unlock()
-					
+
 					return nil
 				})
 			}
@@ -237,11 +234,11 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		}
 		// Create vote extension
 		voteExt := OracleVoteExtension{
-			Height:              req.Height,
-			OrgDomainValidation: domainValidationResults,
-			SubnetRirSync : subnetSyncResults,
-			RpkiValidation : subnetRpkiValidationResults,
-			SubnetGeoValidation: subnetGeoValidationResults,
+			Height:                req.Height,
+			OrgDomainValidation:   domainValidationResults,
+			SubnetRirSync:         subnetSyncResults,
+			RpkiValidation:        subnetRpkiValidationResults,
+			SubnetGeoValidation:   subnetGeoValidationResults,
 			SubnetOwnerValidation: subnetOwnershipVerifResults,
 		}
 
@@ -338,7 +335,7 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64) subnettyp
 		OrgName:        "",
 		AbuseEmail:     "",
 		AllocationType: "",
-		Rir: "",
+		Rir:            "",
 	}
 	// Initialize RDAP client using the http client with timeout
 	client := &rdap.Client{
@@ -367,7 +364,6 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64) subnettyp
 		return result
 	}
 
-	
 	// Calculate end IP based on the input IP and mask
 	endIp := calculateSubnetEndIP(ipDecimal, mask)
 
@@ -393,7 +389,7 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64) subnettyp
 	// Extract abuse email
 	result.AbuseEmail = findAbuseEmail(response.Entities)
 
-	// Set the RIR 
+	// Set the RIR
 	result.Rir = responseRIR
 
 	// If no orgId, orgName or abuseEmail extracted
@@ -717,234 +713,232 @@ func Traceroute(ip string, startHop int, stopHop int) (lastIP string, err error)
 	return
 }
 
-
-
 // VerifyGeoTrace performs geo validation on subnets by running traceroutes
 // and checking if the geographic location of the last hop matches the expected location
 func (h *VoteExtHandler) VerifyGeoTrace(subnets []subnettypes.Subnet) map[uint64]bool {
-    // Set timeout context for the entire operation
-    ctx, cancel := context.WithTimeout(context.Background(), TracerouteTimeout)
-    defer cancel()
-    
-    // Record start time for total execution
-    totalStart := time.Now()
-    
-    // Initialize results map to store validation outcomes by subnet ID
-    results := make(map[uint64]bool)
-    
-    // Channel for receiving and ordering trace results
-    type traceResult struct {
-        subnetId        uint64
-        country         string  // Store the country for comparison when processing results
-        lastIp1_3       string
-        lastIp3_5       string
-        lastIp5_7       string
-        lastIp7_9       string
-        lastIp9_11      string
-        lastIp11_13     string
-        lastIp13_15     string
-        lastIp15_17     string
-        lastIp17_19     string
-        lastIp19_21     string
-        err             error
-    }
-    
-    resultChan := make(chan traceResult, len(subnets))
-    
-    var wg sync.WaitGroup
-    // Limit concurrent subnet processing (adjust based on system capacity)
-    semaphore := make(chan struct{}, 20)
-    
-    h.logger.Info("Starting geo validation via traceroutes", "subnets_count", len(subnets))
-    
-    // Start the trace for each subnet in a goroutine
-    for _, subnet := range subnets {
-        select {
-        case <-ctx.Done():
-            h.logger.Info("Geo validation timeout reached, processing results so far")
-            goto ProcessResults
-        default:
-            // Continue processing
-        }
-        
-        wg.Add(1)
-        
-        go func(s subnettypes.Subnet) {
-            // Acquire a spot in the semaphore
-            semaphore <- struct{}{}
-            defer func() { <-semaphore }() // Release when done
-            defer wg.Done()
-            
-            // Calculate target IP (.1 in the subnet)
-            targetIp := s.NetworkAddress + 1
-            ipStr := convertDecimalIPToString(targetIp)
-            
-            // Run all traceroutes in parallel with their own wait group
-            var traceWg sync.WaitGroup
-            var lastIp1_3, lastIp3_5, lastIp5_7, lastIp7_9, lastIp9_11, lastIp11_13, lastIp13_15, lastIp15_17, lastIp17_19, lastIp19_21 string
-            var err1, err2, err3, err4, err5, err6, err7, err8, err9, err10 error
-            
-            traceWg.Add(10)
-            
-            // Run traceroute 1-3 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp1_3, err1 = Traceroute(ipStr, 1, 3)
-            }()
-            
-            // Run traceroute 3-5 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp3_5, err2 = Traceroute(ipStr, 3, 5)
-            }()
-            
-            // Run traceroute 5-7 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp5_7, err3 = Traceroute(ipStr, 5, 7)
-            }()
-            
-            // Run traceroute 7-9 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp7_9, err4 = Traceroute(ipStr, 7, 9)
-            }()
-            
-            // Run traceroute 9-11 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp9_11, err5 = Traceroute(ipStr, 9, 11)
-            }()
-            
-            // Run traceroute 11-13 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp11_13, err6 = Traceroute(ipStr, 11, 13)
-            }()
-            
-            // Run traceroute 13-15 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp13_15, err7 = Traceroute(ipStr, 13, 15)
-            }()
-            
-            // Run traceroute 15-17 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp15_17, err8 = Traceroute(ipStr, 15, 17)
-            }()
-            
-            // Run traceroute 17-19 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp17_19, err9 = Traceroute(ipStr, 17, 19)
-            }()
-            
-            // Run traceroute 19-21 (2 hops)
-            go func() {
-                defer traceWg.Done()
-                lastIp19_21, err10 = Traceroute(ipStr, 19, 21)
-            }()
-            
-            // Wait for all traceroutes to complete with timeout
-            traceDone := make(chan struct{})
-            go func() {
-                traceWg.Wait()
-                close(traceDone)
-            }()
-            
-            select {
-            case <-traceDone:
-                // All traces completed normally
-            case <-time.After(5 * time.Second):
-                // Timeout occurred, proceed with what we have
-                h.logger.Info("Traceroute timeout reached for subnet", "subnet_id", s.Id)
-            }
-            
-            // Determine which error to report - prioritize reporting errors only if all failed
-            var resultErr error
-            if err1 != nil && err2 != nil && err3 != nil && err4 != nil &&
-               err5 != nil && err6 != nil && err7 != nil && err8 != nil &&
-               err9 != nil && err10 != nil {
-                resultErr = fmt.Errorf("all traceroutes failed for subnet %d", s.Id)
-            }
-            
-            // Send result back through channel
-            resultChan <- traceResult{
-                subnetId:    s.Id,
-                country:     s.Country,  // Store the country for later comparison
-                lastIp1_3:   lastIp1_3,
-                lastIp3_5:   lastIp3_5,
-                lastIp5_7:   lastIp5_7,
-                lastIp7_9:   lastIp7_9,
-                lastIp9_11:  lastIp9_11,
-                lastIp11_13: lastIp11_13,
-                lastIp13_15: lastIp13_15,
-                lastIp15_17: lastIp15_17,
-                lastIp17_19: lastIp17_19,
-                lastIp19_21: lastIp19_21,
-                err:         resultErr,
-            }
-        }(subnet)
-    }
-    
-    // Wait in a separate goroutine and close the channel when done
-    go func() {
-        wg.Wait()
-        close(resultChan)
-    }()
-    
+	// Set timeout context for the entire operation
+	ctx, cancel := context.WithTimeout(context.Background(), TracerouteTimeout)
+	defer cancel()
+
+	// Record start time for total execution
+	totalStart := time.Now().UTC()
+
+	// Initialize results map to store validation outcomes by subnet ID
+	results := make(map[uint64]bool)
+
+	// Channel for receiving and ordering trace results
+	type traceResult struct {
+		subnetId    uint64
+		country     string // Store the country for comparison when processing results
+		lastIp1_3   string
+		lastIp3_5   string
+		lastIp5_7   string
+		lastIp7_9   string
+		lastIp9_11  string
+		lastIp11_13 string
+		lastIp13_15 string
+		lastIp15_17 string
+		lastIp17_19 string
+		lastIp19_21 string
+		err         error
+	}
+
+	resultChan := make(chan traceResult, len(subnets))
+
+	var wg sync.WaitGroup
+	// Limit concurrent subnet processing (adjust based on system capacity)
+	semaphore := make(chan struct{}, 20)
+
+	h.logger.Info("Starting geo validation via traceroutes", "subnets_count", len(subnets))
+
+	// Start the trace for each subnet in a goroutine
+	for _, subnet := range subnets {
+		select {
+		case <-ctx.Done():
+			h.logger.Info("Geo validation timeout reached, processing results so far")
+			goto ProcessResults
+		default:
+			// Continue processing
+		}
+
+		wg.Add(1)
+
+		go func(s subnettypes.Subnet) {
+			// Acquire a spot in the semaphore
+			semaphore <- struct{}{}
+			defer func() { <-semaphore }() // Release when done
+			defer wg.Done()
+
+			// Calculate target IP (.1 in the subnet)
+			targetIp := s.NetworkAddress + 1
+			ipStr := convertDecimalIPToString(targetIp)
+
+			// Run all traceroutes in parallel with their own wait group
+			var traceWg sync.WaitGroup
+			var lastIp1_3, lastIp3_5, lastIp5_7, lastIp7_9, lastIp9_11, lastIp11_13, lastIp13_15, lastIp15_17, lastIp17_19, lastIp19_21 string
+			var err1, err2, err3, err4, err5, err6, err7, err8, err9, err10 error
+
+			traceWg.Add(10)
+
+			// Run traceroute 1-3 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp1_3, err1 = Traceroute(ipStr, 1, 3)
+			}()
+
+			// Run traceroute 3-5 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp3_5, err2 = Traceroute(ipStr, 3, 5)
+			}()
+
+			// Run traceroute 5-7 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp5_7, err3 = Traceroute(ipStr, 5, 7)
+			}()
+
+			// Run traceroute 7-9 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp7_9, err4 = Traceroute(ipStr, 7, 9)
+			}()
+
+			// Run traceroute 9-11 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp9_11, err5 = Traceroute(ipStr, 9, 11)
+			}()
+
+			// Run traceroute 11-13 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp11_13, err6 = Traceroute(ipStr, 11, 13)
+			}()
+
+			// Run traceroute 13-15 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp13_15, err7 = Traceroute(ipStr, 13, 15)
+			}()
+
+			// Run traceroute 15-17 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp15_17, err8 = Traceroute(ipStr, 15, 17)
+			}()
+
+			// Run traceroute 17-19 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp17_19, err9 = Traceroute(ipStr, 17, 19)
+			}()
+
+			// Run traceroute 19-21 (2 hops)
+			go func() {
+				defer traceWg.Done()
+				lastIp19_21, err10 = Traceroute(ipStr, 19, 21)
+			}()
+
+			// Wait for all traceroutes to complete with timeout
+			traceDone := make(chan struct{})
+			go func() {
+				traceWg.Wait()
+				close(traceDone)
+			}()
+
+			select {
+			case <-traceDone:
+				// All traces completed normally
+			case <-time.After(5 * time.Second):
+				// Timeout occurred, proceed with what we have
+				h.logger.Info("Traceroute timeout reached for subnet", "subnet_id", s.Id)
+			}
+
+			// Determine which error to report - prioritize reporting errors only if all failed
+			var resultErr error
+			if err1 != nil && err2 != nil && err3 != nil && err4 != nil &&
+				err5 != nil && err6 != nil && err7 != nil && err8 != nil &&
+				err9 != nil && err10 != nil {
+				resultErr = fmt.Errorf("all traceroutes failed for subnet %d", s.Id)
+			}
+
+			// Send result back through channel
+			resultChan <- traceResult{
+				subnetId:    s.Id,
+				country:     s.Country, // Store the country for later comparison
+				lastIp1_3:   lastIp1_3,
+				lastIp3_5:   lastIp3_5,
+				lastIp5_7:   lastIp5_7,
+				lastIp7_9:   lastIp7_9,
+				lastIp9_11:  lastIp9_11,
+				lastIp11_13: lastIp11_13,
+				lastIp13_15: lastIp13_15,
+				lastIp15_17: lastIp15_17,
+				lastIp17_19: lastIp17_19,
+				lastIp19_21: lastIp19_21,
+				err:         resultErr,
+			}
+		}(subnet)
+	}
+
+	// Wait in a separate goroutine and close the channel when done
+	go func() {
+		wg.Wait()
+		close(resultChan)
+	}()
+
 ProcessResults:
-    // Process results as they come in
-    var matchCount, totalCount int
-    
-    for res := range resultChan {
-        // If all traceroutes failed, mark subnet as not validated
-        if res.err != nil {
-            h.logger.Info("All traceroutes failed for subnet", "subnet_id", res.subnetId)
-            results[res.subnetId] = false
-            continue
-        }
-        
-        // Prioritize farthest traceroute result that has an IP
-        var lastIp string
-        
-        // Check traceroutes in reverse order (farthest first)
-        if res.lastIp19_21 != "" {
-            lastIp = res.lastIp19_21
-        } else if res.lastIp17_19 != "" {
-            lastIp = res.lastIp17_19
-        } else if res.lastIp15_17 != "" {
-            lastIp = res.lastIp15_17
-        } else if res.lastIp13_15 != "" {
-            lastIp = res.lastIp13_15
-        } else if res.lastIp11_13 != "" {
-            lastIp = res.lastIp11_13
-        } else if res.lastIp9_11 != "" {
-            lastIp = res.lastIp9_11
-        } else if res.lastIp7_9 != "" {
-            lastIp = res.lastIp7_9
-        } else if res.lastIp5_7 != "" {
-            lastIp = res.lastIp5_7
-        } else if res.lastIp3_5 != "" {
-            lastIp = res.lastIp3_5
-        } else if res.lastIp1_3 != "" {
-            lastIp = res.lastIp1_3
-        }
-        
-        if lastIp == "" {
-            h.logger.Info("No valid last hop found for subnet", "subnet_id", res.subnetId)
-            results[res.subnetId] = false
-            continue
-        }
-        
-        // IP to country validation
+	// Process results as they come in
+	var matchCount, totalCount int
+
+	for res := range resultChan {
+		// If all traceroutes failed, mark subnet as not validated
+		if res.err != nil {
+			h.logger.Info("All traceroutes failed for subnet", "subnet_id", res.subnetId)
+			results[res.subnetId] = false
+			continue
+		}
+
+		// Prioritize farthest traceroute result that has an IP
+		var lastIp string
+
+		// Check traceroutes in reverse order (farthest first)
+		if res.lastIp19_21 != "" {
+			lastIp = res.lastIp19_21
+		} else if res.lastIp17_19 != "" {
+			lastIp = res.lastIp17_19
+		} else if res.lastIp15_17 != "" {
+			lastIp = res.lastIp15_17
+		} else if res.lastIp13_15 != "" {
+			lastIp = res.lastIp13_15
+		} else if res.lastIp11_13 != "" {
+			lastIp = res.lastIp11_13
+		} else if res.lastIp9_11 != "" {
+			lastIp = res.lastIp9_11
+		} else if res.lastIp7_9 != "" {
+			lastIp = res.lastIp7_9
+		} else if res.lastIp5_7 != "" {
+			lastIp = res.lastIp5_7
+		} else if res.lastIp3_5 != "" {
+			lastIp = res.lastIp3_5
+		} else if res.lastIp1_3 != "" {
+			lastIp = res.lastIp1_3
+		}
+
+		if lastIp == "" {
+			h.logger.Info("No valid last hop found for subnet", "subnet_id", res.subnetId)
+			results[res.subnetId] = false
+			continue
+		}
+
+		// IP to country validation
 		var isGeoMatched bool
 		if h.NetIntelService != nil && h.NetIntelService.IsReady() {
 			// Use NetIntel service to check if IP is in the expected country
 			isGeoMatched = h.NetIntelService.CheckCountry(lastIp, res.country)
-			
-			h.logger.Info("NetIntel geo validation result", 
+
+			h.logger.Info("NetIntel geo validation result",
 				"subnet_id", res.subnetId,
 				"expected_country", res.country,
 				"last_hop_ip", lastIp,
@@ -952,33 +946,32 @@ ProcessResults:
 				"netintel_ready", true)
 		} else {
 
-			h.logger.Info("NetIntel geo validation failed ", 
+			h.logger.Info("NetIntel geo validation failed ",
 				"subnet_id", res.subnetId,
 				"expected_country", res.country,
 				"last_hop_ip", lastIp,
 				"netintel_ready", false)
 		}
-        
 
-        // Update results
-        results[res.subnetId] = isGeoMatched
-        totalCount++
-        
-        if isGeoMatched {
-            matchCount++
-        }
-    }
-    
-    if totalCount > 0 {
-        h.logger.Info("Geo validation statistics",
-            "total_verified", totalCount,
-            "matches", matchCount,
-            "match_percent", float64(matchCount)/float64(totalCount)*100)
-    }
-    
-    h.logger.Info("Geo validation completed", "duration_seconds", time.Since(totalStart).Seconds())
-    
-    return results
+		// Update results
+		results[res.subnetId] = isGeoMatched
+		totalCount++
+
+		if isGeoMatched {
+			matchCount++
+		}
+	}
+
+	if totalCount > 0 {
+		h.logger.Info("Geo validation statistics",
+			"total_verified", totalCount,
+			"matches", matchCount,
+			"match_percent", float64(matchCount)/float64(totalCount)*100)
+	}
+
+	h.logger.Info("Geo validation completed", "duration_seconds", time.Since(totalStart).Seconds())
+
+	return results
 }
 
 // CheckSubnetRdnsVerification takes an IPv4 address and an ID, performs a reverse
@@ -1007,9 +1000,9 @@ func CheckSubnetRdnsVerification(ctx context.Context, ipv4 string, id uint64) (b
 	// Get the domain name (remove trailing dot if present)
 	domain := strings.TrimSuffix(names[0], ".")
 
-    if domain == "" {
-        return false, fmt.Errorf("empty domain returned for %s", ipv4)
-    }
+	if domain == "" {
+		return false, fmt.Errorf("empty domain returned for %s", ipv4)
+	}
 	// Extract second and third level domains
 	parts := strings.Split(domain, ".")
 	if len(parts) < 2 {
@@ -1114,28 +1107,28 @@ func CheckSubnetRdapVerification(ipv4 string, id uint64) (bool, error) {
 func ExtractDomainFromEmail(email string) (string, error) {
 	// Check if email is empty
 	if email == "" {
-        return "", fmt.Errorf("empty email address")
-    }
-    
-    // Split by @ character
-    parts := strings.Split(email, "@")
-    
-    // Valid email should have exactly two parts after splitting by @
-    if len(parts) != 2 {
-        return "", fmt.Errorf("invalid email format: %s", email)
-    }
-    
-    domain := parts[1]
-    
-    // Ensure domain is not empty
-    if domain == "" {
-        return "", fmt.Errorf("empty domain in email: %s", email)
-    }
-    
-    // Basic check that domain has at least one dot (e.g., "example.com")
-    if !strings.Contains(domain, ".") {
-        return "", fmt.Errorf("invalid domain format in email: %s", email)
-    }
-    
-    return domain, nil
+		return "", fmt.Errorf("empty email address")
+	}
+
+	// Split by @ character
+	parts := strings.Split(email, "@")
+
+	// Valid email should have exactly two parts after splitting by @
+	if len(parts) != 2 {
+		return "", fmt.Errorf("invalid email format: %s", email)
+	}
+
+	domain := parts[1]
+
+	// Ensure domain is not empty
+	if domain == "" {
+		return "", fmt.Errorf("empty domain in email: %s", email)
+	}
+
+	// Basic check that domain has at least one dot (e.g., "example.com")
+	if !strings.Contains(domain, ".") {
+		return "", fmt.Errorf("invalid domain format in email: %s", email)
+	}
+
+	return domain, nil
 }

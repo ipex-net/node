@@ -23,6 +23,10 @@ import (
 	_ "ipex/x/oracle/module" // import for side-effects
 	oraclemoduletypes "ipex/x/oracle/types"
 
+	trustmodulev1 "ipex/api/ipex/trust/module"
+	_ "ipex/x/trust/module" // import for side-effects
+	trustmoduletypes "ipex/x/trust/types"
+
 	runtimev1alpha1 "cosmossdk.io/api/cosmos/app/runtime/v1alpha1"
 	appv1alpha1 "cosmossdk.io/api/cosmos/app/v1alpha1"
 	authmodulev1 "cosmossdk.io/api/cosmos/auth/module/v1"
@@ -114,6 +118,7 @@ var (
 		subnetmoduletypes.ModuleName,
 		paymentsmoduletypes.ModuleName,
 		oraclemoduletypes.ModuleName,
+		trustmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -143,6 +148,7 @@ var (
 		subnetmoduletypes.ModuleName,
 		paymentsmoduletypes.ModuleName,
 		oraclemoduletypes.ModuleName,
+		trustmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -166,6 +172,7 @@ var (
 		subnetmoduletypes.ModuleName,
 		paymentsmoduletypes.ModuleName,
 		oraclemoduletypes.ModuleName,
+		trustmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -341,6 +348,10 @@ var (
 			{
 				Name:   oraclemoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&oraclemodulev1.Module{}),
+			},
+			{
+				Name:   trustmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&trustmodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

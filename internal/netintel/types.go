@@ -10,14 +10,14 @@ type NetIntelService interface {
 	Start() error
 	Stop() error
 	IsReady() bool
-	
+
 	// Reputation checking
 	CheckReputation(ip string, level int) int
 	ScanSubnetReputation(subnet string, level int) int
-	
+
 	// Geolocation checking
 	CheckCountry(ip string, countryCode string) bool
-	
+
 	// Service status
 	GetLastUpdate() time.Time
 	GetLoadedLevels() []int
@@ -28,10 +28,10 @@ type NetIntelService interface {
 type ReputationChecker interface {
 	// LoadLevel loads a specific reputation level (1-4)
 	LoadLevel(level int) error
-	
+
 	// Lookup checks reputation for IP/subnet at specific level
 	Lookup(level int, target string) int
-	
+
 	// GetLoadedLevels returns which levels are currently loaded
 	GetLoadedLevels() []int
 }
@@ -40,10 +40,10 @@ type ReputationChecker interface {
 type GeolocationChecker interface {
 	// LoadCountry loads country data from all sources
 	LoadCountry(countryCode string) error
-	
+
 	// CheckCountry checks if IP belongs to specific country
 	CheckCountry(ip string, countryCode string) bool
-	
+
 	// GetLoadedCountries returns which countries are currently loaded
 	GetLoadedCountries() []string
 }
@@ -52,13 +52,13 @@ type GeolocationChecker interface {
 type Downloader interface {
 	// DownloadReputationLevel downloads a specific level file
 	DownloadReputationLevel(level int) error
-	
+
 	// DownloadCountryData downloads country data for specific country and all providers
 	DownloadCountryData(countryCode string) error
-	
+
 	// DownloadAll downloads all configured data
 	DownloadAll() error
-	
+
 	// GetLastDownload returns when data was last downloaded
 	GetLastDownload() time.Time
 }
@@ -67,16 +67,16 @@ type Downloader interface {
 type Cache interface {
 	// GetReputationChecker returns current reputation checker (thread-safe read)
 	GetReputationChecker() ReputationChecker
-	
+
 	// GetGeolocationChecker returns current geolocation checker (thread-safe read)
 	GetGeolocationChecker() GeolocationChecker
-	
+
 	// UpdateReputationChecker atomically updates reputation checker
 	UpdateReputationChecker(checker ReputationChecker)
-	
-	// UpdateGeolocationChecker atomically updates geolocation checker  
+
+	// UpdateGeolocationChecker atomically updates geolocation checker
 	UpdateGeolocationChecker(checker GeolocationChecker)
-	
+
 	// GetLastUpdate returns when cache was last updated
 	GetLastUpdate() time.Time
 }
@@ -87,13 +87,13 @@ type Config struct {
 	Enabled        bool          `mapstructure:"enabled"`
 	UpdateInterval time.Duration `mapstructure:"update_interval"`
 	DataDir        string        `mapstructure:"data_dir"`
-	
+
 	// Reputation settings
 	ReputationLevels []int `mapstructure:"reputation_levels"`
-	
+
 	// Geolocation settings
 	Countries []string `mapstructure:"countries"`
-	
+
 	// Download settings
 	DownloadTimeout time.Duration `mapstructure:"download_timeout"`
 	RetryAttempts   int           `mapstructure:"retry_attempts"`
@@ -114,12 +114,12 @@ type ServiceStatus struct {
 
 // Common errors
 var (
-	ErrServiceNotReady    = NewNetIntelError("service not ready")
-	ErrServiceNotRunning  = NewNetIntelError("service not running")
-	ErrInvalidLevel       = NewNetIntelError("invalid reputation level")
-	ErrInvalidCountry     = NewNetIntelError("invalid country code")
-	ErrDownloadFailed     = NewNetIntelError("download failed")
-	ErrLoadFailed         = NewNetIntelError("load failed")
+	ErrServiceNotReady   = NewNetIntelError("service not ready")
+	ErrServiceNotRunning = NewNetIntelError("service not running")
+	ErrInvalidLevel      = NewNetIntelError("invalid reputation level")
+	ErrInvalidCountry    = NewNetIntelError("invalid country code")
+	ErrDownloadFailed    = NewNetIntelError("download failed")
+	ErrLoadFailed        = NewNetIntelError("load failed")
 )
 
 // NetIntelError represents errors specific to the NetIntel service
@@ -152,9 +152,9 @@ func NewNetIntelErrorWithCause(message string, cause error) *NetIntelError {
 // DefaultConfig returns the default configuration
 func DefaultConfig() Config {
 	return Config{
-		Enabled:        true,
-		UpdateInterval: 6 * time.Hour,
-		DataDir:        "./data/firehol",
+		Enabled:          true,
+		UpdateInterval:   6 * time.Hour,
+		DataDir:          "./data/firehol",
 		ReputationLevels: []int{1, 2, 3, 4},
 		Countries: []string{
 			"us", "cn", "ru", "ir", "kp", "sy", "cu", "mm", "by", "ni",

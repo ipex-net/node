@@ -60,7 +60,7 @@ func (k msgServer) UpdateSubnetOrigin(goCtx context.Context, msg *types.MsgUpdat
 	subnet.OriginTransferRequestedAt = &currentTime
 	subnet.RpkiOriginValid = false
 	subnet.RpkiValidityChangedAt = &currentTime
-	
+
 	subnet.UpdatedAt = currentTime
 	k.SetSubnet(ctx, subnet)
 	return &types.MsgUpdateSubnetOriginResponse{}, nil

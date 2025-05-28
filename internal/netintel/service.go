@@ -12,9 +12,9 @@ import (
 
 const (
 	// Update intervals
-	reputationUpdateInterval = 1 * time.Minute  // Reputation updates every minute
-//	countryUpdateInterval    = 24 * time.Hour   // Country updates every 24 hours
-	countryUpdateInterval    = 5 * time.Minute   // Country updates every 24 hours	
+	reputationUpdateInterval = 1 * time.Minute // Reputation updates every minute
+	//	countryUpdateInterval    = 24 * time.Hour   // Country updates every 24 hours
+	countryUpdateInterval = 5 * time.Minute // Country updates every 24 hours
 	// Startup timeout
 	initialLoadTimeout = 5 * time.Minute
 )
@@ -28,10 +28,10 @@ type Service struct {
 	logger     log.Logger
 
 	// Service state
-	running    atomic.Bool
-	stopChan   chan struct{}
-	stopOnce   sync.Once
-	wg         sync.WaitGroup
+	running  atomic.Bool
+	stopChan chan struct{}
+	stopOnce sync.Once
+	wg       sync.WaitGroup
 
 	// Startup state
 	initialLoadDone atomic.Bool
@@ -172,7 +172,7 @@ func (s *Service) loadInitialData() error {
 		s.logger.Warn("Failed to load reputation data", "error", err)
 	}
 
-	// Load geolocation data  
+	// Load geolocation data
 	geoChecker := NewGeolocationClient(s.dataDir)
 	if err := s.loadWithTimeout(ctx, "geolocation", func() error {
 		return geoChecker.LoadAllCountries()
@@ -231,7 +231,7 @@ func (s *Service) startBackgroundUpdates() {
 // reputationUpdateLoop runs the reputation data update loop
 func (s *Service) reputationUpdateLoop() {
 	s.logger.Info("[NetIntel] Starting reputation update loop", "interval", reputationUpdateInterval)
-	
+
 	ticker := time.NewTicker(reputationUpdateInterval)
 	defer ticker.Stop()
 
@@ -246,7 +246,7 @@ func (s *Service) reputationUpdateLoop() {
 	}
 }
 
-// countryUpdateLoop runs the country data update loop  
+// countryUpdateLoop runs the country data update loop
 func (s *Service) countryUpdateLoop() {
 	s.logger.Info("[NetIntel] Starting country update loop", "interval", countryUpdateInterval)
 	s.updateCountryData()
@@ -267,8 +267,8 @@ func (s *Service) countryUpdateLoop() {
 // updateReputationData downloads and updates reputation data
 func (s *Service) updateReputationData() {
 	s.logger.Info("[NetIntel] Updating reputation data")
-	
-	start := time.Now()
+
+	start := time.Now().UTC()
 
 	// Download fresh data
 	if err := s.downloader.DownloadAllReputationLevels(); err != nil {
@@ -287,7 +287,7 @@ func (s *Service) updateReputationData() {
 	s.cache.UpdateReputationChecker(newRepChecker)
 
 	duration := time.Since(start)
-	s.logger.Info("[NetIntel] Reputation data updated successfully", 
+	s.logger.Info("[NetIntel] Reputation data updated successfully",
 		"duration", duration,
 		"levels", newRepChecker.GetLoadedLevels())
 }
@@ -295,8 +295,8 @@ func (s *Service) updateReputationData() {
 // updateCountryData downloads and updates country data
 func (s *Service) updateCountryData() {
 	s.logger.Info("[NetIntel] Updating country data")
-	
-	start := time.Now()
+
+	start := time.Now().UTC()
 
 	// Download fresh data (this takes a while)
 	if err := s.downloader.DownloadAllCountryData(); err != nil {
@@ -315,7 +315,7 @@ func (s *Service) updateCountryData() {
 	s.cache.UpdateGeolocationChecker(newGeoChecker)
 
 	duration := time.Since(start)
-	s.logger.Info("[NetIntel] Country data updated successfully", 
+	s.logger.Info("[NetIntel] Country data updated successfully",
 		"duration", duration,
 		"countries", len(newGeoChecker.GetLoadedCountries()))
 }
@@ -323,7 +323,7 @@ func (s *Service) updateCountryData() {
 // GetStatus returns detailed service status
 func (s *Service) GetStatus() ServiceStatus {
 	cacheStatus := s.cache.GetStatus()
-	
+
 	return ServiceStatus{
 		Running:         s.IsRunning(),
 		Ready:           s.IsReady(),

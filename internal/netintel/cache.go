@@ -10,9 +10,9 @@ type AtomicCache struct {
 	// Atomic pointers for zero-copy reads during updates
 	reputationChecker  atomic.Pointer[ReputationClient]
 	geolocationChecker atomic.Pointer[GeolocationClient]
-	
+
 	// Metadata
-	lastUpdate atomic.Int64  // Unix timestamp of last update
+	lastUpdate atomic.Int64 // Unix timestamp of last update
 }
 
 // NewAtomicCache creates a new atomic cache
@@ -96,25 +96,25 @@ func (c *AtomicCache) updateTimestamp() {
 func (c *AtomicCache) GetStatus() CacheStatus {
 	repChecker := c.reputationChecker.Load()
 	geoChecker := c.geolocationChecker.Load()
-	
+
 	status := CacheStatus{
-		LastUpdate:          c.GetLastUpdate(),
-		ReputationReady:     repChecker != nil,
-		GeolocationReady:    geoChecker != nil,
-		LoadedLevels:        []int{},
-		LoadedCountries:     []string{},
+		LastUpdate:       c.GetLastUpdate(),
+		ReputationReady:  repChecker != nil,
+		GeolocationReady: geoChecker != nil,
+		LoadedLevels:     []int{},
+		LoadedCountries:  []string{},
 	}
-	
+
 	// Get loaded levels if reputation checker exists
 	if repChecker != nil {
 		status.LoadedLevels = repChecker.GetLoadedLevels()
 	}
-	
+
 	// Get loaded countries if geolocation checker exists
 	if geoChecker != nil {
 		status.LoadedCountries = geoChecker.GetLoadedCountries()
 	}
-	
+
 	return status
 }
 

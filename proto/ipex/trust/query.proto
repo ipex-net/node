@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package ipex.trust;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "ipex/trust/params.proto";
+import "ipex/trust/subnet_reputation.proto";
+
+option go_package = "ipex/x/trust/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/ipex/trust/params";
+  
+  }
+  
+  // Queries a list of SubnetReputation items.
+  rpc SubnetReputation    (QueryGetSubnetReputationRequest) returns (QueryGetSubnetReputationResponse) {
+    option (google.api.http).get = "/ipex/trust/subnet_reputation/{index}";
+  
+  }
+  rpc SubnetReputationAll (QueryAllSubnetReputationRequest) returns (QueryAllSubnetReputationResponse) {
+    option (google.api.http).get = "/ipex/trust/subnet_reputation";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+message QueryGetSubnetReputationRequest {
+  uint64 index = 1;
+}
+
+message QueryGetSubnetReputationResponse {
+  SubnetReputation subnetReputation = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllSubnetReputationRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllSubnetReputationResponse {
+  repeated SubnetReputation                       subnetReputation = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination       = 2;
+}
+

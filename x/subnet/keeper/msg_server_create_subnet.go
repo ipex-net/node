@@ -73,7 +73,7 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 	}
 
 	//Validate that the last octet is equal to zero, as the smallest subnet size is /24
-	if msg.NetworkAddress & 0xFF != 0 {
+	if msg.NetworkAddress&0xFF != 0 {
 		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "fourth octet must be zero for subnet (%s)", parsedIp.String())
 	}
 
@@ -86,7 +86,6 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 	if msg.Mask < 8 || msg.Mask > 24 {
 		return nil, errorsmod.Wrap(ErrInvalidMask, "prefix length must be between 8 and 24")
 	}
-
 
 	// Check if the org id exists
 	if msg.OwnerOrgId != 0 {

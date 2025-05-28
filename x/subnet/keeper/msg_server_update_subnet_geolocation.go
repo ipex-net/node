@@ -23,7 +23,6 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-
 	//Checking that the provided values are not nil
 	if msg.Country == "" || msg.Region == "" || msg.City == "" || msg.PostalCode == "" {
 		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "Geolocation data can not be empty")
@@ -44,20 +43,20 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 
 	// Implementing 6 hour geo cooldown
 	currentTime := ctx.BlockTime()
-	if subnet.GeoDetailsChangedAt != nil && currentTime.Sub(*subnet.GeoDetailsChangedAt) < 6 * time.Hour {
+	if subnet.GeoDetailsChangedAt != nil && currentTime.Sub(*subnet.GeoDetailsChangedAt) < 6*time.Hour {
 		// Calculate remaining time in hours (rounded up)
-        remainingTime := (6*time.Hour) - currentTime.Sub(*subnet.GeoDetailsChangedAt)
-        remainingHours := int(remainingTime.Hours()) + 1  // Round up
+		remainingTime := (6 * time.Hour) - currentTime.Sub(*subnet.GeoDetailsChangedAt)
+		remainingHours := int(remainingTime.Hours()) + 1 // Round up
 		return nil, errorsmod.Wrapf(
 			ErrGeoCooldownPeriod,
 			"geo location cooldown period in effect - must wait %d hours before updating geolocation",
 			remainingHours,
 		)
-	
+
 	}
 	// convenience flags
 	isOwnerAdmin := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator)
-	isUserAdmin  := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.UserOrgId, msg.Creator)
+	isUserAdmin := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.UserOrgId, msg.Creator)
 
 	allowed := (subnet.UserOrgId == 0 && isOwnerAdmin) || (subnet.UserOrgId != 0 && subnet.AllowLesseeGeoChange && isUserAdmin)
 
@@ -68,7 +67,7 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 			msg.Creator, subnet.Id,
 		)
 	}
-	
+
 	// Updating the timestamp
 	subnet.GeoDetailsChangedAt = &currentTime
 	// Resetting the verification flag

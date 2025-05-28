@@ -88,7 +88,6 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		subnetsimulation.SimulateMsgUpdateSubnetUser(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-
 	var weightMsgRemoveSubnetUser int
 	simState.AppParams.GetOrGenerate(opWeightMsgRemoveSubnetUser, &weightMsgRemoveSubnetUser, nil,
 		func(_ *rand.Rand) {

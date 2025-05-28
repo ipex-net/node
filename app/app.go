@@ -84,6 +84,8 @@ import (
 	subnetmodulekeeper "ipex/x/subnet/keeper"
 
 	oraclemodulekeeper "ipex/x/oracle/keeper"
+	trustmodulekeeper "ipex/x/trust/keeper"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"ipex/docs"
@@ -159,6 +161,7 @@ type App struct {
 	SubnetKeeper   subnetmodulekeeper.Keeper
 	PaymentsKeeper paymentsmodulekeeper.Keeper
 	OracleKeeper   oraclemodulekeeper.Keeper
+	TrustKeeper    trustmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// NetIntel service for IP reputation and geolocation
@@ -269,6 +272,7 @@ func New(
 		&app.SubnetKeeper,
 		&app.PaymentsKeeper,
 		&app.OracleKeeper,
+		&app.TrustKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)
@@ -277,7 +281,7 @@ func New(
 	// Initialize NetIntel service
 	netintelDataDir := getNetIntelDataDir(appOpts)
 	app.NetIntelService = netintel.NewService(netintelDataDir, logger.With("module", "netintel"))
-	
+
 	// Create the vote extension handler for domain validation
 	voteExtHandler := oracleabci.NewVoteExtHandler(
 		logger,
@@ -364,7 +368,7 @@ func getNetIntelDataDir(appOpts servertypes.AppOptions) string {
 	if homeDir == "" {
 		homeDir = DefaultNodeHome
 	}
-	
+
 	// NetIntel data will be stored in {home}/data/netintel
 	return filepath.Join(homeDir, "data", "netintel")
 }

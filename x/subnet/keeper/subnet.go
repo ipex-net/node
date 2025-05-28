@@ -208,7 +208,8 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) 
 
 	defer iterator.Close()
 
-	now := time.Now()
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
 	count := 0
 	maxSubnets := 5
 	for ; iterator.Valid(); iterator.Next() {
@@ -223,7 +224,7 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) 
 			var requiredInterval time.Duration
 
 			switch {
-			
+
 			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_READY:
 				requiredInterval = 72 * time.Hour //If subnet was succesfully synced, rerun the sync after x hours
 			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_LEASED:
@@ -247,13 +248,12 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) 
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break 
+			break
 		}
 	}
 
 	return
 }
-
 
 // UpdateOrgValidationStatus updates the domain validation status for an organization
 func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info types.SubnetInfo) error {
@@ -264,7 +264,7 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 	}
 
 	// If subnet is in initial status and rir record is invalid - we remove it
-	if subnet.Status== types.SubnetStatus_SUBNET_STATUS_INITIAL && !info.Valid{
+	if subnet.Status == types.SubnetStatus_SUBNET_STATUS_INITIAL && !info.Valid {
 		k.RemoveSubnet(ctx, subnetID)
 		return fmt.Errorf("Subnet with address %d failed RIR validation and was removed", subnet.NetworkAddress)
 	}
@@ -278,14 +278,15 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 	subnet.Rir = info.Rir
 
 	// Change the status for initial subnet
-	if subnet.Status== types.SubnetStatus_SUBNET_STATUS_INITIAL{
+	if subnet.Status == types.SubnetStatus_SUBNET_STATUS_INITIAL {
 		subnet.Status = types.SubnetStatus_SUBNET_STATUS_READY
 	}
 
 	// Update timestamp
-	nowTime := time.Now()
-	subnet.RirSyncedAt = &nowTime
-	subnet.UpdatedAt = nowTime
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
+	subnet.RirSyncedAt = &now
+	subnet.UpdatedAt = now
 	// Save the updated organization
 	k.SetSubnet(ctx, subnet)
 
@@ -300,7 +301,8 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context) (list []types.S
 
 	defer iterator.Close()
 
-	now := time.Now()
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
 	count := 0
 	maxSubnets := 5
 	for ; iterator.Valid(); iterator.Next() {
@@ -323,33 +325,32 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context) (list []types.S
 		var requiredInterval time.Duration
 
 		switch {
-			case subnet.RpkiOriginValid:
-				requiredInterval = 6 * time.Hour
-			case originTransferAge < 6 * time.Hour: // Org age < 1 day
-				requiredInterval = 1 * time.Minute
-			case originTransferAge < 24 * time.Hour: // Org age < 1 day
-				requiredInterval = 5 * time.Minute
-			default: 
-				requiredInterval = time.Hour
+		case subnet.RpkiOriginValid:
+			requiredInterval = 6 * time.Hour
+		case originTransferAge < 6*time.Hour: // Org age < 1 day
+			requiredInterval = 1 * time.Minute
+		case originTransferAge < 24*time.Hour: // Org age < 1 day
+			requiredInterval = 5 * time.Minute
+		default:
+			requiredInterval = time.Hour
 		}
 
 		// Skip if not enough time has passed
 		if subnet.RpkiLastSyncedAt != nil && now.Sub(*subnet.RpkiLastSyncedAt) < requiredInterval {
 			continue
 		}
-		
+
 		// Add to the list for validation
 		list = append(list, subnet)
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break 
+			break
 		}
 	}
 
 	return
 }
-
 
 // UpdateOrgValidationStatus updates the domain validation status for an organization
 func (k Keeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
@@ -360,22 +361,22 @@ func (k Keeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID u
 	}
 
 	// Get the timestamp
-	nowTime := time.Now()
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
 
 	// If status changed - reflecting changes
-	if subnet.RpkiOriginValid != isValid{
+	if subnet.RpkiOriginValid != isValid {
 		subnet.RpkiOriginValid = isValid
-		subnet.RpkiValidityChangedAt = &nowTime
+		subnet.RpkiValidityChangedAt = &now
 	}
 	// In any case we update timestamps
-	subnet.UpdatedAt = nowTime
-	subnet.RpkiLastSyncedAt = &nowTime
+	subnet.UpdatedAt = now
+	subnet.RpkiLastSyncedAt = &now
 	// Save the updated organization
 	k.SetSubnet(ctx, subnet)
 
 	return nil
 }
-
 
 // GetSubnetsForRPKIValidation retrieves subnets for rpki validation
 func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context) (list []types.Subnet) {
@@ -384,8 +385,8 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context) (list []types.Su
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
-
-	now := time.Now()
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
 	count := 0
 	maxSubnets := 5
 	for ; iterator.Valid(); iterator.Next() {
@@ -413,32 +414,31 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context) (list []types.Su
 		var requiredInterval time.Duration
 
 		switch {
-			// If geo change is recent - attempt the validation every hours
-			case geoChangeAge < 72 * time.Hour: // Org age < 1 day
-				requiredInterval = 1 * time.Hour
-			case geoChangeAge < 240 * time.Hour: // Org age < 1 day
-				requiredInterval = 6 * time.Hour
-			default: 
-				requiredInterval = 72 * time.Hour
+		// If geo change is recent - attempt the validation every hours
+		case geoChangeAge < 72*time.Hour: // Org age < 1 day
+			requiredInterval = 1 * time.Hour
+		case geoChangeAge < 240*time.Hour: // Org age < 1 day
+			requiredInterval = 6 * time.Hour
+		default:
+			requiredInterval = 72 * time.Hour
 		}
 
 		// Skip if not enough time has passed
 		if subnet.GeoVerifAttemptedAt != nil && now.Sub(*subnet.GeoVerifAttemptedAt) < requiredInterval {
 			continue
 		}
-		
+
 		// Add to the list for validation
 		list = append(list, subnet)
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break 
+			break
 		}
 	}
 
 	return
 }
-
 
 // UpdateOrgValidationStatus updates the domain validation status for an organization
 func (k Keeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
@@ -449,21 +449,21 @@ func (k Keeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID ui
 	}
 
 	// Get the timestamp
-	nowTime := time.Now()
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
 
 	// If status changed - reflecting changes
-	if subnet.TraceGeoVerified != isValid{
+	if subnet.TraceGeoVerified != isValid {
 		subnet.TraceGeoVerified = isValid
 	}
 	// In any case we update timestamps
-	subnet.UpdatedAt = nowTime
-	subnet.GeoVerifAttemptedAt = &nowTime
+	subnet.UpdatedAt = now
+	subnet.GeoVerifAttemptedAt = &now
 	// Save the updated organization
 	k.SetSubnet(ctx, subnet)
 
 	return nil
 }
-
 
 // GetSubnetsForOwnershipVerification retrieves subnets for ownership verification
 func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []types.Subnet) {
@@ -473,7 +473,8 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []
 
 	defer iterator.Close()
 
-	now := time.Now()
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
 	count := 0
 	maxSubnets := 5
 	for ; iterator.Valid(); iterator.Next() {
@@ -482,17 +483,17 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []
 
 		var lastAttempt time.Time
 		if subnet.OwnershipVerifLastAttemptedAt != nil {
-            lastAttempt = *subnet.OwnershipVerifLastAttemptedAt
-        } else {
-            lastAttempt = time.Time{}
-        }
+			lastAttempt = *subnet.OwnershipVerifLastAttemptedAt
+		} else {
+			lastAttempt = time.Time{}
+		}
 		subnetAge := now.Sub(subnet.CreatedAt)
 
 		// Determine required interval based on subnet age and validity status
 		var requiredInterval time.Duration
 
 		// While the subnet is in active lease we don't want to perform verification
-		if subnet.OwnershipVerified && subnet.Status==types.SubnetStatus_SUBNET_STATUS_LEASED {
+		if subnet.OwnershipVerified && subnet.Status == types.SubnetStatus_SUBNET_STATUS_LEASED {
 			continue
 		}
 
@@ -517,14 +518,13 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []
 		if now.Sub(lastAttempt) < requiredInterval {
 			continue
 		}
-		
-	
+
 		// Add to the list for validation
 		list = append(list, subnet)
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break 
+			break
 		}
 	}
 
@@ -538,18 +538,18 @@ func (k Keeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetID 
 	if !found {
 		return fmt.Errorf("subnet with ID %d not found", subnetID)
 	}
-
 	// Get the timestamp
-	nowTime := time.Now()
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
 
 	// If status changed - reflecting changes
-	if subnet.OwnershipVerified != isValid{
+	if subnet.OwnershipVerified != isValid {
 		subnet.OwnershipVerified = isValid
-		subnet.OwnershipVerifChangedAt = &nowTime
+		subnet.OwnershipVerifChangedAt = &now
 	}
 	// In any case we update timestamps
-	subnet.UpdatedAt = nowTime
-	subnet.OwnershipVerifLastAttemptedAt = &nowTime
+	subnet.UpdatedAt = now
+	subnet.OwnershipVerifLastAttemptedAt = &now
 	// Save the updated organization
 	k.SetSubnet(ctx, subnet)
 

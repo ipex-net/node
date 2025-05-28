@@ -260,11 +260,11 @@ func (d *HTTPDownloader) downloadFile(url, destPath string) error {
 
 	// Create temporary file
 	tempPath := destPath + ".tmp"
-	
+
 	// Download with retries
 	var lastErr error
 	maxRetries := 3
-	
+
 	for attempt := 1; attempt <= maxRetries; attempt++ {
 		if err := d.downloadFileAttempt(url, tempPath); err != nil {
 			lastErr = err
@@ -318,5 +318,5 @@ func (d *HTTPDownloader) downloadFileAttempt(url, destPath string) error {
 func (d *HTTPDownloader) updateLastDownload() {
 	d.mu.Lock()
 	defer d.mu.Unlock()
-	d.lastDownload = time.Now()
+	d.lastDownload = time.Now().UTC()
 }

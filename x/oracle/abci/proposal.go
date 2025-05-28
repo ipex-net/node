@@ -19,12 +19,12 @@ import (
 // properties, along with the extended commit info used to calculate these results.
 
 type NetworkValidationResults struct {
-	OrgValidationResults map[uint64]bool
-	SubnetSyncResults    map[uint64]subnettypes.SubnetInfo
-	RpkiValidationResults map[uint64]bool 
-	GeoValidationResults    map[uint64]bool
-	SubnetOwnerValidation      map[uint64]bool
-	ExtendedCommitInfo   abci.ExtendedCommitInfo
+	OrgValidationResults  map[uint64]bool
+	SubnetSyncResults     map[uint64]subnettypes.SubnetInfo
+	RpkiValidationResults map[uint64]bool
+	GeoValidationResults  map[uint64]bool
+	SubnetOwnerValidation map[uint64]bool
+	ExtendedCommitInfo    abci.ExtendedCommitInfo
 }
 
 type ProposalHandler struct {
@@ -68,19 +68,19 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 				h.logger.Error("failed to compute validation results; injecting empty maps", "err", err)
 				orgValidationResults = make(map[uint64]bool)
 				subnetSyncResults = make(map[uint64]subnettypes.SubnetInfo)
-				rpkiValidationResults = make(map[uint64]bool) 
+				rpkiValidationResults = make(map[uint64]bool)
 				geoValidationResults = make(map[uint64]bool)
 				subnetOwnershipResults = make(map[uint64]bool)
 			}
 
 			// Create the injected transaction with validation results
 			injectedVoteExtTx := NetworkValidationResults{
-				OrgValidationResults: orgValidationResults,
-				SubnetSyncResults:    subnetSyncResults,
+				OrgValidationResults:  orgValidationResults,
+				SubnetSyncResults:     subnetSyncResults,
 				RpkiValidationResults: rpkiValidationResults,
-				GeoValidationResults: geoValidationResults,
+				GeoValidationResults:  geoValidationResults,
 				SubnetOwnerValidation: subnetOwnershipResults,
-				ExtendedCommitInfo:   req.LocalLastCommit,
+				ExtendedCommitInfo:    req.LocalLastCommit,
 			}
 
 			// Marshal to JSON for injection
@@ -104,7 +104,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	// Maps to store aggregated validation results
 	orgValidationResults := make(map[uint64]bool)
 	subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
-	rpkiValidationResults := make(map[uint64]bool) 
+	rpkiValidationResults := make(map[uint64]bool)
 	geoValidationResults := make(map[uint64]bool)
 	subnetOwnershipResults := make(map[uint64]bool)
 
@@ -122,7 +122,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 
 	// Maps to track voting power for subnet ownership validation
 	subnetOwnerValidPower := make(map[uint64]int64)
-    subnetOwnerInvalidPower := make(map[uint64]int64)
+	subnetOwnerInvalidPower := make(map[uint64]int64)
 
 	// Map to track voting power for subnet info by subnet ID and unique SubnetInfo
 	// Using string representation of SubnetInfo for map key to handle struct comparison
@@ -200,13 +200,13 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		}
 
 		// Aggregate subnet ownership verification results based on voting power
-        for subnetID, isValid := range voteExt.SubnetOwnerValidation {
-            if isValid {
-                subnetOwnerValidPower[subnetID] += v.Validator.Power
-            } else {
-                subnetOwnerInvalidPower[subnetID] += v.Validator.Power
-            }
-        }
+		for subnetID, isValid := range voteExt.SubnetOwnerValidation {
+			if isValid {
+				subnetOwnerValidPower[subnetID] += v.Validator.Power
+			} else {
+				subnetOwnerInvalidPower[subnetID] += v.Validator.Power
+			}
+		}
 	}
 
 	// Build the union of all org IDs that appeared in any vote extension
@@ -259,7 +259,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	for subnetID := range geoInvalidPower {
 		allGeoSubnetIDs[subnetID] = struct{}{}
 	}
-	
+
 	// Determine final Geo validation result based on majority voting power
 	for subnetID := range allGeoSubnetIDs {
 		vp := geoValidPower[subnetID]
@@ -272,14 +272,14 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		}
 	}
 
-    // Build the union of all subnet IDs that appeared in ownership verification
-    allOwnershipSubnetIDs := make(map[uint64]struct{})
-    for subnetID := range subnetOwnerValidPower {
-        allOwnershipSubnetIDs[subnetID] = struct{}{}
-    }
-    for subnetID := range subnetOwnerInvalidPower {
-        allOwnershipSubnetIDs[subnetID] = struct{}{}
-    }
+	// Build the union of all subnet IDs that appeared in ownership verification
+	allOwnershipSubnetIDs := make(map[uint64]struct{})
+	for subnetID := range subnetOwnerValidPower {
+		allOwnershipSubnetIDs[subnetID] = struct{}{}
+	}
+	for subnetID := range subnetOwnerInvalidPower {
+		allOwnershipSubnetIDs[subnetID] = struct{}{}
+	}
 
 	// Group subnet voting powers by subnet ID
 	subnetInfoVotingPower := make(map[uint64]map[string]int64)
@@ -316,17 +316,17 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		}
 	}
 
-    // Determine final ownership verification result based on majority voting power
-    for subnetID := range allOwnershipSubnetIDs {
-        vp := subnetOwnerValidPower[subnetID]
-        ip := subnetOwnerInvalidPower[subnetID]
-        total := vp + ip
-        if total > 0 && vp > total/2 {
-            subnetOwnershipResults[subnetID] = true
-        } else {
-            subnetOwnershipResults[subnetID] = false
-        }
-    }
+	// Determine final ownership verification result based on majority voting power
+	for subnetID := range allOwnershipSubnetIDs {
+		vp := subnetOwnerValidPower[subnetID]
+		ip := subnetOwnerInvalidPower[subnetID]
+		total := vp + ip
+		if total > 0 && vp > total/2 {
+			subnetOwnershipResults[subnetID] = true
+		} else {
+			subnetOwnershipResults[subnetID] = false
+		}
+	}
 
 	return orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, nil
 }
@@ -371,11 +371,11 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
 		}
 
-        // Compare the proposer's RPKI validation results with our own calculation
-        if err := compareRpkiValidationResults(injectedVoteExtTx.RpkiValidationResults, rpkiValidationResults); err != nil {
-            h.logger.Error("RPKI validation results don't match", "err", err)
-            return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
-        }
+		// Compare the proposer's RPKI validation results with our own calculation
+		if err := compareRpkiValidationResults(injectedVoteExtTx.RpkiValidationResults, rpkiValidationResults); err != nil {
+			h.logger.Error("RPKI validation results don't match", "err", err)
+			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
+		}
 
 		// Compare the proposer's subnet sync results with our own calculation
 		if err := compareSubnetSyncResults(injectedVoteExtTx.SubnetSyncResults, subnetSyncResults); err != nil {
@@ -390,10 +390,10 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		}
 
 		// Compare the proposer's subnet ownership verification results with our own calculation
-        if err := compareSubnetOwnershipResults(injectedVoteExtTx.SubnetOwnerValidation, subnetOwnershipResults); err != nil {
-            h.logger.Error("subnet ownership verification results don't match", "err", err)
-            return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
-        }
+		if err := compareSubnetOwnershipResults(injectedVoteExtTx.SubnetOwnerValidation, subnetOwnershipResults); err != nil {
+			h.logger.Error("subnet ownership verification results don't match", "err", err)
+			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
+		}
 
 		return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_ACCEPT}, nil
 	}
@@ -422,23 +422,23 @@ func compareOrgValidationResults(r1, r2 map[uint64]bool) error {
 
 // compareRpkiValidationResults checks if two RPKI validation result maps match
 func compareRpkiValidationResults(r1, r2 map[uint64]bool) error {
-    // Check if both maps have the same number of entries
-    if len(r1) != len(r2) {
-        return fmt.Errorf("RPKI validation result maps have different sizes: %d vs %d", len(r1), len(r2))
-    }
+	// Check if both maps have the same number of entries
+	if len(r1) != len(r2) {
+		return fmt.Errorf("RPKI validation result maps have different sizes: %d vs %d", len(r1), len(r2))
+	}
 
-    // Check if all entries match
-    for subnetID, valid1 := range r1 {
-        valid2, exists := r2[subnetID]
-        if !exists {
-            return fmt.Errorf("subnet ID %d missing from second result map", subnetID)
-        }
-        if valid1 != valid2 {
-            return fmt.Errorf("RPKI validation result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
-        }
-    }
+	// Check if all entries match
+	for subnetID, valid1 := range r1 {
+		valid2, exists := r2[subnetID]
+		if !exists {
+			return fmt.Errorf("subnet ID %d missing from second result map", subnetID)
+		}
+		if valid1 != valid2 {
+			return fmt.Errorf("RPKI validation result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
+		}
+	}
 
-    return nil
+	return nil
 }
 
 // compareSubnetSyncResults checks if two subnet sync result maps match
@@ -481,7 +481,7 @@ func compareGeoValidationResults(r1, r2 map[uint64]bool) error {
 	if len(r1) != len(r2) {
 		return fmt.Errorf("geo validation result maps have different sizes: %d vs %d", len(r1), len(r2))
 	}
-	
+
 	// Check if all entries match
 	for subnetID, valid1 := range r1 {
 		valid2, exists := r2[subnetID]
@@ -492,29 +492,29 @@ func compareGeoValidationResults(r1, r2 map[uint64]bool) error {
 			return fmt.Errorf("geo validation result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
 		}
 	}
-	
+
 	return nil
 }
 
 // compareGeoValidationResults checks if two subnet ownership verification result maps match
 func compareSubnetOwnershipResults(r1, r2 map[uint64]bool) error {
-    // Check if both maps have the same number of entries
-    if len(r1) != len(r2) {
-        return fmt.Errorf("subnet ownership verification result maps have different sizes: %d vs %d", len(r1), len(r2))
-    }
-    
-    // Check if all entries match
-    for subnetID, valid1 := range r1 {
-        valid2, exists := r2[subnetID]
-        if !exists {
-            return fmt.Errorf("subnet ID %d missing from second result map", subnetID)
-        }
-        if valid1 != valid2 {
-            return fmt.Errorf("subnet ownership verification result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
-        }
-    }
-    
-    return nil
+	// Check if both maps have the same number of entries
+	if len(r1) != len(r2) {
+		return fmt.Errorf("subnet ownership verification result maps have different sizes: %d vs %d", len(r1), len(r2))
+	}
+
+	// Check if all entries match
+	for subnetID, valid1 := range r1 {
+		valid2, exists := r2[subnetID]
+		if !exists {
+			return fmt.Errorf("subnet ID %d missing from second result map", subnetID)
+		}
+		if valid1 != valid2 {
+			return fmt.Errorf("subnet ownership verification result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
+		}
+	}
+
+	return nil
 }
 func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeBlock) (*sdk.ResponsePreBlock, error) {
 	res := &sdk.ResponsePreBlock{}
@@ -593,20 +593,20 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 		}
 	}
 
-	  // Update the subnet ownership verification status for each subnet
-	  for subnetID, isValid := range injectedVoteExtTx.SubnetOwnerValidation {
-        if err := h.subnetKeeper.UpdateSubnetOwnershipVerification(ctx, subnetID, isValid); err != nil {
-            // Log error but continue with other subnets
-            h.logger.Error("failed to update subnet ownership verification status",
-                "subnet_id", subnetID,
-                "is_valid", isValid,
-                "error", err)
-        } else {
-            h.logger.Info("updated subnet ownership verification status",
-                "subnet_id", subnetID,
-                "is_valid", isValid)
-        }
-    }
+	// Update the subnet ownership verification status for each subnet
+	for subnetID, isValid := range injectedVoteExtTx.SubnetOwnerValidation {
+		if err := h.subnetKeeper.UpdateSubnetOwnershipVerification(ctx, subnetID, isValid); err != nil {
+			// Log error but continue with other subnets
+			h.logger.Error("failed to update subnet ownership verification status",
+				"subnet_id", subnetID,
+				"is_valid", isValid,
+				"error", err)
+		} else {
+			h.logger.Info("updated subnet ownership verification status",
+				"subnet_id", subnetID,
+				"is_valid", isValid)
+		}
+	}
 
 	return res, nil
 }

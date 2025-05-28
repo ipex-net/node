@@ -23,5 +23,5 @@ var (
 	ErrReservedASNumber       = sdkerrors.Register(ModuleName, 1211, "reserved as number")
 	ErrASNumberOutOfRange     = sdkerrors.Register(ModuleName, 1212, "as number out of range")
 	ErrInvalidGeolocationData = sdkerrors.Register(ModuleName, 1213, "invalid geolocation data")
-	ErrGeoCooldownPeriod 	  = sdkerrors.Register(ModuleName, 1214, "geo location cooldown period in effect")
+	ErrGeoCooldownPeriod      = sdkerrors.Register(ModuleName, 1214, "geo location cooldown period in effect")
 )

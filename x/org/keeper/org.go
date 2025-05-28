@@ -173,7 +173,8 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 
 	defer iterator.Close()
 
-	now := time.Now()
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
 
 	for ; iterator.Valid(); iterator.Next() {
 		var org types.Org
@@ -193,7 +194,7 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 			var requiredInterval time.Duration
 
 			switch {
-			
+
 			case org.DomainVerified:
 				requiredInterval = 72 * time.Hour //If org is verified we run re-verification every 3 days
 			case orgAge < 24*time.Hour: // Org age < 1 day
@@ -235,13 +236,14 @@ func (k Keeper) UpdateOrgDomainValidationStatus(ctx context.Context, orgID uint6
 	org.DomainVerified = isValid
 
 	// Update timestamp
-	nowTime := time.Now()
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
 	if isValid {
-		org.DomainVerifiedAt = &nowTime
+		org.DomainVerifiedAt = &now
 	}
 
 	//Updating verification attempt time
-	org.DomainVerifAttemptedAt = &nowTime
+	org.DomainVerifAttemptedAt = &now
 
 	// Save the updated organization
 	k.SetOrg(ctx, org)
