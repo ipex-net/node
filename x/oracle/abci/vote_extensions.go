@@ -17,6 +17,7 @@ import (
 
 	"ipex/x/oracle/types"
 	subnettypes "ipex/x/subnet/types"
+	trusttypes "ipex/x/trust/types"
 
 	"cosmossdk.io/log"
 	"github.com/openrdap/rdap"
@@ -42,6 +43,7 @@ type VoteExtHandler struct {
 	SubnetKeeper    types.SubnetKeeper
 	LeaseKeeper     types.LeaseKeeper
 	NetIntelService types.NetIntelService
+	TrustKeeper 	types.TrustKeeper
 }
 
 func NewVoteExtHandler(
@@ -50,6 +52,7 @@ func NewVoteExtHandler(
 	subnetK types.SubnetKeeper,
 	leaseK types.LeaseKeeper,
 	netintelService types.NetIntelService,
+	trustK types.TrustKeeper,
 ) *VoteExtHandler {
 	return &VoteExtHandler{
 		logger:          logger,
@@ -57,6 +60,7 @@ func NewVoteExtHandler(
 		SubnetKeeper:    subnetK,
 		LeaseKeeper:     leaseK,
 		NetIntelService: netintelService,
+		TrustKeeper:	trustK,
 	}
 }
 
@@ -67,6 +71,7 @@ type OracleVoteExtension struct {
 	RpkiValidation        map[uint64]bool
 	SubnetGeoValidation   map[uint64]bool
 	SubnetOwnerValidation map[uint64]bool
+	SubnetBlacklistSync   map[uint64]trusttypes.SubnetBlacklistCount
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
@@ -77,8 +82,9 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		subnetsForRPKIValidation := h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx)
 		subnetsForGeoValidation := h.SubnetKeeper.GetSubnetsForGeoValidation(ctx)
 		subnetsForOwnershipVerification := h.SubnetKeeper.GetSubnetsForOwnershipVerification(ctx)
+		subnetForBlacklistSync := h.TrustKeeper.GetSubnetsForReputationScanning(ctx)
 
-		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 {
+		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetForBlacklistSync) == 0 {
 			// Nothing to validate or sync, returning empty Vote
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
 		}

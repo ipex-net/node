@@ -289,6 +289,7 @@ func New(
 		app.SubnetKeeper,
 		app.LeaseKeeper,
 		app.NetIntelService,
+		app.TrustKeeper,
 	)
 	// Create the proposal handler for domain validation
 	proposalHandler := oracleabci.NewProposalHandler(
@@ -296,6 +297,7 @@ func New(
 		app.OrgKeeper,
 		app.SubnetKeeper,
 		app.LeaseKeeper,
+		app.TrustKeeper,
 		app.StakingKeeper, // This will be used as the validator store
 	)
 

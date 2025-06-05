@@ -9,6 +9,7 @@ import (
 	leasetypes "ipex/x/lease/types"
 	orgtypes "ipex/x/org/types"
 	subnettypes "ipex/x/subnet/types"
+	trusttypes "ipex/x/trust/types"
 )
 
 // OrgKeeper defines the expected interface for the org module.
@@ -81,4 +82,9 @@ type NetIntelService interface {
 
 	// Geolocation checking
 	CheckCountry(ip string, countryCode string) bool
+}
+
+type TrustKeeper interface {
+	GetSubnetsForReputationScanning(ctx context.Context) (list []uint64)
+	UpdateSubnetReputation(ctx context.Context, subnetID uint64, reputation trusttypes.SubnetBlacklistCount)
 }

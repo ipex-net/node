@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"time"
 
 	"ipex/x/trust/types"
 
@@ -73,17 +74,54 @@ func (k Keeper) GetAllSubnetReputation(ctx context.Context) (list []types.Subnet
 
 
 // UpdateSubnetReputation is a helper method 
-func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetID uint64, l1, l2, l3, l4 uint64) {
+func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetID uint64, reputation types.SubnetBlacklistCount) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	blockTime := sdkCtx.BlockTime()
     subnetRep := types.SubnetReputation{
         Index:       subnetID,
-        Level1Count: l1,
-        Level2Count: l2,
-        Level3Count: l3,
-        Level4Count: l4,
+        Level1Count: reputation.Level1Count,
+        Level2Count: reputation.Level2Count,
+        Level3Count: reputation.Level3Count,
+        Level4Count: reputation.Level4Count,
         LastUpdated: &blockTime,
     }
     
     k.SetSubnetReputation(ctx, subnetRep)
+}
+
+
+func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context) (list []uint64) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetReputationKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
+	count := 0
+	maxSubnets := 10
+	for ; iterator.Valid(); iterator.Next() {
+		var subnetReputation types.SubnetReputation
+		k.cdc.MustUnmarshal(iterator.Value(), &subnetReputation)
+
+		// Check if enough time has passed since last attempt
+		if subnetReputation.LastUpdated != nil {
+			lastAttempt := *subnetReputation.LastUpdated
+			// Skip if not enough time has passed
+			if now.Sub(lastAttempt) < 6 * time.Hour {
+				continue
+			}
+		}
+
+		// Add to the list for validation
+		list = append(list, subnetReputation.Index)
+		// Increment count and check if we've reached the maximum
+		count++
+		if count >= maxSubnets {
+			break
+		}
+	}
+
+	return
 }

@@ -32,6 +32,7 @@ type ProposalHandler struct {
 	orgKeeper    types.OrgKeeper
 	subnetKeeper types.SubnetKeeper
 	leaseKeeper  types.LeaseKeeper
+	trustKeeper  types.TrustKeeper
 	valStore     baseapp.ValidatorStore
 }
 
@@ -40,6 +41,7 @@ func NewProposalHandler(
 	orgK types.OrgKeeper,
 	subnetK types.SubnetKeeper,
 	leaseK types.LeaseKeeper,
+	trustK types.TrustKeeper,
 	valStore baseapp.ValidatorStore,
 ) *ProposalHandler {
 	return &ProposalHandler{
@@ -47,6 +49,7 @@ func NewProposalHandler(
 		orgKeeper:    orgK,
 		subnetKeeper: subnetK,
 		leaseKeeper:  leaseK,
+		trustKeeper:  trustK,
 		valStore:     valStore,
 	}
 }
