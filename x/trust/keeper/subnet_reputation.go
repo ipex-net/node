@@ -72,7 +72,7 @@ func (k Keeper) GetAllSubnetReputation(ctx context.Context) (list []types.Subnet
 }
 
 
-// UpdateSubnetReputation is a helper method for vote extensions/preblockers
+// UpdateSubnetReputation is a helper method 
 func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetID uint64, l1, l2, l3, l4 uint64) {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	blockTime := sdkCtx.BlockTime()
