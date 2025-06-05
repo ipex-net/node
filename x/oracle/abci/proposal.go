@@ -11,6 +11,7 @@ import (
 
 	"ipex/x/oracle/types"
 	subnettypes "ipex/x/subnet/types"
+	trusttypes "ipex/x/trust/types"
 )
 
 // NetworkValidationResults defines the consolidated results of all network resource validations
@@ -24,6 +25,7 @@ type NetworkValidationResults struct {
 	RpkiValidationResults map[uint64]bool
 	GeoValidationResults  map[uint64]bool
 	SubnetOwnerValidation map[uint64]bool
+	SubnetBlacklistSyncResults map[uint64]trusttypes.SubnetBlacklistCount
 	ExtendedCommitInfo    abci.ExtendedCommitInfo
 }
 
@@ -66,7 +68,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 			}
 
 			// Compute consensus on validation results (produce empty maps on error)
-			orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
+			orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
 			if err != nil {
 				h.logger.Error("failed to compute validation results; injecting empty maps", "err", err)
 				orgValidationResults = make(map[uint64]bool)
@@ -74,6 +76,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 				rpkiValidationResults = make(map[uint64]bool)
 				geoValidationResults = make(map[uint64]bool)
 				subnetOwnershipResults = make(map[uint64]bool)
+				subnetBlacklistSyncResults = make(map[uint64]trusttypes.SubnetBlacklistCount)
 			}
 
 			// Create the injected transaction with validation results
@@ -83,6 +86,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 				RpkiValidationResults: rpkiValidationResults,
 				GeoValidationResults:  geoValidationResults,
 				SubnetOwnerValidation: subnetOwnershipResults,
+				SubnetBlacklistSyncResults: subnetBlacklistSyncResults, 
 				ExtendedCommitInfo:    req.LocalLastCommit,
 			}
 
@@ -103,13 +107,14 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 }
 
 // computeValidationResults aggregates validation results from vote extensions
-func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, map[uint64]bool, map[uint64]bool, map[uint64]bool, error) {
+func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, map[uint64]bool, map[uint64]bool, map[uint64]bool, map[uint64]trusttypes.SubnetBlacklistCount, error) {
 	// Maps to store aggregated validation results
 	orgValidationResults := make(map[uint64]bool)
 	subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
 	rpkiValidationResults := make(map[uint64]bool)
 	geoValidationResults := make(map[uint64]bool)
 	subnetOwnershipResults := make(map[uint64]bool)
+	subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount) 
 
 	// Maps to track voting power for org validations
 	orgValidPower := make(map[uint64]int64)
@@ -137,6 +142,14 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	}
 	// List to store subnet voting power entries
 	subnetVotePowers := []subnetVotePower{}
+
+	type blacklistVotePower struct {
+		subnetID    uint64
+		countJSON   string
+		power       int64
+		count       trusttypes.SubnetBlacklistCount
+	}
+	blacklistVotePowers := []blacklistVotePower{}
 
 	// Process each vote extension
 	for _, v := range ci.Votes {
@@ -209,6 +222,24 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			} else {
 				subnetOwnerInvalidPower[subnetID] += v.Validator.Power
 			}
+		}
+
+		// Aggregate blacklist sync results based on voting power
+		for subnetID, blacklistCount := range voteExt.SubnetBlacklistSync {
+			// Convert the SubnetBlacklistCount to JSON for consistent comparison
+			countJSON, err := json.Marshal(blacklistCount)
+			if err != nil {
+				h.logger.Error("failed to marshal blacklist count", "err", err, "subnet_id", subnetID)
+				continue
+			}
+
+			// Add to blacklist vote powers list
+			blacklistVotePowers = append(blacklistVotePowers, blacklistVotePower{
+				subnetID:  subnetID,
+				countJSON: string(countJSON),
+				power:     v.Validator.Power,
+				count:     blacklistCount,
+			})
 		}
 	}
 
@@ -331,7 +362,41 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		}
 	}
 
-	return orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, nil
+	// Group blacklist voting powers by subnet ID
+	blacklistInfoVotingPower := make(map[uint64]map[string]int64)
+	blacklistInfoMap := make(map[uint64]map[string]trusttypes.SubnetBlacklistCount)
+
+	for _, bv := range blacklistVotePowers {
+		// Initialize maps for this subnet ID if they don't exist
+		if _, exists := blacklistInfoVotingPower[bv.subnetID]; !exists {
+			blacklistInfoVotingPower[bv.subnetID] = make(map[string]int64)
+			blacklistInfoMap[bv.subnetID] = make(map[string]trusttypes.SubnetBlacklistCount)
+		}
+
+		// Add voting power for this blacklist count
+		blacklistInfoVotingPower[bv.subnetID][bv.countJSON] += bv.power
+		blacklistInfoMap[bv.subnetID][bv.countJSON] = bv.count
+	}
+
+	// For each subnet ID, find the SubnetBlacklistCount with the highest voting power
+	for subnetID, countPowers := range blacklistInfoVotingPower {
+		var maxPower int64
+		var maxCountJSON string
+
+		// Find the SubnetBlacklistCount with the highest voting power
+		for countJSON, power := range countPowers {
+			if power > maxPower {
+				maxPower = power
+				maxCountJSON = countJSON
+			}
+		}
+
+		// Only include subnets where at least one validator provided blacklist data
+		if maxPower > 0 {
+			subnetBlacklistSyncResults[subnetID] = blacklistInfoMap[subnetID][maxCountJSON]
+		}
+	}
+	return orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, nil
 }
 
 func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
@@ -362,7 +427,7 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		}
 
 		// Verify the proposer's validation results by computing the same calculation
-		orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
+		orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
 		if err != nil {
 			h.logger.Error("failed to compute validation results", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
@@ -395,6 +460,12 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		// Compare the proposer's subnet ownership verification results with our own calculation
 		if err := compareSubnetOwnershipResults(injectedVoteExtTx.SubnetOwnerValidation, subnetOwnershipResults); err != nil {
 			h.logger.Error("subnet ownership verification results don't match", "err", err)
+			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
+		}
+
+		// Compare the proposer's blacklist sync results with our own calculation
+		if err := compareBlacklistSyncResults(injectedVoteExtTx.SubnetBlacklistSyncResults, subnetBlacklistSyncResults); err != nil {
+			h.logger.Error("blacklist sync results don't match", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
 		}
 
@@ -519,6 +590,40 @@ func compareSubnetOwnershipResults(r1, r2 map[uint64]bool) error {
 
 	return nil
 }
+
+func compareBlacklistSyncResults(r1, r2 map[uint64]trusttypes.SubnetBlacklistCount) error {
+	// Check if both maps have the same number of entries
+	if len(r1) != len(r2) {
+		return fmt.Errorf("blacklist sync result maps have different sizes: %d vs %d", len(r1), len(r2))
+	}
+
+	// Check if all entries match
+	for subnetID, count1 := range r1 {
+		count2, exists := r2[subnetID]
+		if !exists {
+			return fmt.Errorf("subnet ID %d missing from second blacklist result map", subnetID)
+		}
+
+		// Convert both SubnetBlacklistCount structs to JSON for comparison
+		count1JSON, err := json.Marshal(count1)
+		if err != nil {
+			return fmt.Errorf("failed to marshal blacklist count for comparison: %w", err)
+		}
+
+		count2JSON, err := json.Marshal(count2)
+		if err != nil {
+			return fmt.Errorf("failed to marshal blacklist count for comparison: %w", err)
+		}
+
+		// Compare JSON representations
+		if string(count1JSON) != string(count2JSON) {
+			return fmt.Errorf("blacklist sync result mismatch for subnet ID %d", subnetID)
+		}
+	}
+
+	return nil
+}
+
 func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeBlock) (*sdk.ResponsePreBlock, error) {
 	res := &sdk.ResponsePreBlock{}
 
@@ -610,6 +715,28 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 				"is_valid", isValid)
 		}
 	}
+
+	// Update the blacklist sync results for each subnet
+	for subnetID, blacklistCount := range injectedVoteExtTx.SubnetBlacklistSyncResults {
+		if err := h.trustKeeper.UpdateSubnetReputation(ctx, subnetID, blacklistCount); err != nil {
+			// Log error but continue with other subnets
+			h.logger.Error("failed to update subnet blacklist count",
+				"subnet_id", subnetID,
+				"l1_count", blacklistCount.Level1Count,
+				"l2_count", blacklistCount.Level2Count,
+				"l3_count", blacklistCount.Level3Count,
+				"l4_count", blacklistCount.Level4Count,
+				"error", err)
+		} else {
+			h.logger.Info("updated subnet blacklist count",
+				"subnet_id", subnetID,
+				"l1_count", blacklistCount.Level1Count,
+				"l2_count", blacklistCount.Level2Count,
+				"l3_count", blacklistCount.Level3Count,
+				"l4_count", blacklistCount.Level4Count)
+		}
+	}
+
 
 	return res, nil
 }

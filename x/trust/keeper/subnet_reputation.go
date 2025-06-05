@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"ipex/x/trust/types"
@@ -74,9 +75,18 @@ func (k Keeper) GetAllSubnetReputation(ctx context.Context) (list []types.Subnet
 
 
 // UpdateSubnetReputation is a helper method 
-func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetID uint64, reputation types.SubnetBlacklistCount) {
+func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetID uint64, reputation types.SubnetBlacklistCount) error {
+	// Validate input parameters
+	// if subnetID == 0 {
+	// 	return fmt.Errorf("invalid subnet ID: cannot be zero")
+	// }
+	// Unwrap SDK context
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	// Get block time
 	blockTime := sdkCtx.BlockTime()
+	if blockTime.IsZero() {
+		return fmt.Errorf("invalid block time: cannot be zero")
+	}
     subnetRep := types.SubnetReputation{
         Index:       subnetID,
         Level1Count: reputation.Level1Count,
@@ -87,6 +97,7 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetID uint64, rep
     }
     
     k.SetSubnetReputation(ctx, subnetRep)
+	return nil
 }
 
 

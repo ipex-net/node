@@ -82,9 +82,9 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		subnetsForRPKIValidation := h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx)
 		subnetsForGeoValidation := h.SubnetKeeper.GetSubnetsForGeoValidation(ctx)
 		subnetsForOwnershipVerification := h.SubnetKeeper.GetSubnetsForOwnershipVerification(ctx)
-		subnetForBlacklistSync := h.TrustKeeper.GetSubnetsForReputationScanning(ctx)
+		subnetsForBlacklistSync := h.TrustKeeper.GetSubnetsForReputationScanning(ctx)
 
-		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetForBlacklistSync) == 0 {
+		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetsForBlacklistSync) == 0 {
 			// Nothing to validate or sync, returning empty Vote
 			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
 		}
@@ -94,16 +94,21 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			"orgs_count", len(orgsToValidate),
 			"subnets_rir_count", len(subnetsToRirSync),
 			"subnets_rpki_count", len(subnetsForRPKIValidation),
-			"subnets_geo_count", len(subnetsForGeoValidation))
-		h.logger.Info("performing domain validations for vote extension", "height", req.Height)
-		// Map to store validation results
+			"subnets_geo_count", len(subnetsForGeoValidation),
+			"subnets_owner_val_count", len(subnetsForOwnershipVerification),
+			"subnets_blacklist_sync_count", len(subnetsForBlacklistSync),
+		)
+		// Maps to store validation results
 		domainValidationResults := make(map[uint64]bool)
 		subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
 		subnetRpkiValidationResults := make(map[uint64]bool)
 		subnetGeoValidationResults := make(map[uint64]bool)
 		subnetOwnershipVerifResults := make(map[uint64]bool)
+		subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount)
 
+	
 		if len(orgsToValidate) > 0 {
+			h.logger.Info("performing domain validations for vote extension", "height", req.Height)
 			g := new(errgroup.Group)
 			var mu sync.Mutex
 
@@ -139,6 +144,8 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		}
 
 		if len(subnetsToRirSync) > 0 {
+			h.logger.Info("performing subnet to RIR sync for vote extension", "height", req.Height)
+
 			for _, subnet := range subnetsToRirSync {
 				subnetDetails := h.SyncSubnetData(subnet.NetworkAddress, subnet.Mask)
 				subnetSyncResults[subnet.Id] = subnetDetails
@@ -146,6 +153,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		}
 
 		if len(subnetsForRPKIValidation) > 0 {
+			h.logger.Info("performing RPKI validations for vote extension", "height", req.Height)
 			for _, subnet := range subnetsForRPKIValidation {
 				prefix := fmt.Sprintf("%s/%d", convertDecimalIPToString(subnet.NetworkAddress), subnet.Mask)
 				isValid := h.IsASNValidForPrefix(prefix, subnet.OriginAsn)
@@ -154,12 +162,13 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		}
 
 		// This is the longest process. We only want to execute it if there's no other processes in this vote extension.
-		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 {
+		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForBlacklistSync) == 0 && len(subnetsForOwnershipVerification) == 0{
+			h.logger.Info("performing subnet last hop geo validation for vote extension", "height", req.Height)
 			subnetGeoValidationResults = h.VerifyGeoTrace(subnetsForGeoValidation)
 		}
 
 		if len(subnetsForOwnershipVerification) > 0 {
-
+			h.logger.Info("performing subnet ownership validation for vote extension", "height", req.Height)
 			// Performing abuse mailbox to org domain verification first
 			for _, subnet := range subnetsForOwnershipVerification {
 				if subnet.RirAbuseEmail == "" {
@@ -170,12 +179,12 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 				if found && org.DomainVerified {
 					emailDomain, err := ExtractDomainFromEmail(subnet.RirAbuseEmail)
 					if err != nil {
-						h.logger.Info("Failed to extract email domain", "subnet_id", subnet.Id, "error", err)
+						h.logger.Error("Failed to extract email domain", "subnet_id", subnet.Id, "error", err)
 						continue // or handle the error as appropriate
 					}
 					orgDomain, err := extractDomain(org.Website)
 					if err != nil {
-						h.logger.Info("Failed to extract organization domain", "org_id", org.Id, "error", err)
+						h.logger.Error("Failed to extract organization domain", "org_id", org.Id, "error", err)
 						continue // or handle the error as appropriate
 					}
 					if emailDomain == orgDomain {
@@ -238,6 +247,21 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 				subnetOwnershipVerifResults[subnet.Id] = isValid
 			}
 		}
+
+		if len(subnetsForBlacklistSync) > 0 {
+			h.logger.Info("performing subnet blacklist sync for vote extension", "height", req.Height)
+			for _, subnetId := range subnetsForBlacklistSync {
+				subnet, ok := h.SubnetKeeper.GetSubnet(ctx, subnetId)
+				if !ok {continue}
+				cidr := convertDecimalIPToString(subnet.NetworkAddress)+"/"+ strconv.Itoa(int(subnet.Mask))
+				result, err := h.SyncSubnetBlacklist(subnetId, cidr)
+				if err != nil {
+					continue
+				}
+				subnetBlacklistSyncResults[subnetId] = result
+			}
+		}
+
 		// Create vote extension
 		voteExt := OracleVoteExtension{
 			Height:                req.Height,
@@ -246,6 +270,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			RpkiValidation:        subnetRpkiValidationResults,
 			SubnetGeoValidation:   subnetGeoValidationResults,
 			SubnetOwnerValidation: subnetOwnershipVerifResults,
+			SubnetBlacklistSync: subnetBlacklistSyncResults,
 		}
 
 		// Log the results
@@ -355,9 +380,9 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64) subnettyp
 	if err != nil {
 		errMsg := err.Error()
 		if strings.Contains(errMsg, "No RDAP servers responded successfully") {
-			h.logger.Info("Rate limit detected: %v\n", err)
+			h.logger.Error("Rate limit detected", "error", err)
 		} else {
-			h.logger.Info("RDAP query failed: %v\n", err)
+			h.logger.Error("RDAP query failed", "error", err)
 		}
 		return result
 	}
@@ -376,13 +401,13 @@ func (h *VoteExtHandler) SyncSubnetData(ipDecimal uint64, mask uint64) subnettyp
 	// Get the inetnum end IP from the RDAP response
 	inetnumEndIp, err := IpToDecimal(response.EndAddress)
 	if err != nil {
-		h.logger.Info("Error converting RDAP end address to decimal: %v\n", err)
+		h.logger.Error("Error converting RDAP end address to decimal: %v\n", err)
 		return result
 	}
 
 	// Checking that the subnet we've received is within the inetnum range
 	if endIp > inetnumEndIp {
-		h.logger.Info("Subnet exceeds the inetnum range")
+		h.logger.Error("Subnet exceeds the inetnum range", "subnet_ip", ipStr, "subnet_end", endIp, "inetnum_end", inetnumEndIp)
 		return result
 	}
 
@@ -611,6 +636,17 @@ func (h *VoteExtHandler) VerifyVoteExtensionHandler() sdk.VerifyVoteExtensionHan
 				}
 			}
 		}
+
+		//Check that all subnet IDs in blacklist sync are valid
+		if voteExt.SubnetBlacklistSync != nil {
+			for subnetID := range voteExt.SubnetBlacklistSync {
+				// Verify the subnet exists in state
+				_, found := h.SubnetKeeper.GetSubnet(ctx, subnetID)
+				if !found {
+					return nil, fmt.Errorf("subnet ID %d in blacklist sync does not exist", subnetID)
+				}
+			}
+		}
 		// Accept the vote extension
 		return &abci.ResponseVerifyVoteExtension{Status: abci.ResponseVerifyVoteExtension_ACCEPT}, nil
 	}
@@ -645,7 +681,7 @@ func (h *VoteExtHandler) IsASNValidForPrefix(prefix string, asn uint64) bool {
 
 		if i < len(routinatorURLs)-1 {
 			// Log fallback message only if there are more URLs to try
-			h.logger.Info("Cannot reach Routinator at %s: %v. Trying fallback.\n", baseURL, err)
+			h.logger.Info("Cannot reach Routinator, trying fallback", "url", baseURL, "error", err)
 		} else {
 			// All URLs failed
 			h.logger.Error("Error querying all Routinator instances: %v\n", err)
@@ -761,7 +797,7 @@ func (h *VoteExtHandler) VerifyGeoTrace(subnets []subnettypes.Subnet) map[uint64
 	for _, subnet := range subnets {
 		select {
 		case <-ctx.Done():
-			h.logger.Info("Geo validation timeout reached, processing results so far")
+			h.logger.Error("Geo validation timeout reached, processing results so far")
 			goto ProcessResults
 		default:
 			// Continue processing
@@ -858,7 +894,7 @@ func (h *VoteExtHandler) VerifyGeoTrace(subnets []subnettypes.Subnet) map[uint64
 				// All traces completed normally
 			case <-time.After(5 * time.Second):
 				// Timeout occurred, proceed with what we have
-				h.logger.Info("Traceroute timeout reached for subnet", "subnet_id", s.Id)
+				h.logger.Error("Traceroute timeout reached for subnet", "subnet_id", s.Id)
 			}
 
 			// Determine which error to report - prioritize reporting errors only if all failed
@@ -901,7 +937,7 @@ ProcessResults:
 	for res := range resultChan {
 		// If all traceroutes failed, mark subnet as not validated
 		if res.err != nil {
-			h.logger.Info("All traceroutes failed for subnet", "subnet_id", res.subnetId)
+			h.logger.Error("All traceroutes failed for subnet", "subnet_id", res.subnetId)
 			results[res.subnetId] = false
 			continue
 		}
@@ -933,7 +969,7 @@ ProcessResults:
 		}
 
 		if lastIp == "" {
-			h.logger.Info("No valid last hop found for subnet", "subnet_id", res.subnetId)
+			h.logger.Error("No valid last hop found for subnet", "subnet_id", res.subnetId)
 			results[res.subnetId] = false
 			continue
 		}
@@ -951,8 +987,7 @@ ProcessResults:
 				"netintel_match", isGeoMatched,
 				"netintel_ready", true)
 		} else {
-
-			h.logger.Info("NetIntel geo validation failed ",
+			h.logger.Error("NetIntel geo validation failed ",
 				"subnet_id", res.subnetId,
 				"expected_country", res.country,
 				"last_hop_ip", lastIp,
@@ -1137,4 +1172,50 @@ func ExtractDomainFromEmail(email string) (string, error) {
 	}
 
 	return domain, nil
+}
+
+func (h *VoteExtHandler) SyncSubnetBlacklist(subnetId uint64, cidr string) (trusttypes.SubnetBlacklistCount, error) {
+	// Initialize empty result to return in case of errors
+	emptyResult := trusttypes.SubnetBlacklistCount{
+		Level1Count: 0,
+		Level2Count: 0,
+		Level3Count: 0,
+		Level4Count: 0,
+	}
+
+	// Check if NetIntelService is available and ready
+	if h.NetIntelService == nil {
+		h.logger.Error("NetIntelService is not initialized", "subnet_id", subnetId, "cidr", cidr)
+		return emptyResult, fmt.Errorf("NetIntelService is not available")
+	}
+
+	if !h.NetIntelService.IsReady() {
+		h.logger.Error("NetIntel blacklist sync failed - service not ready",
+			"subnet_id", subnetId,
+			"cidr", cidr,
+			"netintel_ready", false)
+		return emptyResult, fmt.Errorf("NetIntelService is not ready")
+	}
+
+
+	// Use NetIntel service to calculate blacklist presence
+	l1 := h.NetIntelService.CheckReputation(cidr,1)
+	l2 := h.NetIntelService.CheckReputation(cidr,2)
+	l3 := h.NetIntelService.CheckReputation(cidr,3)
+	l4 := h.NetIntelService.CheckReputation(cidr, 4)
+	h.logger.Info("NetIntel blacklist check result",
+	"subnet_id", subnetId,
+	"cidr", cidr,
+	"l1_count", l1,
+	"l2_count", l2,
+	"l3_count", l3,
+	"l4_count", l4,
+	"netintel_ready", true)
+	
+	return trusttypes.SubnetBlacklistCount{
+		Level1Count: uint64(l1),
+		Level2Count: uint64(l2),
+		Level3Count: uint64(l3),
+		Level4Count: uint64(l4),
+	}, nil
 }
