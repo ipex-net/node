@@ -93,3 +93,24 @@ func (k Keeper) GetAllContract(ctx context.Context) (list []types.Contract) {
 
 	return
 }
+
+// GetFirstLeasedContractBySubnet returns the first contract ID with LEASED status for the given subnet ID
+// Returns the contract ID and true if found, or 0 and false if not found
+func (k Keeper) GetFirstLeasedContractBySubnet(ctx context.Context, subnetId uint64) (uint64, bool) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
+	iterator := store.Iterator(nil, nil)
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var contract types.Contract
+		k.cdc.MustUnmarshal(iterator.Value(), &contract)
+		
+		// Check if this contract matches our criteria
+		if contract.SubnetId == subnetId && contract.Status == types.ContractStatus_CONTRACT_STATUS_LEASED {
+			return contract.Id, true
+		}
+	}
+	
+	return 0, false
+}

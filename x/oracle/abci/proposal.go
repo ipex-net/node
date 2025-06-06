@@ -717,11 +717,23 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 	}
 
 	// Update the blacklist sync results for each subnet
-	for subnetID, blacklistCount := range injectedVoteExtTx.SubnetBlacklistSyncResults {
-		if err := h.trustKeeper.UpdateSubnetReputation(ctx, subnetID, blacklistCount); err != nil {
+	for subnetId, blacklistCount := range injectedVoteExtTx.SubnetBlacklistSyncResults {
+		subnet, err := h.subnetKeeper.GetSubnet(ctx, subnetId)
+		if err {			
+			h.logger.Error("failed to update subnet blacklist count",
+			"subnet_id", subnetId,
+			"l1_count", blacklistCount.Level1Count,
+			"l2_count", blacklistCount.Level2Count,
+			"l3_count", blacklistCount.Level3Count,
+			"l4_count", blacklistCount.Level4Count,
+			"error", err)
+		}
+		contractId, found := h.leaseKeeper.GetFirstLeasedContractBySubnet(ctx, subnetId)
+		if !found {contractId = 0}
+		if err := h.trustKeeper.UpdateSubnetReputation(ctx, subnetId, contractId, subnet.OwnerOrgId, subnet.UserOrgId ,blacklistCount); err != nil {
 			// Log error but continue with other subnets
 			h.logger.Error("failed to update subnet blacklist count",
-				"subnet_id", subnetID,
+				"subnet_id", subnetId,
 				"l1_count", blacklistCount.Level1Count,
 				"l2_count", blacklistCount.Level2Count,
 				"l3_count", blacklistCount.Level3Count,
@@ -729,7 +741,7 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 				"error", err)
 		} else {
 			h.logger.Info("updated subnet blacklist count",
-				"subnet_id", subnetID,
+				"subnet_id", subnetId,
 				"l1_count", blacklistCount.Level1Count,
 				"l2_count", blacklistCount.Level2Count,
 				"l3_count", blacklistCount.Level3Count,

@@ -40,7 +40,7 @@ type SubnetKeeper interface {
 	GetSubnetsForGeoValidation(ctx context.Context) (list []subnettypes.Subnet)
 	UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error
 	GetSubnetsForOwnershipVerification(ctx context.Context) (list []subnettypes.Subnet)
-	UpdateSubnetOwnershipVerification(ctx context.Context, subnetID uint64, isValid bool) error
+	UpdateSubnetOwnershipVerification(ctx context.Context, subnetId uint64, isValid bool) error
 	IsRirRecordValid(ctx context.Context, subnetId uint64) bool
 }
 
@@ -50,6 +50,8 @@ type LeaseKeeper interface {
 	GetContract(ctx context.Context, id uint64) (leasetypes.Contract, bool)
 	// SetContract updates the given Contract.
 	SetContract(ctx context.Context, contract leasetypes.Contract)
+	// Returns the contract ID and true if found, or 0 and false if not found
+	GetFirstLeasedContractBySubnet(ctx context.Context, subnetId uint64) (uint64, bool)
 }
 
 // AccountKeeper defines the expected interface for the Account module.
@@ -87,5 +89,5 @@ type NetIntelService interface {
 
 type TrustKeeper interface {
 	GetSubnetsForReputationScanning(ctx context.Context) (list []uint64)
-	UpdateSubnetReputation(ctx context.Context, subnetID uint64, reputation trusttypes.SubnetBlacklistCount) error
+	UpdateSubnetReputation(ctx context.Context, subnetId uint64, leaseId uint64, lessorOrgId uint64, lesseeOrgId uint64, reputation trusttypes.SubnetBlacklistCount) error
 }

@@ -252,9 +252,10 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		if len(subnetsForBlacklistSync) > 0 {
 			h.logger.Info("performing subnet blacklist sync for vote extension", "height", req.Height)
 			for _, subnetId := range subnetsForBlacklistSync {
+				// Checking that subnet exists
 				subnet, ok := h.SubnetKeeper.GetSubnet(ctx, subnetId)
 				if !ok {continue}
-				// Only 
+				// Checking that subnet passed RIR sync and is valid
 				if !h.SubnetKeeper.IsRirRecordValid(ctx, subnetId) {continue}
 				cidr := convertDecimalIPToString(subnet.NetworkAddress)+"/"+ strconv.Itoa(int(subnet.Mask))
 				result, err := h.SyncSubnetBlacklist(subnetId, cidr)

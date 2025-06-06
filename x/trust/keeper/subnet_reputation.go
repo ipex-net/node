@@ -75,11 +75,7 @@ func (k Keeper) GetAllSubnetReputation(ctx context.Context) (list []types.Subnet
 
 
 // UpdateSubnetReputation is a helper method 
-func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetID uint64, reputation types.SubnetBlacklistCount) error {
-	// Validate input parameters
-	// if subnetID == 0 {
-	// 	return fmt.Errorf("invalid subnet ID: cannot be zero")
-	// }
+func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, leaseId uint64, lessorOrgId uint64, lesseeOrgId uint64, reputation types.SubnetBlacklistCount) error {
 	// Unwrap SDK context
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	// Get block time
@@ -88,15 +84,17 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetID uint64, rep
 		return fmt.Errorf("invalid block time: cannot be zero")
 	}
     subnetRep := types.SubnetReputation{
-        Index:       subnetID,
+        Index:       subnetId,
         Level1Count: reputation.Level1Count,
         Level2Count: reputation.Level2Count,
         Level3Count: reputation.Level3Count,
         Level4Count: reputation.Level4Count,
         LastUpdated: &blockTime,
     }
-    
+    // TODO: log the subnet reputation change 
+	// TODO: update lessee reputation 
     k.SetSubnetReputation(ctx, subnetRep)
+
 	return nil
 }
 
