@@ -21,6 +21,7 @@ type (
 		authority string
 
 		orgKeeper types.OrgKeeper
+		trustKeeper types.TrustKeeper
 	}
 )
 
@@ -30,6 +31,7 @@ func NewKeeper(
 	logger log.Logger,
 	authority string,
 	orgKeeper types.OrgKeeper,
+	trustKeeper types.TrustKeeper,
 
 ) Keeper {
 	if _, err := sdk.AccAddressFromBech32(authority); err != nil {
@@ -42,6 +44,7 @@ func NewKeeper(
 		authority:    authority,
 		logger:       logger,
 		orgKeeper:    orgKeeper,
+		trustKeeper: trustKeeper,
 	}
 }
 
