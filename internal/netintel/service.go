@@ -231,7 +231,7 @@ func (s *Service) startBackgroundUpdates() {
 // reputationUpdateLoop runs the reputation data update loop
 func (s *Service) reputationUpdateLoop() {
 	s.logger.Info("[NetIntel] Starting reputation update loop", "interval", reputationUpdateInterval)
-
+	s.updateReputationData()
 	ticker := time.NewTicker(reputationUpdateInterval)
 	defer ticker.Stop()
 
