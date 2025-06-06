@@ -123,7 +123,7 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		subnet,
 	)
 	// Initialize subnet reputation after successful subnet creation
-	k.trustKeeper.InitializeSubnetReputation(goCtx, id)
+	//k.trustKeeper.InitializeSubnetReputation(goCtx, id)
 
 	return &types.MsgCreateSubnetResponse{Id: id}, nil
 }

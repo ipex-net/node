@@ -55,7 +55,8 @@ func (k Keeper) AppendSubnet(
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
 	appendedValue := k.cdc.MustMarshal(&subnet)
 	store.Set(GetSubnetIDBytes(subnet.Id), appendedValue)
-
+	// Initialize subnet reputation
+	k.trustKeeper.InitializeSubnetReputation(ctx, subnet.Id)
 	// Update subnet count
 	k.SetSubnetCount(ctx, count+1)
 
@@ -87,6 +88,7 @@ func (k Keeper) RemoveSubnet(ctx context.Context, id uint64) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
 	store.Delete(GetSubnetIDBytes(id))
+	k.trustKeeper.RemoveSubnetReputation(ctx, id)
 }
 
 // GetAllSubnet returns all subnet
@@ -532,11 +534,11 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []
 }
 
 // UpdateOrgValidationStatus updates the domain validation status for an organization
-func (k Keeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetID uint64, isValid bool) error {
+func (k Keeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetId uint64, isValid bool) error {
 	// Get the subnet
-	subnet, found := k.GetSubnet(ctx, subnetID)
+	subnet, found := k.GetSubnet(ctx, subnetId)
 	if !found {
-		return fmt.Errorf("subnet with ID %d not found", subnetID)
+		return fmt.Errorf("subnet with ID %d not found", subnetId)
 	}
 	// Get the timestamp
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
@@ -554,4 +556,11 @@ func (k Keeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetID 
 	k.SetSubnet(ctx, subnet)
 
 	return nil
+}
+
+func (k Keeper) IsRirRecordValid(ctx context.Context, subnetId uint64) bool {
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return false }
+	return subnet.RirRecordValid
 }

@@ -41,6 +41,7 @@ type SubnetKeeper interface {
 	UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error
 	GetSubnetsForOwnershipVerification(ctx context.Context) (list []subnettypes.Subnet)
 	UpdateSubnetOwnershipVerification(ctx context.Context, subnetID uint64, isValid bool) error
+	IsRirRecordValid(ctx context.Context, subnetId uint64) bool
 }
 
 // LeaseKeeper defines the expected interface for the lease module.

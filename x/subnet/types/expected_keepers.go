@@ -31,4 +31,5 @@ type OrgKeeper interface {
 
 type TrustKeeper interface {
     InitializeSubnetReputation(ctx context.Context, subnetID uint64)
+    RemoveSubnetReputation(ctx context.Context, index uint64)
 }

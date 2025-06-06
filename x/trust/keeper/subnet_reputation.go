@@ -115,7 +115,6 @@ func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context) (list []uin
 	for ; iterator.Valid(); iterator.Next() {
 		var subnetReputation types.SubnetReputation
 		k.cdc.MustUnmarshal(iterator.Value(), &subnetReputation)
-
 		// Check if enough time has passed since last attempt
 		if subnetReputation.LastUpdated != nil {
 			lastAttempt := *subnetReputation.LastUpdated
@@ -139,6 +138,7 @@ func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context) (list []uin
 
 // InitializeSubnetReputation initializes a new subnet reputation entry when a subnet is created
 func (k Keeper) InitializeSubnetReputation(ctx context.Context, subnetID uint64) {
+
 	// Create new subnet reputation with initial values
 	subnetReputation := types.SubnetReputation{
 		Index:       subnetID,
