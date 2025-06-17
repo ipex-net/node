@@ -561,6 +561,7 @@ func (k Keeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetId 
 func (k Keeper) IsRirRecordValid(ctx context.Context, subnetId uint64) bool {
 	subnet, found := k.GetSubnet(ctx, subnetId)
 	if !found {
-		return false }
+		return false
+	}
 	return subnet.RirRecordValid
 }

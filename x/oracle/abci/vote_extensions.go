@@ -43,7 +43,7 @@ type VoteExtHandler struct {
 	SubnetKeeper    types.SubnetKeeper
 	LeaseKeeper     types.LeaseKeeper
 	NetIntelService types.NetIntelService
-	TrustKeeper 	types.TrustKeeper
+	TrustKeeper     types.TrustKeeper
 }
 
 func NewVoteExtHandler(
@@ -60,7 +60,7 @@ func NewVoteExtHandler(
 		SubnetKeeper:    subnetK,
 		LeaseKeeper:     leaseK,
 		NetIntelService: netintelService,
-		TrustKeeper:	trustK,
+		TrustKeeper:     trustK,
 	}
 }
 
@@ -106,7 +106,6 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		subnetOwnershipVerifResults := make(map[uint64]bool)
 		subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount)
 
-	
 		if len(orgsToValidate) > 0 {
 			h.logger.Info("performing domain validations for vote extension", "height", req.Height)
 			g := new(errgroup.Group)
@@ -162,7 +161,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		}
 
 		// This is the longest process. We only want to execute it if there's no other processes in this vote extension.
-		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForBlacklistSync) == 0 && len(subnetsForOwnershipVerification) == 0{
+		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForBlacklistSync) == 0 && len(subnetsForOwnershipVerification) == 0 {
 			h.logger.Info("performing subnet last hop geo validation for vote extension", "height", req.Height)
 			subnetGeoValidationResults = h.VerifyGeoTrace(subnetsForGeoValidation)
 		}
@@ -248,16 +247,19 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			}
 		}
 
-
 		if len(subnetsForBlacklistSync) > 0 {
 			h.logger.Info("performing subnet blacklist sync for vote extension", "height", req.Height)
 			for _, subnetId := range subnetsForBlacklistSync {
 				// Checking that subnet exists
 				subnet, ok := h.SubnetKeeper.GetSubnet(ctx, subnetId)
-				if !ok {continue}
+				if !ok {
+					continue
+				}
 				// Checking that subnet passed RIR sync and is valid
-				if !h.SubnetKeeper.IsRirRecordValid(ctx, subnetId) {continue}
-				cidr := convertDecimalIPToString(subnet.NetworkAddress)+"/"+ strconv.Itoa(int(subnet.Mask))
+				if !h.SubnetKeeper.IsRirRecordValid(ctx, subnetId) {
+					continue
+				}
+				cidr := convertDecimalIPToString(subnet.NetworkAddress) + "/" + strconv.Itoa(int(subnet.Mask))
 				result, err := h.SyncSubnetBlacklist(subnetId, cidr)
 				if err != nil {
 					continue
@@ -274,7 +276,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			RpkiValidation:        subnetRpkiValidationResults,
 			SubnetGeoValidation:   subnetGeoValidationResults,
 			SubnetOwnerValidation: subnetOwnershipVerifResults,
-			SubnetBlacklistSync: subnetBlacklistSyncResults,
+			SubnetBlacklistSync:   subnetBlacklistSyncResults,
 		}
 
 		// Log the results
@@ -1201,21 +1203,20 @@ func (h *VoteExtHandler) SyncSubnetBlacklist(subnetId uint64, cidr string) (trus
 		return emptyResult, fmt.Errorf("NetIntelService is not ready")
 	}
 
-
 	// Use NetIntel service to calculate blacklist presence
-	l1 := h.NetIntelService.CheckReputation(cidr,1)
-	l2 := h.NetIntelService.CheckReputation(cidr,2)
-	l3 := h.NetIntelService.CheckReputation(cidr,3)
+	l1 := h.NetIntelService.CheckReputation(cidr, 1)
+	l2 := h.NetIntelService.CheckReputation(cidr, 2)
+	l3 := h.NetIntelService.CheckReputation(cidr, 3)
 	l4 := h.NetIntelService.CheckReputation(cidr, 4)
 	h.logger.Info("NetIntel blacklist check result",
-	"subnet_id", subnetId,
-	"cidr", cidr,
-	"l1_count", l1,
-	"l2_count", l2,
-	"l3_count", l3,
-	"l4_count", l4,
-	"netintel_ready", true)
-	
+		"subnet_id", subnetId,
+		"cidr", cidr,
+		"l1_count", l1,
+		"l2_count", l2,
+		"l3_count", l3,
+		"l4_count", l4,
+		"netintel_ready", true)
+
 	return trusttypes.SubnetBlacklistCount{
 		Level1Count: uint32(l1),
 		Level2Count: uint32(l2),

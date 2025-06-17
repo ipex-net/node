@@ -105,12 +105,12 @@ func (k Keeper) GetFirstLeasedContractBySubnet(ctx context.Context, subnetId uin
 	for ; iterator.Valid(); iterator.Next() {
 		var contract types.Contract
 		k.cdc.MustUnmarshal(iterator.Value(), &contract)
-		
+
 		// Check if this contract matches our criteria
 		if contract.SubnetId == subnetId && contract.Status == types.ContractStatus_CONTRACT_STATUS_LEASED {
 			return contract.Id, true
 		}
 	}
-	
+
 	return 0, false
 }

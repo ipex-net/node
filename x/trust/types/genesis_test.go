@@ -31,6 +31,15 @@ func TestGenesisState_Validate(t *testing.T) {
 						Index: 1,
 					},
 				},
+				BlacklistLogList: []types.BlacklistLog{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				BlacklistLogCount: 2,
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -46,6 +55,32 @@ func TestGenesisState_Validate(t *testing.T) {
 						Index: 0,
 					},
 				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated blacklistLog",
+			genState: &types.GenesisState{
+				BlacklistLogList: []types.BlacklistLog{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid blacklistLog count",
+			genState: &types.GenesisState{
+				BlacklistLogList: []types.BlacklistLog{
+					{
+						Id: 1,
+					},
+				},
+				BlacklistLogCount: 0,
 			},
 			valid: false,
 		},

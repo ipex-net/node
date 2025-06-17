@@ -73,8 +73,7 @@ func (k Keeper) GetAllSubnetReputation(ctx context.Context) (list []types.Subnet
 	return
 }
 
-
-// UpdateSubnetReputation is a helper method 
+// UpdateSubnetReputation is a helper method
 func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, leaseId uint64, lessorOrgId uint64, lesseeOrgId uint64, reputation types.SubnetBlacklistCount) error {
 	// Unwrap SDK context
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
@@ -86,36 +85,35 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 	// Get the current subnet reputation
 	currentRep, found := k.GetSubnetReputation(ctx, subnetId)
 	// Calculating the reputation change
-	 var level1Delta, level2Delta, level3Delta, level4Delta int32
-	 if found {
-	 	level1Delta = int32(reputation.Level1Count) - int32(currentRep.Level1Count) 
-	 	level2Delta = int32(reputation.Level2Count) - int32(currentRep.Level2Count) 	
-	 	level3Delta = int32(reputation.Level3Count) - int32(currentRep.Level3Count) 
-	 	level4Delta = int32(reputation.Level4Count) - int32(currentRep.Level4Count) 	
-	 } else {
-		level1Delta, level2Delta, level3Delta, level4Delta = int32(reputation.Level1Count), int32(reputation.Level2Count), int32(reputation.Level3Count), int32(reputation.Level4Count)
-	 }
+	var level1Change, level2Change, level3Change, level4Change int32
+	if found {
+		level1Change = int32(reputation.Level1Count) - int32(currentRep.Level1Count)
+		level2Change = int32(reputation.Level2Count) - int32(currentRep.Level2Count)
+		level3Change = int32(reputation.Level3Count) - int32(currentRep.Level3Count)
+		level4Change = int32(reputation.Level4Count) - int32(currentRep.Level4Count)
+	} else {
+		level1Change, level2Change, level3Change, level4Change = int32(reputation.Level1Count), int32(reputation.Level2Count), int32(reputation.Level3Count), int32(reputation.Level4Count)
+	}
 
-	 // Logging only if there was a reputation change
-	 if level1Delta != 0 || level2Delta !=0 || level3Delta != 0 || level4Delta != 0 {
-		_ = level1Delta
-	 }
+	// Logging only if there was a reputation change
+	if level1Change != 0 || level2Change != 0 || level3Change != 0 || level4Change != 0 {
+		_ = level1Change
+	}
 
-    subnetRep := types.SubnetReputation{
-        Index:       subnetId,
-        Level1Count: reputation.Level1Count,
-        Level2Count: reputation.Level2Count,
-        Level3Count: reputation.Level3Count,
-        Level4Count: reputation.Level4Count,
-        LastUpdated: &blockTime,
-    }
-    // TODO: log the subnet reputation change 
-	// TODO: update lessee reputation 
-    k.SetSubnetReputation(ctx, subnetRep)
+	subnetRep := types.SubnetReputation{
+		Index:       subnetId,
+		Level1Count: reputation.Level1Count,
+		Level2Count: reputation.Level2Count,
+		Level3Count: reputation.Level3Count,
+		Level4Count: reputation.Level4Count,
+		LastUpdated: &blockTime,
+	}
+	// TODO: log the subnet reputation change
+	// TODO: update lessee reputation
+	k.SetSubnetReputation(ctx, subnetRep)
 
 	return nil
 }
-
 
 func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context) (list []uint64) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
@@ -135,7 +133,7 @@ func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context) (list []uin
 		if subnetReputation.LastUpdated != nil {
 			lastAttempt := *subnetReputation.LastUpdated
 			// Skip if not enough time has passed
-			if now.Sub(lastAttempt) < 6 * time.Hour {
+			if now.Sub(lastAttempt) < 6*time.Hour {
 				continue
 			}
 		}

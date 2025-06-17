@@ -20,13 +20,13 @@ import (
 // properties, along with the extended commit info used to calculate these results.
 
 type NetworkValidationResults struct {
-	OrgValidationResults  map[uint64]bool
-	SubnetSyncResults     map[uint64]subnettypes.SubnetInfo
-	RpkiValidationResults map[uint64]bool
-	GeoValidationResults  map[uint64]bool
-	SubnetOwnerValidation map[uint64]bool
+	OrgValidationResults       map[uint64]bool
+	SubnetSyncResults          map[uint64]subnettypes.SubnetInfo
+	RpkiValidationResults      map[uint64]bool
+	GeoValidationResults       map[uint64]bool
+	SubnetOwnerValidation      map[uint64]bool
 	SubnetBlacklistSyncResults map[uint64]trusttypes.SubnetBlacklistCount
-	ExtendedCommitInfo    abci.ExtendedCommitInfo
+	ExtendedCommitInfo         abci.ExtendedCommitInfo
 }
 
 type ProposalHandler struct {
@@ -81,13 +81,13 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 
 			// Create the injected transaction with validation results
 			injectedVoteExtTx := NetworkValidationResults{
-				OrgValidationResults:  orgValidationResults,
-				SubnetSyncResults:     subnetSyncResults,
-				RpkiValidationResults: rpkiValidationResults,
-				GeoValidationResults:  geoValidationResults,
-				SubnetOwnerValidation: subnetOwnershipResults,
-				SubnetBlacklistSyncResults: subnetBlacklistSyncResults, 
-				ExtendedCommitInfo:    req.LocalLastCommit,
+				OrgValidationResults:       orgValidationResults,
+				SubnetSyncResults:          subnetSyncResults,
+				RpkiValidationResults:      rpkiValidationResults,
+				GeoValidationResults:       geoValidationResults,
+				SubnetOwnerValidation:      subnetOwnershipResults,
+				SubnetBlacklistSyncResults: subnetBlacklistSyncResults,
+				ExtendedCommitInfo:         req.LocalLastCommit,
 			}
 
 			// Marshal to JSON for injection
@@ -114,7 +114,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	rpkiValidationResults := make(map[uint64]bool)
 	geoValidationResults := make(map[uint64]bool)
 	subnetOwnershipResults := make(map[uint64]bool)
-	subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount) 
+	subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount)
 
 	// Maps to track voting power for org validations
 	orgValidPower := make(map[uint64]int64)
@@ -144,10 +144,10 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	subnetVotePowers := []subnetVotePower{}
 
 	type blacklistVotePower struct {
-		subnetID    uint64
-		countJSON   string
-		power       int64
-		count       trusttypes.SubnetBlacklistCount
+		subnetID  uint64
+		countJSON string
+		power     int64
+		count     trusttypes.SubnetBlacklistCount
 	}
 	blacklistVotePowers := []blacklistVotePower{}
 
@@ -719,18 +719,20 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 	// Update the blacklist sync results for each subnet
 	for subnetId, blacklistCount := range injectedVoteExtTx.SubnetBlacklistSyncResults {
 		subnet, err := h.subnetKeeper.GetSubnet(ctx, subnetId)
-		if err {			
+		if err {
 			h.logger.Error("failed to update subnet blacklist count",
-			"subnet_id", subnetId,
-			"l1_count", blacklistCount.Level1Count,
-			"l2_count", blacklistCount.Level2Count,
-			"l3_count", blacklistCount.Level3Count,
-			"l4_count", blacklistCount.Level4Count,
-			"error", err)
+				"subnet_id", subnetId,
+				"l1_count", blacklistCount.Level1Count,
+				"l2_count", blacklistCount.Level2Count,
+				"l3_count", blacklistCount.Level3Count,
+				"l4_count", blacklistCount.Level4Count,
+				"error", err)
 		}
 		contractId, found := h.leaseKeeper.GetFirstLeasedContractBySubnet(ctx, subnetId)
-		if !found {contractId = 0}
-		if err := h.trustKeeper.UpdateSubnetReputation(ctx, subnetId, contractId, subnet.OwnerOrgId, subnet.UserOrgId ,blacklistCount); err != nil {
+		if !found {
+			contractId = 0
+		}
+		if err := h.trustKeeper.UpdateSubnetReputation(ctx, subnetId, contractId, subnet.OwnerOrgId, subnet.UserOrgId, blacklistCount); err != nil {
 			// Log error but continue with other subnets
 			h.logger.Error("failed to update subnet blacklist count",
 				"subnet_id", subnetId,
@@ -748,7 +750,6 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 				"l4_count", blacklistCount.Level4Count)
 		}
 	}
-
 
 	return res, nil
 }

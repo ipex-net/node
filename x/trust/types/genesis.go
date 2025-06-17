@@ -11,6 +11,7 @@ const DefaultIndex uint64 = 1
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		SubnetReputationList: []SubnetReputation{},
+		BlacklistLogList:     []BlacklistLog{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -28,6 +29,18 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for subnetReputation")
 		}
 		subnetReputationIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated ID in blacklistLog
+	blacklistLogIdMap := make(map[uint64]bool)
+	blacklistLogCount := gs.GetBlacklistLogCount()
+	for _, elem := range gs.BlacklistLogList {
+		if _, ok := blacklistLogIdMap[elem.Id]; ok {
+			return fmt.Errorf("duplicated id for blacklistLog")
+		}
+		if elem.Id >= blacklistLogCount {
+			return fmt.Errorf("blacklistLog id should be lower or equal than the last id")
+		}
+		blacklistLogIdMap[elem.Id] = true
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

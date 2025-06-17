@@ -28,6 +28,17 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Shows a subnet-reputation",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "index"}},
 				},
+				{
+					RpcMethod: "BlacklistLogAll",
+					Use:       "list-blacklist-log",
+					Short:     "List all blacklist-log",
+				},
+				{
+					RpcMethod:      "BlacklistLog",
+					Use:            "show-blacklist-log [id]",
+					Short:          "Shows a blacklist-log by id",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

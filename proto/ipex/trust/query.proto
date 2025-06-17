@@ -8,6 +8,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "ipex/trust/params.proto";
 import "ipex/trust/subnet_reputation.proto";
+import "ipex/trust/blacklist_log.proto";
 
 option go_package = "ipex/x/trust/types";
 
@@ -27,6 +28,16 @@ service Query {
   }
   rpc SubnetReputationAll (QueryAllSubnetReputationRequest) returns (QueryAllSubnetReputationResponse) {
     option (google.api.http).get = "/ipex/trust/subnet_reputation";
+  
+  }
+  
+  // Queries a list of BlacklistLog items.
+  rpc BlacklistLog    (QueryGetBlacklistLogRequest) returns (QueryGetBlacklistLogResponse) {
+    option (google.api.http).get = "/ipex/trust/blacklist_log/{id}";
+  
+  }
+  rpc BlacklistLogAll (QueryAllBlacklistLogRequest) returns (QueryAllBlacklistLogResponse) {
+    option (google.api.http).get = "/ipex/trust/blacklist_log";
   
   }
 }
@@ -55,5 +66,22 @@ message QueryAllSubnetReputationRequest {
 message QueryAllSubnetReputationResponse {
   repeated SubnetReputation                       subnetReputation = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination       = 2;
+}
+
+message QueryGetBlacklistLogRequest {
+  uint64 id = 1;
+}
+
+message QueryGetBlacklistLogResponse {
+  BlacklistLog BlacklistLog = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllBlacklistLogRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllBlacklistLogResponse {
+  repeated BlacklistLog                           BlacklistLog = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination   = 2;
 }
 

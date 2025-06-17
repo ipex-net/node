@@ -1,0 +1,19 @@
+syntax = "proto3";
+package ipex.trust;
+
+option go_package = "ipex/x/trust/types";
+import "google/protobuf/timestamp.proto";
+import "gogoproto/gogo.proto";
+
+message BlacklistLog {
+  uint64 id = 1;
+  uint64 subnetId = 2; 
+  uint64 lessorOrgId = 3; 
+  uint64 leaseId = 4; 
+  uint64 lesseeOrgId = 5; 
+  int32 level1Change = 6; 
+  int32 level2Change = 7; 
+  int32 level3Change = 8; 
+  int32 level4Change = 9; 
+  google.protobuf.Timestamp timestamp = 10 [(gogoproto.stdtime) = true]; 
+}

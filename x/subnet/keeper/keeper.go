@@ -20,7 +20,7 @@ type (
 		// should be the x/gov module account.
 		authority string
 
-		orgKeeper types.OrgKeeper
+		orgKeeper   types.OrgKeeper
 		trustKeeper types.TrustKeeper
 	}
 )
@@ -44,7 +44,7 @@ func NewKeeper(
 		authority:    authority,
 		logger:       logger,
 		orgKeeper:    orgKeeper,
-		trustKeeper: trustKeeper,
+		trustKeeper:  trustKeeper,
 	}
 }
 
