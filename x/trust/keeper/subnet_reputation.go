@@ -97,7 +97,18 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 
 	// Logging only if there was a reputation change
 	if level1Change != 0 || level2Change != 0 || level3Change != 0 || level4Change != 0 {
-		_ = level1Change
+		logEntry := types.BlacklistLog{
+			SubnetId:      subnetId,
+			LessorOrgId:   lessorOrgId,
+			LeaseId:       leaseId,
+			LesseeOrgId:   lesseeOrgId,
+			Level1Change:  level1Change,
+			Level2Change:  level2Change,
+			Level3Change:  level3Change,
+			Level4Change:  level4Change,
+			Timestamp:     &blockTime,
+		}
+		k.AppendBlacklistLog(ctx, logEntry)
 	}
 
 	subnetRep := types.SubnetReputation{
