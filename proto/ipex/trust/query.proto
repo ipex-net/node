@@ -40,6 +40,12 @@ service Query {
     option (google.api.http).get = "/ipex/trust/blacklist_log";
   
   }
+  
+  // Queries a list of BlacklistLogBySubnet items.
+  rpc BlacklistLogBySubnet (QueryBlacklistLogBySubnetRequest) returns (QueryBlacklistLogBySubnetResponse) {
+    option (google.api.http).get = "/ipex/trust/blacklist_log_by_subnet/{subnetId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -83,5 +89,13 @@ message QueryAllBlacklistLogRequest {
 message QueryAllBlacklistLogResponse {
   repeated BlacklistLog                           BlacklistLog = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+}
+
+message QueryBlacklistLogBySubnetRequest {
+  uint64 subnetId = 1;
+}
+
+message QueryBlacklistLogBySubnetResponse {
+    repeated BlacklistLog BlacklistLog = 1 [(gogoproto.nullable) = false];
 }
 

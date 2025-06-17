@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName              = "/ipex.trust.Query/Params"
-	Query_SubnetReputation_FullMethodName    = "/ipex.trust.Query/SubnetReputation"
-	Query_SubnetReputationAll_FullMethodName = "/ipex.trust.Query/SubnetReputationAll"
-	Query_BlacklistLog_FullMethodName        = "/ipex.trust.Query/BlacklistLog"
-	Query_BlacklistLogAll_FullMethodName     = "/ipex.trust.Query/BlacklistLogAll"
+	Query_Params_FullMethodName               = "/ipex.trust.Query/Params"
+	Query_SubnetReputation_FullMethodName     = "/ipex.trust.Query/SubnetReputation"
+	Query_SubnetReputationAll_FullMethodName  = "/ipex.trust.Query/SubnetReputationAll"
+	Query_BlacklistLog_FullMethodName         = "/ipex.trust.Query/BlacklistLog"
+	Query_BlacklistLogAll_FullMethodName      = "/ipex.trust.Query/BlacklistLogAll"
+	Query_BlacklistLogBySubnet_FullMethodName = "/ipex.trust.Query/BlacklistLogBySubnet"
 )
 
 // QueryClient is the client API for Query service.
@@ -38,6 +39,8 @@ type QueryClient interface {
 	// Queries a list of BlacklistLog items.
 	BlacklistLog(ctx context.Context, in *QueryGetBlacklistLogRequest, opts ...grpc.CallOption) (*QueryGetBlacklistLogResponse, error)
 	BlacklistLogAll(ctx context.Context, in *QueryAllBlacklistLogRequest, opts ...grpc.CallOption) (*QueryAllBlacklistLogResponse, error)
+	// Queries a list of BlacklistLogBySubnet items.
+	BlacklistLogBySubnet(ctx context.Context, in *QueryBlacklistLogBySubnetRequest, opts ...grpc.CallOption) (*QueryBlacklistLogBySubnetResponse, error)
 }
 
 type queryClient struct {
@@ -93,6 +96,15 @@ func (c *queryClient) BlacklistLogAll(ctx context.Context, in *QueryAllBlacklist
 	return out, nil
 }
 
+func (c *queryClient) BlacklistLogBySubnet(ctx context.Context, in *QueryBlacklistLogBySubnetRequest, opts ...grpc.CallOption) (*QueryBlacklistLogBySubnetResponse, error) {
+	out := new(QueryBlacklistLogBySubnetResponse)
+	err := c.cc.Invoke(ctx, Query_BlacklistLogBySubnet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -105,6 +117,8 @@ type QueryServer interface {
 	// Queries a list of BlacklistLog items.
 	BlacklistLog(context.Context, *QueryGetBlacklistLogRequest) (*QueryGetBlacklistLogResponse, error)
 	BlacklistLogAll(context.Context, *QueryAllBlacklistLogRequest) (*QueryAllBlacklistLogResponse, error)
+	// Queries a list of BlacklistLogBySubnet items.
+	BlacklistLogBySubnet(context.Context, *QueryBlacklistLogBySubnetRequest) (*QueryBlacklistLogBySubnetResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -126,6 +140,9 @@ func (UnimplementedQueryServer) BlacklistLog(context.Context, *QueryGetBlacklist
 }
 func (UnimplementedQueryServer) BlacklistLogAll(context.Context, *QueryAllBlacklistLogRequest) (*QueryAllBlacklistLogResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogAll not implemented")
+}
+func (UnimplementedQueryServer) BlacklistLogBySubnet(context.Context, *QueryBlacklistLogBySubnetRequest) (*QueryBlacklistLogBySubnetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogBySubnet not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -230,6 +247,24 @@ func _Query_BlacklistLogAll_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_BlacklistLogBySubnet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryBlacklistLogBySubnetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BlacklistLogBySubnet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_BlacklistLogBySubnet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BlacklistLogBySubnet(ctx, req.(*QueryBlacklistLogBySubnetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -256,6 +291,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BlacklistLogAll",
 			Handler:    _Query_BlacklistLogAll_Handler,
+		},
+		{
+			MethodName: "BlacklistLogBySubnet",
+			Handler:    _Query_BlacklistLogBySubnet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
