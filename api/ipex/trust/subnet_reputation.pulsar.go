@@ -106,26 +106,26 @@ func (x *fastReflection_SubnetReputation) Range(f func(protoreflect.FieldDescrip
 			return
 		}
 	}
-	if x.Level1Count != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Level1Count)
+	if x.Level1Count != uint32(0) {
+		value := protoreflect.ValueOfUint32(x.Level1Count)
 		if !f(fd_SubnetReputation_level1Count, value) {
 			return
 		}
 	}
-	if x.Level2Count != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Level2Count)
+	if x.Level2Count != uint32(0) {
+		value := protoreflect.ValueOfUint32(x.Level2Count)
 		if !f(fd_SubnetReputation_level2Count, value) {
 			return
 		}
 	}
-	if x.Level3Count != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Level3Count)
+	if x.Level3Count != uint32(0) {
+		value := protoreflect.ValueOfUint32(x.Level3Count)
 		if !f(fd_SubnetReputation_level3Count, value) {
 			return
 		}
 	}
-	if x.Level4Count != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Level4Count)
+	if x.Level4Count != uint32(0) {
+		value := protoreflect.ValueOfUint32(x.Level4Count)
 		if !f(fd_SubnetReputation_level4Count, value) {
 			return
 		}
@@ -154,13 +154,13 @@ func (x *fastReflection_SubnetReputation) Has(fd protoreflect.FieldDescriptor) b
 	case "ipex.trust.SubnetReputation.index":
 		return x.Index != uint64(0)
 	case "ipex.trust.SubnetReputation.level1Count":
-		return x.Level1Count != uint64(0)
+		return x.Level1Count != uint32(0)
 	case "ipex.trust.SubnetReputation.level2Count":
-		return x.Level2Count != uint64(0)
+		return x.Level2Count != uint32(0)
 	case "ipex.trust.SubnetReputation.level3Count":
-		return x.Level3Count != uint64(0)
+		return x.Level3Count != uint32(0)
 	case "ipex.trust.SubnetReputation.level4Count":
-		return x.Level4Count != uint64(0)
+		return x.Level4Count != uint32(0)
 	case "ipex.trust.SubnetReputation.lastUpdated":
 		return x.LastUpdated != nil
 	default:
@@ -182,13 +182,13 @@ func (x *fastReflection_SubnetReputation) Clear(fd protoreflect.FieldDescriptor)
 	case "ipex.trust.SubnetReputation.index":
 		x.Index = uint64(0)
 	case "ipex.trust.SubnetReputation.level1Count":
-		x.Level1Count = uint64(0)
+		x.Level1Count = uint32(0)
 	case "ipex.trust.SubnetReputation.level2Count":
-		x.Level2Count = uint64(0)
+		x.Level2Count = uint32(0)
 	case "ipex.trust.SubnetReputation.level3Count":
-		x.Level3Count = uint64(0)
+		x.Level3Count = uint32(0)
 	case "ipex.trust.SubnetReputation.level4Count":
-		x.Level4Count = uint64(0)
+		x.Level4Count = uint32(0)
 	case "ipex.trust.SubnetReputation.lastUpdated":
 		x.LastUpdated = nil
 	default:
@@ -212,16 +212,16 @@ func (x *fastReflection_SubnetReputation) Get(descriptor protoreflect.FieldDescr
 		return protoreflect.ValueOfUint64(value)
 	case "ipex.trust.SubnetReputation.level1Count":
 		value := x.Level1Count
-		return protoreflect.ValueOfUint64(value)
+		return protoreflect.ValueOfUint32(value)
 	case "ipex.trust.SubnetReputation.level2Count":
 		value := x.Level2Count
-		return protoreflect.ValueOfUint64(value)
+		return protoreflect.ValueOfUint32(value)
 	case "ipex.trust.SubnetReputation.level3Count":
 		value := x.Level3Count
-		return protoreflect.ValueOfUint64(value)
+		return protoreflect.ValueOfUint32(value)
 	case "ipex.trust.SubnetReputation.level4Count":
 		value := x.Level4Count
-		return protoreflect.ValueOfUint64(value)
+		return protoreflect.ValueOfUint32(value)
 	case "ipex.trust.SubnetReputation.lastUpdated":
 		value := x.LastUpdated
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
@@ -248,13 +248,13 @@ func (x *fastReflection_SubnetReputation) Set(fd protoreflect.FieldDescriptor, v
 	case "ipex.trust.SubnetReputation.index":
 		x.Index = value.Uint()
 	case "ipex.trust.SubnetReputation.level1Count":
-		x.Level1Count = value.Uint()
+		x.Level1Count = uint32(value.Uint())
 	case "ipex.trust.SubnetReputation.level2Count":
-		x.Level2Count = value.Uint()
+		x.Level2Count = uint32(value.Uint())
 	case "ipex.trust.SubnetReputation.level3Count":
-		x.Level3Count = value.Uint()
+		x.Level3Count = uint32(value.Uint())
 	case "ipex.trust.SubnetReputation.level4Count":
-		x.Level4Count = value.Uint()
+		x.Level4Count = uint32(value.Uint())
 	case "ipex.trust.SubnetReputation.lastUpdated":
 		x.LastUpdated = value.Message().Interface().(*timestamppb.Timestamp)
 	default:
@@ -308,13 +308,13 @@ func (x *fastReflection_SubnetReputation) NewField(fd protoreflect.FieldDescript
 	case "ipex.trust.SubnetReputation.index":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.trust.SubnetReputation.level1Count":
-		return protoreflect.ValueOfUint64(uint64(0))
+		return protoreflect.ValueOfUint32(uint32(0))
 	case "ipex.trust.SubnetReputation.level2Count":
-		return protoreflect.ValueOfUint64(uint64(0))
+		return protoreflect.ValueOfUint32(uint32(0))
 	case "ipex.trust.SubnetReputation.level3Count":
-		return protoreflect.ValueOfUint64(uint64(0))
+		return protoreflect.ValueOfUint32(uint32(0))
 	case "ipex.trust.SubnetReputation.level4Count":
-		return protoreflect.ValueOfUint64(uint64(0))
+		return protoreflect.ValueOfUint32(uint32(0))
 	case "ipex.trust.SubnetReputation.lastUpdated":
 		m := new(timestamppb.Timestamp)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
@@ -556,7 +556,7 @@ func (x *fastReflection_SubnetReputation) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Level1Count |= uint64(b&0x7F) << shift
+					x.Level1Count |= uint32(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -575,7 +575,7 @@ func (x *fastReflection_SubnetReputation) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Level2Count |= uint64(b&0x7F) << shift
+					x.Level2Count |= uint32(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -594,7 +594,7 @@ func (x *fastReflection_SubnetReputation) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Level3Count |= uint64(b&0x7F) << shift
+					x.Level3Count |= uint32(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -613,7 +613,7 @@ func (x *fastReflection_SubnetReputation) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Level4Count |= uint64(b&0x7F) << shift
+					x.Level4Count |= uint32(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -708,10 +708,10 @@ type SubnetReputation struct {
 	unknownFields protoimpl.UnknownFields
 
 	Index       uint64                 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
-	Level1Count uint64                 `protobuf:"varint,2,opt,name=level1Count,proto3" json:"level1Count,omitempty"`
-	Level2Count uint64                 `protobuf:"varint,3,opt,name=level2Count,proto3" json:"level2Count,omitempty"`
-	Level3Count uint64                 `protobuf:"varint,4,opt,name=level3Count,proto3" json:"level3Count,omitempty"`
-	Level4Count uint64                 `protobuf:"varint,5,opt,name=level4Count,proto3" json:"level4Count,omitempty"`
+	Level1Count uint32                 `protobuf:"varint,2,opt,name=level1Count,proto3" json:"level1Count,omitempty"`
+	Level2Count uint32                 `protobuf:"varint,3,opt,name=level2Count,proto3" json:"level2Count,omitempty"`
+	Level3Count uint32                 `protobuf:"varint,4,opt,name=level3Count,proto3" json:"level3Count,omitempty"`
+	Level4Count uint32                 `protobuf:"varint,5,opt,name=level4Count,proto3" json:"level4Count,omitempty"`
 	LastUpdated *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=lastUpdated,proto3" json:"lastUpdated,omitempty"`
 }
 
@@ -742,28 +742,28 @@ func (x *SubnetReputation) GetIndex() uint64 {
 	return 0
 }
 
-func (x *SubnetReputation) GetLevel1Count() uint64 {
+func (x *SubnetReputation) GetLevel1Count() uint32 {
 	if x != nil {
 		return x.Level1Count
 	}
 	return 0
 }
 
-func (x *SubnetReputation) GetLevel2Count() uint64 {
+func (x *SubnetReputation) GetLevel2Count() uint32 {
 	if x != nil {
 		return x.Level2Count
 	}
 	return 0
 }
 
-func (x *SubnetReputation) GetLevel3Count() uint64 {
+func (x *SubnetReputation) GetLevel3Count() uint32 {
 	if x != nil {
 		return x.Level3Count
 	}
 	return 0
 }
 
-func (x *SubnetReputation) GetLevel4Count() uint64 {
+func (x *SubnetReputation) GetLevel4Count() uint32 {
 	if x != nil {
 		return x.Level4Count
 	}
@@ -790,13 +790,13 @@ var file_ipex_trust_subnet_reputation_proto_rawDesc = []byte{
 	0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x14,
 	0x0a, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x69,
 	0x6e, 0x64, 0x65, 0x78, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x31, 0x43, 0x6f,
-	0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c,
+	0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c,
 	0x31, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x32,
-	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x76,
+	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0b, 0x6c, 0x65, 0x76,
 	0x65, 0x6c, 0x32, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65,
-	0x6c, 0x33, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x6c,
+	0x6c, 0x33, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0b, 0x6c,
 	0x65, 0x76, 0x65, 0x6c, 0x33, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65,
-	0x76, 0x65, 0x6c, 0x34, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x76, 0x65, 0x6c, 0x34, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0d, 0x52,
 	0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x34, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x42, 0x0a, 0x0b,
 	0x6c, 0x61, 0x73, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,

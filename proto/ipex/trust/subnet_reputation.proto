@@ -7,10 +7,10 @@ import "gogoproto/gogo.proto";
 
 message SubnetReputation {
   uint64 index = 1; 
-  uint64 level1Count = 2; 
-  uint64 level2Count = 3; 
-  uint64 level3Count = 4; 
-  uint64 level4Count = 5; 
+  uint32 level1Count = 2; 
+  uint32 level2Count = 3; 
+  uint32 level3Count = 4; 
+  uint32 level4Count = 5; 
   google.protobuf.Timestamp lastUpdated = 6 [(gogoproto.stdtime) = true];
 }
 

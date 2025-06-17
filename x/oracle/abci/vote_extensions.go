@@ -1217,9 +1217,9 @@ func (h *VoteExtHandler) SyncSubnetBlacklist(subnetId uint64, cidr string) (trus
 	"netintel_ready", true)
 	
 	return trusttypes.SubnetBlacklistCount{
-		Level1Count: uint64(l1),
-		Level2Count: uint64(l2),
-		Level3Count: uint64(l3),
-		Level4Count: uint64(l4),
+		Level1Count: uint32(l1),
+		Level2Count: uint32(l2),
+		Level3Count: uint32(l3),
+		Level4Count: uint32(l4),
 	}, nil
 }

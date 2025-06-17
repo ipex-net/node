@@ -1,8 +1,8 @@
 package types
 
 type SubnetBlacklistCount struct {
-	Level1Count uint64
-	Level2Count uint64
-	Level3Count uint64
-	Level4Count uint64
+	Level1Count uint32
+	Level2Count uint32
+	Level3Count uint32
+	Level4Count uint32
 }
