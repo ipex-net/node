@@ -33,13 +33,13 @@ type SubnetKeeper interface {
 	GetSubnet(ctx context.Context, id uint64) (subnettypes.Subnet, bool)
 	// SetSubnet updates the given Subnet.
 	SetSubnet(ctx context.Context, subnet subnettypes.Subnet)
-	GetSubnetsForRirSync(ctx context.Context) []subnettypes.Subnet
+	GetSubnetsForRirSync(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet
 	UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info subnettypes.SubnetInfo) error
-	GetSubnetsForRPKIValidation(ctx context.Context) (list []subnettypes.Subnet)
+	GetSubnetsForRPKIValidation(ctx context.Context, referenceTime time.Time) (list []subnettypes.Subnet)
 	UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error
-	GetSubnetsForGeoValidation(ctx context.Context) (list []subnettypes.Subnet)
+	GetSubnetsForGeoValidation(ctx context.Context, referenceTime time.Time) (list []subnettypes.Subnet)
 	UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error
-	GetSubnetsForOwnershipVerification(ctx context.Context) (list []subnettypes.Subnet)
+	GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) (list []subnettypes.Subnet)
 	UpdateSubnetOwnershipVerification(ctx context.Context, subnetId uint64, isValid bool) error
 	IsRirRecordValid(ctx context.Context, subnetId uint64) bool
 }

@@ -203,15 +203,13 @@ func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 	k.SetSubnet(ctx, subnet)
 }
 
-func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) {
+func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	now := sdkCtx.BlockTime()
 	count := 0
 	maxSubnets := 5
 	for ; iterator.Valid(); iterator.Next() {
@@ -225,22 +223,22 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context) (list []types.Subnet) 
 			// Determine required interval based on org age and validity status
 			var requiredInterval time.Duration
 
-			switch {
+			switch subnet.Status{
 
-			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_READY:
+			case types.SubnetStatus_SUBNET_STATUS_READY:
 				requiredInterval = 72 * time.Hour //If subnet was succesfully synced, rerun the sync after x hours
-			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_LEASED:
+			case types.SubnetStatus_SUBNET_STATUS_LEASED:
 				requiredInterval = 72 * time.Hour //If subnet was succesfully synced, rerun the sync after x hours
-			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_REJECTED:
+			case types.SubnetStatus_SUBNET_STATUS_REJECTED:
 				continue //If synced and was rejected
-			case subnet.Status == types.SubnetStatus_SUBNET_STATUS_INITIAL:
+			case types.SubnetStatus_SUBNET_STATUS_INITIAL:
 				requiredInterval = time.Second
 			default: // 1 minute
 				requiredInterval = time.Minute
 			}
 
 			// Skip if not enough time has passed
-			if now.Sub(lastAttempt) < requiredInterval {
+			if referenceTime.Sub(lastAttempt) < requiredInterval {
 				continue
 			}
 		}
@@ -296,15 +294,12 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 }
 
 // GetSubnetsForRPKIValidation retrieves subnets for rpki validation
-func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context) (list []types.Subnet) {
+func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
 	defer iterator.Close()
 
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	now := sdkCtx.BlockTime()
 	count := 0
 	maxSubnets := 5
 	for ; iterator.Valid(); iterator.Next() {
@@ -321,7 +316,7 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context) (list []types.S
 			continue
 		}
 
-		originTransferAge := now.Sub(*subnet.OriginTransferRequestedAt)
+		originTransferAge := referenceTime.Sub(*subnet.OriginTransferRequestedAt)
 
 		// Determine required interval
 		var requiredInterval time.Duration
@@ -338,7 +333,7 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context) (list []types.S
 		}
 
 		// Skip if not enough time has passed
-		if subnet.RpkiLastSyncedAt != nil && now.Sub(*subnet.RpkiLastSyncedAt) < requiredInterval {
+		if subnet.RpkiLastSyncedAt != nil && referenceTime.Sub(*subnet.RpkiLastSyncedAt) < requiredInterval {
 			continue
 		}
 
@@ -381,14 +376,12 @@ func (k Keeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID u
 }
 
 // GetSubnetsForRPKIValidation retrieves subnets for rpki validation
-func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context) (list []types.Subnet) {
+func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
 	defer iterator.Close()
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	now := sdkCtx.BlockTime()
+
 	count := 0
 	maxSubnets := 5
 	for ; iterator.Valid(); iterator.Next() {
@@ -410,7 +403,7 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context) (list []types.Su
 			continue
 		}
 
-		geoChangeAge := now.Sub(*subnet.GeoDetailsChangedAt)
+		geoChangeAge := referenceTime.Sub(*subnet.GeoDetailsChangedAt)
 
 		// Determine required interval
 		var requiredInterval time.Duration
@@ -426,7 +419,7 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context) (list []types.Su
 		}
 
 		// Skip if not enough time has passed
-		if subnet.GeoVerifAttemptedAt != nil && now.Sub(*subnet.GeoVerifAttemptedAt) < requiredInterval {
+		if subnet.GeoVerifAttemptedAt != nil && referenceTime.Sub(*subnet.GeoVerifAttemptedAt) < requiredInterval {
 			continue
 		}
 
@@ -468,15 +461,12 @@ func (k Keeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID ui
 }
 
 // GetSubnetsForOwnershipVerification retrieves subnets for ownership verification
-func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []types.Subnet) {
+func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
 	defer iterator.Close()
 
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	now := sdkCtx.BlockTime()
 	count := 0
 	maxSubnets := 5
 	for ; iterator.Valid(); iterator.Next() {
@@ -489,7 +479,7 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []
 		} else {
 			lastAttempt = time.Time{}
 		}
-		subnetAge := now.Sub(subnet.CreatedAt)
+		subnetAge := referenceTime.Sub(subnet.CreatedAt)
 
 		// Determine required interval based on subnet age and validity status
 		var requiredInterval time.Duration
@@ -517,7 +507,7 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context) (list []
 		}
 
 		// Skip if not enough time has passed
-		if now.Sub(lastAttempt) < requiredInterval {
+		if referenceTime.Sub(lastAttempt) < requiredInterval {
 			continue
 		}
 

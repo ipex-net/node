@@ -82,13 +82,10 @@ type OracleVoteExtension struct {
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 	return func(ctx sdk.Context, req *abci.RequestExtendVote) (*abci.ResponseExtendVote, error) {
 
-		subnetsToRirSync := h.SubnetKeeper.GetSubnetsForRirSync(ctx)
-		subnetsForRPKIValidation := h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx)
-		subnetsForGeoValidation := h.SubnetKeeper.GetSubnetsForGeoValidation(ctx)
-		subnetsForOwnershipVerification := h.SubnetKeeper.GetSubnetsForOwnershipVerification(ctx)
-
 		var subnetsForBlacklistSync []uint64
 		var orgsToValidate []orgtypes.Org
+		var subnetsToRirSync, subnetsForRPKIValidation, subnetsForGeoValidation, subnetsForOwnershipVerification []subnettypes.Subnet
+
 		// Get the last block time from oracle keeper
 		lastBlockTime, found := h.OracleKeeper.GetLastBlockTime(ctx)
 		// Get the data for validation
@@ -96,9 +93,14 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			h.logger.Error("No block time available for vote extension")
 			subnetsForBlacklistSync = []uint64{}
 			orgsToValidate = []orgtypes.Org{}
+			subnetsToRirSync, subnetsForRPKIValidation, subnetsForGeoValidation, subnetsForOwnershipVerification = []subnettypes.Subnet{}, []subnettypes.Subnet{}, []subnettypes.Subnet{}, []subnettypes.Subnet{}
 		} else {
 			subnetsForBlacklistSync = h.TrustKeeper.GetSubnetsForReputationScanning(ctx, lastBlockTime)
 			orgsToValidate = h.OrgKeeper.GetOrgsForDomainValidation(ctx, lastBlockTime)
+			subnetsToRirSync = h.SubnetKeeper.GetSubnetsForRirSync(ctx, lastBlockTime)
+			subnetsForRPKIValidation = h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx, lastBlockTime)
+			subnetsForGeoValidation = h.SubnetKeeper.GetSubnetsForGeoValidation(ctx, lastBlockTime)
+			subnetsForOwnershipVerification = h.SubnetKeeper.GetSubnetsForOwnershipVerification(ctx, lastBlockTime)
 		}
 
 		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetsForBlacklistSync) == 0 {
