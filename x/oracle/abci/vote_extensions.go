@@ -17,6 +17,7 @@ import (
 
 	"ipex/x/oracle/keeper"
 	"ipex/x/oracle/types"
+	orgtypes "ipex/x/org/types"
 	subnettypes "ipex/x/subnet/types"
 	trusttypes "ipex/x/trust/types"
 
@@ -80,21 +81,24 @@ type OracleVoteExtension struct {
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 	return func(ctx sdk.Context, req *abci.RequestExtendVote) (*abci.ResponseExtendVote, error) {
-		// Get list of organizations that need validation
-		orgsToValidate := h.OrgKeeper.GetOrgsForDomainValidation(ctx)
+
 		subnetsToRirSync := h.SubnetKeeper.GetSubnetsForRirSync(ctx)
 		subnetsForRPKIValidation := h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx)
 		subnetsForGeoValidation := h.SubnetKeeper.GetSubnetsForGeoValidation(ctx)
 		subnetsForOwnershipVerification := h.SubnetKeeper.GetSubnetsForOwnershipVerification(ctx)
 
 		var subnetsForBlacklistSync []uint64
+		var orgsToValidate []orgtypes.Org
 		// Get the last block time from oracle keeper
 		lastBlockTime, found := h.OracleKeeper.GetLastBlockTime(ctx)
+		// Get the data for validation
 		if !found {
 			h.logger.Error("No block time available for vote extension")
 			subnetsForBlacklistSync = []uint64{}
+			orgsToValidate = []orgtypes.Org{}
 		} else {
 			subnetsForBlacklistSync = h.TrustKeeper.GetSubnetsForReputationScanning(ctx, lastBlockTime)
+			orgsToValidate = h.OrgKeeper.GetOrgsForDomainValidation(ctx, lastBlockTime)
 		}
 
 		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetsForBlacklistSync) == 0 {

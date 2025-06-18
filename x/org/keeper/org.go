@@ -166,15 +166,12 @@ func (k Keeper) GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAddress, 
 
 }
 
-func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Org) {
+func (k Keeper) GetOrgsForDomainValidation(ctx context.Context, referenceTime time.Time) (list []types.Org) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
-
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	now := sdkCtx.BlockTime()
 
 	for ; iterator.Valid(); iterator.Next() {
 		var org types.Org
@@ -188,7 +185,7 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 		// Check if enough time has passed since last attempt
 		if org.DomainVerifAttemptedAt != nil {
 			lastAttempt := *org.DomainVerifAttemptedAt
-			orgAge := now.Sub(org.CreatedAt)
+			orgAge := referenceTime.Sub(org.CreatedAt)
 
 			// Determine required interval based on org age and validity status
 			var requiredInterval time.Duration
@@ -212,7 +209,7 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context) (list []types.Or
 			}
 
 			// Skip if not enough time has passed
-			if now.Sub(lastAttempt) < requiredInterval {
+			if referenceTime.Sub(lastAttempt) < requiredInterval {
 				continue
 			}
 		}

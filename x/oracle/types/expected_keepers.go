@@ -21,7 +21,7 @@ type OrgKeeper interface {
 	// SetOrg updates the given Org.
 	SetOrg(ctx context.Context, org orgtypes.Org)
 	// GetOrgsForDomainValidation returns all orgs eligible for domain validation.
-	GetOrgsForDomainValidation(ctx context.Context) []orgtypes.Org
+	GetOrgsForDomainValidation(ctx context.Context, referenceTime time.Time) []orgtypes.Org
 	UpdateOrgDomainValidationStatus(ctx context.Context, orgID uint64, isValid bool) error
 }
 
