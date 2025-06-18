@@ -718,15 +718,16 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 
 	// Update the blacklist sync results for each subnet
 	for subnetId, blacklistCount := range injectedVoteExtTx.SubnetBlacklistSyncResults {
-		subnet, err := h.subnetKeeper.GetSubnet(ctx, subnetId)
-		if err {
-			h.logger.Error("failed to update subnet blacklist count",
+		subnet, found := h.subnetKeeper.GetSubnet(ctx, subnetId)
+		if !found {
+			h.logger.Error("failed to update subnet blacklist count. Can't fetch subnet.",
 				"subnet_id", subnetId,
 				"l1_count", blacklistCount.Level1Count,
 				"l2_count", blacklistCount.Level2Count,
 				"l3_count", blacklistCount.Level3Count,
 				"l4_count", blacklistCount.Level4Count,
-				"error", err)
+				"error", "subnet not found")
+			continue
 		}
 		contractId, found := h.leaseKeeper.GetFirstLeasedContractBySubnet(ctx, subnetId)
 		if !found {
@@ -740,7 +741,7 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 				"l2_count", blacklistCount.Level2Count,
 				"l3_count", blacklistCount.Level3Count,
 				"l4_count", blacklistCount.Level4Count,
-				"error", err)
+				"error", err.Error())
 		} else {
 			h.logger.Info("updated subnet blacklist count",
 				"subnet_id", subnetId,

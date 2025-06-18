@@ -88,6 +88,6 @@ type NetIntelService interface {
 }
 
 type TrustKeeper interface {
-	GetSubnetsForReputationScanning(ctx context.Context) (list []uint64)
+	GetSubnetsForReputationScanning(ctx context.Context, referenceTime time.Time) (list []uint64)
 	UpdateSubnetReputation(ctx context.Context, subnetId uint64, leaseId uint64, lessorOrgId uint64, lesseeOrgId uint64, reputation trusttypes.SubnetBlacklistCount) error
 }

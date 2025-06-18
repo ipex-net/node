@@ -15,6 +15,7 @@ import (
 	"sync"
 	"time"
 
+	"ipex/x/oracle/keeper"
 	"ipex/x/oracle/types"
 	subnettypes "ipex/x/subnet/types"
 	trusttypes "ipex/x/trust/types"
@@ -39,6 +40,7 @@ type VoteExtHandler struct {
 	logger       log.Logger
 	currentBlock int64
 
+	OracleKeeper    keeper.Keeper
 	OrgKeeper       types.OrgKeeper
 	SubnetKeeper    types.SubnetKeeper
 	LeaseKeeper     types.LeaseKeeper
@@ -48,6 +50,7 @@ type VoteExtHandler struct {
 
 func NewVoteExtHandler(
 	logger log.Logger,
+	oracleK keeper.Keeper, 
 	orgK types.OrgKeeper,
 	subnetK types.SubnetKeeper,
 	leaseK types.LeaseKeeper,
@@ -56,6 +59,7 @@ func NewVoteExtHandler(
 ) *VoteExtHandler {
 	return &VoteExtHandler{
 		logger:          logger,
+		OracleKeeper:    oracleK, 
 		OrgKeeper:       orgK,
 		SubnetKeeper:    subnetK,
 		LeaseKeeper:     leaseK,
@@ -82,7 +86,16 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		subnetsForRPKIValidation := h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx)
 		subnetsForGeoValidation := h.SubnetKeeper.GetSubnetsForGeoValidation(ctx)
 		subnetsForOwnershipVerification := h.SubnetKeeper.GetSubnetsForOwnershipVerification(ctx)
-		subnetsForBlacklistSync := h.TrustKeeper.GetSubnetsForReputationScanning(ctx)
+
+		var subnetsForBlacklistSync []uint64
+		// Get the last block time from oracle keeper
+		lastBlockTime, found := h.OracleKeeper.GetLastBlockTime(ctx)
+		if !found {
+			h.logger.Error("No block time available for vote extension")
+			subnetsForBlacklistSync = []uint64{}
+		} else {
+			subnetsForBlacklistSync = h.TrustKeeper.GetSubnetsForReputationScanning(ctx, lastBlockTime)
+		}
 
 		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetsForBlacklistSync) == 0 {
 			// Nothing to validate or sync, returning empty Vote

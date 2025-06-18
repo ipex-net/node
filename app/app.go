@@ -285,6 +285,7 @@ func New(
 	// Create the vote extension handler for domain validation
 	voteExtHandler := oracleabci.NewVoteExtHandler(
 		logger,
+		app.OracleKeeper,
 		app.OrgKeeper,
 		app.SubnetKeeper,
 		app.LeaseKeeper,

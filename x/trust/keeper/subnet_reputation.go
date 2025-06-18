@@ -126,15 +126,13 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 	return nil
 }
 
-func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context) (list []uint64) {
+func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context, referenceTime time.Time) (list []uint64) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetReputationKeyPrefix))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
-	sdkCtx := sdk.UnwrapSDKContext(ctx)
-	now := sdkCtx.BlockTime()
 	count := 0
 	maxSubnets := 10
 	for ; iterator.Valid(); iterator.Next() {
@@ -142,13 +140,15 @@ func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context) (list []uin
 		k.cdc.MustUnmarshal(iterator.Value(), &subnetReputation)
 		// Check if enough time has passed since last attempt
 		if subnetReputation.LastUpdated != nil {
-			lastAttempt := *subnetReputation.LastUpdated
+            timeSince := referenceTime.Sub(*subnetReputation.LastUpdated)
 			// Skip if not enough time has passed
-			if now.Sub(lastAttempt) < 6*time.Hour {
-				continue
-			}
+			// TODO: TURN BACK ON FOR PRODUCTION
+			// if now.Sub(lastAttempt) < 6*time.Hour {
+			// DEBUG
+			  if timeSince < 15*time.Second {
+			  	continue
+			  }
 		}
-
 		// Add to the list for validation
 		list = append(list, subnetReputation.Index)
 		// Increment count and check if we've reached the maximum
