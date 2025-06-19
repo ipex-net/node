@@ -5,7 +5,10 @@ import (
 
 	"ipex/x/trust/types"
 
+	"cosmossdk.io/store/prefix"
+	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -16,9 +19,31 @@ func (k Keeper) BlacklistLogByLessee(goCtx context.Context, req *types.QueryBlac
 	}
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
+	var blacklistLogs []types.BlacklistLog
 
-	// TODO: Process the query
-	_ = ctx
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	blacklistLogStore := prefix.NewStore(store, types.KeyPrefix(types.BlacklistLogKey))
 
-	return &types.QueryBlacklistLogByLesseeResponse{}, nil
+	pageRes, err := query.Paginate(blacklistLogStore, req.Pagination, func(key []byte, value []byte) error {
+		var blacklistLog types.BlacklistLog
+		if err := k.cdc.Unmarshal(value, &blacklistLog); err != nil {
+			return err
+		}
+
+		// Filter by subnetId - only add matching logs
+		if blacklistLog.LesseeOrgId == req.LesseeOrgId {
+			blacklistLogs = append(blacklistLogs, blacklistLog)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &types.QueryBlacklistLogByLesseeResponse{
+		BlacklistLog: blacklistLogs,
+		Pagination:   pageRes,
+	}, nil
 }

@@ -106,7 +106,7 @@ message QueryAllBlacklistLogRequest {
 
 message QueryAllBlacklistLogResponse {
   repeated BlacklistLog                           BlacklistLog = 1 [(gogoproto.nullable) = false];
-           cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+  cosmos.base.query.v1beta1.PageResponse          pagination   = 2;
 }
 
 message QueryBlacklistLogBySubnetRequest {
@@ -115,25 +115,37 @@ message QueryBlacklistLogBySubnetRequest {
 }
 
 message QueryBlacklistLogBySubnetResponse {
-  repeated BlacklistLog                           BlacklistLog = 1 [(gogoproto.nullable) = false];
-           cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+  repeated BlacklistLog                  BlacklistLog = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
 }
 
 message QueryBlacklistLogByLessorRequest {
   uint64 lessorOrgId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-message QueryBlacklistLogByLessorResponse {}
+message QueryBlacklistLogByLessorResponse {
+  repeated BlacklistLog                  BlacklistLog = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+}
 
 message QueryBlacklistLogByLeaseRequest {
   uint64 leaseId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-message QueryBlacklistLogByLeaseResponse {}
+message QueryBlacklistLogByLeaseResponse {
+  repeated BlacklistLog                  BlacklistLog = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+}
 
 message QueryBlacklistLogByLesseeRequest {
   uint64 lesseeOrgId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-message QueryBlacklistLogByLesseeResponse {}
+message QueryBlacklistLogByLesseeResponse {
+  repeated BlacklistLog                  BlacklistLog = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+}
 

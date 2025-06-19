@@ -2,19 +2,18 @@
 package trust
 
 import (
-	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	_ "cosmossdk.io/api/amino"
 	v1beta1 "cosmossdk.io/api/cosmos/base/query/v1beta1"
+	fmt "fmt"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
 var (
@@ -5561,12 +5560,14 @@ func (x *fastReflection_QueryBlacklistLogBySubnetResponse) ProtoMethods() *proto
 var (
 	md_QueryBlacklistLogByLessorRequest             protoreflect.MessageDescriptor
 	fd_QueryBlacklistLogByLessorRequest_lessorOrgId protoreflect.FieldDescriptor
+	fd_QueryBlacklistLogByLessorRequest_pagination  protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_ipex_trust_query_proto_init()
 	md_QueryBlacklistLogByLessorRequest = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLessorRequest")
 	fd_QueryBlacklistLogByLessorRequest_lessorOrgId = md_QueryBlacklistLogByLessorRequest.Fields().ByName("lessorOrgId")
+	fd_QueryBlacklistLogByLessorRequest_pagination = md_QueryBlacklistLogByLessorRequest.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLessorRequest)(nil)
@@ -5640,6 +5641,12 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) Range(f func(protorefl
 			return
 		}
 	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryBlacklistLogByLessorRequest_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -5657,6 +5664,8 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) Has(fd protoreflect.Fi
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
 		return x.LessorOrgId != uint64(0)
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
@@ -5675,6 +5684,8 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) Clear(fd protoreflect.
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
 		x.LessorOrgId = uint64(0)
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
@@ -5694,6 +5705,9 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) Get(descriptor protore
 	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
 		value := x.LessorOrgId
 		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
@@ -5716,6 +5730,8 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) Set(fd protoreflect.Fi
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
 		x.LessorOrgId = value.Uint()
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
@@ -5736,6 +5752,11 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) Set(fd protoreflect.Fi
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLessorRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
 		panic(fmt.Errorf("field lessorOrgId of message ipex.trust.QueryBlacklistLogByLessorRequest is not mutable"))
 	default:
@@ -5753,6 +5774,9 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) NewField(fd protorefle
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
 		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
@@ -5825,6 +5849,10 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) ProtoMethods() *protoi
 		if x.LessorOrgId != 0 {
 			n += 1 + runtime.Sov(uint64(x.LessorOrgId))
 		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -5853,6 +5881,20 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) ProtoMethods() *protoi
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
 		}
 		if x.LessorOrgId != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.LessorOrgId))
@@ -5927,6 +5969,42 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) ProtoMethods() *protoi
 						break
 					}
 				}
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -5962,13 +6040,68 @@ func (x *fastReflection_QueryBlacklistLogByLessorRequest) ProtoMethods() *protoi
 	}
 }
 
+var _ protoreflect.List = (*_QueryBlacklistLogByLessorResponse_1_list)(nil)
+
+type _QueryBlacklistLogByLessorResponse_1_list struct {
+	list *[]*BlacklistLog
+}
+
+func (x *_QueryBlacklistLogByLessorResponse_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_QueryBlacklistLogByLessorResponse_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_QueryBlacklistLogByLessorResponse_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*BlacklistLog)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_QueryBlacklistLogByLessorResponse_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*BlacklistLog)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_QueryBlacklistLogByLessorResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(BlacklistLog)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryBlacklistLogByLessorResponse_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_QueryBlacklistLogByLessorResponse_1_list) NewElement() protoreflect.Value {
+	v := new(BlacklistLog)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryBlacklistLogByLessorResponse_1_list) IsValid() bool {
+	return x.list != nil
+}
+
 var (
-	md_QueryBlacklistLogByLessorResponse protoreflect.MessageDescriptor
+	md_QueryBlacklistLogByLessorResponse              protoreflect.MessageDescriptor
+	fd_QueryBlacklistLogByLessorResponse_BlacklistLog protoreflect.FieldDescriptor
+	fd_QueryBlacklistLogByLessorResponse_pagination   protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_ipex_trust_query_proto_init()
 	md_QueryBlacklistLogByLessorResponse = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLessorResponse")
+	fd_QueryBlacklistLogByLessorResponse_BlacklistLog = md_QueryBlacklistLogByLessorResponse.Fields().ByName("BlacklistLog")
+	fd_QueryBlacklistLogByLessorResponse_pagination = md_QueryBlacklistLogByLessorResponse.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLessorResponse)(nil)
@@ -6036,6 +6169,18 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) Interface() protorefl
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_QueryBlacklistLogByLessorResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.BlacklistLog) != 0 {
+		value := protoreflect.ValueOfList(&_QueryBlacklistLogByLessorResponse_1_list{list: &x.BlacklistLog})
+		if !f(fd_QueryBlacklistLogByLessorResponse_BlacklistLog, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryBlacklistLogByLessorResponse_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -6051,6 +6196,10 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) Range(f func(protoref
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_QueryBlacklistLogByLessorResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.BlacklistLog":
+		return len(x.BlacklistLog) != 0
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
@@ -6067,6 +6216,10 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) Has(fd protoreflect.F
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLessorResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.BlacklistLog":
+		x.BlacklistLog = nil
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
@@ -6083,6 +6236,15 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) Clear(fd protoreflect
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_QueryBlacklistLogByLessorResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.BlacklistLog":
+		if len(x.BlacklistLog) == 0 {
+			return protoreflect.ValueOfList(&_QueryBlacklistLogByLessorResponse_1_list{})
+		}
+		listValue := &_QueryBlacklistLogByLessorResponse_1_list{list: &x.BlacklistLog}
+		return protoreflect.ValueOfList(listValue)
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
@@ -6103,6 +6265,12 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) Get(descriptor protor
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLessorResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.BlacklistLog":
+		lv := value.List()
+		clv := lv.(*_QueryBlacklistLogByLessorResponse_1_list)
+		x.BlacklistLog = *clv.list
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
@@ -6123,6 +6291,17 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) Set(fd protoreflect.F
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLessorResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.BlacklistLog":
+		if x.BlacklistLog == nil {
+			x.BlacklistLog = []*BlacklistLog{}
+		}
+		value := &_QueryBlacklistLogByLessorResponse_1_list{list: &x.BlacklistLog}
+		return protoreflect.ValueOfList(value)
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
@@ -6136,6 +6315,12 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) Mutable(fd protorefle
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_QueryBlacklistLogByLessorResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.BlacklistLog":
+		list := []*BlacklistLog{}
+		return protoreflect.ValueOfList(&_QueryBlacklistLogByLessorResponse_1_list{list: &list})
+	case "ipex.trust.QueryBlacklistLogByLessorResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
@@ -6205,6 +6390,16 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) ProtoMethods() *proto
 		var n int
 		var l int
 		_ = l
+		if len(x.BlacklistLog) > 0 {
+			for _, e := range x.BlacklistLog {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -6233,6 +6428,36 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) ProtoMethods() *proto
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.BlacklistLog) > 0 {
+			for iNdEx := len(x.BlacklistLog) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.BlacklistLog[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0xa
+			}
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -6283,6 +6508,76 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) ProtoMethods() *proto
 				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLessorResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field BlacklistLog", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.BlacklistLog = append(x.BlacklistLog, &BlacklistLog{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.BlacklistLog[len(x.BlacklistLog)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -6319,14 +6614,16 @@ func (x *fastReflection_QueryBlacklistLogByLessorResponse) ProtoMethods() *proto
 }
 
 var (
-	md_QueryBlacklistLogByLeaseRequest         protoreflect.MessageDescriptor
-	fd_QueryBlacklistLogByLeaseRequest_leaseId protoreflect.FieldDescriptor
+	md_QueryBlacklistLogByLeaseRequest            protoreflect.MessageDescriptor
+	fd_QueryBlacklistLogByLeaseRequest_leaseId    protoreflect.FieldDescriptor
+	fd_QueryBlacklistLogByLeaseRequest_pagination protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_ipex_trust_query_proto_init()
 	md_QueryBlacklistLogByLeaseRequest = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLeaseRequest")
 	fd_QueryBlacklistLogByLeaseRequest_leaseId = md_QueryBlacklistLogByLeaseRequest.Fields().ByName("leaseId")
+	fd_QueryBlacklistLogByLeaseRequest_pagination = md_QueryBlacklistLogByLeaseRequest.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLeaseRequest)(nil)
@@ -6400,6 +6697,12 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Range(f func(protorefle
 			return
 		}
 	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryBlacklistLogByLeaseRequest_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -6417,6 +6720,8 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Has(fd protoreflect.Fie
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
 		return x.LeaseId != uint64(0)
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
@@ -6435,6 +6740,8 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Clear(fd protoreflect.F
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
 		x.LeaseId = uint64(0)
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
@@ -6454,6 +6761,9 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Get(descriptor protoref
 	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
 		value := x.LeaseId
 		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
@@ -6476,6 +6786,8 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Set(fd protoreflect.Fie
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
 		x.LeaseId = value.Uint()
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
@@ -6496,6 +6808,11 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Set(fd protoreflect.Fie
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
 		panic(fmt.Errorf("field leaseId of message ipex.trust.QueryBlacklistLogByLeaseRequest is not mutable"))
 	default:
@@ -6513,6 +6830,9 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) NewField(fd protoreflec
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
 		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
@@ -6585,6 +6905,10 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) ProtoMethods() *protoif
 		if x.LeaseId != 0 {
 			n += 1 + runtime.Sov(uint64(x.LeaseId))
 		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -6613,6 +6937,20 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) ProtoMethods() *protoif
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
 		}
 		if x.LeaseId != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.LeaseId))
@@ -6687,6 +7025,42 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) ProtoMethods() *protoif
 						break
 					}
 				}
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -6722,13 +7096,68 @@ func (x *fastReflection_QueryBlacklistLogByLeaseRequest) ProtoMethods() *protoif
 	}
 }
 
+var _ protoreflect.List = (*_QueryBlacklistLogByLeaseResponse_1_list)(nil)
+
+type _QueryBlacklistLogByLeaseResponse_1_list struct {
+	list *[]*BlacklistLog
+}
+
+func (x *_QueryBlacklistLogByLeaseResponse_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_QueryBlacklistLogByLeaseResponse_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_QueryBlacklistLogByLeaseResponse_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*BlacklistLog)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_QueryBlacklistLogByLeaseResponse_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*BlacklistLog)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_QueryBlacklistLogByLeaseResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(BlacklistLog)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryBlacklistLogByLeaseResponse_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_QueryBlacklistLogByLeaseResponse_1_list) NewElement() protoreflect.Value {
+	v := new(BlacklistLog)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryBlacklistLogByLeaseResponse_1_list) IsValid() bool {
+	return x.list != nil
+}
+
 var (
-	md_QueryBlacklistLogByLeaseResponse protoreflect.MessageDescriptor
+	md_QueryBlacklistLogByLeaseResponse              protoreflect.MessageDescriptor
+	fd_QueryBlacklistLogByLeaseResponse_BlacklistLog protoreflect.FieldDescriptor
+	fd_QueryBlacklistLogByLeaseResponse_pagination   protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_ipex_trust_query_proto_init()
 	md_QueryBlacklistLogByLeaseResponse = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLeaseResponse")
+	fd_QueryBlacklistLogByLeaseResponse_BlacklistLog = md_QueryBlacklistLogByLeaseResponse.Fields().ByName("BlacklistLog")
+	fd_QueryBlacklistLogByLeaseResponse_pagination = md_QueryBlacklistLogByLeaseResponse.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLeaseResponse)(nil)
@@ -6796,6 +7225,18 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Interface() protorefle
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.BlacklistLog) != 0 {
+		value := protoreflect.ValueOfList(&_QueryBlacklistLogByLeaseResponse_1_list{list: &x.BlacklistLog})
+		if !f(fd_QueryBlacklistLogByLeaseResponse_BlacklistLog, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryBlacklistLogByLeaseResponse_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -6811,6 +7252,10 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Range(f func(protorefl
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.BlacklistLog":
+		return len(x.BlacklistLog) != 0
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
@@ -6827,6 +7272,10 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Has(fd protoreflect.Fi
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.BlacklistLog":
+		x.BlacklistLog = nil
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
@@ -6843,6 +7292,15 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Clear(fd protoreflect.
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.BlacklistLog":
+		if len(x.BlacklistLog) == 0 {
+			return protoreflect.ValueOfList(&_QueryBlacklistLogByLeaseResponse_1_list{})
+		}
+		listValue := &_QueryBlacklistLogByLeaseResponse_1_list{list: &x.BlacklistLog}
+		return protoreflect.ValueOfList(listValue)
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
@@ -6863,6 +7321,12 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Get(descriptor protore
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.BlacklistLog":
+		lv := value.List()
+		clv := lv.(*_QueryBlacklistLogByLeaseResponse_1_list)
+		x.BlacklistLog = *clv.list
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
@@ -6883,6 +7347,17 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Set(fd protoreflect.Fi
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.BlacklistLog":
+		if x.BlacklistLog == nil {
+			x.BlacklistLog = []*BlacklistLog{}
+		}
+		value := &_QueryBlacklistLogByLeaseResponse_1_list{list: &x.BlacklistLog}
+		return protoreflect.ValueOfList(value)
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
@@ -6896,6 +7371,12 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Mutable(fd protoreflec
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_QueryBlacklistLogByLeaseResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.BlacklistLog":
+		list := []*BlacklistLog{}
+		return protoreflect.ValueOfList(&_QueryBlacklistLogByLeaseResponse_1_list{list: &list})
+	case "ipex.trust.QueryBlacklistLogByLeaseResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
@@ -6965,6 +7446,16 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) ProtoMethods() *protoi
 		var n int
 		var l int
 		_ = l
+		if len(x.BlacklistLog) > 0 {
+			for _, e := range x.BlacklistLog {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -6993,6 +7484,36 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) ProtoMethods() *protoi
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.BlacklistLog) > 0 {
+			for iNdEx := len(x.BlacklistLog) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.BlacklistLog[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0xa
+			}
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -7043,6 +7564,76 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) ProtoMethods() *protoi
 				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLeaseResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field BlacklistLog", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.BlacklistLog = append(x.BlacklistLog, &BlacklistLog{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.BlacklistLog[len(x.BlacklistLog)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -7081,12 +7672,14 @@ func (x *fastReflection_QueryBlacklistLogByLeaseResponse) ProtoMethods() *protoi
 var (
 	md_QueryBlacklistLogByLesseeRequest             protoreflect.MessageDescriptor
 	fd_QueryBlacklistLogByLesseeRequest_lesseeOrgId protoreflect.FieldDescriptor
+	fd_QueryBlacklistLogByLesseeRequest_pagination  protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_ipex_trust_query_proto_init()
 	md_QueryBlacklistLogByLesseeRequest = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLesseeRequest")
 	fd_QueryBlacklistLogByLesseeRequest_lesseeOrgId = md_QueryBlacklistLogByLesseeRequest.Fields().ByName("lesseeOrgId")
+	fd_QueryBlacklistLogByLesseeRequest_pagination = md_QueryBlacklistLogByLesseeRequest.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLesseeRequest)(nil)
@@ -7160,6 +7753,12 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Range(f func(protorefl
 			return
 		}
 	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryBlacklistLogByLesseeRequest_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -7177,6 +7776,8 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Has(fd protoreflect.Fi
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
 		return x.LesseeOrgId != uint64(0)
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
@@ -7195,6 +7796,8 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Clear(fd protoreflect.
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
 		x.LesseeOrgId = uint64(0)
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
@@ -7214,6 +7817,9 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Get(descriptor protore
 	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
 		value := x.LesseeOrgId
 		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
@@ -7236,6 +7842,8 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Set(fd protoreflect.Fi
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
 		x.LesseeOrgId = value.Uint()
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
@@ -7256,6 +7864,11 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Set(fd protoreflect.Fi
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
 		panic(fmt.Errorf("field lesseeOrgId of message ipex.trust.QueryBlacklistLogByLesseeRequest is not mutable"))
 	default:
@@ -7273,6 +7886,9 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) NewField(fd protorefle
 	switch fd.FullName() {
 	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
 		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
@@ -7345,6 +7961,10 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) ProtoMethods() *protoi
 		if x.LesseeOrgId != 0 {
 			n += 1 + runtime.Sov(uint64(x.LesseeOrgId))
 		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -7373,6 +7993,20 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) ProtoMethods() *protoi
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
 		}
 		if x.LesseeOrgId != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.LesseeOrgId))
@@ -7447,6 +8081,42 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) ProtoMethods() *protoi
 						break
 					}
 				}
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -7482,13 +8152,68 @@ func (x *fastReflection_QueryBlacklistLogByLesseeRequest) ProtoMethods() *protoi
 	}
 }
 
+var _ protoreflect.List = (*_QueryBlacklistLogByLesseeResponse_1_list)(nil)
+
+type _QueryBlacklistLogByLesseeResponse_1_list struct {
+	list *[]*BlacklistLog
+}
+
+func (x *_QueryBlacklistLogByLesseeResponse_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_QueryBlacklistLogByLesseeResponse_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_QueryBlacklistLogByLesseeResponse_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*BlacklistLog)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_QueryBlacklistLogByLesseeResponse_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*BlacklistLog)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_QueryBlacklistLogByLesseeResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(BlacklistLog)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryBlacklistLogByLesseeResponse_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_QueryBlacklistLogByLesseeResponse_1_list) NewElement() protoreflect.Value {
+	v := new(BlacklistLog)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryBlacklistLogByLesseeResponse_1_list) IsValid() bool {
+	return x.list != nil
+}
+
 var (
-	md_QueryBlacklistLogByLesseeResponse protoreflect.MessageDescriptor
+	md_QueryBlacklistLogByLesseeResponse              protoreflect.MessageDescriptor
+	fd_QueryBlacklistLogByLesseeResponse_BlacklistLog protoreflect.FieldDescriptor
+	fd_QueryBlacklistLogByLesseeResponse_pagination   protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_ipex_trust_query_proto_init()
 	md_QueryBlacklistLogByLesseeResponse = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLesseeResponse")
+	fd_QueryBlacklistLogByLesseeResponse_BlacklistLog = md_QueryBlacklistLogByLesseeResponse.Fields().ByName("BlacklistLog")
+	fd_QueryBlacklistLogByLesseeResponse_pagination = md_QueryBlacklistLogByLesseeResponse.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLesseeResponse)(nil)
@@ -7556,6 +8281,18 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Interface() protorefl
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.BlacklistLog) != 0 {
+		value := protoreflect.ValueOfList(&_QueryBlacklistLogByLesseeResponse_1_list{list: &x.BlacklistLog})
+		if !f(fd_QueryBlacklistLogByLesseeResponse_BlacklistLog, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryBlacklistLogByLesseeResponse_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -7571,6 +8308,10 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Range(f func(protoref
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.BlacklistLog":
+		return len(x.BlacklistLog) != 0
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
@@ -7587,6 +8328,10 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Has(fd protoreflect.F
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.BlacklistLog":
+		x.BlacklistLog = nil
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
@@ -7603,6 +8348,15 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Clear(fd protoreflect
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.BlacklistLog":
+		if len(x.BlacklistLog) == 0 {
+			return protoreflect.ValueOfList(&_QueryBlacklistLogByLesseeResponse_1_list{})
+		}
+		listValue := &_QueryBlacklistLogByLesseeResponse_1_list{list: &x.BlacklistLog}
+		return protoreflect.ValueOfList(listValue)
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
@@ -7623,6 +8377,12 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Get(descriptor protor
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.BlacklistLog":
+		lv := value.List()
+		clv := lv.(*_QueryBlacklistLogByLesseeResponse_1_list)
+		x.BlacklistLog = *clv.list
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
@@ -7643,6 +8403,17 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Set(fd protoreflect.F
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.BlacklistLog":
+		if x.BlacklistLog == nil {
+			x.BlacklistLog = []*BlacklistLog{}
+		}
+		value := &_QueryBlacklistLogByLesseeResponse_1_list{list: &x.BlacklistLog}
+		return protoreflect.ValueOfList(value)
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
@@ -7656,6 +8427,12 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Mutable(fd protorefle
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_QueryBlacklistLogByLesseeResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.BlacklistLog":
+		list := []*BlacklistLog{}
+		return protoreflect.ValueOfList(&_QueryBlacklistLogByLesseeResponse_1_list{list: &list})
+	case "ipex.trust.QueryBlacklistLogByLesseeResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
@@ -7725,6 +8502,16 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) ProtoMethods() *proto
 		var n int
 		var l int
 		_ = l
+		if len(x.BlacklistLog) > 0 {
+			for _, e := range x.BlacklistLog {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -7753,6 +8540,36 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) ProtoMethods() *proto
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.BlacklistLog) > 0 {
+			for iNdEx := len(x.BlacklistLog) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.BlacklistLog[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0xa
+			}
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -7803,6 +8620,76 @@ func (x *fastReflection_QueryBlacklistLogByLesseeResponse) ProtoMethods() *proto
 				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLesseeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field BlacklistLog", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.BlacklistLog = append(x.BlacklistLog, &BlacklistLog{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.BlacklistLog[len(x.BlacklistLog)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -8302,7 +9189,8 @@ type QueryBlacklistLogByLessorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	LessorOrgId uint64 `protobuf:"varint,1,opt,name=lessorOrgId,proto3" json:"lessorOrgId,omitempty"`
+	LessorOrgId uint64               `protobuf:"varint,1,opt,name=lessorOrgId,proto3" json:"lessorOrgId,omitempty"`
+	Pagination  *v1beta1.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryBlacklistLogByLessorRequest) Reset() {
@@ -8332,10 +9220,20 @@ func (x *QueryBlacklistLogByLessorRequest) GetLessorOrgId() uint64 {
 	return 0
 }
 
+func (x *QueryBlacklistLogByLessorRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 type QueryBlacklistLogByLessorResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	BlacklistLog []*BlacklistLog       `protobuf:"bytes,1,rep,name=BlacklistLog,proto3" json:"BlacklistLog,omitempty"`
+	Pagination   *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryBlacklistLogByLessorResponse) Reset() {
@@ -8358,12 +9256,27 @@ func (*QueryBlacklistLogByLessorResponse) Descriptor() ([]byte, []int) {
 	return file_ipex_trust_query_proto_rawDescGZIP(), []int{13}
 }
 
+func (x *QueryBlacklistLogByLessorResponse) GetBlacklistLog() []*BlacklistLog {
+	if x != nil {
+		return x.BlacklistLog
+	}
+	return nil
+}
+
+func (x *QueryBlacklistLogByLessorResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 type QueryBlacklistLogByLeaseRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	LeaseId uint64 `protobuf:"varint,1,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
+	LeaseId    uint64               `protobuf:"varint,1,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
+	Pagination *v1beta1.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryBlacklistLogByLeaseRequest) Reset() {
@@ -8393,10 +9306,20 @@ func (x *QueryBlacklistLogByLeaseRequest) GetLeaseId() uint64 {
 	return 0
 }
 
+func (x *QueryBlacklistLogByLeaseRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 type QueryBlacklistLogByLeaseResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	BlacklistLog []*BlacklistLog       `protobuf:"bytes,1,rep,name=BlacklistLog,proto3" json:"BlacklistLog,omitempty"`
+	Pagination   *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryBlacklistLogByLeaseResponse) Reset() {
@@ -8419,12 +9342,27 @@ func (*QueryBlacklistLogByLeaseResponse) Descriptor() ([]byte, []int) {
 	return file_ipex_trust_query_proto_rawDescGZIP(), []int{15}
 }
 
+func (x *QueryBlacklistLogByLeaseResponse) GetBlacklistLog() []*BlacklistLog {
+	if x != nil {
+		return x.BlacklistLog
+	}
+	return nil
+}
+
+func (x *QueryBlacklistLogByLeaseResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 type QueryBlacklistLogByLesseeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	LesseeOrgId uint64 `protobuf:"varint,1,opt,name=lesseeOrgId,proto3" json:"lesseeOrgId,omitempty"`
+	LesseeOrgId uint64               `protobuf:"varint,1,opt,name=lesseeOrgId,proto3" json:"lesseeOrgId,omitempty"`
+	Pagination  *v1beta1.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryBlacklistLogByLesseeRequest) Reset() {
@@ -8454,10 +9392,20 @@ func (x *QueryBlacklistLogByLesseeRequest) GetLesseeOrgId() uint64 {
 	return 0
 }
 
+func (x *QueryBlacklistLogByLesseeRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 type QueryBlacklistLogByLesseeResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	BlacklistLog []*BlacklistLog       `protobuf:"bytes,1,rep,name=BlacklistLog,proto3" json:"BlacklistLog,omitempty"`
+	Pagination   *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryBlacklistLogByLesseeResponse) Reset() {
@@ -8478,6 +9426,20 @@ func (*QueryBlacklistLogByLesseeResponse) ProtoMessage() {}
 // Deprecated: Use QueryBlacklistLogByLesseeResponse.ProtoReflect.Descriptor instead.
 func (*QueryBlacklistLogByLesseeResponse) Descriptor() ([]byte, []int) {
 	return file_ipex_trust_query_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *QueryBlacklistLogByLesseeResponse) GetBlacklistLog() []*BlacklistLog {
+	if x != nil {
+		return x.BlacklistLog
+	}
+	return nil
+}
+
+func (x *QueryBlacklistLogByLesseeResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
 }
 
 var File_ipex_trust_query_proto protoreflect.FileDescriptor
@@ -8580,125 +9542,165 @@ var file_ipex_trust_query_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
 	0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62,
 	0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x44, 0x0a,
-	0x20, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c,
-	0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x4f, 0x72,
-	0x67, 0x49, 0x64, 0x22, 0x23, 0x0a, 0x21, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63,
-	0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3b, 0x0a, 0x1f, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c,
-	0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x6c,
-	0x65, 0x61, 0x73, 0x65, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x07, 0x6c, 0x65,
-	0x61, 0x73, 0x65, 0x49, 0x64, 0x22, 0x22, 0x0a, 0x20, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c,
-	0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x61, 0x73,
-	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x44, 0x0a, 0x20, 0x51, 0x75, 0x65,
+	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x8c, 0x01,
+	0x0a, 0x20, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74,
+	0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x4f, 0x72, 0x67, 0x49,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x4f,
+	0x72, 0x67, 0x49, 0x64, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
+	0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62,
+	0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb1, 0x01, 0x0a,
+	0x21, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c,
+	0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x43, 0x0a, 0x0c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c,
+	0x6f, 0x67, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74,
+	0x4c, 0x6f, 0x67, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0c, 0x42, 0x6c, 0x61, 0x63, 0x6b,
+	0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f,
+	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e,
+	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x22, 0x83, 0x01, 0x0a, 0x1f, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c,
+	0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x49, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x07, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x49, 0x64, 0x12, 0x46,
+	0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
+	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50,
+	0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb0, 0x01, 0x0a, 0x20, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65,
+	0x61, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x43, 0x0a, 0x0c, 0x42,
+	0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x19, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e,
+	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x04, 0xc8, 0xde,
+	0x1f, 0x00, 0x52, 0x0c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67,
+	0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61,
+	0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
+	0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70,
+	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x8c, 0x01, 0x0a, 0x20, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42,
+	0x79, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20,
+	0x0a, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72, 0x67, 0x49, 0x64,
+	0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61,
+	0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
+	0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61,
+	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xb1, 0x01, 0x0a, 0x21, 0x51, 0x75, 0x65,
 	0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79,
-	0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20, 0x0a,
-	0x0b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x22,
-	0x23, 0x0a, 0x21, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73,
-	0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x32, 0x91, 0x0b, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x68,
-	0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61,
-	0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x69, 0x70, 0x64, 0x65,
-	0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72,
-	0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73,
-	0x74, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x9f, 0x01, 0x0a, 0x10, 0x53, 0x75, 0x62,
-	0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2c, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47,
-	0x65, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2e, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x28, 0x12, 0x26, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74,
-	0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x5f, 0x72, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x2f, 0x7b, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x7d, 0x12, 0x9a, 0x01, 0x0a, 0x13, 0x53,
-	0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41,
-	0x6c, 0x6c, 0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52,
-	0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70,
-	0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x12, 0x1e, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
-	0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x5f, 0x72, 0x65, 0x70,
-	0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x8c, 0x01, 0x0a, 0x0c, 0x42, 0x6c, 0x61, 0x63,
-	0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x12, 0x28, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42,
-	0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x29, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
-	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12, 0x1f, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72,
-	0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f,
-	0x67, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x8a, 0x01, 0x0a, 0x0f, 0x42, 0x6c, 0x61, 0x63, 0x6b,
-	0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x41, 0x6c, 0x6c, 0x12, 0x28, 0x2e, 0x69, 0x70, 0x64,
+	0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x43,
+	0x0a, 0x0c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0x2e, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42,
+	0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74,
+	0x4c, 0x6f, 0x67, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
+	0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65,
+	0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0x91, 0x0b, 0x0a,
+	0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x68, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
+	0x12, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x20, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73,
+	0x12, 0x9f, 0x01, 0x0a, 0x10, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72,
+	0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x6e,
+	0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73,
+	0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74,
+	0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x2e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x28, 0x12, 0x26, 0x2f, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x5f,
+	0x72, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x7b, 0x69, 0x6e, 0x64, 0x65,
+	0x78, 0x7d, 0x12, 0x9a, 0x01, 0x0a, 0x13, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70,
+	0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64,
 	0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c,
-	0x6c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
-	0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x61, 0x63, 0x6b,
-	0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
-	0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f,
-	0x6c, 0x6f, 0x67, 0x12, 0xae, 0x01, 0x0a, 0x14, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73,
-	0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x2d, 0x2e, 0x69,
+	0x6c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x53,
+	0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x12,
+	0x1e, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x73, 0x75,
+	0x62, 0x6e, 0x65, 0x74, 0x5f, 0x72, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12,
+	0x8c, 0x01, 0x0a, 0x0c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67,
+	0x12, 0x28, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74,
+	0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65,
+	0x74, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12, 0x1f, 0x2f,
+	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63,
+	0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x8a,
+	0x01, 0x0a, 0x0f, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x41,
+	0x6c, 0x6c, 0x12, 0x28, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
+	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x69,
 	0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x12,
+	0x1a, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c,
+	0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x12, 0xae, 0x01, 0x0a, 0x14,
 	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75,
-	0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42,
-	0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75, 0x62,
-	0x6e, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x37, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x31, 0x12, 0x2f, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73,
-	0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x5f,
-	0x62, 0x79, 0x5f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x7b, 0x73, 0x75, 0x62, 0x6e, 0x65,
-	0x74, 0x49, 0x64, 0x7d, 0x12, 0xb1, 0x01, 0x0a, 0x14, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
-	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x12, 0x2d, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c,
-	0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65,
-	0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3a, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x34, 0x12, 0x32, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75,
-	0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67,
-	0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73,
-	0x6f, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0xa9, 0x01, 0x0a, 0x13, 0x42, 0x6c, 0x61,
-	0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x61, 0x73, 0x65,
-	0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67,
-	0x42, 0x79, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d,
-	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79,
-	0x4c, 0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x35, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x2f, 0x12, 0x2d, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72,
-	0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f,
-	0x67, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x7b, 0x6c, 0x65, 0x61, 0x73,
-	0x65, 0x49, 0x64, 0x7d, 0x12, 0xb1, 0x01, 0x0a, 0x14, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
-	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x12, 0x2d, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c,
-	0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65,
-	0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3a, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x34, 0x12, 0x32, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75,
-	0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67,
-	0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73,
-	0x65, 0x65, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x42, 0x81, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d,
-	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x42, 0x0a, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69, 0x70, 0x64, 0x65,
-	0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73,
-	0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58, 0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e,
-	0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72,
-	0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73,
-	0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c,
-	0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x54, 0x72, 0x75, 0x73, 0x74, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x62, 0x6e, 0x65, 0x74, 0x12, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73,
+	0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73,
+	0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74,
+	0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x37, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x31, 0x12, 0x2f, 0x2f, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c,
+	0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x5f, 0x62, 0x79, 0x5f, 0x73, 0x75, 0x62, 0x6e, 0x65,
+	0x74, 0x2f, 0x7b, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x49, 0x64, 0x7d, 0x12, 0xb1, 0x01, 0x0a,
+	0x14, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c,
+	0x65, 0x73, 0x73, 0x6f, 0x72, 0x12, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72,
+	0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
+	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73,
+	0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x34, 0x12, 0x32, 0x2f, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b,
+	0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x73, 0x73,
+	0x6f, 0x72, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d,
+	0x12, 0xa9, 0x01, 0x0a, 0x13, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f,
+	0x67, 0x42, 0x79, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63,
+	0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74,
+	0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c,
+	0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x35, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2f, 0x12, 0x2d, 0x2f,
+	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63,
+	0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x61,
+	0x73, 0x65, 0x2f, 0x7b, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x49, 0x64, 0x7d, 0x12, 0xb1, 0x01, 0x0a,
+	0x14, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c,
+	0x65, 0x73, 0x73, 0x65, 0x65, 0x12, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72,
+	0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
+	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73,
+	0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x34, 0x12, 0x32, 0x2f, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b,
+	0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x73, 0x73,
+	0x65, 0x65, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d,
+	0x42, 0x81, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74,
+	0x72, 0x75, 0x73, 0x74, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f,
+	0x50, 0x01, 0x5a, 0x15, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58, 0xaa,
+	0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02, 0x0b,
+	0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49, 0x70,
+	0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74,
+	0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x54,
+	0x72, 0x75, 0x73, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -8752,29 +9754,38 @@ var file_ipex_trust_query_proto_depIdxs = []int32{
 	20, // 9: ipex.trust.QueryBlacklistLogBySubnetRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
 	22, // 10: ipex.trust.QueryBlacklistLogBySubnetResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
 	21, // 11: ipex.trust.QueryBlacklistLogBySubnetResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	0,  // 12: ipex.trust.Query.Params:input_type -> ipex.trust.QueryParamsRequest
-	2,  // 13: ipex.trust.Query.SubnetReputation:input_type -> ipex.trust.QueryGetSubnetReputationRequest
-	4,  // 14: ipex.trust.Query.SubnetReputationAll:input_type -> ipex.trust.QueryAllSubnetReputationRequest
-	6,  // 15: ipex.trust.Query.BlacklistLog:input_type -> ipex.trust.QueryGetBlacklistLogRequest
-	8,  // 16: ipex.trust.Query.BlacklistLogAll:input_type -> ipex.trust.QueryAllBlacklistLogRequest
-	10, // 17: ipex.trust.Query.BlacklistLogBySubnet:input_type -> ipex.trust.QueryBlacklistLogBySubnetRequest
-	12, // 18: ipex.trust.Query.BlacklistLogByLessor:input_type -> ipex.trust.QueryBlacklistLogByLessorRequest
-	14, // 19: ipex.trust.Query.BlacklistLogByLease:input_type -> ipex.trust.QueryBlacklistLogByLeaseRequest
-	16, // 20: ipex.trust.Query.BlacklistLogByLessee:input_type -> ipex.trust.QueryBlacklistLogByLesseeRequest
-	1,  // 21: ipex.trust.Query.Params:output_type -> ipex.trust.QueryParamsResponse
-	3,  // 22: ipex.trust.Query.SubnetReputation:output_type -> ipex.trust.QueryGetSubnetReputationResponse
-	5,  // 23: ipex.trust.Query.SubnetReputationAll:output_type -> ipex.trust.QueryAllSubnetReputationResponse
-	7,  // 24: ipex.trust.Query.BlacklistLog:output_type -> ipex.trust.QueryGetBlacklistLogResponse
-	9,  // 25: ipex.trust.Query.BlacklistLogAll:output_type -> ipex.trust.QueryAllBlacklistLogResponse
-	11, // 26: ipex.trust.Query.BlacklistLogBySubnet:output_type -> ipex.trust.QueryBlacklistLogBySubnetResponse
-	13, // 27: ipex.trust.Query.BlacklistLogByLessor:output_type -> ipex.trust.QueryBlacklistLogByLessorResponse
-	15, // 28: ipex.trust.Query.BlacklistLogByLease:output_type -> ipex.trust.QueryBlacklistLogByLeaseResponse
-	17, // 29: ipex.trust.Query.BlacklistLogByLessee:output_type -> ipex.trust.QueryBlacklistLogByLesseeResponse
-	21, // [21:30] is the sub-list for method output_type
-	12, // [12:21] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	20, // 12: ipex.trust.QueryBlacklistLogByLessorRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 13: ipex.trust.QueryBlacklistLogByLessorResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
+	21, // 14: ipex.trust.QueryBlacklistLogByLessorResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	20, // 15: ipex.trust.QueryBlacklistLogByLeaseRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 16: ipex.trust.QueryBlacklistLogByLeaseResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
+	21, // 17: ipex.trust.QueryBlacklistLogByLeaseResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	20, // 18: ipex.trust.QueryBlacklistLogByLesseeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 19: ipex.trust.QueryBlacklistLogByLesseeResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
+	21, // 20: ipex.trust.QueryBlacklistLogByLesseeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	0,  // 21: ipex.trust.Query.Params:input_type -> ipex.trust.QueryParamsRequest
+	2,  // 22: ipex.trust.Query.SubnetReputation:input_type -> ipex.trust.QueryGetSubnetReputationRequest
+	4,  // 23: ipex.trust.Query.SubnetReputationAll:input_type -> ipex.trust.QueryAllSubnetReputationRequest
+	6,  // 24: ipex.trust.Query.BlacklistLog:input_type -> ipex.trust.QueryGetBlacklistLogRequest
+	8,  // 25: ipex.trust.Query.BlacklistLogAll:input_type -> ipex.trust.QueryAllBlacklistLogRequest
+	10, // 26: ipex.trust.Query.BlacklistLogBySubnet:input_type -> ipex.trust.QueryBlacklistLogBySubnetRequest
+	12, // 27: ipex.trust.Query.BlacklistLogByLessor:input_type -> ipex.trust.QueryBlacklistLogByLessorRequest
+	14, // 28: ipex.trust.Query.BlacklistLogByLease:input_type -> ipex.trust.QueryBlacklistLogByLeaseRequest
+	16, // 29: ipex.trust.Query.BlacklistLogByLessee:input_type -> ipex.trust.QueryBlacklistLogByLesseeRequest
+	1,  // 30: ipex.trust.Query.Params:output_type -> ipex.trust.QueryParamsResponse
+	3,  // 31: ipex.trust.Query.SubnetReputation:output_type -> ipex.trust.QueryGetSubnetReputationResponse
+	5,  // 32: ipex.trust.Query.SubnetReputationAll:output_type -> ipex.trust.QueryAllSubnetReputationResponse
+	7,  // 33: ipex.trust.Query.BlacklistLog:output_type -> ipex.trust.QueryGetBlacklistLogResponse
+	9,  // 34: ipex.trust.Query.BlacklistLogAll:output_type -> ipex.trust.QueryAllBlacklistLogResponse
+	11, // 35: ipex.trust.Query.BlacklistLogBySubnet:output_type -> ipex.trust.QueryBlacklistLogBySubnetResponse
+	13, // 36: ipex.trust.Query.BlacklistLogByLessor:output_type -> ipex.trust.QueryBlacklistLogByLessorResponse
+	15, // 37: ipex.trust.Query.BlacklistLogByLease:output_type -> ipex.trust.QueryBlacklistLogByLeaseResponse
+	17, // 38: ipex.trust.Query.BlacklistLogByLessee:output_type -> ipex.trust.QueryBlacklistLogByLesseeResponse
+	30, // [30:39] is the sub-list for method output_type
+	21, // [21:30] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_ipex_trust_query_proto_init() }
