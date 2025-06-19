@@ -8,6 +8,7 @@ package trust
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -25,6 +26,9 @@ const (
 	Query_BlacklistLog_FullMethodName         = "/ipex.trust.Query/BlacklistLog"
 	Query_BlacklistLogAll_FullMethodName      = "/ipex.trust.Query/BlacklistLogAll"
 	Query_BlacklistLogBySubnet_FullMethodName = "/ipex.trust.Query/BlacklistLogBySubnet"
+	Query_BlacklistLogByLessor_FullMethodName = "/ipex.trust.Query/BlacklistLogByLessor"
+	Query_BlacklistLogByLease_FullMethodName  = "/ipex.trust.Query/BlacklistLogByLease"
+	Query_BlacklistLogByLessee_FullMethodName = "/ipex.trust.Query/BlacklistLogByLessee"
 )
 
 // QueryClient is the client API for Query service.
@@ -41,6 +45,12 @@ type QueryClient interface {
 	BlacklistLogAll(ctx context.Context, in *QueryAllBlacklistLogRequest, opts ...grpc.CallOption) (*QueryAllBlacklistLogResponse, error)
 	// Queries a list of BlacklistLogBySubnet items.
 	BlacklistLogBySubnet(ctx context.Context, in *QueryBlacklistLogBySubnetRequest, opts ...grpc.CallOption) (*QueryBlacklistLogBySubnetResponse, error)
+	// Queries a list of BlacklistLogByLessor items.
+	BlacklistLogByLessor(ctx context.Context, in *QueryBlacklistLogByLessorRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLessorResponse, error)
+	// Queries a list of BlacklistLogByLease items.
+	BlacklistLogByLease(ctx context.Context, in *QueryBlacklistLogByLeaseRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLeaseResponse, error)
+	// Queries a list of BlacklistLogByLessee items.
+	BlacklistLogByLessee(ctx context.Context, in *QueryBlacklistLogByLesseeRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLesseeResponse, error)
 }
 
 type queryClient struct {
@@ -105,6 +115,33 @@ func (c *queryClient) BlacklistLogBySubnet(ctx context.Context, in *QueryBlackli
 	return out, nil
 }
 
+func (c *queryClient) BlacklistLogByLessor(ctx context.Context, in *QueryBlacklistLogByLessorRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLessorResponse, error) {
+	out := new(QueryBlacklistLogByLessorResponse)
+	err := c.cc.Invoke(ctx, Query_BlacklistLogByLessor_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) BlacklistLogByLease(ctx context.Context, in *QueryBlacklistLogByLeaseRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLeaseResponse, error) {
+	out := new(QueryBlacklistLogByLeaseResponse)
+	err := c.cc.Invoke(ctx, Query_BlacklistLogByLease_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) BlacklistLogByLessee(ctx context.Context, in *QueryBlacklistLogByLesseeRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLesseeResponse, error) {
+	out := new(QueryBlacklistLogByLesseeResponse)
+	err := c.cc.Invoke(ctx, Query_BlacklistLogByLessee_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -119,6 +156,12 @@ type QueryServer interface {
 	BlacklistLogAll(context.Context, *QueryAllBlacklistLogRequest) (*QueryAllBlacklistLogResponse, error)
 	// Queries a list of BlacklistLogBySubnet items.
 	BlacklistLogBySubnet(context.Context, *QueryBlacklistLogBySubnetRequest) (*QueryBlacklistLogBySubnetResponse, error)
+	// Queries a list of BlacklistLogByLessor items.
+	BlacklistLogByLessor(context.Context, *QueryBlacklistLogByLessorRequest) (*QueryBlacklistLogByLessorResponse, error)
+	// Queries a list of BlacklistLogByLease items.
+	BlacklistLogByLease(context.Context, *QueryBlacklistLogByLeaseRequest) (*QueryBlacklistLogByLeaseResponse, error)
+	// Queries a list of BlacklistLogByLessee items.
+	BlacklistLogByLessee(context.Context, *QueryBlacklistLogByLesseeRequest) (*QueryBlacklistLogByLesseeResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -143,6 +186,15 @@ func (UnimplementedQueryServer) BlacklistLogAll(context.Context, *QueryAllBlackl
 }
 func (UnimplementedQueryServer) BlacklistLogBySubnet(context.Context, *QueryBlacklistLogBySubnetRequest) (*QueryBlacklistLogBySubnetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogBySubnet not implemented")
+}
+func (UnimplementedQueryServer) BlacklistLogByLessor(context.Context, *QueryBlacklistLogByLessorRequest) (*QueryBlacklistLogByLessorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogByLessor not implemented")
+}
+func (UnimplementedQueryServer) BlacklistLogByLease(context.Context, *QueryBlacklistLogByLeaseRequest) (*QueryBlacklistLogByLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogByLease not implemented")
+}
+func (UnimplementedQueryServer) BlacklistLogByLessee(context.Context, *QueryBlacklistLogByLesseeRequest) (*QueryBlacklistLogByLesseeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogByLessee not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -265,6 +317,60 @@ func _Query_BlacklistLogBySubnet_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_BlacklistLogByLessor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryBlacklistLogByLessorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BlacklistLogByLessor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_BlacklistLogByLessor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BlacklistLogByLessor(ctx, req.(*QueryBlacklistLogByLessorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_BlacklistLogByLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryBlacklistLogByLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BlacklistLogByLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_BlacklistLogByLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BlacklistLogByLease(ctx, req.(*QueryBlacklistLogByLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_BlacklistLogByLessee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryBlacklistLogByLesseeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BlacklistLogByLessee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_BlacklistLogByLessee_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BlacklistLogByLessee(ctx, req.(*QueryBlacklistLogByLesseeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -295,6 +401,18 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BlacklistLogBySubnet",
 			Handler:    _Query_BlacklistLogBySubnet_Handler,
+		},
+		{
+			MethodName: "BlacklistLogByLessor",
+			Handler:    _Query_BlacklistLogByLessor_Handler,
+		},
+		{
+			MethodName: "BlacklistLogByLease",
+			Handler:    _Query_BlacklistLogByLease_Handler,
+		},
+		{
+			MethodName: "BlacklistLogByLessee",
+			Handler:    _Query_BlacklistLogByLessee_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

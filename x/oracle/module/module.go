@@ -147,7 +147,7 @@ func (AppModule) ConsensusVersion() uint64 { return 1 }
 func (am AppModule) BeginBlock(ctx context.Context) error {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	// Store the current block time
-    am.keeper.SetLastBlockTime(sdkCtx, sdkCtx.BlockTime())
+	am.keeper.SetLastBlockTime(sdkCtx, sdkCtx.BlockTime())
 	return nil
 }
 

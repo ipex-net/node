@@ -20,28 +20,28 @@ func (k Keeper) BlacklistLogBySubnet(goCtx context.Context, req *types.QueryBlac
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	var blacklistLogs []types.BlacklistLog
-	
+
 	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	blacklistLogStore := prefix.NewStore(store, types.KeyPrefix(types.BlacklistLogKey))
-	
+
 	pageRes, err := query.Paginate(blacklistLogStore, req.Pagination, func(key []byte, value []byte) error {
 		var blacklistLog types.BlacklistLog
 		if err := k.cdc.Unmarshal(value, &blacklistLog); err != nil {
 			return err
 		}
-		
+
 		// Filter by subnetId - only add matching logs
 		if blacklistLog.SubnetId == req.SubnetId {
 			blacklistLogs = append(blacklistLogs, blacklistLog)
 		}
-		
+
 		return nil
 	})
-	
+
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
-	
+
 	return &types.QueryBlacklistLogBySubnetResponse{
 		BlacklistLog: blacklistLogs,
 		Pagination:   pageRes,

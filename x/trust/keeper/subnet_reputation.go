@@ -140,14 +140,14 @@ func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context, referenceTi
 		k.cdc.MustUnmarshal(iterator.Value(), &subnetReputation)
 		// Check if enough time has passed since last attempt
 		if subnetReputation.LastUpdated != nil {
-            timeSince := referenceTime.Sub(*subnetReputation.LastUpdated)
+			timeSince := referenceTime.Sub(*subnetReputation.LastUpdated)
 			// Skip if not enough time has passed
 			// TODO: TURN BACK ON FOR PRODUCTION
 			// if now.Sub(lastAttempt) < 6*time.Hour {
 			// DEBUG
-			  if timeSince < 15*time.Second {
-			  	continue
-			  }
+			if timeSince < 15*time.Second {
+				continue
+			}
 		}
 		// Add to the list for validation
 		list = append(list, subnetReputation.Index)

@@ -6,6 +6,10 @@ package types
 import (
 	context "context"
 	fmt "fmt"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+
 	query "github.com/cosmos/cosmos-sdk/types/query"
 	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
 	_ "github.com/cosmos/gogoproto/gogoproto"
@@ -15,9 +19,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	io "io"
-	math "math"
-	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -586,6 +587,246 @@ func (m *QueryBlacklistLogBySubnetResponse) GetPagination() *query.PageResponse 
 	return nil
 }
 
+type QueryBlacklistLogByLessorRequest struct {
+	LessorOrgId uint64 `protobuf:"varint,1,opt,name=lessorOrgId,proto3" json:"lessorOrgId,omitempty"`
+}
+
+func (m *QueryBlacklistLogByLessorRequest) Reset()         { *m = QueryBlacklistLogByLessorRequest{} }
+func (m *QueryBlacklistLogByLessorRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryBlacklistLogByLessorRequest) ProtoMessage()    {}
+func (*QueryBlacklistLogByLessorRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{12}
+}
+func (m *QueryBlacklistLogByLessorRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryBlacklistLogByLessorRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryBlacklistLogByLessorRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryBlacklistLogByLessorRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryBlacklistLogByLessorRequest.Merge(m, src)
+}
+func (m *QueryBlacklistLogByLessorRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryBlacklistLogByLessorRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryBlacklistLogByLessorRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryBlacklistLogByLessorRequest proto.InternalMessageInfo
+
+func (m *QueryBlacklistLogByLessorRequest) GetLessorOrgId() uint64 {
+	if m != nil {
+		return m.LessorOrgId
+	}
+	return 0
+}
+
+type QueryBlacklistLogByLessorResponse struct {
+}
+
+func (m *QueryBlacklistLogByLessorResponse) Reset()         { *m = QueryBlacklistLogByLessorResponse{} }
+func (m *QueryBlacklistLogByLessorResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryBlacklistLogByLessorResponse) ProtoMessage()    {}
+func (*QueryBlacklistLogByLessorResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{13}
+}
+func (m *QueryBlacklistLogByLessorResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryBlacklistLogByLessorResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryBlacklistLogByLessorResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryBlacklistLogByLessorResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryBlacklistLogByLessorResponse.Merge(m, src)
+}
+func (m *QueryBlacklistLogByLessorResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryBlacklistLogByLessorResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryBlacklistLogByLessorResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryBlacklistLogByLessorResponse proto.InternalMessageInfo
+
+type QueryBlacklistLogByLeaseRequest struct {
+	LeaseId uint64 `protobuf:"varint,1,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
+}
+
+func (m *QueryBlacklistLogByLeaseRequest) Reset()         { *m = QueryBlacklistLogByLeaseRequest{} }
+func (m *QueryBlacklistLogByLeaseRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryBlacklistLogByLeaseRequest) ProtoMessage()    {}
+func (*QueryBlacklistLogByLeaseRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{14}
+}
+func (m *QueryBlacklistLogByLeaseRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryBlacklistLogByLeaseRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryBlacklistLogByLeaseRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryBlacklistLogByLeaseRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryBlacklistLogByLeaseRequest.Merge(m, src)
+}
+func (m *QueryBlacklistLogByLeaseRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryBlacklistLogByLeaseRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryBlacklistLogByLeaseRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryBlacklistLogByLeaseRequest proto.InternalMessageInfo
+
+func (m *QueryBlacklistLogByLeaseRequest) GetLeaseId() uint64 {
+	if m != nil {
+		return m.LeaseId
+	}
+	return 0
+}
+
+type QueryBlacklistLogByLeaseResponse struct {
+}
+
+func (m *QueryBlacklistLogByLeaseResponse) Reset()         { *m = QueryBlacklistLogByLeaseResponse{} }
+func (m *QueryBlacklistLogByLeaseResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryBlacklistLogByLeaseResponse) ProtoMessage()    {}
+func (*QueryBlacklistLogByLeaseResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{15}
+}
+func (m *QueryBlacklistLogByLeaseResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryBlacklistLogByLeaseResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryBlacklistLogByLeaseResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryBlacklistLogByLeaseResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryBlacklistLogByLeaseResponse.Merge(m, src)
+}
+func (m *QueryBlacklistLogByLeaseResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryBlacklistLogByLeaseResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryBlacklistLogByLeaseResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryBlacklistLogByLeaseResponse proto.InternalMessageInfo
+
+type QueryBlacklistLogByLesseeRequest struct {
+	LesseeOrgId uint64 `protobuf:"varint,1,opt,name=lesseeOrgId,proto3" json:"lesseeOrgId,omitempty"`
+}
+
+func (m *QueryBlacklistLogByLesseeRequest) Reset()         { *m = QueryBlacklistLogByLesseeRequest{} }
+func (m *QueryBlacklistLogByLesseeRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryBlacklistLogByLesseeRequest) ProtoMessage()    {}
+func (*QueryBlacklistLogByLesseeRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{16}
+}
+func (m *QueryBlacklistLogByLesseeRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryBlacklistLogByLesseeRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryBlacklistLogByLesseeRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryBlacklistLogByLesseeRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryBlacklistLogByLesseeRequest.Merge(m, src)
+}
+func (m *QueryBlacklistLogByLesseeRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryBlacklistLogByLesseeRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryBlacklistLogByLesseeRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryBlacklistLogByLesseeRequest proto.InternalMessageInfo
+
+func (m *QueryBlacklistLogByLesseeRequest) GetLesseeOrgId() uint64 {
+	if m != nil {
+		return m.LesseeOrgId
+	}
+	return 0
+}
+
+type QueryBlacklistLogByLesseeResponse struct {
+}
+
+func (m *QueryBlacklistLogByLesseeResponse) Reset()         { *m = QueryBlacklistLogByLesseeResponse{} }
+func (m *QueryBlacklistLogByLesseeResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryBlacklistLogByLesseeResponse) ProtoMessage()    {}
+func (*QueryBlacklistLogByLesseeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{17}
+}
+func (m *QueryBlacklistLogByLesseeResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryBlacklistLogByLesseeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryBlacklistLogByLesseeResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryBlacklistLogByLesseeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryBlacklistLogByLesseeResponse.Merge(m, src)
+}
+func (m *QueryBlacklistLogByLesseeResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryBlacklistLogByLesseeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryBlacklistLogByLesseeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryBlacklistLogByLesseeResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "ipex.trust.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "ipex.trust.QueryParamsResponse")
@@ -599,58 +840,74 @@ func init() {
 	proto.RegisterType((*QueryAllBlacklistLogResponse)(nil), "ipex.trust.QueryAllBlacklistLogResponse")
 	proto.RegisterType((*QueryBlacklistLogBySubnetRequest)(nil), "ipex.trust.QueryBlacklistLogBySubnetRequest")
 	proto.RegisterType((*QueryBlacklistLogBySubnetResponse)(nil), "ipex.trust.QueryBlacklistLogBySubnetResponse")
+	proto.RegisterType((*QueryBlacklistLogByLessorRequest)(nil), "ipex.trust.QueryBlacklistLogByLessorRequest")
+	proto.RegisterType((*QueryBlacklistLogByLessorResponse)(nil), "ipex.trust.QueryBlacklistLogByLessorResponse")
+	proto.RegisterType((*QueryBlacklistLogByLeaseRequest)(nil), "ipex.trust.QueryBlacklistLogByLeaseRequest")
+	proto.RegisterType((*QueryBlacklistLogByLeaseResponse)(nil), "ipex.trust.QueryBlacklistLogByLeaseResponse")
+	proto.RegisterType((*QueryBlacklistLogByLesseeRequest)(nil), "ipex.trust.QueryBlacklistLogByLesseeRequest")
+	proto.RegisterType((*QueryBlacklistLogByLesseeResponse)(nil), "ipex.trust.QueryBlacklistLogByLesseeResponse")
 }
 
 func init() { proto.RegisterFile("ipex/trust/query.proto", fileDescriptor_b660b49cc52988c6) }
 
 var fileDescriptor_b660b49cc52988c6 = []byte{
-	// 729 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x96, 0x3f, 0x6f, 0xd3, 0x4e,
-	0x18, 0xc7, 0x73, 0x69, 0x1b, 0xfd, 0x7e, 0x57, 0x04, 0xe5, 0x12, 0x44, 0x71, 0x8b, 0x93, 0x1e,
-	0x52, 0x1b, 0x2a, 0xea, 0x53, 0x8b, 0x44, 0xe7, 0x06, 0x89, 0x0a, 0x09, 0x44, 0x09, 0x1b, 0x4b,
-	0x64, 0x37, 0x27, 0x63, 0xe1, 0xfa, 0xdc, 0xdc, 0x05, 0x35, 0xaa, 0xba, 0x30, 0x30, 0x20, 0x06,
-	0x24, 0x36, 0x16, 0x56, 0x06, 0x84, 0x60, 0xe7, 0x05, 0x74, 0xac, 0xc4, 0xc2, 0x84, 0x50, 0x8b,
-	0xc4, 0xab, 0x40, 0x42, 0xb9, 0x3b, 0x17, 0x3b, 0xb1, 0x4d, 0xa8, 0x3a, 0xb0, 0x44, 0xb6, 0xef,
-	0xfb, 0x3c, 0xcf, 0xe7, 0xf9, 0xe3, 0xc7, 0x81, 0x17, 0xbd, 0xb0, 0x4d, 0x77, 0x88, 0xe8, 0x74,
-	0xb9, 0x20, 0xdb, 0x5d, 0xda, 0xe9, 0x59, 0x61, 0x87, 0x09, 0x86, 0x26, 0xe5, 0x81, 0x25, 0x0f,
-	0x8c, 0xf3, 0xf6, 0x96, 0x17, 0x30, 0x22, 0x7f, 0xd5, 0xb9, 0x51, 0x71, 0x99, 0xcb, 0xe4, 0x25,
-	0xe9, 0x5f, 0xe9, 0xa7, 0xb3, 0x2e, 0x63, 0xae, 0x4f, 0x89, 0x1d, 0x7a, 0xc4, 0x0e, 0x02, 0x26,
-	0x6c, 0xe1, 0xb1, 0x80, 0xeb, 0xd3, 0xc5, 0x4d, 0xc6, 0xb7, 0x18, 0x27, 0x8e, 0xcd, 0xa9, 0x0a,
-	0x46, 0x9e, 0x2c, 0x3b, 0x54, 0xd8, 0xcb, 0x24, 0xb4, 0x5d, 0x2f, 0x90, 0x62, 0xad, 0x9d, 0x8e,
-	0x83, 0x85, 0x76, 0xc7, 0xde, 0x8a, 0xbc, 0x5c, 0x89, 0x9f, 0xf0, 0xae, 0x13, 0x50, 0xd1, 0xea,
-	0xd0, 0xb0, 0x2b, 0xe2, 0xe6, 0xd5, 0xb8, 0xc8, 0xf1, 0xed, 0xcd, 0xc7, 0xbe, 0xc7, 0x45, 0xcb,
-	0x67, 0xae, 0x12, 0xe0, 0x0a, 0x44, 0xf7, 0xfb, 0x04, 0x1b, 0xd2, 0x75, 0x93, 0x6e, 0x77, 0x29,
-	0x17, 0xf8, 0x2e, 0x2c, 0x27, 0x9e, 0xf2, 0x90, 0x05, 0x9c, 0xa2, 0x1b, 0xb0, 0xa4, 0x10, 0xa6,
-	0x41, 0x0d, 0xd4, 0x27, 0x57, 0xca, 0x56, 0xac, 0x3a, 0x96, 0x12, 0x37, 0xfe, 0xdf, 0xff, 0x5a,
-	0x2d, 0xbc, 0xfd, 0xf1, 0x61, 0x11, 0x34, 0xb5, 0x1a, 0xaf, 0xc2, 0xaa, 0x74, 0xb7, 0x4e, 0xc5,
-	0x03, 0x09, 0xda, 0x3c, 0xe6, 0xd4, 0x11, 0x51, 0x05, 0x4e, 0x78, 0x41, 0x9b, 0xee, 0x48, 0xcf,
-	0xe3, 0x4d, 0x75, 0x83, 0x39, 0xac, 0x65, 0x1b, 0x6a, 0xa8, 0x7b, 0x70, 0x8a, 0x0f, 0x9c, 0x69,
-	0xbc, 0xcb, 0x09, 0xbc, 0x41, 0x07, 0x8d, 0xf1, 0x3e, 0x68, 0x73, 0xc8, 0x18, 0x7b, 0x9a, 0x76,
-	0xcd, 0xf7, 0xb3, 0x68, 0x6f, 0x41, 0xf8, 0xbb, 0x53, 0x3a, 0xda, 0xbc, 0xa5, 0xda, 0x6a, 0xf5,
-	0xdb, 0x6a, 0xa9, 0x19, 0xd2, 0x6d, 0xb5, 0x36, 0x6c, 0x97, 0x6a, 0xdb, 0x66, 0xcc, 0x12, 0x7f,
-	0x02, 0x3a, 0xc1, 0xd4, 0x58, 0xb9, 0x09, 0x8e, 0x9d, 0x38, 0x41, 0xb4, 0x9e, 0xa0, 0x2f, 0x4a,
-	0xfa, 0x85, 0x3f, 0xd2, 0x2b, 0x9a, 0x04, 0xfe, 0x12, 0x9c, 0x89, 0xda, 0xd3, 0x88, 0x66, 0xeb,
-	0x0e, 0x73, 0xa3, 0x2a, 0x9d, 0x85, 0x45, 0xaf, 0xad, 0x1b, 0x5a, 0xf4, 0xda, 0x78, 0x13, 0xce,
-	0xa6, 0xcb, 0x75, 0xa2, 0x37, 0xe1, 0x99, 0xf8, 0x73, 0x5d, 0xd7, 0x4b, 0x89, 0x24, 0xe3, 0x02,
-	0x9d, 0x60, 0xc2, 0x08, 0x53, 0xcd, 0xb4, 0xe6, 0xfb, 0x69, 0x4c, 0xa7, 0xd5, 0xb9, 0x77, 0x40,
-	0x27, 0x33, 0x14, 0x27, 0x33, 0x99, 0xb1, 0xbf, 0x4e, 0xe6, 0xf4, 0x3a, 0xf5, 0x2c, 0x1a, 0xb4,
-	0x44, 0xc8, 0x5e, 0x34, 0x32, 0xaa, 0x36, 0x06, 0xfc, 0x4f, 0xcd, 0xca, 0xed, 0xa8, 0x6b, 0xc7,
-	0xf7, 0x03, 0x75, 0x2b, 0x9e, 0xb8, 0x6e, 0x1f, 0x01, 0x9c, 0xcb, 0x01, 0xf9, 0x17, 0x8b, 0xb7,
-	0xf2, 0xb3, 0x04, 0x27, 0x24, 0x33, 0x7a, 0x04, 0x4b, 0x6a, 0xcb, 0xa1, 0x6a, 0x82, 0x65, 0x78,
-	0x85, 0x1a, 0xb5, 0x6c, 0x81, 0x0a, 0x81, 0x67, 0x9e, 0x7e, 0xfe, 0xfe, 0xaa, 0x78, 0x01, 0x95,
-	0xc9, 0xf0, 0x8e, 0x47, 0x6f, 0x00, 0x9c, 0x1a, 0x7c, 0xa1, 0xd1, 0xb5, 0x61, 0x9f, 0xd9, 0x2b,
-	0xd5, 0x58, 0x1a, 0x51, 0xad, 0x71, 0x2c, 0x89, 0x53, 0x47, 0xf3, 0x24, 0xf7, 0xc3, 0x42, 0x76,
-	0xe5, 0x6a, 0xde, 0x43, 0xaf, 0x01, 0x2c, 0x0f, 0x3a, 0x5b, 0xf3, 0xfd, 0x34, 0xc8, 0xec, 0x4d,
-	0x9a, 0x06, 0x99, 0xb3, 0x0b, 0xf1, 0xbc, 0x84, 0xac, 0x21, 0x33, 0x1f, 0x12, 0xbd, 0x00, 0xc9,
-	0x09, 0x42, 0xf5, 0xd4, 0x62, 0xa4, 0x6c, 0x08, 0xe3, 0xea, 0x08, 0x4a, 0x4d, 0xb3, 0x20, 0x69,
-	0xe6, 0x50, 0x95, 0x64, 0x7e, 0x66, 0xc9, 0xae, 0xd7, 0xde, 0x43, 0xcf, 0x01, 0x3c, 0x17, 0xf7,
-	0xd0, 0xaf, 0x53, 0x3d, 0x35, 0xf3, 0x11, 0x89, 0x32, 0xb6, 0x0e, 0xc6, 0x92, 0x68, 0x16, 0x19,
-	0xd9, 0x44, 0xe8, 0x3d, 0x80, 0x95, 0xb4, 0xb7, 0x0f, 0xa5, 0xf4, 0x22, 0x67, 0x5d, 0x18, 0xd6,
-	0xa8, 0x72, 0xcd, 0xb6, 0x2a, 0xd9, 0x96, 0x11, 0xc9, 0x66, 0x6b, 0x39, 0xbd, 0x96, 0x6a, 0x26,
-	0xd9, 0x8d, 0x56, 0xcf, 0x5e, 0x63, 0x69, 0xff, 0xd0, 0x04, 0x07, 0x87, 0x26, 0xf8, 0x76, 0x68,
-	0x82, 0x97, 0x47, 0x66, 0xe1, 0xe0, 0xc8, 0x2c, 0x7c, 0x39, 0x32, 0x0b, 0x0f, 0xcb, 0xca, 0x53,
-	0xe4, 0x4b, 0xf4, 0x42, 0xca, 0x9d, 0x92, 0xfc, 0x67, 0x73, 0xfd, 0x57, 0x00, 0x00, 0x00, 0xff,
-	0xff, 0x94, 0x91, 0xf7, 0xc8, 0xd4, 0x09, 0x00, 0x00,
+	// 891 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x97, 0xcf, 0x6f, 0xd3, 0x48,
+	0x14, 0xc7, 0xe3, 0xf4, 0xc7, 0xee, 0x4e, 0x56, 0xbb, 0xdd, 0x49, 0x56, 0xdb, 0x75, 0x4b, 0x92,
+	0x4e, 0xa5, 0x36, 0x54, 0xc4, 0xa3, 0x96, 0x1f, 0x95, 0xe0, 0xd4, 0x80, 0xa8, 0x90, 0x8a, 0x5a,
+	0xc2, 0x8d, 0x4b, 0xe4, 0x34, 0x23, 0x63, 0xe1, 0x7a, 0xdc, 0x8c, 0x83, 0x1a, 0x45, 0xb9, 0x70,
+	0xe0, 0x80, 0x38, 0x80, 0xb8, 0x71, 0xe1, 0x0a, 0x12, 0x42, 0xf4, 0xce, 0x1f, 0xd0, 0x63, 0x25,
+	0x2e, 0x9c, 0x10, 0x6a, 0x91, 0xf8, 0x37, 0x50, 0x66, 0xc6, 0xa9, 0xed, 0xd8, 0x4e, 0x5a, 0xf5,
+	0xc0, 0xa5, 0x8a, 0x67, 0xde, 0xbc, 0xf7, 0x79, 0xdf, 0xe7, 0x7c, 0x27, 0x05, 0xff, 0x99, 0x4e,
+	0x83, 0xec, 0x61, 0xb7, 0xd9, 0x62, 0x2e, 0xde, 0x6d, 0x91, 0x66, 0x5b, 0x73, 0x9a, 0xd4, 0xa5,
+	0x30, 0xc3, 0x37, 0x34, 0xbe, 0xa1, 0xfe, 0xa3, 0xef, 0x98, 0x36, 0xc5, 0xfc, 0xaf, 0xd8, 0x57,
+	0x73, 0x06, 0x35, 0x28, 0xff, 0x88, 0x7b, 0x9f, 0xe4, 0xea, 0xac, 0x41, 0xa9, 0x61, 0x11, 0xac,
+	0x3b, 0x26, 0xd6, 0x6d, 0x9b, 0xba, 0xba, 0x6b, 0x52, 0x9b, 0xc9, 0xdd, 0xa5, 0x6d, 0xca, 0x76,
+	0x28, 0xc3, 0x75, 0x9d, 0x11, 0x51, 0x0c, 0x3f, 0x5e, 0xae, 0x13, 0x57, 0x5f, 0xc6, 0x8e, 0x6e,
+	0x98, 0x36, 0x0f, 0x96, 0xb1, 0xd3, 0x7e, 0x30, 0x47, 0x6f, 0xea, 0x3b, 0x5e, 0x96, 0x79, 0xff,
+	0x0e, 0x6b, 0xd5, 0x6d, 0xe2, 0xd6, 0x9a, 0xc4, 0x69, 0xb9, 0xfe, 0xe3, 0x05, 0x7f, 0x50, 0xdd,
+	0xd2, 0xb7, 0x1f, 0x59, 0x26, 0x73, 0x6b, 0x16, 0x35, 0x44, 0x00, 0xca, 0x01, 0x78, 0xaf, 0x47,
+	0xb0, 0xc5, 0x53, 0x57, 0xc9, 0x6e, 0x8b, 0x30, 0x17, 0xdd, 0x05, 0xd9, 0xc0, 0x2a, 0x73, 0xa8,
+	0xcd, 0x08, 0xbc, 0x06, 0x26, 0x05, 0xc2, 0xb4, 0x52, 0x54, 0x4a, 0x99, 0x95, 0xac, 0xe6, 0x53,
+	0x47, 0x13, 0xc1, 0x95, 0x3f, 0x0e, 0xbe, 0x16, 0x52, 0x6f, 0x7f, 0x7c, 0x5c, 0x52, 0xaa, 0x32,
+	0x1a, 0xad, 0x82, 0x02, 0x4f, 0xb7, 0x4e, 0xdc, 0xfb, 0x1c, 0xb4, 0xda, 0xe7, 0x94, 0x15, 0x61,
+	0x0e, 0x4c, 0x98, 0x76, 0x83, 0xec, 0xf1, 0xcc, 0xe3, 0x55, 0xf1, 0x80, 0x18, 0x28, 0xc6, 0x1f,
+	0x94, 0x50, 0x9b, 0x60, 0x8a, 0x85, 0xf6, 0x24, 0xde, 0x85, 0x00, 0x5e, 0x38, 0x41, 0x65, 0xbc,
+	0x07, 0x5a, 0x1d, 0x38, 0x8c, 0x4c, 0x49, 0xbb, 0x66, 0x59, 0x71, 0xb4, 0xb7, 0x01, 0x38, 0x99,
+	0x94, 0xac, 0xb6, 0xa0, 0x89, 0xb1, 0x6a, 0xbd, 0xb1, 0x6a, 0xe2, 0x1d, 0x92, 0x63, 0xd5, 0xb6,
+	0x74, 0x83, 0xc8, 0xb3, 0x55, 0xdf, 0x49, 0xf4, 0x49, 0x91, 0x0d, 0x46, 0xd6, 0x4a, 0x6c, 0x70,
+	0xec, 0xcc, 0x0d, 0xc2, 0xf5, 0x00, 0x7d, 0x9a, 0xd3, 0x2f, 0x0e, 0xa5, 0x17, 0x34, 0x01, 0xfc,
+	0x32, 0x98, 0xf1, 0xc6, 0x53, 0xf1, 0xde, 0xad, 0x0d, 0x6a, 0x78, 0x2a, 0xfd, 0x05, 0xd2, 0x66,
+	0x43, 0x0e, 0x34, 0x6d, 0x36, 0xd0, 0x36, 0x98, 0x8d, 0x0e, 0x97, 0x8d, 0xde, 0x04, 0x7f, 0xfa,
+	0xd7, 0xa5, 0xae, 0xff, 0x07, 0x9a, 0xf4, 0x07, 0xc8, 0x06, 0x03, 0x87, 0x10, 0x91, 0x4c, 0x6b,
+	0x96, 0x15, 0xc5, 0x74, 0x5e, 0x93, 0x7b, 0xaf, 0xc8, 0x66, 0x06, 0xea, 0xc4, 0x36, 0x33, 0x76,
+	0xea, 0x66, 0xce, 0x6f, 0x52, 0x4f, 0xbd, 0x17, 0x2d, 0x50, 0xb2, 0xed, 0xbd, 0x32, 0x42, 0x1b,
+	0x15, 0xfc, 0x2e, 0xde, 0x95, 0x3b, 0xde, 0xd4, 0xfa, 0xcf, 0x21, 0xdd, 0xd2, 0x67, 0xd6, 0x6d,
+	0x5f, 0x01, 0x73, 0x09, 0x20, 0xbf, 0xa4, 0x78, 0xb7, 0x22, 0xb5, 0xdb, 0x20, 0x8c, 0xd1, 0xa6,
+	0xa7, 0x5d, 0x11, 0x64, 0x2c, 0xbe, 0xb0, 0xd9, 0x34, 0xfa, 0xf2, 0xf9, 0x97, 0xd0, 0x7c, 0x64,
+	0xe3, 0x5e, 0x16, 0x51, 0x16, 0xdd, 0x90, 0xde, 0x13, 0x0e, 0xd2, 0x99, 0xa7, 0x26, 0x9c, 0x06,
+	0xbf, 0x59, 0xbd, 0xe7, 0x7e, 0x15, 0xef, 0x11, 0xa1, 0x18, 0x4e, 0x7e, 0x58, 0x16, 0x88, 0xef,
+	0x85, 0x90, 0x50, 0x2f, 0x84, 0x0c, 0xf4, 0x22, 0x97, 0x12, 0x7a, 0x21, 0xfd, 0x52, 0x2b, 0x2f,
+	0x33, 0x60, 0x82, 0x47, 0xc1, 0x87, 0x60, 0x52, 0x5c, 0x0e, 0xb0, 0x10, 0x18, 0xe1, 0xe0, 0xcd,
+	0xa3, 0x16, 0xe3, 0x03, 0x64, 0x07, 0x33, 0x4f, 0x3e, 0x7f, 0x7f, 0x95, 0xfe, 0x17, 0x66, 0xf1,
+	0xe0, 0xd5, 0x08, 0xdf, 0x28, 0x60, 0x2a, 0xec, 0x83, 0xf0, 0xd2, 0x60, 0xce, 0xf8, 0x9b, 0x48,
+	0x2d, 0x8f, 0x18, 0x2d, 0x71, 0x34, 0x8e, 0x53, 0x82, 0x0b, 0x38, 0xf1, 0x3e, 0xc6, 0x1d, 0x7e,
+	0xa3, 0x75, 0xe1, 0x6b, 0x05, 0x64, 0xc3, 0xc9, 0xd6, 0x2c, 0x2b, 0x0a, 0x32, 0xfe, 0x02, 0x8a,
+	0x82, 0x4c, 0xb8, 0x42, 0xd0, 0x02, 0x87, 0x2c, 0xc2, 0x7c, 0x32, 0x24, 0x7c, 0xae, 0x04, 0xbf,
+	0x78, 0xb0, 0x14, 0x29, 0x46, 0x84, 0xb1, 0xaa, 0x17, 0x47, 0x88, 0x94, 0x34, 0x8b, 0x9c, 0x66,
+	0x0e, 0x16, 0x70, 0xec, 0xaf, 0x13, 0xdc, 0x31, 0x1b, 0x5d, 0xf8, 0x4c, 0x01, 0x7f, 0xfb, 0x33,
+	0xf4, 0x74, 0x2a, 0x45, 0x76, 0x3e, 0x22, 0x51, 0x8c, 0x59, 0x23, 0xc4, 0x89, 0x66, 0xa1, 0x1a,
+	0x4f, 0x04, 0x3f, 0x28, 0x20, 0x17, 0x65, 0x5a, 0x30, 0x62, 0x16, 0x09, 0x2e, 0xab, 0x6a, 0xa3,
+	0x86, 0x4b, 0xb6, 0x55, 0xce, 0xb6, 0x0c, 0x71, 0x3c, 0x5b, 0xad, 0xde, 0xae, 0x89, 0x61, 0xe2,
+	0x8e, 0xe7, 0xd8, 0x5d, 0xb8, 0x3f, 0x00, 0x2c, 0xcc, 0x66, 0x38, 0x70, 0xc0, 0xda, 0x86, 0x03,
+	0x87, 0x3c, 0xec, 0x3a, 0x07, 0xbe, 0x02, 0x57, 0x92, 0x81, 0x85, 0x37, 0xe2, 0x8e, 0xcf, 0x23,
+	0xbb, 0xf0, 0x9d, 0x02, 0xb2, 0x11, 0xf6, 0x15, 0xf5, 0xed, 0x88, 0xb7, 0x48, 0xb5, 0x3c, 0x62,
+	0xb4, 0x04, 0xbe, 0xca, 0x81, 0x31, 0x2c, 0x0f, 0x03, 0xee, 0xfd, 0x5e, 0xef, 0x48, 0xb7, 0x8d,
+	0xd3, 0x97, 0x90, 0xd1, 0xf4, 0xed, 0xdb, 0xed, 0x68, 0xfa, 0x9e, 0xf8, 0xea, 0x69, 0xf4, 0x25,
+	0x44, 0xe8, 0x2b, 0x7d, 0xbb, 0x5b, 0x29, 0x1f, 0x1c, 0xe5, 0x95, 0xc3, 0xa3, 0xbc, 0xf2, 0xed,
+	0x28, 0xaf, 0xbc, 0x38, 0xce, 0xa7, 0x0e, 0x8f, 0xf3, 0xa9, 0x2f, 0xc7, 0xf9, 0xd4, 0x83, 0xac,
+	0x48, 0xe6, 0xa5, 0x73, 0xdb, 0x0e, 0x61, 0xf5, 0x49, 0xfe, 0x4f, 0xc2, 0xe5, 0x9f, 0x01, 0x00,
+	0x00, 0xff, 0xff, 0xbf, 0xf5, 0x67, 0xc2, 0x1f, 0x0d, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -675,6 +932,12 @@ type QueryClient interface {
 	BlacklistLogAll(ctx context.Context, in *QueryAllBlacklistLogRequest, opts ...grpc.CallOption) (*QueryAllBlacklistLogResponse, error)
 	// Queries a list of BlacklistLogBySubnet items.
 	BlacklistLogBySubnet(ctx context.Context, in *QueryBlacklistLogBySubnetRequest, opts ...grpc.CallOption) (*QueryBlacklistLogBySubnetResponse, error)
+	// Queries a list of BlacklistLogByLessor items.
+	BlacklistLogByLessor(ctx context.Context, in *QueryBlacklistLogByLessorRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLessorResponse, error)
+	// Queries a list of BlacklistLogByLease items.
+	BlacklistLogByLease(ctx context.Context, in *QueryBlacklistLogByLeaseRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLeaseResponse, error)
+	// Queries a list of BlacklistLogByLessee items.
+	BlacklistLogByLessee(ctx context.Context, in *QueryBlacklistLogByLesseeRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLesseeResponse, error)
 }
 
 type queryClient struct {
@@ -739,6 +1002,33 @@ func (c *queryClient) BlacklistLogBySubnet(ctx context.Context, in *QueryBlackli
 	return out, nil
 }
 
+func (c *queryClient) BlacklistLogByLessor(ctx context.Context, in *QueryBlacklistLogByLessorRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLessorResponse, error) {
+	out := new(QueryBlacklistLogByLessorResponse)
+	err := c.cc.Invoke(ctx, "/ipex.trust.Query/BlacklistLogByLessor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) BlacklistLogByLease(ctx context.Context, in *QueryBlacklistLogByLeaseRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLeaseResponse, error) {
+	out := new(QueryBlacklistLogByLeaseResponse)
+	err := c.cc.Invoke(ctx, "/ipex.trust.Query/BlacklistLogByLease", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) BlacklistLogByLessee(ctx context.Context, in *QueryBlacklistLogByLesseeRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLesseeResponse, error) {
+	out := new(QueryBlacklistLogByLesseeResponse)
+	err := c.cc.Invoke(ctx, "/ipex.trust.Query/BlacklistLogByLessee", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -751,6 +1041,12 @@ type QueryServer interface {
 	BlacklistLogAll(context.Context, *QueryAllBlacklistLogRequest) (*QueryAllBlacklistLogResponse, error)
 	// Queries a list of BlacklistLogBySubnet items.
 	BlacklistLogBySubnet(context.Context, *QueryBlacklistLogBySubnetRequest) (*QueryBlacklistLogBySubnetResponse, error)
+	// Queries a list of BlacklistLogByLessor items.
+	BlacklistLogByLessor(context.Context, *QueryBlacklistLogByLessorRequest) (*QueryBlacklistLogByLessorResponse, error)
+	// Queries a list of BlacklistLogByLease items.
+	BlacklistLogByLease(context.Context, *QueryBlacklistLogByLeaseRequest) (*QueryBlacklistLogByLeaseResponse, error)
+	// Queries a list of BlacklistLogByLessee items.
+	BlacklistLogByLessee(context.Context, *QueryBlacklistLogByLesseeRequest) (*QueryBlacklistLogByLesseeResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -774,6 +1070,15 @@ func (*UnimplementedQueryServer) BlacklistLogAll(ctx context.Context, req *Query
 }
 func (*UnimplementedQueryServer) BlacklistLogBySubnet(ctx context.Context, req *QueryBlacklistLogBySubnetRequest) (*QueryBlacklistLogBySubnetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogBySubnet not implemented")
+}
+func (*UnimplementedQueryServer) BlacklistLogByLessor(ctx context.Context, req *QueryBlacklistLogByLessorRequest) (*QueryBlacklistLogByLessorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogByLessor not implemented")
+}
+func (*UnimplementedQueryServer) BlacklistLogByLease(ctx context.Context, req *QueryBlacklistLogByLeaseRequest) (*QueryBlacklistLogByLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogByLease not implemented")
+}
+func (*UnimplementedQueryServer) BlacklistLogByLessee(ctx context.Context, req *QueryBlacklistLogByLesseeRequest) (*QueryBlacklistLogByLesseeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogByLessee not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -888,6 +1193,60 @@ func _Query_BlacklistLogBySubnet_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_BlacklistLogByLessor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryBlacklistLogByLessorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BlacklistLogByLessor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.trust.Query/BlacklistLogByLessor",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BlacklistLogByLessor(ctx, req.(*QueryBlacklistLogByLessorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_BlacklistLogByLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryBlacklistLogByLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BlacklistLogByLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.trust.Query/BlacklistLogByLease",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BlacklistLogByLease(ctx, req.(*QueryBlacklistLogByLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_BlacklistLogByLessee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryBlacklistLogByLesseeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BlacklistLogByLessee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.trust.Query/BlacklistLogByLessee",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BlacklistLogByLessee(ctx, req.(*QueryBlacklistLogByLesseeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "ipex.trust.Query",
@@ -916,6 +1275,18 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BlacklistLogBySubnet",
 			Handler:    _Query_BlacklistLogBySubnet_Handler,
+		},
+		{
+			MethodName: "BlacklistLogByLessor",
+			Handler:    _Query_BlacklistLogByLessor_Handler,
+		},
+		{
+			MethodName: "BlacklistLogByLease",
+			Handler:    _Query_BlacklistLogByLease_Handler,
+		},
+		{
+			MethodName: "BlacklistLogByLessee",
+			Handler:    _Query_BlacklistLogByLessee_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1357,6 +1728,159 @@ func (m *QueryBlacklistLogBySubnetResponse) MarshalToSizedBuffer(dAtA []byte) (i
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryBlacklistLogByLessorRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryBlacklistLogByLessorRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryBlacklistLogByLessorRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LessorOrgId != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.LessorOrgId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryBlacklistLogByLessorResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryBlacklistLogByLessorResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryBlacklistLogByLessorResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryBlacklistLogByLeaseRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryBlacklistLogByLeaseRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryBlacklistLogByLeaseRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LeaseId != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.LeaseId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryBlacklistLogByLeaseResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryBlacklistLogByLeaseResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryBlacklistLogByLeaseResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryBlacklistLogByLesseeRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryBlacklistLogByLesseeRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryBlacklistLogByLesseeRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LesseeOrgId != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.LesseeOrgId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryBlacklistLogByLesseeResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryBlacklistLogByLesseeResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryBlacklistLogByLesseeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -1530,6 +2054,69 @@ func (m *QueryBlacklistLogBySubnetResponse) Size() (n int) {
 		l = m.Pagination.Size()
 		n += 1 + l + sovQuery(uint64(l))
 	}
+	return n
+}
+
+func (m *QueryBlacklistLogByLessorRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LessorOrgId != 0 {
+		n += 1 + sovQuery(uint64(m.LessorOrgId))
+	}
+	return n
+}
+
+func (m *QueryBlacklistLogByLessorResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryBlacklistLogByLeaseRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LeaseId != 0 {
+		n += 1 + sovQuery(uint64(m.LeaseId))
+	}
+	return n
+}
+
+func (m *QueryBlacklistLogByLeaseResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryBlacklistLogByLesseeRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LesseeOrgId != 0 {
+		n += 1 + sovQuery(uint64(m.LesseeOrgId))
+	}
+	return n
+}
+
+func (m *QueryBlacklistLogByLesseeResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
 	return n
 }
 
@@ -2592,6 +3179,363 @@ func (m *QueryBlacklistLogBySubnetResponse) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryBlacklistLogByLessorRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLessorRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLessorRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LessorOrgId", wireType)
+			}
+			m.LessorOrgId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.LessorOrgId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryBlacklistLogByLessorResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLessorResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLessorResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryBlacklistLogByLeaseRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLeaseRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLeaseRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LeaseId", wireType)
+			}
+			m.LeaseId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.LeaseId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryBlacklistLogByLeaseResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLeaseResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLeaseResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryBlacklistLogByLesseeRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLesseeRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLesseeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LesseeOrgId", wireType)
+			}
+			m.LesseeOrgId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.LesseeOrgId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryBlacklistLogByLesseeResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLesseeResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryBlacklistLogByLesseeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipQuery(dAtA[iNdEx:])

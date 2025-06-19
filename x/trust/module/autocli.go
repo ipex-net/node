@@ -46,6 +46,27 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "subnetId"}},
 				},
 
+				{
+					RpcMethod:      "BlacklistLogByLessor",
+					Use:            "blacklist-log-by-lessor [lessor-org-id]",
+					Short:          "Query blacklist-log-by-lessor",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "lessorOrgId"}},
+				},
+
+				{
+					RpcMethod:      "BlacklistLogByLease",
+					Use:            "blacklist-log-by-lease [lease-id]",
+					Short:          "Query blacklist-log-by-lease",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "leaseId"}},
+				},
+
+				{
+					RpcMethod:      "BlacklistLogByLessee",
+					Use:            "blacklist-log-by-lessee [lessee-org-id]",
+					Short:          "Query blacklist-log-by-lessee",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "lesseeOrgId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

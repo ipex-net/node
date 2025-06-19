@@ -51,7 +51,7 @@ type VoteExtHandler struct {
 
 func NewVoteExtHandler(
 	logger log.Logger,
-	oracleK keeper.Keeper, 
+	oracleK keeper.Keeper,
 	orgK types.OrgKeeper,
 	subnetK types.SubnetKeeper,
 	leaseK types.LeaseKeeper,
@@ -60,7 +60,7 @@ func NewVoteExtHandler(
 ) *VoteExtHandler {
 	return &VoteExtHandler{
 		logger:          logger,
-		OracleKeeper:    oracleK, 
+		OracleKeeper:    oracleK,
 		OrgKeeper:       orgK,
 		SubnetKeeper:    subnetK,
 		LeaseKeeper:     leaseK,

@@ -223,7 +223,7 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Tim
 			// Determine required interval based on org age and validity status
 			var requiredInterval time.Duration
 
-			switch subnet.Status{
+			switch subnet.Status {
 
 			case types.SubnetStatus_SUBNET_STATUS_READY:
 				requiredInterval = 72 * time.Hour //If subnet was succesfully synced, rerun the sync after x hours

@@ -2,18 +2,19 @@
 package trust
 
 import (
+	fmt "fmt"
+	io "io"
+	reflect "reflect"
+	sync "sync"
+
 	_ "cosmossdk.io/api/amino"
 	v1beta1 "cosmossdk.io/api/cosmos/base/query/v1beta1"
-	fmt "fmt"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	io "io"
-	reflect "reflect"
-	sync "sync"
 )
 
 var (
@@ -5557,6 +5558,2286 @@ func (x *fastReflection_QueryBlacklistLogBySubnetResponse) ProtoMethods() *proto
 	}
 }
 
+var (
+	md_QueryBlacklistLogByLessorRequest             protoreflect.MessageDescriptor
+	fd_QueryBlacklistLogByLessorRequest_lessorOrgId protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_trust_query_proto_init()
+	md_QueryBlacklistLogByLessorRequest = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLessorRequest")
+	fd_QueryBlacklistLogByLessorRequest_lessorOrgId = md_QueryBlacklistLogByLessorRequest.Fields().ByName("lessorOrgId")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLessorRequest)(nil)
+
+type fastReflection_QueryBlacklistLogByLessorRequest QueryBlacklistLogByLessorRequest
+
+func (x *QueryBlacklistLogByLessorRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLessorRequest)(x)
+}
+
+func (x *QueryBlacklistLogByLessorRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_trust_query_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryBlacklistLogByLessorRequest_messageType fastReflection_QueryBlacklistLogByLessorRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryBlacklistLogByLessorRequest_messageType{}
+
+type fastReflection_QueryBlacklistLogByLessorRequest_messageType struct{}
+
+func (x fastReflection_QueryBlacklistLogByLessorRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLessorRequest)(nil)
+}
+func (x fastReflection_QueryBlacklistLogByLessorRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLessorRequest)
+}
+func (x fastReflection_QueryBlacklistLogByLessorRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLessorRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLessorRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryBlacklistLogByLessorRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLessorRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryBlacklistLogByLessorRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.LessorOrgId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.LessorOrgId)
+		if !f(fd_QueryBlacklistLogByLessorRequest_lessorOrgId, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
+		return x.LessorOrgId != uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
+		x.LessorOrgId = uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
+		value := x.LessorOrgId
+		return protoreflect.ValueOfUint64(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
+		x.LessorOrgId = value.Uint()
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
+		panic(fmt.Errorf("field lessorOrgId of message ipex.trust.QueryBlacklistLogByLessorRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLessorRequest.lessorOrgId":
+		return protoreflect.ValueOfUint64(uint64(0))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.trust.QueryBlacklistLogByLessorRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryBlacklistLogByLessorRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryBlacklistLogByLessorRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.LessorOrgId != 0 {
+			n += 1 + runtime.Sov(uint64(x.LessorOrgId))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLessorRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.LessorOrgId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.LessorOrgId))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLessorRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLessorRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLessorRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LessorOrgId", wireType)
+				}
+				x.LessorOrgId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.LessorOrgId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryBlacklistLogByLessorResponse protoreflect.MessageDescriptor
+)
+
+func init() {
+	file_ipex_trust_query_proto_init()
+	md_QueryBlacklistLogByLessorResponse = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLessorResponse")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLessorResponse)(nil)
+
+type fastReflection_QueryBlacklistLogByLessorResponse QueryBlacklistLogByLessorResponse
+
+func (x *QueryBlacklistLogByLessorResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLessorResponse)(x)
+}
+
+func (x *QueryBlacklistLogByLessorResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_trust_query_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryBlacklistLogByLessorResponse_messageType fastReflection_QueryBlacklistLogByLessorResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryBlacklistLogByLessorResponse_messageType{}
+
+type fastReflection_QueryBlacklistLogByLessorResponse_messageType struct{}
+
+func (x fastReflection_QueryBlacklistLogByLessorResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLessorResponse)(nil)
+}
+func (x fastReflection_QueryBlacklistLogByLessorResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLessorResponse)
+}
+func (x fastReflection_QueryBlacklistLogByLessorResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLessorResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLessorResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryBlacklistLogByLessorResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLessorResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryBlacklistLogByLessorResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLessorResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLessorResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.trust.QueryBlacklistLogByLessorResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryBlacklistLogByLessorResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryBlacklistLogByLessorResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLessorResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLessorResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLessorResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLessorResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryBlacklistLogByLeaseRequest         protoreflect.MessageDescriptor
+	fd_QueryBlacklistLogByLeaseRequest_leaseId protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_trust_query_proto_init()
+	md_QueryBlacklistLogByLeaseRequest = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLeaseRequest")
+	fd_QueryBlacklistLogByLeaseRequest_leaseId = md_QueryBlacklistLogByLeaseRequest.Fields().ByName("leaseId")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLeaseRequest)(nil)
+
+type fastReflection_QueryBlacklistLogByLeaseRequest QueryBlacklistLogByLeaseRequest
+
+func (x *QueryBlacklistLogByLeaseRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLeaseRequest)(x)
+}
+
+func (x *QueryBlacklistLogByLeaseRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_trust_query_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryBlacklistLogByLeaseRequest_messageType fastReflection_QueryBlacklistLogByLeaseRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryBlacklistLogByLeaseRequest_messageType{}
+
+type fastReflection_QueryBlacklistLogByLeaseRequest_messageType struct{}
+
+func (x fastReflection_QueryBlacklistLogByLeaseRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLeaseRequest)(nil)
+}
+func (x fastReflection_QueryBlacklistLogByLeaseRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLeaseRequest)
+}
+func (x fastReflection_QueryBlacklistLogByLeaseRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLeaseRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLeaseRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryBlacklistLogByLeaseRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLeaseRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryBlacklistLogByLeaseRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.LeaseId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.LeaseId)
+		if !f(fd_QueryBlacklistLogByLeaseRequest_leaseId, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
+		return x.LeaseId != uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
+		x.LeaseId = uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
+		value := x.LeaseId
+		return protoreflect.ValueOfUint64(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
+		x.LeaseId = value.Uint()
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
+		panic(fmt.Errorf("field leaseId of message ipex.trust.QueryBlacklistLogByLeaseRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLeaseRequest.leaseId":
+		return protoreflect.ValueOfUint64(uint64(0))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.trust.QueryBlacklistLogByLeaseRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryBlacklistLogByLeaseRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryBlacklistLogByLeaseRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.LeaseId != 0 {
+			n += 1 + runtime.Sov(uint64(x.LeaseId))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLeaseRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.LeaseId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.LeaseId))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLeaseRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLeaseRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLeaseRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LeaseId", wireType)
+				}
+				x.LeaseId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.LeaseId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryBlacklistLogByLeaseResponse protoreflect.MessageDescriptor
+)
+
+func init() {
+	file_ipex_trust_query_proto_init()
+	md_QueryBlacklistLogByLeaseResponse = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLeaseResponse")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLeaseResponse)(nil)
+
+type fastReflection_QueryBlacklistLogByLeaseResponse QueryBlacklistLogByLeaseResponse
+
+func (x *QueryBlacklistLogByLeaseResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLeaseResponse)(x)
+}
+
+func (x *QueryBlacklistLogByLeaseResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_trust_query_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryBlacklistLogByLeaseResponse_messageType fastReflection_QueryBlacklistLogByLeaseResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryBlacklistLogByLeaseResponse_messageType{}
+
+type fastReflection_QueryBlacklistLogByLeaseResponse_messageType struct{}
+
+func (x fastReflection_QueryBlacklistLogByLeaseResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLeaseResponse)(nil)
+}
+func (x fastReflection_QueryBlacklistLogByLeaseResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLeaseResponse)
+}
+func (x fastReflection_QueryBlacklistLogByLeaseResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLeaseResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLeaseResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryBlacklistLogByLeaseResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLeaseResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryBlacklistLogByLeaseResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLeaseResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLeaseResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.trust.QueryBlacklistLogByLeaseResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryBlacklistLogByLeaseResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryBlacklistLogByLeaseResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLeaseResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLeaseResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLeaseResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLeaseResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryBlacklistLogByLesseeRequest             protoreflect.MessageDescriptor
+	fd_QueryBlacklistLogByLesseeRequest_lesseeOrgId protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_trust_query_proto_init()
+	md_QueryBlacklistLogByLesseeRequest = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLesseeRequest")
+	fd_QueryBlacklistLogByLesseeRequest_lesseeOrgId = md_QueryBlacklistLogByLesseeRequest.Fields().ByName("lesseeOrgId")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLesseeRequest)(nil)
+
+type fastReflection_QueryBlacklistLogByLesseeRequest QueryBlacklistLogByLesseeRequest
+
+func (x *QueryBlacklistLogByLesseeRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLesseeRequest)(x)
+}
+
+func (x *QueryBlacklistLogByLesseeRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_trust_query_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryBlacklistLogByLesseeRequest_messageType fastReflection_QueryBlacklistLogByLesseeRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryBlacklistLogByLesseeRequest_messageType{}
+
+type fastReflection_QueryBlacklistLogByLesseeRequest_messageType struct{}
+
+func (x fastReflection_QueryBlacklistLogByLesseeRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLesseeRequest)(nil)
+}
+func (x fastReflection_QueryBlacklistLogByLesseeRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLesseeRequest)
+}
+func (x fastReflection_QueryBlacklistLogByLesseeRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLesseeRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLesseeRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryBlacklistLogByLesseeRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLesseeRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryBlacklistLogByLesseeRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.LesseeOrgId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.LesseeOrgId)
+		if !f(fd_QueryBlacklistLogByLesseeRequest_lesseeOrgId, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
+		return x.LesseeOrgId != uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
+		x.LesseeOrgId = uint64(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
+		value := x.LesseeOrgId
+		return protoreflect.ValueOfUint64(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
+		x.LesseeOrgId = value.Uint()
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
+		panic(fmt.Errorf("field lesseeOrgId of message ipex.trust.QueryBlacklistLogByLesseeRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.trust.QueryBlacklistLogByLesseeRequest.lesseeOrgId":
+		return protoreflect.ValueOfUint64(uint64(0))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.trust.QueryBlacklistLogByLesseeRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryBlacklistLogByLesseeRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryBlacklistLogByLesseeRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.LesseeOrgId != 0 {
+			n += 1 + runtime.Sov(uint64(x.LesseeOrgId))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLesseeRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.LesseeOrgId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.LesseeOrgId))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLesseeRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLesseeRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLesseeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LesseeOrgId", wireType)
+				}
+				x.LesseeOrgId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.LesseeOrgId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryBlacklistLogByLesseeResponse protoreflect.MessageDescriptor
+)
+
+func init() {
+	file_ipex_trust_query_proto_init()
+	md_QueryBlacklistLogByLesseeResponse = File_ipex_trust_query_proto.Messages().ByName("QueryBlacklistLogByLesseeResponse")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryBlacklistLogByLesseeResponse)(nil)
+
+type fastReflection_QueryBlacklistLogByLesseeResponse QueryBlacklistLogByLesseeResponse
+
+func (x *QueryBlacklistLogByLesseeResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLesseeResponse)(x)
+}
+
+func (x *QueryBlacklistLogByLesseeResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_trust_query_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryBlacklistLogByLesseeResponse_messageType fastReflection_QueryBlacklistLogByLesseeResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryBlacklistLogByLesseeResponse_messageType{}
+
+type fastReflection_QueryBlacklistLogByLesseeResponse_messageType struct{}
+
+func (x fastReflection_QueryBlacklistLogByLesseeResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryBlacklistLogByLesseeResponse)(nil)
+}
+func (x fastReflection_QueryBlacklistLogByLesseeResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLesseeResponse)
+}
+func (x fastReflection_QueryBlacklistLogByLesseeResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLesseeResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryBlacklistLogByLesseeResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryBlacklistLogByLesseeResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryBlacklistLogByLesseeResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryBlacklistLogByLesseeResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.QueryBlacklistLogByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.trust.QueryBlacklistLogByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.trust.QueryBlacklistLogByLesseeResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryBlacklistLogByLesseeResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryBlacklistLogByLesseeResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLesseeResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryBlacklistLogByLesseeResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLesseeResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryBlacklistLogByLesseeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -6016,6 +8297,189 @@ func (x *QueryBlacklistLogBySubnetResponse) GetPagination() *v1beta1.PageRespons
 	return nil
 }
 
+type QueryBlacklistLogByLessorRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	LessorOrgId uint64 `protobuf:"varint,1,opt,name=lessorOrgId,proto3" json:"lessorOrgId,omitempty"`
+}
+
+func (x *QueryBlacklistLogByLessorRequest) Reset() {
+	*x = QueryBlacklistLogByLessorRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_trust_query_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryBlacklistLogByLessorRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryBlacklistLogByLessorRequest) ProtoMessage() {}
+
+// Deprecated: Use QueryBlacklistLogByLessorRequest.ProtoReflect.Descriptor instead.
+func (*QueryBlacklistLogByLessorRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_trust_query_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *QueryBlacklistLogByLessorRequest) GetLessorOrgId() uint64 {
+	if x != nil {
+		return x.LessorOrgId
+	}
+	return 0
+}
+
+type QueryBlacklistLogByLessorResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *QueryBlacklistLogByLessorResponse) Reset() {
+	*x = QueryBlacklistLogByLessorResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_trust_query_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryBlacklistLogByLessorResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryBlacklistLogByLessorResponse) ProtoMessage() {}
+
+// Deprecated: Use QueryBlacklistLogByLessorResponse.ProtoReflect.Descriptor instead.
+func (*QueryBlacklistLogByLessorResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_trust_query_proto_rawDescGZIP(), []int{13}
+}
+
+type QueryBlacklistLogByLeaseRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	LeaseId uint64 `protobuf:"varint,1,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
+}
+
+func (x *QueryBlacklistLogByLeaseRequest) Reset() {
+	*x = QueryBlacklistLogByLeaseRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_trust_query_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryBlacklistLogByLeaseRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryBlacklistLogByLeaseRequest) ProtoMessage() {}
+
+// Deprecated: Use QueryBlacklistLogByLeaseRequest.ProtoReflect.Descriptor instead.
+func (*QueryBlacklistLogByLeaseRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_trust_query_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *QueryBlacklistLogByLeaseRequest) GetLeaseId() uint64 {
+	if x != nil {
+		return x.LeaseId
+	}
+	return 0
+}
+
+type QueryBlacklistLogByLeaseResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *QueryBlacklistLogByLeaseResponse) Reset() {
+	*x = QueryBlacklistLogByLeaseResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_trust_query_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryBlacklistLogByLeaseResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryBlacklistLogByLeaseResponse) ProtoMessage() {}
+
+// Deprecated: Use QueryBlacklistLogByLeaseResponse.ProtoReflect.Descriptor instead.
+func (*QueryBlacklistLogByLeaseResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_trust_query_proto_rawDescGZIP(), []int{15}
+}
+
+type QueryBlacklistLogByLesseeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	LesseeOrgId uint64 `protobuf:"varint,1,opt,name=lesseeOrgId,proto3" json:"lesseeOrgId,omitempty"`
+}
+
+func (x *QueryBlacklistLogByLesseeRequest) Reset() {
+	*x = QueryBlacklistLogByLesseeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_trust_query_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryBlacklistLogByLesseeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryBlacklistLogByLesseeRequest) ProtoMessage() {}
+
+// Deprecated: Use QueryBlacklistLogByLesseeRequest.ProtoReflect.Descriptor instead.
+func (*QueryBlacklistLogByLesseeRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_trust_query_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *QueryBlacklistLogByLesseeRequest) GetLesseeOrgId() uint64 {
+	if x != nil {
+		return x.LesseeOrgId
+	}
+	return 0
+}
+
+type QueryBlacklistLogByLesseeResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *QueryBlacklistLogByLesseeResponse) Reset() {
+	*x = QueryBlacklistLogByLesseeResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_trust_query_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryBlacklistLogByLesseeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryBlacklistLogByLesseeResponse) ProtoMessage() {}
+
+// Deprecated: Use QueryBlacklistLogByLesseeResponse.ProtoReflect.Descriptor instead.
+func (*QueryBlacklistLogByLesseeResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_trust_query_proto_rawDescGZIP(), []int{17}
+}
+
 var File_ipex_trust_query_proto protoreflect.FileDescriptor
 
 var file_ipex_trust_query_proto_rawDesc = []byte{
@@ -6116,72 +8580,125 @@ var file_ipex_trust_query_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
 	0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62,
 	0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0xfd, 0x06,
-	0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x68, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d,
-	0x73, 0x12, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x20, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d,
-	0x73, 0x12, 0x9f, 0x01, 0x0a, 0x10, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75,
-	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74,
-	0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62,
-	0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
-	0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65,
-	0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x2e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x28, 0x12, 0x26, 0x2f, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74,
-	0x5f, 0x72, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x7b, 0x69, 0x6e, 0x64,
-	0x65, 0x78, 0x7d, 0x12, 0x9a, 0x01, 0x0a, 0x13, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65,
-	0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x12, 0x2c, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41,
-	0x6c, 0x6c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65,
-	0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c,
-	0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20,
-	0x12, 0x1e, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x73,
-	0x75, 0x62, 0x6e, 0x65, 0x74, 0x5f, 0x72, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x12, 0x8c, 0x01, 0x0a, 0x0c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f,
-	0x67, 0x12, 0x28, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73,
-	0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47,
-	0x65, 0x74, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12, 0x1f,
-	0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61,
-	0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12,
-	0x8a, 0x01, 0x0a, 0x0f, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67,
-	0x41, 0x6c, 0x6c, 0x12, 0x28, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73,
-	0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c,
-	0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e,
+	0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x44, 0x0a,
+	0x20, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c,
+	0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x4f, 0x72,
+	0x67, 0x49, 0x64, 0x22, 0x23, 0x0a, 0x21, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63,
+	0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3b, 0x0a, 0x1f, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c,
+	0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x6c,
+	0x65, 0x61, 0x73, 0x65, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x07, 0x6c, 0x65,
+	0x61, 0x73, 0x65, 0x49, 0x64, 0x22, 0x22, 0x0a, 0x20, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c,
+	0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x61, 0x73,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x44, 0x0a, 0x20, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79,
+	0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20, 0x0a,
+	0x0b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x22,
+	0x23, 0x0a, 0x21, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73,
+	0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x32, 0x91, 0x0b, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x68,
+	0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61,
+	0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72,
+	0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73,
+	0x74, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x9f, 0x01, 0x0a, 0x10, 0x53, 0x75, 0x62,
+	0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2c, 0x2e,
 	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c,
-	0x12, 0x1a, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62,
-	0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x12, 0xae, 0x01, 0x0a,
-	0x14, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53,
-	0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72,
-	0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
-	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
-	0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73,
-	0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x37, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x31, 0x12, 0x2f, 0x2f, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b,
-	0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x5f, 0x62, 0x79, 0x5f, 0x73, 0x75, 0x62, 0x6e,
-	0x65, 0x74, 0x2f, 0x7b, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x49, 0x64, 0x7d, 0x42, 0x81, 0x01,
-	0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73,
-	0x74, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x15, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58, 0xaa, 0x02, 0x0b, 0x49,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64,
-	0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78,
-	0x5c, 0x54, 0x72, 0x75, 0x73, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x54, 0x72, 0x75, 0x73,
-	0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x79, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47,
+	0x65, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2e, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x28, 0x12, 0x26, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74,
+	0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x5f, 0x72, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x2f, 0x7b, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x7d, 0x12, 0x9a, 0x01, 0x0a, 0x13, 0x53,
+	0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41,
+	0x6c, 0x6c, 0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52,
+	0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x70,
+	0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x12, 0x1e, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
+	0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x5f, 0x72, 0x65, 0x70,
+	0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x8c, 0x01, 0x0a, 0x0c, 0x42, 0x6c, 0x61, 0x63,
+	0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x12, 0x28, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42,
+	0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x29, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
+	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12, 0x1f, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72,
+	0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f,
+	0x67, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x8a, 0x01, 0x0a, 0x0f, 0x42, 0x6c, 0x61, 0x63, 0x6b,
+	0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x41, 0x6c, 0x6c, 0x12, 0x28, 0x2e, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c,
+	0x6c, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x61, 0x63, 0x6b,
+	0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
+	0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f,
+	0x6c, 0x6f, 0x67, 0x12, 0xae, 0x01, 0x0a, 0x14, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73,
+	0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x2d, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75,
+	0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42,
+	0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x53, 0x75, 0x62,
+	0x6e, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x37, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x31, 0x12, 0x2f, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73,
+	0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67, 0x5f,
+	0x62, 0x79, 0x5f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x7b, 0x73, 0x75, 0x62, 0x6e, 0x65,
+	0x74, 0x49, 0x64, 0x7d, 0x12, 0xb1, 0x01, 0x0a, 0x14, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
+	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x12, 0x2d, 0x2e,
+	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c,
+	0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65,
+	0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3a, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x34, 0x12, 0x32, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67,
+	0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73,
+	0x6f, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0xa9, 0x01, 0x0a, 0x13, 0x42, 0x6c, 0x61,
+	0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x61, 0x73, 0x65,
+	0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67,
+	0x42, 0x79, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d,
+	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79,
+	0x4c, 0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x35, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x2f, 0x12, 0x2d, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72,
+	0x75, 0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f,
+	0x67, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x7b, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x49, 0x64, 0x7d, 0x12, 0xb1, 0x01, 0x0a, 0x14, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69,
+	0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x12, 0x2d, 0x2e,
+	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c,
+	0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x67, 0x42, 0x79, 0x4c, 0x65,
+	0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3a, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x34, 0x12, 0x32, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0x2f, 0x62, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x67,
+	0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73,
+	0x65, 0x65, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x42, 0x81, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d,
+	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x42, 0x0a, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73,
+	0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58, 0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e,
+	0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72,
+	0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73,
+	0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c,
+	0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x54, 0x72, 0x75, 0x73, 0x74, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -6196,7 +8713,7 @@ func file_ipex_trust_query_proto_rawDescGZIP() []byte {
 	return file_ipex_trust_query_proto_rawDescData
 }
 
-var file_ipex_trust_query_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_ipex_trust_query_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_ipex_trust_query_proto_goTypes = []interface{}{
 	(*QueryParamsRequest)(nil),                // 0: ipex.trust.QueryParamsRequest
 	(*QueryParamsResponse)(nil),               // 1: ipex.trust.QueryParamsResponse
@@ -6210,39 +8727,51 @@ var file_ipex_trust_query_proto_goTypes = []interface{}{
 	(*QueryAllBlacklistLogResponse)(nil),      // 9: ipex.trust.QueryAllBlacklistLogResponse
 	(*QueryBlacklistLogBySubnetRequest)(nil),  // 10: ipex.trust.QueryBlacklistLogBySubnetRequest
 	(*QueryBlacklistLogBySubnetResponse)(nil), // 11: ipex.trust.QueryBlacklistLogBySubnetResponse
-	(*Params)(nil),               // 12: ipex.trust.Params
-	(*SubnetReputation)(nil),     // 13: ipex.trust.SubnetReputation
-	(*v1beta1.PageRequest)(nil),  // 14: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil), // 15: cosmos.base.query.v1beta1.PageResponse
-	(*BlacklistLog)(nil),         // 16: ipex.trust.BlacklistLog
+	(*QueryBlacklistLogByLessorRequest)(nil),  // 12: ipex.trust.QueryBlacklistLogByLessorRequest
+	(*QueryBlacklistLogByLessorResponse)(nil), // 13: ipex.trust.QueryBlacklistLogByLessorResponse
+	(*QueryBlacklistLogByLeaseRequest)(nil),   // 14: ipex.trust.QueryBlacklistLogByLeaseRequest
+	(*QueryBlacklistLogByLeaseResponse)(nil),  // 15: ipex.trust.QueryBlacklistLogByLeaseResponse
+	(*QueryBlacklistLogByLesseeRequest)(nil),  // 16: ipex.trust.QueryBlacklistLogByLesseeRequest
+	(*QueryBlacklistLogByLesseeResponse)(nil), // 17: ipex.trust.QueryBlacklistLogByLesseeResponse
+	(*Params)(nil),               // 18: ipex.trust.Params
+	(*SubnetReputation)(nil),     // 19: ipex.trust.SubnetReputation
+	(*v1beta1.PageRequest)(nil),  // 20: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil), // 21: cosmos.base.query.v1beta1.PageResponse
+	(*BlacklistLog)(nil),         // 22: ipex.trust.BlacklistLog
 }
 var file_ipex_trust_query_proto_depIdxs = []int32{
-	12, // 0: ipex.trust.QueryParamsResponse.params:type_name -> ipex.trust.Params
-	13, // 1: ipex.trust.QueryGetSubnetReputationResponse.subnetReputation:type_name -> ipex.trust.SubnetReputation
-	14, // 2: ipex.trust.QueryAllSubnetReputationRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	13, // 3: ipex.trust.QueryAllSubnetReputationResponse.subnetReputation:type_name -> ipex.trust.SubnetReputation
-	15, // 4: ipex.trust.QueryAllSubnetReputationResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	16, // 5: ipex.trust.QueryGetBlacklistLogResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
-	14, // 6: ipex.trust.QueryAllBlacklistLogRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	16, // 7: ipex.trust.QueryAllBlacklistLogResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
-	15, // 8: ipex.trust.QueryAllBlacklistLogResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	14, // 9: ipex.trust.QueryBlacklistLogBySubnetRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	16, // 10: ipex.trust.QueryBlacklistLogBySubnetResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
-	15, // 11: ipex.trust.QueryBlacklistLogBySubnetResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	18, // 0: ipex.trust.QueryParamsResponse.params:type_name -> ipex.trust.Params
+	19, // 1: ipex.trust.QueryGetSubnetReputationResponse.subnetReputation:type_name -> ipex.trust.SubnetReputation
+	20, // 2: ipex.trust.QueryAllSubnetReputationRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	19, // 3: ipex.trust.QueryAllSubnetReputationResponse.subnetReputation:type_name -> ipex.trust.SubnetReputation
+	21, // 4: ipex.trust.QueryAllSubnetReputationResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	22, // 5: ipex.trust.QueryGetBlacklistLogResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
+	20, // 6: ipex.trust.QueryAllBlacklistLogRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 7: ipex.trust.QueryAllBlacklistLogResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
+	21, // 8: ipex.trust.QueryAllBlacklistLogResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	20, // 9: ipex.trust.QueryBlacklistLogBySubnetRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 10: ipex.trust.QueryBlacklistLogBySubnetResponse.BlacklistLog:type_name -> ipex.trust.BlacklistLog
+	21, // 11: ipex.trust.QueryBlacklistLogBySubnetResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
 	0,  // 12: ipex.trust.Query.Params:input_type -> ipex.trust.QueryParamsRequest
 	2,  // 13: ipex.trust.Query.SubnetReputation:input_type -> ipex.trust.QueryGetSubnetReputationRequest
 	4,  // 14: ipex.trust.Query.SubnetReputationAll:input_type -> ipex.trust.QueryAllSubnetReputationRequest
 	6,  // 15: ipex.trust.Query.BlacklistLog:input_type -> ipex.trust.QueryGetBlacklistLogRequest
 	8,  // 16: ipex.trust.Query.BlacklistLogAll:input_type -> ipex.trust.QueryAllBlacklistLogRequest
 	10, // 17: ipex.trust.Query.BlacklistLogBySubnet:input_type -> ipex.trust.QueryBlacklistLogBySubnetRequest
-	1,  // 18: ipex.trust.Query.Params:output_type -> ipex.trust.QueryParamsResponse
-	3,  // 19: ipex.trust.Query.SubnetReputation:output_type -> ipex.trust.QueryGetSubnetReputationResponse
-	5,  // 20: ipex.trust.Query.SubnetReputationAll:output_type -> ipex.trust.QueryAllSubnetReputationResponse
-	7,  // 21: ipex.trust.Query.BlacklistLog:output_type -> ipex.trust.QueryGetBlacklistLogResponse
-	9,  // 22: ipex.trust.Query.BlacklistLogAll:output_type -> ipex.trust.QueryAllBlacklistLogResponse
-	11, // 23: ipex.trust.Query.BlacklistLogBySubnet:output_type -> ipex.trust.QueryBlacklistLogBySubnetResponse
-	18, // [18:24] is the sub-list for method output_type
-	12, // [12:18] is the sub-list for method input_type
+	12, // 18: ipex.trust.Query.BlacklistLogByLessor:input_type -> ipex.trust.QueryBlacklistLogByLessorRequest
+	14, // 19: ipex.trust.Query.BlacklistLogByLease:input_type -> ipex.trust.QueryBlacklistLogByLeaseRequest
+	16, // 20: ipex.trust.Query.BlacklistLogByLessee:input_type -> ipex.trust.QueryBlacklistLogByLesseeRequest
+	1,  // 21: ipex.trust.Query.Params:output_type -> ipex.trust.QueryParamsResponse
+	3,  // 22: ipex.trust.Query.SubnetReputation:output_type -> ipex.trust.QueryGetSubnetReputationResponse
+	5,  // 23: ipex.trust.Query.SubnetReputationAll:output_type -> ipex.trust.QueryAllSubnetReputationResponse
+	7,  // 24: ipex.trust.Query.BlacklistLog:output_type -> ipex.trust.QueryGetBlacklistLogResponse
+	9,  // 25: ipex.trust.Query.BlacklistLogAll:output_type -> ipex.trust.QueryAllBlacklistLogResponse
+	11, // 26: ipex.trust.Query.BlacklistLogBySubnet:output_type -> ipex.trust.QueryBlacklistLogBySubnetResponse
+	13, // 27: ipex.trust.Query.BlacklistLogByLessor:output_type -> ipex.trust.QueryBlacklistLogByLessorResponse
+	15, // 28: ipex.trust.Query.BlacklistLogByLease:output_type -> ipex.trust.QueryBlacklistLogByLeaseResponse
+	17, // 29: ipex.trust.Query.BlacklistLogByLessee:output_type -> ipex.trust.QueryBlacklistLogByLesseeResponse
+	21, // [21:30] is the sub-list for method output_type
+	12, // [12:21] is the sub-list for method input_type
 	12, // [12:12] is the sub-list for extension type_name
 	12, // [12:12] is the sub-list for extension extendee
 	0,  // [0:12] is the sub-list for field type_name
@@ -6401,6 +8930,78 @@ func file_ipex_trust_query_proto_init() {
 				return nil
 			}
 		}
+		file_ipex_trust_query_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryBlacklistLogByLessorRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_trust_query_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryBlacklistLogByLessorResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_trust_query_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryBlacklistLogByLeaseRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_trust_query_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryBlacklistLogByLeaseResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_trust_query_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryBlacklistLogByLesseeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_trust_query_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryBlacklistLogByLesseeResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -6408,7 +9009,7 @@ func file_ipex_trust_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_trust_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -46,6 +46,24 @@ service Query {
     option (google.api.http).get = "/ipex/trust/blacklist_log_by_subnet/{subnetId}";
   
   }
+  
+  // Queries a list of BlacklistLogByLessor items.
+  rpc BlacklistLogByLessor (QueryBlacklistLogByLessorRequest) returns (QueryBlacklistLogByLessorResponse) {
+    option (google.api.http).get = "/ipex/trust/blacklist_log_by_lessor/{lessorOrgId}";
+  
+  }
+  
+  // Queries a list of BlacklistLogByLease items.
+  rpc BlacklistLogByLease (QueryBlacklistLogByLeaseRequest) returns (QueryBlacklistLogByLeaseResponse) {
+    option (google.api.http).get = "/ipex/trust/blacklist_log_by_lease/{leaseId}";
+  
+  }
+  
+  // Queries a list of BlacklistLogByLessee items.
+  rpc BlacklistLogByLessee (QueryBlacklistLogByLesseeRequest) returns (QueryBlacklistLogByLesseeResponse) {
+    option (google.api.http).get = "/ipex/trust/blacklist_log_by_lessee/{lesseeOrgId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -92,12 +110,30 @@ message QueryAllBlacklistLogResponse {
 }
 
 message QueryBlacklistLogBySubnetRequest {
-  uint64 subnetId = 1;
-    cosmos.base.query.v1beta1.PageRequest pagination = 2;
+  uint64                                subnetId   = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
 message QueryBlacklistLogBySubnetResponse {
   repeated BlacklistLog                           BlacklistLog = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination   = 2;
 }
+
+message QueryBlacklistLogByLessorRequest {
+  uint64 lessorOrgId = 1;
+}
+
+message QueryBlacklistLogByLessorResponse {}
+
+message QueryBlacklistLogByLeaseRequest {
+  uint64 leaseId = 1;
+}
+
+message QueryBlacklistLogByLeaseResponse {}
+
+message QueryBlacklistLogByLesseeRequest {
+  uint64 lesseeOrgId = 1;
+}
+
+message QueryBlacklistLogByLesseeResponse {}
 
