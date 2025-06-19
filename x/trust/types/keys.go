@@ -20,6 +20,11 @@ func KeyPrefix(p string) []byte {
 }
 
 const (
-	BlacklistLogKey      = "BlacklistLog/value/"
-	BlacklistLogCountKey = "BlacklistLog/count/"
+	BlacklistLogKey            = "BlacklistLog/value/"
+	BlacklistLogCountKey       = "BlacklistLog/count/"
+	BlacklistLogBySubnetKey    = "BlacklistLog/by_subnet/"
+	BlacklistLogByLessorKey    = "BlacklistLog/by_lessor/"
+	BlacklistLogByLesseeKey    = "BlacklistLog/by_lessee/"
+	BlacklistLogByLeaseKey     = "BlacklistLog/by_lease/"
+	BlacklistLogSequenceKey    = "BlacklistLog/sequence/"
 )
