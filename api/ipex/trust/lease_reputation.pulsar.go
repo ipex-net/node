@@ -3,14 +3,15 @@ package trust
 
 import (
 	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	runtime "github.com/cosmos/cosmos-proto/runtime"
+	_ "github.com/cosmos/gogoproto/gogoproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
 var (
@@ -105,32 +106,32 @@ func (x *fastReflection_LeaseReputation) Range(f func(protoreflect.FieldDescript
 			return
 		}
 	}
-	if x.Level1Count != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Level1Count)
+	if x.Level1Count != int32(0) {
+		value := protoreflect.ValueOfInt32(x.Level1Count)
 		if !f(fd_LeaseReputation_level1Count, value) {
 			return
 		}
 	}
-	if x.Level2Count != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Level2Count)
+	if x.Level2Count != int32(0) {
+		value := protoreflect.ValueOfInt32(x.Level2Count)
 		if !f(fd_LeaseReputation_level2Count, value) {
 			return
 		}
 	}
-	if x.Level3Count != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Level3Count)
+	if x.Level3Count != int32(0) {
+		value := protoreflect.ValueOfInt32(x.Level3Count)
 		if !f(fd_LeaseReputation_level3Count, value) {
 			return
 		}
 	}
-	if x.Level4Count != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Level4Count)
+	if x.Level4Count != int32(0) {
+		value := protoreflect.ValueOfInt32(x.Level4Count)
 		if !f(fd_LeaseReputation_level4Count, value) {
 			return
 		}
 	}
-	if x.LastUpdated != int32(0) {
-		value := protoreflect.ValueOfInt32(x.LastUpdated)
+	if x.LastUpdated != nil {
+		value := protoreflect.ValueOfMessage(x.LastUpdated.ProtoReflect())
 		if !f(fd_LeaseReputation_lastUpdated, value) {
 			return
 		}
@@ -153,15 +154,15 @@ func (x *fastReflection_LeaseReputation) Has(fd protoreflect.FieldDescriptor) bo
 	case "ipex.trust.LeaseReputation.index":
 		return x.Index != uint64(0)
 	case "ipex.trust.LeaseReputation.level1Count":
-		return x.Level1Count != uint64(0)
+		return x.Level1Count != int32(0)
 	case "ipex.trust.LeaseReputation.level2Count":
-		return x.Level2Count != uint64(0)
+		return x.Level2Count != int32(0)
 	case "ipex.trust.LeaseReputation.level3Count":
-		return x.Level3Count != uint64(0)
+		return x.Level3Count != int32(0)
 	case "ipex.trust.LeaseReputation.level4Count":
-		return x.Level4Count != uint64(0)
+		return x.Level4Count != int32(0)
 	case "ipex.trust.LeaseReputation.lastUpdated":
-		return x.LastUpdated != int32(0)
+		return x.LastUpdated != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LeaseReputation"))
@@ -181,15 +182,15 @@ func (x *fastReflection_LeaseReputation) Clear(fd protoreflect.FieldDescriptor) 
 	case "ipex.trust.LeaseReputation.index":
 		x.Index = uint64(0)
 	case "ipex.trust.LeaseReputation.level1Count":
-		x.Level1Count = uint64(0)
+		x.Level1Count = int32(0)
 	case "ipex.trust.LeaseReputation.level2Count":
-		x.Level2Count = uint64(0)
+		x.Level2Count = int32(0)
 	case "ipex.trust.LeaseReputation.level3Count":
-		x.Level3Count = uint64(0)
+		x.Level3Count = int32(0)
 	case "ipex.trust.LeaseReputation.level4Count":
-		x.Level4Count = uint64(0)
+		x.Level4Count = int32(0)
 	case "ipex.trust.LeaseReputation.lastUpdated":
-		x.LastUpdated = int32(0)
+		x.LastUpdated = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LeaseReputation"))
@@ -211,19 +212,19 @@ func (x *fastReflection_LeaseReputation) Get(descriptor protoreflect.FieldDescri
 		return protoreflect.ValueOfUint64(value)
 	case "ipex.trust.LeaseReputation.level1Count":
 		value := x.Level1Count
-		return protoreflect.ValueOfUint64(value)
+		return protoreflect.ValueOfInt32(value)
 	case "ipex.trust.LeaseReputation.level2Count":
 		value := x.Level2Count
-		return protoreflect.ValueOfUint64(value)
+		return protoreflect.ValueOfInt32(value)
 	case "ipex.trust.LeaseReputation.level3Count":
 		value := x.Level3Count
-		return protoreflect.ValueOfUint64(value)
+		return protoreflect.ValueOfInt32(value)
 	case "ipex.trust.LeaseReputation.level4Count":
 		value := x.Level4Count
-		return protoreflect.ValueOfUint64(value)
+		return protoreflect.ValueOfInt32(value)
 	case "ipex.trust.LeaseReputation.lastUpdated":
 		value := x.LastUpdated
-		return protoreflect.ValueOfInt32(value)
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LeaseReputation"))
@@ -247,15 +248,15 @@ func (x *fastReflection_LeaseReputation) Set(fd protoreflect.FieldDescriptor, va
 	case "ipex.trust.LeaseReputation.index":
 		x.Index = value.Uint()
 	case "ipex.trust.LeaseReputation.level1Count":
-		x.Level1Count = value.Uint()
+		x.Level1Count = int32(value.Int())
 	case "ipex.trust.LeaseReputation.level2Count":
-		x.Level2Count = value.Uint()
+		x.Level2Count = int32(value.Int())
 	case "ipex.trust.LeaseReputation.level3Count":
-		x.Level3Count = value.Uint()
+		x.Level3Count = int32(value.Int())
 	case "ipex.trust.LeaseReputation.level4Count":
-		x.Level4Count = value.Uint()
+		x.Level4Count = int32(value.Int())
 	case "ipex.trust.LeaseReputation.lastUpdated":
-		x.LastUpdated = int32(value.Int())
+		x.LastUpdated = value.Message().Interface().(*timestamppb.Timestamp)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LeaseReputation"))
@@ -276,6 +277,11 @@ func (x *fastReflection_LeaseReputation) Set(fd protoreflect.FieldDescriptor, va
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_LeaseReputation) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.trust.LeaseReputation.lastUpdated":
+		if x.LastUpdated == nil {
+			x.LastUpdated = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.LastUpdated.ProtoReflect())
 	case "ipex.trust.LeaseReputation.index":
 		panic(fmt.Errorf("field index of message ipex.trust.LeaseReputation is not mutable"))
 	case "ipex.trust.LeaseReputation.level1Count":
@@ -286,8 +292,6 @@ func (x *fastReflection_LeaseReputation) Mutable(fd protoreflect.FieldDescriptor
 		panic(fmt.Errorf("field level3Count of message ipex.trust.LeaseReputation is not mutable"))
 	case "ipex.trust.LeaseReputation.level4Count":
 		panic(fmt.Errorf("field level4Count of message ipex.trust.LeaseReputation is not mutable"))
-	case "ipex.trust.LeaseReputation.lastUpdated":
-		panic(fmt.Errorf("field lastUpdated of message ipex.trust.LeaseReputation is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LeaseReputation"))
@@ -304,15 +308,16 @@ func (x *fastReflection_LeaseReputation) NewField(fd protoreflect.FieldDescripto
 	case "ipex.trust.LeaseReputation.index":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.trust.LeaseReputation.level1Count":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.trust.LeaseReputation.level2Count":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.trust.LeaseReputation.level3Count":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.trust.LeaseReputation.level4Count":
-		return protoreflect.ValueOfUint64(uint64(0))
-	case "ipex.trust.LeaseReputation.lastUpdated":
 		return protoreflect.ValueOfInt32(int32(0))
+	case "ipex.trust.LeaseReputation.level2Count":
+		return protoreflect.ValueOfInt32(int32(0))
+	case "ipex.trust.LeaseReputation.level3Count":
+		return protoreflect.ValueOfInt32(int32(0))
+	case "ipex.trust.LeaseReputation.level4Count":
+		return protoreflect.ValueOfInt32(int32(0))
+	case "ipex.trust.LeaseReputation.lastUpdated":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LeaseReputation"))
@@ -397,8 +402,9 @@ func (x *fastReflection_LeaseReputation) ProtoMethods() *protoiface.Methods {
 		if x.Level4Count != 0 {
 			n += 1 + runtime.Sov(uint64(x.Level4Count))
 		}
-		if x.LastUpdated != 0 {
-			n += 1 + runtime.Sov(uint64(x.LastUpdated))
+		if x.LastUpdated != nil {
+			l = options.Size(x.LastUpdated)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -429,10 +435,19 @@ func (x *fastReflection_LeaseReputation) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.LastUpdated != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.LastUpdated))
+		if x.LastUpdated != nil {
+			encoded, err := options.Marshal(x.LastUpdated)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x30
+			dAtA[i] = 0x32
 		}
 		if x.Level4Count != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.Level4Count))
@@ -541,7 +556,7 @@ func (x *fastReflection_LeaseReputation) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Level1Count |= uint64(b&0x7F) << shift
+					x.Level1Count |= int32(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -560,7 +575,7 @@ func (x *fastReflection_LeaseReputation) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Level2Count |= uint64(b&0x7F) << shift
+					x.Level2Count |= int32(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -579,7 +594,7 @@ func (x *fastReflection_LeaseReputation) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Level3Count |= uint64(b&0x7F) << shift
+					x.Level3Count |= int32(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -598,16 +613,16 @@ func (x *fastReflection_LeaseReputation) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.Level4Count |= uint64(b&0x7F) << shift
+					x.Level4Count |= int32(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
 			case 6:
-				if wireType != 0 {
+				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LastUpdated", wireType)
 				}
-				x.LastUpdated = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -617,11 +632,28 @@ func (x *fastReflection_LeaseReputation) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.LastUpdated |= int32(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.LastUpdated == nil {
+					x.LastUpdated = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.LastUpdated); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -675,12 +707,12 @@ type LeaseReputation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Index       uint64 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
-	Level1Count uint64 `protobuf:"varint,2,opt,name=level1Count,proto3" json:"level1Count,omitempty"`
-	Level2Count uint64 `protobuf:"varint,3,opt,name=level2Count,proto3" json:"level2Count,omitempty"`
-	Level3Count uint64 `protobuf:"varint,4,opt,name=level3Count,proto3" json:"level3Count,omitempty"`
-	Level4Count uint64 `protobuf:"varint,5,opt,name=level4Count,proto3" json:"level4Count,omitempty"`
-	LastUpdated int32  `protobuf:"varint,6,opt,name=lastUpdated,proto3" json:"lastUpdated,omitempty"`
+	Index       uint64                 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
+	Level1Count int32                  `protobuf:"varint,2,opt,name=level1Count,proto3" json:"level1Count,omitempty"`
+	Level2Count int32                  `protobuf:"varint,3,opt,name=level2Count,proto3" json:"level2Count,omitempty"`
+	Level3Count int32                  `protobuf:"varint,4,opt,name=level3Count,proto3" json:"level3Count,omitempty"`
+	Level4Count int32                  `protobuf:"varint,5,opt,name=level4Count,proto3" json:"level4Count,omitempty"`
+	LastUpdated *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=lastUpdated,proto3" json:"lastUpdated,omitempty"`
 }
 
 func (x *LeaseReputation) Reset() {
@@ -710,39 +742,39 @@ func (x *LeaseReputation) GetIndex() uint64 {
 	return 0
 }
 
-func (x *LeaseReputation) GetLevel1Count() uint64 {
+func (x *LeaseReputation) GetLevel1Count() int32 {
 	if x != nil {
 		return x.Level1Count
 	}
 	return 0
 }
 
-func (x *LeaseReputation) GetLevel2Count() uint64 {
+func (x *LeaseReputation) GetLevel2Count() int32 {
 	if x != nil {
 		return x.Level2Count
 	}
 	return 0
 }
 
-func (x *LeaseReputation) GetLevel3Count() uint64 {
+func (x *LeaseReputation) GetLevel3Count() int32 {
 	if x != nil {
 		return x.Level3Count
 	}
 	return 0
 }
 
-func (x *LeaseReputation) GetLevel4Count() uint64 {
+func (x *LeaseReputation) GetLevel4Count() int32 {
 	if x != nil {
 		return x.Level4Count
 	}
 	return 0
 }
 
-func (x *LeaseReputation) GetLastUpdated() int32 {
+func (x *LeaseReputation) GetLastUpdated() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastUpdated
 	}
-	return 0
+	return nil
 }
 
 var File_ipex_trust_lease_reputation_proto protoreflect.FileDescriptor
@@ -751,29 +783,35 @@ var file_ipex_trust_lease_reputation_proto_rawDesc = []byte{
 	0x0a, 0x22, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2f, 0x6c, 0x65,
 	0x61, 0x73, 0x65, 0x5f, 0x72, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73,
-	0x74, 0x22, 0xd1, 0x01, 0x0a, 0x0f, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x70, 0x75, 0x74,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x20, 0x0a, 0x0b, 0x6c,
-	0x65, 0x76, 0x65, 0x6c, 0x31, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04,
-	0x52, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x31, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x20, 0x0a,
-	0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x32, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x32, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12,
-	0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x33, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04,
-	0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x33, 0x43, 0x6f, 0x75, 0x6e,
-	0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x34, 0x43, 0x6f, 0x75, 0x6e, 0x74,
-	0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x34, 0x43, 0x6f,
-	0x75, 0x6e, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x61, 0x73, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74,
-	0x65, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0b, 0x6c, 0x61, 0x73, 0x74, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x64, 0x42, 0x8b, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x42, 0x14, 0x4c, 0x65, 0x61, 0x73, 0x65,
-	0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
-	0x01, 0x5a, 0x15, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64,
-	0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58, 0xaa, 0x02,
-	0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02, 0x0b, 0x49,
-	0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64,
-	0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61,
-	0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x54, 0x72,
-	0x75, 0x73, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
+	0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f,
+	0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xf3, 0x01, 0x0a, 0x0f, 0x4c, 0x65, 0x61,
+	0x73, 0x65, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x14, 0x0a, 0x05,
+	0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x69, 0x6e, 0x64,
+	0x65, 0x78, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x31, 0x43, 0x6f, 0x75, 0x6e,
+	0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x31, 0x43,
+	0x6f, 0x75, 0x6e, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x32, 0x43, 0x6f,
+	0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c,
+	0x32, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x33,
+	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0b, 0x6c, 0x65, 0x76,
+	0x65, 0x6c, 0x33, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65,
+	0x6c, 0x34, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0b, 0x6c,
+	0x65, 0x76, 0x65, 0x6c, 0x34, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x42, 0x0a, 0x0b, 0x6c, 0x61,
+	0x73, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x04, 0x90, 0xdf, 0x1f,
+	0x01, 0x52, 0x0b, 0x6c, 0x61, 0x73, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x42, 0x8b,
+	0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0x42, 0x14, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73,
+	0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58, 0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e,
+	0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72,
+	0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73,
+	0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c,
+	0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x54, 0x72, 0x75, 0x73, 0x74, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -790,14 +828,16 @@ func file_ipex_trust_lease_reputation_proto_rawDescGZIP() []byte {
 
 var file_ipex_trust_lease_reputation_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_ipex_trust_lease_reputation_proto_goTypes = []interface{}{
-	(*LeaseReputation)(nil), // 0: ipex.trust.LeaseReputation
+	(*LeaseReputation)(nil),       // 0: ipex.trust.LeaseReputation
+	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
 }
 var file_ipex_trust_lease_reputation_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: ipex.trust.LeaseReputation.lastUpdated:type_name -> google.protobuf.Timestamp
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_ipex_trust_lease_reputation_proto_init() }

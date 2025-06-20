@@ -2,14 +2,15 @@ syntax = "proto3";
 package ipex.trust;
 
 option go_package = "ipex/x/trust/types";
+import "google/protobuf/timestamp.proto";
+import "gogoproto/gogo.proto";
 
 message LeaseReputation {
   uint64 index = 1; 
-  uint64 level1Count = 2; 
-  uint64 level2Count = 3; 
-  uint64 level3Count = 4; 
-  uint64 level4Count = 5; 
-  int32 lastUpdated = 6; 
-  
+  int32 level1Count = 2; 
+  int32 level2Count = 3; 
+  int32 level3Count = 4; 
+  int32 level4Count = 5; 
+  google.protobuf.Timestamp lastUpdated = 6 [(gogoproto.stdtime) = true];
 }
 
