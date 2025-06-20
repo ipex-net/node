@@ -54,3 +54,7 @@ type PaymentsKeeper interface {
 		toAddress string,
 	) uint64
 }
+
+type TrustKeeper interface {
+	InitializeLeaseReputation(ctx context.Context, leaseId uint64)
+}

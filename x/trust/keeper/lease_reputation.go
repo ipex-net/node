@@ -72,9 +72,8 @@ func (k Keeper) GetAllLeaseReputation(ctx context.Context) (list []types.LeaseRe
 
 // InitializeLeaseReputation initializes a new lease reputation entry when the lease is created
 func (k Keeper) InitializeLeaseReputation(ctx context.Context, leaseId uint64) {
-
-	// Create new subnet reputation with initial values
-	// Even if subnet has some blacklist entries, we nitialize all counts to zero
+	// Create new lease reputation with initial values
+	// Even if subnet has some blacklist entries, we initialize all lease reputation blacklist counts to zero
 	// This reputation only tracks changes related to lease, not the absolute blacklist counts per subnet
 	leaseReputation := types.LeaseReputation{
 		Index:       leaseId,

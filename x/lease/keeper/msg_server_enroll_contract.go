@@ -82,6 +82,9 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	// Store updated contract
 	k.SetContract(ctx, contract)
 
+	// Initializing lease reputation
+	k.trustKeeper.InitializeLeaseReputation(ctx, contract.Id)
+	
 	// Updating the subnet user Org
 	k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, msg.LesseeOrg)
 
