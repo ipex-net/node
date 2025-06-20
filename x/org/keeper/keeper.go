@@ -43,6 +43,7 @@ func NewKeeper(
 		storeService: storeService,
 		authority:    authority,
 		logger:       logger,
+		trustKeeper:  trustKeeper,
 	}
 }
 
