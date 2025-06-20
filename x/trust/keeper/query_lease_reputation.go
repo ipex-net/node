@@ -40,7 +40,7 @@ func (k Keeper) LeaseReputationAll(ctx context.Context, req *types.QueryAllLease
 }
 
 func (k Keeper) LeaseReputation(ctx context.Context, req *types.QueryGetLeaseReputationRequest) (*types.QueryGetLeaseReputationResponse, error) {
-	if req == nil {
+	if req == nil || req.Index == 0 {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 

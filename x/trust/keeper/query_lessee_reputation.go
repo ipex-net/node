@@ -40,7 +40,7 @@ func (k Keeper) LesseeReputationAll(ctx context.Context, req *types.QueryAllLess
 }
 
 func (k Keeper) LesseeReputation(ctx context.Context, req *types.QueryGetLesseeReputationRequest) (*types.QueryGetLesseeReputationResponse, error) {
-	if req == nil {
+	if req == nil || req.Index == 0 {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 

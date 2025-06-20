@@ -40,7 +40,7 @@ func (k Keeper) SubnetReputationAll(ctx context.Context, req *types.QueryAllSubn
 }
 
 func (k Keeper) SubnetReputation(ctx context.Context, req *types.QueryGetSubnetReputationRequest) (*types.QueryGetSubnetReputationResponse, error) {
-	if req == nil {
+	if req == nil || req.Index == 0 {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 

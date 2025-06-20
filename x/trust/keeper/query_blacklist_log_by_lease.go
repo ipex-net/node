@@ -13,7 +13,7 @@ import (
 )
 
 func (k Keeper) BlacklistLogByLease(ctx context.Context, req *types.QueryBlacklistLogByLeaseRequest) (*types.QueryBlacklistLogByLeaseResponse, error) {
-	if req == nil {
+	if req == nil || req.LeaseId == 0 {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 

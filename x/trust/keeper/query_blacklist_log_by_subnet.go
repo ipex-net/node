@@ -13,7 +13,7 @@ import (
 )
 
 func (k Keeper) BlacklistLogBySubnet(ctx context.Context, req *types.QueryBlacklistLogBySubnetRequest) (*types.QueryBlacklistLogBySubnetResponse, error) {
-	if req == nil {
+	if req == nil || req.SubnetId == 0 {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
