@@ -73,7 +73,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	//Production:
 	//prepaidUntil := blockTime.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
 	//Testing:
-	prepaidUntil := blockTime.Add(time.Minute)
+	prepaidUntil := blockTime.Add(time.Minute*10)
 	contract.UpdatedAt = blockTime
 	contract.ActivatedAt = &blockTime
 	depositRetained := contract.Price
