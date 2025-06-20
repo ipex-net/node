@@ -77,7 +77,7 @@ func (k Keeper) InitializeLeaseReputation(ctx context.Context, leaseId uint64) {
 	// This reputation only tracks changes related to lease, not the absolute blacklist counts per subnet
 	leaseReputation := types.LeaseReputation{
 		Index:       leaseId,
-		Level1Count: 0, 
+		Level1Count: 0,
 		Level2Count: 0,
 		Level3Count: 0,
 		Level4Count: 0,

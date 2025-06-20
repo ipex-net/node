@@ -186,7 +186,7 @@ type ModuleInputs struct {
 	OrgKeeper      types.OrgKeeper
 	SubnetKeeper   types.SubnetKeeper
 	PaymentsKeeper types.PaymentsKeeper
-	TrustKeeper		types.TrustKeeper
+	TrustKeeper    types.TrustKeeper
 }
 
 type ModuleOutputs struct {

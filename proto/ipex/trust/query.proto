@@ -10,6 +10,7 @@ import "ipex/trust/params.proto";
 import "ipex/trust/subnet_reputation.proto";
 import "ipex/trust/blacklist_log.proto";
 import "ipex/trust/lease_reputation.proto";
+import "ipex/trust/lessee_reputation.proto";
 
 option go_package = "ipex/x/trust/types";
 
@@ -73,6 +74,16 @@ service Query {
   }
   rpc LeaseReputationAll (QueryAllLeaseReputationRequest) returns (QueryAllLeaseReputationResponse) {
     option (google.api.http).get = "/ipex/trust/lease_reputation";
+  
+  }
+  
+  // Queries a list of LesseeReputation items.
+  rpc LesseeReputation    (QueryGetLesseeReputationRequest) returns (QueryGetLesseeReputationResponse) {
+    option (google.api.http).get = "/ipex/trust/lessee_reputation/{index}";
+  
+  }
+  rpc LesseeReputationAll (QueryAllLesseeReputationRequest) returns (QueryAllLesseeReputationResponse) {
+    option (google.api.http).get = "/ipex/trust/lessee_reputation";
   
   }
 }
@@ -175,5 +186,22 @@ message QueryAllLeaseReputationRequest {
 message QueryAllLeaseReputationResponse {
   repeated LeaseReputation                        leaseReputation = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination      = 2;
+}
+
+message QueryGetLesseeReputationRequest {
+  uint64 index = 1;
+}
+
+message QueryGetLesseeReputationResponse {
+  LesseeReputation lesseeReputation = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllLesseeReputationRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllLesseeReputationResponse {
+  repeated LesseeReputation                       lesseeReputation = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination       = 2;
 }
 

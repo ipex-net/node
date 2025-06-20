@@ -84,8 +84,6 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 	}
 	// Get the current subnet reputation
 	currentSubnetRep, found := k.GetSubnetReputation(ctx, subnetId)
-	
-
 
 	// Calculating the reputation change
 	var level1Change, level2Change, level3Change, level4Change int32
@@ -129,12 +127,12 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 		Timestamp:    &blockTime,
 	}
 	k.AppendBlacklistLog(ctx, logEntry)
-	
+
 	// Update the lease reputation with relative values
 	leaseRep, found := k.GetLeaseReputation(ctx, leaseId)
 	if found {
 		newLeaseRep := types.LeaseReputation{
-			Index: leaseId,
+			Index:       leaseId,
 			Level1Count: leaseRep.Level1Count + level1Change,
 			Level2Count: leaseRep.Level2Count + level2Change,
 			Level3Count: leaseRep.Level3Count + level3Change,
@@ -144,7 +142,7 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 		k.SetLeaseReputation(ctx, newLeaseRep)
 	} else {
 		newLeaseRep := types.LeaseReputation{
-			Index: leaseId,
+			Index:       leaseId,
 			Level1Count: level1Change,
 			Level2Count: level2Change,
 			Level3Count: level3Change,

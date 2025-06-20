@@ -26,7 +26,7 @@ type (
 		orgKeeper      types.OrgKeeper
 		subnetKeeper   types.SubnetKeeper
 		paymentsKeeper types.PaymentsKeeper
-		trustKeeper	   types.TrustKeeper
+		trustKeeper    types.TrustKeeper
 	}
 )
 
@@ -58,7 +58,7 @@ func NewKeeper(
 		orgKeeper:      orgKeeper,
 		subnetKeeper:   subnetKeeper,
 		paymentsKeeper: paymentsKeeper,
-		trustKeeper: trustKeeper,
+		trustKeeper:    trustKeeper,
 	}
 }
 

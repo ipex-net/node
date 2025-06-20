@@ -30,6 +30,8 @@ const (
 	Query_BlacklistLogByLessee_FullMethodName = "/ipex.trust.Query/BlacklistLogByLessee"
 	Query_LeaseReputation_FullMethodName      = "/ipex.trust.Query/LeaseReputation"
 	Query_LeaseReputationAll_FullMethodName   = "/ipex.trust.Query/LeaseReputationAll"
+	Query_LesseeReputation_FullMethodName     = "/ipex.trust.Query/LesseeReputation"
+	Query_LesseeReputationAll_FullMethodName  = "/ipex.trust.Query/LesseeReputationAll"
 )
 
 // QueryClient is the client API for Query service.
@@ -55,6 +57,9 @@ type QueryClient interface {
 	// Queries a list of LeaseReputation items.
 	LeaseReputation(ctx context.Context, in *QueryGetLeaseReputationRequest, opts ...grpc.CallOption) (*QueryGetLeaseReputationResponse, error)
 	LeaseReputationAll(ctx context.Context, in *QueryAllLeaseReputationRequest, opts ...grpc.CallOption) (*QueryAllLeaseReputationResponse, error)
+	// Queries a list of LesseeReputation items.
+	LesseeReputation(ctx context.Context, in *QueryGetLesseeReputationRequest, opts ...grpc.CallOption) (*QueryGetLesseeReputationResponse, error)
+	LesseeReputationAll(ctx context.Context, in *QueryAllLesseeReputationRequest, opts ...grpc.CallOption) (*QueryAllLesseeReputationResponse, error)
 }
 
 type queryClient struct {
@@ -164,6 +169,24 @@ func (c *queryClient) LeaseReputationAll(ctx context.Context, in *QueryAllLeaseR
 	return out, nil
 }
 
+func (c *queryClient) LesseeReputation(ctx context.Context, in *QueryGetLesseeReputationRequest, opts ...grpc.CallOption) (*QueryGetLesseeReputationResponse, error) {
+	out := new(QueryGetLesseeReputationResponse)
+	err := c.cc.Invoke(ctx, Query_LesseeReputation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) LesseeReputationAll(ctx context.Context, in *QueryAllLesseeReputationRequest, opts ...grpc.CallOption) (*QueryAllLesseeReputationResponse, error) {
+	out := new(QueryAllLesseeReputationResponse)
+	err := c.cc.Invoke(ctx, Query_LesseeReputationAll_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -187,6 +210,9 @@ type QueryServer interface {
 	// Queries a list of LeaseReputation items.
 	LeaseReputation(context.Context, *QueryGetLeaseReputationRequest) (*QueryGetLeaseReputationResponse, error)
 	LeaseReputationAll(context.Context, *QueryAllLeaseReputationRequest) (*QueryAllLeaseReputationResponse, error)
+	// Queries a list of LesseeReputation items.
+	LesseeReputation(context.Context, *QueryGetLesseeReputationRequest) (*QueryGetLesseeReputationResponse, error)
+	LesseeReputationAll(context.Context, *QueryAllLesseeReputationRequest) (*QueryAllLesseeReputationResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -226,6 +252,12 @@ func (UnimplementedQueryServer) LeaseReputation(context.Context, *QueryGetLeaseR
 }
 func (UnimplementedQueryServer) LeaseReputationAll(context.Context, *QueryAllLeaseReputationRequest) (*QueryAllLeaseReputationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LeaseReputationAll not implemented")
+}
+func (UnimplementedQueryServer) LesseeReputation(context.Context, *QueryGetLesseeReputationRequest) (*QueryGetLesseeReputationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LesseeReputation not implemented")
+}
+func (UnimplementedQueryServer) LesseeReputationAll(context.Context, *QueryAllLesseeReputationRequest) (*QueryAllLesseeReputationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LesseeReputationAll not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -438,6 +470,42 @@ func _Query_LeaseReputationAll_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_LesseeReputation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetLesseeReputationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).LesseeReputation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_LesseeReputation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).LesseeReputation(ctx, req.(*QueryGetLesseeReputationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_LesseeReputationAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllLesseeReputationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).LesseeReputationAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_LesseeReputationAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).LesseeReputationAll(ctx, req.(*QueryAllLesseeReputationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -488,6 +556,14 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LeaseReputationAll",
 			Handler:    _Query_LeaseReputationAll_Handler,
+		},
+		{
+			MethodName: "LesseeReputation",
+			Handler:    _Query_LesseeReputation_Handler,
+		},
+		{
+			MethodName: "LesseeReputationAll",
+			Handler:    _Query_LesseeReputationAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

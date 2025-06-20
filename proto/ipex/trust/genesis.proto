@@ -8,6 +8,7 @@ import "ipex/trust/params.proto";
 import "ipex/trust/subnet_reputation.proto";
 import "ipex/trust/blacklist_log.proto";
 import "ipex/trust/lease_reputation.proto";
+import "ipex/trust/lessee_reputation.proto";
 
 option go_package = "ipex/x/trust/types";
 
@@ -20,5 +21,6 @@ message GenesisState {
   repeated BlacklistLog     blacklistLogList     = 3 [(gogoproto.nullable) = false] ;
            uint64           blacklistLogCount    = 4;
   repeated LeaseReputation  leaseReputationList  = 5 [(gogoproto.nullable) = false] ;
+  repeated LesseeReputation lesseeReputationList = 6 [(gogoproto.nullable) = false] ;
 }
 

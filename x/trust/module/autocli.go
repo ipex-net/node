@@ -78,6 +78,17 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Shows a lease-reputation",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "index"}},
 				},
+				{
+					RpcMethod: "LesseeReputationAll",
+					Use:       "list-lessee-reputation",
+					Short:     "List all lessee-reputation",
+				},
+				{
+					RpcMethod:      "LesseeReputation",
+					Use:            "show-lessee-reputation [id]",
+					Short:          "Shows a lessee-reputation",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "index"}},
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
