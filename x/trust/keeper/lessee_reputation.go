@@ -69,3 +69,21 @@ func (k Keeper) GetAllLesseeReputation(ctx context.Context) (list []types.Lessee
 
 	return
 }
+
+// InitializeLesseeReputation initializes a new lessee reputation entry when org is created
+func (k Keeper) InitializeLesseeReputation(ctx context.Context, subnetID uint64) {
+
+	// Create new lesee reputation with initial values
+	lesseeReputation := types.LesseeReputation{
+		Index:       subnetID,
+		Level1Count: 0, // Initialize all counts to zero
+		Level2Count: 0,
+		Level3Count: 0,
+		Level4Count: 0,
+		LastUpdated: nil,
+	}
+
+	// Set the subnet reputation in the store
+	k.SetLesseeReputation(ctx, lesseeReputation)
+
+}
