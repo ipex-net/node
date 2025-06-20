@@ -26,4 +26,5 @@ type ParamSubspace interface {
 
 type TrustKeeper interface {
 	InitializeLesseeReputation(ctx context.Context, lesseeId uint64)
+	RemoveLesseeReputation(ctx context.Context, index uint64)
 }
