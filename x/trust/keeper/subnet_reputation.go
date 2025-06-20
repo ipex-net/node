@@ -152,6 +152,30 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 		k.SetLeaseReputation(ctx, newLeaseRep)
 	}
 
+	// Update the lessee reputation with relative values
+	lesseeRep, found := k.GetLesseeReputation(ctx, lesseeOrgId)
+	if found {
+		newLesseeRep := types.LesseeReputation{
+			Index:       lesseeOrgId,
+			Level1Count: lesseeRep.Level1Count + level1Change,
+			Level2Count: lesseeRep.Level2Count + level2Change,
+			Level3Count: lesseeRep.Level3Count + level3Change,
+			Level4Count: lesseeRep.Level4Count + level4Change,
+			LastUpdated: &blockTime,
+		}
+		k.SetLesseeReputation(ctx, newLesseeRep)
+	} else {
+		newLesseeRep := types.LesseeReputation{
+			Index:       lesseeOrgId,
+			Level1Count: level1Change,
+			Level2Count: level2Change,
+			Level3Count: level3Change,
+			Level4Count: level4Change,
+			LastUpdated: &blockTime,
+		}
+		k.SetLesseeReputation(ctx, newLesseeRep)
+	}
+
 	return nil
 }
 
