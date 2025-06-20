@@ -38,6 +38,7 @@ func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteCon
 
 	err = k.RemoveContract(ctx, msg.Id)
 	k.trustKeeper.RemoveLeaseReputation(ctx, msg.Id)
+	
 	if err == nil {
 		ctx.EventManager().EmitEvent(
 			sdk.NewEvent(types.ContractDeletedEventType,

@@ -83,34 +83,29 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 		return fmt.Errorf("invalid block time: cannot be zero")
 	}
 	// Get the current subnet reputation
-	currentRep, found := k.GetSubnetReputation(ctx, subnetId)
+	currentSubnetRep, found := k.GetSubnetReputation(ctx, subnetId)
+	
+
+
 	// Calculating the reputation change
 	var level1Change, level2Change, level3Change, level4Change int32
 	if found {
-		level1Change = int32(reputation.Level1Count) - int32(currentRep.Level1Count)
-		level2Change = int32(reputation.Level2Count) - int32(currentRep.Level2Count)
-		level3Change = int32(reputation.Level3Count) - int32(currentRep.Level3Count)
-		level4Change = int32(reputation.Level4Count) - int32(currentRep.Level4Count)
+		level1Change = int32(reputation.Level1Count) - int32(currentSubnetRep.Level1Count)
+		level2Change = int32(reputation.Level2Count) - int32(currentSubnetRep.Level2Count)
+		level3Change = int32(reputation.Level3Count) - int32(currentSubnetRep.Level3Count)
+		level4Change = int32(reputation.Level4Count) - int32(currentSubnetRep.Level4Count)
 	} else {
 		level1Change, level2Change, level3Change, level4Change = int32(reputation.Level1Count), int32(reputation.Level2Count), int32(reputation.Level3Count), int32(reputation.Level4Count)
 	}
 
-	// Logging only if there was a reputation change
-	if level1Change != 0 || level2Change != 0 || level3Change != 0 || level4Change != 0 {
-		logEntry := types.BlacklistLog{
-			SubnetId:     subnetId,
-			LessorOrgId:  lessorOrgId,
-			LeaseId:      leaseId,
-			LesseeOrgId:  lesseeOrgId,
-			Level1Change: level1Change,
-			Level2Change: level2Change,
-			Level3Change: level3Change,
-			Level4Change: level4Change,
-			Timestamp:    &blockTime,
-		}
-		k.AppendBlacklistLog(ctx, logEntry)
+	// If no reputation change detected - exit
+	if level1Change == 0 && level2Change == 0 && level3Change == 0 && level4Change == 0 {
+		return nil
 	}
 
+	// Reputation change detected, proceeding with corresponding updates
+
+	// Update the subnet reputation with absolute blacklist count values
 	subnetRep := types.SubnetReputation{
 		Index:       subnetId,
 		Level1Count: reputation.Level1Count,
@@ -119,9 +114,45 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 		Level4Count: reputation.Level4Count,
 		LastUpdated: &blockTime,
 	}
-	// TODO: log the subnet reputation change
-	// TODO: update lessee reputation
 	k.SetSubnetReputation(ctx, subnetRep)
+
+	// Log the reputation change
+	logEntry := types.BlacklistLog{
+		SubnetId:     subnetId,
+		LessorOrgId:  lessorOrgId,
+		LeaseId:      leaseId,
+		LesseeOrgId:  lesseeOrgId,
+		Level1Change: level1Change,
+		Level2Change: level2Change,
+		Level3Change: level3Change,
+		Level4Change: level4Change,
+		Timestamp:    &blockTime,
+	}
+	k.AppendBlacklistLog(ctx, logEntry)
+	
+	// Update the lease reputation with relative values
+	leaseRep, found := k.GetLeaseReputation(ctx, leaseId)
+	if found {
+		newLeaseRep := types.LeaseReputation{
+			Index: leaseId,
+			Level1Count: leaseRep.Level1Count + level1Change,
+			Level2Count: leaseRep.Level2Count + level2Change,
+			Level3Count: leaseRep.Level3Count + level3Change,
+			Level4Count: leaseRep.Level4Count + level4Change,
+			LastUpdated: &blockTime,
+		}
+		k.SetLeaseReputation(ctx, newLeaseRep)
+	} else {
+		newLeaseRep := types.LeaseReputation{
+			Index: leaseId,
+			Level1Count: level1Change,
+			Level2Count: level2Change,
+			Level3Count: level3Change,
+			Level4Count: level4Change,
+			LastUpdated: &blockTime,
+		}
+		k.SetLeaseReputation(ctx, newLeaseRep)
+	}
 
 	return nil
 }
