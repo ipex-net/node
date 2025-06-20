@@ -14,13 +14,14 @@ import (
 
 func (k Keeper) AppendContract(ctx context.Context, contract types.Contract) uint64 {
 	count := k.GetContractCount(ctx)
-	contract.Id = count
+	// Set the ID of the appended value (start from 1, not 0)
+	contract.Id = count + 1
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
 	appendedValue := k.cdc.MustMarshal(&contract)
 	store.Set(GetContractIDBytes(contract.Id), appendedValue)
 	k.SetContractCount(ctx, count+1)
-	return count
+	return contract.Id
 }
 
 func (k Keeper) GetContractCount(ctx context.Context) uint64 {

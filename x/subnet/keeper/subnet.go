@@ -48,8 +48,8 @@ func (k Keeper) AppendSubnet(
 	// Create the subnet
 	count := k.GetSubnetCount(ctx)
 
-	// Set the ID of the appended value
-	subnet.Id = count
+	// Set the ID of the appended value (start from 1, not 0)
+	subnet.Id = count + 1
 
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
@@ -60,7 +60,7 @@ func (k Keeper) AppendSubnet(
 	// Update subnet count
 	k.SetSubnetCount(ctx, count+1)
 
-	return count
+	return subnet.Id
 }
 
 // SetSubnet set a specific subnet in the store

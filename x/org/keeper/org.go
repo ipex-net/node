@@ -48,8 +48,8 @@ func (k Keeper) AppendOrg(
 	// Create the org
 	count := k.GetOrgCount(ctx)
 
-	// Set the ID of the appended value
-	org.Id = count
+	// Set the ID of the appended value (start from 1, not 0)
+	org.Id = count + 1
 
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
@@ -61,7 +61,7 @@ func (k Keeper) AppendOrg(
 
 	// Initialize lessee reputation for new org
 	k.trustKeeper.InitializeLesseeReputation(ctx, org.Id)
-	return count
+	return org.Id
 }
 
 // SetOrg set a specific org in the store

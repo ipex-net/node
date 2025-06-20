@@ -46,8 +46,8 @@ func (k Keeper) AppendTransaction(
 	// Create the transaction
 	count := k.GetTransactionCount(ctx)
 
-	// Set the ID of the appended value
-	transaction.Id = count
+	// Set the ID of the appended value (start from 1, not 0)
+	transaction.Id = count + 1
 
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TransactionKey))
@@ -57,7 +57,7 @@ func (k Keeper) AppendTransaction(
 	// Update transaction count
 	k.SetTransactionCount(ctx, count+1)
 
-	return count
+	return transaction.Id
 }
 
 // SetTransaction set a specific transaction in the store
