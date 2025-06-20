@@ -6,6 +6,10 @@ package types
 import (
 	context "context"
 	fmt "fmt"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+
 	query "github.com/cosmos/cosmos-sdk/types/query"
 	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
 	_ "github.com/cosmos/gogoproto/gogoproto"
@@ -15,9 +19,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	io "io"
-	math "math"
-	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -898,6 +899,190 @@ func (m *QueryBlacklistLogByLesseeResponse) GetPagination() *query.PageResponse 
 	return nil
 }
 
+type QueryGetLeaseReputationRequest struct {
+	Index uint64 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
+}
+
+func (m *QueryGetLeaseReputationRequest) Reset()         { *m = QueryGetLeaseReputationRequest{} }
+func (m *QueryGetLeaseReputationRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetLeaseReputationRequest) ProtoMessage()    {}
+func (*QueryGetLeaseReputationRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{18}
+}
+func (m *QueryGetLeaseReputationRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetLeaseReputationRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetLeaseReputationRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetLeaseReputationRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetLeaseReputationRequest.Merge(m, src)
+}
+func (m *QueryGetLeaseReputationRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetLeaseReputationRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetLeaseReputationRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetLeaseReputationRequest proto.InternalMessageInfo
+
+func (m *QueryGetLeaseReputationRequest) GetIndex() uint64 {
+	if m != nil {
+		return m.Index
+	}
+	return 0
+}
+
+type QueryGetLeaseReputationResponse struct {
+	LeaseReputation LeaseReputation `protobuf:"bytes,1,opt,name=leaseReputation,proto3" json:"leaseReputation"`
+}
+
+func (m *QueryGetLeaseReputationResponse) Reset()         { *m = QueryGetLeaseReputationResponse{} }
+func (m *QueryGetLeaseReputationResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetLeaseReputationResponse) ProtoMessage()    {}
+func (*QueryGetLeaseReputationResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{19}
+}
+func (m *QueryGetLeaseReputationResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetLeaseReputationResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetLeaseReputationResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetLeaseReputationResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetLeaseReputationResponse.Merge(m, src)
+}
+func (m *QueryGetLeaseReputationResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetLeaseReputationResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetLeaseReputationResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetLeaseReputationResponse proto.InternalMessageInfo
+
+func (m *QueryGetLeaseReputationResponse) GetLeaseReputation() LeaseReputation {
+	if m != nil {
+		return m.LeaseReputation
+	}
+	return LeaseReputation{}
+}
+
+type QueryAllLeaseReputationRequest struct {
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllLeaseReputationRequest) Reset()         { *m = QueryAllLeaseReputationRequest{} }
+func (m *QueryAllLeaseReputationRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryAllLeaseReputationRequest) ProtoMessage()    {}
+func (*QueryAllLeaseReputationRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{20}
+}
+func (m *QueryAllLeaseReputationRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllLeaseReputationRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllLeaseReputationRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllLeaseReputationRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllLeaseReputationRequest.Merge(m, src)
+}
+func (m *QueryAllLeaseReputationRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllLeaseReputationRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllLeaseReputationRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllLeaseReputationRequest proto.InternalMessageInfo
+
+func (m *QueryAllLeaseReputationRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryAllLeaseReputationResponse struct {
+	LeaseReputation []LeaseReputation   `protobuf:"bytes,1,rep,name=leaseReputation,proto3" json:"leaseReputation"`
+	Pagination      *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllLeaseReputationResponse) Reset()         { *m = QueryAllLeaseReputationResponse{} }
+func (m *QueryAllLeaseReputationResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryAllLeaseReputationResponse) ProtoMessage()    {}
+func (*QueryAllLeaseReputationResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b660b49cc52988c6, []int{21}
+}
+func (m *QueryAllLeaseReputationResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllLeaseReputationResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllLeaseReputationResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllLeaseReputationResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllLeaseReputationResponse.Merge(m, src)
+}
+func (m *QueryAllLeaseReputationResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllLeaseReputationResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllLeaseReputationResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllLeaseReputationResponse proto.InternalMessageInfo
+
+func (m *QueryAllLeaseReputationResponse) GetLeaseReputation() []LeaseReputation {
+	if m != nil {
+		return m.LeaseReputation
+	}
+	return nil
+}
+
+func (m *QueryAllLeaseReputationResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "ipex.trust.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "ipex.trust.QueryParamsResponse")
@@ -917,68 +1102,81 @@ func init() {
 	proto.RegisterType((*QueryBlacklistLogByLeaseResponse)(nil), "ipex.trust.QueryBlacklistLogByLeaseResponse")
 	proto.RegisterType((*QueryBlacklistLogByLesseeRequest)(nil), "ipex.trust.QueryBlacklistLogByLesseeRequest")
 	proto.RegisterType((*QueryBlacklistLogByLesseeResponse)(nil), "ipex.trust.QueryBlacklistLogByLesseeResponse")
+	proto.RegisterType((*QueryGetLeaseReputationRequest)(nil), "ipex.trust.QueryGetLeaseReputationRequest")
+	proto.RegisterType((*QueryGetLeaseReputationResponse)(nil), "ipex.trust.QueryGetLeaseReputationResponse")
+	proto.RegisterType((*QueryAllLeaseReputationRequest)(nil), "ipex.trust.QueryAllLeaseReputationRequest")
+	proto.RegisterType((*QueryAllLeaseReputationResponse)(nil), "ipex.trust.QueryAllLeaseReputationResponse")
 }
 
 func init() { proto.RegisterFile("ipex/trust/query.proto", fileDescriptor_b660b49cc52988c6) }
 
 var fileDescriptor_b660b49cc52988c6 = []byte{
-	// 895 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x97, 0x4f, 0x6b, 0x13, 0x4f,
-	0x18, 0xc7, 0x33, 0xe9, 0x9f, 0xdf, 0xcf, 0x89, 0x68, 0x9d, 0x44, 0xac, 0xdb, 0x9a, 0xa4, 0x2b,
-	0xb4, 0xb1, 0x98, 0x1d, 0x5a, 0xff, 0x14, 0xbc, 0x35, 0x82, 0x45, 0xa8, 0xb4, 0xc6, 0x9b, 0x97,
-	0xb0, 0x69, 0x86, 0x75, 0x71, 0xbb, 0xb3, 0xcd, 0x6c, 0xa4, 0x21, 0xe4, 0xa2, 0xe0, 0x41, 0x7a,
-	0x50, 0xbc, 0x79, 0xf1, 0xaa, 0x20, 0xd2, 0xde, 0x7d, 0x01, 0x3d, 0x16, 0xbc, 0x78, 0x12, 0x69,
-	0x05, 0xdf, 0x86, 0x64, 0x66, 0x36, 0xdd, 0x4d, 0x76, 0x93, 0xb4, 0x54, 0xa9, 0x97, 0x92, 0x99,
-	0x79, 0xe6, 0x99, 0xcf, 0xf3, 0x7d, 0x9e, 0xe6, 0x79, 0x02, 0x2f, 0x99, 0x4e, 0x85, 0x6c, 0x62,
-	0xb7, 0x5a, 0x63, 0x2e, 0xde, 0xa8, 0x91, 0x6a, 0x5d, 0x73, 0xaa, 0xd4, 0xa5, 0x28, 0xc1, 0x0f,
-	0x34, 0x7e, 0xa0, 0x5c, 0xd0, 0xd7, 0x4d, 0x9b, 0x62, 0xfe, 0x57, 0x9c, 0x2b, 0x29, 0x83, 0x1a,
-	0x94, 0x7f, 0xc4, 0xad, 0x4f, 0x72, 0x77, 0xd2, 0xa0, 0xd4, 0xb0, 0x08, 0xd6, 0x1d, 0x13, 0xeb,
-	0xb6, 0x4d, 0x5d, 0xdd, 0x35, 0xa9, 0xcd, 0xe4, 0xe9, 0xec, 0x1a, 0x65, 0xeb, 0x94, 0xe1, 0xb2,
-	0xce, 0x88, 0x78, 0x0c, 0x3f, 0x9b, 0x2b, 0x13, 0x57, 0x9f, 0xc3, 0x8e, 0x6e, 0x98, 0x36, 0x37,
-	0x96, 0xb6, 0xe3, 0x7e, 0x30, 0x47, 0xaf, 0xea, 0xeb, 0x9e, 0x97, 0xab, 0xfe, 0x13, 0x56, 0x2b,
-	0xdb, 0xc4, 0x2d, 0x55, 0x89, 0x53, 0x73, 0xfd, 0xd7, 0x33, 0x7e, 0xa3, 0xb2, 0xa5, 0xaf, 0x3d,
-	0xb5, 0x4c, 0xe6, 0x96, 0x2c, 0x6a, 0x08, 0x03, 0x35, 0x05, 0xd1, 0xc3, 0x16, 0xc1, 0x2a, 0x77,
-	0x5d, 0x24, 0x1b, 0x35, 0xc2, 0x5c, 0xf5, 0x01, 0x4c, 0x06, 0x76, 0x99, 0x43, 0x6d, 0x46, 0xd0,
-	0x6d, 0x38, 0x2a, 0x10, 0xc6, 0x41, 0x16, 0xe4, 0x12, 0xf3, 0x49, 0xcd, 0xa7, 0x8e, 0x26, 0x8c,
-	0x0b, 0x67, 0x76, 0xbf, 0x67, 0x62, 0x1f, 0x7e, 0x6d, 0xcf, 0x82, 0xa2, 0xb4, 0x56, 0x17, 0x60,
-	0x86, 0xbb, 0x5b, 0x22, 0xee, 0x23, 0x0e, 0x5a, 0x6c, 0x73, 0xca, 0x17, 0x51, 0x0a, 0x8e, 0x98,
-	0x76, 0x85, 0x6c, 0x72, 0xcf, 0xc3, 0x45, 0xb1, 0x50, 0x19, 0xcc, 0x46, 0x5f, 0x94, 0x50, 0x2b,
-	0x70, 0x8c, 0x75, 0x9c, 0x49, 0xbc, 0x2b, 0x01, 0xbc, 0x4e, 0x07, 0x85, 0xe1, 0x16, 0x68, 0xb1,
-	0xeb, 0xb2, 0x6a, 0x4a, 0xda, 0x45, 0xcb, 0x8a, 0xa2, 0xbd, 0x07, 0xe1, 0x61, 0xa6, 0xe4, 0x6b,
-	0xd3, 0x9a, 0x48, 0xab, 0xd6, 0x4a, 0xab, 0x26, 0x6a, 0x48, 0xa6, 0x55, 0x5b, 0xd5, 0x0d, 0x22,
-	0xef, 0x16, 0x7d, 0x37, 0xd5, 0x2f, 0x40, 0x06, 0x18, 0xfa, 0x56, 0xcf, 0x00, 0x87, 0x8e, 0x1d,
-	0x20, 0x5a, 0x0a, 0xd0, 0xc7, 0x39, 0xfd, 0x4c, 0x5f, 0x7a, 0x41, 0x13, 0xc0, 0xcf, 0xc3, 0x09,
-	0x2f, 0x3d, 0x05, 0xaf, 0xb6, 0x96, 0xa9, 0xe1, 0xa9, 0x74, 0x0e, 0xc6, 0xcd, 0x8a, 0x4c, 0x68,
-	0xdc, 0xac, 0xa8, 0x6b, 0x70, 0x32, 0xdc, 0x5c, 0x06, 0x7a, 0x17, 0x9e, 0xf5, 0xef, 0x4b, 0x5d,
-	0x2f, 0x07, 0x82, 0xf4, 0x1b, 0xc8, 0x00, 0x03, 0x97, 0x54, 0x22, 0x99, 0x16, 0x2d, 0x2b, 0x8c,
-	0xe9, 0xa4, 0x32, 0xf7, 0x09, 0xc8, 0x60, 0xba, 0xde, 0x89, 0x0c, 0x66, 0xe8, 0xc8, 0xc1, 0x9c,
-	0x5c, 0xa6, 0x5e, 0x7a, 0x85, 0x16, 0x78, 0xb2, 0xee, 0x95, 0x8c, 0xd0, 0x46, 0x81, 0xff, 0x8b,
-	0x5a, 0xb9, 0xef, 0x65, 0xad, 0xbd, 0xee, 0xd0, 0x2d, 0x7e, 0x6c, 0xdd, 0x76, 0x00, 0x9c, 0xea,
-	0x01, 0x72, 0x2a, 0xc5, 0xdb, 0x0a, 0x17, 0x6f, 0x99, 0x30, 0x46, 0xab, 0x9e, 0x78, 0x59, 0x98,
-	0xb0, 0xf8, 0xc6, 0x4a, 0xd5, 0x68, 0xeb, 0xe7, 0xdf, 0xfa, 0xd3, 0x12, 0x7a, 0x38, 0xa7, 0x52,
-	0xc2, 0x17, 0x40, 0x7e, 0xa9, 0x76, 0x32, 0xeb, 0xcc, 0x8b, 0x11, 0x8d, 0xc3, 0xff, 0xac, 0xd6,
-	0xba, 0xad, 0x9e, 0xb7, 0x3c, 0x31, 0xe5, 0xb6, 0xa3, 0x12, 0xc9, 0x29, 0xfe, 0xb5, 0xda, 0x23,
-	0xa4, 0xa3, 0xf6, 0x08, 0xe9, 0xaa, 0x3d, 0xb9, 0xf5, 0x37, 0x6a, 0x8f, 0x9c, 0x52, 0x09, 0xe7,
-	0xdf, 0x24, 0xe0, 0x08, 0x67, 0x46, 0x4f, 0xe0, 0xa8, 0x18, 0x52, 0x50, 0x26, 0xc0, 0xd2, 0x3d,
-	0x01, 0x29, 0xd9, 0x68, 0x03, 0xf1, 0x84, 0x3a, 0xf1, 0xfc, 0xeb, 0xcf, 0xb7, 0xf1, 0x8b, 0x28,
-	0x89, 0xbb, 0x47, 0x34, 0xf4, 0x1e, 0xc0, 0xb1, 0xce, 0x7e, 0x8c, 0xae, 0x77, 0xfb, 0x8c, 0x9e,
-	0x88, 0x94, 0xfc, 0x80, 0xd6, 0x12, 0x47, 0xe3, 0x38, 0x39, 0x34, 0x8d, 0x7b, 0xce, 0x85, 0xb8,
-	0xc1, 0x27, 0xab, 0x26, 0x7a, 0x07, 0x60, 0xb2, 0xd3, 0xd9, 0xa2, 0x65, 0x85, 0x41, 0x46, 0x0f,
-	0x42, 0x61, 0x90, 0x3d, 0x46, 0x19, 0x75, 0x9a, 0x43, 0x66, 0x51, 0xba, 0x37, 0x24, 0xda, 0x02,
-	0xc1, 0x0a, 0x42, 0xb9, 0x50, 0x31, 0x42, 0x1a, 0xbc, 0x72, 0x6d, 0x00, 0x4b, 0x49, 0x33, 0xc3,
-	0x69, 0xa6, 0x50, 0x06, 0x47, 0x4e, 0xc9, 0xb8, 0x61, 0x56, 0x9a, 0xe8, 0x15, 0x80, 0xe7, 0xfd,
-	0x1e, 0x5a, 0x3a, 0xe5, 0x42, 0x23, 0x1f, 0x90, 0x28, 0x62, 0x68, 0x50, 0x55, 0x4e, 0x34, 0x89,
-	0x94, 0x68, 0x22, 0xf4, 0x19, 0xc0, 0x54, 0x58, 0xf3, 0x44, 0x21, 0xb9, 0xe8, 0xd1, 0xed, 0x15,
-	0x6d, 0x50, 0x73, 0xc9, 0xb6, 0xc0, 0xd9, 0xe6, 0x10, 0x8e, 0x66, 0x2b, 0x95, 0xeb, 0x25, 0x91,
-	0x4c, 0xdc, 0xf0, 0x26, 0x87, 0x26, 0xda, 0xe9, 0x02, 0x16, 0xad, 0xaa, 0x3f, 0x70, 0xa0, 0xc3,
-	0xf6, 0x07, 0x0e, 0x76, 0x40, 0xf5, 0x0e, 0x07, 0xbe, 0x89, 0xe6, 0x7b, 0x03, 0x8b, 0x16, 0x8d,
-	0x1b, 0xbe, 0x56, 0xdd, 0x44, 0x1f, 0x01, 0x4c, 0x86, 0x34, 0x89, 0xb0, 0xff, 0x8e, 0xe8, 0x8e,
-	0xa6, 0xe4, 0x07, 0xb4, 0x96, 0xc0, 0xb7, 0x38, 0x30, 0x46, 0xf9, 0x7e, 0xc0, 0xad, 0xdf, 0x8d,
-	0x0d, 0xd9, 0x1c, 0xa3, 0xf4, 0x25, 0x64, 0x30, 0x7d, 0xdb, 0x5d, 0x64, 0x30, 0x7d, 0x0f, 0xbf,
-	0xe5, 0x8f, 0xa2, 0x2f, 0x21, 0x42, 0x5f, 0xd9, 0x8e, 0x9a, 0x85, 0xfc, 0xee, 0x7e, 0x1a, 0xec,
-	0xed, 0xa7, 0xc1, 0x8f, 0xfd, 0x34, 0x78, 0x7d, 0x90, 0x8e, 0xed, 0x1d, 0xa4, 0x63, 0xdf, 0x0e,
-	0xd2, 0xb1, 0xc7, 0x49, 0xe1, 0xcc, 0x73, 0xe7, 0xd6, 0x1d, 0xc2, 0xca, 0xa3, 0xfc, 0xc7, 0xea,
-	0x8d, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x98, 0x9c, 0x61, 0xec, 0xa7, 0x0f, 0x00, 0x00,
+	// 1027 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x98, 0xcf, 0x6f, 0x1b, 0x45,
+	0x14, 0xc7, 0x33, 0x4e, 0x1b, 0x60, 0x02, 0xa4, 0x8c, 0x83, 0x08, 0xdb, 0xd4, 0x76, 0x07, 0x35,
+	0x09, 0x6d, 0xbd, 0xa3, 0x04, 0x68, 0x25, 0x6e, 0x09, 0x12, 0x15, 0x52, 0x50, 0x8b, 0xb9, 0x71,
+	0x89, 0xd6, 0xf1, 0x68, 0xbb, 0x62, 0xb3, 0xb3, 0xf5, 0xac, 0x51, 0xa3, 0xc8, 0x17, 0x90, 0x38,
+	0xa0, 0x1e, 0x90, 0x90, 0x38, 0xc0, 0x81, 0x2b, 0x48, 0x08, 0xb5, 0x37, 0x0e, 0xfc, 0x01, 0x39,
+	0x56, 0xe2, 0xc2, 0x09, 0xa1, 0x04, 0x89, 0x7f, 0x03, 0x79, 0xe6, 0xad, 0xb3, 0x3f, 0x66, 0xd7,
+	0x9b, 0xc8, 0xa0, 0xf4, 0x12, 0xc5, 0x33, 0xef, 0xcd, 0x7c, 0xde, 0xf7, 0xcd, 0xee, 0x7c, 0x6d,
+	0xfc, 0x9a, 0x17, 0xf6, 0xf8, 0x43, 0x16, 0xf5, 0x07, 0x32, 0x62, 0x0f, 0x06, 0xbc, 0xbf, 0x6f,
+	0x87, 0x7d, 0x11, 0x09, 0x32, 0xaf, 0x26, 0x6c, 0x35, 0x61, 0xbd, 0xe2, 0xec, 0x79, 0x81, 0x60,
+	0xea, 0xaf, 0x9e, 0xb7, 0x16, 0x5d, 0xe1, 0x0a, 0xf5, 0x2f, 0x1b, 0xfd, 0x07, 0xa3, 0xcb, 0xae,
+	0x10, 0xae, 0xcf, 0x99, 0x13, 0x7a, 0xcc, 0x09, 0x02, 0x11, 0x39, 0x91, 0x27, 0x02, 0x09, 0xb3,
+	0xd7, 0x77, 0x85, 0xdc, 0x13, 0x92, 0x75, 0x1d, 0xc9, 0xf5, 0x66, 0xec, 0xb3, 0xf5, 0x2e, 0x8f,
+	0x9c, 0x75, 0x16, 0x3a, 0xae, 0x17, 0xa8, 0x60, 0x88, 0x5d, 0x4a, 0x82, 0x85, 0x4e, 0xdf, 0xd9,
+	0x8b, 0x57, 0x79, 0x23, 0x39, 0x23, 0x07, 0xdd, 0x80, 0x47, 0x3b, 0x7d, 0x1e, 0x0e, 0xa2, 0x64,
+	0x7a, 0x33, 0x19, 0xd4, 0xf5, 0x9d, 0xdd, 0x4f, 0x7d, 0x4f, 0x46, 0x3b, 0xbe, 0x70, 0x21, 0x80,
+	0x26, 0x03, 0x7c, 0xee, 0x48, 0x9e, 0x5b, 0x84, 0x2e, 0x62, 0xf2, 0xd1, 0x88, 0xf2, 0x9e, 0xda,
+	0xbe, 0xc3, 0x1f, 0x0c, 0xb8, 0x8c, 0xe8, 0x87, 0xb8, 0x9e, 0x1a, 0x95, 0xa1, 0x08, 0x24, 0x27,
+	0xb7, 0xf0, 0x9c, 0xc6, 0x5c, 0x42, 0x2d, 0xb4, 0x36, 0xbf, 0x51, 0xb7, 0x13, 0x0a, 0xda, 0x3a,
+	0x78, 0xeb, 0x85, 0xc3, 0x3f, 0x9b, 0x33, 0x3f, 0xfe, 0xf3, 0xf8, 0x3a, 0xea, 0x40, 0x34, 0xbd,
+	0x8d, 0x9b, 0x6a, 0xb9, 0x3b, 0x3c, 0xfa, 0x58, 0x15, 0xd3, 0x19, 0x63, 0xc0, 0x8e, 0x64, 0x11,
+	0x5f, 0xf4, 0x82, 0x1e, 0x7f, 0xa8, 0x56, 0xbe, 0xd0, 0xd1, 0x1f, 0xa8, 0xc4, 0xad, 0xe2, 0x44,
+	0x80, 0xba, 0x8b, 0x2f, 0xc9, 0xcc, 0x1c, 0xe0, 0x5d, 0x49, 0xe1, 0x65, 0x17, 0xd8, 0xba, 0x30,
+	0x02, 0xed, 0xe4, 0x92, 0xa9, 0x07, 0xb4, 0x9b, 0xbe, 0x5f, 0x44, 0xfb, 0x3e, 0xc6, 0x27, 0xdd,
+	0x84, 0xdd, 0x56, 0x6c, 0xdd, 0x7a, 0x7b, 0xd4, 0x7a, 0x5b, 0x9f, 0x33, 0x68, 0xbd, 0x7d, 0xcf,
+	0x71, 0x39, 0xe4, 0x76, 0x12, 0x99, 0xf4, 0x37, 0x04, 0x05, 0x1a, 0xf7, 0x2a, 0x2d, 0x70, 0xf6,
+	0xcc, 0x05, 0x92, 0x3b, 0x29, 0xfa, 0x9a, 0xa2, 0x5f, 0x9d, 0x48, 0xaf, 0x69, 0x52, 0xf8, 0x6d,
+	0x7c, 0x39, 0x6e, 0xcf, 0x56, 0x7c, 0xfe, 0xb6, 0x85, 0x1b, 0xab, 0xf4, 0x32, 0xae, 0x79, 0x3d,
+	0x68, 0x68, 0xcd, 0xeb, 0xd1, 0x5d, 0xbc, 0x6c, 0x0e, 0x87, 0x42, 0xdf, 0xc3, 0x2f, 0x26, 0xc7,
+	0x41, 0xd7, 0xd7, 0x53, 0x45, 0x26, 0x03, 0xa0, 0xc0, 0x54, 0x12, 0xe5, 0xc0, 0xb4, 0xe9, 0xfb,
+	0x26, 0xa6, 0x69, 0x75, 0xee, 0x67, 0x04, 0xc5, 0xe4, 0xf6, 0x29, 0x2c, 0x66, 0xf6, 0xd4, 0xc5,
+	0x4c, 0xaf, 0x53, 0x5f, 0xc6, 0x07, 0x2d, 0xb5, 0xe5, 0x7e, 0x7c, 0x64, 0xb4, 0x36, 0x16, 0x7e,
+	0x5e, 0x9f, 0x95, 0x0f, 0xe2, 0xae, 0x8d, 0x3f, 0x67, 0x74, 0xab, 0x9d, 0x59, 0xb7, 0x27, 0x08,
+	0x5f, 0x2d, 0x01, 0x39, 0x97, 0xe2, 0x3d, 0x32, 0x8b, 0xb7, 0xcd, 0xa5, 0x14, 0xfd, 0x58, 0xbc,
+	0x16, 0x9e, 0xf7, 0xd5, 0xc0, 0xdd, 0xbe, 0x3b, 0xd6, 0x2f, 0x39, 0xf4, 0x5f, 0x4b, 0x18, 0xe3,
+	0x9c, 0x4b, 0x09, 0xbf, 0x40, 0xf0, 0x52, 0xcd, 0x32, 0x3b, 0x32, 0xae, 0x91, 0x2c, 0xe1, 0xe7,
+	0xd4, 0x25, 0x35, 0x56, 0x2f, 0xfe, 0x38, 0x35, 0xe5, 0x1e, 0x17, 0x35, 0x52, 0x51, 0x3c, 0x6b,
+	0x67, 0x8f, 0xf3, 0xcc, 0xd9, 0xe3, 0x3c, 0x77, 0xf6, 0x60, 0xe8, 0xff, 0x38, 0x7b, 0xfc, 0xbc,
+	0x4a, 0x78, 0x0b, 0x37, 0xe2, 0x6b, 0x07, 0x3a, 0x5d, 0xcd, 0x7c, 0x88, 0x13, 0xd7, 0x92, 0xcb,
+	0x83, 0x42, 0xb7, 0xf1, 0x82, 0x9f, 0x9e, 0x82, 0x2b, 0x65, 0x39, 0x55, 0x6b, 0x26, 0x1d, 0xca,
+	0xcd, 0xa6, 0xd2, 0xfb, 0x00, 0xba, 0xe9, 0xfb, 0x05, 0xa0, 0xd3, 0xba, 0xbd, 0x7e, 0x45, 0x27,
+	0x1e, 0xe7, 0x54, 0xb5, 0xcd, 0x9e, 0xb1, 0xb6, 0xa9, 0x75, 0x73, 0xe3, 0xf0, 0x25, 0x7c, 0x51,
+	0xa1, 0x93, 0xfb, 0x78, 0x4e, 0x5b, 0x4e, 0xd2, 0x4c, 0x11, 0xe5, 0xfd, 0xac, 0xd5, 0x2a, 0x0e,
+	0xd0, 0x5b, 0xd0, 0xcb, 0x9f, 0xff, 0xfe, 0xf7, 0x37, 0xb5, 0x57, 0x49, 0x9d, 0xe5, 0x4d, 0x39,
+	0xf9, 0x01, 0xe1, 0x4b, 0x59, 0x77, 0x45, 0x6e, 0xe6, 0xd7, 0x2c, 0xf6, 0xb7, 0x56, 0xbb, 0x62,
+	0x34, 0xe0, 0xd8, 0x0a, 0x67, 0x8d, 0xac, 0xb0, 0xd2, 0x6f, 0x02, 0xec, 0x40, 0x1d, 0xd5, 0x21,
+	0xf9, 0x0e, 0xe1, 0x7a, 0x76, 0xb1, 0x4d, 0xdf, 0x37, 0x41, 0x16, 0xdb, 0x5a, 0x13, 0x64, 0x89,
+	0x31, 0xa5, 0x2b, 0x0a, 0xb2, 0x45, 0x1a, 0xe5, 0x90, 0xe4, 0x11, 0x4a, 0xbf, 0x0f, 0xc8, 0x9a,
+	0x51, 0x0c, 0x83, 0x5d, 0xb3, 0xde, 0xac, 0x10, 0x09, 0x34, 0xab, 0x8a, 0xe6, 0x2a, 0x69, 0xb2,
+	0xc2, 0xef, 0x45, 0xec, 0xc0, 0xeb, 0x0d, 0xc9, 0x57, 0x08, 0x2f, 0x24, 0x57, 0x18, 0xe9, 0xb4,
+	0x66, 0xac, 0xbc, 0x22, 0x51, 0x81, 0x05, 0xa4, 0x54, 0x11, 0x2d, 0x13, 0xab, 0x98, 0x88, 0xfc,
+	0x82, 0xf0, 0xa2, 0xc9, 0x0a, 0x11, 0x43, 0x2f, 0x4a, 0xbc, 0x9b, 0x65, 0x57, 0x0d, 0x07, 0xb6,
+	0xdb, 0x8a, 0x6d, 0x9d, 0xb0, 0x62, 0xb6, 0x9d, 0xee, 0xfe, 0x8e, 0x6e, 0x26, 0x3b, 0x88, 0x7d,
+	0xe0, 0x90, 0x3c, 0xc9, 0x01, 0x6b, 0xe3, 0x31, 0x19, 0x38, 0xe5, 0x97, 0x26, 0x03, 0xa7, 0xfd,
+	0x0c, 0x7d, 0x57, 0x01, 0xbf, 0x4d, 0x36, 0xca, 0x81, 0xb5, 0xe1, 0x62, 0x07, 0x09, 0xe3, 0x35,
+	0x24, 0x3f, 0x21, 0x5c, 0x37, 0x5c, 0xf9, 0xa6, 0xa7, 0xa3, 0xd8, 0x9f, 0x58, 0xed, 0x8a, 0xd1,
+	0x00, 0xfc, 0x8e, 0x02, 0x66, 0xa4, 0x3d, 0x09, 0xd8, 0x91, 0x7c, 0xc4, 0xab, 0xac, 0x4e, 0x91,
+	0xbe, 0x9c, 0x57, 0xd3, 0x77, 0xec, 0x09, 0xaa, 0xe9, 0x7b, 0x72, 0x67, 0x9f, 0x46, 0x5f, 0xce,
+	0xb5, 0xbe, 0x60, 0x2e, 0x86, 0xe4, 0x7b, 0x84, 0x17, 0x32, 0xf7, 0x00, 0xb9, 0x61, 0x7c, 0x72,
+	0xcd, 0xf7, 0x9a, 0x75, 0xb3, 0x5a, 0x30, 0xa0, 0xb6, 0x15, 0xea, 0x2a, 0xb9, 0xc6, 0xca, 0x7e,
+	0xe0, 0x18, 0xbf, 0x1b, 0xbf, 0x45, 0x98, 0x64, 0x96, 0x1a, 0x3d, 0xf2, 0x37, 0x8c, 0x0f, 0x72,
+	0x75, 0xc0, 0xe2, 0xab, 0x93, 0x5e, 0x53, 0x80, 0x4d, 0x72, 0xa5, 0x14, 0x70, 0xab, 0x7d, 0x78,
+	0xd4, 0x40, 0x4f, 0x8f, 0x1a, 0xe8, 0xaf, 0xa3, 0x06, 0xfa, 0xfa, 0xb8, 0x31, 0xf3, 0xf4, 0xb8,
+	0x31, 0xf3, 0xc7, 0x71, 0x63, 0xe6, 0x93, 0xba, 0xce, 0x8b, 0x33, 0xa3, 0xfd, 0x90, 0xcb, 0xee,
+	0x9c, 0xfa, 0xc5, 0xe6, 0xad, 0x7f, 0x03, 0x00, 0x00, 0xff, 0xff, 0xb1, 0x8a, 0x99, 0x61, 0xd0,
+	0x12, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1009,6 +1207,9 @@ type QueryClient interface {
 	BlacklistLogByLease(ctx context.Context, in *QueryBlacklistLogByLeaseRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLeaseResponse, error)
 	// Queries a list of BlacklistLogByLessee items.
 	BlacklistLogByLessee(ctx context.Context, in *QueryBlacklistLogByLesseeRequest, opts ...grpc.CallOption) (*QueryBlacklistLogByLesseeResponse, error)
+	// Queries a list of LeaseReputation items.
+	LeaseReputation(ctx context.Context, in *QueryGetLeaseReputationRequest, opts ...grpc.CallOption) (*QueryGetLeaseReputationResponse, error)
+	LeaseReputationAll(ctx context.Context, in *QueryAllLeaseReputationRequest, opts ...grpc.CallOption) (*QueryAllLeaseReputationResponse, error)
 }
 
 type queryClient struct {
@@ -1100,6 +1301,24 @@ func (c *queryClient) BlacklistLogByLessee(ctx context.Context, in *QueryBlackli
 	return out, nil
 }
 
+func (c *queryClient) LeaseReputation(ctx context.Context, in *QueryGetLeaseReputationRequest, opts ...grpc.CallOption) (*QueryGetLeaseReputationResponse, error) {
+	out := new(QueryGetLeaseReputationResponse)
+	err := c.cc.Invoke(ctx, "/ipex.trust.Query/LeaseReputation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) LeaseReputationAll(ctx context.Context, in *QueryAllLeaseReputationRequest, opts ...grpc.CallOption) (*QueryAllLeaseReputationResponse, error) {
+	out := new(QueryAllLeaseReputationResponse)
+	err := c.cc.Invoke(ctx, "/ipex.trust.Query/LeaseReputationAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -1118,6 +1337,9 @@ type QueryServer interface {
 	BlacklistLogByLease(context.Context, *QueryBlacklistLogByLeaseRequest) (*QueryBlacklistLogByLeaseResponse, error)
 	// Queries a list of BlacklistLogByLessee items.
 	BlacklistLogByLessee(context.Context, *QueryBlacklistLogByLesseeRequest) (*QueryBlacklistLogByLesseeResponse, error)
+	// Queries a list of LeaseReputation items.
+	LeaseReputation(context.Context, *QueryGetLeaseReputationRequest) (*QueryGetLeaseReputationResponse, error)
+	LeaseReputationAll(context.Context, *QueryAllLeaseReputationRequest) (*QueryAllLeaseReputationResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -1150,6 +1372,12 @@ func (*UnimplementedQueryServer) BlacklistLogByLease(ctx context.Context, req *Q
 }
 func (*UnimplementedQueryServer) BlacklistLogByLessee(ctx context.Context, req *QueryBlacklistLogByLesseeRequest) (*QueryBlacklistLogByLesseeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BlacklistLogByLessee not implemented")
+}
+func (*UnimplementedQueryServer) LeaseReputation(ctx context.Context, req *QueryGetLeaseReputationRequest) (*QueryGetLeaseReputationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LeaseReputation not implemented")
+}
+func (*UnimplementedQueryServer) LeaseReputationAll(ctx context.Context, req *QueryAllLeaseReputationRequest) (*QueryAllLeaseReputationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LeaseReputationAll not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -1318,6 +1546,42 @@ func _Query_BlacklistLogByLessee_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_LeaseReputation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetLeaseReputationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).LeaseReputation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.trust.Query/LeaseReputation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).LeaseReputation(ctx, req.(*QueryGetLeaseReputationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_LeaseReputationAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllLeaseReputationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).LeaseReputationAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.trust.Query/LeaseReputationAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).LeaseReputationAll(ctx, req.(*QueryAllLeaseReputationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "ipex.trust.Query",
@@ -1358,6 +1622,14 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BlacklistLogByLessee",
 			Handler:    _Query_BlacklistLogByLessee_Handler,
+		},
+		{
+			MethodName: "LeaseReputation",
+			Handler:    _Query_LeaseReputation_Handler,
+		},
+		{
+			MethodName: "LeaseReputationAll",
+			Handler:    _Query_LeaseReputationAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -2066,6 +2338,151 @@ func (m *QueryBlacklistLogByLesseeResponse) MarshalToSizedBuffer(dAtA []byte) (i
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryGetLeaseReputationRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetLeaseReputationRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetLeaseReputationRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Index != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.Index))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetLeaseReputationResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetLeaseReputationResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetLeaseReputationResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.LeaseReputation.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllLeaseReputationRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllLeaseReputationRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllLeaseReputationRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllLeaseReputationResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllLeaseReputationResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllLeaseReputationResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.LeaseReputation) > 0 {
+		for iNdEx := len(m.LeaseReputation) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.LeaseReputation[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -2336,6 +2753,61 @@ func (m *QueryBlacklistLogByLesseeResponse) Size() (n int) {
 	_ = l
 	if len(m.BlacklistLog) > 0 {
 		for _, e := range m.BlacklistLog {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetLeaseReputationRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Index != 0 {
+		n += 1 + sovQuery(uint64(m.Index))
+	}
+	return n
+}
+
+func (m *QueryGetLeaseReputationResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.LeaseReputation.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryAllLeaseReputationRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryAllLeaseReputationResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.LeaseReputation) > 0 {
+		for _, e := range m.LeaseReputation {
 			l = e.Size()
 			n += 1 + l + sovQuery(uint64(l))
 		}
@@ -4042,6 +4514,364 @@ func (m *QueryBlacklistLogByLesseeResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.BlacklistLog = append(m.BlacklistLog, BlacklistLog{})
 			if err := m.BlacklistLog[len(m.BlacklistLog)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetLeaseReputationRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetLeaseReputationRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetLeaseReputationRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			m.Index = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Index |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetLeaseReputationResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetLeaseReputationResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetLeaseReputationResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LeaseReputation", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.LeaseReputation.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllLeaseReputationRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllLeaseReputationRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllLeaseReputationRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllLeaseReputationResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllLeaseReputationResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllLeaseReputationResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LeaseReputation", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.LeaseReputation = append(m.LeaseReputation, LeaseReputation{})
+			if err := m.LeaseReputation[len(m.LeaseReputation)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

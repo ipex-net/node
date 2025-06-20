@@ -3,8 +3,9 @@ package keeper
 import (
 	"context"
 
-	"cosmossdk.io/collections"
 	"ipex/x/trust/types"
+
+	"cosmossdk.io/collections"
 )
 
 // GetBlacklistLogCount get the total number of blacklistLog

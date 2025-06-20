@@ -12,6 +12,7 @@ func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		SubnetReputationList: []SubnetReputation{},
 		BlacklistLogList:     []BlacklistLog{},
+		LeaseReputationList:  []LeaseReputation{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -41,6 +42,16 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("blacklistLog id should be lower or equal than the last id")
 		}
 		blacklistLogIdMap[elem.Id] = true
+	}
+	// Check for duplicated index in leaseReputation
+	leaseReputationIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.LeaseReputationList {
+		index := string(LeaseReputationKey(elem.Index))
+		if _, ok := leaseReputationIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for leaseReputation")
+		}
+		leaseReputationIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

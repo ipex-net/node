@@ -3,8 +3,9 @@ package keeper
 import (
 	"context"
 
-	"cosmossdk.io/collections"
 	"ipex/x/trust/types"
+
+	"cosmossdk.io/collections"
 
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"

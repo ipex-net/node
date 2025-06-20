@@ -29,8 +29,8 @@ func (k Keeper) BlacklistLogAll(ctx context.Context, req *types.QueryAllBlacklis
 
 	// For now, return without pagination support (can be improved later)
 	return &types.QueryAllBlacklistLogResponse{
-		BlacklistLog: blacklistLogs, 
-		Pagination: &query.PageResponse{Total: uint64(len(blacklistLogs))},
+		BlacklistLog: blacklistLogs,
+		Pagination:   &query.PageResponse{Total: uint64(len(blacklistLogs))},
 	}, nil
 }
 
