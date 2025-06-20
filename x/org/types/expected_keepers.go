@@ -23,3 +23,7 @@ type ParamSubspace interface {
 	Get(context.Context, []byte, interface{})
 	Set(context.Context, []byte, interface{})
 }
+
+type TrustKeeper interface {
+	InitializeLesseeReputation(ctx context.Context, lesseeId uint64)
+}

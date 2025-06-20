@@ -191,11 +191,11 @@ func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context, referenceTi
 }
 
 // InitializeSubnetReputation initializes a new subnet reputation entry when a subnet is created
-func (k Keeper) InitializeSubnetReputation(ctx context.Context, subnetID uint64) {
+func (k Keeper) InitializeSubnetReputation(ctx context.Context, subnetId uint64) {
 
 	// Create new subnet reputation with initial values
 	subnetReputation := types.SubnetReputation{
-		Index:       subnetID,
+		Index:       subnetId,
 		Level1Count: 0, // Initialize all counts to zero
 		Level2Count: 0,
 		Level3Count: 0,
