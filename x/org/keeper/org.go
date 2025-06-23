@@ -89,7 +89,7 @@ func (k Keeper) RemoveOrg(ctx context.Context, id uint64) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
 	store.Delete(GetOrgIDBytes(id))
-	
+
 	// Remove lessee reputation
 	k.trustKeeper.RemoveLesseeReputation(ctx, id)
 }

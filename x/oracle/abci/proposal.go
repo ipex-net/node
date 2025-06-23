@@ -729,18 +729,18 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 				"error", "subnet not found")
 			continue
 		}
-		
+
 		// Get the contract details to extract the correct lessee org ID
 		var contractId uint64 = 0
 		var lesseeOrgId uint64 = 0
-		
+
 		if foundContractId, found := h.leaseKeeper.GetFirstLeasedContractBySubnet(ctx, subnetId); found {
 			contractId = foundContractId
 			if contract, contractFound := h.leaseKeeper.GetContract(ctx, foundContractId); contractFound {
 				lesseeOrgId = contract.LesseeOrg
 			}
 		}
-		
+
 		if err := h.trustKeeper.UpdateSubnetReputation(ctx, subnetId, contractId, subnet.OwnerOrgId, lesseeOrgId, blacklistCount); err != nil {
 			// Log error but continue with other subnets
 			h.logger.Error("failed to update subnet blacklist count",

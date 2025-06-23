@@ -1,0 +1,15 @@
+syntax = "proto3";
+package ipex.abuse;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "ipex/x/abuse/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "ipex/x/abuse/Params";
+  option (gogoproto.equal) = true;
+
+  
+}

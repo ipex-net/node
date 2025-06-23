@@ -13,7 +13,7 @@ import (
 )
 
 func (k Keeper) BlacklistLogByLessee(ctx context.Context, req *types.QueryBlacklistLogByLesseeRequest) (*types.QueryBlacklistLogByLesseeResponse, error) {
-	if req == nil || req.LesseeOrgId == 0{
+	if req == nil || req.LesseeOrgId == 0 {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 

@@ -131,7 +131,7 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 	// If contract doesn't have leaseId or lesseeId - skip exectution
 	if leaseId == 0 || lesseeOrgId == 0 {
 		return nil
-	} 
+	}
 	// Update the lease reputation with relative values
 	leaseRep, found := k.GetLeaseReputation(ctx, leaseId)
 	if found {

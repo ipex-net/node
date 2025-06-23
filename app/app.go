@@ -86,6 +86,7 @@ import (
 	oraclemodulekeeper "ipex/x/oracle/keeper"
 	trustmodulekeeper "ipex/x/trust/keeper"
 
+	abusemodulekeeper "ipex/x/abuse/keeper"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"ipex/docs"
@@ -162,6 +163,7 @@ type App struct {
 	PaymentsKeeper paymentsmodulekeeper.Keeper
 	OracleKeeper   oraclemodulekeeper.Keeper
 	TrustKeeper    trustmodulekeeper.Keeper
+	AbuseKeeper    abusemodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// NetIntel service for IP reputation and geolocation
@@ -273,6 +275,7 @@ func New(
 		&app.PaymentsKeeper,
 		&app.OracleKeeper,
 		&app.TrustKeeper,
+		&app.AbuseKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)

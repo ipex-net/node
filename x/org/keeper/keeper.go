@@ -21,7 +21,7 @@ type (
 		// should be the x/gov module account.
 		authority string
 
-		trustKeeper    types.TrustKeeper
+		trustKeeper types.TrustKeeper
 	}
 )
 
