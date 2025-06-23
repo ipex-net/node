@@ -3,9 +3,10 @@ package types
 import (
 	"context"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	leasetypes "ipex/x/lease/types"
 	subnettypes "ipex/x/subnet/types"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // AccountKeeper defines the expected interface for the Account module.

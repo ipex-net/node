@@ -1,0 +1,25 @@
+syntax = "proto3";
+package ipex.abuse;
+
+option go_package = "ipex/x/abuse/types";
+
+message Complaint {
+  string index = 1; 
+  uint64 leaseId = 2; 
+  uint64 subnetId = 3; 
+  uint64 lessorOrgId = 4; 
+  uint64 lesseeOrgId = 5; 
+  string xarfVersion = 6; 
+  string category = 7; 
+  string reportType = 8; 
+  string incidentDate = 9; 
+  string sourceIp = 10; 
+  string lessorTicketRef = 11; 
+  string evidenceHash = 12; 
+  string summary = 13; 
+  uint64 state = 14; 
+  string submittedAt = 15; 
+  string responseDeadline = 16; 
+  
+}
+

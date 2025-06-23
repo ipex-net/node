@@ -1,17 +1,19 @@
 syntax = "proto3";
+
 package ipex.abuse;
 
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "ipex/abuse/params.proto";
+import "ipex/abuse/complaint.proto";
 
 option go_package = "ipex/x/abuse/types";
 
 // GenesisState defines the abuse module's genesis state.
 message GenesisState {
+  
   // params defines all the parameters of the module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+           Params    params        = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+  repeated Complaint complaintList = 2 [(gogoproto.nullable) = false] ;
 }
+
