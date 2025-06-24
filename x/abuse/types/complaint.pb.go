@@ -5,17 +5,21 @@ package types
 
 import (
 	fmt "fmt"
+	_ "github.com/cosmos/gogoproto/gogoproto"
+	proto "github.com/cosmos/gogoproto/proto"
+	github_com_cosmos_gogoproto_types "github.com/cosmos/gogoproto/types"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/cosmos/gogoproto/proto"
+	time "time"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -23,23 +27,178 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// Who sent the message
+type SenderRole int32
+
+const (
+	SenderRole_SENDER_ROLE_UNSPECIFIED SenderRole = 0
+	SenderRole_SENDER_ROLE_LESSOR      SenderRole = 1
+	SenderRole_SENDER_ROLE_LESSEE      SenderRole = 2
+)
+
+var SenderRole_name = map[int32]string{
+	0: "SENDER_ROLE_UNSPECIFIED",
+	1: "SENDER_ROLE_LESSOR",
+	2: "SENDER_ROLE_LESSEE",
+}
+
+var SenderRole_value = map[string]int32{
+	"SENDER_ROLE_UNSPECIFIED": 0,
+	"SENDER_ROLE_LESSOR":      1,
+	"SENDER_ROLE_LESSEE":      2,
+}
+
+func (x SenderRole) String() string {
+	return proto.EnumName(SenderRole_name, int32(x))
+}
+
+func (SenderRole) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_4a21cd25e9e39975, []int{0}
+}
+
+// Type of message in thread
+type MessageType int32
+
+const (
+	MessageType_MESSAGE_TYPE_UNSPECIFIED MessageType = 0
+	// Lessee message types
+	MessageType_MESSAGE_TYPE_RESPONSE MessageType = 1
+	// Lessor message types
+	MessageType_MESSAGE_TYPE_FOLLOWUP MessageType = 2
+	MessageType_MESSAGE_TYPE_CLOSE    MessageType = 3
+)
+
+var MessageType_name = map[int32]string{
+	0: "MESSAGE_TYPE_UNSPECIFIED",
+	1: "MESSAGE_TYPE_RESPONSE",
+	2: "MESSAGE_TYPE_FOLLOWUP",
+	3: "MESSAGE_TYPE_CLOSE",
+}
+
+var MessageType_value = map[string]int32{
+	"MESSAGE_TYPE_UNSPECIFIED": 0,
+	"MESSAGE_TYPE_RESPONSE":    1,
+	"MESSAGE_TYPE_FOLLOWUP":    2,
+	"MESSAGE_TYPE_CLOSE":       3,
+}
+
+func (x MessageType) String() string {
+	return proto.EnumName(MessageType_name, int32(x))
+}
+
+func (MessageType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_4a21cd25e9e39975, []int{1}
+}
+
+// Abuse types based on real-world data
+type AbuseType int32
+
+const (
+	AbuseType_ABUSE_TYPE_UNSPECIFIED        AbuseType = 0
+	AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA     AbuseType = 1
+	AbuseType_ABUSE_TYPE_SPAM               AbuseType = 2
+	AbuseType_ABUSE_TYPE_BRUTEFORCE         AbuseType = 3
+	AbuseType_ABUSE_TYPE_MALWARE            AbuseType = 4
+	AbuseType_ABUSE_TYPE_PORT_SCANNING      AbuseType = 5
+	AbuseType_ABUSE_TYPE_DOS_DDOS           AbuseType = 6
+	AbuseType_ABUSE_TYPE_PHISHING_FRAUD     AbuseType = 7
+	AbuseType_ABUSE_TYPE_HACKING            AbuseType = 8
+	AbuseType_ABUSE_TYPE_VIOLENCE_HATE_CSAM AbuseType = 9
+	AbuseType_ABUSE_TYPE_OTHER              AbuseType = 10
+)
+
+var AbuseType_name = map[int32]string{
+	0:  "ABUSE_TYPE_UNSPECIFIED",
+	1:  "ABUSE_TYPE_COPYRIGHT_DMCA",
+	2:  "ABUSE_TYPE_SPAM",
+	3:  "ABUSE_TYPE_BRUTEFORCE",
+	4:  "ABUSE_TYPE_MALWARE",
+	5:  "ABUSE_TYPE_PORT_SCANNING",
+	6:  "ABUSE_TYPE_DOS_DDOS",
+	7:  "ABUSE_TYPE_PHISHING_FRAUD",
+	8:  "ABUSE_TYPE_HACKING",
+	9:  "ABUSE_TYPE_VIOLENCE_HATE_CSAM",
+	10: "ABUSE_TYPE_OTHER",
+}
+
+var AbuseType_value = map[string]int32{
+	"ABUSE_TYPE_UNSPECIFIED":        0,
+	"ABUSE_TYPE_COPYRIGHT_DMCA":     1,
+	"ABUSE_TYPE_SPAM":               2,
+	"ABUSE_TYPE_BRUTEFORCE":         3,
+	"ABUSE_TYPE_MALWARE":            4,
+	"ABUSE_TYPE_PORT_SCANNING":      5,
+	"ABUSE_TYPE_DOS_DDOS":           6,
+	"ABUSE_TYPE_PHISHING_FRAUD":     7,
+	"ABUSE_TYPE_HACKING":            8,
+	"ABUSE_TYPE_VIOLENCE_HATE_CSAM": 9,
+	"ABUSE_TYPE_OTHER":              10,
+}
+
+func (x AbuseType) String() string {
+	return proto.EnumName(AbuseType_name, int32(x))
+}
+
+func (AbuseType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_4a21cd25e9e39975, []int{2}
+}
+
+// Complaint states
+type ComplaintState int32
+
+const (
+	ComplaintState_STATE_UNSPECIFIED       ComplaintState = 0
+	ComplaintState_STATE_SUBMITTED         ComplaintState = 1
+	ComplaintState_STATE_RESPONDED         ComplaintState = 2
+	ComplaintState_STATE_AWAITING_RESPONSE ComplaintState = 3
+	ComplaintState_STATE_CLOSED            ComplaintState = 4
+)
+
+var ComplaintState_name = map[int32]string{
+	0: "STATE_UNSPECIFIED",
+	1: "STATE_SUBMITTED",
+	2: "STATE_RESPONDED",
+	3: "STATE_AWAITING_RESPONSE",
+	4: "STATE_CLOSED",
+}
+
+var ComplaintState_value = map[string]int32{
+	"STATE_UNSPECIFIED":       0,
+	"STATE_SUBMITTED":         1,
+	"STATE_RESPONDED":         2,
+	"STATE_AWAITING_RESPONSE": 3,
+	"STATE_CLOSED":            4,
+}
+
+func (x ComplaintState) String() string {
+	return proto.EnumName(ComplaintState_name, int32(x))
+}
+
+func (ComplaintState) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_4a21cd25e9e39975, []int{3}
+}
+
+// Main complaint structure
 type Complaint struct {
-	Index            string `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
-	LeaseId          uint64 `protobuf:"varint,2,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
-	SubnetId         uint64 `protobuf:"varint,3,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
-	LessorOrgId      uint64 `protobuf:"varint,4,opt,name=lessorOrgId,proto3" json:"lessorOrgId,omitempty"`
-	LesseeOrgId      uint64 `protobuf:"varint,5,opt,name=lesseeOrgId,proto3" json:"lesseeOrgId,omitempty"`
-	XarfVersion      string `protobuf:"bytes,6,opt,name=xarfVersion,proto3" json:"xarfVersion,omitempty"`
-	Category         string `protobuf:"bytes,7,opt,name=category,proto3" json:"category,omitempty"`
-	ReportType       string `protobuf:"bytes,8,opt,name=reportType,proto3" json:"reportType,omitempty"`
-	IncidentDate     string `protobuf:"bytes,9,opt,name=incidentDate,proto3" json:"incidentDate,omitempty"`
-	SourceIp         string `protobuf:"bytes,10,opt,name=sourceIp,proto3" json:"sourceIp,omitempty"`
-	LessorTicketRef  string `protobuf:"bytes,11,opt,name=lessorTicketRef,proto3" json:"lessorTicketRef,omitempty"`
-	EvidenceHash     string `protobuf:"bytes,12,opt,name=evidenceHash,proto3" json:"evidenceHash,omitempty"`
-	Summary          string `protobuf:"bytes,13,opt,name=summary,proto3" json:"summary,omitempty"`
-	State            uint64 `protobuf:"varint,14,opt,name=state,proto3" json:"state,omitempty"`
-	SubmittedAt      string `protobuf:"bytes,15,opt,name=submittedAt,proto3" json:"submittedAt,omitempty"`
-	ResponseDeadline string `protobuf:"bytes,16,opt,name=responseDeadline,proto3" json:"responseDeadline,omitempty"`
+	Index            string         `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
+	LeaseId          uint64         `protobuf:"varint,2,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
+	SubnetId         uint64         `protobuf:"varint,3,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
+	LessorOrgId      uint64         `protobuf:"varint,4,opt,name=lessorOrgId,proto3" json:"lessorOrgId,omitempty"`
+	LesseeOrgId      uint64         `protobuf:"varint,5,opt,name=lesseeOrgId,proto3" json:"lesseeOrgId,omitempty"`
+	AbuseType        AbuseType      `protobuf:"varint,6,opt,name=abuseType,proto3,enum=ipex.abuse.AbuseType" json:"abuseType,omitempty"`
+	IncidentTime     *time.Time     `protobuf:"bytes,7,opt,name=incidentTime,proto3,stdtime" json:"incidentTime,omitempty"`
+	SourceIp         uint64         `protobuf:"varint,8,opt,name=sourceIp,proto3" json:"sourceIp,omitempty"`
+	LessorTicketRef  string         `protobuf:"bytes,9,opt,name=lessorTicketRef,proto3" json:"lessorTicketRef,omitempty"`
+	EvidenceHash     string         `protobuf:"bytes,10,opt,name=evidenceHash,proto3" json:"evidenceHash,omitempty"`
+	Summary          string         `protobuf:"bytes,11,opt,name=summary,proto3" json:"summary,omitempty"`
+	State            ComplaintState `protobuf:"varint,12,opt,name=state,proto3,enum=ipex.abuse.ComplaintState" json:"state,omitempty"`
+	SubmittedAt      *time.Time     `protobuf:"bytes,13,opt,name=submittedAt,proto3,stdtime" json:"submittedAt,omitempty"`
+	ResponseDeadline *time.Time     `protobuf:"bytes,14,opt,name=responseDeadline,proto3,stdtime" json:"responseDeadline,omitempty"`
+	// Thread of all messages
+	Thread []*ThreadMessage `protobuf:"bytes,15,rep,name=thread,proto3" json:"thread,omitempty"`
+	// Tracking fields
+	LastActivityAt *time.Time `protobuf:"bytes,16,opt,name=lastActivityAt,proto3,stdtime" json:"lastActivityAt,omitempty"`
+	ClosedAt       *time.Time `protobuf:"bytes,17,opt,name=closedAt,proto3,stdtime" json:"closedAt,omitempty"`
 }
 
 func (m *Complaint) Reset()         { *m = Complaint{} }
@@ -110,39 +269,25 @@ func (m *Complaint) GetLesseeOrgId() uint64 {
 	return 0
 }
 
-func (m *Complaint) GetXarfVersion() string {
+func (m *Complaint) GetAbuseType() AbuseType {
 	if m != nil {
-		return m.XarfVersion
+		return m.AbuseType
 	}
-	return ""
+	return AbuseType_ABUSE_TYPE_UNSPECIFIED
 }
 
-func (m *Complaint) GetCategory() string {
+func (m *Complaint) GetIncidentTime() *time.Time {
 	if m != nil {
-		return m.Category
+		return m.IncidentTime
 	}
-	return ""
+	return nil
 }
 
-func (m *Complaint) GetReportType() string {
-	if m != nil {
-		return m.ReportType
-	}
-	return ""
-}
-
-func (m *Complaint) GetIncidentDate() string {
-	if m != nil {
-		return m.IncidentDate
-	}
-	return ""
-}
-
-func (m *Complaint) GetSourceIp() string {
+func (m *Complaint) GetSourceIp() uint64 {
 	if m != nil {
 		return m.SourceIp
 	}
-	return ""
+	return 0
 }
 
 func (m *Complaint) GetLessorTicketRef() string {
@@ -166,59 +311,204 @@ func (m *Complaint) GetSummary() string {
 	return ""
 }
 
-func (m *Complaint) GetState() uint64 {
+func (m *Complaint) GetState() ComplaintState {
 	if m != nil {
 		return m.State
+	}
+	return ComplaintState_STATE_UNSPECIFIED
+}
+
+func (m *Complaint) GetSubmittedAt() *time.Time {
+	if m != nil {
+		return m.SubmittedAt
+	}
+	return nil
+}
+
+func (m *Complaint) GetResponseDeadline() *time.Time {
+	if m != nil {
+		return m.ResponseDeadline
+	}
+	return nil
+}
+
+func (m *Complaint) GetThread() []*ThreadMessage {
+	if m != nil {
+		return m.Thread
+	}
+	return nil
+}
+
+func (m *Complaint) GetLastActivityAt() *time.Time {
+	if m != nil {
+		return m.LastActivityAt
+	}
+	return nil
+}
+
+func (m *Complaint) GetClosedAt() *time.Time {
+	if m != nil {
+		return m.ClosedAt
+	}
+	return nil
+}
+
+// Unified message structure for the thread
+type ThreadMessage struct {
+	SenderOrgId    uint64      `protobuf:"varint,1,opt,name=senderOrgId,proto3" json:"senderOrgId,omitempty"`
+	SenderRole     SenderRole  `protobuf:"varint,2,opt,name=senderRole,proto3,enum=ipex.abuse.SenderRole" json:"senderRole,omitempty"`
+	MessageType    MessageType `protobuf:"varint,3,opt,name=messageType,proto3,enum=ipex.abuse.MessageType" json:"messageType,omitempty"`
+	Content        string      `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
+	EvidenceHashes []string    `protobuf:"bytes,5,rep,name=evidenceHashes,proto3" json:"evidenceHashes,omitempty"`
+	SentAt         *time.Time  `protobuf:"bytes,6,opt,name=sentAt,proto3,stdtime" json:"sentAt,omitempty"`
+}
+
+func (m *ThreadMessage) Reset()         { *m = ThreadMessage{} }
+func (m *ThreadMessage) String() string { return proto.CompactTextString(m) }
+func (*ThreadMessage) ProtoMessage()    {}
+func (*ThreadMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4a21cd25e9e39975, []int{1}
+}
+func (m *ThreadMessage) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ThreadMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ThreadMessage.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ThreadMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ThreadMessage.Merge(m, src)
+}
+func (m *ThreadMessage) XXX_Size() int {
+	return m.Size()
+}
+func (m *ThreadMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_ThreadMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ThreadMessage proto.InternalMessageInfo
+
+func (m *ThreadMessage) GetSenderOrgId() uint64 {
+	if m != nil {
+		return m.SenderOrgId
 	}
 	return 0
 }
 
-func (m *Complaint) GetSubmittedAt() string {
+func (m *ThreadMessage) GetSenderRole() SenderRole {
 	if m != nil {
-		return m.SubmittedAt
+		return m.SenderRole
+	}
+	return SenderRole_SENDER_ROLE_UNSPECIFIED
+}
+
+func (m *ThreadMessage) GetMessageType() MessageType {
+	if m != nil {
+		return m.MessageType
+	}
+	return MessageType_MESSAGE_TYPE_UNSPECIFIED
+}
+
+func (m *ThreadMessage) GetContent() string {
+	if m != nil {
+		return m.Content
 	}
 	return ""
 }
 
-func (m *Complaint) GetResponseDeadline() string {
+func (m *ThreadMessage) GetEvidenceHashes() []string {
 	if m != nil {
-		return m.ResponseDeadline
+		return m.EvidenceHashes
 	}
-	return ""
+	return nil
+}
+
+func (m *ThreadMessage) GetSentAt() *time.Time {
+	if m != nil {
+		return m.SentAt
+	}
+	return nil
 }
 
 func init() {
+	proto.RegisterEnum("ipex.abuse.SenderRole", SenderRole_name, SenderRole_value)
+	proto.RegisterEnum("ipex.abuse.MessageType", MessageType_name, MessageType_value)
+	proto.RegisterEnum("ipex.abuse.AbuseType", AbuseType_name, AbuseType_value)
+	proto.RegisterEnum("ipex.abuse.ComplaintState", ComplaintState_name, ComplaintState_value)
 	proto.RegisterType((*Complaint)(nil), "ipex.abuse.Complaint")
+	proto.RegisterType((*ThreadMessage)(nil), "ipex.abuse.ThreadMessage")
 }
 
 func init() { proto.RegisterFile("ipex/abuse/complaint.proto", fileDescriptor_4a21cd25e9e39975) }
 
 var fileDescriptor_4a21cd25e9e39975 = []byte{
-	// 375 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x64, 0x92, 0xbd, 0x6e, 0xdb, 0x30,
-	0x14, 0x85, 0xad, 0xd6, 0xbf, 0xb4, 0x5b, 0x1b, 0x6c, 0x07, 0xa2, 0x05, 0x04, 0xc3, 0x93, 0x51,
-	0xa0, 0xf6, 0xd0, 0x27, 0x68, 0xeb, 0xa1, 0x9a, 0x0a, 0x18, 0x46, 0x86, 0x6c, 0x94, 0x78, 0xed,
-	0x10, 0x91, 0x48, 0x82, 0xa4, 0x02, 0xeb, 0x01, 0xb2, 0xe7, 0xb1, 0x32, 0x7a, 0xcc, 0x18, 0xd8,
-	0x2f, 0x12, 0x90, 0x8c, 0x1c, 0x25, 0x19, 0xcf, 0x77, 0x0e, 0xc8, 0xcb, 0xc3, 0x8b, 0xbe, 0x73,
-	0xc5, 0x60, 0xbf, 0xa4, 0x69, 0x69, 0x60, 0x99, 0xc9, 0x42, 0xe5, 0x94, 0x0b, 0xbb, 0x50, 0x5a,
-	0x5a, 0x89, 0x87, 0xde, 0x5c, 0x78, 0x73, 0x76, 0xdb, 0x46, 0x83, 0xbf, 0x75, 0x00, 0x7f, 0x45,
-	0x1d, 0x2e, 0x18, 0xec, 0x49, 0x34, 0x8d, 0xe6, 0x83, 0x75, 0x10, 0x98, 0xa0, 0x5e, 0x0e, 0xd4,
-	0x40, 0xc2, 0xc8, 0x87, 0x69, 0x34, 0x6f, 0xaf, 0x6b, 0x89, 0xbf, 0xa1, 0xbe, 0x29, 0x53, 0x01,
-	0x36, 0x61, 0xe4, 0xa3, 0xb7, 0xce, 0x1a, 0x4f, 0xd1, 0x30, 0x07, 0x63, 0xa4, 0xfe, 0xaf, 0x77,
-	0x09, 0x23, 0x6d, 0x6f, 0x37, 0x51, 0x9d, 0x00, 0x08, 0x89, 0xce, 0x4b, 0xe2, 0x19, 0xb9, 0xc4,
-	0x9e, 0xea, 0xed, 0x05, 0x68, 0xc3, 0xa5, 0x20, 0x5d, 0x3f, 0x55, 0x13, 0xb9, 0x09, 0x32, 0x6a,
-	0x61, 0x27, 0x75, 0x45, 0x7a, 0xde, 0x3e, 0x6b, 0x1c, 0x23, 0xa4, 0x41, 0x49, 0x6d, 0x37, 0x95,
-	0x02, 0xd2, 0xf7, 0x6e, 0x83, 0xe0, 0x19, 0x1a, 0x71, 0x91, 0x71, 0x06, 0xc2, 0xae, 0xa8, 0x05,
-	0x32, 0xf0, 0x89, 0x57, 0xcc, 0xbf, 0x50, 0x96, 0x3a, 0x83, 0x44, 0x11, 0x14, 0xce, 0xaf, 0x35,
-	0x9e, 0xa3, 0x71, 0x78, 0xce, 0x86, 0x67, 0xd7, 0x60, 0xd7, 0xb0, 0x25, 0x43, 0x1f, 0x79, 0x8b,
-	0xdd, 0x4d, 0x70, 0xe3, 0x0e, 0xcd, 0xe0, 0x1f, 0x35, 0x57, 0x64, 0x14, 0x6e, 0x6a, 0x32, 0xd7,
-	0xb2, 0x29, 0x8b, 0x82, 0xea, 0x8a, 0x7c, 0xf2, 0x76, 0x2d, 0xdd, 0xaf, 0x18, 0xeb, 0x06, 0xfc,
-	0xec, 0x1b, 0x0a, 0xc2, 0x75, 0x63, 0xca, 0xb4, 0xe0, 0xd6, 0x02, 0xfb, 0x6d, 0xc9, 0x38, 0x74,
-	0xd3, 0x40, 0xf8, 0x07, 0x9a, 0x68, 0x30, 0x4a, 0x0a, 0x03, 0x2b, 0xa0, 0x2c, 0xe7, 0x02, 0xc8,
-	0xc4, 0xc7, 0xde, 0xf1, 0x3f, 0x3f, 0xef, 0x8f, 0x71, 0x74, 0x38, 0xc6, 0xd1, 0xe3, 0x31, 0x8e,
-	0xee, 0x4e, 0x71, 0xeb, 0x70, 0x8a, 0x5b, 0x0f, 0xa7, 0xb8, 0x75, 0xf9, 0x25, 0xec, 0x52, 0xbd,
-	0x4d, 0xb6, 0x52, 0x60, 0xd2, 0xae, 0x5f, 0xa5, 0x5f, 0x4f, 0x01, 0x00, 0x00, 0xff, 0xff, 0xa0,
-	0x17, 0x1b, 0xd5, 0x69, 0x02, 0x00, 0x00,
+	// 917 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x55, 0x41, 0x6f, 0xe2, 0x46,
+	0x14, 0x8e, 0x21, 0x21, 0xe1, 0x91, 0x25, 0xb3, 0x93, 0x6c, 0xe2, 0x4d, 0xba, 0x2c, 0xcd, 0xa1,
+	0x42, 0x91, 0x4a, 0xd4, 0xb4, 0x52, 0xab, 0xaa, 0x17, 0x63, 0x4f, 0x82, 0x55, 0xc0, 0x68, 0xc6,
+	0x34, 0x4a, 0x2f, 0xc8, 0xc1, 0xb3, 0xac, 0x55, 0xb0, 0x11, 0x33, 0xac, 0x96, 0x5b, 0x7f, 0xc2,
+	0xfe, 0x80, 0x9e, 0xfa, 0x1f, 0xfa, 0x1f, 0x7a, 0xdc, 0x63, 0x6f, 0xad, 0x92, 0x3f, 0x52, 0x79,
+	0x0c, 0xc4, 0x66, 0xf7, 0xc0, 0xcd, 0xef, 0xfb, 0xbe, 0xf7, 0xe6, 0x7d, 0x6f, 0x9e, 0x6d, 0x38,
+	0x0b, 0x26, 0x3e, 0x7f, 0x7f, 0xe9, 0xdd, 0xcf, 0x04, 0xbf, 0x1c, 0x44, 0xe3, 0xc9, 0xc8, 0x0b,
+	0x42, 0x59, 0x9f, 0x4c, 0x23, 0x19, 0xe1, 0x92, 0x22, 0xeb, 0x8a, 0x3c, 0x7d, 0x3d, 0x8c, 0xa2,
+	0xe1, 0x88, 0x5f, 0x2a, 0xea, 0x7e, 0xf6, 0xe6, 0x52, 0x06, 0x63, 0x2e, 0xa4, 0x37, 0x9e, 0x24,
+	0xea, 0xd3, 0xa3, 0x61, 0x34, 0x8c, 0xd4, 0xe3, 0x65, 0xfc, 0x94, 0xa0, 0xe7, 0x7f, 0x14, 0xa0,
+	0x68, 0x2e, 0xeb, 0xe2, 0x23, 0xd8, 0x09, 0x42, 0x9f, 0xbf, 0xd7, 0xb5, 0xaa, 0x56, 0x2b, 0xd2,
+	0x24, 0xc0, 0x3a, 0xec, 0x8e, 0xb8, 0x27, 0xb8, 0xed, 0xeb, 0xb9, 0xaa, 0x56, 0xdb, 0xa6, 0xcb,
+	0x10, 0x9f, 0xc2, 0x9e, 0x98, 0xdd, 0x87, 0x5c, 0xda, 0xbe, 0x9e, 0x57, 0xd4, 0x2a, 0xc6, 0x55,
+	0x28, 0x8d, 0xb8, 0x10, 0xd1, 0xd4, 0x99, 0x0e, 0x6d, 0x5f, 0xdf, 0x56, 0x74, 0x1a, 0x5a, 0x2a,
+	0x38, 0x4f, 0x14, 0x3b, 0x4f, 0x8a, 0x05, 0x84, 0xbf, 0x83, 0xa2, 0x72, 0xe7, 0xce, 0x27, 0x5c,
+	0x2f, 0x54, 0xb5, 0x5a, 0xf9, 0xea, 0xb8, 0x9e, 0x72, 0x5d, 0x37, 0x96, 0x2c, 0x7d, 0x12, 0x62,
+	0x0b, 0xf6, 0x83, 0x70, 0x10, 0xf8, 0x3c, 0x94, 0x6e, 0x30, 0xe6, 0xfa, 0x6e, 0x55, 0xab, 0x95,
+	0xae, 0x4e, 0xeb, 0xc9, 0x84, 0xea, 0xcb, 0x09, 0xd5, 0xdd, 0xe5, 0x84, 0x1a, 0xdb, 0x1f, 0xfe,
+	0x7d, 0xad, 0xd1, 0x4c, 0x96, 0xf2, 0x16, 0xcd, 0xa6, 0x03, 0x6e, 0x4f, 0xf4, 0xbd, 0x85, 0xb7,
+	0x45, 0x8c, 0x6b, 0x70, 0x90, 0x18, 0x71, 0x83, 0xc1, 0x6f, 0x5c, 0x52, 0xfe, 0x46, 0x2f, 0xaa,
+	0x89, 0xad, 0xc3, 0xf8, 0x1c, 0xf6, 0xf9, 0xbb, 0xb8, 0xe8, 0x80, 0x37, 0x3d, 0xf1, 0x56, 0x07,
+	0x25, 0xcb, 0x60, 0xf1, 0x7c, 0xc5, 0x6c, 0x3c, 0xf6, 0xa6, 0x73, 0xbd, 0xa4, 0xe8, 0x65, 0x88,
+	0xbf, 0x81, 0x1d, 0x21, 0x3d, 0xc9, 0xf5, 0x7d, 0xe5, 0xfd, 0x2c, 0xe3, 0x7d, 0x75, 0x6d, 0x2c,
+	0x96, 0xd0, 0x44, 0x89, 0x1b, 0x50, 0x12, 0xb3, 0xfb, 0x71, 0x20, 0x25, 0xf7, 0x0d, 0xa9, 0x3f,
+	0xdb, 0xd0, 0x7b, 0x3a, 0x09, 0xb7, 0x00, 0x4d, 0xb9, 0x98, 0x44, 0xa1, 0xe0, 0x16, 0xf7, 0xfc,
+	0x51, 0x10, 0x72, 0xbd, 0xbc, 0x61, 0xa1, 0x4f, 0x32, 0xf1, 0x15, 0x14, 0xe4, 0xdb, 0x29, 0xf7,
+	0x7c, 0xfd, 0xa0, 0x9a, 0x57, 0x35, 0xd2, 0x2e, 0x5c, 0x45, 0xb5, 0xb9, 0x10, 0xde, 0x90, 0xd3,
+	0x85, 0x12, 0x37, 0xa1, 0x3c, 0xf2, 0x84, 0x34, 0x06, 0x32, 0x78, 0x17, 0xc8, 0xb9, 0x21, 0x75,
+	0xb4, 0xe1, 0xf9, 0x6b, 0x79, 0xf8, 0x27, 0xd8, 0x1b, 0x8c, 0x22, 0xa1, 0x86, 0xf1, 0x7c, 0xc3,
+	0x1a, 0xab, 0x8c, 0xf3, 0x3f, 0x73, 0xf0, 0x2c, 0xd3, 0x61, 0xbc, 0xb4, 0x82, 0x87, 0x3e, 0x5f,
+	0xac, 0xb5, 0x96, 0x2c, 0x6d, 0x0a, 0xc2, 0xdf, 0x03, 0x24, 0x21, 0x8d, 0x46, 0x5c, 0xbd, 0x31,
+	0xe5, 0xab, 0x93, 0x8c, 0x67, 0xb6, 0xa2, 0x69, 0x4a, 0x8a, 0x7f, 0x84, 0xd2, 0x38, 0x39, 0x45,
+	0xed, 0x7b, 0x5e, 0x65, 0xea, 0x99, 0xcc, 0xf6, 0x13, 0x4f, 0xd3, 0xe2, 0x78, 0x87, 0x06, 0x51,
+	0x28, 0x79, 0x28, 0xd5, 0x9b, 0x56, 0xa4, 0xcb, 0x10, 0x7f, 0x05, 0xe5, 0xf4, 0xb6, 0x71, 0xa1,
+	0xef, 0x54, 0xf3, 0xb5, 0x22, 0x5d, 0x43, 0xf1, 0x0f, 0x50, 0x10, 0x3c, 0x94, 0x86, 0x54, 0x2f,
+	0xda, 0x26, 0x63, 0x5a, 0xe8, 0x2f, 0xee, 0x00, 0x9e, 0x1c, 0xe1, 0x33, 0x38, 0x61, 0xa4, 0x63,
+	0x11, 0xda, 0xa7, 0x4e, 0x8b, 0xf4, 0x7b, 0x1d, 0xd6, 0x25, 0xa6, 0x7d, 0x6d, 0x13, 0x0b, 0x6d,
+	0xe1, 0x63, 0xc0, 0x69, 0xb2, 0x45, 0x18, 0x73, 0x28, 0xd2, 0x3e, 0x87, 0x13, 0x82, 0x72, 0x17,
+	0x73, 0x28, 0xa5, 0x2c, 0xe3, 0x2f, 0x40, 0x6f, 0x13, 0xc6, 0x8c, 0x1b, 0xd2, 0x77, 0xef, 0xba,
+	0xeb, 0xc5, 0x5f, 0xc2, 0x8b, 0x0c, 0x4b, 0x09, 0xeb, 0x3a, 0x1d, 0x46, 0x90, 0xf6, 0x09, 0x75,
+	0xed, 0xb4, 0x5a, 0xce, 0x6d, 0xaf, 0x8b, 0x72, 0xf1, 0xd1, 0x19, 0xca, 0x6c, 0x39, 0x8c, 0xa0,
+	0xfc, 0xc5, 0x5f, 0x39, 0x28, 0xae, 0x3e, 0x2f, 0xf8, 0x14, 0x8e, 0x8d, 0x46, 0x8f, 0x7d, 0xf6,
+	0xdc, 0x57, 0xf0, 0x32, 0xc5, 0x99, 0x4e, 0xf7, 0x8e, 0xda, 0x37, 0x4d, 0xb7, 0x6f, 0xb5, 0x4d,
+	0x03, 0x69, 0xf8, 0x10, 0x0e, 0x52, 0x34, 0xeb, 0x1a, 0x6d, 0x94, 0x8b, 0x1b, 0x4a, 0x81, 0x0d,
+	0xda, 0x73, 0xc9, 0xb5, 0x43, 0x4d, 0x82, 0xf2, 0x71, 0x43, 0x29, 0xaa, 0x6d, 0xb4, 0x6e, 0x0d,
+	0x4a, 0xd0, 0x76, 0x6c, 0x3e, 0x85, 0x77, 0x1d, 0xea, 0xf6, 0x99, 0x69, 0x74, 0x3a, 0x76, 0xe7,
+	0x06, 0xed, 0xe0, 0x13, 0x38, 0x4c, 0xb1, 0x96, 0xc3, 0xfa, 0x96, 0xe5, 0x30, 0x54, 0x58, 0xeb,
+	0xae, 0xdb, 0xb4, 0x59, 0xd3, 0xee, 0xdc, 0xf4, 0xaf, 0xa9, 0xd1, 0xb3, 0xd0, 0xee, 0xda, 0x69,
+	0x4d, 0xc3, 0xfc, 0x39, 0xae, 0xb7, 0x87, 0xbf, 0x84, 0x57, 0x29, 0xfc, 0x17, 0xdb, 0x69, 0x91,
+	0x8e, 0x19, 0x0b, 0x5c, 0xd2, 0x37, 0x99, 0xd1, 0x46, 0x45, 0x7c, 0x04, 0x28, 0x25, 0x71, 0xdc,
+	0x26, 0xa1, 0x08, 0x2e, 0x7e, 0xd7, 0xa0, 0x9c, 0xfd, 0x34, 0xe1, 0x17, 0xf0, 0x9c, 0xb9, 0x71,
+	0x62, 0x76, 0x6e, 0x87, 0x70, 0x90, 0xc0, 0xac, 0xd7, 0x68, 0xdb, 0xae, 0x4b, 0xac, 0x64, 0x5a,
+	0x09, 0x98, 0xdc, 0x9e, 0x45, 0x2c, 0x94, 0x53, 0x3b, 0xa5, 0x40, 0xe3, 0xd6, 0xb0, 0xdd, 0xb8,
+	0xfd, 0xd5, 0xdd, 0xe6, 0x31, 0x82, 0xfd, 0x84, 0x54, 0x37, 0x67, 0xa1, 0xed, 0xc6, 0xd7, 0x7f,
+	0x3f, 0x54, 0xb4, 0x8f, 0x0f, 0x15, 0xed, 0xbf, 0x87, 0x8a, 0xf6, 0xe1, 0xb1, 0xb2, 0xf5, 0xf1,
+	0xb1, 0xb2, 0xf5, 0xcf, 0x63, 0x65, 0xeb, 0xd7, 0xc3, 0xe4, 0x7f, 0xba, 0xfc, 0xa3, 0xca, 0xf9,
+	0x84, 0x8b, 0xfb, 0x82, 0xda, 0xf0, 0x6f, 0xff, 0x0f, 0x00, 0x00, 0xff, 0xff, 0x7e, 0x49, 0xee,
+	0x36, 0x6d, 0x07, 0x00, 0x00,
 }
 
 func (m *Complaint) Marshal() (dAtA []byte, err error) {
@@ -241,82 +531,109 @@ func (m *Complaint) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.ResponseDeadline) > 0 {
-		i -= len(m.ResponseDeadline)
-		copy(dAtA[i:], m.ResponseDeadline)
-		i = encodeVarintComplaint(dAtA, i, uint64(len(m.ResponseDeadline)))
+	if m.ClosedAt != nil {
+		n1, err1 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.ClosedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.ClosedAt):])
+		if err1 != nil {
+			return 0, err1
+		}
+		i -= n1
+		i = encodeVarintComplaint(dAtA, i, uint64(n1))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x8a
+	}
+	if m.LastActivityAt != nil {
+		n2, err2 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.LastActivityAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.LastActivityAt):])
+		if err2 != nil {
+			return 0, err2
+		}
+		i -= n2
+		i = encodeVarintComplaint(dAtA, i, uint64(n2))
 		i--
 		dAtA[i] = 0x1
 		i--
 		dAtA[i] = 0x82
 	}
-	if len(m.SubmittedAt) > 0 {
-		i -= len(m.SubmittedAt)
-		copy(dAtA[i:], m.SubmittedAt)
-		i = encodeVarintComplaint(dAtA, i, uint64(len(m.SubmittedAt)))
+	if len(m.Thread) > 0 {
+		for iNdEx := len(m.Thread) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Thread[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintComplaint(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x7a
+		}
+	}
+	if m.ResponseDeadline != nil {
+		n3, err3 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.ResponseDeadline, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.ResponseDeadline):])
+		if err3 != nil {
+			return 0, err3
+		}
+		i -= n3
+		i = encodeVarintComplaint(dAtA, i, uint64(n3))
 		i--
-		dAtA[i] = 0x7a
+		dAtA[i] = 0x72
+	}
+	if m.SubmittedAt != nil {
+		n4, err4 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.SubmittedAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.SubmittedAt):])
+		if err4 != nil {
+			return 0, err4
+		}
+		i -= n4
+		i = encodeVarintComplaint(dAtA, i, uint64(n4))
+		i--
+		dAtA[i] = 0x6a
 	}
 	if m.State != 0 {
 		i = encodeVarintComplaint(dAtA, i, uint64(m.State))
 		i--
-		dAtA[i] = 0x70
+		dAtA[i] = 0x60
 	}
 	if len(m.Summary) > 0 {
 		i -= len(m.Summary)
 		copy(dAtA[i:], m.Summary)
 		i = encodeVarintComplaint(dAtA, i, uint64(len(m.Summary)))
 		i--
-		dAtA[i] = 0x6a
+		dAtA[i] = 0x5a
 	}
 	if len(m.EvidenceHash) > 0 {
 		i -= len(m.EvidenceHash)
 		copy(dAtA[i:], m.EvidenceHash)
 		i = encodeVarintComplaint(dAtA, i, uint64(len(m.EvidenceHash)))
 		i--
-		dAtA[i] = 0x62
+		dAtA[i] = 0x52
 	}
 	if len(m.LessorTicketRef) > 0 {
 		i -= len(m.LessorTicketRef)
 		copy(dAtA[i:], m.LessorTicketRef)
 		i = encodeVarintComplaint(dAtA, i, uint64(len(m.LessorTicketRef)))
 		i--
-		dAtA[i] = 0x5a
-	}
-	if len(m.SourceIp) > 0 {
-		i -= len(m.SourceIp)
-		copy(dAtA[i:], m.SourceIp)
-		i = encodeVarintComplaint(dAtA, i, uint64(len(m.SourceIp)))
-		i--
-		dAtA[i] = 0x52
-	}
-	if len(m.IncidentDate) > 0 {
-		i -= len(m.IncidentDate)
-		copy(dAtA[i:], m.IncidentDate)
-		i = encodeVarintComplaint(dAtA, i, uint64(len(m.IncidentDate)))
-		i--
 		dAtA[i] = 0x4a
 	}
-	if len(m.ReportType) > 0 {
-		i -= len(m.ReportType)
-		copy(dAtA[i:], m.ReportType)
-		i = encodeVarintComplaint(dAtA, i, uint64(len(m.ReportType)))
+	if m.SourceIp != 0 {
+		i = encodeVarintComplaint(dAtA, i, uint64(m.SourceIp))
 		i--
-		dAtA[i] = 0x42
+		dAtA[i] = 0x40
 	}
-	if len(m.Category) > 0 {
-		i -= len(m.Category)
-		copy(dAtA[i:], m.Category)
-		i = encodeVarintComplaint(dAtA, i, uint64(len(m.Category)))
+	if m.IncidentTime != nil {
+		n5, err5 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.IncidentTime, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IncidentTime):])
+		if err5 != nil {
+			return 0, err5
+		}
+		i -= n5
+		i = encodeVarintComplaint(dAtA, i, uint64(n5))
 		i--
 		dAtA[i] = 0x3a
 	}
-	if len(m.XarfVersion) > 0 {
-		i -= len(m.XarfVersion)
-		copy(dAtA[i:], m.XarfVersion)
-		i = encodeVarintComplaint(dAtA, i, uint64(len(m.XarfVersion)))
+	if m.AbuseType != 0 {
+		i = encodeVarintComplaint(dAtA, i, uint64(m.AbuseType))
 		i--
-		dAtA[i] = 0x32
+		dAtA[i] = 0x30
 	}
 	if m.LesseeOrgId != 0 {
 		i = encodeVarintComplaint(dAtA, i, uint64(m.LesseeOrgId))
@@ -344,6 +661,70 @@ func (m *Complaint) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintComplaint(dAtA, i, uint64(len(m.Index)))
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ThreadMessage) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ThreadMessage) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ThreadMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.SentAt != nil {
+		n6, err6 := github_com_cosmos_gogoproto_types.StdTimeMarshalTo(*m.SentAt, dAtA[i-github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.SentAt):])
+		if err6 != nil {
+			return 0, err6
+		}
+		i -= n6
+		i = encodeVarintComplaint(dAtA, i, uint64(n6))
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.EvidenceHashes) > 0 {
+		for iNdEx := len(m.EvidenceHashes) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.EvidenceHashes[iNdEx])
+			copy(dAtA[i:], m.EvidenceHashes[iNdEx])
+			i = encodeVarintComplaint(dAtA, i, uint64(len(m.EvidenceHashes[iNdEx])))
+			i--
+			dAtA[i] = 0x2a
+		}
+	}
+	if len(m.Content) > 0 {
+		i -= len(m.Content)
+		copy(dAtA[i:], m.Content)
+		i = encodeVarintComplaint(dAtA, i, uint64(len(m.Content)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if m.MessageType != 0 {
+		i = encodeVarintComplaint(dAtA, i, uint64(m.MessageType))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.SenderRole != 0 {
+		i = encodeVarintComplaint(dAtA, i, uint64(m.SenderRole))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.SenderOrgId != 0 {
+		i = encodeVarintComplaint(dAtA, i, uint64(m.SenderOrgId))
+		i--
+		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -381,25 +762,15 @@ func (m *Complaint) Size() (n int) {
 	if m.LesseeOrgId != 0 {
 		n += 1 + sovComplaint(uint64(m.LesseeOrgId))
 	}
-	l = len(m.XarfVersion)
-	if l > 0 {
+	if m.AbuseType != 0 {
+		n += 1 + sovComplaint(uint64(m.AbuseType))
+	}
+	if m.IncidentTime != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.IncidentTime)
 		n += 1 + l + sovComplaint(uint64(l))
 	}
-	l = len(m.Category)
-	if l > 0 {
-		n += 1 + l + sovComplaint(uint64(l))
-	}
-	l = len(m.ReportType)
-	if l > 0 {
-		n += 1 + l + sovComplaint(uint64(l))
-	}
-	l = len(m.IncidentDate)
-	if l > 0 {
-		n += 1 + l + sovComplaint(uint64(l))
-	}
-	l = len(m.SourceIp)
-	if l > 0 {
-		n += 1 + l + sovComplaint(uint64(l))
+	if m.SourceIp != 0 {
+		n += 1 + sovComplaint(uint64(m.SourceIp))
 	}
 	l = len(m.LessorTicketRef)
 	if l > 0 {
@@ -416,13 +787,59 @@ func (m *Complaint) Size() (n int) {
 	if m.State != 0 {
 		n += 1 + sovComplaint(uint64(m.State))
 	}
-	l = len(m.SubmittedAt)
+	if m.SubmittedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.SubmittedAt)
+		n += 1 + l + sovComplaint(uint64(l))
+	}
+	if m.ResponseDeadline != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.ResponseDeadline)
+		n += 1 + l + sovComplaint(uint64(l))
+	}
+	if len(m.Thread) > 0 {
+		for _, e := range m.Thread {
+			l = e.Size()
+			n += 1 + l + sovComplaint(uint64(l))
+		}
+	}
+	if m.LastActivityAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.LastActivityAt)
+		n += 2 + l + sovComplaint(uint64(l))
+	}
+	if m.ClosedAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.ClosedAt)
+		n += 2 + l + sovComplaint(uint64(l))
+	}
+	return n
+}
+
+func (m *ThreadMessage) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.SenderOrgId != 0 {
+		n += 1 + sovComplaint(uint64(m.SenderOrgId))
+	}
+	if m.SenderRole != 0 {
+		n += 1 + sovComplaint(uint64(m.SenderRole))
+	}
+	if m.MessageType != 0 {
+		n += 1 + sovComplaint(uint64(m.MessageType))
+	}
+	l = len(m.Content)
 	if l > 0 {
 		n += 1 + l + sovComplaint(uint64(l))
 	}
-	l = len(m.ResponseDeadline)
-	if l > 0 {
-		n += 2 + l + sovComplaint(uint64(l))
+	if len(m.EvidenceHashes) > 0 {
+		for _, s := range m.EvidenceHashes {
+			l = len(s)
+			n += 1 + l + sovComplaint(uint64(l))
+		}
+	}
+	if m.SentAt != nil {
+		l = github_com_cosmos_gogoproto_types.SizeOfStdTime(*m.SentAt)
+		n += 1 + l + sovComplaint(uint64(l))
 	}
 	return n
 }
@@ -571,10 +988,10 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 				}
 			}
 		case 6:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field XarfVersion", wireType)
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AbuseType", wireType)
 			}
-			var stringLen uint64
+			m.AbuseType = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowComplaint
@@ -584,29 +1001,16 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.AbuseType |= AbuseType(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthComplaint
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthComplaint
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XarfVersion = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 7:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field IncidentTime", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowComplaint
@@ -616,93 +1020,33 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthComplaint
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthComplaint
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Category = string(dAtA[iNdEx:postIndex])
+			if m.IncidentTime == nil {
+				m.IncidentTime = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.IncidentTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 8:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ReportType", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowComplaint
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthComplaint
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthComplaint
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ReportType = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 9:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IncidentDate", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowComplaint
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthComplaint
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthComplaint
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.IncidentDate = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 10:
-			if wireType != 2 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field SourceIp", wireType)
 			}
-			var stringLen uint64
+			m.SourceIp = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowComplaint
@@ -712,25 +1056,12 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.SourceIp |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthComplaint
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthComplaint
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.SourceIp = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 11:
+		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field LessorTicketRef", wireType)
 			}
@@ -762,7 +1093,7 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 			}
 			m.LessorTicketRef = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 12:
+		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field EvidenceHash", wireType)
 			}
@@ -794,7 +1125,7 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 			}
 			m.EvidenceHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 13:
+		case 11:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Summary", wireType)
 			}
@@ -826,7 +1157,7 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 			}
 			m.Summary = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 14:
+		case 12:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
 			}
@@ -840,16 +1171,16 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.State |= uint64(b&0x7F) << shift
+				m.State |= ComplaintState(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-		case 15:
+		case 13:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field SubmittedAt", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowComplaint
@@ -859,28 +1190,281 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthComplaint
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthComplaint
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.SubmittedAt = string(dAtA[iNdEx:postIndex])
+			if m.SubmittedAt == nil {
+				m.SubmittedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.SubmittedAt, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
-		case 16:
+		case 14:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ResponseDeadline", wireType)
 			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComplaint
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ResponseDeadline == nil {
+				m.ResponseDeadline = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.ResponseDeadline, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 15:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Thread", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComplaint
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Thread = append(m.Thread, &ThreadMessage{})
+			if err := m.Thread[len(m.Thread)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 16:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LastActivityAt", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComplaint
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.LastActivityAt == nil {
+				m.LastActivityAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.LastActivityAt, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 17:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ClosedAt", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComplaint
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ClosedAt == nil {
+				m.ClosedAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.ClosedAt, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipComplaint(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ThreadMessage) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowComplaint
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ThreadMessage: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ThreadMessage: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SenderOrgId", wireType)
+			}
+			m.SenderOrgId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComplaint
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.SenderOrgId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SenderRole", wireType)
+			}
+			m.SenderRole = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComplaint
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.SenderRole |= SenderRole(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MessageType", wireType)
+			}
+			m.MessageType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComplaint
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.MessageType |= MessageType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Content", wireType)
+			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
@@ -907,7 +1491,75 @@ func (m *Complaint) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ResponseDeadline = string(dAtA[iNdEx:postIndex])
+			m.Content = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EvidenceHashes", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComplaint
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EvidenceHashes = append(m.EvidenceHashes, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SentAt", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowComplaint
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthComplaint
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.SentAt == nil {
+				m.SentAt = new(time.Time)
+			}
+			if err := github_com_cosmos_gogoproto_types.StdTimeUnmarshal(m.SentAt, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

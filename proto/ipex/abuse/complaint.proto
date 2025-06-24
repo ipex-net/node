@@ -2,24 +2,82 @@ syntax = "proto3";
 package ipex.abuse;
 
 option go_package = "ipex/x/abuse/types";
+import "google/protobuf/timestamp.proto";
+import "gogoproto/gogo.proto";
 
+// Main complaint structure
 message Complaint {
   string index = 1; 
   uint64 leaseId = 2; 
   uint64 subnetId = 3; 
   uint64 lessorOrgId = 4; 
   uint64 lesseeOrgId = 5; 
-  string xarfVersion = 6; 
-  string category = 7; 
-  string reportType = 8; 
-  string incidentDate = 9; 
-  string sourceIp = 10; 
-  string lessorTicketRef = 11; 
-  string evidenceHash = 12; 
-  string summary = 13; 
-  uint64 state = 14; 
-  string submittedAt = 15; 
-  string responseDeadline = 16; 
+  AbuseType abuseType = 6;  
+  google.protobuf.Timestamp incidentTime = 7 [(gogoproto.stdtime) = true];   
+  uint64 sourceIp = 8;       // IP in decimal format
+  string lessorTicketRef = 9; 
+  string evidenceHash = 10;  // IPFS hash for details
+  string summary = 11;       // Initial complaint summary
+  ComplaintState state = 12;
+  google.protobuf.Timestamp submittedAt = 13 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp resolutionDeadline = 14 [(gogoproto.stdtime) = true];
   
+  // Thread of all messages
+  repeated ThreadMessage thread = 15;
+  
+  // Tracking fields
+  google.protobuf.Timestamp lastActivityAt = 16 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp closedAt = 17 [(gogoproto.stdtime) = true]; // Only set when closed
+  bool resolutionFailed = 18
 }
 
+// Unified message structure for the thread
+message ThreadMessage {
+  uint64 senderOrgId = 1;     // Who sent this message
+  SenderRole senderRole = 2;  // Lessor or Lessee
+  MessageType messageType = 3;
+  string content = 4;         // The actual message
+  repeated string evidenceHashes = 5;
+  google.protobuf.Timestamp sentAt = 6 [(gogoproto.stdtime) = true];
+}
+
+// Who sent the message
+enum SenderRole {
+  SENDER_ROLE_UNSPECIFIED = 0;
+  SENDER_ROLE_LESSOR = 1;
+  SENDER_ROLE_LESSEE = 2;
+}
+
+// Type of message in thread
+enum MessageType {
+  MESSAGE_TYPE_UNSPECIFIED = 0;
+  // Lessee message types
+  MESSAGE_TYPE_RESPONSE = 1;         // Lessee's response (any type)
+  // Lessor message types  
+  MESSAGE_TYPE_FOLLOWUP = 2;         // Lessor asks follow-up question
+  MESSAGE_TYPE_CLOSE = 3;            // Lessor closes complaint
+}
+
+// Abuse types based on real-world data
+enum AbuseType {
+  ABUSE_TYPE_UNSPECIFIED = 0;
+  ABUSE_TYPE_COPYRIGHT_DMCA = 1;   
+  ABUSE_TYPE_SPAM = 2;             
+  ABUSE_TYPE_BRUTEFORCE = 3;       
+  ABUSE_TYPE_MALWARE = 4;           
+  ABUSE_TYPE_PORT_SCANNING = 5;     
+  ABUSE_TYPE_DOS_DDOS = 6;         
+  ABUSE_TYPE_PHISHING_FRAUD = 7;    
+  ABUSE_TYPE_HACKING = 8;           
+  ABUSE_TYPE_VIOLENCE_HATE_CSAM = 9;
+  ABUSE_TYPE_OTHER = 10;
+}
+
+// Complaint states
+enum ComplaintState {
+  STATE_UNSPECIFIED = 0;
+  STATE_SUBMITTED = 1;         // Initial state
+  STATE_RESPONDED = 2;         // Lessee replied at least once
+  STATE_AWAITING_RESPONSE = 3; // Lessor asked follow-up
+  STATE_CLOSED = 4;            // Lessor closed (resolved)
+}
