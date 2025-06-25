@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgSubmitComplaint{}
 
-func NewMsgSubmitComplaint(creator string, leaseId uint64, subnetId uint64, abuseType uint64, incidentTime int32, sourceIp uint64, lessorTicketRef string, evidenceHash string, summary string) *MsgSubmitComplaint {
+func NewMsgSubmitComplaint(creator string, leaseId uint64, subnetId uint64, abuseType uint64, incidentTime int64, sourceIp uint64, lessorTicketRef string, evidenceHash string, summary string) *MsgSubmitComplaint {
 	return &MsgSubmitComplaint{
 		Creator:         creator,
 		LeaseId:         leaseId,

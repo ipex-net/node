@@ -43,7 +43,7 @@ message MsgSubmitComplaint {
   uint64 leaseId         = 2;
   uint64 subnetId        = 3;
   uint64 abuseType       = 4;
-  int32  incidentTime    = 5;
+  int64 incidentTime    = 5;
   uint64 sourceIp        = 6;
   string lessorTicketRef = 7;
   string evidenceHash    = 8;

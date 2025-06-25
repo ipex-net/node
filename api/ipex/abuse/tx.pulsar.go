@@ -2,19 +2,18 @@
 package abuse
 
 import (
-	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	_ "cosmossdk.io/api/amino"
 	_ "cosmossdk.io/api/cosmos/msg/v1"
+	fmt "fmt"
 	_ "github.com/cosmos/cosmos-proto"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
 var (
@@ -988,8 +987,8 @@ func (x *fastReflection_MsgSubmitComplaint) Range(f func(protoreflect.FieldDescr
 			return
 		}
 	}
-	if x.IncidentTime != int32(0) {
-		value := protoreflect.ValueOfInt32(x.IncidentTime)
+	if x.IncidentTime != int64(0) {
+		value := protoreflect.ValueOfInt64(x.IncidentTime)
 		if !f(fd_MsgSubmitComplaint_incidentTime, value) {
 			return
 		}
@@ -1042,7 +1041,7 @@ func (x *fastReflection_MsgSubmitComplaint) Has(fd protoreflect.FieldDescriptor)
 	case "ipex.abuse.MsgSubmitComplaint.abuseType":
 		return x.AbuseType != uint64(0)
 	case "ipex.abuse.MsgSubmitComplaint.incidentTime":
-		return x.IncidentTime != int32(0)
+		return x.IncidentTime != int64(0)
 	case "ipex.abuse.MsgSubmitComplaint.sourceIp":
 		return x.SourceIp != uint64(0)
 	case "ipex.abuse.MsgSubmitComplaint.lessorTicketRef":
@@ -1076,7 +1075,7 @@ func (x *fastReflection_MsgSubmitComplaint) Clear(fd protoreflect.FieldDescripto
 	case "ipex.abuse.MsgSubmitComplaint.abuseType":
 		x.AbuseType = uint64(0)
 	case "ipex.abuse.MsgSubmitComplaint.incidentTime":
-		x.IncidentTime = int32(0)
+		x.IncidentTime = int64(0)
 	case "ipex.abuse.MsgSubmitComplaint.sourceIp":
 		x.SourceIp = uint64(0)
 	case "ipex.abuse.MsgSubmitComplaint.lessorTicketRef":
@@ -1115,7 +1114,7 @@ func (x *fastReflection_MsgSubmitComplaint) Get(descriptor protoreflect.FieldDes
 		return protoreflect.ValueOfUint64(value)
 	case "ipex.abuse.MsgSubmitComplaint.incidentTime":
 		value := x.IncidentTime
-		return protoreflect.ValueOfInt32(value)
+		return protoreflect.ValueOfInt64(value)
 	case "ipex.abuse.MsgSubmitComplaint.sourceIp":
 		value := x.SourceIp
 		return protoreflect.ValueOfUint64(value)
@@ -1157,7 +1156,7 @@ func (x *fastReflection_MsgSubmitComplaint) Set(fd protoreflect.FieldDescriptor,
 	case "ipex.abuse.MsgSubmitComplaint.abuseType":
 		x.AbuseType = value.Uint()
 	case "ipex.abuse.MsgSubmitComplaint.incidentTime":
-		x.IncidentTime = int32(value.Int())
+		x.IncidentTime = value.Int()
 	case "ipex.abuse.MsgSubmitComplaint.sourceIp":
 		x.SourceIp = value.Uint()
 	case "ipex.abuse.MsgSubmitComplaint.lessorTicketRef":
@@ -1226,7 +1225,7 @@ func (x *fastReflection_MsgSubmitComplaint) NewField(fd protoreflect.FieldDescri
 	case "ipex.abuse.MsgSubmitComplaint.abuseType":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.abuse.MsgSubmitComplaint.incidentTime":
-		return protoreflect.ValueOfInt32(int32(0))
+		return protoreflect.ValueOfInt64(int64(0))
 	case "ipex.abuse.MsgSubmitComplaint.sourceIp":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.abuse.MsgSubmitComplaint.lessorTicketRef":
@@ -1569,7 +1568,7 @@ func (x *fastReflection_MsgSubmitComplaint) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.IncidentTime |= int32(b&0x7F) << shift
+					x.IncidentTime |= int64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -2176,7 +2175,7 @@ type MsgSubmitComplaint struct {
 	LeaseId         uint64 `protobuf:"varint,2,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
 	SubnetId        uint64 `protobuf:"varint,3,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
 	AbuseType       uint64 `protobuf:"varint,4,opt,name=abuseType,proto3" json:"abuseType,omitempty"`
-	IncidentTime    int32  `protobuf:"varint,5,opt,name=incidentTime,proto3" json:"incidentTime,omitempty"`
+	IncidentTime    int64  `protobuf:"varint,5,opt,name=incidentTime,proto3" json:"incidentTime,omitempty"`
 	SourceIp        uint64 `protobuf:"varint,6,opt,name=sourceIp,proto3" json:"sourceIp,omitempty"`
 	LessorTicketRef string `protobuf:"bytes,7,opt,name=lessorTicketRef,proto3" json:"lessorTicketRef,omitempty"`
 	EvidenceHash    string `protobuf:"bytes,8,opt,name=evidenceHash,proto3" json:"evidenceHash,omitempty"`
@@ -2231,7 +2230,7 @@ func (x *MsgSubmitComplaint) GetAbuseType() uint64 {
 	return 0
 }
 
-func (x *MsgSubmitComplaint) GetIncidentTime() int32 {
+func (x *MsgSubmitComplaint) GetIncidentTime() int64 {
 	if x != nil {
 		return x.IncidentTime
 	}
@@ -2327,7 +2326,7 @@ var file_ipex_abuse_tx_proto_rawDesc = []byte{
 	0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x61, 0x62, 0x75, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x18,
 	0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x61, 0x62, 0x75, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65,
 	0x12, 0x22, 0x0a, 0x0c, 0x69, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x54, 0x69, 0x6d, 0x65,
-	0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0c, 0x69, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0c, 0x69, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74,
 	0x54, 0x69, 0x6d, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x49, 0x70,
 	0x18, 0x06, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x49, 0x70,
 	0x12, 0x28, 0x0a, 0x0f, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x54, 0x69, 0x63, 0x6b, 0x65, 0x74,
