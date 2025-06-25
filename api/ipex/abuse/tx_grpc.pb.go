@@ -8,6 +8,7 @@ package abuse
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -23,6 +24,7 @@ const (
 	Msg_SubmitComplaint_FullMethodName  = "/ipex.abuse.Msg/SubmitComplaint"
 	Msg_RespondComplaint_FullMethodName = "/ipex.abuse.Msg/RespondComplaint"
 	Msg_AddFollowup_FullMethodName      = "/ipex.abuse.Msg/AddFollowup"
+	Msg_CloseComplaint_FullMethodName   = "/ipex.abuse.Msg/CloseComplaint"
 )
 
 // MsgClient is the client API for Msg service.
@@ -35,6 +37,7 @@ type MsgClient interface {
 	SubmitComplaint(ctx context.Context, in *MsgSubmitComplaint, opts ...grpc.CallOption) (*MsgSubmitComplaintResponse, error)
 	RespondComplaint(ctx context.Context, in *MsgRespondComplaint, opts ...grpc.CallOption) (*MsgRespondComplaintResponse, error)
 	AddFollowup(ctx context.Context, in *MsgAddFollowup, opts ...grpc.CallOption) (*MsgAddFollowupResponse, error)
+	CloseComplaint(ctx context.Context, in *MsgCloseComplaint, opts ...grpc.CallOption) (*MsgCloseComplaintResponse, error)
 }
 
 type msgClient struct {
@@ -81,6 +84,15 @@ func (c *msgClient) AddFollowup(ctx context.Context, in *MsgAddFollowup, opts ..
 	return out, nil
 }
 
+func (c *msgClient) CloseComplaint(ctx context.Context, in *MsgCloseComplaint, opts ...grpc.CallOption) (*MsgCloseComplaintResponse, error) {
+	out := new(MsgCloseComplaintResponse)
+	err := c.cc.Invoke(ctx, Msg_CloseComplaint_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -91,6 +103,7 @@ type MsgServer interface {
 	SubmitComplaint(context.Context, *MsgSubmitComplaint) (*MsgSubmitComplaintResponse, error)
 	RespondComplaint(context.Context, *MsgRespondComplaint) (*MsgRespondComplaintResponse, error)
 	AddFollowup(context.Context, *MsgAddFollowup) (*MsgAddFollowupResponse, error)
+	CloseComplaint(context.Context, *MsgCloseComplaint) (*MsgCloseComplaintResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -109,6 +122,9 @@ func (UnimplementedMsgServer) RespondComplaint(context.Context, *MsgRespondCompl
 }
 func (UnimplementedMsgServer) AddFollowup(context.Context, *MsgAddFollowup) (*MsgAddFollowupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddFollowup not implemented")
+}
+func (UnimplementedMsgServer) CloseComplaint(context.Context, *MsgCloseComplaint) (*MsgCloseComplaintResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloseComplaint not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -195,6 +211,24 @@ func _Msg_AddFollowup_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_CloseComplaint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCloseComplaint)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CloseComplaint(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_CloseComplaint_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CloseComplaint(ctx, req.(*MsgCloseComplaint))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -217,6 +251,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddFollowup",
 			Handler:    _Msg_AddFollowup_Handler,
+		},
+		{
+			MethodName: "CloseComplaint",
+			Handler:    _Msg_CloseComplaint_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

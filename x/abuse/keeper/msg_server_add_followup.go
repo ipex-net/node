@@ -91,7 +91,7 @@ func (k msgServer) AddFollowup(goCtx context.Context, msg *types.MsgAddFollowup)
 	if !complaint.ResolutionFailed && currentTime.Before(*complaint.ResolutionDeadline) {
 		// Calculate new deadline: current time + 24 hours
 		newDeadline := currentTime.Add(24 * time.Hour)
-		
+
 		// Only update if the new deadline is later than the existing one
 		// This ensures we always use the furthest deadline
 		if newDeadline.After(*complaint.ResolutionDeadline) {

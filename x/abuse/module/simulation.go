@@ -35,6 +35,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgAddFollowup int = 100
 
+	opWeightMsgCloseComplaint = "op_weight_msg_close_complaint"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCloseComplaint int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -91,6 +95,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		abusesimulation.SimulateMsgAddFollowup(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgCloseComplaint int
+	simState.AppParams.GetOrGenerate(opWeightMsgCloseComplaint, &weightMsgCloseComplaint, nil,
+		func(_ *rand.Rand) {
+			weightMsgCloseComplaint = defaultWeightMsgCloseComplaint
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCloseComplaint,
+		abusesimulation.SimulateMsgCloseComplaint(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -120,6 +135,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgAddFollowup,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				abusesimulation.SimulateMsgAddFollowup(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgCloseComplaint,
+			defaultWeightMsgCloseComplaint,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				abusesimulation.SimulateMsgCloseComplaint(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

@@ -20,6 +20,7 @@ service Msg {
   rpc SubmitComplaint  (MsgSubmitComplaint ) returns (MsgSubmitComplaintResponse );
   rpc RespondComplaint (MsgRespondComplaint) returns (MsgRespondComplaintResponse);
   rpc AddFollowup      (MsgAddFollowup     ) returns (MsgAddFollowupResponse     );
+  rpc CloseComplaint   (MsgCloseComplaint  ) returns (MsgCloseComplaintResponse  );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -67,12 +68,20 @@ message MsgRespondComplaint {
 message MsgRespondComplaintResponse {}
 
 message MsgAddFollowup {
-    option (cosmos.msg.v1.signer) = "creator";
-    string creator      = 1;
-    uint64 complaintId  = 2;
-    string content      = 3;
-    string evidenceHash = 4;
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator      = 1;
+  uint64 complaintId  = 2;
+  string content      = 3;
+  string evidenceHash = 4;
 }
 
 message MsgAddFollowupResponse {}
+
+message MsgCloseComplaint {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator     = 1;
+  uint64 complaintId = 2;
+}
+
+message MsgCloseComplaintResponse {}
 
