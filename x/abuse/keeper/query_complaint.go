@@ -46,7 +46,7 @@ func (k Keeper) Complaint(ctx context.Context, req *types.QueryGetComplaintReque
 
 	val, found := k.GetComplaint(
 		ctx,
-		req.Index,
+		req.Id,
 	)
 	if !found {
 		return nil, status.Error(codes.NotFound, "not found")

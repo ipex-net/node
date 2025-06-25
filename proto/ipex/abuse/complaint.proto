@@ -7,7 +7,7 @@ import "gogoproto/gogo.proto";
 
 // Main complaint structure
 message Complaint {
-  string index = 1; 
+  uint64 id = 1; 
   uint64 leaseId = 2; 
   uint64 subnetId = 3; 
   uint64 lessorOrgId = 4; 

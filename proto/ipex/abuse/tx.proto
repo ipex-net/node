@@ -50,5 +50,7 @@ message MsgSubmitComplaint {
   string summary         = 9;
 }
 
-message MsgSubmitComplaintResponse {}
+message MsgSubmitComplaintResponse {
+  uint64 id = 1;
+}
 

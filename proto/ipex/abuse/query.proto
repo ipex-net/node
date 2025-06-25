@@ -22,7 +22,7 @@ service Query {
   
   // Queries a list of Complaint items.
   rpc Complaint    (QueryGetComplaintRequest) returns (QueryGetComplaintResponse) {
-    option (google.api.http).get = "/ipex/abuse/complaint/{index}";
+    option (google.api.http).get = "/ipex/abuse/complaint/{id}";
   
   }
   rpc ComplaintAll (QueryAllComplaintRequest) returns (QueryAllComplaintResponse) {
@@ -41,7 +41,7 @@ message QueryParamsResponse {
 }
 
 message QueryGetComplaintRequest {
-  string index = 1;
+  uint64 id = 1;
 }
 
 message QueryGetComplaintResponse {
