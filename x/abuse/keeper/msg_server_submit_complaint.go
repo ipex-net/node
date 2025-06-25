@@ -197,5 +197,61 @@ func (k msgServer) SubmitComplaint(goCtx context.Context, msg *types.MsgSubmitCo
         	subnetId)
 	}
 
-	return &types.MsgSubmitComplaintResponse{}, nil
+	// Create the complaint
+	complaint := types.Complaint{
+		LeaseId:            leaseId,
+		SubnetId:           subnetId,
+		LessorOrgId:        lease.OwnerOrg,
+		LesseeOrgId:        lease.LesseeOrg,
+		AbuseType:          abuseType,
+		IncidentTime:       &incidentTime,
+		SourceIp:           msg.SourceIp,
+		LessorTicketRef:    msg.LessorTicketRef,
+		EvidenceHash:       evidenceHash,
+		Summary:            summary,
+		State:              types.ComplaintState_STATE_SUBMITTED,
+		SubmittedAt:        &currentTime,
+		ResolutionDeadline: nil, // Will be set based on abuse type and SLA
+		Thread:             []*types.ThreadMessage{}, // Empty thread initially
+		LastActivityAt:     &currentTime,
+		ClosedAt:           nil,
+		ResolutionFailed:   false,
+	}
+
+	// Calculate resolution deadline based on abuse type (industry best practices)
+	var deadlineDuration time.Duration
+	switch abuseType {
+	case types.AbuseType_ABUSE_TYPE_VIOLENCE_HATE_CSAM:
+		deadlineDuration = 24 * time.Hour
+	case types.AbuseType_ABUSE_TYPE_PHISHING_FRAUD:
+		deadlineDuration = 24 * time.Hour
+	case types.AbuseType_ABUSE_TYPE_MALWARE:
+		deadlineDuration = 24 * time.Hour
+	case types.AbuseType_ABUSE_TYPE_DOS_DDOS:
+		deadlineDuration = 24 * time.Hour
+	case types.AbuseType_ABUSE_TYPE_HACKING:
+		deadlineDuration = 24 * time.Hour
+	case types.AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA:
+		deadlineDuration = 72 * time.Hour
+	case types.AbuseType_ABUSE_TYPE_SPAM:
+		deadlineDuration = 72 * time.Hour
+	case types.AbuseType_ABUSE_TYPE_BRUTEFORCE:
+		deadlineDuration = 72 * time.Hour
+	case types.AbuseType_ABUSE_TYPE_PORT_SCANNING:
+		deadlineDuration = 5 * 24 * time.Hour
+	case types.AbuseType_ABUSE_TYPE_OTHER:
+		// Default: Other complaints
+		deadlineDuration = 7 * 24 * time.Hour
+	default:
+		// Fallback: Standard business week
+		deadlineDuration = 7 * 24 * time.Hour
+	}
+	
+	resolutionDeadline := currentTime.Add(deadlineDuration)
+	complaint.ResolutionDeadline = &resolutionDeadline
+
+	// Store the complaint with auto-incrementing ID
+	complaintId := k.AppendComplaint(ctx, complaint)
+
+	return &types.MsgSubmitComplaintResponse{Id: complaintId}, nil
 }
