@@ -11,17 +11,112 @@ import (
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	reflect "reflect"
+	sort "sort"
 	sync "sync"
 )
 
+var _ protoreflect.Map = (*_LesseeReputation_10_map)(nil)
+
+type _LesseeReputation_10_map struct {
+	m *map[uint32]*AbuseTypeStats
+}
+
+func (x *_LesseeReputation_10_map) Len() int {
+	if x.m == nil {
+		return 0
+	}
+	return len(*x.m)
+}
+
+func (x *_LesseeReputation_10_map) Range(f func(protoreflect.MapKey, protoreflect.Value) bool) {
+	if x.m == nil {
+		return
+	}
+	for k, v := range *x.m {
+		mapKey := (protoreflect.MapKey)(protoreflect.ValueOfUint32(k))
+		mapValue := protoreflect.ValueOfMessage(v.ProtoReflect())
+		if !f(mapKey, mapValue) {
+			break
+		}
+	}
+}
+
+func (x *_LesseeReputation_10_map) Has(key protoreflect.MapKey) bool {
+	if x.m == nil {
+		return false
+	}
+	keyUnwrapped := key.Uint()
+	concreteValue := (uint32)(keyUnwrapped)
+	_, ok := (*x.m)[concreteValue]
+	return ok
+}
+
+func (x *_LesseeReputation_10_map) Clear(key protoreflect.MapKey) {
+	if x.m == nil {
+		return
+	}
+	keyUnwrapped := key.Uint()
+	concreteKey := (uint32)(keyUnwrapped)
+	delete(*x.m, concreteKey)
+}
+
+func (x *_LesseeReputation_10_map) Get(key protoreflect.MapKey) protoreflect.Value {
+	if x.m == nil {
+		return protoreflect.Value{}
+	}
+	keyUnwrapped := key.Uint()
+	concreteKey := (uint32)(keyUnwrapped)
+	v, ok := (*x.m)[concreteKey]
+	if !ok {
+		return protoreflect.Value{}
+	}
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_LesseeReputation_10_map) Set(key protoreflect.MapKey, value protoreflect.Value) {
+	if !key.IsValid() || !value.IsValid() {
+		panic("invalid key or value provided")
+	}
+	keyUnwrapped := key.Uint()
+	concreteKey := (uint32)(keyUnwrapped)
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*AbuseTypeStats)
+	(*x.m)[concreteKey] = concreteValue
+}
+
+func (x *_LesseeReputation_10_map) Mutable(key protoreflect.MapKey) protoreflect.Value {
+	keyUnwrapped := key.Uint()
+	concreteKey := (uint32)(keyUnwrapped)
+	v, ok := (*x.m)[concreteKey]
+	if ok {
+		return protoreflect.ValueOfMessage(v.ProtoReflect())
+	}
+	newValue := new(AbuseTypeStats)
+	(*x.m)[concreteKey] = newValue
+	return protoreflect.ValueOfMessage(newValue.ProtoReflect())
+}
+
+func (x *_LesseeReputation_10_map) NewValue() protoreflect.Value {
+	v := new(AbuseTypeStats)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_LesseeReputation_10_map) IsValid() bool {
+	return x.m != nil
+}
+
 var (
-	md_LesseeReputation             protoreflect.MessageDescriptor
-	fd_LesseeReputation_index       protoreflect.FieldDescriptor
-	fd_LesseeReputation_level1Count protoreflect.FieldDescriptor
-	fd_LesseeReputation_level2Count protoreflect.FieldDescriptor
-	fd_LesseeReputation_level3Count protoreflect.FieldDescriptor
-	fd_LesseeReputation_level4Count protoreflect.FieldDescriptor
-	fd_LesseeReputation_lastUpdated protoreflect.FieldDescriptor
+	md_LesseeReputation                 protoreflect.MessageDescriptor
+	fd_LesseeReputation_index           protoreflect.FieldDescriptor
+	fd_LesseeReputation_level1Count     protoreflect.FieldDescriptor
+	fd_LesseeReputation_level2Count     protoreflect.FieldDescriptor
+	fd_LesseeReputation_level3Count     protoreflect.FieldDescriptor
+	fd_LesseeReputation_level4Count     protoreflect.FieldDescriptor
+	fd_LesseeReputation_lastUpdated     protoreflect.FieldDescriptor
+	fd_LesseeReputation_abuseResolved   protoreflect.FieldDescriptor
+	fd_LesseeReputation_abuseFailed     protoreflect.FieldDescriptor
+	fd_LesseeReputation_abuseInProgress protoreflect.FieldDescriptor
+	fd_LesseeReputation_abuseByType     protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -33,6 +128,10 @@ func init() {
 	fd_LesseeReputation_level3Count = md_LesseeReputation.Fields().ByName("level3Count")
 	fd_LesseeReputation_level4Count = md_LesseeReputation.Fields().ByName("level4Count")
 	fd_LesseeReputation_lastUpdated = md_LesseeReputation.Fields().ByName("lastUpdated")
+	fd_LesseeReputation_abuseResolved = md_LesseeReputation.Fields().ByName("abuseResolved")
+	fd_LesseeReputation_abuseFailed = md_LesseeReputation.Fields().ByName("abuseFailed")
+	fd_LesseeReputation_abuseInProgress = md_LesseeReputation.Fields().ByName("abuseInProgress")
+	fd_LesseeReputation_abuseByType = md_LesseeReputation.Fields().ByName("abuseByType")
 }
 
 var _ protoreflect.Message = (*fastReflection_LesseeReputation)(nil)
@@ -136,6 +235,30 @@ func (x *fastReflection_LesseeReputation) Range(f func(protoreflect.FieldDescrip
 			return
 		}
 	}
+	if x.AbuseResolved != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.AbuseResolved)
+		if !f(fd_LesseeReputation_abuseResolved, value) {
+			return
+		}
+	}
+	if x.AbuseFailed != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.AbuseFailed)
+		if !f(fd_LesseeReputation_abuseFailed, value) {
+			return
+		}
+	}
+	if x.AbuseInProgress != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.AbuseInProgress)
+		if !f(fd_LesseeReputation_abuseInProgress, value) {
+			return
+		}
+	}
+	if len(x.AbuseByType) != 0 {
+		value := protoreflect.ValueOfMap(&_LesseeReputation_10_map{m: &x.AbuseByType})
+		if !f(fd_LesseeReputation_abuseByType, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -163,6 +286,14 @@ func (x *fastReflection_LesseeReputation) Has(fd protoreflect.FieldDescriptor) b
 		return x.Level4Count != int32(0)
 	case "ipex.trust.LesseeReputation.lastUpdated":
 		return x.LastUpdated != nil
+	case "ipex.trust.LesseeReputation.abuseResolved":
+		return x.AbuseResolved != uint64(0)
+	case "ipex.trust.LesseeReputation.abuseFailed":
+		return x.AbuseFailed != uint64(0)
+	case "ipex.trust.LesseeReputation.abuseInProgress":
+		return x.AbuseInProgress != uint64(0)
+	case "ipex.trust.LesseeReputation.abuseByType":
+		return len(x.AbuseByType) != 0
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -191,6 +322,14 @@ func (x *fastReflection_LesseeReputation) Clear(fd protoreflect.FieldDescriptor)
 		x.Level4Count = int32(0)
 	case "ipex.trust.LesseeReputation.lastUpdated":
 		x.LastUpdated = nil
+	case "ipex.trust.LesseeReputation.abuseResolved":
+		x.AbuseResolved = uint64(0)
+	case "ipex.trust.LesseeReputation.abuseFailed":
+		x.AbuseFailed = uint64(0)
+	case "ipex.trust.LesseeReputation.abuseInProgress":
+		x.AbuseInProgress = uint64(0)
+	case "ipex.trust.LesseeReputation.abuseByType":
+		x.AbuseByType = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -225,6 +364,21 @@ func (x *fastReflection_LesseeReputation) Get(descriptor protoreflect.FieldDescr
 	case "ipex.trust.LesseeReputation.lastUpdated":
 		value := x.LastUpdated
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.trust.LesseeReputation.abuseResolved":
+		value := x.AbuseResolved
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.LesseeReputation.abuseFailed":
+		value := x.AbuseFailed
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.LesseeReputation.abuseInProgress":
+		value := x.AbuseInProgress
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.LesseeReputation.abuseByType":
+		if len(x.AbuseByType) == 0 {
+			return protoreflect.ValueOfMap(&_LesseeReputation_10_map{})
+		}
+		mapValue := &_LesseeReputation_10_map{m: &x.AbuseByType}
+		return protoreflect.ValueOfMap(mapValue)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -257,6 +411,16 @@ func (x *fastReflection_LesseeReputation) Set(fd protoreflect.FieldDescriptor, v
 		x.Level4Count = int32(value.Int())
 	case "ipex.trust.LesseeReputation.lastUpdated":
 		x.LastUpdated = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.trust.LesseeReputation.abuseResolved":
+		x.AbuseResolved = value.Uint()
+	case "ipex.trust.LesseeReputation.abuseFailed":
+		x.AbuseFailed = value.Uint()
+	case "ipex.trust.LesseeReputation.abuseInProgress":
+		x.AbuseInProgress = value.Uint()
+	case "ipex.trust.LesseeReputation.abuseByType":
+		mv := value.Map()
+		cmv := mv.(*_LesseeReputation_10_map)
+		x.AbuseByType = *cmv.m
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -282,6 +446,12 @@ func (x *fastReflection_LesseeReputation) Mutable(fd protoreflect.FieldDescripto
 			x.LastUpdated = new(timestamppb.Timestamp)
 		}
 		return protoreflect.ValueOfMessage(x.LastUpdated.ProtoReflect())
+	case "ipex.trust.LesseeReputation.abuseByType":
+		if x.AbuseByType == nil {
+			x.AbuseByType = make(map[uint32]*AbuseTypeStats)
+		}
+		value := &_LesseeReputation_10_map{m: &x.AbuseByType}
+		return protoreflect.ValueOfMap(value)
 	case "ipex.trust.LesseeReputation.index":
 		panic(fmt.Errorf("field index of message ipex.trust.LesseeReputation is not mutable"))
 	case "ipex.trust.LesseeReputation.level1Count":
@@ -292,6 +462,12 @@ func (x *fastReflection_LesseeReputation) Mutable(fd protoreflect.FieldDescripto
 		panic(fmt.Errorf("field level3Count of message ipex.trust.LesseeReputation is not mutable"))
 	case "ipex.trust.LesseeReputation.level4Count":
 		panic(fmt.Errorf("field level4Count of message ipex.trust.LesseeReputation is not mutable"))
+	case "ipex.trust.LesseeReputation.abuseResolved":
+		panic(fmt.Errorf("field abuseResolved of message ipex.trust.LesseeReputation is not mutable"))
+	case "ipex.trust.LesseeReputation.abuseFailed":
+		panic(fmt.Errorf("field abuseFailed of message ipex.trust.LesseeReputation is not mutable"))
+	case "ipex.trust.LesseeReputation.abuseInProgress":
+		panic(fmt.Errorf("field abuseInProgress of message ipex.trust.LesseeReputation is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -318,6 +494,15 @@ func (x *fastReflection_LesseeReputation) NewField(fd protoreflect.FieldDescript
 	case "ipex.trust.LesseeReputation.lastUpdated":
 		m := new(timestamppb.Timestamp)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.trust.LesseeReputation.abuseResolved":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.LesseeReputation.abuseFailed":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.LesseeReputation.abuseInProgress":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.LesseeReputation.abuseByType":
+		m := make(map[uint32]*AbuseTypeStats)
+		return protoreflect.ValueOfMap(&_LesseeReputation_10_map{m: &m})
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -406,6 +591,43 @@ func (x *fastReflection_LesseeReputation) ProtoMethods() *protoiface.Methods {
 			l = options.Size(x.LastUpdated)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		if x.AbuseResolved != 0 {
+			n += 1 + runtime.Sov(uint64(x.AbuseResolved))
+		}
+		if x.AbuseFailed != 0 {
+			n += 1 + runtime.Sov(uint64(x.AbuseFailed))
+		}
+		if x.AbuseInProgress != 0 {
+			n += 1 + runtime.Sov(uint64(x.AbuseInProgress))
+		}
+		if len(x.AbuseByType) > 0 {
+			SiZeMaP := func(k uint32, v *AbuseTypeStats) {
+				l := 0
+				if v != nil {
+					l = options.Size(v)
+				}
+				l += 1 + runtime.Sov(uint64(l))
+				mapEntrySize := 1 + runtime.Sov(uint64(k)) + l
+				n += mapEntrySize + 1 + runtime.Sov(uint64(mapEntrySize))
+			}
+			if options.Deterministic {
+				sortme := make([]uint32, 0, len(x.AbuseByType))
+				for k := range x.AbuseByType {
+					sortme = append(sortme, k)
+				}
+				sort.Slice(sortme, func(i, j int) bool {
+					return sortme[i] < sortme[j]
+				})
+				for _, k := range sortme {
+					v := x.AbuseByType[k]
+					SiZeMaP(k, v)
+				}
+			} else {
+				for k, v := range x.AbuseByType {
+					SiZeMaP(k, v)
+				}
+			}
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -434,6 +656,69 @@ func (x *fastReflection_LesseeReputation) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.AbuseByType) > 0 {
+			MaRsHaLmAp := func(k uint32, v *AbuseTypeStats) (protoiface.MarshalOutput, error) {
+				baseI := i
+				encoded, err := options.Marshal(v)
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0x12
+				i = runtime.EncodeVarint(dAtA, i, uint64(k))
+				i--
+				dAtA[i] = 0x8
+				i = runtime.EncodeVarint(dAtA, i, uint64(baseI-i))
+				i--
+				dAtA[i] = 0x52
+				return protoiface.MarshalOutput{}, nil
+			}
+			if options.Deterministic {
+				keysForAbuseByType := make([]uint32, 0, len(x.AbuseByType))
+				for k := range x.AbuseByType {
+					keysForAbuseByType = append(keysForAbuseByType, uint32(k))
+				}
+				sort.Slice(keysForAbuseByType, func(i, j int) bool {
+					return keysForAbuseByType[i] < keysForAbuseByType[j]
+				})
+				for iNdEx := len(keysForAbuseByType) - 1; iNdEx >= 0; iNdEx-- {
+					v := x.AbuseByType[uint32(keysForAbuseByType[iNdEx])]
+					out, err := MaRsHaLmAp(keysForAbuseByType[iNdEx], v)
+					if err != nil {
+						return out, err
+					}
+				}
+			} else {
+				for k := range x.AbuseByType {
+					v := x.AbuseByType[k]
+					out, err := MaRsHaLmAp(k, v)
+					if err != nil {
+						return out, err
+					}
+				}
+			}
+		}
+		if x.AbuseInProgress != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.AbuseInProgress))
+			i--
+			dAtA[i] = 0x48
+		}
+		if x.AbuseFailed != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.AbuseFailed))
+			i--
+			dAtA[i] = 0x40
+		}
+		if x.AbuseResolved != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.AbuseResolved))
+			i--
+			dAtA[i] = 0x38
 		}
 		if x.LastUpdated != nil {
 			encoded, err := options.Marshal(x.LastUpdated)
@@ -654,6 +939,757 @@ func (x *fastReflection_LesseeReputation) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
+			case 7:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AbuseResolved", wireType)
+				}
+				x.AbuseResolved = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.AbuseResolved |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 8:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AbuseFailed", wireType)
+				}
+				x.AbuseFailed = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.AbuseFailed |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 9:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AbuseInProgress", wireType)
+				}
+				x.AbuseInProgress = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.AbuseInProgress |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 10:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AbuseByType", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.AbuseByType == nil {
+					x.AbuseByType = make(map[uint32]*AbuseTypeStats)
+				}
+				var mapkey uint32
+				var mapvalue *AbuseTypeStats
+				for iNdEx < postIndex {
+					entryPreIndex := iNdEx
+					var wire uint64
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+						}
+						if iNdEx >= l {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						wire |= uint64(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					fieldNum := int32(wire >> 3)
+					if fieldNum == 1 {
+						for shift := uint(0); ; shift += 7 {
+							if shift >= 64 {
+								return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+							}
+							if iNdEx >= l {
+								return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+							}
+							b := dAtA[iNdEx]
+							iNdEx++
+							mapkey |= uint32(b&0x7F) << shift
+							if b < 0x80 {
+								break
+							}
+						}
+					} else if fieldNum == 2 {
+						var mapmsglen int
+						for shift := uint(0); ; shift += 7 {
+							if shift >= 64 {
+								return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+							}
+							if iNdEx >= l {
+								return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+							}
+							b := dAtA[iNdEx]
+							iNdEx++
+							mapmsglen |= int(b&0x7F) << shift
+							if b < 0x80 {
+								break
+							}
+						}
+						if mapmsglen < 0 {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+						}
+						postmsgIndex := iNdEx + mapmsglen
+						if postmsgIndex < 0 {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+						}
+						if postmsgIndex > l {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+						}
+						mapvalue = &AbuseTypeStats{}
+						if err := options.Unmarshal(dAtA[iNdEx:postmsgIndex], mapvalue); err != nil {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+						}
+						iNdEx = postmsgIndex
+					} else {
+						iNdEx = entryPreIndex
+						skippy, err := runtime.Skip(dAtA[iNdEx:])
+						if err != nil {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+						}
+						if (skippy < 0) || (iNdEx+skippy) < 0 {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+						}
+						if (iNdEx + skippy) > postIndex {
+							return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+						}
+						iNdEx += skippy
+					}
+				}
+				x.AbuseByType[mapkey] = mapvalue
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_AbuseTypeStats              protoreflect.MessageDescriptor
+	fd_AbuseTypeStats_resolved     protoreflect.FieldDescriptor
+	fd_AbuseTypeStats_failed       protoreflect.FieldDescriptor
+	fd_AbuseTypeStats_inProgress   protoreflect.FieldDescriptor
+	fd_AbuseTypeStats_lastIncident protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_trust_lessee_reputation_proto_init()
+	md_AbuseTypeStats = File_ipex_trust_lessee_reputation_proto.Messages().ByName("AbuseTypeStats")
+	fd_AbuseTypeStats_resolved = md_AbuseTypeStats.Fields().ByName("resolved")
+	fd_AbuseTypeStats_failed = md_AbuseTypeStats.Fields().ByName("failed")
+	fd_AbuseTypeStats_inProgress = md_AbuseTypeStats.Fields().ByName("inProgress")
+	fd_AbuseTypeStats_lastIncident = md_AbuseTypeStats.Fields().ByName("lastIncident")
+}
+
+var _ protoreflect.Message = (*fastReflection_AbuseTypeStats)(nil)
+
+type fastReflection_AbuseTypeStats AbuseTypeStats
+
+func (x *AbuseTypeStats) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_AbuseTypeStats)(x)
+}
+
+func (x *AbuseTypeStats) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_trust_lessee_reputation_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_AbuseTypeStats_messageType fastReflection_AbuseTypeStats_messageType
+var _ protoreflect.MessageType = fastReflection_AbuseTypeStats_messageType{}
+
+type fastReflection_AbuseTypeStats_messageType struct{}
+
+func (x fastReflection_AbuseTypeStats_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_AbuseTypeStats)(nil)
+}
+func (x fastReflection_AbuseTypeStats_messageType) New() protoreflect.Message {
+	return new(fastReflection_AbuseTypeStats)
+}
+func (x fastReflection_AbuseTypeStats_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_AbuseTypeStats
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_AbuseTypeStats) Descriptor() protoreflect.MessageDescriptor {
+	return md_AbuseTypeStats
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_AbuseTypeStats) Type() protoreflect.MessageType {
+	return _fastReflection_AbuseTypeStats_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_AbuseTypeStats) New() protoreflect.Message {
+	return new(fastReflection_AbuseTypeStats)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_AbuseTypeStats) Interface() protoreflect.ProtoMessage {
+	return (*AbuseTypeStats)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_AbuseTypeStats) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Resolved != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Resolved)
+		if !f(fd_AbuseTypeStats_resolved, value) {
+			return
+		}
+	}
+	if x.Failed != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Failed)
+		if !f(fd_AbuseTypeStats_failed, value) {
+			return
+		}
+	}
+	if x.InProgress != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.InProgress)
+		if !f(fd_AbuseTypeStats_inProgress, value) {
+			return
+		}
+	}
+	if x.LastIncident != nil {
+		value := protoreflect.ValueOfMessage(x.LastIncident.ProtoReflect())
+		if !f(fd_AbuseTypeStats_lastIncident, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_AbuseTypeStats) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.trust.AbuseTypeStats.resolved":
+		return x.Resolved != uint64(0)
+	case "ipex.trust.AbuseTypeStats.failed":
+		return x.Failed != uint64(0)
+	case "ipex.trust.AbuseTypeStats.inProgress":
+		return x.InProgress != uint64(0)
+	case "ipex.trust.AbuseTypeStats.lastIncident":
+		return x.LastIncident != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.AbuseTypeStats"))
+		}
+		panic(fmt.Errorf("message ipex.trust.AbuseTypeStats does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_AbuseTypeStats) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.trust.AbuseTypeStats.resolved":
+		x.Resolved = uint64(0)
+	case "ipex.trust.AbuseTypeStats.failed":
+		x.Failed = uint64(0)
+	case "ipex.trust.AbuseTypeStats.inProgress":
+		x.InProgress = uint64(0)
+	case "ipex.trust.AbuseTypeStats.lastIncident":
+		x.LastIncident = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.AbuseTypeStats"))
+		}
+		panic(fmt.Errorf("message ipex.trust.AbuseTypeStats does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_AbuseTypeStats) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.trust.AbuseTypeStats.resolved":
+		value := x.Resolved
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.AbuseTypeStats.failed":
+		value := x.Failed
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.AbuseTypeStats.inProgress":
+		value := x.InProgress
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.AbuseTypeStats.lastIncident":
+		value := x.LastIncident
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.AbuseTypeStats"))
+		}
+		panic(fmt.Errorf("message ipex.trust.AbuseTypeStats does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_AbuseTypeStats) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.trust.AbuseTypeStats.resolved":
+		x.Resolved = value.Uint()
+	case "ipex.trust.AbuseTypeStats.failed":
+		x.Failed = value.Uint()
+	case "ipex.trust.AbuseTypeStats.inProgress":
+		x.InProgress = value.Uint()
+	case "ipex.trust.AbuseTypeStats.lastIncident":
+		x.LastIncident = value.Message().Interface().(*timestamppb.Timestamp)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.AbuseTypeStats"))
+		}
+		panic(fmt.Errorf("message ipex.trust.AbuseTypeStats does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_AbuseTypeStats) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.trust.AbuseTypeStats.lastIncident":
+		if x.LastIncident == nil {
+			x.LastIncident = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.LastIncident.ProtoReflect())
+	case "ipex.trust.AbuseTypeStats.resolved":
+		panic(fmt.Errorf("field resolved of message ipex.trust.AbuseTypeStats is not mutable"))
+	case "ipex.trust.AbuseTypeStats.failed":
+		panic(fmt.Errorf("field failed of message ipex.trust.AbuseTypeStats is not mutable"))
+	case "ipex.trust.AbuseTypeStats.inProgress":
+		panic(fmt.Errorf("field inProgress of message ipex.trust.AbuseTypeStats is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.AbuseTypeStats"))
+		}
+		panic(fmt.Errorf("message ipex.trust.AbuseTypeStats does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_AbuseTypeStats) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.trust.AbuseTypeStats.resolved":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.AbuseTypeStats.failed":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.AbuseTypeStats.inProgress":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.AbuseTypeStats.lastIncident":
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.AbuseTypeStats"))
+		}
+		panic(fmt.Errorf("message ipex.trust.AbuseTypeStats does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_AbuseTypeStats) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.trust.AbuseTypeStats", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_AbuseTypeStats) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_AbuseTypeStats) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_AbuseTypeStats) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_AbuseTypeStats) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*AbuseTypeStats)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.Resolved != 0 {
+			n += 1 + runtime.Sov(uint64(x.Resolved))
+		}
+		if x.Failed != 0 {
+			n += 1 + runtime.Sov(uint64(x.Failed))
+		}
+		if x.InProgress != 0 {
+			n += 1 + runtime.Sov(uint64(x.InProgress))
+		}
+		if x.LastIncident != nil {
+			l = options.Size(x.LastIncident)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*AbuseTypeStats)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.LastIncident != nil {
+			encoded, err := options.Marshal(x.LastIncident)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x22
+		}
+		if x.InProgress != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.InProgress))
+			i--
+			dAtA[i] = 0x18
+		}
+		if x.Failed != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Failed))
+			i--
+			dAtA[i] = 0x10
+		}
+		if x.Resolved != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Resolved))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*AbuseTypeStats)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: AbuseTypeStats: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: AbuseTypeStats: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Resolved", wireType)
+				}
+				x.Resolved = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Resolved |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Failed", wireType)
+				}
+				x.Failed = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Failed |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field InProgress", wireType)
+				}
+				x.InProgress = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.InProgress |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 4:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LastIncident", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.LastIncident == nil {
+					x.LastIncident = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.LastIncident); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -707,12 +1743,16 @@ type LesseeReputation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Index       uint64                 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
-	Level1Count int32                  `protobuf:"varint,2,opt,name=level1Count,proto3" json:"level1Count,omitempty"`
-	Level2Count int32                  `protobuf:"varint,3,opt,name=level2Count,proto3" json:"level2Count,omitempty"`
-	Level3Count int32                  `protobuf:"varint,4,opt,name=level3Count,proto3" json:"level3Count,omitempty"`
-	Level4Count int32                  `protobuf:"varint,5,opt,name=level4Count,proto3" json:"level4Count,omitempty"`
-	LastUpdated *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=lastUpdated,proto3" json:"lastUpdated,omitempty"`
+	Index           uint64                     `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
+	Level1Count     int32                      `protobuf:"varint,2,opt,name=level1Count,proto3" json:"level1Count,omitempty"`
+	Level2Count     int32                      `protobuf:"varint,3,opt,name=level2Count,proto3" json:"level2Count,omitempty"`
+	Level3Count     int32                      `protobuf:"varint,4,opt,name=level3Count,proto3" json:"level3Count,omitempty"`
+	Level4Count     int32                      `protobuf:"varint,5,opt,name=level4Count,proto3" json:"level4Count,omitempty"`
+	LastUpdated     *timestamppb.Timestamp     `protobuf:"bytes,6,opt,name=lastUpdated,proto3" json:"lastUpdated,omitempty"`
+	AbuseResolved   uint64                     `protobuf:"varint,7,opt,name=abuseResolved,proto3" json:"abuseResolved,omitempty"`
+	AbuseFailed     uint64                     `protobuf:"varint,8,opt,name=abuseFailed,proto3" json:"abuseFailed,omitempty"`
+	AbuseInProgress uint64                     `protobuf:"varint,9,opt,name=abuseInProgress,proto3" json:"abuseInProgress,omitempty"`
+	AbuseByType     map[uint32]*AbuseTypeStats `protobuf:"bytes,10,rep,name=abuseByType,proto3" json:"abuseByType,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *LesseeReputation) Reset() {
@@ -777,6 +1817,93 @@ func (x *LesseeReputation) GetLastUpdated() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *LesseeReputation) GetAbuseResolved() uint64 {
+	if x != nil {
+		return x.AbuseResolved
+	}
+	return 0
+}
+
+func (x *LesseeReputation) GetAbuseFailed() uint64 {
+	if x != nil {
+		return x.AbuseFailed
+	}
+	return 0
+}
+
+func (x *LesseeReputation) GetAbuseInProgress() uint64 {
+	if x != nil {
+		return x.AbuseInProgress
+	}
+	return 0
+}
+
+func (x *LesseeReputation) GetAbuseByType() map[uint32]*AbuseTypeStats {
+	if x != nil {
+		return x.AbuseByType
+	}
+	return nil
+}
+
+type AbuseTypeStats struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Resolved     uint64                 `protobuf:"varint,1,opt,name=resolved,proto3" json:"resolved,omitempty"`
+	Failed       uint64                 `protobuf:"varint,2,opt,name=failed,proto3" json:"failed,omitempty"`
+	InProgress   uint64                 `protobuf:"varint,3,opt,name=inProgress,proto3" json:"inProgress,omitempty"`
+	LastIncident *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=lastIncident,proto3" json:"lastIncident,omitempty"`
+}
+
+func (x *AbuseTypeStats) Reset() {
+	*x = AbuseTypeStats{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_trust_lessee_reputation_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AbuseTypeStats) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AbuseTypeStats) ProtoMessage() {}
+
+// Deprecated: Use AbuseTypeStats.ProtoReflect.Descriptor instead.
+func (*AbuseTypeStats) Descriptor() ([]byte, []int) {
+	return file_ipex_trust_lessee_reputation_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *AbuseTypeStats) GetResolved() uint64 {
+	if x != nil {
+		return x.Resolved
+	}
+	return 0
+}
+
+func (x *AbuseTypeStats) GetFailed() uint64 {
+	if x != nil {
+		return x.Failed
+	}
+	return 0
+}
+
+func (x *AbuseTypeStats) GetInProgress() uint64 {
+	if x != nil {
+		return x.InProgress
+	}
+	return 0
+}
+
+func (x *AbuseTypeStats) GetLastIncident() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastIncident
+	}
+	return nil
+}
+
 var File_ipex_trust_lessee_reputation_proto protoreflect.FileDescriptor
 
 var file_ipex_trust_lessee_reputation_proto_rawDesc = []byte{
@@ -786,7 +1913,7 @@ var file_ipex_trust_lessee_reputation_proto_rawDesc = []byte{
 	0x73, 0x74, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67,
-	0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xf4, 0x01, 0x0a, 0x10, 0x4c, 0x65,
+	0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x95, 0x04, 0x0a, 0x10, 0x4c, 0x65,
 	0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x14,
 	0x0a, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x69,
 	0x6e, 0x64, 0x65, 0x78, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x31, 0x43, 0x6f,
@@ -802,16 +1929,45 @@ var file_ipex_trust_lessee_reputation_proto_rawDesc = []byte{
 	0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x04, 0x90,
 	0xdf, 0x1f, 0x01, 0x52, 0x0b, 0x6c, 0x61, 0x73, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64,
-	0x42, 0x8c, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74,
-	0x72, 0x75, 0x73, 0x74, 0x42, 0x15, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x70, 0x75,
-	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74,
-	0x72, 0x75, 0x73, 0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58, 0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64,
-	0x65, 0x78, 0x2e, 0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78,
-	0x5c, 0x54, 0x72, 0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54,
-	0x72, 0x75, 0x73, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x54, 0x72, 0x75, 0x73, 0x74, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x12, 0x24, 0x0a, 0x0d, 0x61, 0x62, 0x75, 0x73, 0x65, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65,
+	0x64, 0x18, 0x07, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0d, 0x61, 0x62, 0x75, 0x73, 0x65, 0x52, 0x65,
+	0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64, 0x12, 0x20, 0x0a, 0x0b, 0x61, 0x62, 0x75, 0x73, 0x65, 0x46,
+	0x61, 0x69, 0x6c, 0x65, 0x64, 0x18, 0x08, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x61, 0x62, 0x75,
+	0x73, 0x65, 0x46, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x12, 0x28, 0x0a, 0x0f, 0x61, 0x62, 0x75, 0x73,
+	0x65, 0x49, 0x6e, 0x50, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x18, 0x09, 0x20, 0x01, 0x28,
+	0x04, 0x52, 0x0f, 0x61, 0x62, 0x75, 0x73, 0x65, 0x49, 0x6e, 0x50, 0x72, 0x6f, 0x67, 0x72, 0x65,
+	0x73, 0x73, 0x12, 0x50, 0x0a, 0x0b, 0x61, 0x62, 0x75, 0x73, 0x65, 0x42, 0x79, 0x54, 0x79, 0x70,
+	0x65, 0x18, 0x0a, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
+	0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x70, 0x75,
+	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x41, 0x62, 0x75, 0x73, 0x65, 0x42, 0x79, 0x54, 0x79,
+	0x70, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x0b, 0x61, 0x62, 0x75, 0x73, 0x65, 0x42, 0x79,
+	0x54, 0x79, 0x70, 0x65, 0x1a, 0x5b, 0x0a, 0x10, 0x41, 0x62, 0x75, 0x73, 0x65, 0x42, 0x79, 0x54,
+	0x79, 0x70, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x31, 0x0a, 0x05, 0x76, 0x61,
+	0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x41, 0x62, 0x75, 0x73, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x53, 0x74, 0x61, 0x74, 0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
+	0x01, 0x22, 0xaa, 0x01, 0x0a, 0x0e, 0x41, 0x62, 0x75, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x53,
+	0x74, 0x61, 0x74, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64,
+	0x12, 0x16, 0x0a, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04,
+	0x52, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x6e, 0x50, 0x72,
+	0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x69, 0x6e,
+	0x50, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x12, 0x44, 0x0a, 0x0c, 0x6c, 0x61, 0x73, 0x74,
+	0x49, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x04, 0x90, 0xdf, 0x1f, 0x01,
+	0x52, 0x0c, 0x6c, 0x61, 0x73, 0x74, 0x49, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x42, 0x8c,
+	0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0x42, 0x15, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75,
+	0x73, 0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58, 0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54,
+	0x72, 0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75,
+	0x73, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
+	0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x54, 0x72, 0x75, 0x73, 0x74, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -826,18 +1982,23 @@ func file_ipex_trust_lessee_reputation_proto_rawDescGZIP() []byte {
 	return file_ipex_trust_lessee_reputation_proto_rawDescData
 }
 
-var file_ipex_trust_lessee_reputation_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_ipex_trust_lessee_reputation_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_ipex_trust_lessee_reputation_proto_goTypes = []interface{}{
 	(*LesseeReputation)(nil),      // 0: ipex.trust.LesseeReputation
-	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
+	(*AbuseTypeStats)(nil),        // 1: ipex.trust.AbuseTypeStats
+	nil,                           // 2: ipex.trust.LesseeReputation.AbuseByTypeEntry
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_ipex_trust_lessee_reputation_proto_depIdxs = []int32{
-	1, // 0: ipex.trust.LesseeReputation.lastUpdated:type_name -> google.protobuf.Timestamp
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 0: ipex.trust.LesseeReputation.lastUpdated:type_name -> google.protobuf.Timestamp
+	2, // 1: ipex.trust.LesseeReputation.abuseByType:type_name -> ipex.trust.LesseeReputation.AbuseByTypeEntry
+	3, // 2: ipex.trust.AbuseTypeStats.lastIncident:type_name -> google.protobuf.Timestamp
+	1, // 3: ipex.trust.LesseeReputation.AbuseByTypeEntry.value:type_name -> ipex.trust.AbuseTypeStats
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_ipex_trust_lessee_reputation_proto_init() }
@@ -858,6 +2019,18 @@ func file_ipex_trust_lessee_reputation_proto_init() {
 				return nil
 			}
 		}
+		file_ipex_trust_lessee_reputation_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AbuseTypeStats); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -865,7 +2038,7 @@ func file_ipex_trust_lessee_reputation_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_trust_lessee_reputation_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
