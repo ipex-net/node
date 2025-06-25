@@ -97,4 +97,3 @@ func (k Keeper) GetAllComplaint(ctx context.Context) (list []types.Complaint) {
 
 	return
 }
-

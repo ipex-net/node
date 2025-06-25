@@ -45,6 +45,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a submit-complaint tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "leaseId"}, {ProtoField: "subnetId"}, {ProtoField: "abuseType"}, {ProtoField: "incidentTime"}, {ProtoField: "sourceIp"}, {ProtoField: "lessorTicketRef"}, {ProtoField: "evidenceHash"}, {ProtoField: "summary"}},
 				},
+				{
+					RpcMethod:      "RespondComplaint",
+					Use:            "respond-complaint [complaint-id] [content] [evidence-hash]",
+					Short:          "Send a respond-complaint tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "complaintId"}, {ProtoField: "content"}, {ProtoField: "evidenceHash"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

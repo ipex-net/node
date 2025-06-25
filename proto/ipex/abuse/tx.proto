@@ -16,8 +16,9 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams    (MsgUpdateParams   ) returns (MsgUpdateParamsResponse   );
-  rpc SubmitComplaint (MsgSubmitComplaint) returns (MsgSubmitComplaintResponse);
+  rpc UpdateParams     (MsgUpdateParams    ) returns (MsgUpdateParamsResponse    );
+  rpc SubmitComplaint  (MsgSubmitComplaint ) returns (MsgSubmitComplaintResponse );
+  rpc RespondComplaint (MsgRespondComplaint) returns (MsgRespondComplaintResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -43,7 +44,7 @@ message MsgSubmitComplaint {
   uint64 leaseId         = 2;
   uint64 subnetId        = 3;
   uint64 abuseType       = 4;
-  int64 incidentTime    = 5;
+  int64  incidentTime    = 5;
   uint64 sourceIp        = 6;
   string lessorTicketRef = 7;
   string evidenceHash    = 8;
@@ -53,4 +54,14 @@ message MsgSubmitComplaint {
 message MsgSubmitComplaintResponse {
   uint64 id = 1;
 }
+
+message MsgRespondComplaint {
+  option (cosmos.msg.v1.signer) = "creator";
+           string creator      = 1;
+           uint64 complaintId  = 2;
+           string content      = 3;
+  repeated string evidenceHash = 4;
+}
+
+message MsgRespondComplaintResponse {}
 
