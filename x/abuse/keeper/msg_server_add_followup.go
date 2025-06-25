@@ -54,24 +54,21 @@ func (k msgServer) AddFollowup(goCtx context.Context, msg *types.MsgAddFollowup)
 		}
 	}
 
-	
-
 	complaint, found := k.GetComplaint(ctx, msg.ComplaintId)
 	if !found {
 		return nil, errorsmod.Wrapf(types.ErrComplaintNotFound,
-			"can not find lease for subnet id %d",
+			"can not find complaint for id %d",
 			msg.ComplaintId)
 	}
+
 	if complaint.State == types.ComplaintState_STATE_CLOSED {
 		return nil, errorsmod.Wrap(types.ErrComplaintClosed,
 			"complaint already closed")
 	}
 
-
-
 	if !k.subnetKeeper.VerifySubnetOwner(ctx, complaint.SubnetId, msg.Creator) {
 		return nil, errorsmod.Wrapf(types.ErrUnauthorized,
-			"address %s is not authorized to submit replies for complaint id %d",
+			"address %s is not authorized to submit lessor follow up for complaint id %d",
 			msg.Creator,
 			msg.ComplaintId)
 	}
