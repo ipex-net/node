@@ -57,7 +57,7 @@ func (k msgServer) AddFollowup(goCtx context.Context, msg *types.MsgAddFollowup)
 	complaint, found := k.GetComplaint(ctx, msg.ComplaintId)
 	if !found {
 		return nil, errorsmod.Wrapf(types.ErrComplaintNotFound,
-			"can not find complaint for id %d",
+			"can not find complaint with id %d",
 			msg.ComplaintId)
 	}
 
