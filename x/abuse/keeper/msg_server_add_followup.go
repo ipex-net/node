@@ -17,7 +17,7 @@ func (k msgServer) AddFollowup(goCtx context.Context, msg *types.MsgAddFollowup)
 
 	// Content validation
 	minContentLength := 20
-	maxContentLength := 500
+	maxContentLength := 200
 	// Clean content
 	content := strings.TrimSpace(msg.Content)
 	content = strings.Join(strings.Fields(content), " ")
