@@ -3,15 +3,16 @@ package abuse
 
 import (
 	fmt "fmt"
+	io "io"
+	reflect "reflect"
+	sync "sync"
+
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-	io "io"
-	reflect "reflect"
-	sync "sync"
 )
 
 var _ protoreflect.List = (*_Complaint_15_list)(nil)
@@ -66,24 +67,25 @@ func (x *_Complaint_15_list) IsValid() bool {
 }
 
 var (
-	md_Complaint                  protoreflect.MessageDescriptor
-	fd_Complaint_index            protoreflect.FieldDescriptor
-	fd_Complaint_leaseId          protoreflect.FieldDescriptor
-	fd_Complaint_subnetId         protoreflect.FieldDescriptor
-	fd_Complaint_lessorOrgId      protoreflect.FieldDescriptor
-	fd_Complaint_lesseeOrgId      protoreflect.FieldDescriptor
-	fd_Complaint_abuseType        protoreflect.FieldDescriptor
-	fd_Complaint_incidentTime     protoreflect.FieldDescriptor
-	fd_Complaint_sourceIp         protoreflect.FieldDescriptor
-	fd_Complaint_lessorTicketRef  protoreflect.FieldDescriptor
-	fd_Complaint_evidenceHash     protoreflect.FieldDescriptor
-	fd_Complaint_summary          protoreflect.FieldDescriptor
-	fd_Complaint_state            protoreflect.FieldDescriptor
-	fd_Complaint_submittedAt      protoreflect.FieldDescriptor
-	fd_Complaint_responseDeadline protoreflect.FieldDescriptor
-	fd_Complaint_thread           protoreflect.FieldDescriptor
-	fd_Complaint_lastActivityAt   protoreflect.FieldDescriptor
-	fd_Complaint_closedAt         protoreflect.FieldDescriptor
+	md_Complaint                    protoreflect.MessageDescriptor
+	fd_Complaint_index              protoreflect.FieldDescriptor
+	fd_Complaint_leaseId            protoreflect.FieldDescriptor
+	fd_Complaint_subnetId           protoreflect.FieldDescriptor
+	fd_Complaint_lessorOrgId        protoreflect.FieldDescriptor
+	fd_Complaint_lesseeOrgId        protoreflect.FieldDescriptor
+	fd_Complaint_abuseType          protoreflect.FieldDescriptor
+	fd_Complaint_incidentTime       protoreflect.FieldDescriptor
+	fd_Complaint_sourceIp           protoreflect.FieldDescriptor
+	fd_Complaint_lessorTicketRef    protoreflect.FieldDescriptor
+	fd_Complaint_evidenceHash       protoreflect.FieldDescriptor
+	fd_Complaint_summary            protoreflect.FieldDescriptor
+	fd_Complaint_state              protoreflect.FieldDescriptor
+	fd_Complaint_submittedAt        protoreflect.FieldDescriptor
+	fd_Complaint_resolutionDeadline protoreflect.FieldDescriptor
+	fd_Complaint_thread             protoreflect.FieldDescriptor
+	fd_Complaint_lastActivityAt     protoreflect.FieldDescriptor
+	fd_Complaint_closedAt           protoreflect.FieldDescriptor
+	fd_Complaint_resolutionFailed   protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -102,10 +104,11 @@ func init() {
 	fd_Complaint_summary = md_Complaint.Fields().ByName("summary")
 	fd_Complaint_state = md_Complaint.Fields().ByName("state")
 	fd_Complaint_submittedAt = md_Complaint.Fields().ByName("submittedAt")
-	fd_Complaint_responseDeadline = md_Complaint.Fields().ByName("responseDeadline")
+	fd_Complaint_resolutionDeadline = md_Complaint.Fields().ByName("resolutionDeadline")
 	fd_Complaint_thread = md_Complaint.Fields().ByName("thread")
 	fd_Complaint_lastActivityAt = md_Complaint.Fields().ByName("lastActivityAt")
 	fd_Complaint_closedAt = md_Complaint.Fields().ByName("closedAt")
+	fd_Complaint_resolutionFailed = md_Complaint.Fields().ByName("resolutionFailed")
 }
 
 var _ protoreflect.Message = (*fastReflection_Complaint)(nil)
@@ -251,9 +254,9 @@ func (x *fastReflection_Complaint) Range(f func(protoreflect.FieldDescriptor, pr
 			return
 		}
 	}
-	if x.ResponseDeadline != nil {
-		value := protoreflect.ValueOfMessage(x.ResponseDeadline.ProtoReflect())
-		if !f(fd_Complaint_responseDeadline, value) {
+	if x.ResolutionDeadline != nil {
+		value := protoreflect.ValueOfMessage(x.ResolutionDeadline.ProtoReflect())
+		if !f(fd_Complaint_resolutionDeadline, value) {
 			return
 		}
 	}
@@ -272,6 +275,12 @@ func (x *fastReflection_Complaint) Range(f func(protoreflect.FieldDescriptor, pr
 	if x.ClosedAt != nil {
 		value := protoreflect.ValueOfMessage(x.ClosedAt.ProtoReflect())
 		if !f(fd_Complaint_closedAt, value) {
+			return
+		}
+	}
+	if x.ResolutionFailed != false {
+		value := protoreflect.ValueOfBool(x.ResolutionFailed)
+		if !f(fd_Complaint_resolutionFailed, value) {
 			return
 		}
 	}
@@ -316,14 +325,16 @@ func (x *fastReflection_Complaint) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.State != 0
 	case "ipex.abuse.Complaint.submittedAt":
 		return x.SubmittedAt != nil
-	case "ipex.abuse.Complaint.responseDeadline":
-		return x.ResponseDeadline != nil
+	case "ipex.abuse.Complaint.resolutionDeadline":
+		return x.ResolutionDeadline != nil
 	case "ipex.abuse.Complaint.thread":
 		return len(x.Thread) != 0
 	case "ipex.abuse.Complaint.lastActivityAt":
 		return x.LastActivityAt != nil
 	case "ipex.abuse.Complaint.closedAt":
 		return x.ClosedAt != nil
+	case "ipex.abuse.Complaint.resolutionFailed":
+		return x.ResolutionFailed != false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.Complaint"))
@@ -366,14 +377,16 @@ func (x *fastReflection_Complaint) Clear(fd protoreflect.FieldDescriptor) {
 		x.State = 0
 	case "ipex.abuse.Complaint.submittedAt":
 		x.SubmittedAt = nil
-	case "ipex.abuse.Complaint.responseDeadline":
-		x.ResponseDeadline = nil
+	case "ipex.abuse.Complaint.resolutionDeadline":
+		x.ResolutionDeadline = nil
 	case "ipex.abuse.Complaint.thread":
 		x.Thread = nil
 	case "ipex.abuse.Complaint.lastActivityAt":
 		x.LastActivityAt = nil
 	case "ipex.abuse.Complaint.closedAt":
 		x.ClosedAt = nil
+	case "ipex.abuse.Complaint.resolutionFailed":
+		x.ResolutionFailed = false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.Complaint"))
@@ -429,8 +442,8 @@ func (x *fastReflection_Complaint) Get(descriptor protoreflect.FieldDescriptor) 
 	case "ipex.abuse.Complaint.submittedAt":
 		value := x.SubmittedAt
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
-	case "ipex.abuse.Complaint.responseDeadline":
-		value := x.ResponseDeadline
+	case "ipex.abuse.Complaint.resolutionDeadline":
+		value := x.ResolutionDeadline
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.abuse.Complaint.thread":
 		if len(x.Thread) == 0 {
@@ -444,6 +457,9 @@ func (x *fastReflection_Complaint) Get(descriptor protoreflect.FieldDescriptor) 
 	case "ipex.abuse.Complaint.closedAt":
 		value := x.ClosedAt
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.abuse.Complaint.resolutionFailed":
+		value := x.ResolutionFailed
+		return protoreflect.ValueOfBool(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.Complaint"))
@@ -490,8 +506,8 @@ func (x *fastReflection_Complaint) Set(fd protoreflect.FieldDescriptor, value pr
 		x.State = (ComplaintState)(value.Enum())
 	case "ipex.abuse.Complaint.submittedAt":
 		x.SubmittedAt = value.Message().Interface().(*timestamppb.Timestamp)
-	case "ipex.abuse.Complaint.responseDeadline":
-		x.ResponseDeadline = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.abuse.Complaint.resolutionDeadline":
+		x.ResolutionDeadline = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.abuse.Complaint.thread":
 		lv := value.List()
 		clv := lv.(*_Complaint_15_list)
@@ -500,6 +516,8 @@ func (x *fastReflection_Complaint) Set(fd protoreflect.FieldDescriptor, value pr
 		x.LastActivityAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.abuse.Complaint.closedAt":
 		x.ClosedAt = value.Message().Interface().(*timestamppb.Timestamp)
+	case "ipex.abuse.Complaint.resolutionFailed":
+		x.ResolutionFailed = value.Bool()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.Complaint"))
@@ -530,11 +548,11 @@ func (x *fastReflection_Complaint) Mutable(fd protoreflect.FieldDescriptor) prot
 			x.SubmittedAt = new(timestamppb.Timestamp)
 		}
 		return protoreflect.ValueOfMessage(x.SubmittedAt.ProtoReflect())
-	case "ipex.abuse.Complaint.responseDeadline":
-		if x.ResponseDeadline == nil {
-			x.ResponseDeadline = new(timestamppb.Timestamp)
+	case "ipex.abuse.Complaint.resolutionDeadline":
+		if x.ResolutionDeadline == nil {
+			x.ResolutionDeadline = new(timestamppb.Timestamp)
 		}
-		return protoreflect.ValueOfMessage(x.ResponseDeadline.ProtoReflect())
+		return protoreflect.ValueOfMessage(x.ResolutionDeadline.ProtoReflect())
 	case "ipex.abuse.Complaint.thread":
 		if x.Thread == nil {
 			x.Thread = []*ThreadMessage{}
@@ -573,6 +591,8 @@ func (x *fastReflection_Complaint) Mutable(fd protoreflect.FieldDescriptor) prot
 		panic(fmt.Errorf("field summary of message ipex.abuse.Complaint is not mutable"))
 	case "ipex.abuse.Complaint.state":
 		panic(fmt.Errorf("field state of message ipex.abuse.Complaint is not mutable"))
+	case "ipex.abuse.Complaint.resolutionFailed":
+		panic(fmt.Errorf("field resolutionFailed of message ipex.abuse.Complaint is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.Complaint"))
@@ -614,7 +634,7 @@ func (x *fastReflection_Complaint) NewField(fd protoreflect.FieldDescriptor) pro
 	case "ipex.abuse.Complaint.submittedAt":
 		m := new(timestamppb.Timestamp)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
-	case "ipex.abuse.Complaint.responseDeadline":
+	case "ipex.abuse.Complaint.resolutionDeadline":
 		m := new(timestamppb.Timestamp)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.abuse.Complaint.thread":
@@ -626,6 +646,8 @@ func (x *fastReflection_Complaint) NewField(fd protoreflect.FieldDescriptor) pro
 	case "ipex.abuse.Complaint.closedAt":
 		m := new(timestamppb.Timestamp)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.abuse.Complaint.resolutionFailed":
+		return protoreflect.ValueOfBool(false)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.Complaint"))
@@ -740,8 +762,8 @@ func (x *fastReflection_Complaint) ProtoMethods() *protoiface.Methods {
 			l = options.Size(x.SubmittedAt)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.ResponseDeadline != nil {
-			l = options.Size(x.ResponseDeadline)
+		if x.ResolutionDeadline != nil {
+			l = options.Size(x.ResolutionDeadline)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if len(x.Thread) > 0 {
@@ -757,6 +779,9 @@ func (x *fastReflection_Complaint) ProtoMethods() *protoiface.Methods {
 		if x.ClosedAt != nil {
 			l = options.Size(x.ClosedAt)
 			n += 2 + l + runtime.Sov(uint64(l))
+		}
+		if x.ResolutionFailed {
+			n += 3
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -786,6 +811,18 @@ func (x *fastReflection_Complaint) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.ResolutionFailed {
+			i--
+			if x.ResolutionFailed {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x1
+			i--
+			dAtA[i] = 0x90
 		}
 		if x.ClosedAt != nil {
 			encoded, err := options.Marshal(x.ClosedAt)
@@ -835,8 +872,8 @@ func (x *fastReflection_Complaint) ProtoMethods() *protoiface.Methods {
 				dAtA[i] = 0x7a
 			}
 		}
-		if x.ResponseDeadline != nil {
-			encoded, err := options.Marshal(x.ResponseDeadline)
+		if x.ResolutionDeadline != nil {
+			encoded, err := options.Marshal(x.ResolutionDeadline)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1324,7 +1361,7 @@ func (x *fastReflection_Complaint) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 14:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ResponseDeadline", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ResolutionDeadline", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -1351,10 +1388,10 @@ func (x *fastReflection_Complaint) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.ResponseDeadline == nil {
-					x.ResponseDeadline = &timestamppb.Timestamp{}
+				if x.ResolutionDeadline == nil {
+					x.ResolutionDeadline = &timestamppb.Timestamp{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.ResponseDeadline); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.ResolutionDeadline); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -1464,6 +1501,26 @@ func (x *fastReflection_Complaint) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
+			case 18:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ResolutionFailed", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.ResolutionFailed = bool(v != 0)
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -2520,25 +2577,26 @@ type Complaint struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Index            string                 `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
-	LeaseId          uint64                 `protobuf:"varint,2,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
-	SubnetId         uint64                 `protobuf:"varint,3,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
-	LessorOrgId      uint64                 `protobuf:"varint,4,opt,name=lessorOrgId,proto3" json:"lessorOrgId,omitempty"`
-	LesseeOrgId      uint64                 `protobuf:"varint,5,opt,name=lesseeOrgId,proto3" json:"lesseeOrgId,omitempty"`
-	AbuseType        AbuseType              `protobuf:"varint,6,opt,name=abuseType,proto3,enum=ipex.abuse.AbuseType" json:"abuseType,omitempty"`
-	IncidentTime     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=incidentTime,proto3" json:"incidentTime,omitempty"`
-	SourceIp         uint64                 `protobuf:"varint,8,opt,name=sourceIp,proto3" json:"sourceIp,omitempty"` // IP in decimal format
-	LessorTicketRef  string                 `protobuf:"bytes,9,opt,name=lessorTicketRef,proto3" json:"lessorTicketRef,omitempty"`
-	EvidenceHash     string                 `protobuf:"bytes,10,opt,name=evidenceHash,proto3" json:"evidenceHash,omitempty"` // IPFS hash for details
-	Summary          string                 `protobuf:"bytes,11,opt,name=summary,proto3" json:"summary,omitempty"`           // Initial complaint summary
-	State            ComplaintState         `protobuf:"varint,12,opt,name=state,proto3,enum=ipex.abuse.ComplaintState" json:"state,omitempty"`
-	SubmittedAt      *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=submittedAt,proto3" json:"submittedAt,omitempty"`
-	ResponseDeadline *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=responseDeadline,proto3" json:"responseDeadline,omitempty"`
+	Index              string                 `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
+	LeaseId            uint64                 `protobuf:"varint,2,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
+	SubnetId           uint64                 `protobuf:"varint,3,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
+	LessorOrgId        uint64                 `protobuf:"varint,4,opt,name=lessorOrgId,proto3" json:"lessorOrgId,omitempty"`
+	LesseeOrgId        uint64                 `protobuf:"varint,5,opt,name=lesseeOrgId,proto3" json:"lesseeOrgId,omitempty"`
+	AbuseType          AbuseType              `protobuf:"varint,6,opt,name=abuseType,proto3,enum=ipex.abuse.AbuseType" json:"abuseType,omitempty"`
+	IncidentTime       *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=incidentTime,proto3" json:"incidentTime,omitempty"`
+	SourceIp           uint64                 `protobuf:"varint,8,opt,name=sourceIp,proto3" json:"sourceIp,omitempty"` // IP in decimal format
+	LessorTicketRef    string                 `protobuf:"bytes,9,opt,name=lessorTicketRef,proto3" json:"lessorTicketRef,omitempty"`
+	EvidenceHash       string                 `protobuf:"bytes,10,opt,name=evidenceHash,proto3" json:"evidenceHash,omitempty"` // IPFS hash for details
+	Summary            string                 `protobuf:"bytes,11,opt,name=summary,proto3" json:"summary,omitempty"`           // Initial complaint summary
+	State              ComplaintState         `protobuf:"varint,12,opt,name=state,proto3,enum=ipex.abuse.ComplaintState" json:"state,omitempty"`
+	SubmittedAt        *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=submittedAt,proto3" json:"submittedAt,omitempty"`
+	ResolutionDeadline *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=resolutionDeadline,proto3" json:"resolutionDeadline,omitempty"`
 	// Thread of all messages
 	Thread []*ThreadMessage `protobuf:"bytes,15,rep,name=thread,proto3" json:"thread,omitempty"`
 	// Tracking fields
-	LastActivityAt *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=lastActivityAt,proto3" json:"lastActivityAt,omitempty"`
-	ClosedAt       *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=closedAt,proto3" json:"closedAt,omitempty"` // Only set when closed
+	LastActivityAt   *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=lastActivityAt,proto3" json:"lastActivityAt,omitempty"`
+	ClosedAt         *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=closedAt,proto3" json:"closedAt,omitempty"` // Only set when closed
+	ResolutionFailed bool                   `protobuf:"varint,18,opt,name=resolutionFailed,proto3" json:"resolutionFailed,omitempty"`
 }
 
 func (x *Complaint) Reset() {
@@ -2652,9 +2710,9 @@ func (x *Complaint) GetSubmittedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *Complaint) GetResponseDeadline() *timestamppb.Timestamp {
+func (x *Complaint) GetResolutionDeadline() *timestamppb.Timestamp {
 	if x != nil {
-		return x.ResponseDeadline
+		return x.ResolutionDeadline
 	}
 	return nil
 }
@@ -2678,6 +2736,13 @@ func (x *Complaint) GetClosedAt() *timestamppb.Timestamp {
 		return x.ClosedAt
 	}
 	return nil
+}
+
+func (x *Complaint) GetResolutionFailed() bool {
+	if x != nil {
+		return x.ResolutionFailed
+	}
+	return false
 }
 
 // Unified message structure for the thread
@@ -2765,7 +2830,7 @@ var file_ipex_abuse_complaint_proto_rawDesc = []byte{
 	0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65,
 	0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67,
 	0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x22, 0x9c, 0x06, 0x0a, 0x09, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x61, 0x69, 0x6e, 0x74, 0x12,
+	0x6f, 0x22, 0xcc, 0x06, 0x0a, 0x09, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x61, 0x69, 0x6e, 0x74, 0x12,
 	0x14, 0x0a, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
 	0x69, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x18, 0x0a, 0x07, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x49, 0x64,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x07, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x49, 0x64, 0x12,
@@ -2798,23 +2863,26 @@ var file_ipex_abuse_complaint_proto_rawDesc = []byte{
 	0x74, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74,
 	0x61, 0x6d, 0x70, 0x42, 0x04, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x0b, 0x73, 0x75, 0x62, 0x6d, 0x69,
-	0x74, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x4c, 0x0a, 0x10, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x44, 0x65, 0x61, 0x64, 0x6c, 0x69, 0x6e, 0x65, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x04, 0x90, 0xdf,
-	0x1f, 0x01, 0x52, 0x10, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x44, 0x65, 0x61, 0x64,
-	0x6c, 0x69, 0x6e, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x74, 0x68, 0x72, 0x65, 0x61, 0x64, 0x18, 0x0f,
-	0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x61, 0x62, 0x75,
-	0x73, 0x65, 0x2e, 0x54, 0x68, 0x72, 0x65, 0x61, 0x64, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x52, 0x06, 0x74, 0x68, 0x72, 0x65, 0x61, 0x64, 0x12, 0x48, 0x0a, 0x0e, 0x6c, 0x61, 0x73, 0x74,
-	0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x41, 0x74, 0x18, 0x10, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x04, 0x90, 0xdf,
-	0x1f, 0x01, 0x52, 0x0e, 0x6c, 0x61, 0x73, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79,
-	0x41, 0x74, 0x12, 0x3c, 0x0a, 0x08, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x64, 0x41, 0x74, 0x18, 0x11,
+	0x74, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x50, 0x0a, 0x12, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x75,
+	0x74, 0x69, 0x6f, 0x6e, 0x44, 0x65, 0x61, 0x64, 0x6c, 0x69, 0x6e, 0x65, 0x18, 0x0e, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x04,
+	0x90, 0xdf, 0x1f, 0x01, 0x52, 0x12, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x44, 0x65, 0x61, 0x64, 0x6c, 0x69, 0x6e, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x74, 0x68, 0x72, 0x65,
+	0x61, 0x64, 0x18, 0x0f, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x61, 0x62, 0x75, 0x73, 0x65, 0x2e, 0x54, 0x68, 0x72, 0x65, 0x61, 0x64, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x52, 0x06, 0x74, 0x68, 0x72, 0x65, 0x61, 0x64, 0x12, 0x48, 0x0a, 0x0e,
+	0x6c, 0x61, 0x73, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x41, 0x74, 0x18, 0x10,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
-	0x42, 0x04, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x08, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x64, 0x41, 0x74,
+	0x42, 0x04, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x0e, 0x6c, 0x61, 0x73, 0x74, 0x41, 0x63, 0x74, 0x69,
+	0x76, 0x69, 0x74, 0x79, 0x41, 0x74, 0x12, 0x3c, 0x0a, 0x08, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x64,
+	0x41, 0x74, 0x18, 0x11, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73,
+	0x74, 0x61, 0x6d, 0x70, 0x42, 0x04, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x08, 0x63, 0x6c, 0x6f, 0x73,
+	0x65, 0x64, 0x41, 0x74, 0x12, 0x2a, 0x0a, 0x10, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69,
+	0x6f, 0x6e, 0x46, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x18, 0x12, 0x20, 0x01, 0x28, 0x08, 0x52, 0x10,
+	0x72, 0x65, 0x73, 0x6f, 0x6c, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x46, 0x61, 0x69, 0x6c, 0x65, 0x64,
 	0x22, 0xa2, 0x02, 0x0a, 0x0d, 0x54, 0x68, 0x72, 0x65, 0x61, 0x64, 0x4d, 0x65, 0x73, 0x73, 0x61,
 	0x67, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49,
 	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x4f,
@@ -2914,7 +2982,7 @@ var file_ipex_abuse_complaint_proto_depIdxs = []int32{
 	6,  // 1: ipex.abuse.Complaint.incidentTime:type_name -> google.protobuf.Timestamp
 	3,  // 2: ipex.abuse.Complaint.state:type_name -> ipex.abuse.ComplaintState
 	6,  // 3: ipex.abuse.Complaint.submittedAt:type_name -> google.protobuf.Timestamp
-	6,  // 4: ipex.abuse.Complaint.responseDeadline:type_name -> google.protobuf.Timestamp
+	6,  // 4: ipex.abuse.Complaint.resolutionDeadline:type_name -> google.protobuf.Timestamp
 	5,  // 5: ipex.abuse.Complaint.thread:type_name -> ipex.abuse.ThreadMessage
 	6,  // 6: ipex.abuse.Complaint.lastActivityAt:type_name -> google.protobuf.Timestamp
 	6,  // 7: ipex.abuse.Complaint.closedAt:type_name -> google.protobuf.Timestamp

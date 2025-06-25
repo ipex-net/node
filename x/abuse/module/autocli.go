@@ -39,6 +39,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "SubmitComplaint",
+					Use:            "submit-complaint [lease-id] [subnet-id] [abuse-type] [incident-time] [source-ip] [lessor-ticket-ref] [evidence-hash] [summary]",
+					Short:          "Send a submit-complaint tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "leaseId"}, {ProtoField: "subnetId"}, {ProtoField: "abuseType"}, {ProtoField: "incidentTime"}, {ProtoField: "sourceIp"}, {ProtoField: "lessorTicketRef"}, {ProtoField: "evidenceHash"}, {ProtoField: "summary"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

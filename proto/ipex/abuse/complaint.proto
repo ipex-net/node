@@ -28,7 +28,7 @@ message Complaint {
   // Tracking fields
   google.protobuf.Timestamp lastActivityAt = 16 [(gogoproto.stdtime) = true];
   google.protobuf.Timestamp closedAt = 17 [(gogoproto.stdtime) = true]; // Only set when closed
-  bool resolutionFailed = 18
+  bool resolutionFailed = 18;
 }
 
 // Unified message structure for the thread
