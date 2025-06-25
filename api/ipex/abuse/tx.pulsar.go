@@ -2127,52 +2127,6 @@ func (x *fastReflection_MsgSubmitComplaintResponse) ProtoMethods() *protoiface.M
 	}
 }
 
-var _ protoreflect.List = (*_MsgRespondComplaint_4_list)(nil)
-
-type _MsgRespondComplaint_4_list struct {
-	list *[]string
-}
-
-func (x *_MsgRespondComplaint_4_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_MsgRespondComplaint_4_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
-}
-
-func (x *_MsgRespondComplaint_4_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_MsgRespondComplaint_4_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_MsgRespondComplaint_4_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgRespondComplaint at list field EvidenceHash as it is not of Message kind"))
-}
-
-func (x *_MsgRespondComplaint_4_list) Truncate(n int) {
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_MsgRespondComplaint_4_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
-}
-
-func (x *_MsgRespondComplaint_4_list) IsValid() bool {
-	return x.list != nil
-}
-
 var (
 	md_MsgRespondComplaint              protoreflect.MessageDescriptor
 	fd_MsgRespondComplaint_creator      protoreflect.FieldDescriptor
@@ -2273,8 +2227,8 @@ func (x *fastReflection_MsgRespondComplaint) Range(f func(protoreflect.FieldDesc
 			return
 		}
 	}
-	if len(x.EvidenceHash) != 0 {
-		value := protoreflect.ValueOfList(&_MsgRespondComplaint_4_list{list: &x.EvidenceHash})
+	if x.EvidenceHash != "" {
+		value := protoreflect.ValueOfString(x.EvidenceHash)
 		if !f(fd_MsgRespondComplaint_evidenceHash, value) {
 			return
 		}
@@ -2301,7 +2255,7 @@ func (x *fastReflection_MsgRespondComplaint) Has(fd protoreflect.FieldDescriptor
 	case "ipex.abuse.MsgRespondComplaint.content":
 		return x.Content != ""
 	case "ipex.abuse.MsgRespondComplaint.evidenceHash":
-		return len(x.EvidenceHash) != 0
+		return x.EvidenceHash != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgRespondComplaint"))
@@ -2325,7 +2279,7 @@ func (x *fastReflection_MsgRespondComplaint) Clear(fd protoreflect.FieldDescript
 	case "ipex.abuse.MsgRespondComplaint.content":
 		x.Content = ""
 	case "ipex.abuse.MsgRespondComplaint.evidenceHash":
-		x.EvidenceHash = nil
+		x.EvidenceHash = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgRespondComplaint"))
@@ -2352,11 +2306,8 @@ func (x *fastReflection_MsgRespondComplaint) Get(descriptor protoreflect.FieldDe
 		value := x.Content
 		return protoreflect.ValueOfString(value)
 	case "ipex.abuse.MsgRespondComplaint.evidenceHash":
-		if len(x.EvidenceHash) == 0 {
-			return protoreflect.ValueOfList(&_MsgRespondComplaint_4_list{})
-		}
-		listValue := &_MsgRespondComplaint_4_list{list: &x.EvidenceHash}
-		return protoreflect.ValueOfList(listValue)
+		value := x.EvidenceHash
+		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgRespondComplaint"))
@@ -2384,9 +2335,7 @@ func (x *fastReflection_MsgRespondComplaint) Set(fd protoreflect.FieldDescriptor
 	case "ipex.abuse.MsgRespondComplaint.content":
 		x.Content = value.Interface().(string)
 	case "ipex.abuse.MsgRespondComplaint.evidenceHash":
-		lv := value.List()
-		clv := lv.(*_MsgRespondComplaint_4_list)
-		x.EvidenceHash = *clv.list
+		x.EvidenceHash = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgRespondComplaint"))
@@ -2407,18 +2356,14 @@ func (x *fastReflection_MsgRespondComplaint) Set(fd protoreflect.FieldDescriptor
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgRespondComplaint) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "ipex.abuse.MsgRespondComplaint.evidenceHash":
-		if x.EvidenceHash == nil {
-			x.EvidenceHash = []string{}
-		}
-		value := &_MsgRespondComplaint_4_list{list: &x.EvidenceHash}
-		return protoreflect.ValueOfList(value)
 	case "ipex.abuse.MsgRespondComplaint.creator":
 		panic(fmt.Errorf("field creator of message ipex.abuse.MsgRespondComplaint is not mutable"))
 	case "ipex.abuse.MsgRespondComplaint.complaintId":
 		panic(fmt.Errorf("field complaintId of message ipex.abuse.MsgRespondComplaint is not mutable"))
 	case "ipex.abuse.MsgRespondComplaint.content":
 		panic(fmt.Errorf("field content of message ipex.abuse.MsgRespondComplaint is not mutable"))
+	case "ipex.abuse.MsgRespondComplaint.evidenceHash":
+		panic(fmt.Errorf("field evidenceHash of message ipex.abuse.MsgRespondComplaint is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgRespondComplaint"))
@@ -2439,8 +2384,7 @@ func (x *fastReflection_MsgRespondComplaint) NewField(fd protoreflect.FieldDescr
 	case "ipex.abuse.MsgRespondComplaint.content":
 		return protoreflect.ValueOfString("")
 	case "ipex.abuse.MsgRespondComplaint.evidenceHash":
-		list := []string{}
-		return protoreflect.ValueOfList(&_MsgRespondComplaint_4_list{list: &list})
+		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgRespondComplaint"))
@@ -2521,11 +2465,9 @@ func (x *fastReflection_MsgRespondComplaint) ProtoMethods() *protoiface.Methods 
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if len(x.EvidenceHash) > 0 {
-			for _, s := range x.EvidenceHash {
-				l = len(s)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
+		l = len(x.EvidenceHash)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -2557,13 +2499,11 @@ func (x *fastReflection_MsgRespondComplaint) ProtoMethods() *protoiface.Methods 
 			copy(dAtA[i:], x.unknownFields)
 		}
 		if len(x.EvidenceHash) > 0 {
-			for iNdEx := len(x.EvidenceHash) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.EvidenceHash[iNdEx])
-				copy(dAtA[i:], x.EvidenceHash[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.EvidenceHash[iNdEx])))
-				i--
-				dAtA[i] = 0x22
-			}
+			i -= len(x.EvidenceHash)
+			copy(dAtA[i:], x.EvidenceHash)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.EvidenceHash)))
+			i--
+			dAtA[i] = 0x22
 		}
 		if len(x.Content) > 0 {
 			i -= len(x.Content)
@@ -2746,7 +2686,7 @@ func (x *fastReflection_MsgRespondComplaint) ProtoMethods() *protoiface.Methods 
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.EvidenceHash = append(x.EvidenceHash, string(dAtA[iNdEx:postIndex]))
+				x.EvidenceHash = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -3365,10 +3305,10 @@ type MsgRespondComplaint struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Creator      string   `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	ComplaintId  uint64   `protobuf:"varint,2,opt,name=complaintId,proto3" json:"complaintId,omitempty"`
-	Content      string   `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
-	EvidenceHash []string `protobuf:"bytes,4,rep,name=evidenceHash,proto3" json:"evidenceHash,omitempty"`
+	Creator      string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	ComplaintId  uint64 `protobuf:"varint,2,opt,name=complaintId,proto3" json:"complaintId,omitempty"`
+	Content      string `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	EvidenceHash string `protobuf:"bytes,4,opt,name=evidenceHash,proto3" json:"evidenceHash,omitempty"`
 }
 
 func (x *MsgRespondComplaint) Reset() {
@@ -3412,11 +3352,11 @@ func (x *MsgRespondComplaint) GetContent() string {
 	return ""
 }
 
-func (x *MsgRespondComplaint) GetEvidenceHash() []string {
+func (x *MsgRespondComplaint) GetEvidenceHash() string {
 	if x != nil {
 		return x.EvidenceHash
 	}
-	return nil
+	return ""
 }
 
 type MsgRespondComplaintResponse struct {
@@ -3501,7 +3441,7 @@ var file_ipex_abuse_tx_proto_rawDesc = []byte{
 	0x70, 0x6c, 0x61, 0x69, 0x6e, 0x74, 0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74,
 	0x65, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65,
 	0x6e, 0x74, 0x12, 0x22, 0x0a, 0x0c, 0x65, 0x76, 0x69, 0x64, 0x65, 0x6e, 0x63, 0x65, 0x48, 0x61,
-	0x73, 0x68, 0x18, 0x04, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0c, 0x65, 0x76, 0x69, 0x64, 0x65, 0x6e,
+	0x73, 0x68, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x65, 0x76, 0x69, 0x64, 0x65, 0x6e,
 	0x63, 0x65, 0x48, 0x61, 0x73, 0x68, 0x3a, 0x0c, 0x82, 0xe7, 0xb0, 0x2a, 0x07, 0x63, 0x72, 0x65,
 	0x61, 0x74, 0x6f, 0x72, 0x22, 0x1d, 0x0a, 0x1b, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x64, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x61, 0x69, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,

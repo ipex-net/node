@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgRespondComplaint{}
 
-func NewMsgRespondComplaint(creator string, complaintId uint64, content string, evidenceHash []string) *MsgRespondComplaint {
+func NewMsgRespondComplaint(creator string, complaintId uint64, content string, evidenceHash string) *MsgRespondComplaint {
 	return &MsgRespondComplaint{
 		Creator:      creator,
 		ComplaintId:  complaintId,

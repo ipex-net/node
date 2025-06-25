@@ -57,10 +57,10 @@ message MsgSubmitComplaintResponse {
 
 message MsgRespondComplaint {
   option (cosmos.msg.v1.signer) = "creator";
-           string creator      = 1;
-           uint64 complaintId  = 2;
-           string content      = 3;
-  repeated string evidenceHash = 4;
+    string creator      = 1;
+    uint64 complaintId  = 2;
+    string content      = 3;
+    string evidenceHash = 4;
 }
 
 message MsgRespondComplaintResponse {}
