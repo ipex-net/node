@@ -51,6 +51,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a respond-complaint tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "complaintId"}, {ProtoField: "content"}, {ProtoField: "evidenceHash"}},
 				},
+				{
+					RpcMethod:      "AddFollowup",
+					Use:            "add-followup [complaint-id] [content] [evidence-hash]",
+					Short:          "Send a add-followup tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "complaintId"}, {ProtoField: "content"}, {ProtoField: "evidenceHash"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

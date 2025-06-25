@@ -31,6 +31,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgRespondComplaint int = 100
 
+	opWeightMsgAddFollowup = "op_weight_msg_add_followup"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgAddFollowup int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -76,6 +80,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		abusesimulation.SimulateMsgRespondComplaint(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgAddFollowup int
+	simState.AppParams.GetOrGenerate(opWeightMsgAddFollowup, &weightMsgAddFollowup, nil,
+		func(_ *rand.Rand) {
+			weightMsgAddFollowup = defaultWeightMsgAddFollowup
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgAddFollowup,
+		abusesimulation.SimulateMsgAddFollowup(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -97,6 +112,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgRespondComplaint,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				abusesimulation.SimulateMsgRespondComplaint(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgAddFollowup,
+			defaultWeightMsgAddFollowup,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				abusesimulation.SimulateMsgAddFollowup(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

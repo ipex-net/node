@@ -80,7 +80,7 @@ func (k msgServer) RespondComplaint(goCtx context.Context, msg *types.MsgRespond
 
 	// Add the response to the complaint thread
 	complaint.Thread = append(complaint.Thread, &threadMessage)
-	
+
 	// Update complaint state and activity tracking
 	complaint.State = types.ComplaintState_STATE_RESPONDED
 	complaint.LastActivityAt = &currentTime

@@ -8,6 +8,7 @@ package abuse
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -22,6 +23,7 @@ const (
 	Msg_UpdateParams_FullMethodName     = "/ipex.abuse.Msg/UpdateParams"
 	Msg_SubmitComplaint_FullMethodName  = "/ipex.abuse.Msg/SubmitComplaint"
 	Msg_RespondComplaint_FullMethodName = "/ipex.abuse.Msg/RespondComplaint"
+	Msg_AddFollowup_FullMethodName      = "/ipex.abuse.Msg/AddFollowup"
 )
 
 // MsgClient is the client API for Msg service.
@@ -33,6 +35,7 @@ type MsgClient interface {
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	SubmitComplaint(ctx context.Context, in *MsgSubmitComplaint, opts ...grpc.CallOption) (*MsgSubmitComplaintResponse, error)
 	RespondComplaint(ctx context.Context, in *MsgRespondComplaint, opts ...grpc.CallOption) (*MsgRespondComplaintResponse, error)
+	AddFollowup(ctx context.Context, in *MsgAddFollowup, opts ...grpc.CallOption) (*MsgAddFollowupResponse, error)
 }
 
 type msgClient struct {
@@ -70,6 +73,15 @@ func (c *msgClient) RespondComplaint(ctx context.Context, in *MsgRespondComplain
 	return out, nil
 }
 
+func (c *msgClient) AddFollowup(ctx context.Context, in *MsgAddFollowup, opts ...grpc.CallOption) (*MsgAddFollowupResponse, error) {
+	out := new(MsgAddFollowupResponse)
+	err := c.cc.Invoke(ctx, Msg_AddFollowup_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -79,6 +91,7 @@ type MsgServer interface {
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	SubmitComplaint(context.Context, *MsgSubmitComplaint) (*MsgSubmitComplaintResponse, error)
 	RespondComplaint(context.Context, *MsgRespondComplaint) (*MsgRespondComplaintResponse, error)
+	AddFollowup(context.Context, *MsgAddFollowup) (*MsgAddFollowupResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -94,6 +107,9 @@ func (UnimplementedMsgServer) SubmitComplaint(context.Context, *MsgSubmitComplai
 }
 func (UnimplementedMsgServer) RespondComplaint(context.Context, *MsgRespondComplaint) (*MsgRespondComplaintResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RespondComplaint not implemented")
+}
+func (UnimplementedMsgServer) AddFollowup(context.Context, *MsgAddFollowup) (*MsgAddFollowupResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddFollowup not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -162,6 +178,24 @@ func _Msg_RespondComplaint_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_AddFollowup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgAddFollowup)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).AddFollowup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_AddFollowup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).AddFollowup(ctx, req.(*MsgAddFollowup))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +214,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RespondComplaint",
 			Handler:    _Msg_RespondComplaint_Handler,
+		},
+		{
+			MethodName: "AddFollowup",
+			Handler:    _Msg_AddFollowup_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
