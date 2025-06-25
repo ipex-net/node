@@ -33,29 +33,18 @@ message Complaint {
 
 // Unified message structure for the thread
 message ThreadMessage {
-  uint64 senderOrgId = 1;     // Who sent this message
-  SenderRole senderRole = 2;  // Lessor or Lessee
-  MessageType messageType = 3;
-  string content = 4;         // The actual message
-  repeated string evidenceHashes = 5;
-  google.protobuf.Timestamp sentAt = 6 [(gogoproto.stdtime) = true];
+  MessageType messageType = 1;
+  string content = 2;
+  string evidenceHash = 3;
+  google.protobuf.Timestamp sentAt = 4 [(gogoproto.stdtime) = true];
 }
 
-// Who sent the message
-enum SenderRole {
-  SENDER_ROLE_UNSPECIFIED = 0;
-  SENDER_ROLE_LESSOR = 1;
-  SENDER_ROLE_LESSEE = 2;
-}
 
 // Type of message in thread
 enum MessageType {
   MESSAGE_TYPE_UNSPECIFIED = 0;
-  // Lessee message types
-  MESSAGE_TYPE_RESPONSE = 1;         // Lessee's response (any type)
-  // Lessor message types  
-  MESSAGE_TYPE_FOLLOWUP = 2;         // Lessor asks follow-up question
-  MESSAGE_TYPE_CLOSE = 3;            // Lessor closes complaint
+  MESSAGE_TYPE_LESSEE_RESPONSE = 1;
+  MESSAGE_TYPE_LESSOR_FOLLOWUP = 2;
 }
 
 // Abuse types based on real-world data
@@ -76,8 +65,8 @@ enum AbuseType {
 // Complaint states
 enum ComplaintState {
   STATE_UNSPECIFIED = 0;
-  STATE_SUBMITTED = 1;         // Initial state
-  STATE_RESPONDED = 2;         // Lessee replied at least once
-  STATE_AWAITING_RESPONSE = 3; // Lessor asked follow-up
-  STATE_CLOSED = 4;            // Lessor closed (resolved)
+  STATE_SUBMITTED = 1;
+  STATE_RESPONDED = 2;
+  STATE_AWAITING_RESPONSE = 3;
+  STATE_CLOSED = 4;
 }
