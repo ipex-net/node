@@ -2,19 +2,18 @@
 package abuse
 
 import (
-	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	_ "cosmossdk.io/api/amino"
 	_ "cosmossdk.io/api/cosmos/msg/v1"
+	fmt "fmt"
 	_ "github.com/cosmos/cosmos-proto"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
 var (
@@ -3080,52 +3079,6 @@ func (x *fastReflection_MsgRespondComplaintResponse) ProtoMethods() *protoiface.
 	}
 }
 
-var _ protoreflect.List = (*_MsgAddFollowup_4_list)(nil)
-
-type _MsgAddFollowup_4_list struct {
-	list *[]string
-}
-
-func (x *_MsgAddFollowup_4_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_MsgAddFollowup_4_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
-}
-
-func (x *_MsgAddFollowup_4_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_MsgAddFollowup_4_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_MsgAddFollowup_4_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgAddFollowup at list field EvidenceHash as it is not of Message kind"))
-}
-
-func (x *_MsgAddFollowup_4_list) Truncate(n int) {
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_MsgAddFollowup_4_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
-}
-
-func (x *_MsgAddFollowup_4_list) IsValid() bool {
-	return x.list != nil
-}
-
 var (
 	md_MsgAddFollowup              protoreflect.MessageDescriptor
 	fd_MsgAddFollowup_creator      protoreflect.FieldDescriptor
@@ -3226,8 +3179,8 @@ func (x *fastReflection_MsgAddFollowup) Range(f func(protoreflect.FieldDescripto
 			return
 		}
 	}
-	if len(x.EvidenceHash) != 0 {
-		value := protoreflect.ValueOfList(&_MsgAddFollowup_4_list{list: &x.EvidenceHash})
+	if x.EvidenceHash != "" {
+		value := protoreflect.ValueOfString(x.EvidenceHash)
 		if !f(fd_MsgAddFollowup_evidenceHash, value) {
 			return
 		}
@@ -3254,7 +3207,7 @@ func (x *fastReflection_MsgAddFollowup) Has(fd protoreflect.FieldDescriptor) boo
 	case "ipex.abuse.MsgAddFollowup.content":
 		return x.Content != ""
 	case "ipex.abuse.MsgAddFollowup.evidenceHash":
-		return len(x.EvidenceHash) != 0
+		return x.EvidenceHash != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgAddFollowup"))
@@ -3278,7 +3231,7 @@ func (x *fastReflection_MsgAddFollowup) Clear(fd protoreflect.FieldDescriptor) {
 	case "ipex.abuse.MsgAddFollowup.content":
 		x.Content = ""
 	case "ipex.abuse.MsgAddFollowup.evidenceHash":
-		x.EvidenceHash = nil
+		x.EvidenceHash = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgAddFollowup"))
@@ -3305,11 +3258,8 @@ func (x *fastReflection_MsgAddFollowup) Get(descriptor protoreflect.FieldDescrip
 		value := x.Content
 		return protoreflect.ValueOfString(value)
 	case "ipex.abuse.MsgAddFollowup.evidenceHash":
-		if len(x.EvidenceHash) == 0 {
-			return protoreflect.ValueOfList(&_MsgAddFollowup_4_list{})
-		}
-		listValue := &_MsgAddFollowup_4_list{list: &x.EvidenceHash}
-		return protoreflect.ValueOfList(listValue)
+		value := x.EvidenceHash
+		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgAddFollowup"))
@@ -3337,9 +3287,7 @@ func (x *fastReflection_MsgAddFollowup) Set(fd protoreflect.FieldDescriptor, val
 	case "ipex.abuse.MsgAddFollowup.content":
 		x.Content = value.Interface().(string)
 	case "ipex.abuse.MsgAddFollowup.evidenceHash":
-		lv := value.List()
-		clv := lv.(*_MsgAddFollowup_4_list)
-		x.EvidenceHash = *clv.list
+		x.EvidenceHash = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgAddFollowup"))
@@ -3360,18 +3308,14 @@ func (x *fastReflection_MsgAddFollowup) Set(fd protoreflect.FieldDescriptor, val
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgAddFollowup) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "ipex.abuse.MsgAddFollowup.evidenceHash":
-		if x.EvidenceHash == nil {
-			x.EvidenceHash = []string{}
-		}
-		value := &_MsgAddFollowup_4_list{list: &x.EvidenceHash}
-		return protoreflect.ValueOfList(value)
 	case "ipex.abuse.MsgAddFollowup.creator":
 		panic(fmt.Errorf("field creator of message ipex.abuse.MsgAddFollowup is not mutable"))
 	case "ipex.abuse.MsgAddFollowup.complaintId":
 		panic(fmt.Errorf("field complaintId of message ipex.abuse.MsgAddFollowup is not mutable"))
 	case "ipex.abuse.MsgAddFollowup.content":
 		panic(fmt.Errorf("field content of message ipex.abuse.MsgAddFollowup is not mutable"))
+	case "ipex.abuse.MsgAddFollowup.evidenceHash":
+		panic(fmt.Errorf("field evidenceHash of message ipex.abuse.MsgAddFollowup is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgAddFollowup"))
@@ -3392,8 +3336,7 @@ func (x *fastReflection_MsgAddFollowup) NewField(fd protoreflect.FieldDescriptor
 	case "ipex.abuse.MsgAddFollowup.content":
 		return protoreflect.ValueOfString("")
 	case "ipex.abuse.MsgAddFollowup.evidenceHash":
-		list := []string{}
-		return protoreflect.ValueOfList(&_MsgAddFollowup_4_list{list: &list})
+		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.abuse.MsgAddFollowup"))
@@ -3474,11 +3417,9 @@ func (x *fastReflection_MsgAddFollowup) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if len(x.EvidenceHash) > 0 {
-			for _, s := range x.EvidenceHash {
-				l = len(s)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
+		l = len(x.EvidenceHash)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -3510,13 +3451,11 @@ func (x *fastReflection_MsgAddFollowup) ProtoMethods() *protoiface.Methods {
 			copy(dAtA[i:], x.unknownFields)
 		}
 		if len(x.EvidenceHash) > 0 {
-			for iNdEx := len(x.EvidenceHash) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.EvidenceHash[iNdEx])
-				copy(dAtA[i:], x.EvidenceHash[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.EvidenceHash[iNdEx])))
-				i--
-				dAtA[i] = 0x22
-			}
+			i -= len(x.EvidenceHash)
+			copy(dAtA[i:], x.EvidenceHash)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.EvidenceHash)))
+			i--
+			dAtA[i] = 0x22
 		}
 		if len(x.Content) > 0 {
 			i -= len(x.Content)
@@ -3699,7 +3638,7 @@ func (x *fastReflection_MsgAddFollowup) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.EvidenceHash = append(x.EvidenceHash, string(dAtA[iNdEx:postIndex]))
+				x.EvidenceHash = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -4403,10 +4342,10 @@ type MsgAddFollowup struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Creator      string   `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	ComplaintId  uint64   `protobuf:"varint,2,opt,name=complaintId,proto3" json:"complaintId,omitempty"`
-	Content      string   `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
-	EvidenceHash []string `protobuf:"bytes,4,rep,name=evidenceHash,proto3" json:"evidenceHash,omitempty"`
+	Creator      string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	ComplaintId  uint64 `protobuf:"varint,2,opt,name=complaintId,proto3" json:"complaintId,omitempty"`
+	Content      string `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	EvidenceHash string `protobuf:"bytes,4,opt,name=evidenceHash,proto3" json:"evidenceHash,omitempty"`
 }
 
 func (x *MsgAddFollowup) Reset() {
@@ -4450,11 +4389,11 @@ func (x *MsgAddFollowup) GetContent() string {
 	return ""
 }
 
-func (x *MsgAddFollowup) GetEvidenceHash() []string {
+func (x *MsgAddFollowup) GetEvidenceHash() string {
 	if x != nil {
 		return x.EvidenceHash
 	}
-	return nil
+	return ""
 }
 
 type MsgAddFollowupResponse struct {
@@ -4550,7 +4489,7 @@ var file_ipex_abuse_tx_proto_rawDesc = []byte{
 	0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x61, 0x69, 0x6e, 0x74,
 	0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x03, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x22, 0x0a, 0x0c,
-	0x65, 0x76, 0x69, 0x64, 0x65, 0x6e, 0x63, 0x65, 0x48, 0x61, 0x73, 0x68, 0x18, 0x04, 0x20, 0x03,
+	0x65, 0x76, 0x69, 0x64, 0x65, 0x6e, 0x63, 0x65, 0x48, 0x61, 0x73, 0x68, 0x18, 0x04, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x0c, 0x65, 0x76, 0x69, 0x64, 0x65, 0x6e, 0x63, 0x65, 0x48, 0x61, 0x73, 0x68,
 	0x3a, 0x0c, 0x82, 0xe7, 0xb0, 0x2a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x18,
 	0x0a, 0x16, 0x4d, 0x73, 0x67, 0x41, 0x64, 0x64, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x75, 0x70,

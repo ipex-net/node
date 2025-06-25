@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgAddFollowup{}
 
-func NewMsgAddFollowup(creator string, complaintId uint64, content string, evidenceHash []string) *MsgAddFollowup {
+func NewMsgAddFollowup(creator string, complaintId uint64, content string, evidenceHash string) *MsgAddFollowup {
 	return &MsgAddFollowup{
 		Creator:      creator,
 		ComplaintId:  complaintId,
