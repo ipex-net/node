@@ -33,6 +33,13 @@ func (k msgServer) CloseComplaint(goCtx context.Context, msg *types.MsgCloseComp
 
 	currentTime := ctx.BlockTime()
 
+	// Updating abuse stats
+	if complaint.ResolutionFailed {
+		k.trustKeeper.UpdateAbuseStats(ctx, complaint.LeaseId, complaint.LesseeOrgId, uint32(complaint.AbuseType), "failed", "resolved")
+	} else {
+		k.trustKeeper.UpdateAbuseStats(ctx, complaint.LeaseId, complaint.LesseeOrgId, uint32(complaint.AbuseType), "inprogress", "resolved")
+	}
+
 	// Update complaint state and activity tracking
 	complaint.State = types.ComplaintState_STATE_CLOSED
 
