@@ -251,5 +251,7 @@ func (k msgServer) SubmitComplaint(goCtx context.Context, msg *types.MsgSubmitCo
 	// Store the complaint with auto-incrementing ID
 	complaintId := k.AppendComplaint(ctx, complaint)
 
+	// Update abuse stats
+	k.trustKeeper.UpdateAbuseStats(ctx, complaint.LeaseId, complaint.LesseeOrgId, uint32(complaint.AbuseType), "", "inprogress")
 	return &types.MsgSubmitComplaintResponse{Id: complaintId}, nil
 }
