@@ -23,6 +23,7 @@ type (
 
 		subnetKeeper types.SubnetKeeper
 		leaseKeeper  types.LeaseKeeper
+		trustKeeper  types.TrustKeeper
 	}
 )
 
@@ -33,6 +34,7 @@ func NewKeeper(
 	authority string,
 	subnetKeeper types.SubnetKeeper,
 	leaseKeeper types.LeaseKeeper,
+	trustKeeper types.TrustKeeper,
 ) Keeper {
 	if _, err := sdk.AccAddressFromBech32(authority); err != nil {
 		panic(fmt.Sprintf("invalid authority address: %s", authority))
@@ -45,6 +47,7 @@ func NewKeeper(
 		logger:       logger,
 		subnetKeeper: subnetKeeper,
 		leaseKeeper:  leaseKeeper,
+		trustKeeper:  trustKeeper,
 	}
 }
 

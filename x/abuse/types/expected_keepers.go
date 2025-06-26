@@ -32,6 +32,10 @@ type LeaseKeeper interface {
 	GetContract(ctx context.Context, id uint64) (val leasetypes.Contract, found bool)
 }
 
+type TrustKeeper interface {
+	UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgId uint64, abuseCategory uint32, oldStatus string, newStatus string) error
+}
+
 // ParamSubspace defines the expected Subspace interface for parameters.
 type ParamSubspace interface {
 	Get(context.Context, []byte, interface{})
