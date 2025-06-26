@@ -104,15 +104,12 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 	// Reputation change detected, proceeding with corresponding updates
 
 	// Update the subnet reputation with absolute blacklist count values
-	subnetRep := types.SubnetReputation{
-		Index:       subnetId,
-		Level1Count: reputation.Level1Count,
-		Level2Count: reputation.Level2Count,
-		Level3Count: reputation.Level3Count,
-		Level4Count: reputation.Level4Count,
-		LastUpdated: &blockTime,
-	}
-	k.SetSubnetReputation(ctx, subnetRep)
+	currentSubnetRep.Level1Count = reputation.Level1Count
+	currentSubnetRep.Level2Count = reputation.Level2Count
+	currentSubnetRep.Level3Count = reputation.Level3Count
+	currentSubnetRep.Level4Count = reputation.Level4Count
+	currentSubnetRep.LastUpdated = &blockTime
+	k.SetSubnetReputation(ctx, currentSubnetRep)
 
 	// Log the reputation change
 	logEntry := types.BlacklistLog{
@@ -135,15 +132,12 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 	// Update the lease reputation with relative values
 	leaseRep, found := k.GetLeaseReputation(ctx, leaseId)
 	if found {
-		newLeaseRep := types.LeaseReputation{
-			Index:       leaseId,
-			Level1Count: leaseRep.Level1Count + level1Change,
-			Level2Count: leaseRep.Level2Count + level2Change,
-			Level3Count: leaseRep.Level3Count + level3Change,
-			Level4Count: leaseRep.Level4Count + level4Change,
-			LastUpdated: &blockTime,
-		}
-		k.SetLeaseReputation(ctx, newLeaseRep)
+		leaseRep.Level1Count = leaseRep.Level1Count + level1Change
+		leaseRep.Level2Count = leaseRep.Level2Count + level1Change
+		leaseRep.Level3Count = leaseRep.Level3Count + level1Change
+		leaseRep.Level4Count = leaseRep.Level4Count + level1Change
+		leaseRep.LastUpdated = &blockTime
+		k.SetLeaseReputation(ctx, leaseRep)
 	} else {
 		newLeaseRep := types.LeaseReputation{
 			Index:       leaseId,
@@ -159,15 +153,12 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 	// Update the lessee reputation with relative values
 	lesseeRep, found := k.GetLesseeReputation(ctx, lesseeOrgId)
 	if found {
-		newLesseeRep := types.LesseeReputation{
-			Index:       lesseeOrgId,
-			Level1Count: lesseeRep.Level1Count + level1Change,
-			Level2Count: lesseeRep.Level2Count + level2Change,
-			Level3Count: lesseeRep.Level3Count + level3Change,
-			Level4Count: lesseeRep.Level4Count + level4Change,
-			LastUpdated: &blockTime,
-		}
-		k.SetLesseeReputation(ctx, newLesseeRep)
+		lesseeRep.Level1Count = lesseeRep.Level1Count + level1Change
+		lesseeRep.Level2Count = lesseeRep.Level2Count + level2Change
+		lesseeRep.Level3Count = lesseeRep.Level3Count + level3Change
+		lesseeRep.Level4Count = lesseeRep.Level4Count + level4Change
+		lesseeRep.LastUpdated = &blockTime
+		k.SetLesseeReputation(ctx, lesseeRep)
 	} else {
 		newLesseeRep := types.LesseeReputation{
 			Index:       lesseeOrgId,
