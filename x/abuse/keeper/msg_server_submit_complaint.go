@@ -18,7 +18,7 @@ import (
 // const mediumDeadline = 3 * 24 * time.Hour
 // const extendedDeadline = 7 * 24 * time.Hour
 const shortDeadline = 5 * time.Minute
-const mediumDeadline = 10 * time.Hour
+const mediumDeadline = 10 * time.Minute
 const extendedDeadline = 15 * time.Minute
 
 func (k msgServer) SubmitComplaint(goCtx context.Context, msg *types.MsgSubmitComplaint) (*types.MsgSubmitComplaintResponse, error) {

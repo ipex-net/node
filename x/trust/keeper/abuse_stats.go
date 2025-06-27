@@ -19,7 +19,7 @@ func (k Keeper) UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgI
 		return fmt.Errorf("invalid block time: cannot be zero")
 	}
 
-	if oldStatus != "failed" && oldStatus != "inprogress" && oldStatus != "resolved" {
+	if oldStatus != "" && oldStatus != "failed" && oldStatus != "inprogress" && oldStatus != "resolved" {
 		return fmt.Errorf("invalid old status %s", oldStatus)
 	}
 	
@@ -43,6 +43,7 @@ func (k Keeper) UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgI
 		currentLeaseRep = types.LeaseReputation {
 			Index: leaseId,
 			LastUpdated: &blockTime,
+			AbuseByType: make(map[uint32]*types.AbuseStats),
 		}
 	}
 	
@@ -54,7 +55,16 @@ func (k Keeper) UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgI
 		currentLesseeRep = types.LesseeReputation {
 			Index: lesseeOrgId,
 			LastUpdated: &blockTime,
+			AbuseByType: make(map[uint32]*types.AbuseTypeStats),
 		}
+	}
+	
+	// Initialize maps if they are nil
+	if currentLesseeRep.AbuseByType == nil {
+		currentLesseeRep.AbuseByType = make(map[uint32]*types.AbuseTypeStats)
+	}
+	if currentLeaseRep.AbuseByType == nil {
+		currentLeaseRep.AbuseByType = make(map[uint32]*types.AbuseStats)
 	}
 
 	switch oldStatus {
@@ -101,35 +111,50 @@ func (k Keeper) UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgI
 		}
 	}
 
+	// New status also used to initiate the stat maps if they are not set
 	switch newStatus {
 	case "inprogress":
-		currentLeaseRep.AbuseInProgress++
-		currentLeaseRep.AbuseInProgress++
+		currentLesseeRep.AbuseInProgress++
 		if _, ok := currentLesseeRep.AbuseByType[abuseCategory]; ok {
 			currentLesseeRep.AbuseByType[abuseCategory].InProgress++
 			currentLesseeRep.AbuseByType[abuseCategory].LastIncident = &blockTime
+		} else {
+			// Initialize stats for category in case it's not set yet
+			currentLesseeRep.AbuseByType[abuseCategory] = &types.AbuseTypeStats{
+				InProgress: 1, 
+				LastIncident: &blockTime,
+			}
 		}
+
+		currentLeaseRep.AbuseInProgress++
 		if _, ok := currentLeaseRep.AbuseByType[abuseCategory]; ok {
 			currentLeaseRep.AbuseByType[abuseCategory].InProgress++
 			currentLeaseRep.AbuseByType[abuseCategory].LastIncident = &blockTime
+		} else {
+			currentLeaseRep.AbuseByType[abuseCategory] = &types.AbuseStats{
+				InProgress: 1,
+				LastIncident: &blockTime,
+			}
 		}
+	// Note: we don't initialize the abuse stat by category for failed and resolved states, because initialisation should have been done on first complaint submission e.g. inprogress state
 	case "failed":
 		currentLesseeRep.AbuseFailed++
-		currentLeaseRep.AbuseFailed++
 		if _, ok := currentLesseeRep.AbuseByType[abuseCategory]; ok {
 			currentLesseeRep.AbuseByType[abuseCategory].Failed++
 		}
+
+		currentLeaseRep.AbuseFailed++
 		if _, ok := currentLeaseRep.AbuseByType[abuseCategory]; ok {
 			currentLeaseRep.AbuseByType[abuseCategory].Failed++
 		}
 
 	case "resolved":
 		currentLesseeRep.AbuseResolved++
-		currentLeaseRep.AbuseResolved++
-
 		if _, ok := currentLesseeRep.AbuseByType[abuseCategory]; ok {
 			currentLesseeRep.AbuseByType[abuseCategory].Resolved++
 		}
+
+		currentLeaseRep.AbuseResolved++
 		if _, ok := currentLeaseRep.AbuseByType[abuseCategory]; ok {
 			currentLeaseRep.AbuseByType[abuseCategory].Resolved++
 		}

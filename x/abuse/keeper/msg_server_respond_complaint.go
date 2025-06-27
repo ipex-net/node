@@ -24,13 +24,13 @@ func (k msgServer) RespondComplaint(goCtx context.Context, msg *types.MsgRespond
 	// Validate content size
 	if len(content) < minContentLength {
 		return nil, errorsmod.Wrapf(types.ErrInvalidSummary,
-			"summary too short (minimum %d characters)",
+			"response too short (minimum %d characters)",
 			minContentLength)
 	}
 
 	if len(content) > maxContentLength {
 		return nil, errorsmod.Wrapf(types.ErrInvalidSummary,
-			"summary too long (maximum %d characters)",
+			"response too long (maximum %d characters)",
 			maxContentLength)
 	}
 
