@@ -6,22 +6,57 @@ import (
 
 	"ipex/x/abuse/types"
 
+	"cosmossdk.io/collections"
 	"cosmossdk.io/store/prefix"
-	storetypes "cosmossdk.io/store/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // AppendComplaint appends a complaint to the store with an auto-incrementing id
 func (k Keeper) AppendComplaint(ctx context.Context, complaint types.Complaint) uint64 {
-	count := k.GetComplaintCount(ctx)
-	// Set the ID of the appended value (start from 1, not 0)
-	complaint.Id = count + 1
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ComplaintKeyPrefix))
-	appendedValue := k.cdc.MustMarshal(&complaint)
-	store.Set(types.GetComplaintIDBytes(complaint.Id), appendedValue)
-	k.SetComplaintCount(ctx, count+1)
-	return complaint.Id
+	// Get next ID from sequence
+	id, err := k.ComplaintSequence.Next(ctx)
+	if err != nil {
+		panic(err)
+	}
+	complaint.Id = id
+
+	// Store the complaint
+	err = k.Complaints.Set(ctx, id, complaint)
+	if err != nil {
+		panic(err)
+	}
+
+	// Update secondary indexes
+	k.updateComplaintIndexes(ctx, complaint)
+
+	return id
+}
+
+// updateComplaintIndexes updates all secondary indexes for a complaint
+func (k Keeper) updateComplaintIndexes(ctx context.Context, complaint types.Complaint) {
+	// Index by subnet
+	err := k.ComplaintsBySubnet.Set(ctx, collections.Join(complaint.SubnetId, complaint.Id), true)
+	if err != nil {
+		panic(err)
+	}
+
+	// Index by lease
+	err = k.ComplaintsByLease.Set(ctx, collections.Join(complaint.LeaseId, complaint.Id), true)
+	if err != nil {
+		panic(err)
+	}
+
+	// Index by lessee
+	err = k.ComplaintsByLessee.Set(ctx, collections.Join(complaint.LesseeOrgId, complaint.Id), true)
+	if err != nil {
+		panic(err)
+	}
+
+	// Index by lessor
+	err = k.ComplaintsByLessor.Set(ctx, collections.Join(complaint.LessorOrgId, complaint.Id), true)
+	if err != nil {
+		panic(err)
+	}
 }
 
 // GetComplaintCount returns the total number of complaints
@@ -48,10 +83,14 @@ func (k Keeper) SetComplaintCount(ctx context.Context, count uint64) {
 
 // SetComplaint set a specific complaint in the store from its id
 func (k Keeper) SetComplaint(ctx context.Context, complaint types.Complaint) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ComplaintKeyPrefix))
-	b := k.cdc.MustMarshal(&complaint)
-	store.Set(types.GetComplaintIDBytes(complaint.Id), b)
+	// Store the complaint
+	err := k.Complaints.Set(ctx, complaint.Id, complaint)
+	if err != nil {
+		panic(err)
+	}
+
+	// Update secondary indexes (in case any indexed fields changed)
+	k.updateComplaintIndexes(ctx, complaint)
 }
 
 // GetComplaint returns a complaint from its id
@@ -59,16 +98,14 @@ func (k Keeper) GetComplaint(
 	ctx context.Context,
 	id uint64,
 ) (val types.Complaint, found bool) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ComplaintKeyPrefix))
-
-	b := store.Get(types.GetComplaintIDBytes(id))
-	if b == nil {
-		return val, false
+	complaint, err := k.Complaints.Get(ctx, id)
+	if err != nil {
+		if err.Error() == "collections: not found" {
+			return val, false
+		}
+		panic(err)
 	}
-
-	k.cdc.MustUnmarshal(b, &val)
-	return val, true
+	return complaint, true
 }
 
 // RemoveComplaint removes a complaint from the store
@@ -76,25 +113,46 @@ func (k Keeper) RemoveComplaint(
 	ctx context.Context,
 	id uint64,
 ) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ComplaintKeyPrefix))
-	store.Delete(types.GetComplaintIDBytes(id))
+	// Get the complaint first to access its indexed fields
+	complaint, found := k.GetComplaint(ctx, id)
+	if !found {
+		return
+	}
+
+	// Remove from main collection
+	err := k.Complaints.Remove(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+
+	// Remove from secondary indexes
+	k.removeComplaintFromIndexes(ctx, complaint)
+}
+
+// removeComplaintFromIndexes removes complaint from all secondary indexes
+func (k Keeper) removeComplaintFromIndexes(ctx context.Context, complaint types.Complaint) {
+	// Remove from subnet index
+	k.ComplaintsBySubnet.Remove(ctx, collections.Join(complaint.SubnetId, complaint.Id))
+
+	// Remove from lease index
+	k.ComplaintsByLease.Remove(ctx, collections.Join(complaint.LeaseId, complaint.Id))
+
+	// Remove from lessee index
+	k.ComplaintsByLessee.Remove(ctx, collections.Join(complaint.LesseeOrgId, complaint.Id))
+
+	// Remove from lessor index
+	k.ComplaintsByLessor.Remove(ctx, collections.Join(complaint.LessorOrgId, complaint.Id))
 }
 
 // GetAllComplaint returns all complaint
 func (k Keeper) GetAllComplaint(ctx context.Context) (list []types.Complaint) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ComplaintKeyPrefix))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val types.Complaint
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-		list = append(list, val)
+	err := k.Complaints.Walk(ctx, nil, func(key uint64, value types.Complaint) (bool, error) {
+		list = append(list, value)
+		return false, nil
+	})
+	if err != nil {
+		panic(err)
 	}
-
 	return
 }
 
