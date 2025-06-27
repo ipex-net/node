@@ -83,25 +83,41 @@ message QueryAllComplaintResponse {
 
 message QueryComplaintBySubnetRequest {
   uint64 subnetId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-message QueryComplaintBySubnetResponse {}
+message QueryComplaintBySubnetResponse {
+  repeated Complaint                              complaint  = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
 
 message QueryComplaintByLeaseRequest {
   uint64 leaseId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-message QueryComplaintByLeaseResponse {}
+message QueryComplaintByLeaseResponse {
+  repeated Complaint                              complaint  = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
 
 message QueryComplaintByLesseeRequest {
   uint64 lesseeOrgId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-message QueryComplaintByLesseeResponse {}
+message QueryComplaintByLesseeResponse {
+  repeated Complaint                              complaint  = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
 
 message QueryComplaintByLessorRequest {
   uint64 lessorOrgId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-message QueryComplaintByLessorResponse {}
+message QueryComplaintByLessorResponse {
+  repeated Complaint                              complaint  = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
 
