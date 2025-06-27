@@ -11,15 +11,19 @@ import (
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
-const closeAfterHours = 48
+
+// TESTING
+// const autoCloseDelay = 48 * time.Hour
+const autoCloseDelay = 5 * time.Minute
 
 // Automatically closes or sets resolution as failed based on time passed and lease state
 func (k Keeper) ProcessComplaints(goCtx context.Context) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	// Only run every 50 blocks
-	if ctx.BlockHeight()%50 != 0 { 
-		return
-		}        
+	// TESTING
+	// // Only run every 50 blocks
+	// if ctx.BlockHeight()%50 != 0 { 
+	// 	return
+	// 	}        
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(goCtx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ComplaintKeyPrefix))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
@@ -31,7 +35,7 @@ func (k Keeper) ProcessComplaints(goCtx context.Context) {
 		var complaint types.Complaint
 		k.cdc.MustUnmarshal(iterator.Value(), &complaint)
 		// Closing complaints that were replied 48 hours ago and haven't failed resolution
-		if !complaint.ResolutionFailed && complaint.State == types.ComplaintState_STATE_RESPONDED && currentTime.After(complaint.LastActivityAt.Add(closeAfterHours * time.Hour)) {
+		if !complaint.ResolutionFailed && complaint.State == types.ComplaintState_STATE_RESPONDED && currentTime.After(complaint.LastActivityAt.Add(autoCloseDelay)) {
 			// Update complaint state
 			complaint.State = types.ComplaintState_STATE_CLOSED
 			complaint.ResolutionFailed = false

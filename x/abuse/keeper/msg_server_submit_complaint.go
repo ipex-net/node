@@ -13,6 +13,14 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
+// TESTING
+// const shortDeadline = 24 * time.Hour
+// const mediumDeadline = 3 * 24 * time.Hour
+// const extendedDeadline = 7 * 24 * time.Hour
+const shortDeadline = 5 * time.Minute
+const mediumDeadline = 10 * time.Hour
+const extendedDeadline = 15 * time.Minute
+
 func (k msgServer) SubmitComplaint(goCtx context.Context, msg *types.MsgSubmitComplaint) (*types.MsgSubmitComplaintResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
@@ -220,29 +228,29 @@ func (k msgServer) SubmitComplaint(goCtx context.Context, msg *types.MsgSubmitCo
 	var deadlineDuration time.Duration
 	switch abuseType {
 	case types.AbuseType_ABUSE_TYPE_VIOLENCE_HATE_CSAM:
-		deadlineDuration = 24 * time.Hour
+		deadlineDuration = shortDeadline
 	case types.AbuseType_ABUSE_TYPE_PHISHING_FRAUD:
-		deadlineDuration = 24 * time.Hour
+		deadlineDuration = shortDeadline
 	case types.AbuseType_ABUSE_TYPE_MALWARE:
-		deadlineDuration = 24 * time.Hour
+		deadlineDuration = shortDeadline
 	case types.AbuseType_ABUSE_TYPE_DOS_DDOS:
-		deadlineDuration = 24 * time.Hour
+		deadlineDuration = shortDeadline
 	case types.AbuseType_ABUSE_TYPE_HACKING:
-		deadlineDuration = 24 * time.Hour
+		deadlineDuration = shortDeadline
 	case types.AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA:
-		deadlineDuration = 72 * time.Hour
+		deadlineDuration = mediumDeadline
 	case types.AbuseType_ABUSE_TYPE_SPAM:
-		deadlineDuration = 72 * time.Hour
+		deadlineDuration = mediumDeadline
 	case types.AbuseType_ABUSE_TYPE_BRUTEFORCE:
-		deadlineDuration = 72 * time.Hour
+		deadlineDuration = mediumDeadline
 	case types.AbuseType_ABUSE_TYPE_PORT_SCANNING:
-		deadlineDuration = 5 * 24 * time.Hour
+		deadlineDuration = mediumDeadline
 	case types.AbuseType_ABUSE_TYPE_OTHER:
 		// Default: Other complaints
-		deadlineDuration = 7 * 24 * time.Hour
+		deadlineDuration = extendedDeadline
 	default:
 		// Fallback: Standard business week
-		deadlineDuration = 7 * 24 * time.Hour
+		deadlineDuration = extendedDeadline
 	}
 
 	resolutionDeadline := currentTime.Add(deadlineDuration)
