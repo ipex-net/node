@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"ipex/x/trust/types"
+	abusetypes "ipex/x/abuse/types"
 
 	"cosmossdk.io/store/prefix"
 	"github.com/cosmos/cosmos-sdk/runtime"
@@ -17,7 +18,7 @@ func (k Keeper) LeaseReputationAll(ctx context.Context, req *types.QueryAllLease
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var leaseReputations []types.LeaseReputation
+	var leaseReputationsDisplay []types.LeaseReputationDisplay
 
 	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	leaseReputationStore := prefix.NewStore(store, types.KeyPrefix(types.LeaseReputationKeyPrefix))
@@ -28,7 +29,35 @@ func (k Keeper) LeaseReputationAll(ctx context.Context, req *types.QueryAllLease
 			return err
 		}
 
-		leaseReputations = append(leaseReputations, leaseReputation)
+		// Convert to display format
+		display := types.LeaseReputationDisplay{
+			Index:           leaseReputation.Index,
+			Level1Count:     leaseReputation.Level1Count,
+			Level2Count:     leaseReputation.Level2Count,
+			Level3Count:     leaseReputation.Level3Count,
+			Level4Count:     leaseReputation.Level4Count,
+			LastUpdated:     leaseReputation.LastUpdated,
+			AbuseResolved:   leaseReputation.AbuseResolved,
+			AbuseFailed:     leaseReputation.AbuseFailed,
+			AbuseInProgress: leaseReputation.AbuseInProgress,
+		}
+
+		// Convert map to slice, only include initialized entries
+		if leaseReputation.AbuseByType != nil {
+			for abuseType := abusetypes.AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA; abuseType <= abusetypes.AbuseType_ABUSE_TYPE_OTHER; abuseType++ {
+				if stats, exists := leaseReputation.AbuseByType[uint32(abuseType)]; exists && stats != nil {
+					display.AbuseByType = append(display.AbuseByType, &types.AbuseStatsDisplay{
+						AbuseType:    uint32(abuseType),
+						Resolved:     stats.Resolved,
+						Failed:       stats.Failed,
+						InProgress:   stats.InProgress,
+						LastIncident: stats.LastIncident,
+					})
+				}
+			}
+		}
+
+		leaseReputationsDisplay = append(leaseReputationsDisplay, display)
 		return nil
 	})
 
@@ -36,7 +65,7 @@ func (k Keeper) LeaseReputationAll(ctx context.Context, req *types.QueryAllLease
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryAllLeaseReputationResponse{LeaseReputation: leaseReputations, Pagination: pageRes}, nil
+	return &types.QueryAllLeaseReputationResponse{LeaseReputation: leaseReputationsDisplay, Pagination: pageRes}, nil
 }
 
 func (k Keeper) LeaseReputation(ctx context.Context, req *types.QueryGetLeaseReputationRequest) (*types.QueryGetLeaseReputationResponse, error) {
@@ -52,5 +81,33 @@ func (k Keeper) LeaseReputation(ctx context.Context, req *types.QueryGetLeaseRep
 		return nil, status.Error(codes.NotFound, "not found")
 	}
 
-	return &types.QueryGetLeaseReputationResponse{LeaseReputation: val}, nil
+	// Convert to display format
+	display := types.LeaseReputationDisplay{
+		Index:           val.Index,
+		Level1Count:     val.Level1Count,
+		Level2Count:     val.Level2Count,
+		Level3Count:     val.Level3Count,
+		Level4Count:     val.Level4Count,
+		LastUpdated:     val.LastUpdated,
+		AbuseResolved:   val.AbuseResolved,
+		AbuseFailed:     val.AbuseFailed,
+		AbuseInProgress: val.AbuseInProgress,
+	}
+
+	// Convert map to slice, only include initialized entries
+	if val.AbuseByType != nil {
+		for abuseType := abusetypes.AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA; abuseType <= abusetypes.AbuseType_ABUSE_TYPE_OTHER; abuseType++ {
+			if stats, exists := val.AbuseByType[uint32(abuseType)]; exists && stats != nil {
+				display.AbuseByType = append(display.AbuseByType, &types.AbuseStatsDisplay{
+					AbuseType:    uint32(abuseType),
+					Resolved:     stats.Resolved,
+					Failed:       stats.Failed,
+					InProgress:   stats.InProgress,
+					LastIncident: stats.LastIncident,
+				})
+			}
+		}
+	}
+
+	return &types.QueryGetLeaseReputationResponse{LeaseReputation: display}, nil
 }

@@ -5,6 +5,7 @@ package ipex.trust;
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "ipex/trust/params.proto";
 import "ipex/trust/subnet_reputation.proto";
@@ -176,7 +177,7 @@ message QueryGetLeaseReputationRequest {
 }
 
 message QueryGetLeaseReputationResponse {
-  LeaseReputation leaseReputation = 1 [(gogoproto.nullable) = false];
+  LeaseReputationDisplay leaseReputation = 1 [(gogoproto.nullable) = false];
 }
 
 message QueryAllLeaseReputationRequest {
@@ -184,8 +185,29 @@ message QueryAllLeaseReputationRequest {
 }
 
 message QueryAllLeaseReputationResponse {
-  repeated LeaseReputation                        leaseReputation = 1 [(gogoproto.nullable) = false];
+  repeated LeaseReputationDisplay                 leaseReputation = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination      = 2;
+}
+
+message LeaseReputationDisplay {
+  uint64 index = 1; 
+  int32 level1Count = 2; 
+  int32 level2Count = 3; 
+  int32 level3Count = 4; 
+  int32 level4Count = 5; 
+  google.protobuf.Timestamp lastUpdated = 6 [(gogoproto.stdtime) = true];
+  uint64 abuseResolved = 7;
+  uint64 abuseFailed = 8;
+  uint64 abuseInProgress = 9;
+  repeated AbuseStatsDisplay abuseByType = 10; 
+}
+
+message AbuseStatsDisplay {
+  uint32 abuseType = 1;
+  uint64 resolved = 2;
+  uint64 failed = 3;
+  uint64 inProgress = 4;
+  google.protobuf.Timestamp lastIncident = 5 [(gogoproto.stdtime) = true];
 }
 
 message QueryGetLesseeReputationRequest {
@@ -193,7 +215,7 @@ message QueryGetLesseeReputationRequest {
 }
 
 message QueryGetLesseeReputationResponse {
-  LesseeReputation lesseeReputation = 1 [(gogoproto.nullable) = false];
+  LesseeReputationDisplay lesseeReputation = 1 [(gogoproto.nullable) = false];
 }
 
 message QueryAllLesseeReputationRequest {
@@ -201,7 +223,28 @@ message QueryAllLesseeReputationRequest {
 }
 
 message QueryAllLesseeReputationResponse {
-  repeated LesseeReputation                       lesseeReputation = 1 [(gogoproto.nullable) = false];
+  repeated LesseeReputationDisplay                lesseeReputation = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination       = 2;
+}
+
+message LesseeReputationDisplay {
+  uint64 index = 1; 
+  int32 level1Count = 2; 
+  int32 level2Count = 3; 
+  int32 level3Count = 4; 
+  int32 level4Count = 5; 
+  google.protobuf.Timestamp lastUpdated = 6 [(gogoproto.stdtime) = true];
+  uint64 abuseResolved = 7;
+  uint64 abuseFailed = 8;
+  uint64 abuseInProgress = 9;
+  repeated AbuseTypeStatsDisplay abuseByType = 10; 
+}
+
+message AbuseTypeStatsDisplay {
+  uint32 abuseType = 1;
+  uint64 resolved = 2;
+  uint64 failed = 3;
+  uint64 inProgress = 4;
+  google.protobuf.Timestamp lastIncident = 5 [(gogoproto.stdtime) = true];
 }
 
