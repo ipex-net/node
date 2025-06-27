@@ -10,11 +10,11 @@ const (
 	// ComplaintCountKey is the key for the complaint count
 	ComplaintCountKey = "Complaint/count/"
 	// Collection keys for secondary indexes
-	ComplaintBySubnetKey     = "Complaint/by_subnet/"
-	ComplaintByLeaseKey      = "Complaint/by_lease/"
-	ComplaintByLesseeKey     = "Complaint/by_lessee/"
-	ComplaintByLessorKey     = "Complaint/by_lessor/"
-	ComplaintSequenceKey     = "Complaint/sequence/"
+	ComplaintBySubnetKey = "Complaint/by_subnet/"
+	ComplaintByLeaseKey  = "Complaint/by_lease/"
+	ComplaintByLesseeKey = "Complaint/by_lessee/"
+	ComplaintByLessorKey = "Complaint/by_lessor/"
+	ComplaintSequenceKey = "Complaint/sequence/"
 )
 
 // ComplaintKey returns the store key to retrieve a Complaint from the id

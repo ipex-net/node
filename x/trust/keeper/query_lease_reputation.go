@@ -3,8 +3,8 @@ package keeper
 import (
 	"context"
 
-	"ipex/x/trust/types"
 	abusetypes "ipex/x/abuse/types"
+	"ipex/x/trust/types"
 
 	"cosmossdk.io/store/prefix"
 	"github.com/cosmos/cosmos-sdk/runtime"

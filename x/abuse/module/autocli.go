@@ -28,6 +28,34 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Shows a complaint",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
+				{
+					RpcMethod:      "ComplaintBySubnet",
+					Use:            "complaint-by-subnet [subnet-id]",
+					Short:          "Query complaint-by-subnet",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "subnetId"}},
+				},
+
+				{
+					RpcMethod:      "ComplaintByLease",
+					Use:            "complaint-by-lease [lease-id]",
+					Short:          "Query complaint-by-lease",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "leaseId"}},
+				},
+
+				{
+					RpcMethod:      "ComplaintByLessee",
+					Use:            "complaint-by-lessee [lessee-org-id]",
+					Short:          "Query complaint-by-lessee",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "lesseeOrgId"}},
+				},
+
+				{
+					RpcMethod:      "ComplaintByLessor",
+					Use:            "complaint-by-lessor [lessor-org-id]",
+					Short:          "Query complaint-by-lessor",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "lessorOrgId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

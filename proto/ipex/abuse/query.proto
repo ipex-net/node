@@ -29,6 +29,30 @@ service Query {
     option (google.api.http).get = "/ipex/abuse/complaint";
   
   }
+  
+  // Queries a list of ComplaintBySubnet items.
+  rpc ComplaintBySubnet (QueryComplaintBySubnetRequest) returns (QueryComplaintBySubnetResponse) {
+    option (google.api.http).get = "/ipex/abuse/complaint_by_subnet/{subnetId}";
+  
+  }
+  
+  // Queries a list of ComplaintByLease items.
+  rpc ComplaintByLease (QueryComplaintByLeaseRequest) returns (QueryComplaintByLeaseResponse) {
+    option (google.api.http).get = "/ipex/abuse/complaint_by_lease/{leaseId}";
+  
+  }
+  
+  // Queries a list of ComplaintByLessee items.
+  rpc ComplaintByLessee (QueryComplaintByLesseeRequest) returns (QueryComplaintByLesseeResponse) {
+    option (google.api.http).get = "/ipex/abuse/complaint_by_lessee/{lesseeOrgId}";
+  
+  }
+  
+  // Queries a list of ComplaintByLessor items.
+  rpc ComplaintByLessor (QueryComplaintByLessorRequest) returns (QueryComplaintByLessorResponse) {
+    option (google.api.http).get = "/ipex/abuse/complaint_by_lessor/{lessorOrgId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -56,4 +80,28 @@ message QueryAllComplaintResponse {
   repeated Complaint                              complaint  = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
+
+message QueryComplaintBySubnetRequest {
+  uint64 subnetId = 1;
+}
+
+message QueryComplaintBySubnetResponse {}
+
+message QueryComplaintByLeaseRequest {
+  uint64 leaseId = 1;
+}
+
+message QueryComplaintByLeaseResponse {}
+
+message QueryComplaintByLesseeRequest {
+  uint64 lesseeOrgId = 1;
+}
+
+message QueryComplaintByLesseeResponse {}
+
+message QueryComplaintByLessorRequest {
+  uint64 lessorOrgId = 1;
+}
+
+message QueryComplaintByLessorResponse {}
 

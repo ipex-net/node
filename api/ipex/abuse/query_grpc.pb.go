@@ -8,6 +8,7 @@ package abuse
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,9 +20,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName       = "/ipex.abuse.Query/Params"
-	Query_Complaint_FullMethodName    = "/ipex.abuse.Query/Complaint"
-	Query_ComplaintAll_FullMethodName = "/ipex.abuse.Query/ComplaintAll"
+	Query_Params_FullMethodName            = "/ipex.abuse.Query/Params"
+	Query_Complaint_FullMethodName         = "/ipex.abuse.Query/Complaint"
+	Query_ComplaintAll_FullMethodName      = "/ipex.abuse.Query/ComplaintAll"
+	Query_ComplaintBySubnet_FullMethodName = "/ipex.abuse.Query/ComplaintBySubnet"
+	Query_ComplaintByLease_FullMethodName  = "/ipex.abuse.Query/ComplaintByLease"
+	Query_ComplaintByLessee_FullMethodName = "/ipex.abuse.Query/ComplaintByLessee"
+	Query_ComplaintByLessor_FullMethodName = "/ipex.abuse.Query/ComplaintByLessor"
 )
 
 // QueryClient is the client API for Query service.
@@ -33,6 +38,14 @@ type QueryClient interface {
 	// Queries a list of Complaint items.
 	Complaint(ctx context.Context, in *QueryGetComplaintRequest, opts ...grpc.CallOption) (*QueryGetComplaintResponse, error)
 	ComplaintAll(ctx context.Context, in *QueryAllComplaintRequest, opts ...grpc.CallOption) (*QueryAllComplaintResponse, error)
+	// Queries a list of ComplaintBySubnet items.
+	ComplaintBySubnet(ctx context.Context, in *QueryComplaintBySubnetRequest, opts ...grpc.CallOption) (*QueryComplaintBySubnetResponse, error)
+	// Queries a list of ComplaintByLease items.
+	ComplaintByLease(ctx context.Context, in *QueryComplaintByLeaseRequest, opts ...grpc.CallOption) (*QueryComplaintByLeaseResponse, error)
+	// Queries a list of ComplaintByLessee items.
+	ComplaintByLessee(ctx context.Context, in *QueryComplaintByLesseeRequest, opts ...grpc.CallOption) (*QueryComplaintByLesseeResponse, error)
+	// Queries a list of ComplaintByLessor items.
+	ComplaintByLessor(ctx context.Context, in *QueryComplaintByLessorRequest, opts ...grpc.CallOption) (*QueryComplaintByLessorResponse, error)
 }
 
 type queryClient struct {
@@ -70,6 +83,42 @@ func (c *queryClient) ComplaintAll(ctx context.Context, in *QueryAllComplaintReq
 	return out, nil
 }
 
+func (c *queryClient) ComplaintBySubnet(ctx context.Context, in *QueryComplaintBySubnetRequest, opts ...grpc.CallOption) (*QueryComplaintBySubnetResponse, error) {
+	out := new(QueryComplaintBySubnetResponse)
+	err := c.cc.Invoke(ctx, Query_ComplaintBySubnet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ComplaintByLease(ctx context.Context, in *QueryComplaintByLeaseRequest, opts ...grpc.CallOption) (*QueryComplaintByLeaseResponse, error) {
+	out := new(QueryComplaintByLeaseResponse)
+	err := c.cc.Invoke(ctx, Query_ComplaintByLease_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ComplaintByLessee(ctx context.Context, in *QueryComplaintByLesseeRequest, opts ...grpc.CallOption) (*QueryComplaintByLesseeResponse, error) {
+	out := new(QueryComplaintByLesseeResponse)
+	err := c.cc.Invoke(ctx, Query_ComplaintByLessee_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ComplaintByLessor(ctx context.Context, in *QueryComplaintByLessorRequest, opts ...grpc.CallOption) (*QueryComplaintByLessorResponse, error) {
+	out := new(QueryComplaintByLessorResponse)
+	err := c.cc.Invoke(ctx, Query_ComplaintByLessor_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -79,6 +128,14 @@ type QueryServer interface {
 	// Queries a list of Complaint items.
 	Complaint(context.Context, *QueryGetComplaintRequest) (*QueryGetComplaintResponse, error)
 	ComplaintAll(context.Context, *QueryAllComplaintRequest) (*QueryAllComplaintResponse, error)
+	// Queries a list of ComplaintBySubnet items.
+	ComplaintBySubnet(context.Context, *QueryComplaintBySubnetRequest) (*QueryComplaintBySubnetResponse, error)
+	// Queries a list of ComplaintByLease items.
+	ComplaintByLease(context.Context, *QueryComplaintByLeaseRequest) (*QueryComplaintByLeaseResponse, error)
+	// Queries a list of ComplaintByLessee items.
+	ComplaintByLessee(context.Context, *QueryComplaintByLesseeRequest) (*QueryComplaintByLesseeResponse, error)
+	// Queries a list of ComplaintByLessor items.
+	ComplaintByLessor(context.Context, *QueryComplaintByLessorRequest) (*QueryComplaintByLessorResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -94,6 +151,18 @@ func (UnimplementedQueryServer) Complaint(context.Context, *QueryGetComplaintReq
 }
 func (UnimplementedQueryServer) ComplaintAll(context.Context, *QueryAllComplaintRequest) (*QueryAllComplaintResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ComplaintAll not implemented")
+}
+func (UnimplementedQueryServer) ComplaintBySubnet(context.Context, *QueryComplaintBySubnetRequest) (*QueryComplaintBySubnetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComplaintBySubnet not implemented")
+}
+func (UnimplementedQueryServer) ComplaintByLease(context.Context, *QueryComplaintByLeaseRequest) (*QueryComplaintByLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComplaintByLease not implemented")
+}
+func (UnimplementedQueryServer) ComplaintByLessee(context.Context, *QueryComplaintByLesseeRequest) (*QueryComplaintByLesseeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComplaintByLessee not implemented")
+}
+func (UnimplementedQueryServer) ComplaintByLessor(context.Context, *QueryComplaintByLessorRequest) (*QueryComplaintByLessorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComplaintByLessor not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -162,6 +231,78 @@ func _Query_ComplaintAll_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ComplaintBySubnet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryComplaintBySubnetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ComplaintBySubnet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ComplaintBySubnet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ComplaintBySubnet(ctx, req.(*QueryComplaintBySubnetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ComplaintByLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryComplaintByLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ComplaintByLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ComplaintByLease_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ComplaintByLease(ctx, req.(*QueryComplaintByLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ComplaintByLessee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryComplaintByLesseeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ComplaintByLessee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ComplaintByLessee_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ComplaintByLessee(ctx, req.(*QueryComplaintByLesseeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ComplaintByLessor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryComplaintByLessorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ComplaintByLessor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ComplaintByLessor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ComplaintByLessor(ctx, req.(*QueryComplaintByLessorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +321,22 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ComplaintAll",
 			Handler:    _Query_ComplaintAll_Handler,
+		},
+		{
+			MethodName: "ComplaintBySubnet",
+			Handler:    _Query_ComplaintBySubnet_Handler,
+		},
+		{
+			MethodName: "ComplaintByLease",
+			Handler:    _Query_ComplaintByLease_Handler,
+		},
+		{
+			MethodName: "ComplaintByLessee",
+			Handler:    _Query_ComplaintByLessee_Handler,
+		},
+		{
+			MethodName: "ComplaintByLessor",
+			Handler:    _Query_ComplaintByLessor_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

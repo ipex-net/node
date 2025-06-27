@@ -17,12 +17,12 @@ const gracePeriodDaysTest = 2
 // TerminateCancelledContracts terminates expired contracts
 func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	
+
 	// // TESTING
 	// // Only run every 30 blocks
-	// if ctx.BlockHeight()%30 != 0 { 
+	// if ctx.BlockHeight()%30 != 0 {
 	// 	return
-	// 	}      
+	// 	}
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
 

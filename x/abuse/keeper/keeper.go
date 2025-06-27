@@ -27,13 +27,13 @@ type (
 		trustKeeper  types.TrustKeeper
 
 		// Collections for Complaint
-		Schema                collections.Schema
-		Complaints            collections.Map[uint64, types.Complaint]
-		ComplaintsBySubnet    collections.Map[collections.Pair[uint64, uint64], bool]
-		ComplaintsByLease     collections.Map[collections.Pair[uint64, uint64], bool]
-		ComplaintsByLessee    collections.Map[collections.Pair[uint64, uint64], bool]
-		ComplaintsByLessor    collections.Map[collections.Pair[uint64, uint64], bool]
-		ComplaintSequence     collections.Sequence
+		Schema             collections.Schema
+		Complaints         collections.Map[uint64, types.Complaint]
+		ComplaintsBySubnet collections.Map[collections.Pair[uint64, uint64], bool]
+		ComplaintsByLease  collections.Map[collections.Pair[uint64, uint64], bool]
+		ComplaintsByLessee collections.Map[collections.Pair[uint64, uint64], bool]
+		ComplaintsByLessor collections.Map[collections.Pair[uint64, uint64], bool]
+		ComplaintSequence  collections.Sequence
 	}
 )
 

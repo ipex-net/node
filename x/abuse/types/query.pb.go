@@ -6,6 +6,10 @@ package types
 import (
 	context "context"
 	fmt "fmt"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+
 	query "github.com/cosmos/cosmos-sdk/types/query"
 	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
 	_ "github.com/cosmos/gogoproto/gogoproto"
@@ -15,9 +19,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	io "io"
-	math "math"
-	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -298,6 +299,326 @@ func (m *QueryAllComplaintResponse) GetPagination() *query.PageResponse {
 	return nil
 }
 
+type QueryComplaintBySubnetRequest struct {
+	SubnetId uint64 `protobuf:"varint,1,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
+}
+
+func (m *QueryComplaintBySubnetRequest) Reset()         { *m = QueryComplaintBySubnetRequest{} }
+func (m *QueryComplaintBySubnetRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryComplaintBySubnetRequest) ProtoMessage()    {}
+func (*QueryComplaintBySubnetRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9c7a36fe18084fd4, []int{6}
+}
+func (m *QueryComplaintBySubnetRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryComplaintBySubnetRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryComplaintBySubnetRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryComplaintBySubnetRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryComplaintBySubnetRequest.Merge(m, src)
+}
+func (m *QueryComplaintBySubnetRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryComplaintBySubnetRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryComplaintBySubnetRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryComplaintBySubnetRequest proto.InternalMessageInfo
+
+func (m *QueryComplaintBySubnetRequest) GetSubnetId() uint64 {
+	if m != nil {
+		return m.SubnetId
+	}
+	return 0
+}
+
+type QueryComplaintBySubnetResponse struct {
+}
+
+func (m *QueryComplaintBySubnetResponse) Reset()         { *m = QueryComplaintBySubnetResponse{} }
+func (m *QueryComplaintBySubnetResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryComplaintBySubnetResponse) ProtoMessage()    {}
+func (*QueryComplaintBySubnetResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9c7a36fe18084fd4, []int{7}
+}
+func (m *QueryComplaintBySubnetResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryComplaintBySubnetResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryComplaintBySubnetResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryComplaintBySubnetResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryComplaintBySubnetResponse.Merge(m, src)
+}
+func (m *QueryComplaintBySubnetResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryComplaintBySubnetResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryComplaintBySubnetResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryComplaintBySubnetResponse proto.InternalMessageInfo
+
+type QueryComplaintByLeaseRequest struct {
+	LeaseId uint64 `protobuf:"varint,1,opt,name=leaseId,proto3" json:"leaseId,omitempty"`
+}
+
+func (m *QueryComplaintByLeaseRequest) Reset()         { *m = QueryComplaintByLeaseRequest{} }
+func (m *QueryComplaintByLeaseRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryComplaintByLeaseRequest) ProtoMessage()    {}
+func (*QueryComplaintByLeaseRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9c7a36fe18084fd4, []int{8}
+}
+func (m *QueryComplaintByLeaseRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryComplaintByLeaseRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryComplaintByLeaseRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryComplaintByLeaseRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryComplaintByLeaseRequest.Merge(m, src)
+}
+func (m *QueryComplaintByLeaseRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryComplaintByLeaseRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryComplaintByLeaseRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryComplaintByLeaseRequest proto.InternalMessageInfo
+
+func (m *QueryComplaintByLeaseRequest) GetLeaseId() uint64 {
+	if m != nil {
+		return m.LeaseId
+	}
+	return 0
+}
+
+type QueryComplaintByLeaseResponse struct {
+}
+
+func (m *QueryComplaintByLeaseResponse) Reset()         { *m = QueryComplaintByLeaseResponse{} }
+func (m *QueryComplaintByLeaseResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryComplaintByLeaseResponse) ProtoMessage()    {}
+func (*QueryComplaintByLeaseResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9c7a36fe18084fd4, []int{9}
+}
+func (m *QueryComplaintByLeaseResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryComplaintByLeaseResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryComplaintByLeaseResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryComplaintByLeaseResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryComplaintByLeaseResponse.Merge(m, src)
+}
+func (m *QueryComplaintByLeaseResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryComplaintByLeaseResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryComplaintByLeaseResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryComplaintByLeaseResponse proto.InternalMessageInfo
+
+type QueryComplaintByLesseeRequest struct {
+	LesseeOrgId uint64 `protobuf:"varint,1,opt,name=lesseeOrgId,proto3" json:"lesseeOrgId,omitempty"`
+}
+
+func (m *QueryComplaintByLesseeRequest) Reset()         { *m = QueryComplaintByLesseeRequest{} }
+func (m *QueryComplaintByLesseeRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryComplaintByLesseeRequest) ProtoMessage()    {}
+func (*QueryComplaintByLesseeRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9c7a36fe18084fd4, []int{10}
+}
+func (m *QueryComplaintByLesseeRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryComplaintByLesseeRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryComplaintByLesseeRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryComplaintByLesseeRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryComplaintByLesseeRequest.Merge(m, src)
+}
+func (m *QueryComplaintByLesseeRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryComplaintByLesseeRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryComplaintByLesseeRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryComplaintByLesseeRequest proto.InternalMessageInfo
+
+func (m *QueryComplaintByLesseeRequest) GetLesseeOrgId() uint64 {
+	if m != nil {
+		return m.LesseeOrgId
+	}
+	return 0
+}
+
+type QueryComplaintByLesseeResponse struct {
+}
+
+func (m *QueryComplaintByLesseeResponse) Reset()         { *m = QueryComplaintByLesseeResponse{} }
+func (m *QueryComplaintByLesseeResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryComplaintByLesseeResponse) ProtoMessage()    {}
+func (*QueryComplaintByLesseeResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9c7a36fe18084fd4, []int{11}
+}
+func (m *QueryComplaintByLesseeResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryComplaintByLesseeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryComplaintByLesseeResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryComplaintByLesseeResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryComplaintByLesseeResponse.Merge(m, src)
+}
+func (m *QueryComplaintByLesseeResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryComplaintByLesseeResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryComplaintByLesseeResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryComplaintByLesseeResponse proto.InternalMessageInfo
+
+type QueryComplaintByLessorRequest struct {
+	LessorOrgId uint64 `protobuf:"varint,1,opt,name=lessorOrgId,proto3" json:"lessorOrgId,omitempty"`
+}
+
+func (m *QueryComplaintByLessorRequest) Reset()         { *m = QueryComplaintByLessorRequest{} }
+func (m *QueryComplaintByLessorRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryComplaintByLessorRequest) ProtoMessage()    {}
+func (*QueryComplaintByLessorRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9c7a36fe18084fd4, []int{12}
+}
+func (m *QueryComplaintByLessorRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryComplaintByLessorRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryComplaintByLessorRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryComplaintByLessorRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryComplaintByLessorRequest.Merge(m, src)
+}
+func (m *QueryComplaintByLessorRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryComplaintByLessorRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryComplaintByLessorRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryComplaintByLessorRequest proto.InternalMessageInfo
+
+func (m *QueryComplaintByLessorRequest) GetLessorOrgId() uint64 {
+	if m != nil {
+		return m.LessorOrgId
+	}
+	return 0
+}
+
+type QueryComplaintByLessorResponse struct {
+}
+
+func (m *QueryComplaintByLessorResponse) Reset()         { *m = QueryComplaintByLessorResponse{} }
+func (m *QueryComplaintByLessorResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryComplaintByLessorResponse) ProtoMessage()    {}
+func (*QueryComplaintByLessorResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9c7a36fe18084fd4, []int{13}
+}
+func (m *QueryComplaintByLessorResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryComplaintByLessorResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryComplaintByLessorResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryComplaintByLessorResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryComplaintByLessorResponse.Merge(m, src)
+}
+func (m *QueryComplaintByLessorResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryComplaintByLessorResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryComplaintByLessorResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryComplaintByLessorResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "ipex.abuse.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "ipex.abuse.QueryParamsResponse")
@@ -305,43 +626,65 @@ func init() {
 	proto.RegisterType((*QueryGetComplaintResponse)(nil), "ipex.abuse.QueryGetComplaintResponse")
 	proto.RegisterType((*QueryAllComplaintRequest)(nil), "ipex.abuse.QueryAllComplaintRequest")
 	proto.RegisterType((*QueryAllComplaintResponse)(nil), "ipex.abuse.QueryAllComplaintResponse")
+	proto.RegisterType((*QueryComplaintBySubnetRequest)(nil), "ipex.abuse.QueryComplaintBySubnetRequest")
+	proto.RegisterType((*QueryComplaintBySubnetResponse)(nil), "ipex.abuse.QueryComplaintBySubnetResponse")
+	proto.RegisterType((*QueryComplaintByLeaseRequest)(nil), "ipex.abuse.QueryComplaintByLeaseRequest")
+	proto.RegisterType((*QueryComplaintByLeaseResponse)(nil), "ipex.abuse.QueryComplaintByLeaseResponse")
+	proto.RegisterType((*QueryComplaintByLesseeRequest)(nil), "ipex.abuse.QueryComplaintByLesseeRequest")
+	proto.RegisterType((*QueryComplaintByLesseeResponse)(nil), "ipex.abuse.QueryComplaintByLesseeResponse")
+	proto.RegisterType((*QueryComplaintByLessorRequest)(nil), "ipex.abuse.QueryComplaintByLessorRequest")
+	proto.RegisterType((*QueryComplaintByLessorResponse)(nil), "ipex.abuse.QueryComplaintByLessorResponse")
 }
 
 func init() { proto.RegisterFile("ipex/abuse/query.proto", fileDescriptor_9c7a36fe18084fd4) }
 
 var fileDescriptor_9c7a36fe18084fd4 = []byte{
-	// 491 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x93, 0xc1, 0x6a, 0x13, 0x41,
-	0x18, 0xc7, 0xb3, 0x6b, 0x0d, 0x64, 0x2a, 0x82, 0x93, 0x5a, 0x63, 0xa2, 0xdb, 0x32, 0x62, 0x95,
-	0x80, 0x33, 0xb4, 0x82, 0x07, 0x6f, 0x8d, 0x60, 0x4f, 0x42, 0xdd, 0x8b, 0xe0, 0x6d, 0xb6, 0x19,
-	0xd6, 0x81, 0xcd, 0xce, 0x34, 0x33, 0x11, 0x8b, 0x14, 0xc1, 0x27, 0x10, 0x7c, 0x01, 0x8f, 0x1e,
-	0x7d, 0x8c, 0x1e, 0x0b, 0x5e, 0x3c, 0x89, 0x24, 0x82, 0x67, 0xdf, 0x40, 0x32, 0x33, 0xbb, 0xdd,
-	0x65, 0x47, 0x42, 0x2f, 0x61, 0x99, 0xef, 0xff, 0xfd, 0xff, 0xbf, 0xf9, 0xe6, 0x0b, 0xb8, 0xc5,
-	0xe5, 0x98, 0xbd, 0x23, 0x34, 0x99, 0x29, 0x46, 0x8e, 0x67, 0x6c, 0x7a, 0x82, 0xe5, 0x54, 0x68,
-	0x01, 0xd7, 0x4d, 0x01, 0x9b, 0x42, 0xff, 0x06, 0x9d, 0xf0, 0x5c, 0x10, 0xf3, 0x6b, 0xeb, 0xfd,
-	0x8d, 0x54, 0xa4, 0xc2, 0x7c, 0x92, 0xe5, 0x97, 0x3b, 0xbd, 0x93, 0x0a, 0x91, 0x66, 0x8c, 0x50,
-	0xc9, 0x09, 0xcd, 0x73, 0xa1, 0xa9, 0xe6, 0x22, 0x57, 0xae, 0x3a, 0x3c, 0x12, 0x6a, 0x22, 0x14,
-	0x49, 0x68, 0x11, 0x46, 0xde, 0xee, 0x26, 0x4c, 0xd3, 0x5d, 0x22, 0x69, 0xca, 0x73, 0x23, 0x76,
-	0xda, 0x5e, 0x15, 0x4c, 0xd2, 0x29, 0x9d, 0x14, 0x2e, 0x83, 0x6a, 0xe5, 0x48, 0x4c, 0x64, 0x46,
-	0x79, 0xae, 0x6d, 0x11, 0x6d, 0x00, 0xf8, 0x72, 0x69, 0x7c, 0x68, 0x3a, 0x62, 0x76, 0x3c, 0x63,
-	0x4a, 0xa3, 0x17, 0xa0, 0x5b, 0x3b, 0x55, 0x52, 0xe4, 0x8a, 0xc1, 0x27, 0xa0, 0x6d, 0x9d, 0x7b,
-	0xc1, 0x76, 0xf0, 0x70, 0x7d, 0xaf, 0x8b, 0x2b, 0x97, 0xc6, 0x56, 0x3c, 0xea, 0x9c, 0xfd, 0xdc,
-	0x6a, 0x7d, 0xfd, 0xf3, 0x6d, 0x18, 0xc4, 0x4e, 0x8d, 0x86, 0xa0, 0x67, 0xec, 0x0e, 0x98, 0x7e,
-	0x56, 0xe4, 0xbb, 0x28, 0x78, 0x1d, 0x84, 0x7c, 0x6c, 0xfc, 0xd6, 0xe2, 0x90, 0x8f, 0xd1, 0x2b,
-	0x70, 0xdb, 0xa3, 0x75, 0x00, 0x4f, 0x41, 0xa7, 0xbc, 0x80, 0x63, 0xd8, 0xac, 0x31, 0x94, 0x2d,
-	0xa3, 0xb5, 0x25, 0x46, 0x7c, 0x21, 0x47, 0x89, 0x83, 0xd8, 0xcf, 0xb2, 0x06, 0xc4, 0x73, 0x00,
-	0x2e, 0x06, 0xea, 0x8c, 0x77, 0xb0, 0x9d, 0x3e, 0x5e, 0x4e, 0x1f, 0xdb, 0xa7, 0x76, 0xd3, 0xc7,
-	0x87, 0x34, 0x65, 0xae, 0x37, 0xae, 0x74, 0xa2, 0x2f, 0x81, 0xa3, 0xaf, 0x87, 0xf8, 0xe9, 0xaf,
-	0x5c, 0x82, 0x1e, 0x1e, 0xd4, 0x08, 0x43, 0x43, 0xf8, 0x60, 0x25, 0xa1, 0x0d, 0xae, 0x22, 0xee,
-	0xfd, 0x0d, 0xc1, 0x55, 0x83, 0x08, 0xdf, 0x80, 0xb6, 0x7d, 0x32, 0xb8, 0x55, 0xa3, 0x68, 0xee,
-	0x43, 0x7f, 0xfb, 0xff, 0x02, 0x1b, 0x81, 0x06, 0x1f, 0xbf, 0xff, 0xfe, 0x1c, 0xde, 0x84, 0x5d,
-	0xd2, 0xdc, 0x43, 0xf8, 0x01, 0x74, 0xca, 0xab, 0xc1, 0xfb, 0x4d, 0x2f, 0xcf, 0x5e, 0xf4, 0x77,
-	0x56, 0xc9, 0x5c, 0xf0, 0x3d, 0x13, 0x7c, 0x17, 0x0e, 0x88, 0x77, 0xcd, 0xc9, 0x7b, 0x3e, 0x3e,
-	0x85, 0xa7, 0xe0, 0x5a, 0xd9, 0xb9, 0x9f, 0x65, 0x3e, 0x06, 0xcf, 0x5a, 0xf8, 0x18, 0x7c, 0x0f,
-	0x8b, 0x22, 0xc3, 0xd0, 0x83, 0x9b, 0x7e, 0x86, 0xd1, 0xa3, 0xb3, 0x79, 0x14, 0x9c, 0xcf, 0xa3,
-	0xe0, 0xd7, 0x3c, 0x0a, 0x3e, 0x2d, 0xa2, 0xd6, 0xf9, 0x22, 0x6a, 0xfd, 0x58, 0x44, 0xad, 0xd7,
-	0x5d, 0xdb, 0x50, 0xb4, 0xe8, 0x13, 0xc9, 0x54, 0xd2, 0x36, 0x7f, 0xcd, 0xc7, 0xff, 0x02, 0x00,
-	0x00, 0xff, 0xff, 0x75, 0x84, 0x75, 0x74, 0x6c, 0x04, 0x00, 0x00,
+	// 715 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x95, 0x4f, 0x6b, 0xd4, 0x4e,
+	0x18, 0xc7, 0x37, 0xfb, 0xeb, 0xaf, 0xb6, 0x53, 0x11, 0x3b, 0x5b, 0xeb, 0x9a, 0xb6, 0xe9, 0x12,
+	0xb1, 0xda, 0x2d, 0xcd, 0xd8, 0x16, 0x8a, 0xe8, 0xa9, 0x15, 0x2c, 0x82, 0x62, 0x5d, 0x0f, 0x82,
+	0x97, 0x32, 0xe9, 0x0e, 0x31, 0x90, 0xcd, 0xa4, 0x99, 0xac, 0xb8, 0x94, 0x45, 0xe8, 0x2b, 0x10,
+	0xbc, 0x7a, 0x50, 0xf0, 0xe0, 0xd1, 0x97, 0xd1, 0x63, 0xc1, 0x8b, 0x27, 0x91, 0x56, 0xf0, 0x6d,
+	0x48, 0x66, 0x26, 0xd9, 0x64, 0x33, 0xfb, 0xc7, 0xcb, 0x92, 0xcc, 0x3c, 0xcf, 0xf7, 0xfb, 0xc9,
+	0x93, 0x7c, 0x67, 0xc1, 0x75, 0x37, 0x68, 0x92, 0xb7, 0x08, 0xdb, 0x6d, 0x46, 0xd0, 0x51, 0x9b,
+	0x84, 0x1d, 0x2b, 0x08, 0x69, 0x44, 0xe1, 0x0c, 0xdf, 0xb0, 0xf8, 0x86, 0x3e, 0x8b, 0x5b, 0xae,
+	0x4f, 0x11, 0xff, 0x15, 0xfb, 0xfa, 0x9c, 0x43, 0x1d, 0xca, 0x2f, 0x51, 0x7c, 0x25, 0x57, 0x17,
+	0x1d, 0x4a, 0x1d, 0x8f, 0x20, 0x1c, 0xb8, 0x08, 0xfb, 0x3e, 0x8d, 0x70, 0xe4, 0x52, 0x9f, 0xc9,
+	0xdd, 0xfa, 0x21, 0x65, 0x2d, 0xca, 0x90, 0x8d, 0x13, 0x33, 0xf4, 0x66, 0xc3, 0x26, 0x11, 0xde,
+	0x40, 0x01, 0x76, 0x5c, 0x9f, 0x17, 0xcb, 0xda, 0x6a, 0x16, 0x2c, 0xc0, 0x21, 0x6e, 0x25, 0x2a,
+	0x0b, 0xd9, 0x9d, 0x43, 0xda, 0x0a, 0x3c, 0xec, 0xfa, 0x91, 0xd8, 0x34, 0xe7, 0x00, 0x7c, 0x1e,
+	0x0b, 0xef, 0xf3, 0x8e, 0x06, 0x39, 0x6a, 0x13, 0x16, 0x99, 0x4f, 0x41, 0x25, 0xb7, 0xca, 0x02,
+	0xea, 0x33, 0x02, 0xb7, 0xc1, 0xa4, 0x50, 0xae, 0x6a, 0x35, 0xed, 0xce, 0xcc, 0x66, 0xc5, 0xca,
+	0x3c, 0xb4, 0x25, 0x8a, 0x77, 0xa7, 0x4f, 0x7f, 0x2e, 0x97, 0xbe, 0xfe, 0xf9, 0x56, 0xd7, 0x1a,
+	0xb2, 0xda, 0xac, 0x83, 0x2a, 0x97, 0xdb, 0x23, 0xd1, 0xc3, 0xc4, 0x5f, 0x5a, 0xc1, 0x2b, 0xa0,
+	0xec, 0x36, 0xb9, 0xde, 0x44, 0xa3, 0xec, 0x36, 0xcd, 0x97, 0xe0, 0x86, 0xa2, 0x56, 0x02, 0xdc,
+	0x07, 0xd3, 0xe9, 0x03, 0x48, 0x86, 0xf9, 0x1c, 0x43, 0xda, 0xb2, 0x3b, 0x11, 0x63, 0x34, 0x7a,
+	0xe5, 0xa6, 0x2d, 0x21, 0x76, 0x3c, 0xaf, 0x00, 0xf1, 0x08, 0x80, 0xde, 0x40, 0xa5, 0xf0, 0x8a,
+	0x25, 0xa6, 0x6f, 0xc5, 0xd3, 0xb7, 0xc4, 0xab, 0x96, 0xd3, 0xb7, 0xf6, 0xb1, 0x43, 0x64, 0x6f,
+	0x23, 0xd3, 0x69, 0x7e, 0xd2, 0x24, 0x7d, 0xde, 0x44, 0x4d, 0xff, 0xdf, 0x3f, 0xd0, 0xc3, 0xbd,
+	0x1c, 0x61, 0x99, 0x13, 0xde, 0x1e, 0x49, 0x28, 0x8c, 0x73, 0x88, 0x0f, 0xc0, 0x12, 0x27, 0xec,
+	0x79, 0x75, 0x5e, 0xb4, 0x6d, 0x9f, 0xa4, 0xb3, 0xd0, 0xc1, 0x14, 0xe3, 0x0b, 0x8f, 0x93, 0xd7,
+	0x92, 0xde, 0x9b, 0x35, 0x60, 0x0c, 0x6a, 0x16, 0x56, 0xe6, 0x3d, 0xb0, 0xd8, 0x5f, 0xf1, 0x84,
+	0x60, 0x96, 0x4c, 0x0b, 0x56, 0xc1, 0x25, 0x2f, 0xbe, 0x4f, 0xc5, 0x93, 0x5b, 0x73, 0xb9, 0x08,
+	0x26, 0x3b, 0xa5, 0xf4, 0x8e, 0xaa, 0x80, 0x31, 0x92, 0x6a, 0xd7, 0xc0, 0x8c, 0xc7, 0x17, 0x9e,
+	0x85, 0x4e, 0xaa, 0x9f, 0x5d, 0x52, 0xf1, 0x27, 0x12, 0xc3, 0x4d, 0x68, 0xd8, 0x67, 0x42, 0xc3,
+	0x82, 0x89, 0x5c, 0x1a, 0x64, 0x12, 0x4b, 0x08, 0x93, 0xcd, 0x93, 0x29, 0xf0, 0x3f, 0x2f, 0x81,
+	0xaf, 0xc1, 0xa4, 0x88, 0x0d, 0x5c, 0xce, 0x7d, 0x09, 0xc5, 0x4c, 0xea, 0xb5, 0xc1, 0x05, 0x92,
+	0x7d, 0xe1, 0xe4, 0xfb, 0xef, 0x0f, 0xe5, 0x6b, 0xb0, 0x82, 0x8a, 0x67, 0x01, 0x7c, 0x07, 0xa6,
+	0x53, 0x20, 0x78, 0xab, 0xa8, 0xa5, 0xc8, 0xa6, 0xbe, 0x32, 0xaa, 0x4c, 0x1a, 0xdf, 0xe4, 0xc6,
+	0x4b, 0x70, 0x01, 0x29, 0x8f, 0x1a, 0x74, 0xec, 0x36, 0xbb, 0xb0, 0x0b, 0x2e, 0xa7, 0x9d, 0x3b,
+	0x9e, 0xa7, 0x62, 0x50, 0x44, 0x53, 0xc5, 0xa0, 0x0a, 0x97, 0x69, 0x70, 0x86, 0x2a, 0x9c, 0x57,
+	0x33, 0xc0, 0xcf, 0x1a, 0x98, 0x2d, 0x7c, 0xb6, 0xb0, 0x5e, 0x54, 0x1f, 0x14, 0x0c, 0x7d, 0x6d,
+	0xac, 0x5a, 0x89, 0xb3, 0xc5, 0x71, 0xd6, 0xe1, 0x9a, 0x1a, 0xe7, 0xc0, 0xee, 0x1c, 0x88, 0x54,
+	0xa1, 0xe3, 0x24, 0x5d, 0x5d, 0xf8, 0x51, 0x03, 0x57, 0xfb, 0x3f, 0x7f, 0xb8, 0x3a, 0xd4, 0x36,
+	0x1b, 0x2e, 0xbd, 0x3e, 0x4e, 0xa9, 0x04, 0xdc, 0xe0, 0x80, 0x6b, 0x70, 0x75, 0x30, 0x20, 0x4f,
+	0x26, 0x3a, 0x96, 0x01, 0xed, 0xc2, 0x2f, 0xf9, 0x11, 0x8a, 0xe4, 0xc0, 0x51, 0xa6, 0x99, 0x84,
+	0x8e, 0x18, 0x61, 0x5f, 0x14, 0xb7, 0x39, 0xe1, 0x5d, 0x68, 0x0d, 0x23, 0x8c, 0x3b, 0x62, 0xc4,
+	0x34, 0xe3, 0x4a, 0x4c, 0x1a, 0x8e, 0x81, 0x99, 0x66, 0x7c, 0x0c, 0xcc, 0x5e, 0x98, 0xc7, 0xc5,
+	0xa4, 0xa1, 0xc0, 0x94, 0xa7, 0x44, 0x77, 0x77, 0xfd, 0xf4, 0xdc, 0xd0, 0xce, 0xce, 0x0d, 0xed,
+	0xd7, 0xb9, 0xa1, 0xbd, 0xbf, 0x30, 0x4a, 0x67, 0x17, 0x46, 0xe9, 0xc7, 0x85, 0x51, 0x7a, 0x55,
+	0x11, 0x42, 0x89, 0x54, 0xd4, 0x09, 0x08, 0xb3, 0x27, 0xf9, 0xff, 0xf5, 0xd6, 0xdf, 0x00, 0x00,
+	0x00, 0xff, 0xff, 0x97, 0x64, 0x40, 0x52, 0x81, 0x08, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -361,6 +704,14 @@ type QueryClient interface {
 	// Queries a list of Complaint items.
 	Complaint(ctx context.Context, in *QueryGetComplaintRequest, opts ...grpc.CallOption) (*QueryGetComplaintResponse, error)
 	ComplaintAll(ctx context.Context, in *QueryAllComplaintRequest, opts ...grpc.CallOption) (*QueryAllComplaintResponse, error)
+	// Queries a list of ComplaintBySubnet items.
+	ComplaintBySubnet(ctx context.Context, in *QueryComplaintBySubnetRequest, opts ...grpc.CallOption) (*QueryComplaintBySubnetResponse, error)
+	// Queries a list of ComplaintByLease items.
+	ComplaintByLease(ctx context.Context, in *QueryComplaintByLeaseRequest, opts ...grpc.CallOption) (*QueryComplaintByLeaseResponse, error)
+	// Queries a list of ComplaintByLessee items.
+	ComplaintByLessee(ctx context.Context, in *QueryComplaintByLesseeRequest, opts ...grpc.CallOption) (*QueryComplaintByLesseeResponse, error)
+	// Queries a list of ComplaintByLessor items.
+	ComplaintByLessor(ctx context.Context, in *QueryComplaintByLessorRequest, opts ...grpc.CallOption) (*QueryComplaintByLessorResponse, error)
 }
 
 type queryClient struct {
@@ -398,6 +749,42 @@ func (c *queryClient) ComplaintAll(ctx context.Context, in *QueryAllComplaintReq
 	return out, nil
 }
 
+func (c *queryClient) ComplaintBySubnet(ctx context.Context, in *QueryComplaintBySubnetRequest, opts ...grpc.CallOption) (*QueryComplaintBySubnetResponse, error) {
+	out := new(QueryComplaintBySubnetResponse)
+	err := c.cc.Invoke(ctx, "/ipex.abuse.Query/ComplaintBySubnet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ComplaintByLease(ctx context.Context, in *QueryComplaintByLeaseRequest, opts ...grpc.CallOption) (*QueryComplaintByLeaseResponse, error) {
+	out := new(QueryComplaintByLeaseResponse)
+	err := c.cc.Invoke(ctx, "/ipex.abuse.Query/ComplaintByLease", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ComplaintByLessee(ctx context.Context, in *QueryComplaintByLesseeRequest, opts ...grpc.CallOption) (*QueryComplaintByLesseeResponse, error) {
+	out := new(QueryComplaintByLesseeResponse)
+	err := c.cc.Invoke(ctx, "/ipex.abuse.Query/ComplaintByLessee", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ComplaintByLessor(ctx context.Context, in *QueryComplaintByLessorRequest, opts ...grpc.CallOption) (*QueryComplaintByLessorResponse, error) {
+	out := new(QueryComplaintByLessorResponse)
+	err := c.cc.Invoke(ctx, "/ipex.abuse.Query/ComplaintByLessor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -405,6 +792,14 @@ type QueryServer interface {
 	// Queries a list of Complaint items.
 	Complaint(context.Context, *QueryGetComplaintRequest) (*QueryGetComplaintResponse, error)
 	ComplaintAll(context.Context, *QueryAllComplaintRequest) (*QueryAllComplaintResponse, error)
+	// Queries a list of ComplaintBySubnet items.
+	ComplaintBySubnet(context.Context, *QueryComplaintBySubnetRequest) (*QueryComplaintBySubnetResponse, error)
+	// Queries a list of ComplaintByLease items.
+	ComplaintByLease(context.Context, *QueryComplaintByLeaseRequest) (*QueryComplaintByLeaseResponse, error)
+	// Queries a list of ComplaintByLessee items.
+	ComplaintByLessee(context.Context, *QueryComplaintByLesseeRequest) (*QueryComplaintByLesseeResponse, error)
+	// Queries a list of ComplaintByLessor items.
+	ComplaintByLessor(context.Context, *QueryComplaintByLessorRequest) (*QueryComplaintByLessorResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -419,6 +814,18 @@ func (*UnimplementedQueryServer) Complaint(ctx context.Context, req *QueryGetCom
 }
 func (*UnimplementedQueryServer) ComplaintAll(ctx context.Context, req *QueryAllComplaintRequest) (*QueryAllComplaintResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ComplaintAll not implemented")
+}
+func (*UnimplementedQueryServer) ComplaintBySubnet(ctx context.Context, req *QueryComplaintBySubnetRequest) (*QueryComplaintBySubnetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComplaintBySubnet not implemented")
+}
+func (*UnimplementedQueryServer) ComplaintByLease(ctx context.Context, req *QueryComplaintByLeaseRequest) (*QueryComplaintByLeaseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComplaintByLease not implemented")
+}
+func (*UnimplementedQueryServer) ComplaintByLessee(ctx context.Context, req *QueryComplaintByLesseeRequest) (*QueryComplaintByLesseeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComplaintByLessee not implemented")
+}
+func (*UnimplementedQueryServer) ComplaintByLessor(ctx context.Context, req *QueryComplaintByLessorRequest) (*QueryComplaintByLessorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComplaintByLessor not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -479,6 +886,78 @@ func _Query_ComplaintAll_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ComplaintBySubnet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryComplaintBySubnetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ComplaintBySubnet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.abuse.Query/ComplaintBySubnet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ComplaintBySubnet(ctx, req.(*QueryComplaintBySubnetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ComplaintByLease_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryComplaintByLeaseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ComplaintByLease(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.abuse.Query/ComplaintByLease",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ComplaintByLease(ctx, req.(*QueryComplaintByLeaseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ComplaintByLessee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryComplaintByLesseeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ComplaintByLessee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.abuse.Query/ComplaintByLessee",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ComplaintByLessee(ctx, req.(*QueryComplaintByLesseeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ComplaintByLessor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryComplaintByLessorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ComplaintByLessor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.abuse.Query/ComplaintByLessor",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ComplaintByLessor(ctx, req.(*QueryComplaintByLessorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "ipex.abuse.Query",
@@ -495,6 +974,22 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ComplaintAll",
 			Handler:    _Query_ComplaintAll_Handler,
+		},
+		{
+			MethodName: "ComplaintBySubnet",
+			Handler:    _Query_ComplaintBySubnet_Handler,
+		},
+		{
+			MethodName: "ComplaintByLease",
+			Handler:    _Query_ComplaintByLease_Handler,
+		},
+		{
+			MethodName: "ComplaintByLessee",
+			Handler:    _Query_ComplaintByLessee_Handler,
+		},
+		{
+			MethodName: "ComplaintByLessor",
+			Handler:    _Query_ComplaintByLessor_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -702,6 +1197,210 @@ func (m *QueryAllComplaintResponse) MarshalToSizedBuffer(dAtA []byte) (int, erro
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryComplaintBySubnetRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryComplaintBySubnetRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryComplaintBySubnetRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.SubnetId != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.SubnetId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryComplaintBySubnetResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryComplaintBySubnetResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryComplaintBySubnetResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryComplaintByLeaseRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryComplaintByLeaseRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryComplaintByLeaseRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LeaseId != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.LeaseId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryComplaintByLeaseResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryComplaintByLeaseResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryComplaintByLeaseResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryComplaintByLesseeRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryComplaintByLesseeRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryComplaintByLesseeRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LesseeOrgId != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.LesseeOrgId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryComplaintByLesseeResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryComplaintByLesseeResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryComplaintByLesseeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryComplaintByLessorRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryComplaintByLessorRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryComplaintByLessorRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LessorOrgId != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.LessorOrgId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryComplaintByLessorResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryComplaintByLessorResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryComplaintByLessorResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -785,6 +1484,90 @@ func (m *QueryAllComplaintResponse) Size() (n int) {
 		l = m.Pagination.Size()
 		n += 1 + l + sovQuery(uint64(l))
 	}
+	return n
+}
+
+func (m *QueryComplaintBySubnetRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.SubnetId != 0 {
+		n += 1 + sovQuery(uint64(m.SubnetId))
+	}
+	return n
+}
+
+func (m *QueryComplaintBySubnetResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryComplaintByLeaseRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LeaseId != 0 {
+		n += 1 + sovQuery(uint64(m.LeaseId))
+	}
+	return n
+}
+
+func (m *QueryComplaintByLeaseResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryComplaintByLesseeRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LesseeOrgId != 0 {
+		n += 1 + sovQuery(uint64(m.LesseeOrgId))
+	}
+	return n
+}
+
+func (m *QueryComplaintByLesseeResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryComplaintByLessorRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LessorOrgId != 0 {
+		n += 1 + sovQuery(uint64(m.LessorOrgId))
+	}
+	return n
+}
+
+func (m *QueryComplaintByLessorResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
 	return n
 }
 
@@ -1264,6 +2047,482 @@ func (m *QueryAllComplaintResponse) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryComplaintBySubnetRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryComplaintBySubnetRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryComplaintBySubnetRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SubnetId", wireType)
+			}
+			m.SubnetId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.SubnetId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryComplaintBySubnetResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryComplaintBySubnetResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryComplaintBySubnetResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryComplaintByLeaseRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryComplaintByLeaseRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryComplaintByLeaseRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LeaseId", wireType)
+			}
+			m.LeaseId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.LeaseId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryComplaintByLeaseResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryComplaintByLeaseResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryComplaintByLeaseResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryComplaintByLesseeRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryComplaintByLesseeRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryComplaintByLesseeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LesseeOrgId", wireType)
+			}
+			m.LesseeOrgId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.LesseeOrgId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryComplaintByLesseeResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryComplaintByLesseeResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryComplaintByLesseeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryComplaintByLessorRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryComplaintByLessorRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryComplaintByLessorRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LessorOrgId", wireType)
+			}
+			m.LessorOrgId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.LessorOrgId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryComplaintByLessorResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryComplaintByLessorResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryComplaintByLessorResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipQuery(dAtA[iNdEx:])

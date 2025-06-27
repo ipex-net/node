@@ -21,14 +21,13 @@ func (k Keeper) ProcessComplaints(goCtx context.Context) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	// TESTING
 	// // Only run every 50 blocks
-	// if ctx.BlockHeight()%50 != 0 { 
+	// if ctx.BlockHeight()%50 != 0 {
 	// 	return
-	// 	}        
+	// 	}
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(goCtx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ComplaintKeyPrefix))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 	defer iterator.Close()
-
 
 	currentTime := ctx.BlockTime()
 	for ; iterator.Valid(); iterator.Next() {
@@ -91,4 +90,3 @@ func (k Keeper) ProcessComplaints(goCtx context.Context) {
 		}
 	}
 }
-

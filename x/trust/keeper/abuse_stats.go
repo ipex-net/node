@@ -22,7 +22,7 @@ func (k Keeper) UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgI
 	if oldStatus != "" && oldStatus != "failed" && oldStatus != "inprogress" && oldStatus != "resolved" {
 		return fmt.Errorf("invalid old status %s", oldStatus)
 	}
-	
+
 	if newStatus != "failed" && newStatus != "inprogress" && newStatus != "resolved" {
 		return fmt.Errorf("invalid new status %s", newStatus)
 	}
@@ -34,31 +34,31 @@ func (k Keeper) UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgI
 			"invalid abuse category %d",
 			abuseCategory)
 	}
-	
+
 	// Get the current lease reputation
 	currentLeaseRep, found := k.GetLeaseReputation(ctx, leaseId)
-	
+
 	// Initialize lease rep if it doesn't exist
 	if !found {
-		currentLeaseRep = types.LeaseReputation {
-			Index: leaseId,
+		currentLeaseRep = types.LeaseReputation{
+			Index:       leaseId,
 			LastUpdated: &blockTime,
 			AbuseByType: make(map[uint32]*types.AbuseStats),
 		}
 	}
-	
+
 	// Get the current lessee reputation
 	currentLesseeRep, found := k.GetLesseeReputation(ctx, lesseeOrgId)
-	
+
 	// Initialize lessee rep if it doesn't exist
 	if !found {
-		currentLesseeRep = types.LesseeReputation {
-			Index: lesseeOrgId,
+		currentLesseeRep = types.LesseeReputation{
+			Index:       lesseeOrgId,
 			LastUpdated: &blockTime,
 			AbuseByType: make(map[uint32]*types.AbuseTypeStats),
 		}
 	}
-	
+
 	// Initialize maps if they are nil
 	if currentLesseeRep.AbuseByType == nil {
 		currentLesseeRep.AbuseByType = make(map[uint32]*types.AbuseTypeStats)
@@ -121,7 +121,7 @@ func (k Keeper) UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgI
 		} else {
 			// Initialize stats for category in case it's not set yet
 			currentLesseeRep.AbuseByType[abuseCategory] = &types.AbuseTypeStats{
-				InProgress: 1, 
+				InProgress:   1,
 				LastIncident: &blockTime,
 			}
 		}
@@ -132,7 +132,7 @@ func (k Keeper) UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgI
 			currentLeaseRep.AbuseByType[abuseCategory].LastIncident = &blockTime
 		} else {
 			currentLeaseRep.AbuseByType[abuseCategory] = &types.AbuseStats{
-				InProgress: 1,
+				InProgress:   1,
 				LastIncident: &blockTime,
 			}
 		}
