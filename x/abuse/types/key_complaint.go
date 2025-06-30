@@ -14,6 +14,7 @@ const (
 	ComplaintByLeaseKey  = "Complaint/by_lease/"
 	ComplaintByLesseeKey = "Complaint/by_lessee/"
 	ComplaintByLessorKey = "Complaint/by_lessor/"
+	ComplaintByStateKey  = "Complaint/by_state/"
 	ComplaintSequenceKey = "Complaint/sequence/"
 )
 

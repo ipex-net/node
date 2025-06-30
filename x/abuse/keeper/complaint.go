@@ -57,6 +57,12 @@ func (k Keeper) updateComplaintIndexes(ctx context.Context, complaint types.Comp
 	if err != nil {
 		panic(err)
 	}
+
+	// Index by state
+	err = k.ComplaintsByState.Set(ctx, collections.Join(int32(complaint.State), complaint.Id), true)
+	if err != nil {
+		panic(err)
+	}
 }
 
 // GetComplaintCount returns the total number of complaints
@@ -83,6 +89,13 @@ func (k Keeper) SetComplaintCount(ctx context.Context, count uint64) {
 
 // SetComplaint set a specific complaint in the store from its id
 func (k Keeper) SetComplaint(ctx context.Context, complaint types.Complaint) {
+	// Get old complaint to remove from old state index
+	oldComplaint, found := k.GetComplaint(ctx, complaint.Id)
+	if found && oldComplaint.State != complaint.State {
+		// Remove from old state index
+		k.ComplaintsByState.Remove(ctx, collections.Join(int32(oldComplaint.State), complaint.Id))
+	}
+
 	// Store the complaint
 	err := k.Complaints.Set(ctx, complaint.Id, complaint)
 	if err != nil {
@@ -142,6 +155,9 @@ func (k Keeper) removeComplaintFromIndexes(ctx context.Context, complaint types.
 
 	// Remove from lessor index
 	k.ComplaintsByLessor.Remove(ctx, collections.Join(complaint.LessorOrgId, complaint.Id))
+
+	// Remove from state index
+	k.ComplaintsByState.Remove(ctx, collections.Join(int32(complaint.State), complaint.Id))
 }
 
 // GetAllComplaint returns all complaint
