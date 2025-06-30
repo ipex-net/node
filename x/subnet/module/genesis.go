@@ -14,12 +14,15 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 		k.SetSubnet(ctx, elem)
 	}
 
-	// Set subnet sequence to match count from genesis
-	if genState.SubnetCount > 0 {
-		err := k.SubnetSequence.Set(ctx, genState.SubnetCount)
-		if err != nil {
-			panic(err)
-		}
+	// Initialize subnet sequence with the count from genesis
+	// Ensure sequence starts from 1 if no subnets exist
+	sequenceValue := genState.SubnetCount
+	if sequenceValue == 0 {
+		sequenceValue = 1
+	}
+	err := k.SubnetSequence.Set(ctx, sequenceValue)
+	if err != nil {
+		panic(err)
 	}
 	// this line is used by starport scaffolding # genesis/module/init
 	if err := k.SetParams(ctx, genState.Params); err != nil {

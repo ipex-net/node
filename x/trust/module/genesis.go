@@ -18,8 +18,16 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 		k.SetBlacklistLog(ctx, elem)
 	}
 
-	// Set blacklistLog count
-	k.SetBlacklistLogCount(ctx, genState.BlacklistLogCount)
+	// Initialize blacklist log sequence with the count from genesis
+	// Ensure sequence starts from 1 if no blacklist logs exist
+	sequenceValue := genState.BlacklistLogCount
+	if sequenceValue == 0 {
+		sequenceValue = 1
+	}
+	err := k.BlacklistLogSequence.Set(ctx, sequenceValue)
+	if err != nil {
+		panic(err)
+	}
 	// Set all the leaseReputation
 	for _, elem := range genState.LeaseReputationList {
 		k.SetLeaseReputation(ctx, elem)
@@ -41,7 +49,14 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 
 	genesis.SubnetReputationList = k.GetAllSubnetReputation(ctx)
 	genesis.BlacklistLogList = k.GetAllBlacklistLog(ctx)
-	genesis.BlacklistLogCount = k.GetBlacklistLogCount(ctx)
+	// Export current blacklist log sequence value
+	sequenceValue, err := k.BlacklistLogSequence.Peek(ctx)
+	if err != nil {
+		// If no sequence exists yet, start at 0
+		genesis.BlacklistLogCount = 0
+	} else {
+		genesis.BlacklistLogCount = sequenceValue
+	}
 	genesis.LeaseReputationList = k.GetAllLeaseReputation(ctx)
 	genesis.LesseeReputationList = k.GetAllLesseeReputation(ctx)
 	// this line is used by starport scaffolding # genesis/module/export

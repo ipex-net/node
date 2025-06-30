@@ -14,12 +14,15 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 		k.SetOrg(ctx, elem)
 	}
 
-	// Set org sequence to match count from genesis
-	if genState.OrgCount > 0 {
-		err := k.OrgSequence.Set(ctx, genState.OrgCount)
-		if err != nil {
-			panic(err)
-		}
+	// Initialize org sequence with the count from genesis
+	// Ensure sequence starts from 1 if no orgs exist
+	sequenceValue := genState.OrgCount
+	if sequenceValue == 0 {
+		sequenceValue = 1
+	}
+	err := k.OrgSequence.Set(ctx, sequenceValue)
+	if err != nil {
+		panic(err)
 	}
 	// this line is used by starport scaffolding # genesis/module/init
 	if err := k.SetParams(ctx, genState.Params); err != nil {

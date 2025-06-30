@@ -13,6 +13,15 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.ComplaintList {
 		k.SetComplaint(ctx, elem)
 	}
+	
+	// Initialize complaint sequence to start from 1
+	if len(genState.ComplaintList) == 0 {
+		err := k.ComplaintSequence.Set(ctx, 1)
+		if err != nil {
+			panic(err)
+		}
+	}
+	
 	// this line is used by starport scaffolding # genesis/module/init
 	if err := k.SetParams(ctx, genState.Params); err != nil {
 		panic(err)

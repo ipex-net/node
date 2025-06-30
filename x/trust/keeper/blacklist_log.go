@@ -17,10 +17,6 @@ func (k Keeper) GetBlacklistLogCount(ctx context.Context) uint64 {
 	return seq
 }
 
-// SetBlacklistLogCount set the total number of blacklistLog (deprecated - use sequence)
-func (k Keeper) SetBlacklistLogCount(ctx context.Context, count uint64) {
-	// This is now handled by the sequence, no need to set manually
-}
 
 // AppendBlacklistLog appends a blacklistLog in the store with a new id and update the count
 func (k Keeper) AppendBlacklistLog(

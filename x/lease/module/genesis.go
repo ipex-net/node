@@ -9,6 +9,12 @@ import (
 
 // InitGenesis initializes the module's state from a provided genesis state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
+	// Initialize contract sequence to start from 1
+	err := k.ContractSequence.Set(ctx, 1)
+	if err != nil {
+		panic(err)
+	}
+	
 	// this line is used by starport scaffolding # genesis/module/init
 	if err := k.SetParams(ctx, genState.Params); err != nil {
 		panic(err)

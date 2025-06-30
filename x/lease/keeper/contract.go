@@ -69,12 +69,12 @@ func (k Keeper) removeContractFromIndexes(ctx context.Context, contract types.Co
 }
 
 func (k Keeper) AppendContract(ctx context.Context, contract types.Contract) uint64 {
-	// Get next ID from sequence (add 1 to start from ID 1 instead of 0)
+	// Get next ID from sequence
 	id, err := k.ContractSequence.Next(ctx)
 	if err != nil {
 		panic(err)
 	}
-	contract.Id = id + 1
+	contract.Id = id
 
 	// Store the contract
 	err = k.Contracts.Set(ctx, contract.Id, contract)
