@@ -7,69 +7,33 @@ import (
 
 	"ipex/x/trust/types"
 
-	"cosmossdk.io/store/prefix"
-	storetypes "cosmossdk.io/store/types"
-	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// SetSubnetReputation set a specific subnetReputation in the store from its index
 func (k Keeper) SetSubnetReputation(ctx context.Context, subnetReputation types.SubnetReputation) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetReputationKeyPrefix))
-	b := k.cdc.MustMarshal(&subnetReputation)
-	store.Set(types.SubnetReputationKey(
-		subnetReputation.Index,
-	), b)
+	k.SubnetReputations.Set(ctx, subnetReputation.Index, subnetReputation)
 }
 
-// GetSubnetReputation returns a subnetReputation from its index
-func (k Keeper) GetSubnetReputation(
-	ctx context.Context,
-	index uint64,
-
-) (val types.SubnetReputation, found bool) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetReputationKeyPrefix))
-
-	b := store.Get(types.SubnetReputationKey(
-		index,
-	))
-	if b == nil {
+func (k Keeper) GetSubnetReputation(ctx context.Context, index uint64) (val types.SubnetReputation, found bool) {
+	val, err := k.SubnetReputations.Get(ctx, index)
+	if err != nil {
 		return val, false
 	}
-
-	k.cdc.MustUnmarshal(b, &val)
 	return val, true
 }
 
-// RemoveSubnetReputation removes a subnetReputation from the store
-func (k Keeper) RemoveSubnetReputation(
-	ctx context.Context,
-	index uint64,
-
-) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetReputationKeyPrefix))
-	store.Delete(types.SubnetReputationKey(
-		index,
-	))
+func (k Keeper) RemoveSubnetReputation(ctx context.Context, index uint64) {
+	k.SubnetReputations.Remove(ctx, index)
 }
 
-// GetAllSubnetReputation returns all subnetReputation
 func (k Keeper) GetAllSubnetReputation(ctx context.Context) (list []types.SubnetReputation) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetReputationKeyPrefix))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val types.SubnetReputation
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-		list = append(list, val)
+	err := k.SubnetReputations.Walk(ctx, nil, func(key uint64, value types.SubnetReputation) (bool, error) {
+		list = append(list, value)
+		return false, nil
+	})
+	if err != nil {
+		panic(err)
 	}
-
 	return
 }
 
@@ -175,17 +139,10 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 }
 
 func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context, referenceTime time.Time) (list []uint64) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetReputationKeyPrefix))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
 	count := 0
 	maxSubnets := 10
-	for ; iterator.Valid(); iterator.Next() {
-		var subnetReputation types.SubnetReputation
-		k.cdc.MustUnmarshal(iterator.Value(), &subnetReputation)
+	
+	err := k.SubnetReputations.Walk(ctx, nil, func(key uint64, subnetReputation types.SubnetReputation) (bool, error) {
 		// Check if enough time has passed since last attempt
 		if subnetReputation.LastUpdated != nil {
 			timeSince := referenceTime.Sub(*subnetReputation.LastUpdated)
@@ -194,7 +151,7 @@ func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context, referenceTi
 			// if now.Sub(lastAttempt) < 6*time.Hour {
 			// DEBUG
 			if timeSince < 15*time.Second {
-				continue
+				return false, nil // continue iteration
 			}
 		}
 		// Add to the list for validation
@@ -202,10 +159,14 @@ func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context, referenceTi
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break
+			return true, nil // stop iteration
 		}
+		return false, nil // continue iteration
+	})
+	
+	if err != nil {
+		panic(err)
 	}
-
 	return
 }
 

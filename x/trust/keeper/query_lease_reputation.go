@@ -6,9 +6,6 @@ import (
 	abusetypes "ipex/x/abuse/types"
 	"ipex/x/trust/types"
 
-	"cosmossdk.io/store/prefix"
-	"github.com/cosmos/cosmos-sdk/runtime"
-	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -18,54 +15,17 @@ func (k Keeper) LeaseReputationAll(ctx context.Context, req *types.QueryAllLease
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
+	// Use collections-based GetAll instead of legacy KV store operations
+	leaseReputations := k.GetAllLeaseReputation(ctx)
 	var leaseReputationsDisplay []types.LeaseReputationDisplay
 
-	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	leaseReputationStore := prefix.NewStore(store, types.KeyPrefix(types.LeaseReputationKeyPrefix))
-
-	pageRes, err := query.Paginate(leaseReputationStore, req.Pagination, func(key []byte, value []byte) error {
-		var leaseReputation types.LeaseReputation
-		if err := k.cdc.Unmarshal(value, &leaseReputation); err != nil {
-			return err
-		}
-
+	for _, leaseReputation := range leaseReputations {
 		// Convert to display format
-		display := types.LeaseReputationDisplay{
-			Index:           leaseReputation.Index,
-			Level1Count:     leaseReputation.Level1Count,
-			Level2Count:     leaseReputation.Level2Count,
-			Level3Count:     leaseReputation.Level3Count,
-			Level4Count:     leaseReputation.Level4Count,
-			LastUpdated:     leaseReputation.LastUpdated,
-			AbuseResolved:   leaseReputation.AbuseResolved,
-			AbuseFailed:     leaseReputation.AbuseFailed,
-			AbuseInProgress: leaseReputation.AbuseInProgress,
-		}
-
-		// Convert map to slice, only include initialized entries
-		if leaseReputation.AbuseByType != nil {
-			for abuseType := abusetypes.AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA; abuseType <= abusetypes.AbuseType_ABUSE_TYPE_OTHER; abuseType++ {
-				if stats, exists := leaseReputation.AbuseByType[uint32(abuseType)]; exists && stats != nil {
-					display.AbuseByType = append(display.AbuseByType, &types.AbuseStatsDisplay{
-						AbuseType:    uint32(abuseType),
-						Resolved:     stats.Resolved,
-						Failed:       stats.Failed,
-						InProgress:   stats.InProgress,
-						LastIncident: stats.LastIncident,
-					})
-				}
-			}
-		}
-
+		display := k.convertLeaseReputationToDisplay(leaseReputation)
 		leaseReputationsDisplay = append(leaseReputationsDisplay, display)
-		return nil
-	})
-
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryAllLeaseReputationResponse{LeaseReputation: leaseReputationsDisplay, Pagination: pageRes}, nil
+	return &types.QueryAllLeaseReputationResponse{LeaseReputation: leaseReputationsDisplay, Pagination: nil}, nil
 }
 
 func (k Keeper) LeaseReputation(ctx context.Context, req *types.QueryGetLeaseReputationRequest) (*types.QueryGetLeaseReputationResponse, error) {
@@ -73,15 +33,17 @@ func (k Keeper) LeaseReputation(ctx context.Context, req *types.QueryGetLeaseRep
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	val, found := k.GetLeaseReputation(
-		ctx,
-		req.Index,
-	)
+	val, found := k.GetLeaseReputation(ctx, req.Index)
 	if !found {
 		return nil, status.Error(codes.NotFound, "not found")
 	}
 
-	// Convert to display format
+	display := k.convertLeaseReputationToDisplay(val)
+	return &types.QueryGetLeaseReputationResponse{LeaseReputation: display}, nil
+}
+
+// convertLeaseReputationToDisplay is a helper function to convert LeaseReputation to display format
+func (k Keeper) convertLeaseReputationToDisplay(val types.LeaseReputation) types.LeaseReputationDisplay {
 	display := types.LeaseReputationDisplay{
 		Index:           val.Index,
 		Level1Count:     val.Level1Count,
@@ -109,5 +71,5 @@ func (k Keeper) LeaseReputation(ctx context.Context, req *types.QueryGetLeaseRep
 		}
 	}
 
-	return &types.QueryGetLeaseReputationResponse{LeaseReputation: display}, nil
+	return display
 }
