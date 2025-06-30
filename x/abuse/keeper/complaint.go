@@ -2,13 +2,10 @@ package keeper
 
 import (
 	"context"
-	"encoding/binary"
 
 	"ipex/x/abuse/types"
 
 	"cosmossdk.io/collections"
-	"cosmossdk.io/store/prefix"
-	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // AppendComplaint appends a complaint to the store with an auto-incrementing id
@@ -65,27 +62,6 @@ func (k Keeper) updateComplaintIndexes(ctx context.Context, complaint types.Comp
 	}
 }
 
-// GetComplaintCount returns the total number of complaints
-func (k Keeper) GetComplaintCount(ctx context.Context) uint64 {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.ComplaintCountKey)
-	bz := store.Get(byteKey)
-	if bz == nil {
-		return 0
-	}
-	return binary.BigEndian.Uint64(bz)
-}
-
-// SetComplaintCount sets the total number of complaints
-func (k Keeper) SetComplaintCount(ctx context.Context, count uint64) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.ComplaintCountKey)
-	bz := make([]byte, 8)
-	binary.BigEndian.PutUint64(bz, count)
-	store.Set(byteKey, bz)
-}
 
 // SetComplaint set a specific complaint in the store from its id
 func (k Keeper) SetComplaint(ctx context.Context, complaint types.Complaint) {

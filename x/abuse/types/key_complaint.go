@@ -7,8 +7,6 @@ var _ binary.ByteOrder
 const (
 	// ComplaintKeyPrefix is the prefix to retrieve all Complaint
 	ComplaintKeyPrefix = "Complaint/value/"
-	// ComplaintCountKey is the key for the complaint count
-	ComplaintCountKey = "Complaint/count/"
 	// Collection keys for secondary indexes
 	ComplaintBySubnetKey = "Complaint/by_subnet/"
 	ComplaintByLeaseKey  = "Complaint/by_lease/"
