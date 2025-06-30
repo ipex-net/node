@@ -4501,6 +4501,3174 @@ func (x *fastReflection_QueryShowSubnetResponse) ProtoMethods() *protoiface.Meth
 	}
 }
 
+var (
+	md_QuerySubnetByOwnerOrgRequest              protoreflect.MessageDescriptor
+	fd_QuerySubnetByOwnerOrgRequest_owner_org_id protoreflect.FieldDescriptor
+	fd_QuerySubnetByOwnerOrgRequest_pagination   protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_subnet_query_proto_init()
+	md_QuerySubnetByOwnerOrgRequest = File_ipex_subnet_query_proto.Messages().ByName("QuerySubnetByOwnerOrgRequest")
+	fd_QuerySubnetByOwnerOrgRequest_owner_org_id = md_QuerySubnetByOwnerOrgRequest.Fields().ByName("owner_org_id")
+	fd_QuerySubnetByOwnerOrgRequest_pagination = md_QuerySubnetByOwnerOrgRequest.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QuerySubnetByOwnerOrgRequest)(nil)
+
+type fastReflection_QuerySubnetByOwnerOrgRequest QuerySubnetByOwnerOrgRequest
+
+func (x *QuerySubnetByOwnerOrgRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByOwnerOrgRequest)(x)
+}
+
+func (x *QuerySubnetByOwnerOrgRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_subnet_query_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QuerySubnetByOwnerOrgRequest_messageType fastReflection_QuerySubnetByOwnerOrgRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QuerySubnetByOwnerOrgRequest_messageType{}
+
+type fastReflection_QuerySubnetByOwnerOrgRequest_messageType struct{}
+
+func (x fastReflection_QuerySubnetByOwnerOrgRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByOwnerOrgRequest)(nil)
+}
+func (x fastReflection_QuerySubnetByOwnerOrgRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByOwnerOrgRequest)
+}
+func (x fastReflection_QuerySubnetByOwnerOrgRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByOwnerOrgRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByOwnerOrgRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QuerySubnetByOwnerOrgRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByOwnerOrgRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) Interface() protoreflect.ProtoMessage {
+	return (*QuerySubnetByOwnerOrgRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.OwnerOrgId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.OwnerOrgId)
+		if !f(fd_QuerySubnetByOwnerOrgRequest_owner_org_id, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QuerySubnetByOwnerOrgRequest_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.owner_org_id":
+		return x.OwnerOrgId != uint64(0)
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.owner_org_id":
+		x.OwnerOrgId = uint64(0)
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.owner_org_id":
+		value := x.OwnerOrgId
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.owner_org_id":
+		x.OwnerOrgId = value.Uint()
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.owner_org_id":
+		panic(fmt.Errorf("field owner_org_id of message ipex.subnet.QuerySubnetByOwnerOrgRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.owner_org_id":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.QuerySubnetByOwnerOrgRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.subnet.QuerySubnetByOwnerOrgRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QuerySubnetByOwnerOrgRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QuerySubnetByOwnerOrgRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.OwnerOrgId != 0 {
+			n += 1 + runtime.Sov(uint64(x.OwnerOrgId))
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByOwnerOrgRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if x.OwnerOrgId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.OwnerOrgId))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByOwnerOrgRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByOwnerOrgRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByOwnerOrgRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OwnerOrgId", wireType)
+				}
+				x.OwnerOrgId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.OwnerOrgId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var _ protoreflect.List = (*_QuerySubnetByOwnerOrgResponse_1_list)(nil)
+
+type _QuerySubnetByOwnerOrgResponse_1_list struct {
+	list *[]*Subnet
+}
+
+func (x *_QuerySubnetByOwnerOrgResponse_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_QuerySubnetByOwnerOrgResponse_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_QuerySubnetByOwnerOrgResponse_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Subnet)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_QuerySubnetByOwnerOrgResponse_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Subnet)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_QuerySubnetByOwnerOrgResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(Subnet)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QuerySubnetByOwnerOrgResponse_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_QuerySubnetByOwnerOrgResponse_1_list) NewElement() protoreflect.Value {
+	v := new(Subnet)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QuerySubnetByOwnerOrgResponse_1_list) IsValid() bool {
+	return x.list != nil
+}
+
+var (
+	md_QuerySubnetByOwnerOrgResponse            protoreflect.MessageDescriptor
+	fd_QuerySubnetByOwnerOrgResponse_Subnet     protoreflect.FieldDescriptor
+	fd_QuerySubnetByOwnerOrgResponse_pagination protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_subnet_query_proto_init()
+	md_QuerySubnetByOwnerOrgResponse = File_ipex_subnet_query_proto.Messages().ByName("QuerySubnetByOwnerOrgResponse")
+	fd_QuerySubnetByOwnerOrgResponse_Subnet = md_QuerySubnetByOwnerOrgResponse.Fields().ByName("Subnet")
+	fd_QuerySubnetByOwnerOrgResponse_pagination = md_QuerySubnetByOwnerOrgResponse.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QuerySubnetByOwnerOrgResponse)(nil)
+
+type fastReflection_QuerySubnetByOwnerOrgResponse QuerySubnetByOwnerOrgResponse
+
+func (x *QuerySubnetByOwnerOrgResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByOwnerOrgResponse)(x)
+}
+
+func (x *QuerySubnetByOwnerOrgResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_subnet_query_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QuerySubnetByOwnerOrgResponse_messageType fastReflection_QuerySubnetByOwnerOrgResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QuerySubnetByOwnerOrgResponse_messageType{}
+
+type fastReflection_QuerySubnetByOwnerOrgResponse_messageType struct{}
+
+func (x fastReflection_QuerySubnetByOwnerOrgResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByOwnerOrgResponse)(nil)
+}
+func (x fastReflection_QuerySubnetByOwnerOrgResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByOwnerOrgResponse)
+}
+func (x fastReflection_QuerySubnetByOwnerOrgResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByOwnerOrgResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByOwnerOrgResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QuerySubnetByOwnerOrgResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByOwnerOrgResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) Interface() protoreflect.ProtoMessage {
+	return (*QuerySubnetByOwnerOrgResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.Subnet) != 0 {
+		value := protoreflect.ValueOfList(&_QuerySubnetByOwnerOrgResponse_1_list{list: &x.Subnet})
+		if !f(fd_QuerySubnetByOwnerOrgResponse_Subnet, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QuerySubnetByOwnerOrgResponse_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.Subnet":
+		return len(x.Subnet) != 0
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.Subnet":
+		x.Subnet = nil
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.Subnet":
+		if len(x.Subnet) == 0 {
+			return protoreflect.ValueOfList(&_QuerySubnetByOwnerOrgResponse_1_list{})
+		}
+		listValue := &_QuerySubnetByOwnerOrgResponse_1_list{list: &x.Subnet}
+		return protoreflect.ValueOfList(listValue)
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.Subnet":
+		lv := value.List()
+		clv := lv.(*_QuerySubnetByOwnerOrgResponse_1_list)
+		x.Subnet = *clv.list
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.Subnet":
+		if x.Subnet == nil {
+			x.Subnet = []*Subnet{}
+		}
+		value := &_QuerySubnetByOwnerOrgResponse_1_list{list: &x.Subnet}
+		return protoreflect.ValueOfList(value)
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.Subnet":
+		list := []*Subnet{}
+		return protoreflect.ValueOfList(&_QuerySubnetByOwnerOrgResponse_1_list{list: &list})
+	case "ipex.subnet.QuerySubnetByOwnerOrgResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByOwnerOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByOwnerOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.subnet.QuerySubnetByOwnerOrgResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QuerySubnetByOwnerOrgResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QuerySubnetByOwnerOrgResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if len(x.Subnet) > 0 {
+			for _, e := range x.Subnet {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByOwnerOrgResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.Subnet) > 0 {
+			for iNdEx := len(x.Subnet) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Subnet[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0xa
+			}
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByOwnerOrgResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByOwnerOrgResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByOwnerOrgResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Subnet", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Subnet = append(x.Subnet, &Subnet{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Subnet[len(x.Subnet)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QuerySubnetByUserOrgRequest             protoreflect.MessageDescriptor
+	fd_QuerySubnetByUserOrgRequest_user_org_id protoreflect.FieldDescriptor
+	fd_QuerySubnetByUserOrgRequest_pagination  protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_subnet_query_proto_init()
+	md_QuerySubnetByUserOrgRequest = File_ipex_subnet_query_proto.Messages().ByName("QuerySubnetByUserOrgRequest")
+	fd_QuerySubnetByUserOrgRequest_user_org_id = md_QuerySubnetByUserOrgRequest.Fields().ByName("user_org_id")
+	fd_QuerySubnetByUserOrgRequest_pagination = md_QuerySubnetByUserOrgRequest.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QuerySubnetByUserOrgRequest)(nil)
+
+type fastReflection_QuerySubnetByUserOrgRequest QuerySubnetByUserOrgRequest
+
+func (x *QuerySubnetByUserOrgRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByUserOrgRequest)(x)
+}
+
+func (x *QuerySubnetByUserOrgRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_subnet_query_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QuerySubnetByUserOrgRequest_messageType fastReflection_QuerySubnetByUserOrgRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QuerySubnetByUserOrgRequest_messageType{}
+
+type fastReflection_QuerySubnetByUserOrgRequest_messageType struct{}
+
+func (x fastReflection_QuerySubnetByUserOrgRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByUserOrgRequest)(nil)
+}
+func (x fastReflection_QuerySubnetByUserOrgRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByUserOrgRequest)
+}
+func (x fastReflection_QuerySubnetByUserOrgRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByUserOrgRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByUserOrgRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QuerySubnetByUserOrgRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByUserOrgRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) Interface() protoreflect.ProtoMessage {
+	return (*QuerySubnetByUserOrgRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.UserOrgId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.UserOrgId)
+		if !f(fd_QuerySubnetByUserOrgRequest_user_org_id, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QuerySubnetByUserOrgRequest_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.user_org_id":
+		return x.UserOrgId != uint64(0)
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.user_org_id":
+		x.UserOrgId = uint64(0)
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.user_org_id":
+		value := x.UserOrgId
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.user_org_id":
+		x.UserOrgId = value.Uint()
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.user_org_id":
+		panic(fmt.Errorf("field user_org_id of message ipex.subnet.QuerySubnetByUserOrgRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.user_org_id":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.QuerySubnetByUserOrgRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.subnet.QuerySubnetByUserOrgRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QuerySubnetByUserOrgRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QuerySubnetByUserOrgRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.UserOrgId != 0 {
+			n += 1 + runtime.Sov(uint64(x.UserOrgId))
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByUserOrgRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if x.UserOrgId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.UserOrgId))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByUserOrgRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByUserOrgRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByUserOrgRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UserOrgId", wireType)
+				}
+				x.UserOrgId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.UserOrgId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var _ protoreflect.List = (*_QuerySubnetByUserOrgResponse_1_list)(nil)
+
+type _QuerySubnetByUserOrgResponse_1_list struct {
+	list *[]*Subnet
+}
+
+func (x *_QuerySubnetByUserOrgResponse_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_QuerySubnetByUserOrgResponse_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_QuerySubnetByUserOrgResponse_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Subnet)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_QuerySubnetByUserOrgResponse_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Subnet)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_QuerySubnetByUserOrgResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(Subnet)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QuerySubnetByUserOrgResponse_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_QuerySubnetByUserOrgResponse_1_list) NewElement() protoreflect.Value {
+	v := new(Subnet)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QuerySubnetByUserOrgResponse_1_list) IsValid() bool {
+	return x.list != nil
+}
+
+var (
+	md_QuerySubnetByUserOrgResponse            protoreflect.MessageDescriptor
+	fd_QuerySubnetByUserOrgResponse_Subnet     protoreflect.FieldDescriptor
+	fd_QuerySubnetByUserOrgResponse_pagination protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_subnet_query_proto_init()
+	md_QuerySubnetByUserOrgResponse = File_ipex_subnet_query_proto.Messages().ByName("QuerySubnetByUserOrgResponse")
+	fd_QuerySubnetByUserOrgResponse_Subnet = md_QuerySubnetByUserOrgResponse.Fields().ByName("Subnet")
+	fd_QuerySubnetByUserOrgResponse_pagination = md_QuerySubnetByUserOrgResponse.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QuerySubnetByUserOrgResponse)(nil)
+
+type fastReflection_QuerySubnetByUserOrgResponse QuerySubnetByUserOrgResponse
+
+func (x *QuerySubnetByUserOrgResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByUserOrgResponse)(x)
+}
+
+func (x *QuerySubnetByUserOrgResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_subnet_query_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QuerySubnetByUserOrgResponse_messageType fastReflection_QuerySubnetByUserOrgResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QuerySubnetByUserOrgResponse_messageType{}
+
+type fastReflection_QuerySubnetByUserOrgResponse_messageType struct{}
+
+func (x fastReflection_QuerySubnetByUserOrgResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByUserOrgResponse)(nil)
+}
+func (x fastReflection_QuerySubnetByUserOrgResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByUserOrgResponse)
+}
+func (x fastReflection_QuerySubnetByUserOrgResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByUserOrgResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByUserOrgResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QuerySubnetByUserOrgResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByUserOrgResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) Interface() protoreflect.ProtoMessage {
+	return (*QuerySubnetByUserOrgResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.Subnet) != 0 {
+		value := protoreflect.ValueOfList(&_QuerySubnetByUserOrgResponse_1_list{list: &x.Subnet})
+		if !f(fd_QuerySubnetByUserOrgResponse_Subnet, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QuerySubnetByUserOrgResponse_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.Subnet":
+		return len(x.Subnet) != 0
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.Subnet":
+		x.Subnet = nil
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.Subnet":
+		if len(x.Subnet) == 0 {
+			return protoreflect.ValueOfList(&_QuerySubnetByUserOrgResponse_1_list{})
+		}
+		listValue := &_QuerySubnetByUserOrgResponse_1_list{list: &x.Subnet}
+		return protoreflect.ValueOfList(listValue)
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.Subnet":
+		lv := value.List()
+		clv := lv.(*_QuerySubnetByUserOrgResponse_1_list)
+		x.Subnet = *clv.list
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.Subnet":
+		if x.Subnet == nil {
+			x.Subnet = []*Subnet{}
+		}
+		value := &_QuerySubnetByUserOrgResponse_1_list{list: &x.Subnet}
+		return protoreflect.ValueOfList(value)
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.Subnet":
+		list := []*Subnet{}
+		return protoreflect.ValueOfList(&_QuerySubnetByUserOrgResponse_1_list{list: &list})
+	case "ipex.subnet.QuerySubnetByUserOrgResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByUserOrgResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByUserOrgResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.subnet.QuerySubnetByUserOrgResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QuerySubnetByUserOrgResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QuerySubnetByUserOrgResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if len(x.Subnet) > 0 {
+			for _, e := range x.Subnet {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByUserOrgResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.Subnet) > 0 {
+			for iNdEx := len(x.Subnet) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Subnet[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0xa
+			}
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByUserOrgResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByUserOrgResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByUserOrgResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Subnet", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Subnet = append(x.Subnet, &Subnet{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Subnet[len(x.Subnet)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QuerySubnetByNetworkAddressRequest                 protoreflect.MessageDescriptor
+	fd_QuerySubnetByNetworkAddressRequest_network_address protoreflect.FieldDescriptor
+	fd_QuerySubnetByNetworkAddressRequest_pagination      protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_subnet_query_proto_init()
+	md_QuerySubnetByNetworkAddressRequest = File_ipex_subnet_query_proto.Messages().ByName("QuerySubnetByNetworkAddressRequest")
+	fd_QuerySubnetByNetworkAddressRequest_network_address = md_QuerySubnetByNetworkAddressRequest.Fields().ByName("network_address")
+	fd_QuerySubnetByNetworkAddressRequest_pagination = md_QuerySubnetByNetworkAddressRequest.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QuerySubnetByNetworkAddressRequest)(nil)
+
+type fastReflection_QuerySubnetByNetworkAddressRequest QuerySubnetByNetworkAddressRequest
+
+func (x *QuerySubnetByNetworkAddressRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByNetworkAddressRequest)(x)
+}
+
+func (x *QuerySubnetByNetworkAddressRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_subnet_query_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QuerySubnetByNetworkAddressRequest_messageType fastReflection_QuerySubnetByNetworkAddressRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QuerySubnetByNetworkAddressRequest_messageType{}
+
+type fastReflection_QuerySubnetByNetworkAddressRequest_messageType struct{}
+
+func (x fastReflection_QuerySubnetByNetworkAddressRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByNetworkAddressRequest)(nil)
+}
+func (x fastReflection_QuerySubnetByNetworkAddressRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByNetworkAddressRequest)
+}
+func (x fastReflection_QuerySubnetByNetworkAddressRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByNetworkAddressRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByNetworkAddressRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QuerySubnetByNetworkAddressRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByNetworkAddressRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) Interface() protoreflect.ProtoMessage {
+	return (*QuerySubnetByNetworkAddressRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.NetworkAddress != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.NetworkAddress)
+		if !f(fd_QuerySubnetByNetworkAddressRequest_network_address, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QuerySubnetByNetworkAddressRequest_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.network_address":
+		return x.NetworkAddress != uint64(0)
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.network_address":
+		x.NetworkAddress = uint64(0)
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.network_address":
+		value := x.NetworkAddress
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.network_address":
+		x.NetworkAddress = value.Uint()
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.network_address":
+		panic(fmt.Errorf("field network_address of message ipex.subnet.QuerySubnetByNetworkAddressRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.network_address":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.subnet.QuerySubnetByNetworkAddressRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressRequest"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.subnet.QuerySubnetByNetworkAddressRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QuerySubnetByNetworkAddressRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QuerySubnetByNetworkAddressRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.NetworkAddress != 0 {
+			n += 1 + runtime.Sov(uint64(x.NetworkAddress))
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByNetworkAddressRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if x.NetworkAddress != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.NetworkAddress))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByNetworkAddressRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByNetworkAddressRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByNetworkAddressRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NetworkAddress", wireType)
+				}
+				x.NetworkAddress = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.NetworkAddress |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var _ protoreflect.List = (*_QuerySubnetByNetworkAddressResponse_1_list)(nil)
+
+type _QuerySubnetByNetworkAddressResponse_1_list struct {
+	list *[]*Subnet
+}
+
+func (x *_QuerySubnetByNetworkAddressResponse_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_QuerySubnetByNetworkAddressResponse_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_QuerySubnetByNetworkAddressResponse_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Subnet)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_QuerySubnetByNetworkAddressResponse_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Subnet)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_QuerySubnetByNetworkAddressResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(Subnet)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QuerySubnetByNetworkAddressResponse_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_QuerySubnetByNetworkAddressResponse_1_list) NewElement() protoreflect.Value {
+	v := new(Subnet)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QuerySubnetByNetworkAddressResponse_1_list) IsValid() bool {
+	return x.list != nil
+}
+
+var (
+	md_QuerySubnetByNetworkAddressResponse            protoreflect.MessageDescriptor
+	fd_QuerySubnetByNetworkAddressResponse_Subnet     protoreflect.FieldDescriptor
+	fd_QuerySubnetByNetworkAddressResponse_pagination protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_subnet_query_proto_init()
+	md_QuerySubnetByNetworkAddressResponse = File_ipex_subnet_query_proto.Messages().ByName("QuerySubnetByNetworkAddressResponse")
+	fd_QuerySubnetByNetworkAddressResponse_Subnet = md_QuerySubnetByNetworkAddressResponse.Fields().ByName("Subnet")
+	fd_QuerySubnetByNetworkAddressResponse_pagination = md_QuerySubnetByNetworkAddressResponse.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QuerySubnetByNetworkAddressResponse)(nil)
+
+type fastReflection_QuerySubnetByNetworkAddressResponse QuerySubnetByNetworkAddressResponse
+
+func (x *QuerySubnetByNetworkAddressResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByNetworkAddressResponse)(x)
+}
+
+func (x *QuerySubnetByNetworkAddressResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_subnet_query_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QuerySubnetByNetworkAddressResponse_messageType fastReflection_QuerySubnetByNetworkAddressResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QuerySubnetByNetworkAddressResponse_messageType{}
+
+type fastReflection_QuerySubnetByNetworkAddressResponse_messageType struct{}
+
+func (x fastReflection_QuerySubnetByNetworkAddressResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QuerySubnetByNetworkAddressResponse)(nil)
+}
+func (x fastReflection_QuerySubnetByNetworkAddressResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByNetworkAddressResponse)
+}
+func (x fastReflection_QuerySubnetByNetworkAddressResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByNetworkAddressResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QuerySubnetByNetworkAddressResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QuerySubnetByNetworkAddressResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) New() protoreflect.Message {
+	return new(fastReflection_QuerySubnetByNetworkAddressResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) Interface() protoreflect.ProtoMessage {
+	return (*QuerySubnetByNetworkAddressResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.Subnet) != 0 {
+		value := protoreflect.ValueOfList(&_QuerySubnetByNetworkAddressResponse_1_list{list: &x.Subnet})
+		if !f(fd_QuerySubnetByNetworkAddressResponse_Subnet, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QuerySubnetByNetworkAddressResponse_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.Subnet":
+		return len(x.Subnet) != 0
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.Subnet":
+		x.Subnet = nil
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.Subnet":
+		if len(x.Subnet) == 0 {
+			return protoreflect.ValueOfList(&_QuerySubnetByNetworkAddressResponse_1_list{})
+		}
+		listValue := &_QuerySubnetByNetworkAddressResponse_1_list{list: &x.Subnet}
+		return protoreflect.ValueOfList(listValue)
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.Subnet":
+		lv := value.List()
+		clv := lv.(*_QuerySubnetByNetworkAddressResponse_1_list)
+		x.Subnet = *clv.list
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.Subnet":
+		if x.Subnet == nil {
+			x.Subnet = []*Subnet{}
+		}
+		value := &_QuerySubnetByNetworkAddressResponse_1_list{list: &x.Subnet}
+		return protoreflect.ValueOfList(value)
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.Subnet":
+		list := []*Subnet{}
+		return protoreflect.ValueOfList(&_QuerySubnetByNetworkAddressResponse_1_list{list: &list})
+	case "ipex.subnet.QuerySubnetByNetworkAddressResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.subnet.QuerySubnetByNetworkAddressResponse"))
+		}
+		panic(fmt.Errorf("message ipex.subnet.QuerySubnetByNetworkAddressResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.subnet.QuerySubnetByNetworkAddressResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QuerySubnetByNetworkAddressResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QuerySubnetByNetworkAddressResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if len(x.Subnet) > 0 {
+			for _, e := range x.Subnet {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByNetworkAddressResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.Subnet) > 0 {
+			for iNdEx := len(x.Subnet) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Subnet[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0xa
+			}
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QuerySubnetByNetworkAddressResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByNetworkAddressResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QuerySubnetByNetworkAddressResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Subnet", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Subnet = append(x.Subnet, &Subnet{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Subnet[len(x.Subnet)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -4874,6 +8042,264 @@ func (x *QueryShowSubnetResponse) GetSubnet() *Subnet {
 	return nil
 }
 
+type QuerySubnetByOwnerOrgRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	OwnerOrgId uint64               `protobuf:"varint,1,opt,name=owner_org_id,json=ownerOrgId,proto3" json:"owner_org_id,omitempty"`
+	Pagination *v1beta1.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QuerySubnetByOwnerOrgRequest) Reset() {
+	*x = QuerySubnetByOwnerOrgRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_subnet_query_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QuerySubnetByOwnerOrgRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QuerySubnetByOwnerOrgRequest) ProtoMessage() {}
+
+// Deprecated: Use QuerySubnetByOwnerOrgRequest.ProtoReflect.Descriptor instead.
+func (*QuerySubnetByOwnerOrgRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_subnet_query_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *QuerySubnetByOwnerOrgRequest) GetOwnerOrgId() uint64 {
+	if x != nil {
+		return x.OwnerOrgId
+	}
+	return 0
+}
+
+func (x *QuerySubnetByOwnerOrgRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByOwnerOrgResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Subnet     []*Subnet             `protobuf:"bytes,1,rep,name=Subnet,proto3" json:"Subnet,omitempty"`
+	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QuerySubnetByOwnerOrgResponse) Reset() {
+	*x = QuerySubnetByOwnerOrgResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_subnet_query_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QuerySubnetByOwnerOrgResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QuerySubnetByOwnerOrgResponse) ProtoMessage() {}
+
+// Deprecated: Use QuerySubnetByOwnerOrgResponse.ProtoReflect.Descriptor instead.
+func (*QuerySubnetByOwnerOrgResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_subnet_query_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *QuerySubnetByOwnerOrgResponse) GetSubnet() []*Subnet {
+	if x != nil {
+		return x.Subnet
+	}
+	return nil
+}
+
+func (x *QuerySubnetByOwnerOrgResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByUserOrgRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserOrgId  uint64               `protobuf:"varint,1,opt,name=user_org_id,json=userOrgId,proto3" json:"user_org_id,omitempty"`
+	Pagination *v1beta1.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QuerySubnetByUserOrgRequest) Reset() {
+	*x = QuerySubnetByUserOrgRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_subnet_query_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QuerySubnetByUserOrgRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QuerySubnetByUserOrgRequest) ProtoMessage() {}
+
+// Deprecated: Use QuerySubnetByUserOrgRequest.ProtoReflect.Descriptor instead.
+func (*QuerySubnetByUserOrgRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_subnet_query_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *QuerySubnetByUserOrgRequest) GetUserOrgId() uint64 {
+	if x != nil {
+		return x.UserOrgId
+	}
+	return 0
+}
+
+func (x *QuerySubnetByUserOrgRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByUserOrgResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Subnet     []*Subnet             `protobuf:"bytes,1,rep,name=Subnet,proto3" json:"Subnet,omitempty"`
+	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QuerySubnetByUserOrgResponse) Reset() {
+	*x = QuerySubnetByUserOrgResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_subnet_query_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QuerySubnetByUserOrgResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QuerySubnetByUserOrgResponse) ProtoMessage() {}
+
+// Deprecated: Use QuerySubnetByUserOrgResponse.ProtoReflect.Descriptor instead.
+func (*QuerySubnetByUserOrgResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_subnet_query_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *QuerySubnetByUserOrgResponse) GetSubnet() []*Subnet {
+	if x != nil {
+		return x.Subnet
+	}
+	return nil
+}
+
+func (x *QuerySubnetByUserOrgResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByNetworkAddressRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	NetworkAddress uint64               `protobuf:"varint,1,opt,name=network_address,json=networkAddress,proto3" json:"network_address,omitempty"`
+	Pagination     *v1beta1.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QuerySubnetByNetworkAddressRequest) Reset() {
+	*x = QuerySubnetByNetworkAddressRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_subnet_query_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QuerySubnetByNetworkAddressRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QuerySubnetByNetworkAddressRequest) ProtoMessage() {}
+
+// Deprecated: Use QuerySubnetByNetworkAddressRequest.ProtoReflect.Descriptor instead.
+func (*QuerySubnetByNetworkAddressRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_subnet_query_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *QuerySubnetByNetworkAddressRequest) GetNetworkAddress() uint64 {
+	if x != nil {
+		return x.NetworkAddress
+	}
+	return 0
+}
+
+func (x *QuerySubnetByNetworkAddressRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByNetworkAddressResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Subnet     []*Subnet             `protobuf:"bytes,1,rep,name=Subnet,proto3" json:"Subnet,omitempty"`
+	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QuerySubnetByNetworkAddressResponse) Reset() {
+	*x = QuerySubnetByNetworkAddressResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_subnet_query_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QuerySubnetByNetworkAddressResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QuerySubnetByNetworkAddressResponse) ProtoMessage() {}
+
+// Deprecated: Use QuerySubnetByNetworkAddressResponse.ProtoReflect.Descriptor instead.
+func (*QuerySubnetByNetworkAddressResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_subnet_query_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *QuerySubnetByNetworkAddressResponse) GetSubnet() []*Subnet {
+	if x != nil {
+		return x.Subnet
+	}
+	return nil
+}
+
+func (x *QuerySubnetByNetworkAddressResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 var File_ipex_subnet_query_proto protoreflect.FileDescriptor
 
 var file_ipex_subnet_query_proto_rawDesc = []byte{
@@ -4942,55 +8368,144 @@ var file_ipex_subnet_query_proto_rawDesc = []byte{
 	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x73, 0x75, 0x62, 0x6e, 0x65,
 	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
 	0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x04, 0xc8,
-	0xde, 0x1f, 0x00, 0x52, 0x06, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x32, 0xe4, 0x04, 0x0a, 0x05,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x6b, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12,
-	0x20, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x21, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x16, 0x12, 0x14, 0x2f, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x70, 0x61, 0x72, 0x61,
-	0x6d, 0x73, 0x12, 0x76, 0x0a, 0x06, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x23, 0x2e, 0x69,
+	0xde, 0x1f, 0x00, 0x52, 0x06, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x22, 0x88, 0x01, 0x0a, 0x1c,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x79, 0x4f, 0x77, 0x6e,
+	0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x20, 0x0a, 0x0c,
+	0x6f, 0x77, 0x6e, 0x65, 0x72, 0x5f, 0x6f, 0x72, 0x67, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x04, 0x52, 0x0a, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x12, 0x46,
+	0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
+	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50,
+	0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x9c, 0x01, 0x0a, 0x1d, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x53, 0x75, 0x62, 0x6e,
+	0x65, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x04,
+	0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x47, 0x0a, 0x0a,
+	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71,
+	0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x85, 0x01, 0x0a, 0x1b, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53,
+	0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1e, 0x0a, 0x0b, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x6f, 0x72,
+	0x67, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x75, 0x73, 0x65, 0x72,
+	0x4f, 0x72, 0x67, 0x49, 0x64, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d,
+	0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31,
+	0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x9b, 0x01,
+	0x0a, 0x1c, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x79, 0x55,
+	0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32,
+	0x0a, 0x06, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14,
+	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x53, 0x75,
+	0x62, 0x6e, 0x65, 0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x53, 0x75, 0x62, 0x6e,
+	0x65, 0x74, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e,
+	0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74,
+	0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x95, 0x01, 0x0a, 0x22,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x79, 0x4e, 0x65, 0x74,
+	0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x27, 0x0a, 0x0f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x5f, 0x61, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0e, 0x6e, 0x65, 0x74,
+	0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x46, 0x0a, 0x0a, 0x70,
+	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75,
+	0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x22, 0xa2, 0x01, 0x0a, 0x23, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x75, 0x62,
+	0x6e, 0x65, 0x74, 0x42, 0x79, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72,
+	0x65, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x06, 0x53,
+	0x75, 0x62, 0x6e, 0x65, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x53, 0x75, 0x62, 0x6e, 0x65,
+	0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12,
+	0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73,
+	0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e,
+	0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61,
+	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0xf2, 0x08, 0x0a, 0x05, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x12, 0x6b, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x20, 0x2e, 0x69,
 	0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1b, 0x12,
-	0x19, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x73,
-	0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x74, 0x0a, 0x09, 0x53, 0x75,
-	0x62, 0x6e, 0x65, 0x74, 0x41, 0x6c, 0x6c, 0x12, 0x23, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
-	0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x53,
-	0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x41, 0x6c, 0x6c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x1c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x16, 0x12, 0x14, 0x2f, 0x69, 0x70, 0x64,
-	0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74,
-	0x12, 0x7c, 0x0a, 0x0a, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x24,
+	0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21,
 	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62,
-	0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62,
-	0x6e, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x1b, 0x12, 0x19, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e,
-	0x65, 0x74, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x81,
-	0x01, 0x0a, 0x0a, 0x53, 0x68, 0x6f, 0x77, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x24, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e,
-	0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x53, 0x75, 0x62, 0x6e,
-	0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x20, 0x12, 0x1e, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65,
-	0x74, 0x2f, 0x73, 0x68, 0x6f, 0x77, 0x5f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x7b, 0x69,
-	0x64, 0x7d, 0x42, 0x87, 0x01, 0x0a, 0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72,
-	0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x16, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69,
-	0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0xa2, 0x02, 0x03,
-	0x49, 0x53, 0x58, 0xaa, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x53, 0x75, 0x62, 0x6e,
-	0x65, 0x74, 0xca, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x53, 0x75, 0x62, 0x6e, 0x65,
-	0x74, 0xe2, 0x02, 0x18, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74,
-	0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d, 0x49,
-	0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x1c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x16, 0x12, 0x14, 0x2f, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12,
+	0x76, 0x0a, 0x06, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x23, 0x2e, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65,
+	0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24,
+	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1b, 0x12, 0x19, 0x2f, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e,
+	0x65, 0x74, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x74, 0x0a, 0x09, 0x53, 0x75, 0x62, 0x6e, 0x65,
+	0x74, 0x41, 0x6c, 0x6c, 0x12, 0x23, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62,
+	0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x53, 0x75, 0x62, 0x6e,
+	0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c,
+	0x6c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x1c, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x16, 0x12, 0x14, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
+	0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x7c, 0x0a,
+	0x0a, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x24, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1b,
+	0x12, 0x19, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f,
+	0x6c, 0x69, 0x73, 0x74, 0x5f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x81, 0x01, 0x0a, 0x0a,
+	0x53, 0x68, 0x6f, 0x77, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x12, 0x24, 0x2e, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53,
+	0x68, 0x6f, 0x77, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x12,
+	0x1e, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x73,
+	0x68, 0x6f, 0x77, 0x5f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12,
+	0xa5, 0x01, 0x0a, 0x10, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x79, 0x4f, 0x77, 0x6e, 0x65,
+	0x72, 0x4f, 0x72, 0x67, 0x12, 0x2a, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62,
+	0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42,
+	0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x2b, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x79, 0x4f, 0x77, 0x6e,
+	0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x38, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x32, 0x12, 0x30, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75,
+	0x62, 0x6e, 0x65, 0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x5f, 0x62, 0x79, 0x5f, 0x6f,
+	0x77, 0x6e, 0x65, 0x72, 0x5f, 0x6f, 0x72, 0x67, 0x2f, 0x7b, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x5f,
+	0x6f, 0x72, 0x67, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xa0, 0x01, 0x0a, 0x0f, 0x53, 0x75, 0x62, 0x6e,
+	0x65, 0x74, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x12, 0x29, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2a, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73,
+	0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65,
+	0x74, 0x42, 0x79, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x36, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x30, 0x12, 0x2e, 0x2f, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74,
+	0x5f, 0x62, 0x79, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x6f, 0x72, 0x67, 0x2f, 0x7b, 0x75, 0x73,
+	0x65, 0x72, 0x5f, 0x6f, 0x72, 0x67, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0xc0, 0x01, 0x0a, 0x16, 0x53,
+	0x75, 0x62, 0x6e, 0x65, 0x74, 0x42, 0x79, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x30, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75,
+	0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74,
+	0x42, 0x79, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
+	0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x75, 0x62, 0x6e,
+	0x65, 0x74, 0x42, 0x79, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x41, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x3b, 0x12, 0x39, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65,
+	0x74, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x5f, 0x62, 0x79, 0x5f, 0x6e, 0x65, 0x74, 0x77,
+	0x6f, 0x72, 0x6b, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x2f, 0x7b, 0x6e, 0x65, 0x74,
+	0x77, 0x6f, 0x72, 0x6b, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x42, 0x87, 0x01,
+	0x0a, 0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x73, 0x75, 0x62, 0x6e,
+	0x65, 0x74, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
+	0x5a, 0x16, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0xa2, 0x02, 0x03, 0x49, 0x53, 0x58, 0xaa, 0x02,
+	0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0xca, 0x02, 0x0c,
+	0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0xe2, 0x02, 0x18, 0x49,
+	0x70, 0x64, 0x65, 0x78, 0x5c, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d,
+	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a,
+	0x3a, 0x53, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -5005,48 +8520,69 @@ func file_ipex_subnet_query_proto_rawDescGZIP() []byte {
 	return file_ipex_subnet_query_proto_rawDescData
 }
 
-var file_ipex_subnet_query_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_ipex_subnet_query_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_ipex_subnet_query_proto_goTypes = []interface{}{
-	(*QueryParamsRequest)(nil),      // 0: ipex.subnet.QueryParamsRequest
-	(*QueryParamsResponse)(nil),     // 1: ipex.subnet.QueryParamsResponse
-	(*QueryGetSubnetRequest)(nil),   // 2: ipex.subnet.QueryGetSubnetRequest
-	(*QueryGetSubnetResponse)(nil),  // 3: ipex.subnet.QueryGetSubnetResponse
-	(*QueryAllSubnetRequest)(nil),   // 4: ipex.subnet.QueryAllSubnetRequest
-	(*QueryAllSubnetResponse)(nil),  // 5: ipex.subnet.QueryAllSubnetResponse
-	(*QueryListSubnetRequest)(nil),  // 6: ipex.subnet.QueryListSubnetRequest
-	(*QueryListSubnetResponse)(nil), // 7: ipex.subnet.QueryListSubnetResponse
-	(*QueryShowSubnetRequest)(nil),  // 8: ipex.subnet.QueryShowSubnetRequest
-	(*QueryShowSubnetResponse)(nil), // 9: ipex.subnet.QueryShowSubnetResponse
-	(*Params)(nil),                  // 10: ipex.subnet.Params
-	(*Subnet)(nil),                  // 11: ipex.subnet.Subnet
-	(*v1beta1.PageRequest)(nil),     // 12: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),    // 13: cosmos.base.query.v1beta1.PageResponse
+	(*QueryParamsRequest)(nil),                  // 0: ipex.subnet.QueryParamsRequest
+	(*QueryParamsResponse)(nil),                 // 1: ipex.subnet.QueryParamsResponse
+	(*QueryGetSubnetRequest)(nil),               // 2: ipex.subnet.QueryGetSubnetRequest
+	(*QueryGetSubnetResponse)(nil),              // 3: ipex.subnet.QueryGetSubnetResponse
+	(*QueryAllSubnetRequest)(nil),               // 4: ipex.subnet.QueryAllSubnetRequest
+	(*QueryAllSubnetResponse)(nil),              // 5: ipex.subnet.QueryAllSubnetResponse
+	(*QueryListSubnetRequest)(nil),              // 6: ipex.subnet.QueryListSubnetRequest
+	(*QueryListSubnetResponse)(nil),             // 7: ipex.subnet.QueryListSubnetResponse
+	(*QueryShowSubnetRequest)(nil),              // 8: ipex.subnet.QueryShowSubnetRequest
+	(*QueryShowSubnetResponse)(nil),             // 9: ipex.subnet.QueryShowSubnetResponse
+	(*QuerySubnetByOwnerOrgRequest)(nil),        // 10: ipex.subnet.QuerySubnetByOwnerOrgRequest
+	(*QuerySubnetByOwnerOrgResponse)(nil),       // 11: ipex.subnet.QuerySubnetByOwnerOrgResponse
+	(*QuerySubnetByUserOrgRequest)(nil),         // 12: ipex.subnet.QuerySubnetByUserOrgRequest
+	(*QuerySubnetByUserOrgResponse)(nil),        // 13: ipex.subnet.QuerySubnetByUserOrgResponse
+	(*QuerySubnetByNetworkAddressRequest)(nil),  // 14: ipex.subnet.QuerySubnetByNetworkAddressRequest
+	(*QuerySubnetByNetworkAddressResponse)(nil), // 15: ipex.subnet.QuerySubnetByNetworkAddressResponse
+	(*Params)(nil),                              // 16: ipex.subnet.Params
+	(*Subnet)(nil),                              // 17: ipex.subnet.Subnet
+	(*v1beta1.PageRequest)(nil),                 // 18: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),                // 19: cosmos.base.query.v1beta1.PageResponse
 }
 var file_ipex_subnet_query_proto_depIdxs = []int32{
-	10, // 0: ipex.subnet.QueryParamsResponse.params:type_name -> ipex.subnet.Params
-	11, // 1: ipex.subnet.QueryGetSubnetResponse.Subnet:type_name -> ipex.subnet.Subnet
-	12, // 2: ipex.subnet.QueryAllSubnetRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	11, // 3: ipex.subnet.QueryAllSubnetResponse.Subnet:type_name -> ipex.subnet.Subnet
-	13, // 4: ipex.subnet.QueryAllSubnetResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	12, // 5: ipex.subnet.QueryListSubnetRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	11, // 6: ipex.subnet.QueryListSubnetResponse.subnet:type_name -> ipex.subnet.Subnet
-	13, // 7: ipex.subnet.QueryListSubnetResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	11, // 8: ipex.subnet.QueryShowSubnetResponse.subnet:type_name -> ipex.subnet.Subnet
-	0,  // 9: ipex.subnet.Query.Params:input_type -> ipex.subnet.QueryParamsRequest
-	2,  // 10: ipex.subnet.Query.Subnet:input_type -> ipex.subnet.QueryGetSubnetRequest
-	4,  // 11: ipex.subnet.Query.SubnetAll:input_type -> ipex.subnet.QueryAllSubnetRequest
-	6,  // 12: ipex.subnet.Query.ListSubnet:input_type -> ipex.subnet.QueryListSubnetRequest
-	8,  // 13: ipex.subnet.Query.ShowSubnet:input_type -> ipex.subnet.QueryShowSubnetRequest
-	1,  // 14: ipex.subnet.Query.Params:output_type -> ipex.subnet.QueryParamsResponse
-	3,  // 15: ipex.subnet.Query.Subnet:output_type -> ipex.subnet.QueryGetSubnetResponse
-	5,  // 16: ipex.subnet.Query.SubnetAll:output_type -> ipex.subnet.QueryAllSubnetResponse
-	7,  // 17: ipex.subnet.Query.ListSubnet:output_type -> ipex.subnet.QueryListSubnetResponse
-	9,  // 18: ipex.subnet.Query.ShowSubnet:output_type -> ipex.subnet.QueryShowSubnetResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	16, // 0: ipex.subnet.QueryParamsResponse.params:type_name -> ipex.subnet.Params
+	17, // 1: ipex.subnet.QueryGetSubnetResponse.Subnet:type_name -> ipex.subnet.Subnet
+	18, // 2: ipex.subnet.QueryAllSubnetRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 3: ipex.subnet.QueryAllSubnetResponse.Subnet:type_name -> ipex.subnet.Subnet
+	19, // 4: ipex.subnet.QueryAllSubnetResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	18, // 5: ipex.subnet.QueryListSubnetRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 6: ipex.subnet.QueryListSubnetResponse.subnet:type_name -> ipex.subnet.Subnet
+	19, // 7: ipex.subnet.QueryListSubnetResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	17, // 8: ipex.subnet.QueryShowSubnetResponse.subnet:type_name -> ipex.subnet.Subnet
+	18, // 9: ipex.subnet.QuerySubnetByOwnerOrgRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 10: ipex.subnet.QuerySubnetByOwnerOrgResponse.Subnet:type_name -> ipex.subnet.Subnet
+	19, // 11: ipex.subnet.QuerySubnetByOwnerOrgResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	18, // 12: ipex.subnet.QuerySubnetByUserOrgRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 13: ipex.subnet.QuerySubnetByUserOrgResponse.Subnet:type_name -> ipex.subnet.Subnet
+	19, // 14: ipex.subnet.QuerySubnetByUserOrgResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	18, // 15: ipex.subnet.QuerySubnetByNetworkAddressRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 16: ipex.subnet.QuerySubnetByNetworkAddressResponse.Subnet:type_name -> ipex.subnet.Subnet
+	19, // 17: ipex.subnet.QuerySubnetByNetworkAddressResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	0,  // 18: ipex.subnet.Query.Params:input_type -> ipex.subnet.QueryParamsRequest
+	2,  // 19: ipex.subnet.Query.Subnet:input_type -> ipex.subnet.QueryGetSubnetRequest
+	4,  // 20: ipex.subnet.Query.SubnetAll:input_type -> ipex.subnet.QueryAllSubnetRequest
+	6,  // 21: ipex.subnet.Query.ListSubnet:input_type -> ipex.subnet.QueryListSubnetRequest
+	8,  // 22: ipex.subnet.Query.ShowSubnet:input_type -> ipex.subnet.QueryShowSubnetRequest
+	10, // 23: ipex.subnet.Query.SubnetByOwnerOrg:input_type -> ipex.subnet.QuerySubnetByOwnerOrgRequest
+	12, // 24: ipex.subnet.Query.SubnetByUserOrg:input_type -> ipex.subnet.QuerySubnetByUserOrgRequest
+	14, // 25: ipex.subnet.Query.SubnetByNetworkAddress:input_type -> ipex.subnet.QuerySubnetByNetworkAddressRequest
+	1,  // 26: ipex.subnet.Query.Params:output_type -> ipex.subnet.QueryParamsResponse
+	3,  // 27: ipex.subnet.Query.Subnet:output_type -> ipex.subnet.QueryGetSubnetResponse
+	5,  // 28: ipex.subnet.Query.SubnetAll:output_type -> ipex.subnet.QueryAllSubnetResponse
+	7,  // 29: ipex.subnet.Query.ListSubnet:output_type -> ipex.subnet.QueryListSubnetResponse
+	9,  // 30: ipex.subnet.Query.ShowSubnet:output_type -> ipex.subnet.QueryShowSubnetResponse
+	11, // 31: ipex.subnet.Query.SubnetByOwnerOrg:output_type -> ipex.subnet.QuerySubnetByOwnerOrgResponse
+	13, // 32: ipex.subnet.Query.SubnetByUserOrg:output_type -> ipex.subnet.QuerySubnetByUserOrgResponse
+	15, // 33: ipex.subnet.Query.SubnetByNetworkAddress:output_type -> ipex.subnet.QuerySubnetByNetworkAddressResponse
+	26, // [26:34] is the sub-list for method output_type
+	18, // [18:26] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_ipex_subnet_query_proto_init() }
@@ -5177,6 +8713,78 @@ func file_ipex_subnet_query_proto_init() {
 				return nil
 			}
 		}
+		file_ipex_subnet_query_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QuerySubnetByOwnerOrgRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_subnet_query_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QuerySubnetByOwnerOrgResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_subnet_query_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QuerySubnetByUserOrgRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_subnet_query_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QuerySubnetByUserOrgResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_subnet_query_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QuerySubnetByNetworkAddressRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_subnet_query_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QuerySubnetByNetworkAddressResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -5184,7 +8792,7 @@ func file_ipex_subnet_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_subnet_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

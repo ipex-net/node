@@ -14,8 +14,13 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 		k.SetSubnet(ctx, elem)
 	}
 
-	// Set subnet count
-	k.SetSubnetCount(ctx, genState.SubnetCount)
+	// Set subnet sequence to match count from genesis
+	if genState.SubnetCount > 0 {
+		err := k.SubnetSequence.Set(ctx, genState.SubnetCount)
+		if err != nil {
+			panic(err)
+		}
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	if err := k.SetParams(ctx, genState.Params); err != nil {
 		panic(err)
@@ -28,7 +33,13 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.Params = k.GetParams(ctx)
 
 	genesis.SubnetList = k.GetAllSubnet(ctx)
-	genesis.SubnetCount = k.GetSubnetCount(ctx)
+	
+	// Get current sequence value for subnet count
+	count, err := k.SubnetSequence.Peek(ctx)
+	if err != nil {
+		count = 0
+	}
+	genesis.SubnetCount = count
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

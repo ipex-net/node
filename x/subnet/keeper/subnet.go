@@ -2,42 +2,63 @@ package keeper
 
 import (
 	"context"
-	"encoding/binary"
 	"fmt"
 	"time"
 
-	"ipex/x/subnet/types"
-
-	"cosmossdk.io/store/prefix"
-	storetypes "cosmossdk.io/store/types"
-	"github.com/cosmos/cosmos-sdk/runtime"
+	"cosmossdk.io/collections"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	"ipex/x/subnet/types"
 )
 
-// GetSubnetCount get the total number of subnet
-func (k Keeper) GetSubnetCount(ctx context.Context) uint64 {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.SubnetCountKey)
-	bz := store.Get(byteKey)
-
-	// Count doesn't exist: no element
-	if bz == nil {
-		return 0
+// updateSubnetIndexes updates all secondary indexes for a subnet
+func (k Keeper) updateSubnetIndexes(ctx context.Context, subnet types.Subnet) {
+	// Index by owner org (only if owner org is set)
+	if subnet.OwnerOrgId != 0 {
+		err := k.SubnetsByOwnerOrg.Set(ctx, collections.Join(subnet.OwnerOrgId, subnet.Id), true)
+		if err != nil {
+			panic(err)
+		}
 	}
 
-	// Parse bytes
-	return binary.BigEndian.Uint64(bz)
+	// Index by user org (only if user org is set)
+	if subnet.UserOrgId != 0 {
+		err := k.SubnetsByUserOrg.Set(ctx, collections.Join(subnet.UserOrgId, subnet.Id), true)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	// Index by network address
+	err := k.SubnetsByNetworkAddress.Set(ctx, collections.Join(subnet.NetworkAddress, subnet.Id), true)
+	if err != nil {
+		panic(err)
+	}
 }
 
-// SetSubnetCount set the total number of subnet
-func (k Keeper) SetSubnetCount(ctx context.Context, count uint64) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.SubnetCountKey)
-	bz := make([]byte, 8)
-	binary.BigEndian.PutUint64(bz, count)
-	store.Set(byteKey, bz)
+// removeSubnetFromIndexes removes subnet from all secondary indexes
+func (k Keeper) removeSubnetFromIndexes(ctx context.Context, subnet types.Subnet) {
+	// Remove from owner org index (only if owner org was set)
+	if subnet.OwnerOrgId != 0 {
+		err := k.SubnetsByOwnerOrg.Remove(ctx, collections.Join(subnet.OwnerOrgId, subnet.Id))
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	// Remove from user org index (only if user org was set)
+	if subnet.UserOrgId != 0 {
+		err := k.SubnetsByUserOrg.Remove(ctx, collections.Join(subnet.UserOrgId, subnet.Id))
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	// Remove from network address index
+	err := k.SubnetsByNetworkAddress.Remove(ctx, collections.Join(subnet.NetworkAddress, subnet.Id))
+	if err != nil {
+		panic(err)
+	}
 }
 
 // AppendSubnet appends a subnet in the store with a new id and update the count
@@ -45,76 +66,92 @@ func (k Keeper) AppendSubnet(
 	ctx context.Context,
 	subnet types.Subnet,
 ) uint64 {
-	// Create the subnet
-	count := k.GetSubnetCount(ctx)
+	// Get next ID from sequence (add 1 to start from ID 1 instead of 0)
+	id, err := k.SubnetSequence.Next(ctx)
+	if err != nil {
+		panic(err)
+	}
+	subnet.Id = id + 1
 
-	// Set the ID of the appended value (start from 1, not 0)
-	subnet.Id = count + 1
+	// Store the subnet
+	err = k.Subnets.Set(ctx, subnet.Id, subnet)
+	if err != nil {
+		panic(err)
+	}
 
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
-	appendedValue := k.cdc.MustMarshal(&subnet)
-	store.Set(GetSubnetIDBytes(subnet.Id), appendedValue)
+	// Update secondary indexes
+	k.updateSubnetIndexes(ctx, subnet)
+
 	// Initialize subnet reputation
 	k.trustKeeper.InitializeSubnetReputation(ctx, subnet.Id)
-	// Update subnet count
-	k.SetSubnetCount(ctx, count+1)
 
 	return subnet.Id
 }
 
 // SetSubnet set a specific subnet in the store
 func (k Keeper) SetSubnet(ctx context.Context, subnet types.Subnet) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
-	b := k.cdc.MustMarshal(&subnet)
-	store.Set(GetSubnetIDBytes(subnet.Id), b)
+	// Get old subnet to handle index updates
+	oldSubnet, found := k.GetSubnet(ctx, subnet.Id)
+	if found {
+		// Remove old indexes
+		k.removeSubnetFromIndexes(ctx, oldSubnet)
+	}
+
+	// Store the subnet
+	err := k.Subnets.Set(ctx, subnet.Id, subnet)
+	if err != nil {
+		panic(err)
+	}
+
+	// Update secondary indexes
+	k.updateSubnetIndexes(ctx, subnet)
 }
 
 // GetSubnet returns a subnet from its id
 func (k Keeper) GetSubnet(ctx context.Context, id uint64) (val types.Subnet, found bool) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
-	b := store.Get(GetSubnetIDBytes(id))
-	if b == nil {
-		return val, false
+	subnet, err := k.Subnets.Get(ctx, id)
+	if err != nil {
+		if err.Error() == "collections: not found" {
+			return val, false
+		}
+		panic(err)
 	}
-	k.cdc.MustUnmarshal(b, &val)
-	return val, true
+	return subnet, true
 }
 
 // RemoveSubnet removes a subnet from the store
 func (k Keeper) RemoveSubnet(ctx context.Context, id uint64) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
-	store.Delete(GetSubnetIDBytes(id))
+	// Get the subnet first to access its indexed fields
+	subnet, found := k.GetSubnet(ctx, id)
+	if !found {
+		return
+	}
+
+	// Remove from main collection
+	err := k.Subnets.Remove(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+
+	// Remove from secondary indexes
+	k.removeSubnetFromIndexes(ctx, subnet)
+
+	// Remove subnet reputation
 	k.trustKeeper.RemoveSubnetReputation(ctx, id)
 }
 
 // GetAllSubnet returns all subnet
 func (k Keeper) GetAllSubnet(ctx context.Context) (list []types.Subnet) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val types.Subnet
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-		list = append(list, val)
+	err := k.Subnets.Walk(ctx, nil, func(key uint64, value types.Subnet) (bool, error) {
+		list = append(list, value)
+		return false, nil
+	})
+	if err != nil {
+		panic(err)
 	}
-
 	return
 }
 
-// GetSubnetIDBytes returns the byte representation of the ID
-func GetSubnetIDBytes(id uint64) []byte {
-	bz := types.KeyPrefix(types.SubnetKey)
-	bz = append(bz, []byte("/")...)
-	bz = binary.BigEndian.AppendUint64(bz, id)
-	return bz
-}
 
 // Verify subnet user
 func (k Keeper) VerifySubnetUser(ctx context.Context, subnetId uint64, user string) bool {
@@ -204,18 +241,10 @@ func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 }
 
 func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
 	count := 0
 	maxSubnets := 5
-	for ; iterator.Valid(); iterator.Next() {
-		var subnet types.Subnet
-		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
-
+	
+	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
 		// Check if enough time has passed since last attempt
 		if subnet.RirSyncedAt != nil {
 			lastAttempt := *subnet.RirSyncedAt
@@ -230,7 +259,7 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Tim
 			case types.SubnetStatus_SUBNET_STATUS_LEASED:
 				requiredInterval = 72 * time.Hour //If subnet was succesfully synced, rerun the sync after x hours
 			case types.SubnetStatus_SUBNET_STATUS_REJECTED:
-				continue //If synced and was rejected
+				return false, nil //If synced and was rejected
 			case types.SubnetStatus_SUBNET_STATUS_INITIAL:
 				requiredInterval = time.Second
 			default: // 1 minute
@@ -239,7 +268,7 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Tim
 
 			// Skip if not enough time has passed
 			if referenceTime.Sub(lastAttempt) < requiredInterval {
-				continue
+				return false, nil
 			}
 		}
 
@@ -248,8 +277,14 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Tim
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break
+			return true, nil // stop iteration
 		}
+		
+		return false, nil
+	})
+	
+	if err != nil {
+		panic(err)
 	}
 
 	return
@@ -295,25 +330,18 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 
 // GetSubnetsForRPKIValidation retrieves subnets for rpki validation
 func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-	defer iterator.Close()
-
 	count := 0
 	maxSubnets := 5
-	for ; iterator.Valid(); iterator.Next() {
-		var subnet types.Subnet
-		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
-
+	
+	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
 		// If no origin set - don't validate
 		if subnet.OriginAsn == 0 {
-			continue
+			return false, nil
 		}
 
 		// If no origin transfer requested timestamp - skip
 		if subnet.OriginTransferRequestedAt == nil {
-			continue
+			return false, nil
 		}
 
 		originTransferAge := referenceTime.Sub(*subnet.OriginTransferRequestedAt)
@@ -334,7 +362,7 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime t
 
 		// Skip if not enough time has passed
 		if subnet.RpkiLastSyncedAt != nil && referenceTime.Sub(*subnet.RpkiLastSyncedAt) < requiredInterval {
-			continue
+			return false, nil
 		}
 
 		// Add to the list for validation
@@ -342,8 +370,14 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime t
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break
+			return true, nil // stop iteration
 		}
+		
+		return false, nil
+	})
+	
+	if err != nil {
+		panic(err)
 	}
 
 	return
@@ -375,32 +409,25 @@ func (k Keeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID u
 	return nil
 }
 
-// GetSubnetsForRPKIValidation retrieves subnets for rpki validation
+// GetSubnetsForGeoValidation retrieves subnets for geo validation
 func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-	defer iterator.Close()
-
 	count := 0
 	maxSubnets := 5
-	for ; iterator.Valid(); iterator.Next() {
-		var subnet types.Subnet
-		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
-
+	
+	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
 		// If no country set - don't validate
 		if subnet.Country == "" {
-			continue
+			return false, nil
 		}
 
 		// Skip if no geo details change requested timestamp present
 		if subnet.GeoDetailsChangedAt == nil {
-			continue
+			return false, nil
 		}
 
 		// Skip if subnet already passed verification
 		if subnet.TraceGeoVerified {
-			continue
+			return false, nil
 		}
 
 		geoChangeAge := referenceTime.Sub(*subnet.GeoDetailsChangedAt)
@@ -420,7 +447,7 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 
 		// Skip if not enough time has passed
 		if subnet.GeoVerifAttemptedAt != nil && referenceTime.Sub(*subnet.GeoVerifAttemptedAt) < requiredInterval {
-			continue
+			return false, nil
 		}
 
 		// Add to the list for validation
@@ -428,8 +455,14 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break
+			return true, nil // stop iteration
 		}
+		
+		return false, nil
+	})
+	
+	if err != nil {
+		panic(err)
 	}
 
 	return
@@ -462,17 +495,10 @@ func (k Keeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID ui
 
 // GetSubnetsForOwnershipVerification retrieves subnets for ownership verification
 func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SubnetKey))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-	defer iterator.Close()
-
 	count := 0
 	maxSubnets := 5
-	for ; iterator.Valid(); iterator.Next() {
-		var subnet types.Subnet
-		k.cdc.MustUnmarshal(iterator.Value(), &subnet)
-
+	
+	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
 		var lastAttempt time.Time
 		if subnet.OwnershipVerifLastAttemptedAt != nil {
 			lastAttempt = *subnet.OwnershipVerifLastAttemptedAt
@@ -486,7 +512,7 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenc
 
 		// While the subnet is in active lease we don't want to perform verification
 		if subnet.OwnershipVerified && subnet.Status == types.SubnetStatus_SUBNET_STATUS_LEASED {
-			continue
+			return false, nil
 		}
 
 		switch {
@@ -508,7 +534,7 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenc
 
 		// Skip if not enough time has passed
 		if referenceTime.Sub(lastAttempt) < requiredInterval {
-			continue
+			return false, nil
 		}
 
 		// Add to the list for validation
@@ -516,8 +542,14 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenc
 		// Increment count and check if we've reached the maximum
 		count++
 		if count >= maxSubnets {
-			break
+			return true, nil // stop iteration
 		}
+		
+		return false, nil
+	})
+	
+	if err != nil {
+		panic(err)
 	}
 
 	return

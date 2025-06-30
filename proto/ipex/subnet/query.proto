@@ -41,6 +41,21 @@ service Query {
     option (google.api.http).get = "/ipex/subnet/show_subnet/{id}";
   
   }
+  
+  // Queries subnets by owner org
+  rpc SubnetByOwnerOrg (QuerySubnetByOwnerOrgRequest) returns (QuerySubnetByOwnerOrgResponse) {
+    option (google.api.http).get = "/ipex/subnet/subnet_by_owner_org/{owner_org_id}";
+  }
+  
+  // Queries subnets by user org
+  rpc SubnetByUserOrg (QuerySubnetByUserOrgRequest) returns (QuerySubnetByUserOrgResponse) {
+    option (google.api.http).get = "/ipex/subnet/subnet_by_user_org/{user_org_id}";
+  }
+  
+  // Queries subnets by network address
+  rpc SubnetByNetworkAddress (QuerySubnetByNetworkAddressRequest) returns (QuerySubnetByNetworkAddressResponse) {
+    option (google.api.http).get = "/ipex/subnet/subnet_by_network_address/{network_address}";
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -84,5 +99,35 @@ message QueryShowSubnetRequest {
 
 message QueryShowSubnetResponse {
   Subnet subnet = 1 [(gogoproto.nullable) = false];
+}
+
+message QuerySubnetByOwnerOrgRequest {
+  uint64 owner_org_id = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QuerySubnetByOwnerOrgResponse {
+  repeated Subnet                                 Subnet     = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QuerySubnetByUserOrgRequest {
+  uint64 user_org_id = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QuerySubnetByUserOrgResponse {
+  repeated Subnet                                 Subnet     = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QuerySubnetByNetworkAddressRequest {
+  uint64 network_address = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QuerySubnetByNetworkAddressResponse {
+  repeated Subnet                                 Subnet     = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

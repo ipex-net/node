@@ -482,6 +482,318 @@ func (m *QueryShowSubnetResponse) GetSubnet() Subnet {
 	return Subnet{}
 }
 
+type QuerySubnetByOwnerOrgRequest struct {
+	OwnerOrgId uint64             `protobuf:"varint,1,opt,name=owner_org_id,json=ownerOrgId,proto3" json:"owner_org_id,omitempty"`
+	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QuerySubnetByOwnerOrgRequest) Reset()         { *m = QuerySubnetByOwnerOrgRequest{} }
+func (m *QuerySubnetByOwnerOrgRequest) String() string { return proto.CompactTextString(m) }
+func (*QuerySubnetByOwnerOrgRequest) ProtoMessage()    {}
+func (*QuerySubnetByOwnerOrgRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6700ac4b1606e4a5, []int{10}
+}
+func (m *QuerySubnetByOwnerOrgRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QuerySubnetByOwnerOrgRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QuerySubnetByOwnerOrgRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QuerySubnetByOwnerOrgRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QuerySubnetByOwnerOrgRequest.Merge(m, src)
+}
+func (m *QuerySubnetByOwnerOrgRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QuerySubnetByOwnerOrgRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QuerySubnetByOwnerOrgRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QuerySubnetByOwnerOrgRequest proto.InternalMessageInfo
+
+func (m *QuerySubnetByOwnerOrgRequest) GetOwnerOrgId() uint64 {
+	if m != nil {
+		return m.OwnerOrgId
+	}
+	return 0
+}
+
+func (m *QuerySubnetByOwnerOrgRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByOwnerOrgResponse struct {
+	Subnet     []Subnet            `protobuf:"bytes,1,rep,name=Subnet,proto3" json:"Subnet"`
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QuerySubnetByOwnerOrgResponse) Reset()         { *m = QuerySubnetByOwnerOrgResponse{} }
+func (m *QuerySubnetByOwnerOrgResponse) String() string { return proto.CompactTextString(m) }
+func (*QuerySubnetByOwnerOrgResponse) ProtoMessage()    {}
+func (*QuerySubnetByOwnerOrgResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6700ac4b1606e4a5, []int{11}
+}
+func (m *QuerySubnetByOwnerOrgResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QuerySubnetByOwnerOrgResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QuerySubnetByOwnerOrgResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QuerySubnetByOwnerOrgResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QuerySubnetByOwnerOrgResponse.Merge(m, src)
+}
+func (m *QuerySubnetByOwnerOrgResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QuerySubnetByOwnerOrgResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QuerySubnetByOwnerOrgResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QuerySubnetByOwnerOrgResponse proto.InternalMessageInfo
+
+func (m *QuerySubnetByOwnerOrgResponse) GetSubnet() []Subnet {
+	if m != nil {
+		return m.Subnet
+	}
+	return nil
+}
+
+func (m *QuerySubnetByOwnerOrgResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByUserOrgRequest struct {
+	UserOrgId  uint64             `protobuf:"varint,1,opt,name=user_org_id,json=userOrgId,proto3" json:"user_org_id,omitempty"`
+	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QuerySubnetByUserOrgRequest) Reset()         { *m = QuerySubnetByUserOrgRequest{} }
+func (m *QuerySubnetByUserOrgRequest) String() string { return proto.CompactTextString(m) }
+func (*QuerySubnetByUserOrgRequest) ProtoMessage()    {}
+func (*QuerySubnetByUserOrgRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6700ac4b1606e4a5, []int{12}
+}
+func (m *QuerySubnetByUserOrgRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QuerySubnetByUserOrgRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QuerySubnetByUserOrgRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QuerySubnetByUserOrgRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QuerySubnetByUserOrgRequest.Merge(m, src)
+}
+func (m *QuerySubnetByUserOrgRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QuerySubnetByUserOrgRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QuerySubnetByUserOrgRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QuerySubnetByUserOrgRequest proto.InternalMessageInfo
+
+func (m *QuerySubnetByUserOrgRequest) GetUserOrgId() uint64 {
+	if m != nil {
+		return m.UserOrgId
+	}
+	return 0
+}
+
+func (m *QuerySubnetByUserOrgRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByUserOrgResponse struct {
+	Subnet     []Subnet            `protobuf:"bytes,1,rep,name=Subnet,proto3" json:"Subnet"`
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QuerySubnetByUserOrgResponse) Reset()         { *m = QuerySubnetByUserOrgResponse{} }
+func (m *QuerySubnetByUserOrgResponse) String() string { return proto.CompactTextString(m) }
+func (*QuerySubnetByUserOrgResponse) ProtoMessage()    {}
+func (*QuerySubnetByUserOrgResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6700ac4b1606e4a5, []int{13}
+}
+func (m *QuerySubnetByUserOrgResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QuerySubnetByUserOrgResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QuerySubnetByUserOrgResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QuerySubnetByUserOrgResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QuerySubnetByUserOrgResponse.Merge(m, src)
+}
+func (m *QuerySubnetByUserOrgResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QuerySubnetByUserOrgResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QuerySubnetByUserOrgResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QuerySubnetByUserOrgResponse proto.InternalMessageInfo
+
+func (m *QuerySubnetByUserOrgResponse) GetSubnet() []Subnet {
+	if m != nil {
+		return m.Subnet
+	}
+	return nil
+}
+
+func (m *QuerySubnetByUserOrgResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByNetworkAddressRequest struct {
+	NetworkAddress uint64             `protobuf:"varint,1,opt,name=network_address,json=networkAddress,proto3" json:"network_address,omitempty"`
+	Pagination     *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QuerySubnetByNetworkAddressRequest) Reset()         { *m = QuerySubnetByNetworkAddressRequest{} }
+func (m *QuerySubnetByNetworkAddressRequest) String() string { return proto.CompactTextString(m) }
+func (*QuerySubnetByNetworkAddressRequest) ProtoMessage()    {}
+func (*QuerySubnetByNetworkAddressRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6700ac4b1606e4a5, []int{14}
+}
+func (m *QuerySubnetByNetworkAddressRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QuerySubnetByNetworkAddressRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QuerySubnetByNetworkAddressRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QuerySubnetByNetworkAddressRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QuerySubnetByNetworkAddressRequest.Merge(m, src)
+}
+func (m *QuerySubnetByNetworkAddressRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QuerySubnetByNetworkAddressRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QuerySubnetByNetworkAddressRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QuerySubnetByNetworkAddressRequest proto.InternalMessageInfo
+
+func (m *QuerySubnetByNetworkAddressRequest) GetNetworkAddress() uint64 {
+	if m != nil {
+		return m.NetworkAddress
+	}
+	return 0
+}
+
+func (m *QuerySubnetByNetworkAddressRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QuerySubnetByNetworkAddressResponse struct {
+	Subnet     []Subnet            `protobuf:"bytes,1,rep,name=Subnet,proto3" json:"Subnet"`
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QuerySubnetByNetworkAddressResponse) Reset()         { *m = QuerySubnetByNetworkAddressResponse{} }
+func (m *QuerySubnetByNetworkAddressResponse) String() string { return proto.CompactTextString(m) }
+func (*QuerySubnetByNetworkAddressResponse) ProtoMessage()    {}
+func (*QuerySubnetByNetworkAddressResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6700ac4b1606e4a5, []int{15}
+}
+func (m *QuerySubnetByNetworkAddressResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QuerySubnetByNetworkAddressResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QuerySubnetByNetworkAddressResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QuerySubnetByNetworkAddressResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QuerySubnetByNetworkAddressResponse.Merge(m, src)
+}
+func (m *QuerySubnetByNetworkAddressResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QuerySubnetByNetworkAddressResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QuerySubnetByNetworkAddressResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QuerySubnetByNetworkAddressResponse proto.InternalMessageInfo
+
+func (m *QuerySubnetByNetworkAddressResponse) GetSubnet() []Subnet {
+	if m != nil {
+		return m.Subnet
+	}
+	return nil
+}
+
+func (m *QuerySubnetByNetworkAddressResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "ipex.subnet.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "ipex.subnet.QueryParamsResponse")
@@ -493,48 +805,69 @@ func init() {
 	proto.RegisterType((*QueryListSubnetResponse)(nil), "ipex.subnet.QueryListSubnetResponse")
 	proto.RegisterType((*QueryShowSubnetRequest)(nil), "ipex.subnet.QueryShowSubnetRequest")
 	proto.RegisterType((*QueryShowSubnetResponse)(nil), "ipex.subnet.QueryShowSubnetResponse")
+	proto.RegisterType((*QuerySubnetByOwnerOrgRequest)(nil), "ipex.subnet.QuerySubnetByOwnerOrgRequest")
+	proto.RegisterType((*QuerySubnetByOwnerOrgResponse)(nil), "ipex.subnet.QuerySubnetByOwnerOrgResponse")
+	proto.RegisterType((*QuerySubnetByUserOrgRequest)(nil), "ipex.subnet.QuerySubnetByUserOrgRequest")
+	proto.RegisterType((*QuerySubnetByUserOrgResponse)(nil), "ipex.subnet.QuerySubnetByUserOrgResponse")
+	proto.RegisterType((*QuerySubnetByNetworkAddressRequest)(nil), "ipex.subnet.QuerySubnetByNetworkAddressRequest")
+	proto.RegisterType((*QuerySubnetByNetworkAddressResponse)(nil), "ipex.subnet.QuerySubnetByNetworkAddressResponse")
 }
 
 func init() { proto.RegisterFile("ipex/subnet/query.proto", fileDescriptor_6700ac4b1606e4a5) }
 
 var fileDescriptor_6700ac4b1606e4a5 = []byte{
-	// 569 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x54, 0xc1, 0x6e, 0x13, 0x3d,
-	0x10, 0x8e, 0xf3, 0xe7, 0x8f, 0x54, 0x83, 0x90, 0x30, 0x4b, 0x69, 0x97, 0x6a, 0x49, 0x17, 0x68,
-	0xab, 0x1e, 0x6c, 0x35, 0x1c, 0x38, 0x37, 0x07, 0x7a, 0x29, 0xa8, 0x6c, 0x6f, 0x5c, 0x82, 0x43,
-	0xac, 0xad, 0xc5, 0x66, 0xbd, 0x8d, 0x9d, 0x96, 0x0a, 0x38, 0xc0, 0x13, 0x20, 0x21, 0x78, 0x06,
-	0x8e, 0x3c, 0x46, 0x8f, 0x95, 0xb8, 0x70, 0x42, 0x28, 0xa9, 0xc4, 0x6b, 0xa0, 0xd8, 0x86, 0xec,
-	0x66, 0x4d, 0x9a, 0x03, 0x5c, 0x12, 0xcb, 0xf3, 0xcd, 0x7c, 0xdf, 0x37, 0x3b, 0x63, 0xb8, 0xc4,
-	0xb3, 0x2e, 0x7b, 0x41, 0xe4, 0xa0, 0x93, 0x32, 0x45, 0x0e, 0x07, 0xac, 0x7f, 0x82, 0xb3, 0xbe,
-	0x50, 0x02, 0x5d, 0xd6, 0x11, 0x6c, 0x22, 0xfe, 0x55, 0xda, 0xe3, 0xa9, 0x20, 0xfa, 0xd7, 0x00,
-	0x7c, 0x2f, 0x16, 0xb1, 0xd0, 0x47, 0x32, 0x3e, 0xd9, 0xdb, 0x95, 0x58, 0x88, 0x38, 0x61, 0x84,
-	0x66, 0x9c, 0xd0, 0x34, 0x15, 0x8a, 0x2a, 0x2e, 0x52, 0x69, 0xa3, 0x9b, 0xcf, 0x84, 0xec, 0x09,
-	0x49, 0x3a, 0x54, 0x32, 0xc3, 0x46, 0x8e, 0xb6, 0x3a, 0x4c, 0xd1, 0x2d, 0x92, 0xd1, 0x98, 0xa7,
-	0x1a, 0x6c, 0xb1, 0xcb, 0x05, 0x69, 0x19, 0xed, 0xd3, 0x9e, 0x74, 0x86, 0xcc, 0x9f, 0x09, 0x85,
-	0x1e, 0x44, 0x8f, 0xc7, 0x75, 0xf7, 0x34, 0x3e, 0x62, 0x87, 0x03, 0x26, 0x55, 0xf8, 0x08, 0x5e,
-	0x2b, 0xdc, 0xca, 0x4c, 0xa4, 0x92, 0xa1, 0xfb, 0xb0, 0x6e, 0xea, 0x2e, 0x81, 0x06, 0xd8, 0xb8,
-	0xd4, 0xf4, 0x70, 0xde, 0x34, 0x36, 0xe8, 0xd6, 0xc2, 0xe9, 0xb7, 0x5b, 0x95, 0x4f, 0x3f, 0x3e,
-	0x6f, 0x82, 0xc8, 0xc2, 0xc3, 0x75, 0x78, 0x5d, 0xd7, 0xdb, 0x61, 0x6a, 0x5f, 0x63, 0x2d, 0x11,
-	0xba, 0x02, 0xab, 0xbc, 0xab, 0xab, 0xd5, 0xa2, 0x2a, 0xef, 0x86, 0xbb, 0x70, 0x71, 0x1a, 0x68,
-	0xb9, 0x9b, 0xb0, 0x6e, 0x6e, 0xdc, 0xdc, 0x26, 0xd6, 0xaa, 0x8d, 0xb9, 0x23, 0x8b, 0x0c, 0xdb,
-	0x96, 0x76, 0x3b, 0x49, 0x8a, 0xb4, 0x0f, 0x20, 0x9c, 0xf4, 0xcf, 0x16, 0x5c, 0xc3, 0xa6, 0xd9,
-	0x78, 0xdc, 0x6c, 0x6c, 0x3e, 0xad, 0x6d, 0x36, 0xde, 0xa3, 0x31, 0xb3, 0xb9, 0x51, 0x2e, 0x33,
-	0xfc, 0x00, 0xac, 0xde, 0x1c, 0x83, 0x43, 0xef, 0x7f, 0xf3, 0xe9, 0x45, 0x3b, 0x05, 0x59, 0x55,
-	0x2d, 0x6b, 0xfd, 0x42, 0x59, 0x86, 0xb0, 0xa0, 0xeb, 0xa9, 0x95, 0xb5, 0xcb, 0xa5, 0xfa, 0x37,
-	0xce, 0x3f, 0x02, 0x78, 0xa3, 0x44, 0x31, 0xb1, 0x2e, 0xe7, 0xb6, 0x2e, 0xff, 0xb2, 0xf5, 0x0d,
-	0x6b, 0x7d, 0xff, 0x40, 0x1c, 0xcf, 0x9e, 0xb5, 0x87, 0xd6, 0x41, 0x1e, 0xe9, 0x70, 0x00, 0xe6,
-	0x73, 0xd0, 0x3c, 0xaf, 0xc1, 0xff, 0x75, 0x3d, 0xf4, 0x1c, 0xd6, 0xcd, 0x2a, 0xa0, 0x46, 0x31,
-	0xaf, 0xbc, 0x69, 0xfe, 0xea, 0x0c, 0x84, 0x11, 0x13, 0xae, 0xbc, 0xfd, 0x72, 0xfe, 0xbe, 0xba,
-	0x88, 0x3c, 0xe2, 0xd8, 0x70, 0x74, 0xf4, 0x6b, 0xce, 0xd0, 0x6d, 0x47, 0xa9, 0xe9, 0x85, 0xf3,
-	0xef, 0xcc, 0x06, 0x59, 0xca, 0x55, 0x4d, 0x79, 0x13, 0x2d, 0x13, 0xc7, 0xcb, 0x41, 0x5e, 0xf2,
-	0xee, 0x6b, 0xa4, 0xe0, 0x82, 0x49, 0xda, 0x4e, 0x12, 0x27, 0xf5, 0xf4, 0xd2, 0x39, 0xa9, 0x4b,
-	0x7b, 0xf3, 0x27, 0xb7, 0x76, 0x4c, 0x5e, 0x41, 0x38, 0x19, 0x38, 0xe4, 0xaa, 0x58, 0x1a, 0x79,
-	0xff, 0xee, 0x05, 0xa8, 0xd9, 0x9e, 0x13, 0x2e, 0x55, 0xdb, 0xb2, 0xbf, 0x01, 0x10, 0x4e, 0xa6,
-	0xc5, 0x49, 0x5f, 0x1a, 0x3b, 0x27, 0x7d, 0x79, 0xe4, 0xc2, 0x35, 0x4d, 0xdf, 0x40, 0xc1, 0x94,
-	0xef, 0x03, 0x71, 0xdc, 0xce, 0xf5, 0xbd, 0x85, 0x4f, 0x87, 0x01, 0x38, 0x1b, 0x06, 0xe0, 0xfb,
-	0x30, 0x00, 0xef, 0x46, 0x41, 0xe5, 0x6c, 0x14, 0x54, 0xbe, 0x8e, 0x82, 0xca, 0x13, 0xcf, 0x24,
-	0xfe, 0x4e, 0x55, 0x27, 0x19, 0x93, 0x9d, 0xba, 0x7e, 0xe7, 0xef, 0xfd, 0x0c, 0x00, 0x00, 0xff,
-	0xff, 0xa3, 0x8d, 0x33, 0x39, 0xba, 0x06, 0x00, 0x00,
+	// 812 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x56, 0xcf, 0x4f, 0x13, 0x41,
+	0x18, 0xed, 0x54, 0x6c, 0x64, 0x20, 0xa0, 0x63, 0x45, 0x58, 0x70, 0x2d, 0x8b, 0x02, 0xd6, 0x64,
+	0x17, 0x6a, 0xe2, 0x8f, 0x78, 0x2a, 0x07, 0x89, 0x09, 0x02, 0x96, 0x78, 0xf1, 0xb2, 0x6e, 0xed,
+	0x64, 0xd9, 0x50, 0x76, 0xca, 0xce, 0x96, 0xda, 0xd4, 0x1e, 0x34, 0x31, 0xf1, 0x68, 0x62, 0xf0,
+	0xa2, 0x07, 0x63, 0x62, 0xe2, 0xd1, 0x3f, 0xc1, 0x23, 0x47, 0x12, 0x2f, 0x9e, 0x8c, 0x01, 0x13,
+	0xef, 0xfe, 0x05, 0xa6, 0x33, 0xd3, 0x1f, 0xbb, 0x9d, 0x96, 0x6a, 0x30, 0xe1, 0x02, 0xcd, 0x7c,
+	0x6f, 0xbe, 0xf7, 0xde, 0x37, 0xcd, 0xfb, 0x0a, 0x47, 0x9d, 0x42, 0x0e, 0x3f, 0x31, 0x68, 0x31,
+	0xeb, 0x62, 0xdf, 0xd8, 0x2a, 0x62, 0xaf, 0xac, 0x17, 0x3c, 0xe2, 0x13, 0x34, 0xc8, 0x2a, 0x3a,
+	0xaf, 0x28, 0x67, 0xac, 0x4d, 0xc7, 0x25, 0x06, 0xfb, 0xcb, 0x01, 0x4a, 0xdc, 0x26, 0x36, 0x61,
+	0x1f, 0x8d, 0xda, 0x27, 0x71, 0x3a, 0x61, 0x13, 0x62, 0xe7, 0xb1, 0x61, 0x15, 0x1c, 0xc3, 0x72,
+	0x5d, 0xe2, 0x5b, 0xbe, 0x43, 0x5c, 0x2a, 0xaa, 0xc9, 0xc7, 0x84, 0x6e, 0x12, 0x6a, 0x64, 0x2d,
+	0x8a, 0x39, 0x9b, 0xb1, 0x3d, 0x9f, 0xc5, 0xbe, 0x35, 0x6f, 0x14, 0x2c, 0xdb, 0x71, 0x19, 0x58,
+	0x60, 0xc7, 0x02, 0xd2, 0x0a, 0x96, 0x67, 0x6d, 0x52, 0x69, 0x89, 0xff, 0xe3, 0x25, 0x2d, 0x0e,
+	0xd1, 0xfd, 0x5a, 0xdf, 0x55, 0x86, 0xcf, 0xe0, 0xad, 0x22, 0xa6, 0xbe, 0xb6, 0x0c, 0xcf, 0x06,
+	0x4e, 0x69, 0x81, 0xb8, 0x14, 0xa3, 0x1b, 0x30, 0xc6, 0xfb, 0x8e, 0x82, 0x04, 0x98, 0x1d, 0x48,
+	0xc5, 0xf5, 0x56, 0xd3, 0x3a, 0x47, 0x2f, 0xf4, 0xef, 0x7e, 0xbf, 0x18, 0xf9, 0xf4, 0xeb, 0x73,
+	0x12, 0x64, 0x04, 0x5c, 0x9b, 0x81, 0xe7, 0x58, 0xbf, 0x45, 0xec, 0xaf, 0x31, 0xac, 0x20, 0x42,
+	0x43, 0x30, 0xea, 0xe4, 0x58, 0xb7, 0xbe, 0x4c, 0xd4, 0xc9, 0x69, 0x4b, 0x70, 0x24, 0x0c, 0x14,
+	0xdc, 0x29, 0x18, 0xe3, 0x27, 0x72, 0x6e, 0x5e, 0x5b, 0xe8, 0xab, 0x71, 0x67, 0x04, 0x52, 0x33,
+	0x05, 0x6d, 0x3a, 0x9f, 0x0f, 0xd2, 0xde, 0x81, 0xb0, 0x39, 0x3f, 0xd1, 0x70, 0x5a, 0xe7, 0xc3,
+	0xd6, 0x6b, 0xc3, 0xd6, 0xf9, 0xd3, 0x8a, 0x61, 0xeb, 0xab, 0x96, 0x8d, 0xc5, 0xdd, 0x4c, 0xcb,
+	0x4d, 0x6d, 0x07, 0x08, 0xbd, 0x2d, 0x0c, 0x12, 0xbd, 0x27, 0x7a, 0xd3, 0x8b, 0x16, 0x03, 0xb2,
+	0xa2, 0x4c, 0xd6, 0xcc, 0xa1, 0xb2, 0x38, 0x61, 0x40, 0xd7, 0x23, 0x21, 0x6b, 0xc9, 0xa1, 0xfe,
+	0xff, 0x71, 0xfe, 0x06, 0xc0, 0xf3, 0x6d, 0x14, 0x4d, 0xeb, 0xb4, 0x67, 0xeb, 0xf4, 0x88, 0xad,
+	0xcf, 0x0a, 0xeb, 0x6b, 0xeb, 0xa4, 0xd4, 0xfd, 0xbb, 0x76, 0x4f, 0x38, 0x68, 0x45, 0x4a, 0x1c,
+	0x80, 0xde, 0x1c, 0x68, 0x2f, 0x01, 0x9c, 0xe0, 0xfd, 0x78, 0xb5, 0xbc, 0x52, 0x72, 0xb1, 0xb7,
+	0xe2, 0xd9, 0x75, 0xfe, 0x04, 0x1c, 0x24, 0xb5, 0x23, 0x93, 0x78, 0xb6, 0xd9, 0x50, 0x02, 0x89,
+	0x80, 0xdd, 0xcd, 0x85, 0x1e, 0x27, 0xfa, 0xcf, 0x8f, 0xf3, 0x0e, 0xc0, 0x0b, 0x1d, 0xa4, 0x1c,
+	0x87, 0x6f, 0xe7, 0x0b, 0x00, 0xc7, 0x03, 0xf2, 0x1e, 0xd0, 0xc0, 0xa0, 0x54, 0x38, 0x50, 0xa4,
+	0xe1, 0x39, 0xf5, 0x17, 0xe9, 0x51, 0x8f, 0xe9, 0x6d, 0xf8, 0xc5, 0x1a, 0x3a, 0x8e, 0xc3, 0x94,
+	0x76, 0x00, 0xd4, 0x02, 0xea, 0x96, 0xb1, 0x5f, 0x22, 0xde, 0x46, 0x3a, 0x97, 0xf3, 0x30, 0xad,
+	0x47, 0x35, 0x9a, 0x81, 0xc3, 0x2e, 0x2f, 0x98, 0x16, 0xaf, 0x88, 0x81, 0x0d, 0xb9, 0x01, 0xfc,
+	0x91, 0x4d, 0xed, 0x03, 0x80, 0x53, 0x5d, 0x75, 0x1d, 0x83, 0xe1, 0xa5, 0x7e, 0x9f, 0x82, 0x27,
+	0x99, 0x48, 0xb4, 0x01, 0x63, 0x7c, 0x2f, 0xa1, 0x44, 0x50, 0x40, 0xfb, 0xda, 0x53, 0x26, 0xbb,
+	0x20, 0x38, 0x89, 0x36, 0xf1, 0xfc, 0xeb, 0xcf, 0xd7, 0xd1, 0x11, 0x14, 0x37, 0x24, 0xeb, 0x16,
+	0x6d, 0xd7, 0x3d, 0xa3, 0x29, 0x49, 0xab, 0xf0, 0xf6, 0x53, 0x2e, 0x75, 0x07, 0x09, 0xca, 0x49,
+	0x46, 0x39, 0x8e, 0xc6, 0x0c, 0xc9, 0x1a, 0x37, 0x2a, 0x4e, 0xae, 0x8a, 0x7c, 0xd8, 0xcf, 0x2f,
+	0xa5, 0xf3, 0x79, 0x29, 0x75, 0x78, 0x03, 0x4a, 0xa9, 0xdb, 0x96, 0x58, 0x27, 0xb7, 0x22, 0xb3,
+	0x9f, 0x42, 0xd8, 0x4c, 0x7f, 0x24, 0xeb, 0xd8, 0xb6, 0x7f, 0x94, 0xcb, 0x87, 0xa0, 0xba, 0x7b,
+	0xce, 0x3b, 0xd4, 0x37, 0x05, 0xfb, 0x33, 0x00, 0x61, 0x33, 0xba, 0xa5, 0xf4, 0x6d, 0x3b, 0x40,
+	0x4a, 0xdf, 0x9e, 0xff, 0xda, 0x34, 0xa3, 0x4f, 0x20, 0x35, 0xe4, 0x7b, 0x9d, 0x94, 0xcc, 0xd6,
+	0xb9, 0x7f, 0x04, 0xf0, 0x74, 0x38, 0x63, 0x51, 0x52, 0xc6, 0x21, 0xdf, 0x09, 0xca, 0xd5, 0x9e,
+	0xb0, 0x42, 0xd5, 0x4d, 0xa6, 0x2a, 0x85, 0xe6, 0x64, 0xaf, 0x61, 0x66, 0xcb, 0x66, 0x63, 0xbd,
+	0x18, 0x95, 0xd6, 0x4d, 0x53, 0x45, 0xef, 0x01, 0x1c, 0x0e, 0x85, 0x1c, 0xba, 0xd2, 0x85, 0x3a,
+	0x18, 0xc8, 0x4a, 0xb2, 0x17, 0xa8, 0x10, 0x79, 0x9d, 0x89, 0x9c, 0x43, 0x7a, 0x27, 0x91, 0xf5,
+	0x68, 0x37, 0x2a, 0x2d, 0x21, 0x5f, 0x45, 0x5f, 0x00, 0x1c, 0x91, 0x27, 0x0a, 0x9a, 0xeb, 0x42,
+	0x2f, 0x0d, 0x45, 0x65, 0xfe, 0x2f, 0x6e, 0x08, 0xdd, 0x69, 0xa6, 0xfb, 0x36, 0xba, 0xd5, 0x49,
+	0x77, 0x28, 0x65, 0x8d, 0x4a, 0xe8, 0xa0, 0xba, 0xa0, 0xef, 0xee, 0xab, 0x60, 0x6f, 0x5f, 0x05,
+	0x3f, 0xf6, 0x55, 0xf0, 0xea, 0x40, 0x8d, 0xec, 0x1d, 0xa8, 0x91, 0x6f, 0x07, 0x6a, 0xe4, 0x61,
+	0x9c, 0xf7, 0x6c, 0x74, 0xf5, 0xcb, 0x05, 0x4c, 0xb3, 0x31, 0xf6, 0x13, 0xfc, 0xda, 0x9f, 0x00,
+	0x00, 0x00, 0xff, 0xff, 0xbd, 0x7c, 0xb2, 0x53, 0x55, 0x0c, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -558,6 +891,12 @@ type QueryClient interface {
 	ListSubnet(ctx context.Context, in *QueryListSubnetRequest, opts ...grpc.CallOption) (*QueryListSubnetResponse, error)
 	// Queries a list of ShowSubnet items.
 	ShowSubnet(ctx context.Context, in *QueryShowSubnetRequest, opts ...grpc.CallOption) (*QueryShowSubnetResponse, error)
+	// Queries subnets by owner org
+	SubnetByOwnerOrg(ctx context.Context, in *QuerySubnetByOwnerOrgRequest, opts ...grpc.CallOption) (*QuerySubnetByOwnerOrgResponse, error)
+	// Queries subnets by user org
+	SubnetByUserOrg(ctx context.Context, in *QuerySubnetByUserOrgRequest, opts ...grpc.CallOption) (*QuerySubnetByUserOrgResponse, error)
+	// Queries subnets by network address
+	SubnetByNetworkAddress(ctx context.Context, in *QuerySubnetByNetworkAddressRequest, opts ...grpc.CallOption) (*QuerySubnetByNetworkAddressResponse, error)
 }
 
 type queryClient struct {
@@ -613,6 +952,33 @@ func (c *queryClient) ShowSubnet(ctx context.Context, in *QueryShowSubnetRequest
 	return out, nil
 }
 
+func (c *queryClient) SubnetByOwnerOrg(ctx context.Context, in *QuerySubnetByOwnerOrgRequest, opts ...grpc.CallOption) (*QuerySubnetByOwnerOrgResponse, error) {
+	out := new(QuerySubnetByOwnerOrgResponse)
+	err := c.cc.Invoke(ctx, "/ipex.subnet.Query/SubnetByOwnerOrg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) SubnetByUserOrg(ctx context.Context, in *QuerySubnetByUserOrgRequest, opts ...grpc.CallOption) (*QuerySubnetByUserOrgResponse, error) {
+	out := new(QuerySubnetByUserOrgResponse)
+	err := c.cc.Invoke(ctx, "/ipex.subnet.Query/SubnetByUserOrg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) SubnetByNetworkAddress(ctx context.Context, in *QuerySubnetByNetworkAddressRequest, opts ...grpc.CallOption) (*QuerySubnetByNetworkAddressResponse, error) {
+	out := new(QuerySubnetByNetworkAddressResponse)
+	err := c.cc.Invoke(ctx, "/ipex.subnet.Query/SubnetByNetworkAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -624,6 +990,12 @@ type QueryServer interface {
 	ListSubnet(context.Context, *QueryListSubnetRequest) (*QueryListSubnetResponse, error)
 	// Queries a list of ShowSubnet items.
 	ShowSubnet(context.Context, *QueryShowSubnetRequest) (*QueryShowSubnetResponse, error)
+	// Queries subnets by owner org
+	SubnetByOwnerOrg(context.Context, *QuerySubnetByOwnerOrgRequest) (*QuerySubnetByOwnerOrgResponse, error)
+	// Queries subnets by user org
+	SubnetByUserOrg(context.Context, *QuerySubnetByUserOrgRequest) (*QuerySubnetByUserOrgResponse, error)
+	// Queries subnets by network address
+	SubnetByNetworkAddress(context.Context, *QuerySubnetByNetworkAddressRequest) (*QuerySubnetByNetworkAddressResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -644,6 +1016,15 @@ func (*UnimplementedQueryServer) ListSubnet(ctx context.Context, req *QueryListS
 }
 func (*UnimplementedQueryServer) ShowSubnet(ctx context.Context, req *QueryShowSubnetRequest) (*QueryShowSubnetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShowSubnet not implemented")
+}
+func (*UnimplementedQueryServer) SubnetByOwnerOrg(ctx context.Context, req *QuerySubnetByOwnerOrgRequest) (*QuerySubnetByOwnerOrgResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubnetByOwnerOrg not implemented")
+}
+func (*UnimplementedQueryServer) SubnetByUserOrg(ctx context.Context, req *QuerySubnetByUserOrgRequest) (*QuerySubnetByUserOrgResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubnetByUserOrg not implemented")
+}
+func (*UnimplementedQueryServer) SubnetByNetworkAddress(ctx context.Context, req *QuerySubnetByNetworkAddressRequest) (*QuerySubnetByNetworkAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubnetByNetworkAddress not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -740,6 +1121,60 @@ func _Query_ShowSubnet_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_SubnetByOwnerOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuerySubnetByOwnerOrgRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).SubnetByOwnerOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.subnet.Query/SubnetByOwnerOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).SubnetByOwnerOrg(ctx, req.(*QuerySubnetByOwnerOrgRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_SubnetByUserOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuerySubnetByUserOrgRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).SubnetByUserOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.subnet.Query/SubnetByUserOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).SubnetByUserOrg(ctx, req.(*QuerySubnetByUserOrgRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_SubnetByNetworkAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuerySubnetByNetworkAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).SubnetByNetworkAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ipex.subnet.Query/SubnetByNetworkAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).SubnetByNetworkAddress(ctx, req.(*QuerySubnetByNetworkAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "ipex.subnet.Query",
@@ -764,6 +1199,18 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ShowSubnet",
 			Handler:    _Query_ShowSubnet_Handler,
+		},
+		{
+			MethodName: "SubnetByOwnerOrg",
+			Handler:    _Query_SubnetByOwnerOrg_Handler,
+		},
+		{
+			MethodName: "SubnetByUserOrg",
+			Handler:    _Query_SubnetByUserOrg_Handler,
+		},
+		{
+			MethodName: "SubnetByNetworkAddress",
+			Handler:    _Query_SubnetByNetworkAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1116,6 +1563,273 @@ func (m *QueryShowSubnetResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
+func (m *QuerySubnetByOwnerOrgRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QuerySubnetByOwnerOrgRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QuerySubnetByOwnerOrgRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.OwnerOrgId != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.OwnerOrgId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QuerySubnetByOwnerOrgResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QuerySubnetByOwnerOrgResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QuerySubnetByOwnerOrgResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Subnet) > 0 {
+		for iNdEx := len(m.Subnet) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Subnet[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QuerySubnetByUserOrgRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QuerySubnetByUserOrgRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QuerySubnetByUserOrgRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.UserOrgId != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.UserOrgId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QuerySubnetByUserOrgResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QuerySubnetByUserOrgResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QuerySubnetByUserOrgResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Subnet) > 0 {
+		for iNdEx := len(m.Subnet) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Subnet[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QuerySubnetByNetworkAddressRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QuerySubnetByNetworkAddressRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QuerySubnetByNetworkAddressRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.NetworkAddress != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.NetworkAddress))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QuerySubnetByNetworkAddressResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QuerySubnetByNetworkAddressResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QuerySubnetByNetworkAddressResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Subnet) > 0 {
+		for iNdEx := len(m.Subnet) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Subnet[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -1254,6 +1968,111 @@ func (m *QueryShowSubnetResponse) Size() (n int) {
 	_ = l
 	l = m.Subnet.Size()
 	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QuerySubnetByOwnerOrgRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.OwnerOrgId != 0 {
+		n += 1 + sovQuery(uint64(m.OwnerOrgId))
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QuerySubnetByOwnerOrgResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Subnet) > 0 {
+		for _, e := range m.Subnet {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QuerySubnetByUserOrgRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.UserOrgId != 0 {
+		n += 1 + sovQuery(uint64(m.UserOrgId))
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QuerySubnetByUserOrgResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Subnet) > 0 {
+		for _, e := range m.Subnet {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QuerySubnetByNetworkAddressRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.NetworkAddress != 0 {
+		n += 1 + sovQuery(uint64(m.NetworkAddress))
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QuerySubnetByNetworkAddressResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Subnet) > 0 {
+		for _, e := range m.Subnet {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
 	return n
 }
 
@@ -2088,6 +2907,681 @@ func (m *QueryShowSubnetResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if err := m.Subnet.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QuerySubnetByOwnerOrgRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QuerySubnetByOwnerOrgRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QuerySubnetByOwnerOrgRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OwnerOrgId", wireType)
+			}
+			m.OwnerOrgId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.OwnerOrgId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QuerySubnetByOwnerOrgResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QuerySubnetByOwnerOrgResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QuerySubnetByOwnerOrgResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Subnet", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Subnet = append(m.Subnet, Subnet{})
+			if err := m.Subnet[len(m.Subnet)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QuerySubnetByUserOrgRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QuerySubnetByUserOrgRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QuerySubnetByUserOrgRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field UserOrgId", wireType)
+			}
+			m.UserOrgId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.UserOrgId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QuerySubnetByUserOrgResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QuerySubnetByUserOrgResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QuerySubnetByUserOrgResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Subnet", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Subnet = append(m.Subnet, Subnet{})
+			if err := m.Subnet[len(m.Subnet)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QuerySubnetByNetworkAddressRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QuerySubnetByNetworkAddressRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QuerySubnetByNetworkAddressRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NetworkAddress", wireType)
+			}
+			m.NetworkAddress = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.NetworkAddress |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QuerySubnetByNetworkAddressResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QuerySubnetByNetworkAddressResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QuerySubnetByNetworkAddressResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Subnet", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Subnet = append(m.Subnet, Subnet{})
+			if err := m.Subnet[len(m.Subnet)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

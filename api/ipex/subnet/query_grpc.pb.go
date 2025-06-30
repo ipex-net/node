@@ -19,11 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName     = "/ipex.subnet.Query/Params"
-	Query_Subnet_FullMethodName     = "/ipex.subnet.Query/Subnet"
-	Query_SubnetAll_FullMethodName  = "/ipex.subnet.Query/SubnetAll"
-	Query_ListSubnet_FullMethodName = "/ipex.subnet.Query/ListSubnet"
-	Query_ShowSubnet_FullMethodName = "/ipex.subnet.Query/ShowSubnet"
+	Query_Params_FullMethodName                 = "/ipex.subnet.Query/Params"
+	Query_Subnet_FullMethodName                 = "/ipex.subnet.Query/Subnet"
+	Query_SubnetAll_FullMethodName              = "/ipex.subnet.Query/SubnetAll"
+	Query_ListSubnet_FullMethodName             = "/ipex.subnet.Query/ListSubnet"
+	Query_ShowSubnet_FullMethodName             = "/ipex.subnet.Query/ShowSubnet"
+	Query_SubnetByOwnerOrg_FullMethodName       = "/ipex.subnet.Query/SubnetByOwnerOrg"
+	Query_SubnetByUserOrg_FullMethodName        = "/ipex.subnet.Query/SubnetByUserOrg"
+	Query_SubnetByNetworkAddress_FullMethodName = "/ipex.subnet.Query/SubnetByNetworkAddress"
 )
 
 // QueryClient is the client API for Query service.
@@ -39,6 +42,12 @@ type QueryClient interface {
 	ListSubnet(ctx context.Context, in *QueryListSubnetRequest, opts ...grpc.CallOption) (*QueryListSubnetResponse, error)
 	// Queries a list of ShowSubnet items.
 	ShowSubnet(ctx context.Context, in *QueryShowSubnetRequest, opts ...grpc.CallOption) (*QueryShowSubnetResponse, error)
+	// Queries subnets by owner org
+	SubnetByOwnerOrg(ctx context.Context, in *QuerySubnetByOwnerOrgRequest, opts ...grpc.CallOption) (*QuerySubnetByOwnerOrgResponse, error)
+	// Queries subnets by user org
+	SubnetByUserOrg(ctx context.Context, in *QuerySubnetByUserOrgRequest, opts ...grpc.CallOption) (*QuerySubnetByUserOrgResponse, error)
+	// Queries subnets by network address
+	SubnetByNetworkAddress(ctx context.Context, in *QuerySubnetByNetworkAddressRequest, opts ...grpc.CallOption) (*QuerySubnetByNetworkAddressResponse, error)
 }
 
 type queryClient struct {
@@ -94,6 +103,33 @@ func (c *queryClient) ShowSubnet(ctx context.Context, in *QueryShowSubnetRequest
 	return out, nil
 }
 
+func (c *queryClient) SubnetByOwnerOrg(ctx context.Context, in *QuerySubnetByOwnerOrgRequest, opts ...grpc.CallOption) (*QuerySubnetByOwnerOrgResponse, error) {
+	out := new(QuerySubnetByOwnerOrgResponse)
+	err := c.cc.Invoke(ctx, Query_SubnetByOwnerOrg_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) SubnetByUserOrg(ctx context.Context, in *QuerySubnetByUserOrgRequest, opts ...grpc.CallOption) (*QuerySubnetByUserOrgResponse, error) {
+	out := new(QuerySubnetByUserOrgResponse)
+	err := c.cc.Invoke(ctx, Query_SubnetByUserOrg_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) SubnetByNetworkAddress(ctx context.Context, in *QuerySubnetByNetworkAddressRequest, opts ...grpc.CallOption) (*QuerySubnetByNetworkAddressResponse, error) {
+	out := new(QuerySubnetByNetworkAddressResponse)
+	err := c.cc.Invoke(ctx, Query_SubnetByNetworkAddress_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -107,6 +143,12 @@ type QueryServer interface {
 	ListSubnet(context.Context, *QueryListSubnetRequest) (*QueryListSubnetResponse, error)
 	// Queries a list of ShowSubnet items.
 	ShowSubnet(context.Context, *QueryShowSubnetRequest) (*QueryShowSubnetResponse, error)
+	// Queries subnets by owner org
+	SubnetByOwnerOrg(context.Context, *QuerySubnetByOwnerOrgRequest) (*QuerySubnetByOwnerOrgResponse, error)
+	// Queries subnets by user org
+	SubnetByUserOrg(context.Context, *QuerySubnetByUserOrgRequest) (*QuerySubnetByUserOrgResponse, error)
+	// Queries subnets by network address
+	SubnetByNetworkAddress(context.Context, *QuerySubnetByNetworkAddressRequest) (*QuerySubnetByNetworkAddressResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -128,6 +170,15 @@ func (UnimplementedQueryServer) ListSubnet(context.Context, *QueryListSubnetRequ
 }
 func (UnimplementedQueryServer) ShowSubnet(context.Context, *QueryShowSubnetRequest) (*QueryShowSubnetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShowSubnet not implemented")
+}
+func (UnimplementedQueryServer) SubnetByOwnerOrg(context.Context, *QuerySubnetByOwnerOrgRequest) (*QuerySubnetByOwnerOrgResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubnetByOwnerOrg not implemented")
+}
+func (UnimplementedQueryServer) SubnetByUserOrg(context.Context, *QuerySubnetByUserOrgRequest) (*QuerySubnetByUserOrgResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubnetByUserOrg not implemented")
+}
+func (UnimplementedQueryServer) SubnetByNetworkAddress(context.Context, *QuerySubnetByNetworkAddressRequest) (*QuerySubnetByNetworkAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubnetByNetworkAddress not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -232,6 +283,60 @@ func _Query_ShowSubnet_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_SubnetByOwnerOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuerySubnetByOwnerOrgRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).SubnetByOwnerOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_SubnetByOwnerOrg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).SubnetByOwnerOrg(ctx, req.(*QuerySubnetByOwnerOrgRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_SubnetByUserOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuerySubnetByUserOrgRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).SubnetByUserOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_SubnetByUserOrg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).SubnetByUserOrg(ctx, req.(*QuerySubnetByUserOrgRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_SubnetByNetworkAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuerySubnetByNetworkAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).SubnetByNetworkAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_SubnetByNetworkAddress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).SubnetByNetworkAddress(ctx, req.(*QuerySubnetByNetworkAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -258,6 +363,18 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ShowSubnet",
 			Handler:    _Query_ShowSubnet_Handler,
+		},
+		{
+			MethodName: "SubnetByOwnerOrg",
+			Handler:    _Query_SubnetByOwnerOrg_Handler,
+		},
+		{
+			MethodName: "SubnetByUserOrg",
+			Handler:    _Query_SubnetByUserOrg_Handler,
+		},
+		{
+			MethodName: "SubnetByNetworkAddress",
+			Handler:    _Query_SubnetByNetworkAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
