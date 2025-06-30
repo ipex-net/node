@@ -3,6 +3,7 @@ package keeper
 import (
 	"fmt"
 
+	"cosmossdk.io/collections"
 	"cosmossdk.io/core/store"
 	"cosmossdk.io/log"
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -27,6 +28,15 @@ type (
 		subnetKeeper   types.SubnetKeeper
 		paymentsKeeper types.PaymentsKeeper
 		trustKeeper    types.TrustKeeper
+
+		// Collections for Contract
+		Schema             collections.Schema
+		Contracts          collections.Map[uint64, types.Contract]
+		ContractsByStatus  collections.Map[collections.Pair[int32, uint64], bool]
+		ContractsBySubnet  collections.Map[collections.Pair[uint64, uint64], bool]
+		ContractsByOwner   collections.Map[collections.Pair[uint64, uint64], bool]
+		ContractsByLessee  collections.Map[collections.Pair[uint64, uint64], bool]
+		ContractSequence   collections.Sequence
 	}
 )
 
@@ -47,7 +57,9 @@ func NewKeeper(
 		panic(fmt.Sprintf("invalid authority address: %s", authority))
 	}
 
-	return Keeper{
+	sb := collections.NewSchemaBuilder(storeService)
+
+	k := Keeper{
 		cdc:          cdc,
 		storeService: storeService,
 		authority:    authority,
@@ -59,7 +71,23 @@ func NewKeeper(
 		subnetKeeper:   subnetKeeper,
 		paymentsKeeper: paymentsKeeper,
 		trustKeeper:    trustKeeper,
+		
+		// Initialize collections
+		Contracts:         collections.NewMap(sb, collections.NewPrefix(types.ContractKey), "contracts", collections.Uint64Key, codec.CollValue[types.Contract](cdc)),
+		ContractsByStatus: collections.NewMap(sb, collections.NewPrefix(types.ContractByStatusKey), "contracts_by_status", collections.PairKeyCodec(collections.Int32Key, collections.Uint64Key), collections.BoolValue),
+		ContractsBySubnet: collections.NewMap(sb, collections.NewPrefix(types.ContractBySubnetKey), "contracts_by_subnet", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
+		ContractsByOwner:  collections.NewMap(sb, collections.NewPrefix(types.ContractByOwnerKey), "contracts_by_owner", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
+		ContractsByLessee: collections.NewMap(sb, collections.NewPrefix(types.ContractByLesseeKey), "contracts_by_lessee", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
+		ContractSequence:  collections.NewSequence(sb, collections.NewPrefix(types.ContractSequenceKey), "contract_sequence"),
 	}
+
+	schema, err := sb.Build()
+	if err != nil {
+		panic(err)
+	}
+	k.Schema = schema
+
+	return k
 }
 
 // GetAuthority returns the module's authority.

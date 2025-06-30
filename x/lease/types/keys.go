@@ -16,6 +16,13 @@ const (
 	// ContractCountKey this key will be used to keep track of the ID of the latest contract added to the store.
 	ContractCountKey = "Contract/count/"
 
+	// Collection keys for secondary indexes
+	ContractByStatusKey  = "Contract/by_status/"
+	ContractBySubnetKey  = "Contract/by_subnet/"
+	ContractByOwnerKey   = "Contract/by_owner/"
+	ContractByLesseeKey  = "Contract/by_lessee/"
+	ContractSequenceKey  = "Contract/sequence/"
+
 	// ModuleAccountName is the name of the module account
 	ModuleAccountName = ModuleName
 )
