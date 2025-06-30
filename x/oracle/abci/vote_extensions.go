@@ -180,7 +180,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		}
 
 		// This is the longest process. We only want to execute it if there's no other processes in this vote extension.
-		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForBlacklistSync) == 0 && len(subnetsForOwnershipVerification) == 0 {
+		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 {
 			h.logger.Info("performing subnet last hop geo validation for vote extension", "height", req.Height)
 			subnetGeoValidationResults = h.VerifyGeoTrace(subnetsForGeoValidation)
 		}

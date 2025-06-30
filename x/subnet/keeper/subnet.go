@@ -437,20 +437,22 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 
 		switch {
 		// If geo change is recent - attempt the validation every hours
-		case geoChangeAge < 72*time.Hour: // Org age < 1 day
+		case geoChangeAge < 72 * time.Hour:
 			requiredInterval = 1 * time.Hour
-		case geoChangeAge < 240*time.Hour: // Org age < 1 day
+		case geoChangeAge < 240 * time.Hour:
 			requiredInterval = 6 * time.Hour
 		default:
 			requiredInterval = 72 * time.Hour
 		}
 
 		// Skip if not enough time has passed
-		if subnet.GeoVerifAttemptedAt != nil && referenceTime.Sub(*subnet.GeoVerifAttemptedAt) < requiredInterval {
-			return false, nil
-		}
+		if subnet.GeoVerifAttemptedAt != nil {
+			timeSinceLastAttempt := referenceTime.Sub(*subnet.GeoVerifAttemptedAt)
+			if timeSinceLastAttempt < requiredInterval {
+				return false, nil
+			}
+		} 
 
-		// Add to the list for validation
 		list = append(list, subnet)
 		// Increment count and check if we've reached the maximum
 		count++
@@ -464,7 +466,6 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 	if err != nil {
 		panic(err)
 	}
-
 	return
 }
 
