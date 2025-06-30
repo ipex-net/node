@@ -33,32 +33,31 @@ message Subnet {
   string city = 10;
   string postalCode = 11;
   bool publishInGeofeed = 12;
-  bool allowLesseeGeoChange = 13; 
-  google.protobuf.Timestamp geoDetailsChangedAt = 14 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp geoVerifAttemptedAt = 15 [(gogoproto.stdtime) = true]; 
-  bool traceGeoVerified = 16;
+  google.protobuf.Timestamp geoDetailsChangedAt = 13 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp geoVerifAttemptedAt = 14 [(gogoproto.stdtime) = true]; 
+  bool traceGeoVerified = 15;
 
   // RIR details
-  string rir = 17; 
-  string rirOwnerOrgId = 18; 
-  string rirOwnerOrgName = 19; 
-  string rirAbuseEmail = 20; 
-  string rirAllocationType = 21;
-  bool rirRecordValid = 22; 
-  google.protobuf.Timestamp rirSyncedAt = 23 [(gogoproto.stdtime) = true]; 
+  string rir = 16; 
+  string rirOwnerOrgId = 17; 
+  string rirOwnerOrgName = 18; 
+  string rirAbuseEmail = 19; 
+  string rirAllocationType = 20;
+  bool rirRecordValid = 21; 
+  google.protobuf.Timestamp rirSyncedAt = 22 [(gogoproto.stdtime) = true]; 
 
 
   // RPKI
-  uint64 originAsn = 24; 
-  google.protobuf.Timestamp originTransferRequestedAt = 25 [(gogoproto.stdtime) = true]; 
-  google.protobuf.Timestamp rpkiValidityChangedAt = 26 [(gogoproto.stdtime) = true]; 
-  bool rpkiOriginValid = 27;
-  google.protobuf.Timestamp rpkiLastSyncedAt = 28 [(gogoproto.stdtime) = true]; 
+  uint64 originAsn = 23; 
+  google.protobuf.Timestamp originTransferRequestedAt = 24 [(gogoproto.stdtime) = true]; 
+  google.protobuf.Timestamp rpkiValidityChangedAt = 25 [(gogoproto.stdtime) = true]; 
+  bool rpkiOriginValid = 26;
+  google.protobuf.Timestamp rpkiLastSyncedAt = 27 [(gogoproto.stdtime) = true]; 
 
   // Ownership verification through rDNS or RIR remarks record
-  bool ownershipVerified = 29;
-  google.protobuf.Timestamp ownershipVerifChangedAt = 30 [(gogoproto.stdtime) = true];
-  google.protobuf.Timestamp ownershipVerifLastAttemptedAt = 31 [(gogoproto.stdtime) = true];
+  bool ownershipVerified = 28;
+  google.protobuf.Timestamp ownershipVerifChangedAt = 29 [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp ownershipVerifLastAttemptedAt = 30 [(gogoproto.stdtime) = true];
 
-  google.protobuf.Timestamp updatedAt = 32 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp updatedAt = 31 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }

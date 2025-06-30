@@ -58,9 +58,8 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 	isOwnerAdmin := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator)
 	isUserAdmin := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.UserOrgId, msg.Creator)
 
-	// allowed := (subnet.UserOrgId == 0 && isOwnerAdmin) || (subnet.UserOrgId != 0 && subnet.AllowLesseeGeoChange && isUserAdmin)
-	allowed := (subnet.UserOrgId == 0 && isOwnerAdmin) || (subnet.UserOrgId != 0 && isUserAdmin)
-	if !allowed {
+	//Only continue if signer is subnet admin and there's no lessor or if the signer is lessor
+	if !( (subnet.UserOrgId == 0 && isOwnerAdmin) || isUserAdmin ) {
 		return nil, errorsmod.Wrapf(
 			ErrNotOrgAdmin,
 			"address %s is not authorised to update geolocation for subnet %d",
