@@ -37,6 +37,7 @@ type (
 		ContractsByOwner   collections.Map[collections.Pair[uint64, uint64], bool]
 		ContractsByLessee  collections.Map[collections.Pair[uint64, uint64], bool]
 		ContractSequence   collections.Sequence
+		ParamsStore        collections.Item[types.Params]
 	}
 )
 
@@ -79,6 +80,7 @@ func NewKeeper(
 		ContractsByOwner:  collections.NewMap(sb, collections.NewPrefix(types.ContractByOwnerKey), "contracts_by_owner", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		ContractsByLessee: collections.NewMap(sb, collections.NewPrefix(types.ContractByLesseeKey), "contracts_by_lessee", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		ContractSequence:  collections.NewSequence(sb, collections.NewPrefix(types.ContractSequenceKey), "contract_sequence"),
+		ParamsStore:       collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
 	}
 
 	schema, err := sb.Build()
