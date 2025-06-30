@@ -2,42 +2,42 @@ package keeper
 
 import (
 	"context"
-	"encoding/binary"
 	"fmt"
 	"time"
 
-	"ipex/x/org/types"
-
-	"cosmossdk.io/store/prefix"
-	storetypes "cosmossdk.io/store/types"
-	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	"ipex/x/org/types"
 )
 
-// GetOrgCount get the total number of org
-func (k Keeper) GetOrgCount(ctx context.Context) uint64 {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.OrgCountKey)
-	bz := store.Get(byteKey)
-
-	// Count doesn't exist: no element
-	if bz == nil {
-		return 0
+// updateOrgIndexes updates all secondary indexes for an org
+func (k Keeper) updateOrgIndexes(ctx context.Context, org types.Org) {
+	// Index by admin
+	err := k.OrgsByAdmin.Set(ctx, org.Admin, org.Id)
+	if err != nil {
+		panic(err)
 	}
 
-	// Parse bytes
-	return binary.BigEndian.Uint64(bz)
+	// Index by creator
+	err = k.OrgsByCreator.Set(ctx, org.Creator, org.Id)
+	if err != nil {
+		panic(err)
+	}
 }
 
-// SetOrgCount set the total number of org
-func (k Keeper) SetOrgCount(ctx context.Context, count uint64) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.OrgCountKey)
-	bz := make([]byte, 8)
-	binary.BigEndian.PutUint64(bz, count)
-	store.Set(byteKey, bz)
+// removeOrgFromIndexes removes org from all secondary indexes
+func (k Keeper) removeOrgFromIndexes(ctx context.Context, org types.Org) {
+	// Remove from admin index
+	err := k.OrgsByAdmin.Remove(ctx, org.Admin)
+	if err != nil {
+		panic(err)
+	}
+
+	// Remove from creator index
+	err = k.OrgsByCreator.Remove(ctx, org.Creator)
+	if err != nil {
+		panic(err)
+	}
 }
 
 // AppendOrg appends a org in the store with a new id and update the count
@@ -45,19 +45,21 @@ func (k Keeper) AppendOrg(
 	ctx context.Context,
 	org types.Org,
 ) uint64 {
-	// Create the org
-	count := k.GetOrgCount(ctx)
+	// Get next ID from sequence (add 1 to start from ID 1 instead of 0)
+	id, err := k.OrgSequence.Next(ctx)
+	if err != nil {
+		panic(err)
+	}
+	org.Id = id + 1
 
-	// Set the ID of the appended value (start from 1, not 0)
-	org.Id = count + 1
+	// Store the org
+	err = k.Orgs.Set(ctx, org.Id, org)
+	if err != nil {
+		panic(err)
+	}
 
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-	appendedValue := k.cdc.MustMarshal(&org)
-	store.Set(GetOrgIDBytes(org.Id), appendedValue)
-
-	// Update org count
-	k.SetOrgCount(ctx, count+1)
+	// Update secondary indexes
+	k.updateOrgIndexes(ctx, org)
 
 	// Initialize lessee reputation for new org
 	k.trustKeeper.InitializeLesseeReputation(ctx, org.Id)
@@ -66,29 +68,51 @@ func (k Keeper) AppendOrg(
 
 // SetOrg set a specific org in the store
 func (k Keeper) SetOrg(ctx context.Context, org types.Org) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-	b := k.cdc.MustMarshal(&org)
-	store.Set(GetOrgIDBytes(org.Id), b)
+	// Get old org to handle index updates
+	oldOrg, found := k.GetOrg(ctx, org.Id)
+	if found {
+		// Remove old indexes
+		k.removeOrgFromIndexes(ctx, oldOrg)
+	}
+
+	// Store the org
+	err := k.Orgs.Set(ctx, org.Id, org)
+	if err != nil {
+		panic(err)
+	}
+
+	// Update secondary indexes
+	k.updateOrgIndexes(ctx, org)
 }
 
 // GetOrg returns a org from its id
 func (k Keeper) GetOrg(ctx context.Context, id uint64) (val types.Org, found bool) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-	b := store.Get(GetOrgIDBytes(id))
-	if b == nil {
-		return val, false
+	org, err := k.Orgs.Get(ctx, id)
+	if err != nil {
+		if err.Error() == "collections: not found" {
+			return val, false
+		}
+		panic(err)
 	}
-	k.cdc.MustUnmarshal(b, &val)
-	return val, true
+	return org, true
 }
 
 // RemoveOrg removes a org from the store
 func (k Keeper) RemoveOrg(ctx context.Context, id uint64) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-	store.Delete(GetOrgIDBytes(id))
+	// Get the org first to access its indexed fields
+	org, found := k.GetOrg(ctx, id)
+	if !found {
+		return
+	}
+
+	// Remove from main collection
+	err := k.Orgs.Remove(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+
+	// Remove from secondary indexes
+	k.removeOrgFromIndexes(ctx, org)
 
 	// Remove lessee reputation
 	k.trustKeeper.RemoveLesseeReputation(ctx, id)
@@ -96,33 +120,20 @@ func (k Keeper) RemoveOrg(ctx context.Context, id uint64) {
 
 // GetAllOrg returns all org
 func (k Keeper) GetAllOrg(ctx context.Context) (list []types.Org) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val types.Org
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-		list = append(list, val)
+	err := k.Orgs.Walk(ctx, nil, func(key uint64, value types.Org) (bool, error) {
+		list = append(list, value)
+		return false, nil
+	})
+	if err != nil {
+		panic(err)
 	}
-
 	return
 }
 
-// GetOrgIDBytes returns the byte representation of the ID
-func GetOrgIDBytes(id uint64) []byte {
-	bz := types.KeyPrefix(types.OrgKey)
-	bz = append(bz, []byte("/")...)
-	bz = binary.BigEndian.AppendUint64(bz, id)
-	return bz
-}
 
 func (k Keeper) HasOrg(ctx context.Context, id uint64) bool {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-	return store.Has(GetOrgIDBytes(id))
+	_, found := k.GetOrg(ctx, id)
+	return found
 }
 
 func (k Keeper) VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) bool {
@@ -172,19 +183,10 @@ func (k Keeper) GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAddress, 
 }
 
 func (k Keeper) GetOrgsForDomainValidation(ctx context.Context, referenceTime time.Time) (list []types.Org) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrgKey))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var org types.Org
-		k.cdc.MustUnmarshal(iterator.Value(), &org)
-
+	err := k.Orgs.Walk(ctx, nil, func(key uint64, org types.Org) (bool, error) {
 		// Skip orgs without websites
 		if org.Website == "" {
-			continue
+			return false, nil
 		}
 
 		// Check if enough time has passed since last attempt
@@ -215,12 +217,17 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context, referenceTime ti
 
 			// Skip if not enough time has passed
 			if referenceTime.Sub(lastAttempt) < requiredInterval {
-				continue
+				return false, nil
 			}
 		}
 
 		// Add to the list for validation
 		list = append(list, org)
+		return false, nil
+	})
+	
+	if err != nil {
+		panic(err)
 	}
 
 	return

@@ -19,11 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName  = "/ipex.org.Query/Params"
-	Query_Org_FullMethodName     = "/ipex.org.Query/Org"
-	Query_OrgAll_FullMethodName  = "/ipex.org.Query/OrgAll"
-	Query_ShowOrg_FullMethodName = "/ipex.org.Query/ShowOrg"
-	Query_ListOrg_FullMethodName = "/ipex.org.Query/ListOrg"
+	Query_Params_FullMethodName       = "/ipex.org.Query/Params"
+	Query_Org_FullMethodName          = "/ipex.org.Query/Org"
+	Query_OrgAll_FullMethodName       = "/ipex.org.Query/OrgAll"
+	Query_ShowOrg_FullMethodName      = "/ipex.org.Query/ShowOrg"
+	Query_ListOrg_FullMethodName      = "/ipex.org.Query/ListOrg"
+	Query_OrgByAdmin_FullMethodName   = "/ipex.org.Query/OrgByAdmin"
+	Query_OrgByCreator_FullMethodName = "/ipex.org.Query/OrgByCreator"
 )
 
 // QueryClient is the client API for Query service.
@@ -39,6 +41,10 @@ type QueryClient interface {
 	ShowOrg(ctx context.Context, in *QueryShowOrgRequest, opts ...grpc.CallOption) (*QueryShowOrgResponse, error)
 	// Queries a list of ListOrg items.
 	ListOrg(ctx context.Context, in *QueryListOrgRequest, opts ...grpc.CallOption) (*QueryListOrgResponse, error)
+	// Queries org by admin
+	OrgByAdmin(ctx context.Context, in *QueryOrgByAdminRequest, opts ...grpc.CallOption) (*QueryOrgByAdminResponse, error)
+	// Queries org by creator
+	OrgByCreator(ctx context.Context, in *QueryOrgByCreatorRequest, opts ...grpc.CallOption) (*QueryOrgByCreatorResponse, error)
 }
 
 type queryClient struct {
@@ -94,6 +100,24 @@ func (c *queryClient) ListOrg(ctx context.Context, in *QueryListOrgRequest, opts
 	return out, nil
 }
 
+func (c *queryClient) OrgByAdmin(ctx context.Context, in *QueryOrgByAdminRequest, opts ...grpc.CallOption) (*QueryOrgByAdminResponse, error) {
+	out := new(QueryOrgByAdminResponse)
+	err := c.cc.Invoke(ctx, Query_OrgByAdmin_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) OrgByCreator(ctx context.Context, in *QueryOrgByCreatorRequest, opts ...grpc.CallOption) (*QueryOrgByCreatorResponse, error) {
+	out := new(QueryOrgByCreatorResponse)
+	err := c.cc.Invoke(ctx, Query_OrgByCreator_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -107,6 +131,10 @@ type QueryServer interface {
 	ShowOrg(context.Context, *QueryShowOrgRequest) (*QueryShowOrgResponse, error)
 	// Queries a list of ListOrg items.
 	ListOrg(context.Context, *QueryListOrgRequest) (*QueryListOrgResponse, error)
+	// Queries org by admin
+	OrgByAdmin(context.Context, *QueryOrgByAdminRequest) (*QueryOrgByAdminResponse, error)
+	// Queries org by creator
+	OrgByCreator(context.Context, *QueryOrgByCreatorRequest) (*QueryOrgByCreatorResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -128,6 +156,12 @@ func (UnimplementedQueryServer) ShowOrg(context.Context, *QueryShowOrgRequest) (
 }
 func (UnimplementedQueryServer) ListOrg(context.Context, *QueryListOrgRequest) (*QueryListOrgResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListOrg not implemented")
+}
+func (UnimplementedQueryServer) OrgByAdmin(context.Context, *QueryOrgByAdminRequest) (*QueryOrgByAdminResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrgByAdmin not implemented")
+}
+func (UnimplementedQueryServer) OrgByCreator(context.Context, *QueryOrgByCreatorRequest) (*QueryOrgByCreatorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrgByCreator not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -232,6 +266,42 @@ func _Query_ListOrg_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_OrgByAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryOrgByAdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).OrgByAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_OrgByAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).OrgByAdmin(ctx, req.(*QueryOrgByAdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_OrgByCreator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryOrgByCreatorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).OrgByCreator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_OrgByCreator_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).OrgByCreator(ctx, req.(*QueryOrgByCreatorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -258,6 +328,14 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListOrg",
 			Handler:    _Query_ListOrg_Handler,
+		},
+		{
+			MethodName: "OrgByAdmin",
+			Handler:    _Query_OrgByAdmin_Handler,
+		},
+		{
+			MethodName: "OrgByCreator",
+			Handler:    _Query_OrgByCreator_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

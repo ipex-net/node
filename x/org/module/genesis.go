@@ -14,8 +14,13 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 		k.SetOrg(ctx, elem)
 	}
 
-	// Set org count
-	k.SetOrgCount(ctx, genState.OrgCount)
+	// Set org sequence to match count from genesis
+	if genState.OrgCount > 0 {
+		err := k.OrgSequence.Set(ctx, genState.OrgCount)
+		if err != nil {
+			panic(err)
+		}
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	if err := k.SetParams(ctx, genState.Params); err != nil {
 		panic(err)
@@ -28,7 +33,13 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.Params = k.GetParams(ctx)
 
 	genesis.OrgList = k.GetAllOrg(ctx)
-	genesis.OrgCount = k.GetOrgCount(ctx)
+	
+	// Get current sequence value for org count
+	count, err := k.OrgSequence.Peek(ctx)
+	if err != nil {
+		count = 0
+	}
+	genesis.OrgCount = count
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

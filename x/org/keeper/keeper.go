@@ -3,6 +3,7 @@ package keeper
 import (
 	"fmt"
 
+	"cosmossdk.io/collections"
 	"cosmossdk.io/core/store"
 	"cosmossdk.io/log"
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -22,6 +23,13 @@ type (
 		authority string
 
 		trustKeeper types.TrustKeeper
+
+		// Collections for Org
+		Schema        collections.Schema
+		Orgs          collections.Map[uint64, types.Org]
+		OrgsByAdmin   collections.Map[string, uint64]
+		OrgsByCreator collections.Map[string, uint64]
+		OrgSequence   collections.Sequence
 	}
 )
 
@@ -38,13 +46,29 @@ func NewKeeper(
 		panic(fmt.Sprintf("invalid authority address: %s", authority))
 	}
 
-	return Keeper{
+	sb := collections.NewSchemaBuilder(storeService)
+
+	k := Keeper{
 		cdc:          cdc,
 		storeService: storeService,
 		authority:    authority,
 		logger:       logger,
 		trustKeeper:  trustKeeper,
+		
+		// Initialize collections
+		Orgs:          collections.NewMap(sb, collections.NewPrefix(types.OrgKey), "orgs", collections.Uint64Key, codec.CollValue[types.Org](cdc)),
+		OrgsByAdmin:   collections.NewMap(sb, collections.NewPrefix(types.OrgByAdminKey), "orgs_by_admin", collections.StringKey, collections.Uint64Value),
+		OrgsByCreator: collections.NewMap(sb, collections.NewPrefix(types.OrgByCreatorKey), "orgs_by_creator", collections.StringKey, collections.Uint64Value),
+		OrgSequence:   collections.NewSequence(sb, collections.NewPrefix(types.OrgSequenceKey), "org_sequence"),
 	}
+
+	schema, err := sb.Build()
+	if err != nil {
+		panic(err)
+	}
+	k.Schema = schema
+
+	return k
 }
 
 // GetAuthority returns the module's authority.
