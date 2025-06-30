@@ -30,6 +30,7 @@ type (
 		OrgsByAdmin   collections.Map[string, uint64]
 		OrgsByCreator collections.Map[string, uint64]
 		OrgSequence   collections.Sequence
+		ParamsStore   collections.Item[types.Params]
 	}
 )
 
@@ -60,6 +61,7 @@ func NewKeeper(
 		OrgsByAdmin:   collections.NewMap(sb, collections.NewPrefix(types.OrgByAdminKey), "orgs_by_admin", collections.StringKey, collections.Uint64Value),
 		OrgsByCreator: collections.NewMap(sb, collections.NewPrefix(types.OrgByCreatorKey), "orgs_by_creator", collections.StringKey, collections.Uint64Value),
 		OrgSequence:   collections.NewSequence(sb, collections.NewPrefix(types.OrgSequenceKey), "org_sequence"),
+		ParamsStore:   collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
 	}
 
 	schema, err := sb.Build()
