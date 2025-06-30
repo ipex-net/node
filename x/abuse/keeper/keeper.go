@@ -34,6 +34,7 @@ type (
 		ComplaintsByLessee collections.Map[collections.Pair[uint64, uint64], bool]
 		ComplaintsByLessor collections.Map[collections.Pair[uint64, uint64], bool]
 		ComplaintSequence  collections.Sequence
+		ParamsStore        collections.Item[types.Params]
 	}
 )
 
@@ -68,6 +69,7 @@ func NewKeeper(
 		ComplaintsByLessee: collections.NewMap(sb, collections.NewPrefix(types.ComplaintByLesseeKey), "complaints_by_lessee", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		ComplaintsByLessor: collections.NewMap(sb, collections.NewPrefix(types.ComplaintByLessorKey), "complaints_by_lessor", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		ComplaintSequence:  collections.NewSequence(sb, collections.NewPrefix(types.ComplaintSequenceKey), "complaint_sequence"),
+		ParamsStore:        collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
 	}
 
 	schema, err := sb.Build()
