@@ -5,8 +5,6 @@ import (
 
 	"ipex/x/payments/types"
 
-	"cosmossdk.io/store/prefix"
-	"github.com/cosmos/cosmos-sdk/runtime"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
@@ -19,25 +17,58 @@ func (k Keeper) TransactionAll(ctx context.Context, req *types.QueryAllTransacti
 	}
 
 	var transactions []types.Transaction
+	var count uint64
+	var skipped uint64
 
-	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	transactionStore := prefix.NewStore(store, types.KeyPrefix(types.TransactionKey))
-
-	pageRes, err := query.Paginate(transactionStore, req.Pagination, func(key []byte, value []byte) error {
-		var transaction types.Transaction
-		if err := k.cdc.Unmarshal(value, &transaction); err != nil {
-			return err
+	// Set up pagination parameters
+	limit := uint64(100) // Default limit
+	offset := uint64(0)
+	if req.Pagination != nil {
+		if req.Pagination.Limit > 0 {
+			limit = req.Pagination.Limit
 		}
+		if req.Pagination.Offset > 0 {
+			offset = req.Pagination.Offset
+		}
+	}
 
-		transactions = append(transactions, transaction)
-		return nil
+	// Use collections to iterate through transactions with pagination
+	err := k.Transactions.Walk(ctx, nil, func(key uint64, value types.Transaction) (bool, error) {
+		count++
+		
+		// Skip entries until we reach the offset
+		if skipped < offset {
+			skipped++
+			return false, nil
+		}
+		
+		// Stop if we've collected enough items
+		if uint64(len(transactions)) >= limit {
+			return true, nil
+		}
+		
+		transactions = append(transactions, value)
+		return false, nil
 	})
 
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryAllTransactionResponse{Transaction: transactions, Pagination: pageRes}, nil
+	// Calculate next key for pagination
+	var nextKey []byte
+	if uint64(len(transactions)) == limit && count > offset+limit {
+		// There are more items available
+		nextKey = []byte("has_more")
+	}
+
+	return &types.QueryAllTransactionResponse{
+		Transaction: transactions,
+		Pagination: &query.PageResponse{
+			NextKey: nextKey,
+			Total:   count,
+		},
+	}, nil
 }
 
 func (k Keeper) Transaction(ctx context.Context, req *types.QueryGetTransactionRequest) (*types.QueryGetTransactionResponse, error) {

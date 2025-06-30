@@ -20,6 +20,10 @@ func KeyPrefix(p string) []byte {
 }
 
 const (
-	TransactionKey      = "Transaction/value/"
-	TransactionCountKey = "Transaction/count/"
+	// TransactionKey is the prefix to retrieve all Transaction
+	TransactionKey = "Transaction/value/"
+	// Collection keys for secondary indexes
+	TransactionByEntityKey = "Transaction/by_entity/"
+	TransactionByOrgKey    = "Transaction/by_org/"
+	TransactionSequenceKey = "Transaction/sequence/"
 )

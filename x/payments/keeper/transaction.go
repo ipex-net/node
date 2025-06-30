@@ -2,115 +2,137 @@ package keeper
 
 import (
 	"context"
-	"encoding/binary"
 
 	"ipex/x/payments/types"
 
-	"cosmossdk.io/store/prefix"
-	storetypes "cosmossdk.io/store/types"
-	"github.com/cosmos/cosmos-sdk/runtime"
+	"cosmossdk.io/collections"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// GetTransactionCount get the total number of transaction
-func (k Keeper) GetTransactionCount(ctx context.Context) uint64 {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.TransactionCountKey)
-	bz := store.Get(byteKey)
 
-	// Count doesn't exist: no element
-	if bz == nil {
-		return 0
-	}
-
-	// Parse bytes
-	return binary.BigEndian.Uint64(bz)
-}
-
-// SetTransactionCount set the total number of transaction
-func (k Keeper) SetTransactionCount(ctx context.Context, count uint64) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.TransactionCountKey)
-	bz := make([]byte, 8)
-	binary.BigEndian.PutUint64(bz, count)
-	store.Set(byteKey, bz)
-}
-
-// AppendTransaction appends a transaction in the store with a new id and update the count
+// AppendTransaction appends a transaction in the store with a new id
 func (k Keeper) AppendTransaction(
 	ctx context.Context,
 	transaction types.Transaction,
 ) uint64 {
-	// Create the transaction
-	count := k.GetTransactionCount(ctx)
+	// Get next ID from sequence
+	id, err := k.TransactionSequence.Next(ctx)
+	if err != nil {
+		panic(err)
+	}
+	transaction.Id = id
 
-	// Set the ID of the appended value (start from 1, not 0)
-	transaction.Id = count + 1
+	// Store the transaction
+	err = k.Transactions.Set(ctx, id, transaction)
+	if err != nil {
+		panic(err)
+	}
 
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TransactionKey))
-	appendedValue := k.cdc.MustMarshal(&transaction)
-	store.Set(GetTransactionIDBytes(transaction.Id), appendedValue)
+	// Update secondary indexes
+	k.updateTransactionIndexes(ctx, transaction)
 
-	// Update transaction count
-	k.SetTransactionCount(ctx, count+1)
-
-	return transaction.Id
+	return id
 }
 
 // SetTransaction set a specific transaction in the store
 func (k Keeper) SetTransaction(ctx context.Context, transaction types.Transaction) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TransactionKey))
-	b := k.cdc.MustMarshal(&transaction)
-	store.Set(GetTransactionIDBytes(transaction.Id), b)
+	// Store the transaction
+	err := k.Transactions.Set(ctx, transaction.Id, transaction)
+	if err != nil {
+		panic(err)
+	}
+
+	// Update secondary indexes (in case any indexed fields changed)
+	k.updateTransactionIndexes(ctx, transaction)
 }
 
 // GetTransaction returns a transaction from its id
 func (k Keeper) GetTransaction(ctx context.Context, id uint64) (val types.Transaction, found bool) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TransactionKey))
-	b := store.Get(GetTransactionIDBytes(id))
-	if b == nil {
-		return val, false
+	transaction, err := k.Transactions.Get(ctx, id)
+	if err != nil {
+		if err.Error() == "collections: not found" {
+			return val, false
+		}
+		panic(err)
 	}
-	k.cdc.MustUnmarshal(b, &val)
-	return val, true
+	return transaction, true
 }
 
 // RemoveTransaction removes a transaction from the store
 func (k Keeper) RemoveTransaction(ctx context.Context, id uint64) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TransactionKey))
-	store.Delete(GetTransactionIDBytes(id))
+	// Get the transaction first to access its indexed fields
+	transaction, found := k.GetTransaction(ctx, id)
+	if !found {
+		return
+	}
+
+	// Remove from main collection
+	err := k.Transactions.Remove(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+
+	// Remove from secondary indexes
+	k.removeTransactionFromIndexes(ctx, transaction)
 }
 
 // GetAllTransaction returns all transaction
 func (k Keeper) GetAllTransaction(ctx context.Context) (list []types.Transaction) {
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TransactionKey))
-	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val types.Transaction
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-		list = append(list, val)
+	err := k.Transactions.Walk(ctx, nil, func(key uint64, value types.Transaction) (bool, error) {
+		list = append(list, value)
+		return false, nil
+	})
+	if err != nil {
+		panic(err)
 	}
-
 	return
 }
 
-// GetTransactionIDBytes returns the byte representation of the ID
-func GetTransactionIDBytes(id uint64) []byte {
-	bz := types.KeyPrefix(types.TransactionKey)
-	bz = append(bz, []byte("/")...)
-	bz = binary.BigEndian.AppendUint64(bz, id)
-	return bz
+// updateTransactionIndexes updates all secondary indexes for a transaction
+func (k Keeper) updateTransactionIndexes(ctx context.Context, transaction types.Transaction) {
+	// Index by entity
+	if transaction.EntityId != 0 {
+		err := k.TransactionsByEntity.Set(ctx, collections.Join(transaction.EntityId, transaction.Id), true)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	// Index by org - add entry for FromOrg
+	if transaction.FromOrgId != 0 {
+		err := k.TransactionsByOrg.Set(ctx, collections.Join(transaction.FromOrgId, transaction.Id), true)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	// Index by org - add entry for ToOrg (if different from FromOrg)
+	if transaction.ToOrgId != 0 && transaction.ToOrgId != transaction.FromOrgId {
+		err := k.TransactionsByOrg.Set(ctx, collections.Join(transaction.ToOrgId, transaction.Id), true)
+		if err != nil {
+			panic(err)
+		}
+	}
 }
+
+// removeTransactionFromIndexes removes transaction from all secondary indexes
+func (k Keeper) removeTransactionFromIndexes(ctx context.Context, transaction types.Transaction) {
+	// Remove from entity index
+	if transaction.EntityId != 0 {
+		k.TransactionsByEntity.Remove(ctx, collections.Join(transaction.EntityId, transaction.Id))
+	}
+
+	// Remove from org index - FromOrg entry
+	if transaction.FromOrgId != 0 {
+		k.TransactionsByOrg.Remove(ctx, collections.Join(transaction.FromOrgId, transaction.Id))
+	}
+
+	// Remove from org index - ToOrg entry (if different)
+	if transaction.ToOrgId != 0 && transaction.ToOrgId != transaction.FromOrgId {
+		k.TransactionsByOrg.Remove(ctx, collections.Join(transaction.ToOrgId, transaction.Id))
+	}
+}
+
 
 func (k Keeper) RecordTransaction(
 	goCtx context.Context,

@@ -14,8 +14,16 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 		k.SetTransaction(ctx, elem)
 	}
 
-	// Set transaction count
-	k.SetTransactionCount(ctx, genState.TransactionCount)
+	// Initialize transaction sequence with the count from genesis
+	// Ensure sequence starts from 1 if no transactions exist
+	sequenceValue := genState.TransactionCount
+	if sequenceValue == 0 {
+		sequenceValue = 1
+	}
+	err := k.TransactionSequence.Set(ctx, sequenceValue)
+	if err != nil {
+		panic(err)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	if err := k.SetParams(ctx, genState.Params); err != nil {
 		panic(err)
@@ -28,7 +36,14 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.Params = k.GetParams(ctx)
 
 	genesis.TransactionList = k.GetAllTransaction(ctx)
-	genesis.TransactionCount = k.GetTransactionCount(ctx)
+	// Export current transaction sequence value
+	sequenceValue, err := k.TransactionSequence.Peek(ctx)
+	if err != nil {
+		// If no sequence exists yet, start at 0
+		genesis.TransactionCount = 0
+	} else {
+		genesis.TransactionCount = sequenceValue
+	}
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis
