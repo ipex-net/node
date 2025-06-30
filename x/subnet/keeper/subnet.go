@@ -66,12 +66,12 @@ func (k Keeper) AppendSubnet(
 	ctx context.Context,
 	subnet types.Subnet,
 ) uint64 {
-	// Get next ID from sequence (add 1 to start from ID 1 instead of 0)
+	// Get next ID from sequence
 	id, err := k.SubnetSequence.Next(ctx)
 	if err != nil {
 		panic(err)
 	}
-	subnet.Id = id + 1
+	subnet.Id = id
 
 	// Store the subnet
 	err = k.Subnets.Set(ctx, subnet.Id, subnet)

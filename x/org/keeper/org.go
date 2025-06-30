@@ -45,12 +45,12 @@ func (k Keeper) AppendOrg(
 	ctx context.Context,
 	org types.Org,
 ) uint64 {
-	// Get next ID from sequence (add 1 to start from ID 1 instead of 0)
+	// Get next ID from sequence
 	id, err := k.OrgSequence.Next(ctx)
 	if err != nil {
 		panic(err)
 	}
-	org.Id = id + 1
+	org.Id = id
 
 	// Store the org
 	err = k.Orgs.Set(ctx, org.Id, org)
