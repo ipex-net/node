@@ -31,6 +31,7 @@ type (
 		SubnetsByUserOrg         collections.Map[collections.Pair[uint64, uint64], bool]
 		SubnetsByNetworkAddress  collections.Map[collections.Pair[uint64, uint64], bool]
 		SubnetSequence           collections.Sequence
+		ParamsStore              collections.Item[types.Params]
 	}
 )
 
@@ -63,6 +64,7 @@ func NewKeeper(
 		SubnetsByUserOrg:        collections.NewMap(sb, collections.NewPrefix(types.SubnetByUserOrgKey), "subnets_by_user_org", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		SubnetsByNetworkAddress: collections.NewMap(sb, collections.NewPrefix(types.SubnetByNetworkAddressKey), "subnets_by_network_address", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		SubnetSequence:          collections.NewSequence(sb, collections.NewPrefix(types.SubnetSequenceKey), "subnet_sequence"),
+		ParamsStore:             collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
 	}
 
 	schema, err := sb.Build()

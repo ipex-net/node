@@ -6,6 +6,7 @@ import (
 
 	"ipex/x/subnet/types"
 
+	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -101,12 +102,14 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.OwnerOrgId)
 	}
 
-	// Check for existing network with the same network address
-	subnets := k.GetAllSubnet(ctx)
-	for _, existingSubnet := range subnets {
-		if existingSubnet.NetworkAddress == msg.NetworkAddress {
-			return nil, ErrSubnetExists
-		}
+	// Check for existing network with the same network address using collection index
+	rng := collections.NewPrefixedPairRange[uint64, uint64](msg.NetworkAddress)
+	walkErr := k.SubnetsByNetworkAddress.Walk(ctx, rng, func(key collections.Pair[uint64, uint64], _ bool) (bool, error) {
+		// If we find any subnet with this network address, it's a conflict
+		return false, ErrSubnetExists
+	})
+	if walkErr != nil {
+		return nil, walkErr
 	}
 
 	//Creating new subnet
