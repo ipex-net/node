@@ -103,24 +103,25 @@ func TestLeaseReputationQueryPaginated(t *testing.T) {
 		}
 	}
 	t.Run("ByOffset", func(t *testing.T) {
-		// Note: Pagination not implemented in LeaseReputationAll, so we just test that it returns all items
+		// Note: Pagination properly implemented in LeaseReputationAll
 		resp, err := keeper.LeaseReputationAll(ctx, request(nil, 0, 2, false))
 		require.NoError(t, err)
-		require.Equal(t, len(msgs), len(resp.LeaseReputation))
-		// Can't use ElementsMatch directly due to type conversion, just check length
+		require.Equal(t, 2, len(resp.LeaseReputation))
+		// Pagination should return exactly 2 items as requested
 	})
 	t.Run("ByKey", func(t *testing.T) {
-		// Note: Pagination not implemented in LeaseReputationAll, so we just test that it returns all items
+		// Note: Pagination properly implemented in LeaseReputationAll
 		resp, err := keeper.LeaseReputationAll(ctx, request(nil, 0, 2, false))
 		require.NoError(t, err)
-		require.Equal(t, len(msgs), len(resp.LeaseReputation))
-		// Can't use ElementsMatch directly due to type conversion, just check length
+		require.Equal(t, 2, len(resp.LeaseReputation))
+		// Pagination should return exactly 2 items as requested
 	})
 	t.Run("Total", func(t *testing.T) {
 		resp, err := keeper.LeaseReputationAll(ctx, request(nil, 0, 0, true))
 		require.NoError(t, err)
 		require.Equal(t, len(msgs), len(resp.LeaseReputation))
-		// Note: Pagination is nil in LeaseReputationAll, so we can't check resp.Pagination.Total
+		// Check pagination response includes total count
+		require.Equal(t, uint64(len(msgs)), resp.Pagination.Total)
 	})
 	t.Run("InvalidRequest", func(t *testing.T) {
 		_, err := keeper.LeaseReputationAll(ctx, nil)

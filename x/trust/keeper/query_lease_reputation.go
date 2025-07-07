@@ -6,6 +6,7 @@ import (
 	abusetypes "ipex/x/abuse/types"
 	"ipex/x/trust/types"
 
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -15,17 +16,61 @@ func (k Keeper) LeaseReputationAll(ctx context.Context, req *types.QueryAllLease
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	// Use collections-based GetAll instead of legacy KV store operations
-	leaseReputations := k.GetAllLeaseReputation(ctx)
 	var leaseReputationsDisplay []types.LeaseReputationDisplay
+	var count uint64
+	var skipped uint64
 
-	for _, leaseReputation := range leaseReputations {
-		// Convert to display format
-		display := k.convertLeaseReputationToDisplay(leaseReputation)
-		leaseReputationsDisplay = append(leaseReputationsDisplay, display)
+	// Set up pagination parameters
+	limit := uint64(100) // Default limit
+	offset := uint64(0)
+	if req.Pagination != nil {
+		if req.Pagination.Limit > 0 {
+			limit = req.Pagination.Limit
+		}
+		if req.Pagination.Offset > 0 {
+			offset = req.Pagination.Offset
+		}
 	}
 
-	return &types.QueryAllLeaseReputationResponse{LeaseReputation: leaseReputationsDisplay, Pagination: nil}, nil
+	// Use collections to iterate through lease reputations with pagination
+	err := k.LeaseReputations.Walk(ctx, nil, func(key uint64, value types.LeaseReputation) (bool, error) {
+		count++
+		
+		// Skip entries until we reach the offset
+		if skipped < offset {
+			skipped++
+			return false, nil
+		}
+		
+		// Stop if we've collected enough items
+		if uint64(len(leaseReputationsDisplay)) >= limit {
+			return true, nil
+		}
+		
+		// Convert to display format
+		display := k.convertLeaseReputationToDisplay(value)
+		leaseReputationsDisplay = append(leaseReputationsDisplay, display)
+		return false, nil
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	// Calculate next key for pagination
+	var nextKey []byte
+	if uint64(len(leaseReputationsDisplay)) == limit && count > offset+limit {
+		// There are more items available
+		nextKey = []byte("has_more")
+	}
+
+	return &types.QueryAllLeaseReputationResponse{
+		LeaseReputation: leaseReputationsDisplay,
+		Pagination: &query.PageResponse{
+			NextKey: nextKey,
+			Total:   count,
+		},
+	}, nil
 }
 
 func (k Keeper) LeaseReputation(ctx context.Context, req *types.QueryGetLeaseReputationRequest) (*types.QueryGetLeaseReputationResponse, error) {

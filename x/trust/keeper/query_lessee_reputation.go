@@ -19,33 +19,53 @@ func (k Keeper) LesseeReputationAll(ctx context.Context, req *types.QueryAllLess
 	}
 
 	var lesseeReputationsDisplay []types.LesseeReputationDisplay
+	var count uint64
+	var skipped uint64
 
-	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	lesseeReputationStore := prefix.NewStore(store, types.KeyPrefix(types.LesseeReputationKeyPrefix))
+	// Set up pagination parameters
+	limit := uint64(100) // Default limit
+	offset := uint64(0)
+	if req.Pagination != nil {
+		if req.Pagination.Limit > 0 {
+			limit = req.Pagination.Limit
+		}
+		if req.Pagination.Offset > 0 {
+			offset = req.Pagination.Offset
+		}
+	}
 
-	pageRes, err := query.Paginate(lesseeReputationStore, req.Pagination, func(key []byte, value []byte) error {
-		var lesseeReputation types.LesseeReputation
-		if err := k.cdc.Unmarshal(value, &lesseeReputation); err != nil {
-			return err
+	// Use collections to iterate through lessee reputations with pagination
+	err := k.LesseeReputations.Walk(ctx, nil, func(key uint64, value types.LesseeReputation) (bool, error) {
+		count++
+		
+		// Skip entries until we reach the offset
+		if skipped < offset {
+			skipped++
+			return false, nil
+		}
+		
+		// Stop if we've collected enough items
+		if uint64(len(lesseeReputationsDisplay)) >= limit {
+			return true, nil
 		}
 
 		// Convert to display format
 		display := types.LesseeReputationDisplay{
-			Index:           lesseeReputation.Index,
-			Level1Count:     lesseeReputation.Level1Count,
-			Level2Count:     lesseeReputation.Level2Count,
-			Level3Count:     lesseeReputation.Level3Count,
-			Level4Count:     lesseeReputation.Level4Count,
-			LastUpdated:     lesseeReputation.LastUpdated,
-			AbuseResolved:   lesseeReputation.AbuseResolved,
-			AbuseFailed:     lesseeReputation.AbuseFailed,
-			AbuseInProgress: lesseeReputation.AbuseInProgress,
+			Index:           value.Index,
+			Level1Count:     value.Level1Count,
+			Level2Count:     value.Level2Count,
+			Level3Count:     value.Level3Count,
+			Level4Count:     value.Level4Count,
+			LastUpdated:     value.LastUpdated,
+			AbuseResolved:   value.AbuseResolved,
+			AbuseFailed:     value.AbuseFailed,
+			AbuseInProgress: value.AbuseInProgress,
 		}
 
 		// Convert map to slice, only include initialized entries
-		if lesseeReputation.AbuseByType != nil {
+		if value.AbuseByType != nil {
 			for abuseType := abusetypes.AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA; abuseType <= abusetypes.AbuseType_ABUSE_TYPE_OTHER; abuseType++ {
-				if stats, exists := lesseeReputation.AbuseByType[uint32(abuseType)]; exists && stats != nil {
+				if stats, exists := value.AbuseByType[uint32(abuseType)]; exists && stats != nil {
 					display.AbuseByType = append(display.AbuseByType, &types.AbuseTypeStatsDisplay{
 						AbuseType:    uint32(abuseType),
 						Resolved:     stats.Resolved,
@@ -58,14 +78,27 @@ func (k Keeper) LesseeReputationAll(ctx context.Context, req *types.QueryAllLess
 		}
 
 		lesseeReputationsDisplay = append(lesseeReputationsDisplay, display)
-		return nil
+		return false, nil
 	})
 
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryAllLesseeReputationResponse{LesseeReputation: lesseeReputationsDisplay, Pagination: pageRes}, nil
+	// Calculate next key for pagination
+	var nextKey []byte
+	if uint64(len(lesseeReputationsDisplay)) == limit && count > offset+limit {
+		// There are more items available
+		nextKey = []byte("has_more")
+	}
+
+	return &types.QueryAllLesseeReputationResponse{
+		LesseeReputation: lesseeReputationsDisplay,
+		Pagination: &query.PageResponse{
+			NextKey: nextKey,
+			Total:   count,
+		},
+	}, nil
 }
 
 func (k Keeper) LesseeReputation(ctx context.Context, req *types.QueryGetLesseeReputationRequest) (*types.QueryGetLesseeReputationResponse, error) {

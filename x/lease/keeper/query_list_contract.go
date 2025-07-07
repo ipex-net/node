@@ -5,39 +5,67 @@ import (
 
 	"ipex/x/lease/types"
 
-	"cosmossdk.io/store/prefix"
-	"github.com/cosmos/cosmos-sdk/runtime"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) ListContract(goCtx context.Context, req *types.QueryListContractRequest) (*types.QueryListContractResponse, error) {
+func (k Keeper) ListContract(ctx context.Context, req *types.QueryListContractRequest) (*types.QueryListContractResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ContractKey))
-
 	var contracts []types.Contract
+	var count uint64
+	var skipped uint64
 
-	pageRes, err := query.Paginate(store, req.Pagination, func(key []byte, value []byte) error {
-		var contract types.Contract
-		if err := k.cdc.Unmarshal(value, &contract); err != nil {
-			return err
+	// Set up pagination parameters
+	limit := uint64(100) // Default limit
+	offset := uint64(0)
+	if req.Pagination != nil {
+		if req.Pagination.Limit > 0 {
+			limit = req.Pagination.Limit
 		}
+		if req.Pagination.Offset > 0 {
+			offset = req.Pagination.Offset
+		}
+	}
 
-		contracts = append(contracts, contract)
-		return nil
+	// Use collections to iterate through contracts with pagination
+	err := k.Contracts.Walk(ctx, nil, func(key uint64, value types.Contract) (bool, error) {
+		count++
+		
+		// Skip entries until we reach the offset
+		if skipped < offset {
+			skipped++
+			return false, nil
+		}
+		
+		// Stop if we've collected enough items
+		if uint64(len(contracts)) >= limit {
+			return true, nil
+		}
+		
+		contracts = append(contracts, value)
+		return false, nil
 	})
 
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryListContractResponse{Contract: contracts, Pagination: pageRes}, nil
+	// Calculate next key for pagination
+	var nextKey []byte
+	if uint64(len(contracts)) == limit && count > offset+limit {
+		// There are more items available
+		nextKey = []byte("has_more")
+	}
+
+	return &types.QueryListContractResponse{
+		Contract: contracts,
+		Pagination: &query.PageResponse{
+			NextKey: nextKey,
+			Total:   count,
+		},
+	}, nil
 }
