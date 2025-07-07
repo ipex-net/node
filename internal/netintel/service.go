@@ -14,9 +14,10 @@ const (
 	// Update intervals
 	reputationUpdateInterval = 1 * time.Minute // Reputation updates every minute
 	//	countryUpdateInterval    = 24 * time.Hour   // Country updates every 24 hours
-	countryUpdateInterval = 5 * time.Minute // Country updates every 24 hours
-	// Startup timeout
-	initialLoadTimeout = 5 * time.Minute
+	countryUpdateInterval = 5 * time.Minute // Country updates every 5 minutes (dev mode)
+	asnUpdateInterval     = 1 * time.Hour   // ASN DROP list updates every hour
+	// Startup timeout for loading existing data from disk
+	initialLoadTimeout = 30 * time.Second
 )
 
 // Service is the main NetIntel service that orchestrates all components
@@ -35,6 +36,9 @@ type Service struct {
 
 	// Startup state
 	initialLoadDone atomic.Bool
+
+	// Test mode (disables background updates)
+	testMode bool
 }
 
 // NewService creates a new NetIntel service
@@ -46,6 +50,13 @@ func NewService(dataDir string, logger log.Logger) *Service {
 		logger:     logger,
 		stopChan:   make(chan struct{}),
 	}
+}
+
+// NewServiceForTesting creates a new NetIntel service with background updates disabled
+func NewServiceForTesting(dataDir string, logger log.Logger) *Service {
+	service := NewService(dataDir, logger)
+	service.testMode = true
+	return service
 }
 
 // Start starts the NetIntel service and background update loops
@@ -62,10 +73,12 @@ func (s *Service) Start() error {
 		return fmt.Errorf("failed to load initial data: %w", err)
 	}
 
-	// Start background update loops
-	s.startBackgroundUpdates()
+	// Start background update loops (unless in test mode)
+	if !s.testMode {
+		s.startBackgroundUpdates()
+	}
 
-	s.logger.Info("[NetIntel] NetIntel service started successfully")
+	s.logger.Info("[NetIntel] NetIntel service started successfully", "test_mode", s.testMode)
 	return nil
 }
 
@@ -134,6 +147,14 @@ func (s *Service) CheckCountry(ip string, countryCode string) bool {
 	return s.cache.CheckCountry(ip, countryCode)
 }
 
+// CheckASNDrop checks if ASN is in the DROP list
+func (s *Service) CheckASNDrop(asn int32) bool {
+	if !s.IsReady() {
+		return false
+	}
+	return s.cache.CheckASNDrop(asn)
+}
+
 // GetLastUpdate returns when data was last updated
 func (s *Service) GetLastUpdate() time.Time {
 	return s.cache.GetLastUpdate()
@@ -180,7 +201,18 @@ func (s *Service) loadInitialData() error {
 		s.logger.Warn("Failed to load geolocation data", "error", err)
 	}
 
-	// Update cache with loaded data
+	// Load ASN DROP list data (optional - failure doesn't block startup)
+	asnChecker := NewASNClient(s.dataDir)
+	if err := s.loadWithTimeout(ctx, "ASN DROP list", func() error {
+		return asnChecker.LoadASNDropList()
+	}); err != nil {
+		s.logger.Warn("[NetIntel] Failed to load ASN DROP list data on startup (will retry during updates)", "error", err)
+	} else if asnChecker.GetLoadedASNCount() > 0 {
+		s.cache.UpdateASNChecker(asnChecker)
+		s.logger.Info("[NetIntel] Loaded ASN DROP list data", "count", asnChecker.GetLoadedASNCount())
+	}
+
+	// Update cache with loaded data (core services only)
 	if len(repChecker.GetLoadedLevels()) > 0 {
 		s.cache.UpdateReputationChecker(repChecker)
 		s.logger.Info("[NetIntel] Loaded reputation data", "levels", repChecker.GetLoadedLevels())
@@ -220,11 +252,18 @@ func (s *Service) startBackgroundUpdates() {
 		s.reputationUpdateLoop()
 	}()
 
-	// Start country update loop (every 24 hours)
+	// Start country update loop (every 5 minutes in dev, 24 hours in prod)
 	s.wg.Add(1)
 	go func() {
 		defer s.wg.Done()
 		s.countryUpdateLoop()
+	}()
+
+	// Start ASN update loop (every hour)
+	s.wg.Add(1)
+	go func() {
+		defer s.wg.Done()
+		s.asnUpdateLoop()
 	}()
 }
 
@@ -264,19 +303,37 @@ func (s *Service) countryUpdateLoop() {
 	}
 }
 
+// asnUpdateLoop runs the ASN data update loop
+func (s *Service) asnUpdateLoop() {
+	s.logger.Info("[NetIntel] Starting ASN update loop", "interval", asnUpdateInterval)
+	s.updateASNData()
+	ticker := time.NewTicker(asnUpdateInterval)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-s.stopChan:
+			s.logger.Info("[NetIntel] ASN update loop stopped")
+			return
+		case <-ticker.C:
+			s.updateASNData()
+		}
+	}
+}
+
 // updateReputationData downloads and updates reputation data
 func (s *Service) updateReputationData() {
 	s.logger.Info("[NetIntel] Updating reputation data")
 
 	start := time.Now().UTC()
 
-	// Download fresh data
+	// Download fresh reputation data
 	if err := s.downloader.DownloadAllReputationLevels(); err != nil {
 		s.logger.Error("Failed to download reputation data", "error", err)
 		return
 	}
 
-	// Load fresh data into new client
+	// Load fresh reputation data into new client
 	newRepChecker := NewReputationClient(s.dataDir)
 	if err := newRepChecker.LoadAllLevels(); err != nil {
 		s.logger.Error("Failed to load new reputation data", "error", err)
@@ -320,6 +377,34 @@ func (s *Service) updateCountryData() {
 		"countries", len(newGeoChecker.GetLoadedCountries()))
 }
 
+// updateASNData downloads and updates ASN DROP list data
+func (s *Service) updateASNData() {
+	s.logger.Info("[NetIntel] Updating ASN DROP list data")
+
+	start := time.Now().UTC()
+
+	// Download fresh ASN DROP list
+	if err := s.downloader.DownloadASNDropList(); err != nil {
+		s.logger.Error("Failed to download ASN DROP list", "error", err)
+		return
+	}
+
+	// Load fresh ASN data into new client
+	newASNChecker := NewASNClient(s.dataDir)
+	if err := newASNChecker.LoadASNDropList(); err != nil {
+		s.logger.Error("Failed to load new ASN DROP list data", "error", err)
+		return
+	}
+
+	// Atomic swap into cache
+	s.cache.UpdateASNChecker(newASNChecker)
+
+	duration := time.Since(start)
+	s.logger.Info("[NetIntel] ASN DROP list updated successfully",
+		"duration", duration,
+		"asn_count", newASNChecker.GetLoadedASNCount())
+}
+
 // GetStatus returns detailed service status
 func (s *Service) GetStatus() ServiceStatus {
 	cacheStatus := s.cache.GetStatus()
@@ -331,6 +416,7 @@ func (s *Service) GetStatus() ServiceStatus {
 		LastDownload:    s.downloader.GetLastDownload(),
 		LoadedLevels:    cacheStatus.LoadedLevels,
 		LoadedCountries: cacheStatus.LoadedCountries,
+		LoadedASNCount:  cacheStatus.LoadedASNCount,
 		ErrorCount:      0,
 		LastError:       nil,
 	}

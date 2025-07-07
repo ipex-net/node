@@ -18,6 +18,9 @@ type NetIntelService interface {
 	// Geolocation checking
 	CheckCountry(ip string, countryCode string) bool
 
+	// ASN DROP list checking
+	CheckASNDrop(asn int32) bool
+
 	// Service status
 	GetLastUpdate() time.Time
 	GetLoadedLevels() []int
@@ -48,6 +51,18 @@ type GeolocationChecker interface {
 	GetLoadedCountries() []string
 }
 
+// ASNChecker handles ASN DROP list lookups
+type ASNChecker interface {
+	// LoadASNDropList loads the ASN DROP list data
+	LoadASNDropList() error
+
+	// CheckASNDrop checks if ASN is in the DROP list
+	CheckASNDrop(asn int32) bool
+
+	// GetLoadedASNCount returns the number of ASNs loaded in the DROP list
+	GetLoadedASNCount() int
+}
+
 // Downloader handles fetching data from remote sources
 type Downloader interface {
 	// DownloadReputationLevel downloads a specific level file
@@ -55,6 +70,9 @@ type Downloader interface {
 
 	// DownloadCountryData downloads country data for specific country and all providers
 	DownloadCountryData(countryCode string) error
+
+	// DownloadASNDropList downloads the ASN DROP list data
+	DownloadASNDropList() error
 
 	// DownloadAll downloads all configured data
 	DownloadAll() error
@@ -66,16 +84,22 @@ type Downloader interface {
 // Cache represents thread-safe cache with atomic updates
 type Cache interface {
 	// GetReputationChecker returns current reputation checker (thread-safe read)
-	GetReputationChecker() ReputationChecker
+	GetReputationChecker() *ReputationClient
 
 	// GetGeolocationChecker returns current geolocation checker (thread-safe read)
-	GetGeolocationChecker() GeolocationChecker
+	GetGeolocationChecker() *GeolocationClient
+
+	// GetASNChecker returns current ASN checker (thread-safe read)
+	GetASNChecker() *ASNClient
 
 	// UpdateReputationChecker atomically updates reputation checker
-	UpdateReputationChecker(checker ReputationChecker)
+	UpdateReputationChecker(checker *ReputationClient)
 
 	// UpdateGeolocationChecker atomically updates geolocation checker
-	UpdateGeolocationChecker(checker GeolocationChecker)
+	UpdateGeolocationChecker(checker *GeolocationClient)
+
+	// UpdateASNChecker atomically updates ASN checker
+	UpdateASNChecker(checker *ASNClient)
 
 	// GetLastUpdate returns when cache was last updated
 	GetLastUpdate() time.Time
@@ -108,6 +132,7 @@ type ServiceStatus struct {
 	LastDownload    time.Time
 	LoadedLevels    []int
 	LoadedCountries []string
+	LoadedASNCount  int
 	ErrorCount      int
 	LastError       error
 }

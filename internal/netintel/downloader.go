@@ -228,13 +228,34 @@ func (d *HTTPDownloader) DownloadAllCountryData() error {
 	return nil
 }
 
-// DownloadAll downloads all data (reputation levels + all countries)
+// DownloadASNDropList downloads the ASN DROP list from Spamhaus
+func (d *HTTPDownloader) DownloadASNDropList() error {
+	url := "https://www.spamhaus.org/drop/asndrop.json"
+	destPath := filepath.Join(d.dataDir, "sources", "asndrop.json")
+
+	d.logger.Info("[NetIntel] Downloading ASN DROP list", "url", url)
+
+	if err := d.downloadFile(url, destPath); err != nil {
+		return fmt.Errorf("failed to download ASN DROP list: %w", err)
+	}
+
+	d.updateLastDownload()
+	d.logger.Info("[NetIntel] Successfully downloaded ASN DROP list", "path", destPath)
+	return nil
+}
+
+// DownloadAll downloads all data (reputation levels + ASN DROP list + all countries)
 func (d *HTTPDownloader) DownloadAll() error {
 	d.logger.Info("[NetIntel] Starting download of all NetIntel data")
 
 	// Download reputation levels first (smaller, faster)
 	if err := d.DownloadAllReputationLevels(); err != nil {
 		return fmt.Errorf("failed to download reputation levels: %w", err)
+	}
+
+	// Download ASN DROP list
+	if err := d.DownloadASNDropList(); err != nil {
+		return fmt.Errorf("failed to download ASN DROP list: %w", err)
 	}
 
 	// Download country data
