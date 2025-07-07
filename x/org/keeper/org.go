@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -89,7 +90,7 @@ func (k Keeper) SetOrg(ctx context.Context, org types.Org) {
 func (k Keeper) GetOrg(ctx context.Context, id uint64) (val types.Org, found bool) {
 	org, err := k.Orgs.Get(ctx, id)
 	if err != nil {
-		if err.Error() == "collections: not found" {
+		if strings.Contains(err.Error(), "collections: not found") {
 			return val, false
 		}
 		panic(err)

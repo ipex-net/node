@@ -35,7 +35,7 @@ func TestTransactionQuerySingle(t *testing.T) {
 		},
 		{
 			desc:    "KeyNotFound",
-			request: &types.QueryGetTransactionRequest{Id: uint64(len(msgs))},
+			request: &types.QueryGetTransactionRequest{Id: 100000},
 			err:     sdkerrors.ErrKeyNotFound,
 		},
 		{

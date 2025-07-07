@@ -35,7 +35,7 @@ func TestSubnetQuerySingle(t *testing.T) {
 		},
 		{
 			desc:    "KeyNotFound",
-			request: &types.QueryGetSubnetRequest{Id: uint64(len(msgs))},
+			request: &types.QueryGetSubnetRequest{Id: 100000},
 			err:     sdkerrors.ErrKeyNotFound,
 		},
 		{

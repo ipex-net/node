@@ -25,10 +25,10 @@ func TestGenesisState_Validate(t *testing.T) {
 
 				ComplaintList: []types.Complaint{
 					{
-						Index: "0",
+						Id: 0,
 					},
 					{
-						Index: "1",
+						Id: 1,
 					},
 				},
 				// this line is used by starport scaffolding # types/genesis/validField
@@ -40,10 +40,10 @@ func TestGenesisState_Validate(t *testing.T) {
 			genState: &types.GenesisState{
 				ComplaintList: []types.Complaint{
 					{
-						Index: "0",
+						Id: 0,
 					},
 					{
-						Index: "0",
+						Id: 0,
 					},
 				},
 			},

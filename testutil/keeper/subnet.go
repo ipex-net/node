@@ -1,6 +1,7 @@
 package keeper
 
 import (
+	"context"
 	"testing"
 
 	"cosmossdk.io/log"
@@ -21,6 +22,25 @@ import (
 	"ipex/x/subnet/types"
 )
 
+// Mock keepers for testing
+type mockOrgKeeperSubnet struct{}
+
+func (m mockOrgKeeperSubnet) HasOrg(ctx context.Context, id uint64) bool {
+	return true
+}
+
+func (m mockOrgKeeperSubnet) VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) bool {
+	return true
+}
+
+type mockTrustKeeperSubnet struct{}
+
+func (m mockTrustKeeperSubnet) InitializeSubnetReputation(ctx context.Context, subnetID uint64) {
+}
+
+func (m mockTrustKeeperSubnet) RemoveSubnetReputation(ctx context.Context, index uint64) {
+}
+
 func SubnetKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
 
@@ -38,12 +58,19 @@ func SubnetKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 		runtime.NewKVStoreService(storeKey),
 		log.NewNopLogger(),
 		authority.String(),
+		mockOrgKeeperSubnet{},
+		mockTrustKeeperSubnet{},
 	)
 
 	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())
 
 	// Initialize params
 	if err := k.SetParams(ctx, types.DefaultParams()); err != nil {
+		panic(err)
+	}
+
+	// Initialize subnet sequence to start from 1
+	if err := k.SubnetSequence.Set(ctx, 1); err != nil {
 		panic(err)
 	}
 

@@ -111,3 +111,4 @@ func (k Keeper) LesseeReputation(ctx context.Context, req *types.QueryGetLesseeR
 
 	return &types.QueryGetLesseeReputationResponse{LesseeReputation: display}, nil
 }
+

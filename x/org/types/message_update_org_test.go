@@ -10,21 +10,56 @@ import (
 )
 
 func TestMsgUpdateOrg_ValidateBasic(t *testing.T) {
+	validAddr := sample.AccAddress()
+	
 	tests := []struct {
 		name string
 		msg  MsgUpdateOrg
 		err  error
 	}{
 		{
-			name: "invalid address",
+			name: "invalid creator address",
 			msg: MsgUpdateOrg{
-				Creator: "invalid_address",
+				Creator:  "invalid_address",
+				Id:       1,
+				Name:     "Test Org",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
-			name: "valid address",
+			name: "valid message",
 			msg: MsgUpdateOrg{
-				Creator: sample.AccAddress(),
+				Creator:  validAddr,
+				Id:       1,
+				Name:     "Test Org",
+				Admin:    validAddr,
+				Treasury: validAddr,
+			},
+		}, {
+			name: "invalid admin address",
+			msg: MsgUpdateOrg{
+				Creator: validAddr,
+				Id:      1,
+				Name:    "Test Org",
+				Admin:   "invalid_address",
+			},
+			err: sdkerrors.ErrInvalidAddress,
+		}, {
+			name: "invalid treasury address",
+			msg: MsgUpdateOrg{
+				Creator:  validAddr,
+				Id:       1,
+				Name:     "Test Org",
+				Treasury: "invalid_address",
+			},
+			err: sdkerrors.ErrInvalidAddress,
+		}, {
+			name: "empty admin and treasury are valid",
+			msg: MsgUpdateOrg{
+				Creator: validAddr,
+				Id:      1,
+				Name:    "Test Org",
+				Admin:   "",
+				Treasury: "",
 			},
 		},
 	}

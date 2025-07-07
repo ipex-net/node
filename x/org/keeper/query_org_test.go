@@ -35,7 +35,7 @@ func TestOrgQuerySingle(t *testing.T) {
 		},
 		{
 			desc:    "KeyNotFound",
-			request: &types.QueryGetOrgRequest{Id: uint64(len(msgs))},
+			request: &types.QueryGetOrgRequest{Id: 100000},
 			err:     sdkerrors.ErrKeyNotFound,
 		},
 		{

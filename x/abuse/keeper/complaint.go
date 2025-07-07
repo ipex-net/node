@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strings"
 
 	"ipex/x/abuse/types"
 
@@ -89,7 +90,7 @@ func (k Keeper) GetComplaint(
 ) (val types.Complaint, found bool) {
 	complaint, err := k.Complaints.Get(ctx, id)
 	if err != nil {
-		if err.Error() == "collections: not found" {
+		if strings.Contains(err.Error(), "collections: not found") {
 			return val, false
 		}
 		panic(err)

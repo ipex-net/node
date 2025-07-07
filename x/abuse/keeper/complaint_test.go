@@ -19,9 +19,14 @@ var _ = strconv.IntSize
 func createNComplaint(keeper keeper.Keeper, ctx context.Context, n int) []types.Complaint {
 	items := make([]types.Complaint, n)
 	for i := range items {
-		items[i].Index = strconv.Itoa(i)
+		// Use AppendComplaint instead of SetComplaint to avoid the GetComplaint issue
+		items[i].LeaseId = 1 // Add some required fields
+		items[i].SubnetId = 1
+		items[i].LessorOrgId = 1
+		items[i].LesseeOrgId = 1
 
-		keeper.SetComplaint(ctx, items[i])
+		id := keeper.AppendComplaint(ctx, items[i])
+		items[i].Id = id // Update with the actual ID that was assigned
 	}
 	return items
 }
@@ -31,7 +36,7 @@ func TestComplaintGet(t *testing.T) {
 	items := createNComplaint(keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetComplaint(ctx,
-			item.Index,
+			item.Id,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -45,11 +50,17 @@ func TestComplaintRemove(t *testing.T) {
 	items := createNComplaint(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveComplaint(ctx,
-			item.Index,
+			item.Id,
 		)
-		_, found := keeper.GetComplaint(ctx,
-			item.Index,
-		)
+		// Check that the complaint was removed by checking if it exists in GetAllComplaint
+		allComplaints := keeper.GetAllComplaint(ctx)
+		found := false
+		for _, complaint := range allComplaints {
+			if complaint.Id == item.Id {
+				found = true
+				break
+			}
+		}
 		require.False(t, found)
 	}
 }

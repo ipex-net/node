@@ -47,5 +47,10 @@ func TrustKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 		panic(err)
 	}
 
+	// Initialize blacklist log sequence to start from 1
+	if err := k.BlacklistLogSequence.Set(ctx, 1); err != nil {
+		panic(err)
+	}
+
 	return k, ctx
 }

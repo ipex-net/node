@@ -46,7 +46,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	if msg.RevocationPeriodMonth < minimumRevocationPeriod {
 		return nil, errorsmod.Wrapf(
 			types.ErrInvalidRevocationPeriod,
-			"revocation period (%s) must be at least (%s) month(s) ",
+			"revocation period (%d) must be at least (%d) month(s) ",
 			msg.RevocationPeriodMonth,
 			minimumRevocationPeriod,
 		)

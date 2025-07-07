@@ -19,7 +19,7 @@ var _ = strconv.IntSize
 func createNLeaseReputation(keeper keeper.Keeper, ctx context.Context, n int) []types.LeaseReputation {
 	items := make([]types.LeaseReputation, n)
 	for i := range items {
-		items[i].Index = uint64(i)
+		items[i].Index = uint64(i + 1) // Start from 1 instead of 0
 
 		keeper.SetLeaseReputation(ctx, items[i])
 	}

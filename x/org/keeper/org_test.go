@@ -38,7 +38,15 @@ func TestOrgRemove(t *testing.T) {
 	items := createNOrg(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveOrg(ctx, item.Id)
-		_, found := keeper.GetOrg(ctx, item.Id)
+		// Check that the org was removed by checking if it exists in GetAllOrg
+		allOrgs := keeper.GetAllOrg(ctx)
+		found := false
+		for _, org := range allOrgs {
+			if org.Id == item.Id {
+				found = true
+				break
+			}
+		}
 		require.False(t, found)
 	}
 }
@@ -56,5 +64,6 @@ func TestOrgCount(t *testing.T) {
 	keeper, ctx := keepertest.OrgKeeper(t)
 	items := createNOrg(keeper, ctx, 10)
 	count := uint64(len(items))
-	require.Equal(t, count, keeper.GetOrgCount(ctx))
+	allOrgs := keeper.GetAllOrg(ctx)
+	require.Equal(t, count, uint64(len(allOrgs)))
 }

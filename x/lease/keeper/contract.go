@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strings"
 
 	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
@@ -92,7 +93,7 @@ func (k Keeper) AppendContract(ctx context.Context, contract types.Contract) uin
 func (k Keeper) GetContract(ctx context.Context, id uint64) (val types.Contract, found bool) {
 	contract, err := k.Contracts.Get(ctx, id)
 	if err != nil {
-		if err.Error() == "collections: not found" {
+		if strings.Contains(err.Error(), "collections: not found") {
 			return val, false
 		}
 		panic(err)

@@ -1,6 +1,6 @@
 module ipex
 
-go 1.23.2
+go 1.23.10
 
 replace (
 	// fix upstream GHSA-h395-qcrw-5vmq vulnerability.

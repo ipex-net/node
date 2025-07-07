@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"cosmossdk.io/collections"
@@ -111,7 +112,7 @@ func (k Keeper) SetSubnet(ctx context.Context, subnet types.Subnet) {
 func (k Keeper) GetSubnet(ctx context.Context, id uint64) (val types.Subnet, found bool) {
 	subnet, err := k.Subnets.Get(ctx, id)
 	if err != nil {
-		if err.Error() == "collections: not found" {
+		if strings.Contains(err.Error(), "collections: not found") {
 			return val, false
 		}
 		panic(err)

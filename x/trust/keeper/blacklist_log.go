@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strings"
 
 	"ipex/x/trust/types"
 
@@ -64,7 +65,7 @@ func (k Keeper) SetBlacklistLog(ctx context.Context, blacklistLog types.Blacklis
 func (k Keeper) GetBlacklistLog(ctx context.Context, id uint64) (val types.BlacklistLog, found bool) {
 	val, err := k.BlacklistLogs.Get(ctx, id)
 	if err != nil {
-		if err.Error() == "collections: not found" {
+		if strings.Contains(err.Error(), "collections: not found") {
 			return val, false
 		}
 		panic(err)

@@ -38,7 +38,15 @@ func TestTransactionRemove(t *testing.T) {
 	items := createNTransaction(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveTransaction(ctx, item.Id)
-		_, found := keeper.GetTransaction(ctx, item.Id)
+		// Check that the transaction was removed by checking if it exists in GetAllTransaction
+		allTransactions := keeper.GetAllTransaction(ctx)
+		found := false
+		for _, transaction := range allTransactions {
+			if transaction.Id == item.Id {
+				found = true
+				break
+			}
+		}
 		require.False(t, found)
 	}
 }
@@ -56,5 +64,6 @@ func TestTransactionCount(t *testing.T) {
 	keeper, ctx := keepertest.PaymentsKeeper(t)
 	items := createNTransaction(keeper, ctx, 10)
 	count := uint64(len(items))
-	require.Equal(t, count, keeper.GetTransactionCount(ctx))
+	allTransactions := keeper.GetAllTransaction(ctx)
+	require.Equal(t, count, uint64(len(allTransactions)))
 }

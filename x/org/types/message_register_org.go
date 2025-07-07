@@ -1,7 +1,9 @@
 package types
 
 import (
+	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 var _ sdk.Msg = &MsgRegisterOrg{}
@@ -23,6 +25,17 @@ func NewMsgRegisterOrg(creator string, name string, legalName string, address st
 }
 
 func (msg *MsgRegisterOrg) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	if msg.Treasury != "" {
+		_, err := sdk.AccAddressFromBech32(msg.Treasury)
+		if err != nil {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid treasury address (%s)", err)
+		}
+	}
 
 	return nil
 }

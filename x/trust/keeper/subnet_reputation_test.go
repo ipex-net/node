@@ -19,7 +19,7 @@ var _ = strconv.IntSize
 func createNSubnetReputation(keeper keeper.Keeper, ctx context.Context, n int) []types.SubnetReputation {
 	items := make([]types.SubnetReputation, n)
 	for i := range items {
-		items[i].Index = uint64(i)
+		items[i].Index = uint64(i + 1)
 
 		keeper.SetSubnetReputation(ctx, items[i])
 	}

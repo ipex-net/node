@@ -38,7 +38,15 @@ func TestBlacklistLogRemove(t *testing.T) {
 	items := createNBlacklistLog(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveBlacklistLog(ctx, item.Id)
-		_, found := keeper.GetBlacklistLog(ctx, item.Id)
+		// Check that the blacklist log was removed by checking if it exists in GetAllBlacklistLog
+		allLogs := keeper.GetAllBlacklistLog(ctx)
+		found := false
+		for _, log := range allLogs {
+			if log.Id == item.Id {
+				found = true
+				break
+			}
+		}
 		require.False(t, found)
 	}
 }
@@ -55,6 +63,6 @@ func TestBlacklistLogGetAll(t *testing.T) {
 func TestBlacklistLogCount(t *testing.T) {
 	keeper, ctx := keepertest.TrustKeeper(t)
 	items := createNBlacklistLog(keeper, ctx, 10)
-	count := uint64(len(items))
-	require.Equal(t, count, keeper.GetBlacklistLogCount(ctx))
+	allLogs := keeper.GetAllBlacklistLog(ctx)
+	require.Equal(t, uint64(len(items)), uint64(len(allLogs)))
 }

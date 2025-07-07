@@ -1,6 +1,7 @@
 package keeper
 
 import (
+	"context"
 	"testing"
 
 	"cosmossdk.io/log"
@@ -19,7 +20,40 @@ import (
 
 	"ipex/x/abuse/keeper"
 	"ipex/x/abuse/types"
+	leasetypes "ipex/x/lease/types"
+	subnettypes "ipex/x/subnet/types"
 )
+
+// Mock keepers for testing
+type mockSubnetKeeper struct{}
+
+func (m mockSubnetKeeper) VerifySubnetOwner(ctx context.Context, subnetId uint64, owner string) bool {
+	return true
+}
+
+func (m mockSubnetKeeper) VerifySubnetUser(ctx context.Context, subnetId uint64, user string) bool {
+	return true
+}
+
+func (m mockSubnetKeeper) GetSubnet(ctx context.Context, id uint64) (val subnettypes.Subnet, found bool) {
+	return subnettypes.Subnet{}, false
+}
+
+type mockLeaseKeeper struct{}
+
+func (m mockLeaseKeeper) GetFirstLeasedContractBySubnet(ctx context.Context, subnetId uint64) (uint64, bool) {
+	return 0, false
+}
+
+func (m mockLeaseKeeper) GetContract(ctx context.Context, id uint64) (val leasetypes.Contract, found bool) {
+	return leasetypes.Contract{}, false
+}
+
+type mockTrustKeeper struct{}
+
+func (m mockTrustKeeper) UpdateAbuseStats(ctx context.Context, leaseId uint64, lesseeOrgId uint64, abuseCategory uint32, oldStatus string, newStatus string) error {
+	return nil
+}
 
 func AbuseKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
@@ -38,12 +72,20 @@ func AbuseKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 		runtime.NewKVStoreService(storeKey),
 		log.NewNopLogger(),
 		authority.String(),
+		mockSubnetKeeper{},
+		mockLeaseKeeper{},
+		mockTrustKeeper{},
 	)
 
 	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())
 
 	// Initialize params
 	if err := k.SetParams(ctx, types.DefaultParams()); err != nil {
+		panic(err)
+	}
+
+	// Initialize complaint sequence to start from 1
+	if err := k.ComplaintSequence.Set(ctx, 1); err != nil {
 		panic(err)
 	}
 

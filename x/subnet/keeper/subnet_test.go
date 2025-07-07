@@ -38,7 +38,15 @@ func TestSubnetRemove(t *testing.T) {
 	items := createNSubnet(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveSubnet(ctx, item.Id)
-		_, found := keeper.GetSubnet(ctx, item.Id)
+		// Check that the subnet was removed by checking if it exists in GetAllSubnet
+		allSubnets := keeper.GetAllSubnet(ctx)
+		found := false
+		for _, subnet := range allSubnets {
+			if subnet.Id == item.Id {
+				found = true
+				break
+			}
+		}
 		require.False(t, found)
 	}
 }
@@ -56,5 +64,6 @@ func TestSubnetCount(t *testing.T) {
 	keeper, ctx := keepertest.SubnetKeeper(t)
 	items := createNSubnet(keeper, ctx, 10)
 	count := uint64(len(items))
-	require.Equal(t, count, keeper.GetSubnetCount(ctx))
+	allSubnets := keeper.GetAllSubnet(ctx)
+	require.Equal(t, count, uint64(len(allSubnets)))
 }

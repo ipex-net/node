@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
@@ -18,7 +19,7 @@ func (k Keeper) OrgByAdmin(ctx context.Context, req *types.QueryOrgByAdminReques
 	// Get org ID from admin index
 	orgId, err := k.OrgsByAdmin.Get(ctx, req.Admin)
 	if err != nil {
-		if err.Error() == "collections: not found" {
+		if strings.Contains(err.Error(), "collections: not found") {
 			return &types.QueryOrgByAdminResponse{
 				Org: nil,
 				Pagination: &query.PageResponse{Total: 0},

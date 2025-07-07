@@ -1,6 +1,7 @@
 package keeper
 
 import (
+	"context"
 	"testing"
 
 	"cosmossdk.io/log"
@@ -19,7 +20,91 @@ import (
 
 	"ipex/x/lease/keeper"
 	"ipex/x/lease/types"
+	paymentstypes "ipex/x/payments/types"
 )
+
+// Mock keepers for testing
+type mockAccountKeeper struct{}
+
+func (m mockAccountKeeper) GetAccount(ctx context.Context, addr sdk.AccAddress) sdk.AccountI {
+	return nil
+}
+
+type mockBankKeeper struct{}
+
+func (m mockBankKeeper) SpendableCoins(ctx context.Context, addr sdk.AccAddress) sdk.Coins {
+	return sdk.NewCoins()
+}
+
+func (m mockBankKeeper) SendCoinsFromAccountToModule(ctx context.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error {
+	return nil
+}
+
+func (m mockBankKeeper) SendCoinsFromModuleToAccount(ctx context.Context, senderModule string, recipientAddr sdk.AccAddress, amt sdk.Coins) error {
+	return nil
+}
+
+func (m mockBankKeeper) SendCoins(ctx context.Context, fromAddr sdk.AccAddress, toAddr sdk.AccAddress, amt sdk.Coins) error {
+	return nil
+}
+
+type mockOrgKeeper struct{}
+
+func (m mockOrgKeeper) HasOrg(ctx context.Context, id uint64) bool {
+	return true
+}
+
+func (m mockOrgKeeper) VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) bool {
+	return true
+}
+
+func (m mockOrgKeeper) GetOrgTreasury(ctx context.Context, orgid uint64) (sdk.AccAddress, bool) {
+	return sdk.AccAddress{}, false
+}
+
+func (m mockOrgKeeper) GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAddress, bool) {
+	return sdk.AccAddress{}, false
+}
+
+type mockSubnetKeeperLease struct{}
+
+func (m mockSubnetKeeperLease) VerifySubnetOwner(ctx context.Context, subnetId uint64, user string) bool {
+	return true
+}
+
+func (m mockSubnetKeeperLease) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint64) bool {
+	return true
+}
+
+func (m mockSubnetKeeperLease) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64) {
+}
+
+func (m mockSubnetKeeperLease) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
+}
+
+type mockPaymentsKeeper struct{}
+
+func (m mockPaymentsKeeper) RecordTransaction(
+	ctx context.Context,
+	transactionType paymentstypes.TransactionType,
+	relatedModuleId paymentstypes.ModuleID,
+	entityId uint64,
+	amount sdk.Coin,
+	fromOrgId uint64,
+	toOrgId uint64,
+	fromAddress string,
+	toAddress string,
+) uint64 {
+	return 0
+}
+
+type mockTrustKeeperLease struct{}
+
+func (m mockTrustKeeperLease) InitializeLeaseReputation(ctx context.Context, leaseId uint64) {
+}
+
+func (m mockTrustKeeperLease) RemoveLeaseReputation(ctx context.Context, leaseId uint64) {
+}
 
 func LeaseKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
@@ -38,8 +123,12 @@ func LeaseKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 		runtime.NewKVStoreService(storeKey),
 		log.NewNopLogger(),
 		authority.String(),
-		nil,
-		nil,
+		mockAccountKeeper{},
+		mockBankKeeper{},
+		mockOrgKeeper{},
+		mockSubnetKeeperLease{},
+		mockPaymentsKeeper{},
+		mockTrustKeeperLease{},
 	)
 
 	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())

@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strings"
 
 	"ipex/x/payments/types"
 
@@ -50,7 +51,7 @@ func (k Keeper) SetTransaction(ctx context.Context, transaction types.Transactio
 func (k Keeper) GetTransaction(ctx context.Context, id uint64) (val types.Transaction, found bool) {
 	transaction, err := k.Transactions.Get(ctx, id)
 	if err != nil {
-		if err.Error() == "collections: not found" {
+		if strings.Contains(err.Error(), "collections: not found") {
 			return val, false
 		}
 		panic(err)

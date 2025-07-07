@@ -1,6 +1,7 @@
 package keeper
 
 import (
+	"context"
 	"testing"
 
 	"cosmossdk.io/log"
@@ -21,6 +22,15 @@ import (
 	"ipex/x/org/types"
 )
 
+// Mock keepers for testing
+type mockTrustKeeperOrg struct{}
+
+func (m mockTrustKeeperOrg) InitializeLesseeReputation(ctx context.Context, lesseeId uint64) {
+}
+
+func (m mockTrustKeeperOrg) RemoveLesseeReputation(ctx context.Context, index uint64) {
+}
+
 func OrgKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
 
@@ -38,12 +48,18 @@ func OrgKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 		runtime.NewKVStoreService(storeKey),
 		log.NewNopLogger(),
 		authority.String(),
+		mockTrustKeeperOrg{},
 	)
 
 	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())
 
 	// Initialize params
 	if err := k.SetParams(ctx, types.DefaultParams()); err != nil {
+		panic(err)
+	}
+
+	// Initialize org sequence to start from 1
+	if err := k.OrgSequence.Set(ctx, 1); err != nil {
 		panic(err)
 	}
 
