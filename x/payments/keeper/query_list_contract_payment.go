@@ -39,10 +39,33 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	// Note: For simplicity, not implementing pagination here since we're using collections Walk
-	// In production, you might want to implement pagination using offset/limit approach
+	// Apply pagination to the collected transactions
+	offset := int(req.Pagination.GetOffset())
+	limit := int(req.Pagination.GetLimit())
+	total := uint64(len(transactions))
+	
+	// Apply offset
+	if offset > len(transactions) {
+		offset = len(transactions)
+	}
+	transactions = transactions[offset:]
+	
+	// Apply limit
+	if limit > 0 && limit < len(transactions) {
+		transactions = transactions[:limit]
+	}
+
+	pageResponse := &query.PageResponse{
+		Total: total,
+	}
+
+	// Set next key if there are more results
+	if req.Pagination.GetCountTotal() {
+		pageResponse.Total = total
+	}
+
 	return &types.QueryListContractPaymentResponse{
 		Transaction: transactions, 
-		Pagination: &query.PageResponse{Total: uint64(len(transactions))},
+		Pagination: pageResponse,
 	}, nil
 }
