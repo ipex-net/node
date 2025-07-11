@@ -97,9 +97,9 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 	leaseRep, found := k.GetLeaseReputation(ctx, leaseId)
 	if found {
 		leaseRep.Level1Count = leaseRep.Level1Count + level1Change
-		leaseRep.Level2Count = leaseRep.Level2Count + level1Change
-		leaseRep.Level3Count = leaseRep.Level3Count + level1Change
-		leaseRep.Level4Count = leaseRep.Level4Count + level1Change
+		leaseRep.Level2Count = leaseRep.Level2Count + level2Change
+		leaseRep.Level3Count = leaseRep.Level3Count + level3Change
+		leaseRep.Level4Count = leaseRep.Level4Count + level4Change
 		leaseRep.LastUpdated = &blockTime
 		k.SetLeaseReputation(ctx, leaseRep)
 	} else {

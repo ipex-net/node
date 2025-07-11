@@ -6,12 +6,42 @@ import (
 	abusetypes "ipex/x/abuse/types"
 	"ipex/x/trust/types"
 
-	"cosmossdk.io/store/prefix"
-	"github.com/cosmos/cosmos-sdk/runtime"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
+
+// Helper function to convert LesseeReputation to LesseeReputationDisplay
+func (k Keeper) convertLesseeReputationToDisplay(value types.LesseeReputation) types.LesseeReputationDisplay {
+	display := types.LesseeReputationDisplay{
+		Index:           value.Index,
+		Level1Count:     value.Level1Count,
+		Level2Count:     value.Level2Count,
+		Level3Count:     value.Level3Count,
+		Level4Count:     value.Level4Count,
+		LastUpdated:     value.LastUpdated,
+		AbuseResolved:   value.AbuseResolved,
+		AbuseFailed:     value.AbuseFailed,
+		AbuseInProgress: value.AbuseInProgress,
+	}
+
+	// Convert map to slice, only include initialized entries
+	if value.AbuseByType != nil {
+		for abuseType := abusetypes.AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA; abuseType <= abusetypes.AbuseType_ABUSE_TYPE_OTHER; abuseType++ {
+			if stats, exists := value.AbuseByType[uint32(abuseType)]; exists && stats != nil {
+				display.AbuseByType = append(display.AbuseByType, &types.AbuseTypeStatsDisplay{
+					AbuseType:    uint32(abuseType),
+					Resolved:     stats.Resolved,
+					Failed:       stats.Failed,
+					InProgress:   stats.InProgress,
+					LastIncident: stats.LastIncident,
+				})
+			}
+		}
+	}
+
+	return display
+}
 
 func (k Keeper) LesseeReputationAll(ctx context.Context, req *types.QueryAllLesseeReputationRequest) (*types.QueryAllLesseeReputationResponse, error) {
 	if req == nil {
@@ -49,34 +79,8 @@ func (k Keeper) LesseeReputationAll(ctx context.Context, req *types.QueryAllLess
 			return true, nil
 		}
 
-		// Convert to display format
-		display := types.LesseeReputationDisplay{
-			Index:           value.Index,
-			Level1Count:     value.Level1Count,
-			Level2Count:     value.Level2Count,
-			Level3Count:     value.Level3Count,
-			Level4Count:     value.Level4Count,
-			LastUpdated:     value.LastUpdated,
-			AbuseResolved:   value.AbuseResolved,
-			AbuseFailed:     value.AbuseFailed,
-			AbuseInProgress: value.AbuseInProgress,
-		}
-
-		// Convert map to slice, only include initialized entries
-		if value.AbuseByType != nil {
-			for abuseType := abusetypes.AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA; abuseType <= abusetypes.AbuseType_ABUSE_TYPE_OTHER; abuseType++ {
-				if stats, exists := value.AbuseByType[uint32(abuseType)]; exists && stats != nil {
-					display.AbuseByType = append(display.AbuseByType, &types.AbuseTypeStatsDisplay{
-						AbuseType:    uint32(abuseType),
-						Resolved:     stats.Resolved,
-						Failed:       stats.Failed,
-						InProgress:   stats.InProgress,
-						LastIncident: stats.LastIncident,
-					})
-				}
-			}
-		}
-
+		// Use helper function to convert to display format
+		display := k.convertLesseeReputationToDisplay(value)
 		lesseeReputationsDisplay = append(lesseeReputationsDisplay, display)
 		return false, nil
 	})
@@ -114,34 +118,8 @@ func (k Keeper) LesseeReputation(ctx context.Context, req *types.QueryGetLesseeR
 		return nil, status.Error(codes.NotFound, "not found")
 	}
 
-	// Convert to display format
-	display := types.LesseeReputationDisplay{
-		Index:           val.Index,
-		Level1Count:     val.Level1Count,
-		Level2Count:     val.Level2Count,
-		Level3Count:     val.Level3Count,
-		Level4Count:     val.Level4Count,
-		LastUpdated:     val.LastUpdated,
-		AbuseResolved:   val.AbuseResolved,
-		AbuseFailed:     val.AbuseFailed,
-		AbuseInProgress: val.AbuseInProgress,
-	}
-
-	// Convert map to slice, only include initialized entries
-	if val.AbuseByType != nil {
-		for abuseType := abusetypes.AbuseType_ABUSE_TYPE_COPYRIGHT_DMCA; abuseType <= abusetypes.AbuseType_ABUSE_TYPE_OTHER; abuseType++ {
-			if stats, exists := val.AbuseByType[uint32(abuseType)]; exists && stats != nil {
-				display.AbuseByType = append(display.AbuseByType, &types.AbuseTypeStatsDisplay{
-					AbuseType:    uint32(abuseType),
-					Resolved:     stats.Resolved,
-					Failed:       stats.Failed,
-					InProgress:   stats.InProgress,
-					LastIncident: stats.LastIncident,
-				})
-			}
-		}
-	}
+	// Use helper function to convert to display format
+	display := k.convertLesseeReputationToDisplay(val)
 
 	return &types.QueryGetLesseeReputationResponse{LesseeReputation: display}, nil
 }
-
