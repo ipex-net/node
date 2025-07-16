@@ -153,7 +153,6 @@ func (k Keeper) GetAllSubnet(ctx context.Context) (list []types.Subnet) {
 	return
 }
 
-
 // Verify subnet user
 func (k Keeper) VerifySubnetUser(ctx context.Context, subnetId uint64, user string) bool {
 
@@ -244,7 +243,7 @@ func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	count := 0
 	maxSubnets := 5
-	
+
 	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
 		// Check if enough time has passed since last attempt
 		if subnet.RirSyncedAt != nil {
@@ -280,10 +279,10 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Tim
 		if count >= maxSubnets {
 			return true, nil // stop iteration
 		}
-		
+
 		return false, nil
 	})
-	
+
 	if err != nil {
 		panic(err)
 	}
@@ -333,7 +332,7 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	count := 0
 	maxSubnets := 5
-	
+
 	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
 		// If no origin set - don't validate
 		if subnet.OriginAsn == 0 {
@@ -373,10 +372,10 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime t
 		if count >= maxSubnets {
 			return true, nil // stop iteration
 		}
-		
+
 		return false, nil
 	})
-	
+
 	if err != nil {
 		panic(err)
 	}
@@ -414,7 +413,7 @@ func (k Keeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID u
 func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	count := 0
 	maxSubnets := 5
-	
+
 	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
 		// If no country set - don't validate
 		if subnet.Country == "" {
@@ -438,9 +437,9 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 
 		switch {
 		// If geo change is recent - attempt the validation every hours
-		case geoChangeAge < 72 * time.Hour:
+		case geoChangeAge < 72*time.Hour:
 			requiredInterval = 1 * time.Hour
-		case geoChangeAge < 240 * time.Hour:
+		case geoChangeAge < 240*time.Hour:
 			requiredInterval = 6 * time.Hour
 		default:
 			requiredInterval = 72 * time.Hour
@@ -452,7 +451,7 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 			if timeSinceLastAttempt < requiredInterval {
 				return false, nil
 			}
-		} 
+		}
 
 		list = append(list, subnet)
 		// Increment count and check if we've reached the maximum
@@ -460,10 +459,10 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 		if count >= maxSubnets {
 			return true, nil // stop iteration
 		}
-		
+
 		return false, nil
 	})
-	
+
 	if err != nil {
 		panic(err)
 	}
@@ -499,7 +498,7 @@ func (k Keeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID ui
 func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	count := 0
 	maxSubnets := 5
-	
+
 	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
 		var lastAttempt time.Time
 		if subnet.OwnershipVerifLastAttemptedAt != nil {
@@ -546,10 +545,10 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenc
 		if count >= maxSubnets {
 			return true, nil // stop iteration
 		}
-		
+
 		return false, nil
 	})
-	
+
 	if err != nil {
 		panic(err)
 	}

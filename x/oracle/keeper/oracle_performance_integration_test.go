@@ -13,7 +13,6 @@ import (
 	trusttypes "ipex/x/trust/types"
 
 	abcitypes "github.com/cometbft/cometbft/abci/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -116,10 +115,10 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 		for i := 0; i < numSubnets; i++ {
 			cidr := fmt.Sprintf("192.168.%d.0/24", i+1)
 			reputationResults[cidr] = map[int]int{
-				1: i%20 + 1,     // Level 1: 1-20
-				2: i%10 + 1,     // Level 2: 1-10
-				3: i%5 + 1,      // Level 3: 1-5
-				4: i%3,          // Level 4: 0-2
+				1: i%20 + 1, // Level 1: 1-20
+				2: i%10 + 1, // Level 2: 1-10
+				3: i%5 + 1,  // Level 3: 1-5
+				4: i % 3,    // Level 4: 0-2
 			}
 		}
 
@@ -205,7 +204,7 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 			endSubnet := ((i + 1) * numSubnets) / numValidators
 			for subnetIdx := startSubnet; subnetIdx < endSubnet; subnetIdx++ {
 				subnetId := uint64(2000 + subnetIdx)
-				
+
 				subnetSyncs[subnetId] = subnettypes.SubnetInfo{
 					Valid:          true,
 					OrgID:          fmt.Sprintf("ORG-%d-%d", i, subnetIdx),
@@ -268,7 +267,7 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 		require.NoError(t, err, "should aggregate large number of vote extensions")
 
 		aggregationTime := time.Since(startTime)
-		t.Logf("Aggregated %d validators with %d orgs and %d subnets in %v", 
+		t.Logf("Aggregated %d validators with %d orgs and %d subnets in %v",
 			numValidators, numOrgs, numSubnets, aggregationTime)
 
 		require.NotEmpty(t, resp.Txs, "should have injected validation transaction")
@@ -436,7 +435,7 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 				1: (i*7)%50 + 1,
 				2: (i*5)%25 + 1,
 				3: (i*3)%12 + 1,
-				4: (i*2)%6,
+				4: (i * 2) % 6,
 			}
 		}
 

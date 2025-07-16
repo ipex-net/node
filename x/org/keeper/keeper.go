@@ -55,7 +55,7 @@ func NewKeeper(
 		authority:    authority,
 		logger:       logger,
 		trustKeeper:  trustKeeper,
-		
+
 		// Initialize collections
 		Orgs:          collections.NewMap(sb, collections.NewPrefix(types.OrgKey), "orgs", collections.Uint64Key, codec.CollValue[types.Org](cdc)),
 		OrgsByAdmin:   collections.NewMap(sb, collections.NewPrefix(types.OrgByAdminKey), "orgs_by_admin", collections.StringKey, collections.Uint64Value),

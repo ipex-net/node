@@ -10,7 +10,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-
 // AppendTransaction appends a transaction in the store with a new id
 func (k Keeper) AppendTransaction(
 	ctx context.Context,
@@ -133,7 +132,6 @@ func (k Keeper) removeTransactionFromIndexes(ctx context.Context, transaction ty
 		k.TransactionsByOrg.Remove(ctx, collections.Join(transaction.ToOrgId, transaction.Id))
 	}
 }
-
 
 func (k Keeper) RecordTransaction(
 	goCtx context.Context,

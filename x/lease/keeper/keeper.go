@@ -30,14 +30,14 @@ type (
 		trustKeeper    types.TrustKeeper
 
 		// Collections for Contract
-		Schema             collections.Schema
-		Contracts          collections.Map[uint64, types.Contract]
-		ContractsByStatus  collections.Map[collections.Pair[int32, uint64], bool]
-		ContractsBySubnet  collections.Map[collections.Pair[uint64, uint64], bool]
-		ContractsByOwner   collections.Map[collections.Pair[uint64, uint64], bool]
-		ContractsByLessee  collections.Map[collections.Pair[uint64, uint64], bool]
-		ContractSequence   collections.Sequence
-		ParamsStore        collections.Item[types.Params]
+		Schema            collections.Schema
+		Contracts         collections.Map[uint64, types.Contract]
+		ContractsByStatus collections.Map[collections.Pair[int32, uint64], bool]
+		ContractsBySubnet collections.Map[collections.Pair[uint64, uint64], bool]
+		ContractsByOwner  collections.Map[collections.Pair[uint64, uint64], bool]
+		ContractsByLessee collections.Map[collections.Pair[uint64, uint64], bool]
+		ContractSequence  collections.Sequence
+		ParamsStore       collections.Item[types.Params]
 	}
 )
 
@@ -72,7 +72,7 @@ func NewKeeper(
 		subnetKeeper:   subnetKeeper,
 		paymentsKeeper: paymentsKeeper,
 		trustKeeper:    trustKeeper,
-		
+
 		// Initialize collections
 		Contracts:         collections.NewMap(sb, collections.NewPrefix(types.ContractKey), "contracts", collections.Uint64Key, codec.CollValue[types.Contract](cdc)),
 		ContractsByStatus: collections.NewMap(sb, collections.NewPrefix(types.ContractByStatusKey), "contracts_by_status", collections.PairKeyCodec(collections.Int32Key, collections.Uint64Key), collections.BoolValue),

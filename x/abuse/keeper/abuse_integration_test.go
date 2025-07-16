@@ -312,7 +312,7 @@ func TestComplaintIndexingIntegration(t *testing.T) {
 
 		// Verify indexing by counting complaints per subnet
 		allComplaints := keeper.GetAllComplaint(ctx)
-		
+
 		subnet1Count := 0
 		subnet2Count := 0
 		var subnet1IDs, subnet2IDs []uint64
@@ -422,7 +422,7 @@ func TestComplaintIndexingIntegration(t *testing.T) {
 		complaint2 := types.Complaint{
 			LeaseId:            2,
 			SubnetId:           2,
-			LessorOrgId:        lessorOrgId, // Same lessor
+			LessorOrgId:        lessorOrgId,  // Same lessor
 			LesseeOrgId:        lesseeOrgId2, // Different lessee
 			AbuseType:          types.AbuseType_ABUSE_TYPE_OTHER,
 			IncidentTime:       &baseTime,
@@ -441,7 +441,7 @@ func TestComplaintIndexingIntegration(t *testing.T) {
 
 		// Verify organization indexing
 		allComplaints := keeper.GetAllComplaint(ctx)
-		
+
 		lessorCount := 0
 		lessee1Count := 0
 		lessee2Count := 0
@@ -538,7 +538,7 @@ func TestComplaintIndexingIntegration(t *testing.T) {
 
 		// Verify state indexing
 		allComplaints := keeper.GetAllComplaint(ctx)
-		
+
 		stateMap := make(map[types.ComplaintState][]uint64)
 		for _, complaint := range allComplaints {
 			stateMap[complaint.State] = append(stateMap[complaint.State], complaint.Id)
@@ -624,7 +624,7 @@ func TestComplaintValidationIntegration(t *testing.T) {
 		// Test STATE_SUBMITTED → STATE_RESPONDED
 		retrievedComplaint, found := keeper.GetComplaint(ctx, complaintId)
 		require.True(t, found, "should find complaint")
-		
+
 		retrievedComplaint.State = types.ComplaintState_STATE_RESPONDED
 		updatedActivityTime1 := baseTime.Add(time.Hour)
 		retrievedComplaint.LastActivityAt = &updatedActivityTime1
@@ -762,8 +762,8 @@ func TestComplaintPerformanceAndScalability(t *testing.T) {
 			complaint := types.Complaint{
 				LeaseId:            uint64(10000 + i),
 				SubnetId:           uint64(10000 + i),
-				LessorOrgId:        uint64(1 + (i % 10)), // Distribute across 10 lessor orgs
-				LesseeOrgId:        uint64(1 + (i % 20)), // Distribute across 20 lessee orgs
+				LessorOrgId:        uint64(1 + (i % 10)),          // Distribute across 10 lessor orgs
+				LesseeOrgId:        uint64(1 + (i % 20)),          // Distribute across 20 lessee orgs
 				AbuseType:          types.AbuseType(1 + (i % 10)), // Cycle through abuse types
 				IncidentTime:       &incidentTime,
 				SourceIp:           uint64(0x08000000 + i),
@@ -846,7 +846,7 @@ func TestComplaintPerformanceAndScalability(t *testing.T) {
 			}
 
 			complaintId := keeper.AppendComplaint(ctx, complaint)
-			
+
 			complaintsPerSubnet[subnetId] = append(complaintsPerSubnet[subnetId], complaintId)
 			complaintsPerLease[leaseId] = append(complaintsPerLease[leaseId], complaintId)
 			complaintsPerLessor[lessorOrgId] = append(complaintsPerLessor[lessorOrgId], complaintId)
@@ -855,7 +855,7 @@ func TestComplaintPerformanceAndScalability(t *testing.T) {
 
 		// Verify indexing by counting complaints per entity
 		allComplaints := keeper.GetAllComplaint(ctx)
-		
+
 		actualSubnetCounts := make(map[uint64]int)
 		actualLeaseCounts := make(map[uint64]int)
 		actualLessorCounts := make(map[uint64]int)

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package ipex.lease;
+
+option go_package = "ipex/x/lease/types";
+
+message Bid {
+  string index = 1; 
+  uint64 contractId = 2; 
+  uint64 bidderOrg = 3; 
+  string intendedUse = 4; 
+  uint64 status = 5; 
+  int32 createdAt = 6; 
+  int32 updatedAt = 7; 
+  uint64 expirationHours = 8; 
+  
+}
+

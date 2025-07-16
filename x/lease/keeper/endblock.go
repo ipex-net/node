@@ -10,8 +10,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-//TESTING
-const gracePeriod= 2 * time.Minute 
+// TESTING
+const gracePeriod = 2 * time.Minute
 
 // ProcessExpiredContracts processes contracts that need status updates or termination
 func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
@@ -22,7 +22,7 @@ func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 	// if ctx.BlockHeight()%30 != 0 {
 	// 	return
 	// 	}
-	
+
 	// Process contracts by status using efficient collections queries
 	k.processContractsByStatus(ctx, types.ContractStatus_CONTRACT_STATUS_LEASED)
 	k.processContractsByStatus(ctx, types.ContractStatus_CONTRACT_STATUS_EXPIRED)
@@ -34,7 +34,7 @@ func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 func (k Keeper) processContractsByStatus(ctx sdk.Context, status types.ContractStatus) {
 	// Use collections to query only contracts with the specific status
 	rng := collections.NewPrefixedPairRange[int32, uint64](int32(status))
-	
+
 	err := k.ContractsByStatus.Walk(ctx, rng, func(key collections.Pair[int32, uint64], _ bool) (bool, error) {
 		contractId := key.K2()
 		contract, found := k.GetContract(ctx, contractId)
@@ -61,7 +61,7 @@ func (k Keeper) processContractsByStatus(ctx sdk.Context, status types.ContractS
 			}
 
 		case types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE,
-			 types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER:
+			types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER:
 			// Check if prepaid period has passed for termination
 			if contract.PrepaidUntil.Before(ctx.BlockTime()) {
 				k.terminateContract(ctx, contract)

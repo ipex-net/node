@@ -24,7 +24,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		leaseContractId := uint64(50001)
 		lessorOrgId := uint64(60001)
 		lesseeOrgId := uint64(70001)
-		
+
 		lessorAddress := sample.AccAddress()
 		lesseeAddress := sample.AccAddress()
 
@@ -58,7 +58,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 
 		// 3. Later: Safety deposit refund (when lease ends normally)
 		ctx = ctx.WithBlockTime(baseTime.Add(time.Hour * 24 * 30)).WithBlockHeight(400) // 30 days later
-		
+
 		refundTxId := keeper.RecordTransaction(
 			ctx,
 			types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND,
@@ -73,7 +73,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 
 		// Verify all transactions were recorded for the lease contract
 		contractTransactions, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-			Id: leaseContractId,
+			Id:         leaseContractId,
 			Pagination: &types.PageRequest{Limit: 10},
 		})
 		require.NoError(t, err, "should get contract transactions")
@@ -119,7 +119,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		subnetId := uint64(80001)
 		sellerOrgId := uint64(90001)
 		buyerOrgId := uint64(90002)
-		
+
 		sellerAddress := sample.AccAddress()
 		buyerAddress := sample.AccAddress()
 		saleAmount := sdk.NewCoin("utoken", sdk.NewInt(1000000)) // 1M tokens
@@ -147,7 +147,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		// Verify organizations involved in sale
 		sellerTxs, err := keeper.GetTransactionsByOrg(ctx, sellerOrgId)
 		require.NoError(t, err, "should get seller transactions")
-		
+
 		buyerTxs, err := keeper.GetTransactionsByOrg(ctx, buyerOrgId)
 		require.NoError(t, err, "should get buyer transactions")
 
@@ -174,7 +174,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		asnId := uint64(65001)
 		asnSellerOrgId := uint64(95001)
 		asnBuyerOrgId := uint64(95002)
-		
+
 		asnSellerAddress := sample.AccAddress()
 		asnBuyerAddress := sample.AccAddress()
 		asnSaleAmount := sdk.NewCoin("utoken", sdk.NewInt(500000)) // 500K tokens
@@ -203,7 +203,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 	t.Run("Complex Multi-Module Transaction History", func(t *testing.T) {
 		// Create a complex scenario with multiple modules and transaction types
 		orgId := uint64(100001)
-		
+
 		// This org is involved in multiple types of transactions across modules
 		transactions := []struct {
 			txType   types.TransactionType
@@ -246,7 +246,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		// Verify transaction types and modules are represented
 		moduleCount := make(map[types.ModuleID]int)
 		typeCount := make(map[types.TransactionType]int)
-		
+
 		for _, tx := range orgTransactions {
 			// Only count transactions we created for this test
 			found := false
@@ -345,10 +345,10 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 	t.Run("Amount and Coin Validation", func(t *testing.T) {
 		// Test various coin amounts and denominations
 		testAmounts := []sdk.Coin{
-			sdk.NewCoin("utoken", sdk.NewInt(1)),           // Minimum amount
-			sdk.NewCoin("utoken", sdk.NewInt(1000000)),     // Large amount
-			sdk.NewCoin("stake", sdk.NewInt(500)),          // Different denomination
-			sdk.NewCoin("ibc/ABC123", sdk.NewInt(1000)),    // IBC token
+			sdk.NewCoin("utoken", sdk.NewInt(1)),        // Minimum amount
+			sdk.NewCoin("utoken", sdk.NewInt(1000000)),  // Large amount
+			sdk.NewCoin("stake", sdk.NewInt(500)),       // Different denomination
+			sdk.NewCoin("ibc/ABC123", sdk.NewInt(1000)), // IBC token
 		}
 
 		for i, amount := range testAmounts {
@@ -376,7 +376,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 	t.Run("Organization ID Edge Cases", func(t *testing.T) {
 		// Test transactions with same from/to org (internal transfers)
 		sameOrgId := uint64(1500001)
-		
+
 		txId := keeper.RecordTransaction(
 			ctx,
 			types.TransactionType_TRANSACTION_TYPE_REFUND,
@@ -395,7 +395,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 		// (the indexing logic should avoid duplicates for same from/to org)
 		orgTxs, err := keeper.GetTransactionsByOrg(ctx, sameOrgId)
 		require.NoError(t, err, "should get org transactions")
-		
+
 		// Count how many times this transaction appears
 		count := 0
 		for _, tx := range orgTxs {
@@ -428,9 +428,9 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 	t.Run("Address Validation", func(t *testing.T) {
 		// Test various address formats
 		addresses := []string{
-			sample.AccAddress(),                    // Valid bech32
-			sample.AccAddress(),                    // Another valid bech32
-			"",                                     // Empty address (should be allowed)
+			sample.AccAddress(), // Valid bech32
+			sample.AccAddress(), // Another valid bech32
+			"",                  // Empty address (should be allowed)
 		}
 
 		for i, addr := range addresses {

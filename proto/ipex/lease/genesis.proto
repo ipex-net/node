@@ -1,17 +1,19 @@
 syntax = "proto3";
+
 package ipex.lease;
 
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "ipex/lease/params.proto";
+import "ipex/lease/bid.proto";
 
 option go_package = "ipex/x/lease/types";
 
 // GenesisState defines the lease module's genesis state.
 message GenesisState {
+  
   // params defines all the parameters of the module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+           Params params  = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+  repeated Bid    bidList = 2 [(gogoproto.nullable) = false] ;
 }
+

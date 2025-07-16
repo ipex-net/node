@@ -122,19 +122,19 @@ func (k Keeper) processComplaintsByState(ctx context.Context, state types.Compla
 	err := k.ComplaintsByState.Walk(ctx, rng, func(key collections.Pair[int32, uint64], value bool) (bool, error) {
 		// Get the complaint ID from the key
 		complaintId := key.K2()
-		
+
 		// Fetch the full complaint
 		complaint, found := k.GetComplaint(ctx, complaintId)
 		if !found {
 			// Complaint might have been deleted, skip
 			return false, nil
 		}
-		
+
 		// Process the complaint
 		processor(complaint)
 		return false, nil
 	})
-	
+
 	if err != nil {
 		k.Logger().Error("Error processing complaints by state", "state", state, "error", err)
 	}

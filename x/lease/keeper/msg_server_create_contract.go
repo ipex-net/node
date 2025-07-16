@@ -16,7 +16,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 
 	// Minimum revocation period
 	minimumRevocationPeriod := uint64(1)
-	
+
 	//Checking if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
@@ -26,7 +26,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	// l2BlacklistCountThreshold can not be zero
 	if msg.L2BlacklistCountThreshold == 0 {
 		return nil, errorsmod.Wrap(
-			types.ErrInvalidBlacklistThreshold, 
+			types.ErrInvalidBlacklistThreshold,
 			"Blacklist threshold can not be zero",
 		)
 	}
@@ -49,7 +49,6 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 			msg.Price.Amount.String(),
 		)
 	}
-
 
 	if msg.RevocationPeriodMonth < minimumRevocationPeriod {
 		return nil, errorsmod.Wrapf(
@@ -85,21 +84,21 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	}
 
 	var contract = types.Contract{
-		SubnetId:              		msg.SubnetId,
-		OwnerOrg:              		msg.OwnerOrg,
-		LesseeOrg:             		0,
-		Price:                 		msg.Price,
-		SafetyDeposit:         		msg.SafetyDeposit,
-		RevocationPeriodMonth: 		msg.RevocationPeriodMonth,
-		RevocationEffectiveAt: 		nil,
-		Status:                		types.ContractStatus_CONTRACT_STATUS_FORSALE,
-		CreatedAt:             		ctx.BlockTime(),
-		UpdatedAt:             		ctx.BlockTime(),
-		GeoChangeAllowed: 	   		msg.GeoChangeAllowed,
-		L2BlacklistCountThreshold: 	msg.L2BlacklistCountThreshold,
-		AcceptFirstBidder: 			msg.AcceptFirstBidder,
+		SubnetId:                   msg.SubnetId,
+		OwnerOrg:                   msg.OwnerOrg,
+		LesseeOrg:                  0,
+		Price:                      msg.Price,
+		SafetyDeposit:              msg.SafetyDeposit,
+		RevocationPeriodMonth:      msg.RevocationPeriodMonth,
+		RevocationEffectiveAt:      nil,
+		Status:                     types.ContractStatus_CONTRACT_STATUS_FORSALE,
+		CreatedAt:                  ctx.BlockTime(),
+		UpdatedAt:                  ctx.BlockTime(),
+		GeoChangeAllowed:           msg.GeoChangeAllowed,
+		L2BlacklistCountThreshold:  msg.L2BlacklistCountThreshold,
+		AcceptFirstBidder:          msg.AcceptFirstBidder,
 		AllowASNDROPOriginTransfer: msg.AllowASNDROPOriginTransfer,
-		AllowUnverifiedBidders: 	msg.AllowUnverifiedBidders,
+		AllowUnverifiedBidders:     msg.AllowUnverifiedBidders,
 	}
 	id := k.AppendContract(
 		ctx,

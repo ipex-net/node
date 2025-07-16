@@ -36,7 +36,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.Params = k.GetParams(ctx)
 
 	genesis.SubnetList = k.GetAllSubnet(ctx)
-	
+
 	// Get current sequence value for subnet count
 	count, err := k.SubnetSequence.Peek(ctx)
 	if err != nil {

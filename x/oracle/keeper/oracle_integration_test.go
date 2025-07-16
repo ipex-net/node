@@ -6,11 +6,8 @@ import (
 	"time"
 
 	keepertest "ipex/testutil/keeper"
-	"ipex/testutil/sample"
-	"ipex/x/oracle/abci"
-	"ipex/x/oracle/keeper"
-	"ipex/x/oracle/types"
 	leasetypes "ipex/x/lease/types"
+	"ipex/x/oracle/abci"
 	orgtypes "ipex/x/org/types"
 	subnettypes "ipex/x/subnet/types"
 	trusttypes "ipex/x/trust/types"
@@ -61,16 +58,16 @@ func TestOracleVoteExtensionLifecycle(t *testing.T) {
 		// Create organizations that need validation
 		testOrgs := []orgtypes.Org{
 			{
-				Id:                  1001,
-				Website:             "https://example1.com",
-				DomainVerified:      false,
-				DomainLastChecked:   ctx.BlockTime().Add(-2 * time.Hour),
+				Id:                1001,
+				Website:           "https://example1.com",
+				DomainVerified:    false,
+				DomainLastChecked: ctx.BlockTime().Add(-2 * time.Hour),
 			},
 			{
-				Id:                  1002,
-				Website:             "https://example2.com",
-				DomainVerified:      true,
-				DomainLastChecked:   ctx.BlockTime().Add(-30 * time.Minute), // Recent check
+				Id:                1002,
+				Website:           "https://example2.com",
+				DomainVerified:    true,
+				DomainLastChecked: ctx.BlockTime().Add(-30 * time.Minute), // Recent check
 			},
 		}
 
@@ -207,7 +204,7 @@ func TestOracleConsensusAggregation(t *testing.T) {
 
 		votes := []abcitypes.ExtendedVoteInfo{
 			{
-				Validator: validators[0],
+				Validator:   validators[0],
 				BlockIdFlag: 2, // BlockIDFlagCommit
 				VoteExtension: createOrgValidationVoteExt(t, ctx.BlockHeight(), map[uint64]bool{
 					1001: true,  // Valid
@@ -215,7 +212,7 @@ func TestOracleConsensusAggregation(t *testing.T) {
 				}),
 			},
 			{
-				Validator: validators[1],
+				Validator:   validators[1],
 				BlockIdFlag: 2,
 				VoteExtension: createOrgValidationVoteExt(t, ctx.BlockHeight(), map[uint64]bool{
 					1001: true,  // Valid (consensus: 300 power for valid)
@@ -223,7 +220,7 @@ func TestOracleConsensusAggregation(t *testing.T) {
 				}),
 			},
 			{
-				Validator: validators[2],
+				Validator:   validators[2],
 				BlockIdFlag: 2,
 				VoteExtension: createOrgValidationVoteExt(t, ctx.BlockHeight(), map[uint64]bool{
 					1001: false, // Invalid (total: 300 valid vs 300 invalid = tie, should be false)
@@ -235,7 +232,7 @@ func TestOracleConsensusAggregation(t *testing.T) {
 		commitInfo := abcitypes.ExtendedCommitInfo{Votes: votes}
 
 		req := &abcitypes.RequestPrepareProposal{
-			Height: ctx.BlockHeight(),
+			Height:          ctx.BlockHeight(),
 			LocalLastCommit: commitInfo,
 		}
 
@@ -282,21 +279,21 @@ func TestOracleConsensusAggregation(t *testing.T) {
 
 		votes := []abcitypes.ExtendedVoteInfo{
 			{
-				Validator: validators[0],
+				Validator:   validators[0],
 				BlockIdFlag: 2,
 				VoteExtension: createSubnetSyncVoteExt(t, ctx.BlockHeight(), map[uint64]subnettypes.SubnetInfo{
 					2001: subnetInfo1, // Highest power validator
 				}),
 			},
 			{
-				Validator: validators[1],
+				Validator:   validators[1],
 				BlockIdFlag: 2,
 				VoteExtension: createSubnetSyncVoteExt(t, ctx.BlockHeight(), map[uint64]subnettypes.SubnetInfo{
 					2001: subnetInfo2, // Different info, lower power
 				}),
 			},
 			{
-				Validator: validators[2],
+				Validator:   validators[2],
 				BlockIdFlag: 2,
 				VoteExtension: createSubnetSyncVoteExt(t, ctx.BlockHeight(), map[uint64]subnettypes.SubnetInfo{
 					2001: subnetInfo1, // Same as validator1
@@ -307,7 +304,7 @@ func TestOracleConsensusAggregation(t *testing.T) {
 		commitInfo := abcitypes.ExtendedCommitInfo{Votes: votes}
 
 		req := &abcitypes.RequestPrepareProposal{
-			Height: ctx.BlockHeight(),
+			Height:          ctx.BlockHeight(),
 			LocalLastCommit: commitInfo,
 		}
 
@@ -348,21 +345,21 @@ func TestOracleConsensusAggregation(t *testing.T) {
 
 		votes := []abcitypes.ExtendedVoteInfo{
 			{
-				Validator: validators[0],
+				Validator:   validators[0],
 				BlockIdFlag: 2,
 				VoteExtension: createBlacklistSyncVoteExt(t, ctx.BlockHeight(), map[uint64]trusttypes.SubnetBlacklistCount{
 					2001: blacklist1,
 				}),
 			},
 			{
-				Validator: validators[1],
+				Validator:   validators[1],
 				BlockIdFlag: 2,
 				VoteExtension: createBlacklistSyncVoteExt(t, ctx.BlockHeight(), map[uint64]trusttypes.SubnetBlacklistCount{
 					2001: blacklist1, // Same as validator1
 				}),
 			},
 			{
-				Validator: validators[2],
+				Validator:   validators[2],
 				BlockIdFlag: 2,
 				VoteExtension: createBlacklistSyncVoteExt(t, ctx.BlockHeight(), map[uint64]trusttypes.SubnetBlacklistCount{
 					2001: blacklist2, // Different data, lower power
@@ -373,7 +370,7 @@ func TestOracleConsensusAggregation(t *testing.T) {
 		commitInfo := abcitypes.ExtendedCommitInfo{Votes: votes}
 
 		req := &abcitypes.RequestPrepareProposal{
-			Height: ctx.BlockHeight(),
+			Height:          ctx.BlockHeight(),
 			LocalLastCommit: commitInfo,
 		}
 
@@ -454,7 +451,7 @@ func TestOracleVoteExtensionVerification(t *testing.T) {
 
 	t.Run("Invalid Height Verification", func(t *testing.T) {
 		voteExt := abci.OracleVoteExtension{
-			Height: ctx.BlockHeight() + 100, // Wrong height
+			Height:              ctx.BlockHeight() + 100, // Wrong height
 			OrgDomainValidation: map[uint64]bool{1001: true},
 		}
 

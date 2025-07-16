@@ -77,7 +77,7 @@ func TestSubnetLifecycleIntegration(t *testing.T) {
 		// Update status to READY
 		retrievedSubnet, found := keeper.GetSubnet(ctx, id)
 		require.True(t, found, "should find subnet")
-		
+
 		retrievedSubnet.Status = types.SubnetStatus_SUBNET_STATUS_READY
 		retrievedSubnet.UpdatedAt = ctx.BlockTime().Add(time.Hour)
 		keeper.SetSubnet(ctx, retrievedSubnet)
@@ -200,7 +200,7 @@ func TestSubnetIndexingIntegration(t *testing.T) {
 
 		// Verify indexing by checking all subnets
 		allSubnets := keeper.GetAllSubnet(ctx)
-		
+
 		// Count subnets by owner org
 		ownerOrg1Count := 0
 		ownerOrg2Count := 0
@@ -277,7 +277,7 @@ func TestSubnetIndexingIntegration(t *testing.T) {
 		// Verify all subnets with unique network addresses exist
 		allSubnets := keeper.GetAllSubnet(ctx)
 		foundNetworkAddresses := make(map[uint64]bool)
-		
+
 		for _, subnet := range allSubnets {
 			foundNetworkAddresses[subnet.NetworkAddress] = true
 		}
@@ -369,15 +369,15 @@ func TestSubnetValidationIntegration(t *testing.T) {
 	t.Run("RPKI Validation Workflow", func(t *testing.T) {
 		// Create subnet for RPKI validation
 		subnet := types.Subnet{
-			NetworkAddress:             uint64(0x04040400), // 4.4.4.0
-			Mask:                       24,
-			Status:                     types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:                 1001,
-			UserOrgId:                  2001,
-			OriginAsn:                  64512, // Private ASN
-			OriginTransferRequestedAt:  &baseTime,
-			CreatedAt:                  ctx.BlockTime(),
-			UpdatedAt:                  ctx.BlockTime(),
+			NetworkAddress:            uint64(0x04040400), // 4.4.4.0
+			Mask:                      24,
+			Status:                    types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:                1001,
+			UserOrgId:                 2001,
+			OriginAsn:                 64512, // Private ASN
+			OriginTransferRequestedAt: &baseTime,
+			CreatedAt:                 ctx.BlockTime(),
+			UpdatedAt:                 ctx.BlockTime(),
 		}
 		id := keeper.AppendSubnet(ctx, subnet)
 
@@ -407,14 +407,14 @@ func TestSubnetValidationIntegration(t *testing.T) {
 	t.Run("Geolocation Validation Workflow", func(t *testing.T) {
 		// Create subnet for geo validation
 		subnet := types.Subnet{
-			NetworkAddress:       uint64(0x09090900), // 9.9.9.0
-			Mask:                 24,
-			Status:               types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:           1001,
-			Country:              "US",
-			GeoDetailsChangedAt:  &baseTime,
-			CreatedAt:            ctx.BlockTime(),
-			UpdatedAt:            ctx.BlockTime(),
+			NetworkAddress:      uint64(0x09090900), // 9.9.9.0
+			Mask:                24,
+			Status:              types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:          1001,
+			Country:             "US",
+			GeoDetailsChangedAt: &baseTime,
+			CreatedAt:           ctx.BlockTime(),
+			UpdatedAt:           ctx.BlockTime(),
 		}
 		id := keeper.AppendSubnet(ctx, subnet)
 
@@ -528,7 +528,7 @@ func TestSubnetAuthorizationIntegration(t *testing.T) {
 		// Update subnet to leased status
 		subnet, found := keeper.GetSubnet(ctx, subnetId)
 		require.True(t, found, "should find subnet")
-		
+
 		subnet.Status = types.SubnetStatus_SUBNET_STATUS_LEASED
 		keeper.SetSubnet(ctx, subnet)
 
@@ -549,7 +549,7 @@ func TestSubnetAuthorizationIntegration(t *testing.T) {
 		// Update subnet with valid RIR record
 		subnet, found := keeper.GetSubnet(ctx, subnetId)
 		require.True(t, found, "should find subnet")
-		
+
 		subnet.RirRecordValid = true
 		keeper.SetSubnet(ctx, subnet)
 
@@ -572,7 +572,7 @@ func TestSubnetPerformanceAndScalability(t *testing.T) {
 		// Create many subnets
 		numSubnets := 100
 		var subnetIDs []uint64
-		
+
 		for i := 0; i < numSubnets; i++ {
 			subnet := types.Subnet{
 				NetworkAddress: uint64(0x08000000 + (i * 256)), // 8.0.0.0, 8.0.1.0, 8.0.2.0, etc.
@@ -620,14 +620,14 @@ func TestSubnetPerformanceAndScalability(t *testing.T) {
 		// Create subnets with specific patterns for indexing tests
 		ownerOrgs := []uint64{5001, 5002, 5003}
 		userOrgs := []uint64{6001, 6002, 6003}
-		
+
 		var subnetsByOwner = make(map[uint64][]uint64)
 		var subnetsByUser = make(map[uint64][]uint64)
 
 		for i := 0; i < 30; i++ {
 			ownerOrgId := ownerOrgs[i%len(ownerOrgs)]
 			userOrgId := userOrgs[i%len(userOrgs)]
-			
+
 			subnet := types.Subnet{
 				NetworkAddress: uint64(0x0C000000 + (i * 256)), // 12.0.0.0, 12.0.1.0, etc.
 				Mask:           24,
@@ -638,17 +638,17 @@ func TestSubnetPerformanceAndScalability(t *testing.T) {
 				UpdatedAt:      ctx.BlockTime(),
 			}
 			id := keeper.AppendSubnet(ctx, subnet)
-			
+
 			subnetsByOwner[ownerOrgId] = append(subnetsByOwner[ownerOrgId], id)
 			subnetsByUser[userOrgId] = append(subnetsByUser[userOrgId], id)
 		}
 
 		// Verify indexing by counting subnets per organization
 		allSubnets := keeper.GetAllSubnet(ctx)
-		
+
 		actualOwnerCounts := make(map[uint64]int)
 		actualUserCounts := make(map[uint64]int)
-		
+
 		for _, subnet := range allSubnets {
 			if subnet.OwnerOrgId >= 5001 && subnet.OwnerOrgId <= 5003 {
 				actualOwnerCounts[subnet.OwnerOrgId]++
@@ -662,7 +662,7 @@ func TestSubnetPerformanceAndScalability(t *testing.T) {
 		for _, orgId := range ownerOrgs {
 			require.Equal(t, 10, actualOwnerCounts[orgId], "should have 10 subnets per owner org")
 		}
-		
+
 		for _, orgId := range userOrgs {
 			require.Equal(t, 10, actualUserCounts[orgId], "should have 10 subnets per user org")
 		}
@@ -670,17 +670,17 @@ func TestSubnetPerformanceAndScalability(t *testing.T) {
 
 	t.Run("Validation Queue Performance", func(t *testing.T) {
 		baseTime := time.Date(2024, 1, 1, 12, 0, 0, 0, time.UTC)
-		
+
 		// Create subnets in different validation states
 		subnetsForValidation := []struct {
 			status     types.SubnetStatus
 			hasOrigin  bool
 			hasCountry bool
 		}{
-			{types.SubnetStatus_SUBNET_STATUS_INITIAL, false, false},  // RIR sync
-			{types.SubnetStatus_SUBNET_STATUS_READY, true, false},     // RPKI validation
-			{types.SubnetStatus_SUBNET_STATUS_READY, false, true},     // Geo validation
-			{types.SubnetStatus_SUBNET_STATUS_READY, false, false},    // Ownership verification
+			{types.SubnetStatus_SUBNET_STATUS_INITIAL, false, false}, // RIR sync
+			{types.SubnetStatus_SUBNET_STATUS_READY, true, false},    // RPKI validation
+			{types.SubnetStatus_SUBNET_STATUS_READY, false, true},    // Geo validation
+			{types.SubnetStatus_SUBNET_STATUS_READY, false, false},   // Ownership verification
 		}
 
 		var subnetIDs []uint64
@@ -698,7 +698,7 @@ func TestSubnetPerformanceAndScalability(t *testing.T) {
 				subnet.OriginAsn = 64512
 				subnet.OriginTransferRequestedAt = &baseTime
 			}
-			
+
 			if config.hasCountry {
 				subnet.Country = "US"
 				subnet.GeoDetailsChangedAt = &baseTime

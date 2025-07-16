@@ -1,7 +1,6 @@
 package keeper_test
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -95,7 +94,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		for _, entityId := range entities {
 			startTime = time.Now()
 			resp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-				Id: entityId,
+				Id:         entityId,
 				Pagination: &types.PageRequest{Limit: 100},
 			})
 			queryTime := time.Since(startTime)
@@ -284,7 +283,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 		// Verify index consistency after modifications
 		remainingTxs, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-			Id: testEntityId,
+			Id:         testEntityId,
 			Pagination: &types.PageRequest{Limit: 100},
 		})
 		require.NoError(t, err, "should query remaining transactions")
@@ -297,11 +296,11 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		transactionsPerConcurrentEntity := 20
 
 		startTime := time.Now()
-		
+
 		// Create transactions for multiple entities simultaneously
 		for entityOffset := 0; entityOffset < numConcurrentEntities; entityOffset++ {
 			entityId := uint64(1300001 + entityOffset)
-			
+
 			for txOffset := 0; txOffset < transactionsPerConcurrentEntity; txOffset++ {
 				keeper.RecordTransaction(
 					ctx,
@@ -316,18 +315,18 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 				)
 			}
 		}
-		
+
 		concurrentCreationTime := time.Since(startTime)
-		t.Logf("Created %d transactions across %d entities concurrently in %v", 
+		t.Logf("Created %d transactions across %d entities concurrently in %v",
 			numConcurrentEntities*transactionsPerConcurrentEntity, numConcurrentEntities, concurrentCreationTime)
 
 		// Test concurrent queries
 		startTime = time.Now()
 		for entityOffset := 0; entityOffset < numConcurrentEntities; entityOffset++ {
 			entityId := uint64(1300001 + entityOffset)
-			
+
 			resp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-				Id: entityId,
+				Id:         entityId,
 				Pagination: &types.PageRequest{Limit: 50},
 			})
 			require.NoError(t, err, "should query entity %d", entityId)
@@ -349,7 +348,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		}
 
 		t.Logf("Transactions distributed across %d entities", len(entityCounts))
-		
+
 		// Verify some of our test entities have the expected transaction counts
 		for entityOffset := 0; entityOffset < 3; entityOffset++ { // Check first 3
 			entityId := uint64(1300001 + entityOffset)
@@ -361,15 +360,15 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 	t.Run("Query Edge Cases and Performance", func(t *testing.T) {
 		// Test edge cases that might affect performance
-		
+
 		// Test empty results
 		startTime := time.Now()
 		emptyResp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-			Id: 9999999, // Non-existent entity
+			Id:         9999999, // Non-existent entity
 			Pagination: &types.PageRequest{Limit: 10},
 		})
 		emptyQueryTime := time.Since(startTime)
-		
+
 		require.NoError(t, err, "should handle non-existent entity query")
 		require.Len(t, emptyResp.Transaction, 0, "should return empty results")
 		require.Equal(t, uint64(0), emptyResp.Pagination.Total, "should have zero total")
@@ -377,7 +376,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 		// Test very large pagination offset
 		largeEntityId := uint64(1600001)
-		
+
 		// Create a few transactions for this entity
 		for i := 0; i < 5; i++ {
 			keeper.RecordTransaction(

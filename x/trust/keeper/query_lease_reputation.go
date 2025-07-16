@@ -35,18 +35,18 @@ func (k Keeper) LeaseReputationAll(ctx context.Context, req *types.QueryAllLease
 	// Use collections to iterate through lease reputations with pagination
 	err := k.LeaseReputations.Walk(ctx, nil, func(key uint64, value types.LeaseReputation) (bool, error) {
 		count++
-		
+
 		// Skip entries until we reach the offset
 		if skipped < offset {
 			skipped++
 			return false, nil
 		}
-		
+
 		// Stop if we've collected enough items
 		if uint64(len(leaseReputationsDisplay)) >= limit {
 			return true, nil
 		}
-		
+
 		// Convert to display format
 		display := k.convertLeaseReputationToDisplay(value)
 		leaseReputationsDisplay = append(leaseReputationsDisplay, display)

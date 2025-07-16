@@ -21,7 +21,7 @@ func (k Keeper) OrgByAdmin(ctx context.Context, req *types.QueryOrgByAdminReques
 	if err != nil {
 		if strings.Contains(err.Error(), "collections: not found") {
 			return &types.QueryOrgByAdminResponse{
-				Org: nil,
+				Org:        nil,
 				Pagination: &query.PageResponse{Total: 0},
 			}, nil
 		}
@@ -32,13 +32,13 @@ func (k Keeper) OrgByAdmin(ctx context.Context, req *types.QueryOrgByAdminReques
 	org, found := k.GetOrg(ctx, orgId)
 	if !found {
 		return &types.QueryOrgByAdminResponse{
-			Org: nil,
+			Org:        nil,
 			Pagination: &query.PageResponse{Total: 0},
 		}, nil
 	}
 
 	return &types.QueryOrgByAdminResponse{
-		Org: &org,
+		Org:        &org,
 		Pagination: &query.PageResponse{Total: 1},
 	}, nil
 }

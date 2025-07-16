@@ -141,7 +141,7 @@ func (k Keeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, lea
 func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context, referenceTime time.Time) (list []uint64) {
 	count := 0
 	maxSubnets := 10
-	
+
 	err := k.SubnetReputations.Walk(ctx, nil, func(key uint64, subnetReputation types.SubnetReputation) (bool, error) {
 		// Check if enough time has passed since last attempt
 		if subnetReputation.LastUpdated != nil {
@@ -163,7 +163,7 @@ func (k Keeper) GetSubnetsForReputationScanning(ctx context.Context, referenceTi
 		}
 		return false, nil // continue iteration
 	})
-	
+
 	if err != nil {
 		panic(err)
 	}

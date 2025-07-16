@@ -89,7 +89,6 @@ func (k Keeper) AppendContract(ctx context.Context, contract types.Contract) uin
 	return contract.Id
 }
 
-
 func (k Keeper) GetContract(ctx context.Context, id uint64) (val types.Contract, found bool) {
 	contract, err := k.Contracts.Get(ctx, id)
 	if err != nil {
@@ -156,7 +155,7 @@ func (k Keeper) GetFirstLeasedContractBySubnet(ctx context.Context, subnetId uin
 	rng := collections.NewPrefixedPairRange[uint64, uint64](subnetId)
 	var contractId uint64
 	found := false
-	
+
 	err := k.ContractsBySubnet.Walk(ctx, rng, func(key collections.Pair[uint64, uint64], _ bool) (bool, error) {
 		id := key.K2()
 		contract, exists := k.GetContract(ctx, id)
@@ -167,10 +166,10 @@ func (k Keeper) GetFirstLeasedContractBySubnet(ctx context.Context, subnetId uin
 		}
 		return false, nil // continue
 	})
-	
+
 	if err != nil {
 		panic(err)
 	}
-	
+
 	return contractId, found
 }

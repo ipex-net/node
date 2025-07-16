@@ -21,7 +21,7 @@ func (k Keeper) OrgByCreator(ctx context.Context, req *types.QueryOrgByCreatorRe
 	if err != nil {
 		if strings.Contains(err.Error(), "collections: not found") {
 			return &types.QueryOrgByCreatorResponse{
-				Org: nil,
+				Org:        nil,
 				Pagination: &query.PageResponse{Total: 0},
 			}, nil
 		}
@@ -32,13 +32,13 @@ func (k Keeper) OrgByCreator(ctx context.Context, req *types.QueryOrgByCreatorRe
 	org, found := k.GetOrg(ctx, orgId)
 	if !found {
 		return &types.QueryOrgByCreatorResponse{
-			Org: nil,
+			Org:        nil,
 			Pagination: &query.PageResponse{Total: 0},
 		}, nil
 	}
 
 	return &types.QueryOrgByCreatorResponse{
-		Org: &org,
+		Org:        &org,
 		Pagination: &query.PageResponse{Total: 1},
 	}, nil
 }

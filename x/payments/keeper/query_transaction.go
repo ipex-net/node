@@ -35,18 +35,18 @@ func (k Keeper) TransactionAll(ctx context.Context, req *types.QueryAllTransacti
 	// Use collections to iterate through transactions with pagination
 	err := k.Transactions.Walk(ctx, nil, func(key uint64, value types.Transaction) (bool, error) {
 		count++
-		
+
 		// Skip entries until we reach the offset
 		if skipped < offset {
 			skipped++
 			return false, nil
 		}
-		
+
 		// Stop if we've collected enough items
 		if uint64(len(transactions)) >= limit {
 			return true, nil
 		}
-		
+
 		transactions = append(transactions, value)
 		return false, nil
 	})

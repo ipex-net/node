@@ -88,7 +88,7 @@ func TestOrganizationLifecycleIntegration(t *testing.T) {
 		// Update various fields
 		updatedTime := baseTime.Add(time.Hour)
 		ctx = ctx.WithBlockTime(updatedTime)
-		
+
 		retrievedOrg.Name = "Updated Organization Name"
 		retrievedOrg.LegalName = "Updated Organization Legal Name"
 		retrievedOrg.Website = "https://new-updated-test.example.com"
@@ -105,7 +105,7 @@ func TestOrganizationLifecycleIntegration(t *testing.T) {
 		require.Equal(t, "https://new-updated-test.example.com", updatedOrg.Website, "should have updated website")
 		require.Equal(t, "new-abuse@updated-test.example.com", updatedOrg.AbuseEmail, "should have updated abuse email")
 		require.Equal(t, updatedTime, updatedOrg.UpdatedAt, "should have updated timestamp")
-		
+
 		// Website change should reset domain verification
 		require.False(t, updatedOrg.DomainVerified, "should reset domain verification on website change")
 		require.Nil(t, updatedOrg.DomainVerifiedAt, "should clear domain verified timestamp")
@@ -178,7 +178,7 @@ func TestOrganizationLifecycleIntegration(t *testing.T) {
 		storedOrg, found := keeper.GetOrg(ctx, orgId)
 		require.True(t, found, "should find stored org")
 		require.Equal(t, admin, storedOrg.Admin, "stored org should have correct admin")
-		
+
 		isValidAdmin := keeper.VerifyOrgAdmin(ctx, orgId, admin)
 		require.True(t, isValidAdmin, "should verify correct admin")
 
@@ -246,7 +246,7 @@ func TestOrganizationIndexingIntegration(t *testing.T) {
 
 		// Test admin indexing by getting all orgs and checking admin mapping
 		allOrgs := keeper.GetAllOrg(ctx)
-		
+
 		var admin1OrgId, admin2OrgId uint64
 		admin1Found := false
 		admin2Found := false
@@ -315,7 +315,7 @@ func TestOrganizationIndexingIntegration(t *testing.T) {
 
 		// Test creator indexing by getting all orgs and checking creator mapping
 		allOrgs := keeper.GetAllOrg(ctx)
-		
+
 		var creator1OrgId, creator2OrgId uint64
 		creator1Found := false
 		creator2Found := false
@@ -461,7 +461,7 @@ func TestDomainValidationIntegration(t *testing.T) {
 		// Simulate domain validation failure (re-verification)
 		laterTime := baseTime.Add(time.Hour * 74) // After 3 days for re-verification
 		ctx = ctx.WithBlockTime(laterTime)
-		
+
 		err = keeper.UpdateOrgDomainValidationStatus(ctx, orgId, false)
 		require.NoError(t, err, "should update domain validation status to failed")
 
@@ -498,23 +498,23 @@ func TestDomainValidationIntegration(t *testing.T) {
 				UpdatedAt:          baseTime,
 			},
 			{
-				Creator:            creator,
-				Admin:              creator,
-				Treasury:           "cosmos1treasury002ghi789jkl012mno345pqr678",
-				Name:               "Verified Org",
-				LegalName:          "Verified Organization",
-				Address:            "800 Verified St, Verified City, VC 80008",
-				RegistrationNumber: "VER123456789",
-				CountryCode:        "SE",
-				TaxId:              "VER987654321",
-				Website:            "https://verified-org.example.com",
-				AbuseEmail:         "abuse@verified-org.example.com",
-				ContactEmail:       "contact@verified-org.example.com",
-				DomainVerified:           true,
-				DomainVerifiedAt:         &baseTime,
-				DomainVerifAttemptedAt:   &baseTime,
-				CreatedAt:                baseTime,
-				UpdatedAt:          baseTime,
+				Creator:                creator,
+				Admin:                  creator,
+				Treasury:               "cosmos1treasury002ghi789jkl012mno345pqr678",
+				Name:                   "Verified Org",
+				LegalName:              "Verified Organization",
+				Address:                "800 Verified St, Verified City, VC 80008",
+				RegistrationNumber:     "VER123456789",
+				CountryCode:            "SE",
+				TaxId:                  "VER987654321",
+				Website:                "https://verified-org.example.com",
+				AbuseEmail:             "abuse@verified-org.example.com",
+				ContactEmail:           "contact@verified-org.example.com",
+				DomainVerified:         true,
+				DomainVerifiedAt:       &baseTime,
+				DomainVerifAttemptedAt: &baseTime,
+				CreatedAt:              baseTime,
+				UpdatedAt:              baseTime,
 			},
 			{
 				Creator:            creator,
@@ -596,7 +596,7 @@ func TestDomainValidationIntegration(t *testing.T) {
 		require.True(t, found, "should find treasury address")
 		require.Equal(t, treasuryAddr, treasuryAccAddr.String(), "should have correct treasury address")
 
-		// Test GetOrgAdmin  
+		// Test GetOrgAdmin
 		adminAccAddr, found := keeper.GetOrgAdmin(ctx, orgId)
 		require.True(t, found, "should find admin address")
 		require.Equal(t, adminAddr, adminAccAddr.String(), "should have correct admin address")

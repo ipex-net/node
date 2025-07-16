@@ -8,6 +8,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "ipex/lease/params.proto";
 import "ipex/lease/contract.proto";
+import "ipex/lease/bid.proto";
 
 option go_package = "ipex/x/lease/types";
 
@@ -29,6 +30,16 @@ service Query {
   // Queries a list of ListContract items.
   rpc ListContract (QueryListContractRequest) returns (QueryListContractResponse) {
     option (google.api.http).get = "/ipex/lease/list_contract";
+  
+  }
+  
+  // Queries a list of Bid items.
+  rpc Bid    (QueryGetBidRequest) returns (QueryGetBidResponse) {
+    option (google.api.http).get = "/ipex/lease/bid/{index}";
+  
+  }
+  rpc BidAll (QueryAllBidRequest) returns (QueryAllBidResponse) {
+    option (google.api.http).get = "/ipex/lease/bid";
   
   }
 }
@@ -55,7 +66,24 @@ message QueryListContractRequest {
 }
 
 message QueryListContractResponse {
-  repeated Contract contract = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated Contract                               contract   = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetBidRequest {
+  string index = 1;
+}
+
+message QueryGetBidResponse {
+  Bid bid = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllBidRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllBidResponse {
+  repeated Bid                                    bid        = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

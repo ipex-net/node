@@ -17,16 +17,16 @@ func TestGenesis(t *testing.T) {
 
 		ComplaintList: []types.Complaint{
 			{
-				Id: 1,
-				LeaseId: 1,
-				SubnetId: 1,
+				Id:          1,
+				LeaseId:     1,
+				SubnetId:    1,
 				LessorOrgId: 1,
 				LesseeOrgId: 1,
 			},
 			{
-				Id: 2,
-				LeaseId: 2,
-				SubnetId: 2,
+				Id:          2,
+				LeaseId:     2,
+				SubnetId:    2,
 				LessorOrgId: 2,
 				LesseeOrgId: 2,
 			},

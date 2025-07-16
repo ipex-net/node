@@ -36,7 +36,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.Params = k.GetParams(ctx)
 
 	genesis.OrgList = k.GetAllOrg(ctx)
-	
+
 	// Get current sequence value for org count
 	count, err := k.OrgSequence.Peek(ctx)
 	if err != nil {

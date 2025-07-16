@@ -23,12 +23,12 @@ type (
 		authority string
 
 		// Collections for Transaction
-		Schema                collections.Schema
-		Transactions          collections.Map[uint64, types.Transaction]
-		TransactionsByEntity  collections.Map[collections.Pair[uint64, uint64], bool]
-		TransactionsByOrg     collections.Map[collections.Pair[uint64, uint64], bool]
-		TransactionSequence   collections.Sequence
-		ParamsStore           collections.Item[types.Params]
+		Schema               collections.Schema
+		Transactions         collections.Map[uint64, types.Transaction]
+		TransactionsByEntity collections.Map[collections.Pair[uint64, uint64], bool]
+		TransactionsByOrg    collections.Map[collections.Pair[uint64, uint64], bool]
+		TransactionSequence  collections.Sequence
+		ParamsStore          collections.Item[types.Params]
 	}
 )
 

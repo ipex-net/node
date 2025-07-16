@@ -23,14 +23,14 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 	err := k.TransactionsByEntity.Walk(goCtx, rng, func(key collections.Pair[uint64, uint64], value bool) (bool, error) {
 		// Get the transaction ID from the key
 		transactionId := key.K2()
-		
+
 		// Fetch the full transaction
 		transaction, found := k.GetTransaction(goCtx, transactionId)
 		if !found {
 			// Transaction might have been deleted, skip
 			return false, nil
 		}
-		
+
 		transactions = append(transactions, transaction)
 		return false, nil
 	})
@@ -43,13 +43,13 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 	offset := int(req.Pagination.GetOffset())
 	limit := int(req.Pagination.GetLimit())
 	total := uint64(len(transactions))
-	
+
 	// Apply offset
 	if offset > len(transactions) {
 		offset = len(transactions)
 	}
 	transactions = transactions[offset:]
-	
+
 	// Apply limit
 	if limit > 0 && limit < len(transactions) {
 		transactions = transactions[:limit]
@@ -65,7 +65,7 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 	}
 
 	return &types.QueryListContractPaymentResponse{
-		Transaction: transactions, 
-		Pagination: pageResponse,
+		Transaction: transactions,
+		Pagination:  pageResponse,
 	}, nil
 }

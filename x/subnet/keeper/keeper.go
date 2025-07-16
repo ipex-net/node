@@ -25,13 +25,13 @@ type (
 		trustKeeper types.TrustKeeper
 
 		// Collections for Subnet
-		Schema                   collections.Schema
-		Subnets                  collections.Map[uint64, types.Subnet]
-		SubnetsByOwnerOrg        collections.Map[collections.Pair[uint64, uint64], bool]
-		SubnetsByUserOrg         collections.Map[collections.Pair[uint64, uint64], bool]
-		SubnetsByNetworkAddress  collections.Map[collections.Pair[uint64, uint64], bool]
-		SubnetSequence           collections.Sequence
-		ParamsStore              collections.Item[types.Params]
+		Schema                  collections.Schema
+		Subnets                 collections.Map[uint64, types.Subnet]
+		SubnetsByOwnerOrg       collections.Map[collections.Pair[uint64, uint64], bool]
+		SubnetsByUserOrg        collections.Map[collections.Pair[uint64, uint64], bool]
+		SubnetsByNetworkAddress collections.Map[collections.Pair[uint64, uint64], bool]
+		SubnetSequence          collections.Sequence
+		ParamsStore             collections.Item[types.Params]
 	}
 )
 
@@ -57,7 +57,7 @@ func NewKeeper(
 		logger:       logger,
 		orgKeeper:    orgKeeper,
 		trustKeeper:  trustKeeper,
-		
+
 		// Initialize collections
 		Subnets:                 collections.NewMap(sb, collections.NewPrefix(types.SubnetKey), "subnets", collections.Uint64Key, codec.CollValue[types.Subnet](cdc)),
 		SubnetsByOwnerOrg:       collections.NewMap(sb, collections.NewPrefix(types.SubnetByOwnerOrgKey), "subnets_by_owner_org", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),

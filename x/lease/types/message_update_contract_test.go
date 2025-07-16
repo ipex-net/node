@@ -13,7 +13,7 @@ import (
 func TestMsgUpdateContract_ValidateBasic(t *testing.T) {
 	validCoin := sdk.NewInt64Coin("stake", 100)
 	zeroCoin := sdk.NewInt64Coin("stake", 0)
-	
+
 	tests := []struct {
 		name string
 		msg  MsgUpdateContract

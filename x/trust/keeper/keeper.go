@@ -30,12 +30,12 @@ type (
 		BlacklistLogsByLessee collections.Map[collections.Pair[uint64, uint64], bool]
 		BlacklistLogsByLease  collections.Map[collections.Pair[uint64, uint64], bool]
 		BlacklistLogSequence  collections.Sequence
-		
+
 		// Collections for Reputation Systems
-		LeaseReputations      collections.Map[uint64, types.LeaseReputation]
-		LesseeReputations     collections.Map[uint64, types.LesseeReputation]
-		SubnetReputations     collections.Map[uint64, types.SubnetReputation]
-		ParamsStore           collections.Item[types.Params]
+		LeaseReputations  collections.Map[uint64, types.LeaseReputation]
+		LesseeReputations collections.Map[uint64, types.LesseeReputation]
+		SubnetReputations collections.Map[uint64, types.SubnetReputation]
+		ParamsStore       collections.Item[types.Params]
 	}
 )
 
@@ -65,12 +65,12 @@ func NewKeeper(
 		BlacklistLogsByLessee: collections.NewMap(sb, collections.NewPrefix(types.BlacklistLogByLesseeKey), "blacklist_logs_by_lessee", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		BlacklistLogsByLease:  collections.NewMap(sb, collections.NewPrefix(types.BlacklistLogByLeaseKey), "blacklist_logs_by_lease", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		BlacklistLogSequence:  collections.NewSequence(sb, collections.NewPrefix(types.BlacklistLogSequenceKey), "blacklist_log_sequence"),
-		
+
 		// Initialize reputation collections
-		LeaseReputations:      collections.NewMap(sb, collections.NewPrefix(types.LeaseReputationKeyPrefix), "lease_reputations", collections.Uint64Key, codec.CollValue[types.LeaseReputation](cdc)),
-		LesseeReputations:     collections.NewMap(sb, collections.NewPrefix(types.LesseeReputationKeyPrefix), "lessee_reputations", collections.Uint64Key, codec.CollValue[types.LesseeReputation](cdc)),
-		SubnetReputations:     collections.NewMap(sb, collections.NewPrefix(types.SubnetReputationKeyPrefix), "subnet_reputations", collections.Uint64Key, codec.CollValue[types.SubnetReputation](cdc)),
-		ParamsStore:           collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
+		LeaseReputations:  collections.NewMap(sb, collections.NewPrefix(types.LeaseReputationKeyPrefix), "lease_reputations", collections.Uint64Key, codec.CollValue[types.LeaseReputation](cdc)),
+		LesseeReputations: collections.NewMap(sb, collections.NewPrefix(types.LesseeReputationKeyPrefix), "lessee_reputations", collections.Uint64Key, codec.CollValue[types.LesseeReputation](cdc)),
+		SubnetReputations: collections.NewMap(sb, collections.NewPrefix(types.SubnetReputationKeyPrefix), "subnet_reputations", collections.Uint64Key, codec.CollValue[types.SubnetReputation](cdc)),
+		ParamsStore:       collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
 	}
 
 	schema, err := sb.Build()

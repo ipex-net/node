@@ -3,8 +3,9 @@ package keeper
 import (
 	"context"
 
-	"cosmossdk.io/collections"
 	"ipex/x/lease/types"
+
+	"cosmossdk.io/collections"
 )
 
 func (k Keeper) GetContractsBySubnet(ctx context.Context, subnetId uint64) []types.Contract {

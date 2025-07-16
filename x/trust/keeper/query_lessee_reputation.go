@@ -67,13 +67,13 @@ func (k Keeper) LesseeReputationAll(ctx context.Context, req *types.QueryAllLess
 	// Use collections to iterate through lessee reputations with pagination
 	err := k.LesseeReputations.Walk(ctx, nil, func(key uint64, value types.LesseeReputation) (bool, error) {
 		count++
-		
+
 		// Skip entries until we reach the offset
 		if skipped < offset {
 			skipped++
 			return false, nil
 		}
-		
+
 		// Stop if we've collected enough items
 		if uint64(len(lesseeReputationsDisplay)) >= limit {
 			return true, nil

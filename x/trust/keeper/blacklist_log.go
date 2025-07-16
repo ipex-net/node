@@ -18,7 +18,6 @@ func (k Keeper) GetBlacklistLogCount(ctx context.Context) uint64 {
 	return seq
 }
 
-
 // AppendBlacklistLog appends a blacklistLog in the store with a new id and update the count
 func (k Keeper) AppendBlacklistLog(
 	ctx context.Context,

@@ -131,7 +131,6 @@ func (k Keeper) GetAllOrg(ctx context.Context) (list []types.Org) {
 	return
 }
 
-
 func (k Keeper) HasOrg(ctx context.Context, id uint64) bool {
 	_, found := k.GetOrg(ctx, id)
 	return found
@@ -226,7 +225,7 @@ func (k Keeper) GetOrgsForDomainValidation(ctx context.Context, referenceTime ti
 		list = append(list, org)
 		return false, nil
 	})
-	
+
 	if err != nil {
 		panic(err)
 	}

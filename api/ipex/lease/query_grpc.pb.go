@@ -22,6 +22,8 @@ const (
 	Query_Params_FullMethodName       = "/ipex.lease.Query/Params"
 	Query_ShowContract_FullMethodName = "/ipex.lease.Query/ShowContract"
 	Query_ListContract_FullMethodName = "/ipex.lease.Query/ListContract"
+	Query_Bid_FullMethodName          = "/ipex.lease.Query/Bid"
+	Query_BidAll_FullMethodName       = "/ipex.lease.Query/BidAll"
 )
 
 // QueryClient is the client API for Query service.
@@ -34,6 +36,9 @@ type QueryClient interface {
 	ShowContract(ctx context.Context, in *QueryShowContractRequest, opts ...grpc.CallOption) (*QueryShowContractResponse, error)
 	// Queries a list of ListContract items.
 	ListContract(ctx context.Context, in *QueryListContractRequest, opts ...grpc.CallOption) (*QueryListContractResponse, error)
+	// Queries a list of Bid items.
+	Bid(ctx context.Context, in *QueryGetBidRequest, opts ...grpc.CallOption) (*QueryGetBidResponse, error)
+	BidAll(ctx context.Context, in *QueryAllBidRequest, opts ...grpc.CallOption) (*QueryAllBidResponse, error)
 }
 
 type queryClient struct {
@@ -71,6 +76,24 @@ func (c *queryClient) ListContract(ctx context.Context, in *QueryListContractReq
 	return out, nil
 }
 
+func (c *queryClient) Bid(ctx context.Context, in *QueryGetBidRequest, opts ...grpc.CallOption) (*QueryGetBidResponse, error) {
+	out := new(QueryGetBidResponse)
+	err := c.cc.Invoke(ctx, Query_Bid_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) BidAll(ctx context.Context, in *QueryAllBidRequest, opts ...grpc.CallOption) (*QueryAllBidResponse, error) {
+	out := new(QueryAllBidResponse)
+	err := c.cc.Invoke(ctx, Query_BidAll_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -81,6 +104,9 @@ type QueryServer interface {
 	ShowContract(context.Context, *QueryShowContractRequest) (*QueryShowContractResponse, error)
 	// Queries a list of ListContract items.
 	ListContract(context.Context, *QueryListContractRequest) (*QueryListContractResponse, error)
+	// Queries a list of Bid items.
+	Bid(context.Context, *QueryGetBidRequest) (*QueryGetBidResponse, error)
+	BidAll(context.Context, *QueryAllBidRequest) (*QueryAllBidResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -96,6 +122,12 @@ func (UnimplementedQueryServer) ShowContract(context.Context, *QueryShowContract
 }
 func (UnimplementedQueryServer) ListContract(context.Context, *QueryListContractRequest) (*QueryListContractResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListContract not implemented")
+}
+func (UnimplementedQueryServer) Bid(context.Context, *QueryGetBidRequest) (*QueryGetBidResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Bid not implemented")
+}
+func (UnimplementedQueryServer) BidAll(context.Context, *QueryAllBidRequest) (*QueryAllBidResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BidAll not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -164,6 +196,42 @@ func _Query_ListContract_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_Bid_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetBidRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).Bid(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_Bid_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).Bid(ctx, req.(*QueryGetBidRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_BidAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllBidRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BidAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_BidAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BidAll(ctx, req.(*QueryAllBidRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -182,6 +250,14 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListContract",
 			Handler:    _Query_ListContract_Handler,
+		},
+		{
+			MethodName: "Bid",
+			Handler:    _Query_Bid_Handler,
+		},
+		{
+			MethodName: "BidAll",
+			Handler:    _Query_BidAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

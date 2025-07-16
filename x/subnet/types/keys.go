@@ -22,7 +22,7 @@ func KeyPrefix(p string) []byte {
 const (
 	SubnetKey      = "Subnet/value/"
 	SubnetCountKey = "Subnet/count/"
-	
+
 	// Collection keys for secondary indexes
 	SubnetByOwnerOrgKey       = "Subnet/by_owner_org/"
 	SubnetByUserOrgKey        = "Subnet/by_user_org/"

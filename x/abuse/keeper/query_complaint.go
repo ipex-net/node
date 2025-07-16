@@ -34,18 +34,18 @@ func (k Keeper) ComplaintAll(ctx context.Context, req *types.QueryAllComplaintRe
 	// Use collections to iterate through complaints with pagination
 	err := k.Complaints.Walk(ctx, nil, func(key uint64, value types.Complaint) (bool, error) {
 		count++
-		
+
 		// Skip entries until we reach the offset
 		if skipped < offset {
 			skipped++
 			return false, nil
 		}
-		
+
 		// Stop if we've collected enough items
 		if uint64(len(complaints)) >= limit {
 			return true, nil
 		}
-		
+
 		complaints = append(complaints, value)
 		return false, nil
 	})

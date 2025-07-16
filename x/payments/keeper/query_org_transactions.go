@@ -18,14 +18,14 @@ func (k Keeper) GetTransactionsByOrg(ctx context.Context, orgId uint64) ([]types
 	err := k.TransactionsByOrg.Walk(ctx, rng, func(key collections.Pair[uint64, uint64], value bool) (bool, error) {
 		// Get the transaction ID from the key
 		transactionId := key.K2()
-		
+
 		// Fetch the full transaction
 		transaction, found := k.GetTransaction(ctx, transactionId)
 		if !found {
 			// Transaction might have been deleted, skip
 			return false, nil
 		}
-		
+
 		transactions = append(transactions, transaction)
 		return false, nil
 	})
@@ -55,28 +55,28 @@ func (k Keeper) GetTransactionsByOrgPaginated(ctx context.Context, orgId uint64,
 	rng := collections.NewPrefixedPairRange[uint64, uint64](orgId)
 	err := k.TransactionsByOrg.Walk(ctx, rng, func(key collections.Pair[uint64, uint64], value bool) (bool, error) {
 		count++
-		
+
 		// Skip entries until we reach the offset
 		if skipped < offset {
 			skipped++
 			return false, nil
 		}
-		
+
 		// Stop if we've collected enough items
 		if uint64(len(transactions)) >= limit {
 			return true, nil
 		}
-		
+
 		// Get the transaction ID from the key
 		transactionId := key.K2()
-		
+
 		// Fetch the full transaction
 		transaction, found := k.GetTransaction(ctx, transactionId)
 		if !found {
 			// Transaction might have been deleted, skip
 			return false, nil
 		}
-		
+
 		transactions = append(transactions, transaction)
 		return false, nil
 	})

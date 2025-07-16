@@ -3,8 +3,9 @@ package keeper
 import (
 	"context"
 
-	"cosmossdk.io/collections"
 	"ipex/x/lease/types"
+
+	"cosmossdk.io/collections"
 )
 
 func (k Keeper) GetContractsByLessee(ctx context.Context, lesseeOrgId uint64) []types.Contract {

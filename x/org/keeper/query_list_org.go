@@ -34,18 +34,18 @@ func (k Keeper) ListOrg(ctx context.Context, req *types.QueryListOrgRequest) (*t
 	// Use collections to iterate through orgs with pagination
 	err := k.Orgs.Walk(ctx, nil, func(key uint64, value types.Org) (bool, error) {
 		count++
-		
+
 		// Skip entries until we reach the offset
 		if skipped < offset {
 			skipped++
 			return false, nil
 		}
-		
+
 		// Stop if we've collected enough items
 		if uint64(len(orgs)) >= limit {
 			return true, nil
 		}
-		
+
 		orgs = append(orgs, value)
 		return false, nil
 	})

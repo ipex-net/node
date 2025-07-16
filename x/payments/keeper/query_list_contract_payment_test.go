@@ -6,11 +6,11 @@ import (
 	"testing"
 
 	"cosmossdk.io/math"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	keepertest "ipex/testutil/keeper"
 	"ipex/x/payments/keeper"

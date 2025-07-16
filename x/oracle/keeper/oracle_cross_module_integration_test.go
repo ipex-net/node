@@ -7,16 +7,13 @@ import (
 	"time"
 
 	keepertest "ipex/testutil/keeper"
-	"ipex/testutil/sample"
-	"ipex/x/oracle/abci"
-	"ipex/x/oracle/keeper"
 	leasetypes "ipex/x/lease/types"
+	"ipex/x/oracle/abci"
 	orgtypes "ipex/x/org/types"
 	subnettypes "ipex/x/subnet/types"
 	trusttypes "ipex/x/trust/types"
 
 	abcitypes "github.com/cometbft/cometbft/abci/types"
-	"github.com/cosmos/cosmos-sdk/crypto"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 )
@@ -121,11 +118,11 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 		mockLeaseKeeper := &mockLeaseKeeper{
 			contracts: map[uint64]mockContract{
 				3001: {
-					Id:         3001,
-					SubnetId:   leasedSubnet.Id,
-					LessorOrg:  lessorOrg.Id,
-					LesseeOrg:  lesseeOrg.Id,
-					Active:     true,
+					Id:        3001,
+					SubnetId:  leasedSubnet.Id,
+					LessorOrg: lessorOrg.Id,
+					LesseeOrg: lesseeOrg.Id,
+					Active:    true,
 				},
 			},
 			subnetContracts: map[uint64]uint64{
@@ -325,7 +322,7 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 				// Verify owner organization exists
 				_, orgExists := mockOrgKeeper.GetOrg(ctx, subnet.OwnerOrgId)
 				require.True(t, orgExists, "subnet owner organization should exist")
-				
+
 				// Verify subnet info consistency
 				require.NotEmpty(t, syncResult.OrgID, "subnet should have organization ID")
 			}
@@ -516,14 +513,14 @@ func (m *mockLeaseKeeper) GetFirstLeasedContractBySubnet(ctx sdk.Context, subnet
 }
 
 type mockTrustKeeper struct {
-	subnets              []uint64
-	shouldError          bool
-	errorMsg             string
-	updateCalls          int
-	lastUpdateSubnetId   uint64
-	lastUpdateLeaseId    uint64
-	lastUpdateLessorId   uint64
-	lastUpdateLesseeId   uint64
+	subnets            []uint64
+	shouldError        bool
+	errorMsg           string
+	updateCalls        int
+	lastUpdateSubnetId uint64
+	lastUpdateLeaseId  uint64
+	lastUpdateLessorId uint64
+	lastUpdateLesseeId uint64
 }
 
 func (m *mockTrustKeeper) GetSubnetsForReputationScanning(ctx sdk.Context, referenceTime time.Time) []uint64 {

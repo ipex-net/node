@@ -34,18 +34,18 @@ func (k Keeper) ListSubnet(ctx context.Context, req *types.QueryListSubnetReques
 	// Use collections to iterate through subnets with pagination
 	err := k.Subnets.Walk(ctx, nil, func(key uint64, value types.Subnet) (bool, error) {
 		count++
-		
+
 		// Skip entries until we reach the offset
 		if skipped < offset {
 			skipped++
 			return false, nil
 		}
-		
+
 		// Stop if we've collected enough items
 		if uint64(len(subnets)) >= limit {
 			return true, nil
 		}
-		
+
 		subnets = append(subnets, value)
 		return false, nil
 	})

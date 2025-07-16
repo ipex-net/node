@@ -24,11 +24,11 @@ const (
 	OrgCountKey        = "Org/count/"
 	PermissionKey      = "Permission/value/"
 	PermissionCountKey = "Permission/count/"
-	
+
 	// Collection keys for secondary indexes
-	OrgByAdminKey     = "Org/by_admin/"
-	OrgByCreatorKey   = "Org/by_creator/"
-	OrgSequenceKey    = "Org/sequence/"
+	OrgByAdminKey   = "Org/by_admin/"
+	OrgByCreatorKey = "Org/by_creator/"
+	OrgSequenceKey  = "Org/sequence/"
 )
 
 // Events

@@ -63,7 +63,6 @@ func (k Keeper) updateComplaintIndexes(ctx context.Context, complaint types.Comp
 	}
 }
 
-
 // SetComplaint set a specific complaint in the store from its id
 func (k Keeper) SetComplaint(ctx context.Context, complaint types.Complaint) {
 	// Get old complaint to remove from old state index

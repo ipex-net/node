@@ -29,7 +29,7 @@ func TestBlacklistReputationLevels(t *testing.T) {
 			LessorOrgId:  lessorOrgId,
 			LeaseId:      leaseId,
 			LesseeOrgId:  lesseeOrgId,
-			Level1Change: 5,  // Significant level 1 increase
+			Level1Change: 5, // Significant level 1 increase
 			Level2Change: 0,
 			Level3Change: 0,
 			Level4Change: 0,
@@ -144,7 +144,7 @@ func TestSubnetReputationIntegration(t *testing.T) {
 	t.Run("Multiple Subnet Reputations", func(t *testing.T) {
 		// Create multiple subnet reputations
 		subnetIds := []uint64{1002, 1003, 1004}
-		
+
 		for _, id := range subnetIds {
 			keeper.InitializeSubnetReputation(ctx, id)
 		}
@@ -152,7 +152,7 @@ func TestSubnetReputationIntegration(t *testing.T) {
 		// Verify all subnets were created
 		allSubnets := keeper.GetAllSubnetReputation(ctx)
 		require.GreaterOrEqual(t, len(allSubnets), 4, "should have at least 4 subnet reputations") // Original + 3 new
-		
+
 		// Verify each subnet has unique index
 		subnetMap := make(map[uint64]bool)
 		for _, subnet := range allSubnets {
@@ -185,7 +185,7 @@ func TestEdgeCasesAndBoundaries(t *testing.T) {
 
 	t.Run("Large Numbers", func(t *testing.T) {
 		// Test with large ID values
-		leaseId := uint64(18446744073709551615) // Max uint64
+		leaseId := uint64(18446744073709551615)     // Max uint64
 		lesseeOrgId := uint64(18446744073709551614) // Max uint64 - 1
 		abuseCategory := uint32(abusetypes.AbuseType_ABUSE_TYPE_MALWARE)
 
@@ -297,12 +297,12 @@ func TestQueryIndexingAndPerformance(t *testing.T) {
 		// Create many reputation records
 		numRecords := 100
 		leaseIds := make([]uint64, numRecords)
-		
+
 		for i := 0; i < numRecords; i++ {
 			leaseId := uint64(7000 + i)
 			lesseeOrgId := uint64(8000 + i)
 			abuseCategory := uint32(abusetypes.AbuseType_ABUSE_TYPE_SPAM)
-			
+
 			// Create reputation record
 			err := keeper.UpdateAbuseStats(ctx, leaseId, lesseeOrgId, abuseCategory, "", "inprogress")
 			require.NoError(t, err, "should create reputation record %d", i)
@@ -328,7 +328,7 @@ func TestQueryIndexingAndPerformance(t *testing.T) {
 // TestTimestampConsistency tests timestamp handling across operations
 func TestTimestampConsistency(t *testing.T) {
 	keeper, ctx := keepertest.TrustKeeper(t)
-	
+
 	// Use a specific time for consistency
 	testTime := time.Date(2024, 1, 1, 12, 0, 0, 0, time.UTC)
 	ctx = ctx.WithBlockTime(testTime)
@@ -407,7 +407,7 @@ func TestDataIntegrity(t *testing.T) {
 	t.Run("Lease Reputation Consistency", func(t *testing.T) {
 		leaseId := uint64(10001)
 		lesseeOrgId := uint64(10002)
-		
+
 		// Submit multiple complaints of different types
 		abuseTypes := []uint32{
 			uint32(abusetypes.AbuseType_ABUSE_TYPE_SPAM),
