@@ -35,4 +35,5 @@ var (
 	ErrContractExpired             = sdkerrors.Register(ModuleName, 1124, "contract already expired")
 	ErrRenewalDateTooDistant       = sdkerrors.Register(ModuleName, 1125, "contract renewal date is too far in the future")
 	ErrRenewalBeyondRevocationDate = sdkerrors.Register(ModuleName, 1126, "renewal period extends beyond contract revocation effective date")
+	ErrInvalidBlacklistThreshold   = sdkerrors.Register(ModuleName, 1127, "blacklist threshold can not be nil")
 )

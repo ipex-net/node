@@ -44,7 +44,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod: "CreateContract",
-					Use:       "create-contract [owner-org] [price] [safety-deposit] [revocation-period-month] [subnet-id]",
+					Use:       "create-contract [owner-org] [price] [safety-deposit] [revocation-period-month] [subnet-id] [geo-change-allowed] [l2-blacklist-count-threshold] [accept-first-bidder] [allow-asn-drop-origin-transfer] [allow-unverified-bidders]",
 					Short:     "Send a create-contract tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
 						{ProtoField: "ownerOrg"},
@@ -52,6 +52,11 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 						{ProtoField: "safetyDeposit"},
 						{ProtoField: "revocationPeriodMonth"},
 						{ProtoField: "subnetId"},
+						{ProtoField: "geoChangeAllowed"},
+						{ProtoField: "l2BlacklistCountThreshold"},
+						{ProtoField: "acceptFirstBidder"},
+						{ProtoField: "allowASNDROPOriginTransfer"},
+						{ProtoField: "allowUnverifiedBidders"},
 					},
 				},
 				{

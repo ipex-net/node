@@ -875,13 +875,18 @@ func (x *fastReflection_MsgUpdateParamsResponse) ProtoMethods() *protoiface.Meth
 }
 
 var (
-	md_MsgCreateContract                       protoreflect.MessageDescriptor
-	fd_MsgCreateContract_creator               protoreflect.FieldDescriptor
-	fd_MsgCreateContract_ownerOrg              protoreflect.FieldDescriptor
-	fd_MsgCreateContract_price                 protoreflect.FieldDescriptor
-	fd_MsgCreateContract_safetyDeposit         protoreflect.FieldDescriptor
-	fd_MsgCreateContract_revocationPeriodMonth protoreflect.FieldDescriptor
-	fd_MsgCreateContract_subnetId              protoreflect.FieldDescriptor
+	md_MsgCreateContract                            protoreflect.MessageDescriptor
+	fd_MsgCreateContract_creator                    protoreflect.FieldDescriptor
+	fd_MsgCreateContract_ownerOrg                   protoreflect.FieldDescriptor
+	fd_MsgCreateContract_price                      protoreflect.FieldDescriptor
+	fd_MsgCreateContract_safetyDeposit              protoreflect.FieldDescriptor
+	fd_MsgCreateContract_revocationPeriodMonth      protoreflect.FieldDescriptor
+	fd_MsgCreateContract_subnetId                   protoreflect.FieldDescriptor
+	fd_MsgCreateContract_geoChangeAllowed           protoreflect.FieldDescriptor
+	fd_MsgCreateContract_l2BlacklistCountThreshold  protoreflect.FieldDescriptor
+	fd_MsgCreateContract_acceptFirstBidder          protoreflect.FieldDescriptor
+	fd_MsgCreateContract_allowASNDROPOriginTransfer protoreflect.FieldDescriptor
+	fd_MsgCreateContract_allowUnverifiedBidders     protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -893,6 +898,11 @@ func init() {
 	fd_MsgCreateContract_safetyDeposit = md_MsgCreateContract.Fields().ByName("safetyDeposit")
 	fd_MsgCreateContract_revocationPeriodMonth = md_MsgCreateContract.Fields().ByName("revocationPeriodMonth")
 	fd_MsgCreateContract_subnetId = md_MsgCreateContract.Fields().ByName("subnetId")
+	fd_MsgCreateContract_geoChangeAllowed = md_MsgCreateContract.Fields().ByName("geoChangeAllowed")
+	fd_MsgCreateContract_l2BlacklistCountThreshold = md_MsgCreateContract.Fields().ByName("l2BlacklistCountThreshold")
+	fd_MsgCreateContract_acceptFirstBidder = md_MsgCreateContract.Fields().ByName("acceptFirstBidder")
+	fd_MsgCreateContract_allowASNDROPOriginTransfer = md_MsgCreateContract.Fields().ByName("allowASNDROPOriginTransfer")
+	fd_MsgCreateContract_allowUnverifiedBidders = md_MsgCreateContract.Fields().ByName("allowUnverifiedBidders")
 }
 
 var _ protoreflect.Message = (*fastReflection_MsgCreateContract)(nil)
@@ -996,6 +1006,36 @@ func (x *fastReflection_MsgCreateContract) Range(f func(protoreflect.FieldDescri
 			return
 		}
 	}
+	if x.GeoChangeAllowed != false {
+		value := protoreflect.ValueOfBool(x.GeoChangeAllowed)
+		if !f(fd_MsgCreateContract_geoChangeAllowed, value) {
+			return
+		}
+	}
+	if x.L2BlacklistCountThreshold != uint32(0) {
+		value := protoreflect.ValueOfUint32(x.L2BlacklistCountThreshold)
+		if !f(fd_MsgCreateContract_l2BlacklistCountThreshold, value) {
+			return
+		}
+	}
+	if x.AcceptFirstBidder != false {
+		value := protoreflect.ValueOfBool(x.AcceptFirstBidder)
+		if !f(fd_MsgCreateContract_acceptFirstBidder, value) {
+			return
+		}
+	}
+	if x.AllowASNDROPOriginTransfer != false {
+		value := protoreflect.ValueOfBool(x.AllowASNDROPOriginTransfer)
+		if !f(fd_MsgCreateContract_allowASNDROPOriginTransfer, value) {
+			return
+		}
+	}
+	if x.AllowUnverifiedBidders != false {
+		value := protoreflect.ValueOfBool(x.AllowUnverifiedBidders)
+		if !f(fd_MsgCreateContract_allowUnverifiedBidders, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -1023,6 +1063,16 @@ func (x *fastReflection_MsgCreateContract) Has(fd protoreflect.FieldDescriptor) 
 		return x.RevocationPeriodMonth != uint64(0)
 	case "ipex.lease.MsgCreateContract.subnetId":
 		return x.SubnetId != uint64(0)
+	case "ipex.lease.MsgCreateContract.geoChangeAllowed":
+		return x.GeoChangeAllowed != false
+	case "ipex.lease.MsgCreateContract.l2BlacklistCountThreshold":
+		return x.L2BlacklistCountThreshold != uint32(0)
+	case "ipex.lease.MsgCreateContract.acceptFirstBidder":
+		return x.AcceptFirstBidder != false
+	case "ipex.lease.MsgCreateContract.allowASNDROPOriginTransfer":
+		return x.AllowASNDROPOriginTransfer != false
+	case "ipex.lease.MsgCreateContract.allowUnverifiedBidders":
+		return x.AllowUnverifiedBidders != false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgCreateContract"))
@@ -1051,6 +1101,16 @@ func (x *fastReflection_MsgCreateContract) Clear(fd protoreflect.FieldDescriptor
 		x.RevocationPeriodMonth = uint64(0)
 	case "ipex.lease.MsgCreateContract.subnetId":
 		x.SubnetId = uint64(0)
+	case "ipex.lease.MsgCreateContract.geoChangeAllowed":
+		x.GeoChangeAllowed = false
+	case "ipex.lease.MsgCreateContract.l2BlacklistCountThreshold":
+		x.L2BlacklistCountThreshold = uint32(0)
+	case "ipex.lease.MsgCreateContract.acceptFirstBidder":
+		x.AcceptFirstBidder = false
+	case "ipex.lease.MsgCreateContract.allowASNDROPOriginTransfer":
+		x.AllowASNDROPOriginTransfer = false
+	case "ipex.lease.MsgCreateContract.allowUnverifiedBidders":
+		x.AllowUnverifiedBidders = false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgCreateContract"))
@@ -1085,6 +1145,21 @@ func (x *fastReflection_MsgCreateContract) Get(descriptor protoreflect.FieldDesc
 	case "ipex.lease.MsgCreateContract.subnetId":
 		value := x.SubnetId
 		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.MsgCreateContract.geoChangeAllowed":
+		value := x.GeoChangeAllowed
+		return protoreflect.ValueOfBool(value)
+	case "ipex.lease.MsgCreateContract.l2BlacklistCountThreshold":
+		value := x.L2BlacklistCountThreshold
+		return protoreflect.ValueOfUint32(value)
+	case "ipex.lease.MsgCreateContract.acceptFirstBidder":
+		value := x.AcceptFirstBidder
+		return protoreflect.ValueOfBool(value)
+	case "ipex.lease.MsgCreateContract.allowASNDROPOriginTransfer":
+		value := x.AllowASNDROPOriginTransfer
+		return protoreflect.ValueOfBool(value)
+	case "ipex.lease.MsgCreateContract.allowUnverifiedBidders":
+		value := x.AllowUnverifiedBidders
+		return protoreflect.ValueOfBool(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgCreateContract"))
@@ -1117,6 +1192,16 @@ func (x *fastReflection_MsgCreateContract) Set(fd protoreflect.FieldDescriptor, 
 		x.RevocationPeriodMonth = value.Uint()
 	case "ipex.lease.MsgCreateContract.subnetId":
 		x.SubnetId = value.Uint()
+	case "ipex.lease.MsgCreateContract.geoChangeAllowed":
+		x.GeoChangeAllowed = value.Bool()
+	case "ipex.lease.MsgCreateContract.l2BlacklistCountThreshold":
+		x.L2BlacklistCountThreshold = uint32(value.Uint())
+	case "ipex.lease.MsgCreateContract.acceptFirstBidder":
+		x.AcceptFirstBidder = value.Bool()
+	case "ipex.lease.MsgCreateContract.allowASNDROPOriginTransfer":
+		x.AllowASNDROPOriginTransfer = value.Bool()
+	case "ipex.lease.MsgCreateContract.allowUnverifiedBidders":
+		x.AllowUnverifiedBidders = value.Bool()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgCreateContract"))
@@ -1155,6 +1240,16 @@ func (x *fastReflection_MsgCreateContract) Mutable(fd protoreflect.FieldDescript
 		panic(fmt.Errorf("field revocationPeriodMonth of message ipex.lease.MsgCreateContract is not mutable"))
 	case "ipex.lease.MsgCreateContract.subnetId":
 		panic(fmt.Errorf("field subnetId of message ipex.lease.MsgCreateContract is not mutable"))
+	case "ipex.lease.MsgCreateContract.geoChangeAllowed":
+		panic(fmt.Errorf("field geoChangeAllowed of message ipex.lease.MsgCreateContract is not mutable"))
+	case "ipex.lease.MsgCreateContract.l2BlacklistCountThreshold":
+		panic(fmt.Errorf("field l2BlacklistCountThreshold of message ipex.lease.MsgCreateContract is not mutable"))
+	case "ipex.lease.MsgCreateContract.acceptFirstBidder":
+		panic(fmt.Errorf("field acceptFirstBidder of message ipex.lease.MsgCreateContract is not mutable"))
+	case "ipex.lease.MsgCreateContract.allowASNDROPOriginTransfer":
+		panic(fmt.Errorf("field allowASNDROPOriginTransfer of message ipex.lease.MsgCreateContract is not mutable"))
+	case "ipex.lease.MsgCreateContract.allowUnverifiedBidders":
+		panic(fmt.Errorf("field allowUnverifiedBidders of message ipex.lease.MsgCreateContract is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgCreateContract"))
@@ -1182,6 +1277,16 @@ func (x *fastReflection_MsgCreateContract) NewField(fd protoreflect.FieldDescrip
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.lease.MsgCreateContract.subnetId":
 		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.MsgCreateContract.geoChangeAllowed":
+		return protoreflect.ValueOfBool(false)
+	case "ipex.lease.MsgCreateContract.l2BlacklistCountThreshold":
+		return protoreflect.ValueOfUint32(uint32(0))
+	case "ipex.lease.MsgCreateContract.acceptFirstBidder":
+		return protoreflect.ValueOfBool(false)
+	case "ipex.lease.MsgCreateContract.allowASNDROPOriginTransfer":
+		return protoreflect.ValueOfBool(false)
+	case "ipex.lease.MsgCreateContract.allowUnverifiedBidders":
+		return protoreflect.ValueOfBool(false)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.MsgCreateContract"))
@@ -1272,6 +1377,21 @@ func (x *fastReflection_MsgCreateContract) ProtoMethods() *protoiface.Methods {
 		if x.SubnetId != 0 {
 			n += 1 + runtime.Sov(uint64(x.SubnetId))
 		}
+		if x.GeoChangeAllowed {
+			n += 2
+		}
+		if x.L2BlacklistCountThreshold != 0 {
+			n += 1 + runtime.Sov(uint64(x.L2BlacklistCountThreshold))
+		}
+		if x.AcceptFirstBidder {
+			n += 2
+		}
+		if x.AllowASNDROPOriginTransfer {
+			n += 2
+		}
+		if x.AllowUnverifiedBidders {
+			n += 2
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -1300,6 +1420,51 @@ func (x *fastReflection_MsgCreateContract) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.AllowUnverifiedBidders {
+			i--
+			if x.AllowUnverifiedBidders {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x58
+		}
+		if x.AllowASNDROPOriginTransfer {
+			i--
+			if x.AllowASNDROPOriginTransfer {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x50
+		}
+		if x.AcceptFirstBidder {
+			i--
+			if x.AcceptFirstBidder {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x48
+		}
+		if x.L2BlacklistCountThreshold != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.L2BlacklistCountThreshold))
+			i--
+			dAtA[i] = 0x40
+		}
+		if x.GeoChangeAllowed {
+			i--
+			if x.GeoChangeAllowed {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x38
 		}
 		if x.SubnetId != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.SubnetId))
@@ -1561,6 +1726,105 @@ func (x *fastReflection_MsgCreateContract) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
+			case 7:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GeoChangeAllowed", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.GeoChangeAllowed = bool(v != 0)
+			case 8:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field L2BlacklistCountThreshold", wireType)
+				}
+				x.L2BlacklistCountThreshold = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.L2BlacklistCountThreshold |= uint32(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 9:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AcceptFirstBidder", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.AcceptFirstBidder = bool(v != 0)
+			case 10:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AllowASNDROPOriginTransfer", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.AllowASNDROPOriginTransfer = bool(v != 0)
+			case 11:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AllowUnverifiedBidders", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.AllowUnverifiedBidders = bool(v != 0)
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -8811,12 +9075,17 @@ type MsgCreateContract struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Creator               string        `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	OwnerOrg              uint64        `protobuf:"varint,2,opt,name=ownerOrg,proto3" json:"ownerOrg,omitempty"`
-	Price                 *v1beta1.Coin `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`
-	SafetyDeposit         *v1beta1.Coin `protobuf:"bytes,4,opt,name=safetyDeposit,proto3" json:"safetyDeposit,omitempty"`
-	RevocationPeriodMonth uint64        `protobuf:"varint,5,opt,name=revocationPeriodMonth,proto3" json:"revocationPeriodMonth,omitempty"`
-	SubnetId              uint64        `protobuf:"varint,6,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
+	Creator                    string        `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	OwnerOrg                   uint64        `protobuf:"varint,2,opt,name=ownerOrg,proto3" json:"ownerOrg,omitempty"`
+	Price                      *v1beta1.Coin `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`
+	SafetyDeposit              *v1beta1.Coin `protobuf:"bytes,4,opt,name=safetyDeposit,proto3" json:"safetyDeposit,omitempty"`
+	RevocationPeriodMonth      uint64        `protobuf:"varint,5,opt,name=revocationPeriodMonth,proto3" json:"revocationPeriodMonth,omitempty"`
+	SubnetId                   uint64        `protobuf:"varint,6,opt,name=subnetId,proto3" json:"subnetId,omitempty"`
+	GeoChangeAllowed           bool          `protobuf:"varint,7,opt,name=geoChangeAllowed,proto3" json:"geoChangeAllowed,omitempty"`
+	L2BlacklistCountThreshold  uint32        `protobuf:"varint,8,opt,name=l2BlacklistCountThreshold,proto3" json:"l2BlacklistCountThreshold,omitempty"`
+	AcceptFirstBidder          bool          `protobuf:"varint,9,opt,name=acceptFirstBidder,proto3" json:"acceptFirstBidder,omitempty"`
+	AllowASNDROPOriginTransfer bool          `protobuf:"varint,10,opt,name=allowASNDROPOriginTransfer,proto3" json:"allowASNDROPOriginTransfer,omitempty"`
+	AllowUnverifiedBidders     bool          `protobuf:"varint,11,opt,name=allowUnverifiedBidders,proto3" json:"allowUnverifiedBidders,omitempty"`
 }
 
 func (x *MsgCreateContract) Reset() {
@@ -8879,6 +9148,41 @@ func (x *MsgCreateContract) GetSubnetId() uint64 {
 		return x.SubnetId
 	}
 	return 0
+}
+
+func (x *MsgCreateContract) GetGeoChangeAllowed() bool {
+	if x != nil {
+		return x.GeoChangeAllowed
+	}
+	return false
+}
+
+func (x *MsgCreateContract) GetL2BlacklistCountThreshold() uint32 {
+	if x != nil {
+		return x.L2BlacklistCountThreshold
+	}
+	return 0
+}
+
+func (x *MsgCreateContract) GetAcceptFirstBidder() bool {
+	if x != nil {
+		return x.AcceptFirstBidder
+	}
+	return false
+}
+
+func (x *MsgCreateContract) GetAllowASNDROPOriginTransfer() bool {
+	if x != nil {
+		return x.AllowASNDROPOriginTransfer
+	}
+	return false
+}
+
+func (x *MsgCreateContract) GetAllowUnverifiedBidders() bool {
+	if x != nil {
+		return x.AllowUnverifiedBidders
+	}
+	return false
 }
 
 type MsgCreateContractResponse struct {
@@ -9517,7 +9821,7 @@ var file_ipex_lease_tx_proto_rawDesc = []byte{
 	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x4d, 0x73,
 	0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x19, 0x0a,
 	0x17, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xc1, 0x02, 0x0a, 0x11, 0x4d, 0x73, 0x67,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xd1, 0x04, 0x0a, 0x11, 0x4d, 0x73, 0x67,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x32,
 	0x0a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42,
 	0x18, 0xd2, 0xb4, 0x2d, 0x14, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x41, 0x64, 0x64, 0x72,
@@ -9536,7 +9840,24 @@ var file_ipex_lease_tx_proto_rawDesc = []byte{
 	0x4d, 0x6f, 0x6e, 0x74, 0x68, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x15, 0x72, 0x65, 0x76,
 	0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x4d, 0x6f, 0x6e,
 	0x74, 0x68, 0x12, 0x1a, 0x0a, 0x08, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x49, 0x64, 0x18, 0x06,
-	0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x49, 0x64, 0x3a, 0x0c,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x73, 0x75, 0x62, 0x6e, 0x65, 0x74, 0x49, 0x64, 0x12, 0x2a,
+	0x0a, 0x10, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x41, 0x6c, 0x6c, 0x6f, 0x77,
+	0x65, 0x64, 0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x52, 0x10, 0x67, 0x65, 0x6f, 0x43, 0x68, 0x61,
+	0x6e, 0x67, 0x65, 0x41, 0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x64, 0x12, 0x3c, 0x0a, 0x19, 0x6c, 0x32,
+	0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x54, 0x68,
+	0x72, 0x65, 0x73, 0x68, 0x6f, 0x6c, 0x64, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x19, 0x6c,
+	0x32, 0x42, 0x6c, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x54,
+	0x68, 0x72, 0x65, 0x73, 0x68, 0x6f, 0x6c, 0x64, 0x12, 0x2c, 0x0a, 0x11, 0x61, 0x63, 0x63, 0x65,
+	0x70, 0x74, 0x46, 0x69, 0x72, 0x73, 0x74, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x18, 0x09, 0x20,
+	0x01, 0x28, 0x08, 0x52, 0x11, 0x61, 0x63, 0x63, 0x65, 0x70, 0x74, 0x46, 0x69, 0x72, 0x73, 0x74,
+	0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x12, 0x3e, 0x0a, 0x1a, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x41,
+	0x53, 0x4e, 0x44, 0x52, 0x4f, 0x50, 0x4f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72, 0x61, 0x6e,
+	0x73, 0x66, 0x65, 0x72, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x08, 0x52, 0x1a, 0x61, 0x6c, 0x6c, 0x6f,
+	0x77, 0x41, 0x53, 0x4e, 0x44, 0x52, 0x4f, 0x50, 0x4f, 0x72, 0x69, 0x67, 0x69, 0x6e, 0x54, 0x72,
+	0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x12, 0x36, 0x0a, 0x16, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x55,
+	0x6e, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x73,
+	0x18, 0x0b, 0x20, 0x01, 0x28, 0x08, 0x52, 0x16, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x55, 0x6e, 0x76,
+	0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x73, 0x3a, 0x0c,
 	0x82, 0xe7, 0xb0, 0x2a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x2b, 0x0a, 0x19,
 	0x4d, 0x73, 0x67, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
 	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,

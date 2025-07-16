@@ -31,16 +31,10 @@ message Contract {
   uint64 revocationPeriodMonth = 8;
   google.protobuf.Timestamp revocationEffectiveAt = 9 [(gogoproto.stdtime) = true];
   ContractStatus status = 10;
-  google.protobuf.Timestamp createdAt = 11 [
-    (gogoproto.stdtime) = true,
-    (gogoproto.nullable) = false
-  ];
+  google.protobuf.Timestamp createdAt = 11 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
   google.protobuf.Timestamp activatedAt = 12 [(gogoproto.stdtime) = true];
   google.protobuf.Timestamp prepaidUntil = 13 [(gogoproto.stdtime) = true];
-  google.protobuf.Timestamp updatedAt = 14 [
-    (gogoproto.stdtime) = true,
-    (gogoproto.nullable) = false
-  ];
+  google.protobuf.Timestamp updatedAt = 14 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
   google.protobuf.Timestamp terminatedAt = 15 [(gogoproto.stdtime) = true];
   bool geoChangeAllowed = 16;
   uint32 l2BlacklistCountThreshold = 17;

@@ -51,12 +51,17 @@ message MsgUpdateParamsResponse {}
 
 message MsgCreateContract {
   option (cosmos.msg.v1.signer) = "creator";
-  string                   creator          = 1 [(cosmos_proto.scalar)   = "cosmos.AddressString"] ;
-  uint64                   ownerOrg         = 2;
-  cosmos.base.v1beta1.Coin price            = 3 [(gogoproto.nullable)    = false                 ] ;
-  cosmos.base.v1beta1.Coin safetyDeposit    = 4 [(gogoproto.nullable)    = false                 ] ;
-  uint64                   revocationPeriodMonth = 5;
-  uint64                   subnetId         = 6;
+  string                   creator                    = 1 [(cosmos_proto.scalar)   = "cosmos.AddressString"] ;
+  uint64                   ownerOrg                   = 2;
+  cosmos.base.v1beta1.Coin price                      = 3 [(gogoproto.nullable)    = false                 ] ;
+  cosmos.base.v1beta1.Coin safetyDeposit              = 4 [(gogoproto.nullable)    = false                 ] ;
+  uint64                   revocationPeriodMonth      = 5;
+  uint64                   subnetId                   = 6;
+  bool                     geoChangeAllowed           = 7;
+  uint32                   l2BlacklistCountThreshold  = 8;
+  bool                     acceptFirstBidder          = 9;
+  bool                     allowASNDROPOriginTransfer = 10;
+  bool                     allowUnverifiedBidders     = 11;
 }
 
 message MsgCreateContractResponse {

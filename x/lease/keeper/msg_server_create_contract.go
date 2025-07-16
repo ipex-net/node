@@ -14,10 +14,21 @@ import (
 func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateContract) (*types.MsgCreateContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// Minimum revocation period
+	minimumRevocationPeriod := uint64(1)
+	
 	//Checking if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// l2BlacklistCountThreshold can not be zero
+	if msg.L2BlacklistCountThreshold == 0 {
+		return nil, errorsmod.Wrap(
+			types.ErrInvalidBlacklistThreshold, 
+			"Blacklist threshold can not be zero",
+		)
 	}
 
 	// Add this check after verifying the subnet availability
@@ -39,9 +50,6 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		)
 	}
 
-	// Add this check alongside your other validations
-	// Define the minimum duration (one month)
-	minimumRevocationPeriod := uint64(1)
 
 	if msg.RevocationPeriodMonth < minimumRevocationPeriod {
 		return nil, errorsmod.Wrapf(
@@ -75,19 +83,23 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
 		return nil, errorsmod.Wrap(types.ErrSubnetNotReady, "subnet is not ready for lease")
 	}
-	//Overriding the deposit to being equal to one month
 
 	var contract = types.Contract{
-		SubnetId:              msg.SubnetId,
-		OwnerOrg:              msg.OwnerOrg,
-		LesseeOrg:             0,
-		Price:                 msg.Price,
-		SafetyDeposit:         msg.SafetyDeposit,
-		RevocationPeriodMonth: msg.RevocationPeriodMonth,
-		RevocationEffectiveAt: nil,
-		Status:                types.ContractStatus_CONTRACT_STATUS_FORSALE,
-		CreatedAt:             ctx.BlockTime(),
-		UpdatedAt:             ctx.BlockTime(),
+		SubnetId:              		msg.SubnetId,
+		OwnerOrg:              		msg.OwnerOrg,
+		LesseeOrg:             		0,
+		Price:                 		msg.Price,
+		SafetyDeposit:         		msg.SafetyDeposit,
+		RevocationPeriodMonth: 		msg.RevocationPeriodMonth,
+		RevocationEffectiveAt: 		nil,
+		Status:                		types.ContractStatus_CONTRACT_STATUS_FORSALE,
+		CreatedAt:             		ctx.BlockTime(),
+		UpdatedAt:             		ctx.BlockTime(),
+		GeoChangeAllowed: 	   		msg.GeoChangeAllowed,
+		L2BlacklistCountThreshold: 	msg.L2BlacklistCountThreshold,
+		AcceptFirstBidder: 			msg.AcceptFirstBidder,
+		AllowASNDROPOriginTransfer: msg.AllowASNDROPOriginTransfer,
+		AllowUnverifiedBidders: 	msg.AllowUnverifiedBidders,
 	}
 	id := k.AppendContract(
 		ctx,
