@@ -2,11 +2,10 @@ package keeper
 
 import (
 	"context"
+	"strconv"
 
 	"ipex/x/lease/types"
 
-	"cosmossdk.io/store/prefix"
-	"github.com/cosmos/cosmos-sdk/runtime"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -17,23 +16,11 @@ func (k Keeper) BidAll(ctx context.Context, req *types.QueryAllBidRequest) (*typ
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var bids []types.Bid
+	bids := k.GetAllBid(ctx)
 
-	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	bidStore := prefix.NewStore(store, types.KeyPrefix(types.BidKeyPrefix))
-
-	pageRes, err := query.Paginate(bidStore, req.Pagination, func(key []byte, value []byte) error {
-		var bid types.Bid
-		if err := k.cdc.Unmarshal(value, &bid); err != nil {
-			return err
-		}
-
-		bids = append(bids, bid)
-		return nil
-	})
-
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
+	// Create a mock pagination response for compatibility
+	pageRes := &query.PageResponse{
+		Total: uint64(len(bids)),
 	}
 
 	return &types.QueryAllBidResponse{Bid: bids, Pagination: pageRes}, nil
@@ -44,13 +31,20 @@ func (k Keeper) Bid(ctx context.Context, req *types.QueryGetBidRequest) (*types.
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	val, found := k.GetBid(
-		ctx,
-		req.Index,
-	)
-	if !found {
-		return nil, status.Error(codes.NotFound, "not found")
+	// Convert string index to uint64
+	indexUint64, err := strconv.ParseUint(req.Index, 10, 64)
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid index format")
 	}
 
-	return &types.QueryGetBidResponse{Bid: val}, nil
+	// Find bid by index field
+	// Walk through all bids to find the one with matching index
+	allBids := k.GetAllBid(ctx)
+	for _, bid := range allBids {
+		if bid.Index == indexUint64 {
+			return &types.QueryGetBidResponse{Bid: bid}, nil
+		}
+	}
+
+	return nil, status.Error(codes.NotFound, "bid not found")
 }

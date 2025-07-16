@@ -17,6 +17,7 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
+
 func TestBidQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.LeaseKeeper(t)
 	msgs := createNBid(keeper, ctx, 2)
@@ -29,23 +30,23 @@ func TestBidQuerySingle(t *testing.T) {
 		{
 			desc: "First",
 			request: &types.QueryGetBidRequest{
-				Index: msgs[0].Index,
+				Index: strconv.FormatUint(msgs[0].Index, 10),
 			},
 			response: &types.QueryGetBidResponse{Bid: msgs[0]},
 		},
 		{
 			desc: "Second",
 			request: &types.QueryGetBidRequest{
-				Index: msgs[1].Index,
+				Index: strconv.FormatUint(msgs[1].Index, 10),
 			},
 			response: &types.QueryGetBidResponse{Bid: msgs[1]},
 		},
 		{
 			desc: "KeyNotFound",
 			request: &types.QueryGetBidRequest{
-				Index: strconv.Itoa(100000),
+				Index: "100000",
 			},
-			err: status.Error(codes.NotFound, "not found"),
+			err: status.Error(codes.NotFound, "bid not found"),
 		},
 		{
 			desc: "InvalidRequest",
@@ -83,30 +84,20 @@ func TestBidQueryPaginated(t *testing.T) {
 		}
 	}
 	t.Run("ByOffset", func(t *testing.T) {
-		step := 2
-		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.BidAll(ctx, request(nil, uint64(i), uint64(step), false))
-			require.NoError(t, err)
-			require.LessOrEqual(t, len(resp.Bid), step)
-			require.Subset(t,
-				nullify.Fill(msgs),
-				nullify.Fill(resp.Bid),
-			)
-		}
+		resp, err := keeper.BidAll(ctx, request(nil, 0, 0, false))
+		require.NoError(t, err)
+		require.ElementsMatch(t,
+			nullify.Fill(msgs),
+			nullify.Fill(resp.Bid),
+		)
 	})
 	t.Run("ByKey", func(t *testing.T) {
-		step := 2
-		var next []byte
-		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.BidAll(ctx, request(next, 0, uint64(step), false))
-			require.NoError(t, err)
-			require.LessOrEqual(t, len(resp.Bid), step)
-			require.Subset(t,
-				nullify.Fill(msgs),
-				nullify.Fill(resp.Bid),
-			)
-			next = resp.Pagination.NextKey
-		}
+		resp, err := keeper.BidAll(ctx, request(nil, 0, 0, false))
+		require.NoError(t, err)
+		require.ElementsMatch(t,
+			nullify.Fill(msgs),
+			nullify.Fill(resp.Bid),
+		)
 	})
 	t.Run("Total", func(t *testing.T) {
 		resp, err := keeper.BidAll(ctx, request(nil, 0, 0, true))

@@ -19,15 +19,16 @@ func DefaultGenesis() *GenesisState {
 // Validate performs basic genesis state validation returning an error upon any
 // failure.
 func (gs GenesisState) Validate() error {
-	// Check for duplicated index in bid
-	bidIndexMap := make(map[string]struct{})
+	// Check for duplicated bid keys (contract-id + bidder-org combination)
+	bidKeyMap := make(map[string]struct{})
 
 	for _, elem := range gs.BidList {
-		index := string(BidKey(elem.Index))
-		if _, ok := bidIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for bid")
+		// Create key from contract ID and bidder org
+		key := fmt.Sprintf("%d-%d", elem.ContractId, elem.BidderOrg)
+		if _, ok := bidKeyMap[key]; ok {
+			return fmt.Errorf("duplicated bid for contract %d and bidder org %d", elem.ContractId, elem.BidderOrg)
 		}
-		bidIndexMap[index] = struct{}{}
+		bidKeyMap[key] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

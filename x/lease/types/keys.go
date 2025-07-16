@@ -25,6 +25,11 @@ const (
 
 	// ModuleAccountName is the name of the module account
 	ModuleAccountName = ModuleName
+	
+	// Bid collection keys
+	BidKeyPrefix     = "Bid/value/"
+	BidByContractKey = "Bid/by_contract/"
+	BidByBidderKey   = "Bid/by_bidder/"
 )
 
 var (

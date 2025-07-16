@@ -17,10 +17,10 @@ func TestGenesis(t *testing.T) {
 
 		BidList: []types.Bid{
 			{
-				Index: "0",
+				Index: 0,
 			},
 			{
-				Index: "1",
+				Index: 1,
 			},
 		},
 		// this line is used by starport scaffolding # genesis/test/state

@@ -105,8 +105,8 @@ func (x *fastReflection_Bid) Interface() protoreflect.ProtoMessage {
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_Bid) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Index != "" {
-		value := protoreflect.ValueOfString(x.Index)
+	if x.Index != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Index)
 		if !f(fd_Bid_index, value) {
 			return
 		}
@@ -169,7 +169,7 @@ func (x *fastReflection_Bid) Range(f func(protoreflect.FieldDescriptor, protoref
 func (x *fastReflection_Bid) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	case "ipex.lease.Bid.index":
-		return x.Index != ""
+		return x.Index != uint64(0)
 	case "ipex.lease.Bid.contractId":
 		return x.ContractId != uint64(0)
 	case "ipex.lease.Bid.bidderOrg":
@@ -201,7 +201,7 @@ func (x *fastReflection_Bid) Has(fd protoreflect.FieldDescriptor) bool {
 func (x *fastReflection_Bid) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "ipex.lease.Bid.index":
-		x.Index = ""
+		x.Index = uint64(0)
 	case "ipex.lease.Bid.contractId":
 		x.ContractId = uint64(0)
 	case "ipex.lease.Bid.bidderOrg":
@@ -234,7 +234,7 @@ func (x *fastReflection_Bid) Get(descriptor protoreflect.FieldDescriptor) protor
 	switch descriptor.FullName() {
 	case "ipex.lease.Bid.index":
 		value := x.Index
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfUint64(value)
 	case "ipex.lease.Bid.contractId":
 		value := x.ContractId
 		return protoreflect.ValueOfUint64(value)
@@ -277,7 +277,7 @@ func (x *fastReflection_Bid) Get(descriptor protoreflect.FieldDescriptor) protor
 func (x *fastReflection_Bid) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	case "ipex.lease.Bid.index":
-		x.Index = value.Interface().(string)
+		x.Index = value.Uint()
 	case "ipex.lease.Bid.contractId":
 		x.ContractId = value.Uint()
 	case "ipex.lease.Bid.bidderOrg":
@@ -348,7 +348,7 @@ func (x *fastReflection_Bid) Mutable(fd protoreflect.FieldDescriptor) protorefle
 func (x *fastReflection_Bid) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	case "ipex.lease.Bid.index":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.lease.Bid.contractId":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.lease.Bid.bidderOrg":
@@ -434,9 +434,8 @@ func (x *fastReflection_Bid) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		l = len(x.Index)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.Index != 0 {
+			n += 1 + runtime.Sov(uint64(x.Index))
 		}
 		if x.ContractId != 0 {
 			n += 1 + runtime.Sov(uint64(x.ContractId))
@@ -546,12 +545,10 @@ func (x *fastReflection_Bid) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x10
 		}
-		if len(x.Index) > 0 {
-			i -= len(x.Index)
-			copy(dAtA[i:], x.Index)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Index)))
+		if x.Index != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Index))
 			i--
-			dAtA[i] = 0xa
+			dAtA[i] = 0x8
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -603,10 +600,10 @@ func (x *fastReflection_Bid) ProtoMethods() *protoiface.Methods {
 			}
 			switch fieldNum {
 			case 1:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
 				}
-				var stringLen uint64
+				x.Index = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -616,24 +613,11 @@ func (x *fastReflection_Bid) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.Index |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Index = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 2:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ContractId", wireType)
@@ -922,7 +906,7 @@ type Bid struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Index           string                 `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
+	Index           uint64                 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
 	ContractId      uint64                 `protobuf:"varint,2,opt,name=contractId,proto3" json:"contractId,omitempty"`
 	BidderOrg       uint64                 `protobuf:"varint,3,opt,name=bidderOrg,proto3" json:"bidderOrg,omitempty"`
 	IntendedUse     string                 `protobuf:"bytes,4,opt,name=intendedUse,proto3" json:"intendedUse,omitempty"`
@@ -952,11 +936,11 @@ func (*Bid) Descriptor() ([]byte, []int) {
 	return file_ipex_lease_bid_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Bid) GetIndex() string {
+func (x *Bid) GetIndex() uint64 {
 	if x != nil {
 		return x.Index
 	}
-	return ""
+	return 0
 }
 
 func (x *Bid) GetContractId() uint64 {
@@ -1020,7 +1004,7 @@ var file_ipex_lease_bid_proto_rawDesc = []byte{
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xc1, 0x02, 0x0a, 0x03,
 	0x42, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6e,
+	0x28, 0x04, 0x52, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6e,
 	0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x63,
 	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x62, 0x69, 0x64,
 	0x64, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x62, 0x69,

@@ -15,7 +15,7 @@ enum BidStatus {
 }
 
 message Bid {
-  string index = 1; 
+  uint64 index = 1; 
   uint64 contractId = 2; 
   uint64 bidderOrg = 3; 
   string intendedUse = 4; 
