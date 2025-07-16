@@ -2,6 +2,17 @@ syntax = "proto3";
 package ipex.lease;
 
 option go_package = "ipex/x/lease/types";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "gogoproto/gogo.proto"; 
+
+enum BidStatus {
+  BID_STATUS_SUBMITTED = 0;
+  BID_STATUS_ACCEPTED  = 1;
+  BID_STATUS_CANCELED  = 2;
+  BID_STATUS_REJECTED  = 3;
+  BID_STATUS_EXPIRED   = 4;
+}
 
 message Bid {
   string index = 1; 
@@ -9,9 +20,8 @@ message Bid {
   uint64 bidderOrg = 3; 
   string intendedUse = 4; 
   uint64 status = 5; 
-  int32 createdAt = 6; 
-  int32 updatedAt = 7; 
+  google.protobuf.Timestamp createdAt = 6 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false ]; 
+  google.protobuf.Timestamp updatedAt = 7 [(gogoproto.stdtime) = true ]; 
   uint64 expirationHours = 8; 
-  
 }
 

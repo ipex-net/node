@@ -4,9 +4,12 @@ package lease
 import (
 	fmt "fmt"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
+	_ "github.com/cosmos/gogoproto/gogoproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	reflect "reflect"
 	sync "sync"
@@ -132,14 +135,14 @@ func (x *fastReflection_Bid) Range(f func(protoreflect.FieldDescriptor, protoref
 			return
 		}
 	}
-	if x.CreatedAt != int32(0) {
-		value := protoreflect.ValueOfInt32(x.CreatedAt)
+	if x.CreatedAt != nil {
+		value := protoreflect.ValueOfMessage(x.CreatedAt.ProtoReflect())
 		if !f(fd_Bid_createdAt, value) {
 			return
 		}
 	}
-	if x.UpdatedAt != int32(0) {
-		value := protoreflect.ValueOfInt32(x.UpdatedAt)
+	if x.UpdatedAt != nil {
+		value := protoreflect.ValueOfMessage(x.UpdatedAt.ProtoReflect())
 		if !f(fd_Bid_updatedAt, value) {
 			return
 		}
@@ -176,9 +179,9 @@ func (x *fastReflection_Bid) Has(fd protoreflect.FieldDescriptor) bool {
 	case "ipex.lease.Bid.status":
 		return x.Status != uint64(0)
 	case "ipex.lease.Bid.createdAt":
-		return x.CreatedAt != int32(0)
+		return x.CreatedAt != nil
 	case "ipex.lease.Bid.updatedAt":
-		return x.UpdatedAt != int32(0)
+		return x.UpdatedAt != nil
 	case "ipex.lease.Bid.expirationHours":
 		return x.ExpirationHours != uint64(0)
 	default:
@@ -208,9 +211,9 @@ func (x *fastReflection_Bid) Clear(fd protoreflect.FieldDescriptor) {
 	case "ipex.lease.Bid.status":
 		x.Status = uint64(0)
 	case "ipex.lease.Bid.createdAt":
-		x.CreatedAt = int32(0)
+		x.CreatedAt = nil
 	case "ipex.lease.Bid.updatedAt":
-		x.UpdatedAt = int32(0)
+		x.UpdatedAt = nil
 	case "ipex.lease.Bid.expirationHours":
 		x.ExpirationHours = uint64(0)
 	default:
@@ -246,10 +249,10 @@ func (x *fastReflection_Bid) Get(descriptor protoreflect.FieldDescriptor) protor
 		return protoreflect.ValueOfUint64(value)
 	case "ipex.lease.Bid.createdAt":
 		value := x.CreatedAt
-		return protoreflect.ValueOfInt32(value)
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.lease.Bid.updatedAt":
 		value := x.UpdatedAt
-		return protoreflect.ValueOfInt32(value)
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	case "ipex.lease.Bid.expirationHours":
 		value := x.ExpirationHours
 		return protoreflect.ValueOfUint64(value)
@@ -284,9 +287,9 @@ func (x *fastReflection_Bid) Set(fd protoreflect.FieldDescriptor, value protoref
 	case "ipex.lease.Bid.status":
 		x.Status = value.Uint()
 	case "ipex.lease.Bid.createdAt":
-		x.CreatedAt = int32(value.Int())
+		x.CreatedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.lease.Bid.updatedAt":
-		x.UpdatedAt = int32(value.Int())
+		x.UpdatedAt = value.Message().Interface().(*timestamppb.Timestamp)
 	case "ipex.lease.Bid.expirationHours":
 		x.ExpirationHours = value.Uint()
 	default:
@@ -309,6 +312,16 @@ func (x *fastReflection_Bid) Set(fd protoreflect.FieldDescriptor, value protoref
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Bid) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "ipex.lease.Bid.createdAt":
+		if x.CreatedAt == nil {
+			x.CreatedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.CreatedAt.ProtoReflect())
+	case "ipex.lease.Bid.updatedAt":
+		if x.UpdatedAt == nil {
+			x.UpdatedAt = new(timestamppb.Timestamp)
+		}
+		return protoreflect.ValueOfMessage(x.UpdatedAt.ProtoReflect())
 	case "ipex.lease.Bid.index":
 		panic(fmt.Errorf("field index of message ipex.lease.Bid is not mutable"))
 	case "ipex.lease.Bid.contractId":
@@ -319,10 +332,6 @@ func (x *fastReflection_Bid) Mutable(fd protoreflect.FieldDescriptor) protorefle
 		panic(fmt.Errorf("field intendedUse of message ipex.lease.Bid is not mutable"))
 	case "ipex.lease.Bid.status":
 		panic(fmt.Errorf("field status of message ipex.lease.Bid is not mutable"))
-	case "ipex.lease.Bid.createdAt":
-		panic(fmt.Errorf("field createdAt of message ipex.lease.Bid is not mutable"))
-	case "ipex.lease.Bid.updatedAt":
-		panic(fmt.Errorf("field updatedAt of message ipex.lease.Bid is not mutable"))
 	case "ipex.lease.Bid.expirationHours":
 		panic(fmt.Errorf("field expirationHours of message ipex.lease.Bid is not mutable"))
 	default:
@@ -349,9 +358,11 @@ func (x *fastReflection_Bid) NewField(fd protoreflect.FieldDescriptor) protorefl
 	case "ipex.lease.Bid.status":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "ipex.lease.Bid.createdAt":
-		return protoreflect.ValueOfInt32(int32(0))
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.lease.Bid.updatedAt":
-		return protoreflect.ValueOfInt32(int32(0))
+		m := new(timestamppb.Timestamp)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "ipex.lease.Bid.expirationHours":
 		return protoreflect.ValueOfUint64(uint64(0))
 	default:
@@ -440,11 +451,13 @@ func (x *fastReflection_Bid) ProtoMethods() *protoiface.Methods {
 		if x.Status != 0 {
 			n += 1 + runtime.Sov(uint64(x.Status))
 		}
-		if x.CreatedAt != 0 {
-			n += 1 + runtime.Sov(uint64(x.CreatedAt))
+		if x.CreatedAt != nil {
+			l = options.Size(x.CreatedAt)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.UpdatedAt != 0 {
-			n += 1 + runtime.Sov(uint64(x.UpdatedAt))
+		if x.UpdatedAt != nil {
+			l = options.Size(x.UpdatedAt)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.ExpirationHours != 0 {
 			n += 1 + runtime.Sov(uint64(x.ExpirationHours))
@@ -483,15 +496,33 @@ func (x *fastReflection_Bid) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x40
 		}
-		if x.UpdatedAt != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.UpdatedAt))
+		if x.UpdatedAt != nil {
+			encoded, err := options.Marshal(x.UpdatedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x38
+			dAtA[i] = 0x3a
 		}
-		if x.CreatedAt != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.CreatedAt))
+		if x.CreatedAt != nil {
+			encoded, err := options.Marshal(x.CreatedAt)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
-			dAtA[i] = 0x30
+			dAtA[i] = 0x32
 		}
 		if x.Status != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.Status))
@@ -693,10 +724,10 @@ func (x *fastReflection_Bid) ProtoMethods() *protoiface.Methods {
 					}
 				}
 			case 6:
-				if wireType != 0 {
+				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreatedAt", wireType)
 				}
-				x.CreatedAt = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -706,16 +737,33 @@ func (x *fastReflection_Bid) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.CreatedAt |= int32(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.CreatedAt == nil {
+					x.CreatedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CreatedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 7:
-				if wireType != 0 {
+				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UpdatedAt", wireType)
 				}
-				x.UpdatedAt = 0
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -725,11 +773,28 @@ func (x *fastReflection_Bid) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					x.UpdatedAt |= int32(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.UpdatedAt == nil {
+					x.UpdatedAt = &timestamppb.Timestamp{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.UpdatedAt); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			case 8:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ExpirationHours", wireType)
@@ -797,19 +862,74 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type BidStatus int32
+
+const (
+	BidStatus_BID_STATUS_SUBMITTED BidStatus = 0
+	BidStatus_BID_STATUS_ACCEPTED  BidStatus = 1
+	BidStatus_BID_STATUS_CANCELED  BidStatus = 2
+	BidStatus_BID_STATUS_REJECTED  BidStatus = 3
+	BidStatus_BID_STATUS_EXPIRED   BidStatus = 4
+)
+
+// Enum value maps for BidStatus.
+var (
+	BidStatus_name = map[int32]string{
+		0: "BID_STATUS_SUBMITTED",
+		1: "BID_STATUS_ACCEPTED",
+		2: "BID_STATUS_CANCELED",
+		3: "BID_STATUS_REJECTED",
+		4: "BID_STATUS_EXPIRED",
+	}
+	BidStatus_value = map[string]int32{
+		"BID_STATUS_SUBMITTED": 0,
+		"BID_STATUS_ACCEPTED":  1,
+		"BID_STATUS_CANCELED":  2,
+		"BID_STATUS_REJECTED":  3,
+		"BID_STATUS_EXPIRED":   4,
+	}
+)
+
+func (x BidStatus) Enum() *BidStatus {
+	p := new(BidStatus)
+	*p = x
+	return p
+}
+
+func (x BidStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (BidStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_ipex_lease_bid_proto_enumTypes[0].Descriptor()
+}
+
+func (BidStatus) Type() protoreflect.EnumType {
+	return &file_ipex_lease_bid_proto_enumTypes[0]
+}
+
+func (x BidStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use BidStatus.Descriptor instead.
+func (BidStatus) EnumDescriptor() ([]byte, []int) {
+	return file_ipex_lease_bid_proto_rawDescGZIP(), []int{0}
+}
+
 type Bid struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Index           string `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
-	ContractId      uint64 `protobuf:"varint,2,opt,name=contractId,proto3" json:"contractId,omitempty"`
-	BidderOrg       uint64 `protobuf:"varint,3,opt,name=bidderOrg,proto3" json:"bidderOrg,omitempty"`
-	IntendedUse     string `protobuf:"bytes,4,opt,name=intendedUse,proto3" json:"intendedUse,omitempty"`
-	Status          uint64 `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
-	CreatedAt       int32  `protobuf:"varint,6,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt       int32  `protobuf:"varint,7,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
-	ExpirationHours uint64 `protobuf:"varint,8,opt,name=expirationHours,proto3" json:"expirationHours,omitempty"`
+	Index           string                 `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
+	ContractId      uint64                 `protobuf:"varint,2,opt,name=contractId,proto3" json:"contractId,omitempty"`
+	BidderOrg       uint64                 `protobuf:"varint,3,opt,name=bidderOrg,proto3" json:"bidderOrg,omitempty"`
+	IntendedUse     string                 `protobuf:"bytes,4,opt,name=intendedUse,proto3" json:"intendedUse,omitempty"`
+	Status          uint64                 `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
+	CreatedAt       *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	UpdatedAt       *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
+	ExpirationHours uint64                 `protobuf:"varint,8,opt,name=expirationHours,proto3" json:"expirationHours,omitempty"`
 }
 
 func (x *Bid) Reset() {
@@ -867,18 +987,18 @@ func (x *Bid) GetStatus() uint64 {
 	return 0
 }
 
-func (x *Bid) GetCreatedAt() int32 {
+func (x *Bid) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
 	}
-	return 0
+	return nil
 }
 
-func (x *Bid) GetUpdatedAt() int32 {
+func (x *Bid) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
 	}
-	return 0
+	return nil
 }
 
 func (x *Bid) GetExpirationHours() uint64 {
@@ -893,31 +1013,50 @@ var File_ipex_lease_bid_proto protoreflect.FileDescriptor
 var file_ipex_lease_bid_proto_rawDesc = []byte{
 	0x0a, 0x15, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69,
 	0x64, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c,
-	0x65, 0x61, 0x73, 0x65, 0x22, 0xf9, 0x01, 0x0a, 0x03, 0x42, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05,
-	0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6e, 0x64,
-	0x65, 0x78, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
-	0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72, 0x4f, 0x72, 0x67,
-	0x12, 0x20, 0x0a, 0x0b, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x64, 0x65, 0x64, 0x55, 0x73, 0x65, 0x18,
-	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x64, 0x65, 0x64, 0x55,
-	0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x05, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x63, 0x72,
-	0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x63,
-	0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x75, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x75, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x28, 0x0a, 0x0f, 0x65, 0x78, 0x70, 0x69, 0x72, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x73, 0x18, 0x08, 0x20, 0x01, 0x28, 0x04, 0x52,
-	0x0f, 0x65, 0x78, 0x70, 0x69, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x73,
-	0x42, 0x7f, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65,
-	0x61, 0x73, 0x65, 0x42, 0x08, 0x42, 0x69, 0x64, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x15, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0xa2, 0x02, 0x03, 0x49, 0x4c, 0x58, 0xaa, 0x02, 0x0b, 0x49,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64,
-	0x65, 0x78, 0x5c, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78,
-	0x5c, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x4c, 0x65, 0x61, 0x73,
-	0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x61, 0x73, 0x65, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xc1, 0x02, 0x0a, 0x03,
+	0x42, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6e,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x63,
+	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x62, 0x69, 0x64,
+	0x64, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x62, 0x69,
+	0x64, 0x64, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x12, 0x20, 0x0a, 0x0b, 0x69, 0x6e, 0x74, 0x65, 0x6e,
+	0x64, 0x65, 0x64, 0x55, 0x73, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x69, 0x6e,
+	0x74, 0x65, 0x6e, 0x64, 0x65, 0x64, 0x55, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x12, 0x42, 0x0a, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
+	0x42, 0x08, 0xc8, 0xde, 0x1f, 0x00, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61,
+	0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x3e, 0x0a, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64,
+	0x41, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73,
+	0x74, 0x61, 0x6d, 0x70, 0x42, 0x04, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x09, 0x75, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x28, 0x0a, 0x0f, 0x65, 0x78, 0x70, 0x69, 0x72, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x73, 0x18, 0x08, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0f,
+	0x65, 0x78, 0x70, 0x69, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x6f, 0x75, 0x72, 0x73, 0x2a,
+	0x88, 0x01, 0x0a, 0x09, 0x42, 0x69, 0x64, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x18, 0x0a,
+	0x14, 0x42, 0x49, 0x44, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x53, 0x55, 0x42, 0x4d,
+	0x49, 0x54, 0x54, 0x45, 0x44, 0x10, 0x00, 0x12, 0x17, 0x0a, 0x13, 0x42, 0x49, 0x44, 0x5f, 0x53,
+	0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x41, 0x43, 0x43, 0x45, 0x50, 0x54, 0x45, 0x44, 0x10, 0x01,
+	0x12, 0x17, 0x0a, 0x13, 0x42, 0x49, 0x44, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x43,
+	0x41, 0x4e, 0x43, 0x45, 0x4c, 0x45, 0x44, 0x10, 0x02, 0x12, 0x17, 0x0a, 0x13, 0x42, 0x49, 0x44,
+	0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x5f, 0x52, 0x45, 0x4a, 0x45, 0x43, 0x54, 0x45, 0x44,
+	0x10, 0x03, 0x12, 0x16, 0x0a, 0x12, 0x42, 0x49, 0x44, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53,
+	0x5f, 0x45, 0x58, 0x50, 0x49, 0x52, 0x45, 0x44, 0x10, 0x04, 0x42, 0x7f, 0x0a, 0x0f, 0x63, 0x6f,
+	0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x42, 0x08, 0x42,
+	0x69, 0x64, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65,
+	0xa2, 0x02, 0x03, 0x49, 0x4c, 0x58, 0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x4c,
+	0x65, 0x61, 0x73, 0x65, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x4c, 0x65, 0x61,
+	0x73, 0x65, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x4c, 0x65, 0x61, 0x73, 0x65,
+	0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c, 0x49,
+	0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -932,16 +1071,21 @@ func file_ipex_lease_bid_proto_rawDescGZIP() []byte {
 	return file_ipex_lease_bid_proto_rawDescData
 }
 
+var file_ipex_lease_bid_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_ipex_lease_bid_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_ipex_lease_bid_proto_goTypes = []interface{}{
-	(*Bid)(nil), // 0: ipex.lease.Bid
+	(BidStatus)(0),                // 0: ipex.lease.BidStatus
+	(*Bid)(nil),                   // 1: ipex.lease.Bid
+	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
 }
 var file_ipex_lease_bid_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2, // 0: ipex.lease.Bid.createdAt:type_name -> google.protobuf.Timestamp
+	2, // 1: ipex.lease.Bid.updatedAt:type_name -> google.protobuf.Timestamp
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_ipex_lease_bid_proto_init() }
@@ -968,13 +1112,14 @@ func file_ipex_lease_bid_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_lease_bid_proto_rawDesc,
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_ipex_lease_bid_proto_goTypes,
 		DependencyIndexes: file_ipex_lease_bid_proto_depIdxs,
+		EnumInfos:         file_ipex_lease_bid_proto_enumTypes,
 		MessageInfos:      file_ipex_lease_bid_proto_msgTypes,
 	}.Build()
 	File_ipex_lease_bid_proto = out.File
