@@ -327,10 +327,12 @@ func (s *Service) updateReputationData() {
 
 	start := time.Now().UTC()
 
-	// Download fresh reputation data
-	if err := s.downloader.DownloadAllReputationLevels(); err != nil {
-		s.logger.Error("Failed to download reputation data", "error", err)
-		return
+	// Download fresh reputation data (skip in test mode)
+	if !s.testMode {
+		if err := s.downloader.DownloadAllReputationLevels(); err != nil {
+			s.logger.Error("Failed to download reputation data", "error", err)
+			return
+		}
 	}
 
 	// Load fresh reputation data into new client
@@ -355,10 +357,12 @@ func (s *Service) updateCountryData() {
 
 	start := time.Now().UTC()
 
-	// Download fresh data (this takes a while)
-	if err := s.downloader.DownloadAllCountryData(); err != nil {
-		s.logger.Error("Failed to download country data", "error", err)
-		return
+	// Download fresh data (skip in test mode)
+	if !s.testMode {
+		if err := s.downloader.DownloadAllCountryData(); err != nil {
+			s.logger.Error("Failed to download country data", "error", err)
+			return
+		}
 	}
 
 	// Load fresh data into new client
@@ -383,10 +387,12 @@ func (s *Service) updateASNData() {
 
 	start := time.Now().UTC()
 
-	// Download fresh ASN DROP list
-	if err := s.downloader.DownloadASNDropList(); err != nil {
-		s.logger.Error("Failed to download ASN DROP list", "error", err)
-		return
+	// Download fresh ASN DROP list (skip in test mode)
+	if !s.testMode {
+		if err := s.downloader.DownloadASNDropList(); err != nil {
+			s.logger.Error("Failed to download ASN DROP list", "error", err)
+			return
+		}
 	}
 
 	// Load fresh ASN data into new client

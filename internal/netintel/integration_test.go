@@ -72,8 +72,8 @@ func TestIntegration_FullServiceWorkflow(t *testing.T) {
 `
 	os.WriteFile(asnFile, []byte(asnData), 0644)
 
-	// Start the service
-	service := NewService(tempDir, logger)
+	// Start the service in test mode (disables background downloads)
+	service := NewServiceForTesting(tempDir, logger)
 
 	err := service.Start()
 	if err != nil {
@@ -205,7 +205,7 @@ func TestIntegration_ComponentInteractions(t *testing.T) {
 	geoFile := filepath.Join(geoDir, "country_us.netset")
 	os.WriteFile(geoFile, []byte(geoData), 0644)
 
-	service := NewService(tempDir, logger)
+	service := NewServiceForTesting(tempDir, logger)
 
 	err := service.Start()
 	if err != nil {
@@ -290,7 +290,7 @@ func TestIntegration_ConcurrentOperations(t *testing.T) {
 `
 	os.WriteFile(asnFile, []byte(asnData), 0644)
 
-	service := NewService(tempDir, logger)
+	service := NewServiceForTesting(tempDir, logger)
 
 	err := service.Start()
 	if err != nil {
@@ -413,7 +413,7 @@ func TestIntegration_DataConsistency(t *testing.T) {
 	geoFile := filepath.Join(geoDir, "country_us.netset")
 	os.WriteFile(geoFile, []byte("192.168.1.0/24\n10.0.0.0/8\n"), 0644)
 
-	service := NewService(tempDir, logger)
+	service := NewServiceForTesting(tempDir, logger)
 
 	err := service.Start()
 	if err != nil {
@@ -514,7 +514,7 @@ func TestIntegration_ServiceResilience(t *testing.T) {
 	geoFile := filepath.Join(geoDir, "country_us.netset")
 	os.WriteFile(geoFile, []byte("192.168.1.0/24\n"), 0644)
 
-	service := NewService(tempDir, logger)
+	service := NewServiceForTesting(tempDir, logger)
 
 	err := service.Start()
 	if err != nil {
@@ -630,7 +630,7 @@ func TestIntegration_EndToEndScenarios(t *testing.T) {
 `
 	os.WriteFile(asnFile, []byte(asnData), 0644)
 
-	service := NewService(tempDir, logger)
+	service := NewServiceForTesting(tempDir, logger)
 
 	err := service.Start()
 	if err != nil {
