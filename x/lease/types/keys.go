@@ -94,6 +94,7 @@ const (
 	ContractSafetyDepositCollectedAmount = "deposit_collected_amount"
 	ContractSafetyDepositCollectedDenom  = "deposit_collected_denom"
 )
+
 const (
 	ContractTerminatedByOwnerEventType  = "contract_terminated_owner"
 	ContractTerminatedByOwnerCreator    = "creator"
@@ -110,4 +111,16 @@ const (
 	ContractRenewedPriceDenom      = "price_denom"
 	ContractRenewedPrepaidUntil    = "prepaid_until"
 	ContractRenewedDepositRetained = "deposit_retained"
+)
+
+const (
+	BidSubmittedEventType               = "bid_submitted"
+	BidSubmittedCreator                 = "creator"
+	BidSubmittedContractId              = "contract_id"
+	BidSubmittedLesseeOrg               = "lessee_org"
+	BidSubmittedPriceAmount      	    = "price_amount"
+	BidSubmittedPriceDenom        	    = "price_denom"
+	BidSubmittedDepositCollectedAmount  = "deposit_collected_amount"
+	BidSubmittedDepositCollectedDenom   = "deposit_collected_denom"
+	BidSubmittedExpirationHours			= "expiration_hours"
 )

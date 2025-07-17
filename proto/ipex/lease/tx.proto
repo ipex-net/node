@@ -106,6 +106,8 @@ message MsgEnrollContract {
   string creator    = 1;
   uint64 contractId = 2;
   uint64 lesseeOrg  = 3;
+  string intendedUse = 4;
+  uint64 bidExpirationHours = 5;
 }
 
 message MsgEnrollContractResponse {}

@@ -6,7 +6,6 @@ import (
 
 	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	"ipex/x/lease/types"
@@ -44,46 +43,6 @@ func (k Keeper) removeBidFromIndexes(ctx context.Context, bid types.Bid) {
 	if err != nil {
 		panic(err)
 	}
-}
-
-// AppendBid creates a new bid with validation and auto-generated index
-func (k Keeper) AppendBid(ctx context.Context, contractId, bidderOrg uint64, intendedUse string, expirationHours uint64) (types.Bid, error) {
-	// // Validate that the contract exists
-	// contract, contractFound := k.GetContract(ctx, contractId)
-	// if !contractFound {
-	// 	return types.Bid{}, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "contract with id %d not found", contractId)
-	// }
-
-	// // Validate contract is in biddable state 
-	// if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
-	// 	return types.Bid{}, errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "contract %d is not open for bidding", contractId)
-	// }
-
-	// // Check if bid already exists for this contract-bidder combination
-	// _, bidExists := k.GetBid(ctx, contractId, bidderOrg)
-	// if bidExists {
-	// 	return types.Bid{}, errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "bid already exists for contract %d and bidder org %d", contractId, bidderOrg)
-	// }
-
-	// Generate unique index (simple counter for now)
-	allBids := k.GetAllBid(ctx)
-	nextIndex := uint64(len(allBids))
-
-	// Create the bid
-	bid := types.Bid{
-		Index:           nextIndex,
-		ContractId:      contractId,
-		BidderOrg:       bidderOrg,
-		IntendedUse:     intendedUse,
-		Status:          uint64(types.BidStatus_BID_STATUS_SUBMITTED),
-		CreatedAt:       sdk.UnwrapSDKContext(ctx).BlockTime(),
-		ExpirationHours: expirationHours,
-	}
-
-	// Store the bid
-	k.SetBid(ctx, bid)
-
-	return bid, nil
 }
 
 // SetBid set a specific bid in the store
