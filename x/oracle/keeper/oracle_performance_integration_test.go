@@ -515,6 +515,9 @@ func TestOracleTimeoutAndFailureHandling(t *testing.T) {
 	}
 	ctx = ctx.WithConsensusParams(consParams)
 
+	baseTime := ctx.BlockTime()
+	oracleKeeper.SetLastBlockTime(ctx, baseTime.Add(-2*time.Hour))
+
 	t.Run("Partial Validation Failure Resilience", func(t *testing.T) {
 		// Mix of valid and problematic data
 		orgs := []orgtypes.Org{
