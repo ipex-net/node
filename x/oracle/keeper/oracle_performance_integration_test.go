@@ -13,6 +13,7 @@ import (
 	trusttypes "ipex/x/trust/types"
 
 	abcitypes "github.com/cometbft/cometbft/abci/types"
+	cmtproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -35,7 +36,7 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 				Name:              fmt.Sprintf("Organization %d", i),
 				Website:           fmt.Sprintf("https://example%d.com", i),
 				DomainVerified:    false,
-				DomainLastChecked: baseTime.Add(-time.Duration(3+i%12) * time.Hour), // Vary check times
+				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-time.Duration(3+i%12) * time.Hour)}[0], // Vary check times
 			}
 			orgs = append(orgs, org)
 		}
@@ -97,9 +98,9 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 				OriginAsn:      uint64(64512 + i%100), // Vary ASNs
 				Country:        []string{"US", "CA", "GB", "DE", "FR"}[i%5],
 				OwnerOrgId:     uint64(1000 + i%50), // Distribute across 50 orgs
-				RirSyncTime:    baseTime.Add(-time.Duration(2+i%48) * time.Hour),
-				RpkiLastCheck:  baseTime.Add(-time.Duration(2+i%72) * time.Hour),
-				GeoLastCheck:   baseTime.Add(-time.Duration(2+i%96) * time.Hour),
+				RirSyncedAt:      &[]time.Time{baseTime.Add(-time.Duration(2+i%48) * time.Hour)}[0],
+				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-time.Duration(2+i%72) * time.Hour)}[0],
+				GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-time.Duration(2+i%96) * time.Hour)}[0],
 			}
 			subnets = append(subnets, subnet)
 			subnetIds = append(subnetIds, subnetId)
@@ -301,7 +302,7 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 			orgs[i] = orgtypes.Org{
 				Id:                uint64(1000 + i),
 				Website:           fmt.Sprintf("https://concurrent%d.com", i),
-				DomainLastChecked: baseTime.Add(-3 * time.Hour),
+				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
 			}
 		}
 
@@ -313,8 +314,8 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 				Id:             subnetId,
 				NetworkAddress: 3232235520 + uint64(i*256),
 				Mask:           24,
-				RirSyncTime:    baseTime.Add(-3 * time.Hour),
-				RpkiLastCheck:  baseTime.Add(-3 * time.Hour),
+				RirSyncedAt:      &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
+				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
 			}
 			subnetIds[i] = subnetId
 		}
@@ -409,7 +410,7 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 			largeOrgs[i] = orgtypes.Org{
 				Id:                uint64(10000 + i),
 				Website:           fmt.Sprintf("https://large%d.example.com", i),
-				DomainLastChecked: baseTime.Add(-5 * time.Hour),
+				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-5 * time.Hour)}[0],
 			}
 		}
 
@@ -421,8 +422,8 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 				Id:             subnetId,
 				NetworkAddress: 167772160 + uint64(i*256), // Start at 10.0.0.0
 				Mask:           24,
-				RirSyncTime:    baseTime.Add(-5 * time.Hour),
-				RpkiLastCheck:  baseTime.Add(-5 * time.Hour),
+				RirSyncedAt:      &[]time.Time{baseTime.Add(-5 * time.Hour)}[0],
+				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-5 * time.Hour)}[0],
 			}
 			largeSubnetIds[i] = subnetId
 		}
@@ -500,15 +501,15 @@ func TestOracleTimeoutAndFailureHandling(t *testing.T) {
 	t.Run("Partial Validation Failure Resilience", func(t *testing.T) {
 		// Mix of valid and problematic data
 		orgs := []orgtypes.Org{
-			{Id: 1001, Website: "https://valid.com", DomainLastChecked: ctx.BlockTime().Add(-5 * time.Hour)},
-			{Id: 1002, Website: "", DomainLastChecked: ctx.BlockTime().Add(-5 * time.Hour)}, // Invalid website
-			{Id: 1003, Website: "https://another-valid.com", DomainLastChecked: ctx.BlockTime().Add(-5 * time.Hour)},
+			{Id: 1001, Website: "https://valid.com", DomainVerifAttemptedAt: &[]time.Time{ctx.BlockTime().Add(-5 * time.Hour)}[0]},
+			{Id: 1002, Website: "", DomainVerifAttemptedAt: &[]time.Time{ctx.BlockTime().Add(-5 * time.Hour)}[0]}, // Invalid website
+			{Id: 1003, Website: "https://another-valid.com", DomainVerifAttemptedAt: &[]time.Time{ctx.BlockTime().Add(-5 * time.Hour)}[0]},
 		}
 
 		subnets := []subnettypes.Subnet{
-			{Id: 2001, NetworkAddress: 3232235521, Mask: 24, RirSyncTime: ctx.BlockTime().Add(-5 * time.Hour)},
-			{Id: 2002, NetworkAddress: 0, Mask: 24, RirSyncTime: ctx.BlockTime().Add(-5 * time.Hour)}, // Invalid IP
-			{Id: 2003, NetworkAddress: 3232235777, Mask: 24, RirSyncTime: ctx.BlockTime().Add(-5 * time.Hour)},
+			{Id: 2001, NetworkAddress: 3232235521, Mask: 24, RirSyncedAt: &[]time.Time{ctx.BlockTime().Add(-5 * time.Hour)}[0]},
+			{Id: 2002, NetworkAddress: 0, Mask: 24, RirSyncedAt: &[]time.Time{ctx.BlockTime().Add(-5 * time.Hour)}[0]}, // Invalid IP
+			{Id: 2003, NetworkAddress: 3232235777, Mask: 24, RirSyncedAt: &[]time.Time{ctx.BlockTime().Add(-5 * time.Hour)}[0]},
 		}
 
 		mockOrgKeeper := &mockOrgKeeper{orgs: orgs}
@@ -562,7 +563,7 @@ func TestOracleTimeoutAndFailureHandling(t *testing.T) {
 			extremeOrgs = append(extremeOrgs, orgtypes.Org{
 				Id:                uint64(50000 + i),
 				Website:           fmt.Sprintf("https://extreme%d.verylongdomainname.example.com", i),
-				DomainLastChecked: ctx.BlockTime().Add(-5 * time.Hour),
+				DomainVerifAttemptedAt: &[]time.Time{ctx.BlockTime().Add(-5 * time.Hour)}[0],
 			})
 		}
 

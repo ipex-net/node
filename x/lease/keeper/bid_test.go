@@ -65,7 +65,7 @@ func TestBidGetAll(t *testing.T) {
 	items := createNBid(keeper, ctx, 10)
 	require.ElementsMatch(t,
 		nullify.Fill(items),
-		nullify.Fill(keeper.GetAllBid(ctx)),
+		nullify.Fill(keeper.GetAllBids(ctx)),
 	)
 }
 

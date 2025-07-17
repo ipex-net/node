@@ -104,8 +104,22 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		}
 
 		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetsForBlacklistSync) == 0 {
-			// Nothing to validate or sync, returning empty Vote
-			return &abci.ResponseExtendVote{VoteExtension: []byte{}}, nil
+			h.logger.Info("No validations needed, returning empty vote extension", "height", req.Height)
+			// Still create a valid JSON vote extension even if empty
+			voteExt := OracleVoteExtension{
+				Height:                req.Height,
+				OrgDomainValidation:   make(map[uint64]bool),
+				SubnetRirSync:         make(map[uint64]subnettypes.SubnetInfo),
+				RpkiValidation:        make(map[uint64]bool),
+				SubnetGeoValidation:   make(map[uint64]bool),
+				SubnetOwnerValidation: make(map[uint64]bool),
+				SubnetBlacklistSync:   make(map[uint64]trusttypes.SubnetBlacklistCount),
+			}
+			bz, err := json.Marshal(voteExt)
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal empty vote extension: %w", err)
+			}
+			return &abci.ResponseExtendVote{VoteExtension: bz}, nil
 		}
 		h.currentBlock = req.Height
 		h.logger.Info("performing validations for vote extension",

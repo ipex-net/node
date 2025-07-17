@@ -109,8 +109,8 @@ func (k Keeper) RemoveBid(
 	return nil
 }
 
-// GetAllBid returns all bid
-func (k Keeper) GetAllBid(ctx context.Context) (list []types.Bid) {
+// GetAllBids returns all bid
+func (k Keeper) GetAllBids(ctx context.Context) (list []types.Bid) {
 	err := k.Bids.Walk(ctx, nil, func(key collections.Pair[uint64, uint64], value types.Bid) (bool, error) {
 		list = append(list, value)
 		return false, nil

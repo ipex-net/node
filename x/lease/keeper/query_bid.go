@@ -16,7 +16,7 @@ func (k Keeper) BidAll(ctx context.Context, req *types.QueryAllBidRequest) (*typ
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	bids := k.GetAllBid(ctx)
+	bids := k.GetAllBids(ctx)
 
 	// Create a mock pagination response for compatibility
 	pageRes := &query.PageResponse{
@@ -39,7 +39,7 @@ func (k Keeper) Bid(ctx context.Context, req *types.QueryGetBidRequest) (*types.
 
 	// Find bid by index field
 	// Walk through all bids to find the one with matching index
-	allBids := k.GetAllBid(ctx)
+	allBids := k.GetAllBids(ctx)
 	for _, bid := range allBids {
 		if bid.Index == indexUint64 {
 			return &types.QueryGetBidResponse{Bid: bid}, nil

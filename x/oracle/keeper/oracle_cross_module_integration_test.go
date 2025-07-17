@@ -1,6 +1,7 @@
 package keeper_test
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"testing"
@@ -14,7 +15,7 @@ import (
 	trusttypes "ipex/x/trust/types"
 
 	abcitypes "github.com/cometbft/cometbft/abci/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	cmtproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -22,6 +23,14 @@ import (
 func TestOracleCrossModuleIntegration(t *testing.T) {
 	oracleKeeper, ctx := keepertest.OracleKeeper(t)
 	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(3000)
+	
+	// Set up consensus parameters to avoid nil pointer dereference
+	consParams := cmtproto.ConsensusParams{
+		Abci: &cmtproto.ABCIParams{
+			VoteExtensionsEnableHeight: 1, // Enable vote extensions from height 1
+		},
+	}
+	ctx = ctx.WithConsensusParams(consParams)
 
 	// Set up test scenario with interlinked data across modules
 	baseTime := ctx.BlockTime()
@@ -30,24 +39,24 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 	t.Run("Organization and Subnet Validation Integration", func(t *testing.T) {
 		// Create organization that owns subnets
 		ownerOrg := orgtypes.Org{
-			Id:                1001,
-			Name:              "Example Corp",
-			Website:           "https://example.com",
-			DomainVerified:    false,
-			DomainLastChecked: baseTime.Add(-3 * time.Hour),
+			Id:                     1001,
+			Name:                   "Example Corp",
+			Website:                "https://example.com",
+			DomainVerified:         false,
+			DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
 		}
 
 		// Create subnet owned by the organization
 		subnet := subnettypes.Subnet{
-			Id:             2001,
-			NetworkAddress: 3232235521, // 192.168.1.1
-			Mask:           24,
-			OriginAsn:      64512,
-			Country:        "US",
-			OwnerOrgId:     ownerOrg.Id,
-			RirSyncTime:    baseTime.Add(-3 * time.Hour),
-			RpkiLastCheck:  baseTime.Add(-3 * time.Hour),
-			GeoLastCheck:   baseTime.Add(-3 * time.Hour),
+			Id:               2001,
+			NetworkAddress:   3232235521, // 192.168.1.1
+			Mask:             24,
+			OriginAsn:        64512,
+			Country:          "US",
+			OwnerOrgId:       ownerOrg.Id,
+			RirSyncedAt:      &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
+			RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
+			GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
 		}
 
 		mockOrgKeeper := &mockOrgKeeper{orgs: []orgtypes.Org{ownerOrg}}
@@ -133,12 +142,6 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 		mockOrgKeeper := &mockOrgKeeper{orgs: []orgtypes.Org{lessorOrg, lesseeOrg}}
 		mockSubnetKeeper := &mockSubnetKeeper{subnets: []subnettypes.Subnet{leasedSubnet}}
 		mockTrustKeeper := &mockTrustKeeper{subnets: []uint64{leasedSubnet.Id}}
-		mockNetIntel := &mockNetIntelService{
-			ready: true,
-			reputationResults: map[string]map[int]int{
-				"192.168.1.0/24": {1: 10, 2: 5, 3: 2, 4: 1}, // Poor reputation
-			},
-		}
 
 		// Create proposal handler to test PreBlocker integration
 		proposalHandler := abci.NewProposalHandler(
@@ -149,22 +152,6 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 			mockTrustKeeper,
 			&mockValidatorStore{},
 		)
-
-		// Create vote extension with blacklist data
-		voteExt := abci.OracleVoteExtension{
-			Height: ctx.BlockHeight(),
-			SubnetBlacklistSync: map[uint64]trusttypes.SubnetBlacklistCount{
-				leasedSubnet.Id: {
-					Level1Count: 10,
-					Level2Count: 5,
-					Level3Count: 2,
-					Level4Count: 1,
-				},
-			},
-		}
-
-		voteExtBytes, err := json.Marshal(voteExt)
-		require.NoError(t, err, "should marshal vote extension")
 
 		// Create injected transaction for PreBlocker
 		validationResults := abci.NetworkValidationResults{
@@ -208,21 +195,21 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 				Name:              "Primary Corp",
 				Website:           "https://primary.com",
 				DomainVerified:    false,
-				DomainLastChecked: baseTime.Add(-5 * time.Hour),
+				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-5 * time.Hour)}[0],
 			},
 			{
 				Id:                1002,
 				Name:              "Secondary Inc",
 				Website:           "https://secondary.net",
 				DomainVerified:    true,
-				DomainLastChecked: baseTime.Add(-30 * time.Minute), // Recently verified
+				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-30 * time.Minute)}[0], // Recently verified
 			},
 			{
 				Id:                1003,
 				Name:              "Tertiary LLC",
 				Website:           "https://tertiary.org",
 				DomainVerified:    false,
-				DomainLastChecked: baseTime.Add(-10 * time.Hour),
+				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-10 * time.Hour)}[0],
 			},
 		}
 
@@ -234,9 +221,9 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 				OriginAsn:      64512,
 				Country:        "US",
 				OwnerOrgId:     1001,
-				RirSyncTime:    baseTime.Add(-4 * time.Hour),
-				RpkiLastCheck:  baseTime.Add(-4 * time.Hour),
-				GeoLastCheck:   baseTime.Add(-4 * time.Hour),
+				RirSyncedAt:      &[]time.Time{baseTime.Add(-4 * time.Hour)}[0],
+				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-4 * time.Hour)}[0],
+				GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-4 * time.Hour)}[0],
 			},
 			{
 				Id:             2002,
@@ -245,9 +232,9 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 				OriginAsn:      64513,
 				Country:        "CA",
 				OwnerOrgId:     1002,
-				RirSyncTime:    baseTime.Add(-6 * time.Hour),
-				RpkiLastCheck:  baseTime.Add(-6 * time.Hour),
-				GeoLastCheck:   baseTime.Add(-6 * time.Hour),
+				RirSyncedAt:      &[]time.Time{baseTime.Add(-6 * time.Hour)}[0],
+				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-6 * time.Hour)}[0],
+				GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-6 * time.Hour)}[0],
 			},
 			{
 				Id:             2003,
@@ -256,9 +243,9 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 				OriginAsn:      64514,
 				Country:        "GB",
 				OwnerOrgId:     1003,
-				RirSyncTime:    baseTime.Add(-2 * time.Hour), // Recent sync
-				RpkiLastCheck:  baseTime.Add(-8 * time.Hour),
-				GeoLastCheck:   baseTime.Add(-8 * time.Hour),
+				RirSyncedAt:      &[]time.Time{baseTime.Add(-2 * time.Hour)}[0], // Recent sync
+				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-8 * time.Hour)}[0],
+				GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-8 * time.Hour)}[0],
 			},
 		}
 
@@ -344,6 +331,14 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 func TestOracleErrorHandlingIntegration(t *testing.T) {
 	oracleKeeper, ctx := keepertest.OracleKeeper(t)
 	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(4000)
+	
+	// Set up consensus parameters to avoid nil pointer dereference
+	consParams := cmtproto.ConsensusParams{
+		Abci: &cmtproto.ABCIParams{
+			VoteExtensionsEnableHeight: 1, // Enable vote extensions from height 1
+		},
+	}
+	ctx = ctx.WithConsensusParams(consParams)
 
 	t.Run("NetIntel Service Unavailable", func(t *testing.T) {
 		subnet := subnettypes.Subnet{
@@ -491,21 +486,21 @@ type mockLeaseKeeper struct {
 	subnetContracts map[uint64]uint64 // subnet ID -> contract ID
 }
 
-func (m *mockLeaseKeeper) GetContract(ctx sdk.Context, id uint64) (leasetypes.Contract, bool) {
+func (m *mockLeaseKeeper) GetContract(ctx context.Context, id uint64) (leasetypes.Contract, bool) {
 	if contract, exists := m.contracts[id]; exists {
 		return leasetypes.Contract{
 			Id:        contract.Id,
 			SubnetId:  contract.SubnetId,
-			LessorOrg: contract.LessorOrg,
+			OwnerOrg: contract.LessorOrg,
 			LesseeOrg: contract.LesseeOrg,
 		}, true
 	}
 	return leasetypes.Contract{}, false
 }
 
-func (m *mockLeaseKeeper) SetContract(ctx sdk.Context, contract leasetypes.Contract) {}
+func (m *mockLeaseKeeper) SetContract(ctx context.Context, contract leasetypes.Contract) {}
 
-func (m *mockLeaseKeeper) GetFirstLeasedContractBySubnet(ctx sdk.Context, subnetId uint64) (uint64, bool) {
+func (m *mockLeaseKeeper) GetFirstLeasedContractBySubnet(ctx context.Context, subnetId uint64) (uint64, bool) {
 	if contractId, exists := m.subnetContracts[subnetId]; exists {
 		return contractId, true
 	}
@@ -523,11 +518,11 @@ type mockTrustKeeper struct {
 	lastUpdateLesseeId uint64
 }
 
-func (m *mockTrustKeeper) GetSubnetsForReputationScanning(ctx sdk.Context, referenceTime time.Time) []uint64 {
+func (m *mockTrustKeeper) GetSubnetsForReputationScanning(ctx context.Context, referenceTime time.Time) []uint64 {
 	return m.subnets
 }
 
-func (m *mockTrustKeeper) UpdateSubnetReputation(ctx sdk.Context, subnetId uint64, leaseId uint64, lessorOrgId uint64, lesseeOrgId uint64, reputation trusttypes.SubnetBlacklistCount) error {
+func (m *mockTrustKeeper) UpdateSubnetReputation(ctx context.Context, subnetId uint64, leaseId uint64, lessorOrgId uint64, lesseeOrgId uint64, reputation trusttypes.SubnetBlacklistCount) error {
 	m.updateCalls++
 	m.lastUpdateSubnetId = subnetId
 	m.lastUpdateLeaseId = leaseId
@@ -545,7 +540,7 @@ type mockSubnetKeeper struct {
 	invalidRirRecord bool
 }
 
-func (m *mockSubnetKeeper) GetSubnet(ctx sdk.Context, id uint64) (subnettypes.Subnet, bool) {
+func (m *mockSubnetKeeper) GetSubnet(ctx context.Context, id uint64) (subnettypes.Subnet, bool) {
 	for _, subnet := range m.subnets {
 		if subnet.Id == id {
 			return subnet, true
@@ -554,62 +549,63 @@ func (m *mockSubnetKeeper) GetSubnet(ctx sdk.Context, id uint64) (subnettypes.Su
 	return subnettypes.Subnet{}, false
 }
 
-func (m *mockSubnetKeeper) GetSubnetsForRirSync(ctx sdk.Context, referenceTime time.Time) []subnettypes.Subnet {
+func (m *mockSubnetKeeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
 	var result []subnettypes.Subnet
 	for _, subnet := range m.subnets {
-		if subnet.RirSyncTime.Before(referenceTime.Add(-time.Hour)) {
+		if subnet.RirSyncedAt != nil && subnet.RirSyncedAt.Before(referenceTime) {
 			result = append(result, subnet)
 		}
 	}
 	return result
 }
 
-func (m *mockSubnetKeeper) GetSubnetsForRPKIValidation(ctx sdk.Context, referenceTime time.Time) []subnettypes.Subnet {
+func (m *mockSubnetKeeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
 	var result []subnettypes.Subnet
 	for _, subnet := range m.subnets {
-		if subnet.RpkiLastCheck.Before(referenceTime.Add(-time.Hour)) {
+		if subnet.RpkiLastSyncedAt != nil && subnet.RpkiLastSyncedAt.Before(referenceTime) {
 			result = append(result, subnet)
 		}
 	}
 	return result
 }
 
-func (m *mockSubnetKeeper) GetSubnetsForGeoValidation(ctx sdk.Context, referenceTime time.Time) []subnettypes.Subnet {
+func (m *mockSubnetKeeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
 	var result []subnettypes.Subnet
 	for _, subnet := range m.subnets {
-		if subnet.GeoLastCheck.Before(referenceTime.Add(-time.Hour)) {
+		if subnet.GeoVerifAttemptedAt != nil && subnet.GeoVerifAttemptedAt.Before(referenceTime) {
 			result = append(result, subnet)
 		}
 	}
 	return result
 }
 
-func (m *mockSubnetKeeper) GetSubnetsForOwnershipVerification(ctx sdk.Context, referenceTime time.Time) []subnettypes.Subnet {
+func (m *mockSubnetKeeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
 	return []subnettypes.Subnet{}
 }
 
-func (m *mockSubnetKeeper) CheckSubnetLeaseAvailability(ctx sdk.Context, subnetID uint64) bool {
+func (m *mockSubnetKeeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetID uint64) bool {
 	return true
 }
 
-func (m *mockSubnetKeeper) SetSubnet(ctx sdk.Context, subnet subnettypes.Subnet) {}
+func (m *mockSubnetKeeper) SetSubnet(ctx context.Context, subnet subnettypes.Subnet) {}
 
-func (m *mockSubnetKeeper) UpdateSubnetRirDetails(ctx sdk.Context, subnetID uint64, info subnettypes.SubnetInfo) error {
+func (m *mockSubnetKeeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info subnettypes.SubnetInfo) error {
 	return nil
 }
 
-func (m *mockSubnetKeeper) UpdateSubnetRpkiValidationStatus(ctx sdk.Context, subnetID uint64, isValid bool) error {
+func (m *mockSubnetKeeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
 	return nil
 }
 
-func (m *mockSubnetKeeper) UpdateSubnetGeoValidationStatus(ctx sdk.Context, subnetID uint64, isValid bool) error {
+func (m *mockSubnetKeeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
 	return nil
 }
 
-func (m *mockSubnetKeeper) UpdateSubnetOwnershipVerification(ctx sdk.Context, subnetId uint64, isValid bool) error {
+func (m *mockSubnetKeeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetId uint64, isValid bool) error {
 	return nil
 }
 
-func (m *mockSubnetKeeper) IsRirRecordValid(ctx sdk.Context, subnetId uint64) bool {
+func (m *mockSubnetKeeper) IsRirRecordValid(ctx context.Context, subnetId uint64) bool {
 	return !m.invalidRirRecord
 }
+
