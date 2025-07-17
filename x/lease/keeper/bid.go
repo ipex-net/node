@@ -174,3 +174,8 @@ func (k Keeper) RemoveAllBidsForContract(ctx context.Context, contractId uint64)
 	}
 	return nil
 }
+
+// // CancelExpiredBid cancels the bids that are expired 
+// func (k Keeper) CancelExpiredBid(ctx context.Context) {
+// 	//bids := k.GetAllBid(ctx cp)
+// }

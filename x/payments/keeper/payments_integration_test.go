@@ -8,7 +8,9 @@ import (
 	"ipex/testutil/sample"
 	"ipex/x/payments/types"
 
+	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
 )
 
@@ -21,7 +23,7 @@ func TestTransactionLifecycleIntegration(t *testing.T) {
 	baseTime := ctx.BlockTime()
 	fromAddress := sample.AccAddress()
 	toAddress := sample.AccAddress()
-	amount := sdk.NewCoin("token", sdk.NewInt(1000))
+	amount := sdk.NewCoin("token", math.NewInt(1000))
 
 	t.Run("Record Lease Payment Transaction", func(t *testing.T) {
 		// Record a lease payment transaction
@@ -58,7 +60,7 @@ func TestTransactionLifecycleIntegration(t *testing.T) {
 
 	t.Run("Record Safety Deposit Transaction", func(t *testing.T) {
 		// Record a safety deposit collection
-		depositAmount := sdk.NewCoin("token", sdk.NewInt(5000))
+		depositAmount := sdk.NewCoin("token", math.NewInt(5000))
 		txId := keeper.RecordTransaction(
 			ctx,
 			types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT,
@@ -105,7 +107,7 @@ func TestTransactionLifecycleIntegration(t *testing.T) {
 				txType,
 				moduleIds[i],
 				uint64(50000+i), // unique entity IDs
-				sdk.NewCoin("token", sdk.NewInt(int64(1000*(i+1)))),
+				sdk.NewCoin("token", math.NewInt(int64(1000*(i+1)))),
 				uint64(3000+i), // unique from orgs
 				uint64(4000+i), // unique to orgs
 				sample.AccAddress(),
@@ -131,7 +133,7 @@ func TestTransactionLifecycleIntegration(t *testing.T) {
 			TransactionType: types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 			RelatedModuleId: types.ModuleID_MODULE_ID_LEASE,
 			EntityId:        99999,
-			Amount:          sdk.NewCoin("token", sdk.NewInt(2000)),
+			Amount:          sdk.NewCoin("token", math.NewInt(2000)),
 			FromOrgId:       5001,
 			ToOrgId:         6001,
 			FromAddress:     sample.AccAddress(),
@@ -163,7 +165,7 @@ func TestTransactionLifecycleIntegration(t *testing.T) {
 			TransactionType: types.TransactionType_TRANSACTION_TYPE_REFUND,
 			RelatedModuleId: types.ModuleID_MODULE_ID_LEASE,
 			EntityId:        88888,
-			Amount:          sdk.NewCoin("token", sdk.NewInt(500)),
+			Amount:          sdk.NewCoin("token", math.NewInt(500)),
 			FromOrgId:       7001,
 			ToOrgId:         8001,
 			FromAddress:     sample.AccAddress(),
@@ -198,8 +200,6 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 	keeper, ctx := keepertest.PaymentsKeeper(t)
 	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(200)
 
-	baseTime := ctx.BlockTime()
-
 	t.Run("Index by Entity", func(t *testing.T) {
 		entityId1 := uint64(10001)
 		entityId2 := uint64(10002)
@@ -210,7 +210,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 			types.ModuleID_MODULE_ID_LEASE,
 			entityId1,
-			sdk.NewCoin("token", sdk.NewInt(1000)),
+			sdk.NewCoin("token", math.NewInt(1000)),
 			1001,
 			2001,
 			sample.AccAddress(),
@@ -222,7 +222,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT,
 			types.ModuleID_MODULE_ID_LEASE,
 			entityId1, // Same entity
-			sdk.NewCoin("token", sdk.NewInt(3000)),
+			sdk.NewCoin("token", math.NewInt(3000)),
 			1001,
 			2001,
 			sample.AccAddress(),
@@ -234,7 +234,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_SUBNET_SALE,
 			types.ModuleID_MODULE_ID_SUBNET_SALE,
 			entityId2, // Different entity
-			sdk.NewCoin("token", sdk.NewInt(10000)),
+			sdk.NewCoin("token", math.NewInt(10000)),
 			3001,
 			4001,
 			sample.AccAddress(),
@@ -244,7 +244,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		// Test ListContractPayment query (queries by entity)
 		req := &types.QueryListContractPaymentRequest{
 			Id: entityId1,
-			Pagination: &types.PageRequest{
+			Pagination: &query.PageRequest{
 				Limit: 10,
 			},
 		}
@@ -272,7 +272,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		// Test with entity2 (should find only one transaction)
 		req2 := &types.QueryListContractPaymentRequest{
 			Id: entityId2,
-			Pagination: &types.PageRequest{
+			Pagination: &query.PageRequest{
 				Limit: 10,
 			},
 		}
@@ -295,7 +295,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 			types.ModuleID_MODULE_ID_LEASE,
 			30001,
-			sdk.NewCoin("token", sdk.NewInt(1500)),
+			sdk.NewCoin("token", math.NewInt(1500)),
 			orgId1, // from
 			orgId2, // to
 			sample.AccAddress(),
@@ -308,7 +308,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND,
 			types.ModuleID_MODULE_ID_LEASE,
 			30002,
-			sdk.NewCoin("token", sdk.NewInt(2500)),
+			sdk.NewCoin("token", math.NewInt(2500)),
 			orgId2, // from
 			orgId3, // to
 			sample.AccAddress(),
@@ -321,7 +321,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_REFUND,
 			types.ModuleID_MODULE_ID_LEASE,
 			30003,
-			sdk.NewCoin("token", sdk.NewInt(750)),
+			sdk.NewCoin("token", math.NewInt(750)),
 			orgId3, // from
 			orgId1, // to
 			sample.AccAddress(),
@@ -378,7 +378,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 				types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 				types.ModuleID_MODULE_ID_LEASE,
 				entityId,
-				sdk.NewCoin("token", sdk.NewInt(int64(1000+i*100))),
+				sdk.NewCoin("token", math.NewInt(int64(1000+i*100))),
 				uint64(50001+i),
 				uint64(60001+i),
 				sample.AccAddress(),
@@ -390,7 +390,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		// Test pagination - get first 2 transactions
 		req := &types.QueryListContractPaymentRequest{
 			Id: entityId,
-			Pagination: &types.PageRequest{
+			Pagination: &query.PageRequest{
 				Limit:  2,
 				Offset: 0,
 			},
@@ -404,7 +404,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		// Test pagination - get next 2 transactions
 		req2 := &types.QueryListContractPaymentRequest{
 			Id: entityId,
-			Pagination: &types.PageRequest{
+			Pagination: &query.PageRequest{
 				Limit:  2,
 				Offset: 2,
 			},
@@ -417,7 +417,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		// Test pagination - get remaining transaction
 		req3 := &types.QueryListContractPaymentRequest{
 			Id: entityId,
-			Pagination: &types.PageRequest{
+			Pagination: &query.PageRequest{
 				Limit:  2,
 				Offset: 4,
 			},
@@ -446,7 +446,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 	})
 
 	t.Run("Pagination by Organization", func(t *testing.T) {
-		orgId := uint64(70001)
+		orgId := uint64(9999001)
 
 		// Create multiple transactions involving the same organization
 		var expectedTxIds []uint64
@@ -454,9 +454,9 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			var fromOrg, toOrg uint64
 			if i%2 == 0 {
 				fromOrg = orgId // org as sender
-				toOrg = uint64(80001 + i)
+				toOrg = uint64(9998001 + i)
 			} else {
-				fromOrg = uint64(80001 + i)
+				fromOrg = uint64(9998001 + i)
 				toOrg = orgId // org as recipient
 			}
 
@@ -464,8 +464,8 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 				ctx,
 				types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 				types.ModuleID_MODULE_ID_LEASE,
-				uint64(70001+i),
-				sdk.NewCoin("token", sdk.NewInt(int64(500+i*50))),
+				uint64(9997001+i),
+				sdk.NewCoin("token", math.NewInt(int64(500+i*50))),
 				fromOrg,
 				toOrg,
 				sample.AccAddress(),
@@ -474,17 +474,25 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			expectedTxIds = append(expectedTxIds, txId)
 		}
 
-		// Test paginated query for organization
-		transactions, pageResp, err := keeper.GetTransactionsByOrgPaginated(ctx, orgId, &types.PageRequest{
+		// First get total count with limit=0 (following pattern from other modules)
+		totalTxs, totalPageResp, err := keeper.GetTransactionsByOrgPaginated(ctx, orgId, &query.PageRequest{
+			Limit:  0,
+			Offset: 0,
+		})
+		require.NoError(t, err, "should get total count")
+		require.Equal(t, uint64(7), totalPageResp.Total, "should have correct total count")
+		require.Len(t, totalTxs, 7, "should get all 7 transactions with limit=0")
+
+		// Test paginated query for organization (first page)
+		transactions, pageResp, err := keeper.GetTransactionsByOrgPaginated(ctx, orgId, &query.PageRequest{
 			Limit:  3,
 			Offset: 0,
 		})
 		require.NoError(t, err, "should paginate org transactions")
 		require.Len(t, transactions, 3, "should get 3 transactions on first page")
-		require.Equal(t, uint64(7), pageResp.Total, "should have correct total count")
 
 		// Test second page
-		transactions2, pageResp2, err := keeper.GetTransactionsByOrgPaginated(ctx, orgId, &types.PageRequest{
+		transactions2, pageResp2, err := keeper.GetTransactionsByOrgPaginated(ctx, orgId, &query.PageRequest{
 			Limit:  3,
 			Offset: 3,
 		})
@@ -492,7 +500,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		require.Len(t, transactions2, 3, "should get 3 transactions on second page")
 
 		// Test third page
-		transactions3, pageResp3, err := keeper.GetTransactionsByOrgPaginated(ctx, orgId, &types.PageRequest{
+		transactions3, pageResp3, err := keeper.GetTransactionsByOrgPaginated(ctx, orgId, &query.PageRequest{
 			Limit:  3,
 			Offset: 6,
 		})

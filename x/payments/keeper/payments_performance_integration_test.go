@@ -8,7 +8,9 @@ import (
 	"ipex/testutil/sample"
 	"ipex/x/payments/types"
 
+	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
 )
 
@@ -30,7 +32,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 				types.TransactionType(1+(i%7)), // Cycle through transaction types
 				types.ModuleID(1+(i%3)),        // Cycle through module IDs
 				uint64(100000+i),               // Unique entity IDs
-				sdk.NewCoin("utoken", sdk.NewInt(int64(1000+i))),
+				sdk.NewCoin("utoken", math.NewInt(int64(1000+i))),
 				uint64(200000+(i%50)), // 50 different from orgs
 				uint64(300000+(i%50)), // 50 different to orgs
 				sample.AccAddress(),
@@ -78,7 +80,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 					types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 					types.ModuleID_MODULE_ID_LEASE,
 					entityId,
-					sdk.NewCoin("utoken", sdk.NewInt(int64(1000+i))),
+					sdk.NewCoin("utoken", math.NewInt(int64(1000+i))),
 					uint64(500001+i),
 					uint64(600001+i),
 					sample.AccAddress(),
@@ -95,7 +97,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 			startTime = time.Now()
 			resp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
 				Id:         entityId,
-				Pagination: &types.PageRequest{Limit: 100},
+				Pagination: &query.PageRequest{Limit: 100},
 			})
 			queryTime := time.Since(startTime)
 
@@ -139,7 +141,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 					types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 					types.ModuleID_MODULE_ID_LEASE,
 					uint64(800001+i*transactionsPerOrg+j),
-					sdk.NewCoin("utoken", sdk.NewInt(int64(1000+j))),
+					sdk.NewCoin("utoken", math.NewInt(int64(1000+j))),
 					fromOrg,
 					toOrg,
 					sample.AccAddress(),
@@ -152,7 +154,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		t.Logf("Created %d transactions across %d orgs in %v", len(createdTxIds), numOrgs, orgIndexingTime)
 
 		// Test organization query performance
-		for i, orgId := range orgIds[:5] { // Test first 5 orgs
+		for _, orgId := range orgIds[:5] { // Test first 5 orgs
 			startTime = time.Now()
 			orgTxs, err := keeper.GetTransactionsByOrg(ctx, orgId)
 			queryTime := time.Since(startTime)
@@ -163,7 +165,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 			// Test paginated org queries
 			startTime = time.Now()
-			paginatedTxs, pageResp, err := keeper.GetTransactionsByOrgPaginated(ctx, orgId, &types.PageRequest{
+			paginatedTxs, pageResp, err := keeper.GetTransactionsByOrgPaginated(ctx, orgId, &query.PageRequest{
 				Limit:  5,
 				Offset: 0,
 			})
@@ -190,7 +192,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 				types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 				types.ModuleID_MODULE_ID_LEASE,
 				largeEntityId,
-				sdk.NewCoin("utoken", sdk.NewInt(int64(1000+i))),
+				sdk.NewCoin("utoken", math.NewInt(int64(1000+i))),
 				uint64(950001+i),
 				uint64(960001+i),
 				sample.AccAddress(),
@@ -211,7 +213,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 			offset := page * pageSize
 			resp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
 				Id: largeEntityId,
-				Pagination: &types.PageRequest{
+				Pagination: &query.PageRequest{
 					Limit:  uint64(pageSize),
 					Offset: uint64(offset),
 				},
@@ -251,7 +253,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 				types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 				types.ModuleID_MODULE_ID_LEASE,
 				testEntityId,
-				sdk.NewCoin("utoken", sdk.NewInt(int64(1000+i))),
+				sdk.NewCoin("utoken", math.NewInt(int64(1000+i))),
 				uint64(1100001+i),
 				uint64(1200001+i),
 				sample.AccAddress(),
@@ -284,7 +286,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		// Verify index consistency after modifications
 		remainingTxs, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
 			Id:         testEntityId,
-			Pagination: &types.PageRequest{Limit: 100},
+			Pagination: &query.PageRequest{Limit: 100},
 		})
 		require.NoError(t, err, "should query remaining transactions")
 		require.Len(t, remainingTxs.Transaction, numTestTransactions-10, "should have correct number of remaining transactions")
@@ -307,7 +309,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 					types.TransactionType(1+(txOffset%7)),
 					types.ModuleID(1+(txOffset%3)),
 					entityId,
-					sdk.NewCoin("utoken", sdk.NewInt(int64(1000+txOffset))),
+					sdk.NewCoin("utoken", math.NewInt(int64(1000+txOffset))),
 					uint64(1400001+entityOffset),
 					uint64(1500001+entityOffset),
 					sample.AccAddress(),
@@ -327,7 +329,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 			resp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
 				Id:         entityId,
-				Pagination: &types.PageRequest{Limit: 50},
+				Pagination: &query.PageRequest{Limit: 50},
 			})
 			require.NoError(t, err, "should query entity %d", entityId)
 			require.Len(t, resp.Transaction, transactionsPerConcurrentEntity, "should find all transactions for entity %d", entityId)
@@ -365,7 +367,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		startTime := time.Now()
 		emptyResp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
 			Id:         9999999, // Non-existent entity
-			Pagination: &types.PageRequest{Limit: 10},
+			Pagination: &query.PageRequest{Limit: 10},
 		})
 		emptyQueryTime := time.Since(startTime)
 
@@ -384,7 +386,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 				types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 				types.ModuleID_MODULE_ID_LEASE,
 				largeEntityId,
-				sdk.NewCoin("utoken", sdk.NewInt(int64(1000+i))),
+				sdk.NewCoin("utoken", math.NewInt(int64(1000+i))),
 				uint64(1700001+i),
 				uint64(1800001+i),
 				sample.AccAddress(),
@@ -396,7 +398,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		startTime = time.Now()
 		largeOffsetResp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
 			Id: largeEntityId,
-			Pagination: &types.PageRequest{
+			Pagination: &query.PageRequest{
 				Limit:  10,
 				Offset: 100, // Much larger than available transactions
 			},
@@ -412,7 +414,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		startTime = time.Now()
 		zeroLimitResp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
 			Id: largeEntityId,
-			Pagination: &types.PageRequest{
+			Pagination: &query.PageRequest{
 				Limit:  0, // Zero limit
 				Offset: 0,
 			},

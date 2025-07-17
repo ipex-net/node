@@ -8,7 +8,9 @@ import (
 	"ipex/testutil/sample"
 	"ipex/x/payments/types"
 
+	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
 )
 
@@ -29,7 +31,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		lesseeAddress := sample.AccAddress()
 
 		// 1. Initial lease payment
-		leasePaymentAmount := sdk.NewCoin("utoken", sdk.NewInt(10000))
+		leasePaymentAmount := sdk.NewCoin("utoken", math.NewInt(10000))
 		paymentTxId := keeper.RecordTransaction(
 			ctx,
 			types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
@@ -43,7 +45,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		)
 
 		// 2. Safety deposit collection
-		depositAmount := sdk.NewCoin("utoken", sdk.NewInt(25000))
+		depositAmount := sdk.NewCoin("utoken", math.NewInt(25000))
 		depositTxId := keeper.RecordTransaction(
 			ctx,
 			types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT,
@@ -74,7 +76,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		// Verify all transactions were recorded for the lease contract
 		contractTransactions, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
 			Id:         leaseContractId,
-			Pagination: &types.PageRequest{Limit: 10},
+			Pagination: &query.PageRequest{Limit: 10},
 		})
 		require.NoError(t, err, "should get contract transactions")
 		require.Len(t, contractTransactions.Transaction, 3, "should have 3 transactions for lease contract")
@@ -122,7 +124,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 
 		sellerAddress := sample.AccAddress()
 		buyerAddress := sample.AccAddress()
-		saleAmount := sdk.NewCoin("utoken", sdk.NewInt(1000000)) // 1M tokens
+		saleAmount := sdk.NewCoin("utoken", math.NewInt(1000000)) // 1M tokens
 
 		saleTxId := keeper.RecordTransaction(
 			ctx,
@@ -177,7 +179,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 
 		asnSellerAddress := sample.AccAddress()
 		asnBuyerAddress := sample.AccAddress()
-		asnSaleAmount := sdk.NewCoin("utoken", sdk.NewInt(500000)) // 500K tokens
+		asnSaleAmount := sdk.NewCoin("utoken", math.NewInt(500000)) // 500K tokens
 
 		asnSaleTxId := keeper.RecordTransaction(
 			ctx,
@@ -214,12 +216,12 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 			toOrg    uint64
 		}{
 			// Lease transactions
-			{types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT, types.ModuleID_MODULE_ID_LEASE, 101, sdk.NewCoin("utoken", sdk.NewInt(5000)), orgId, 200001},
-			{types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, types.ModuleID_MODULE_ID_LEASE, 102, sdk.NewCoin("utoken", sdk.NewInt(15000)), orgId, 200002},
-			{types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND, types.ModuleID_MODULE_ID_LEASE, 103, sdk.NewCoin("utoken", sdk.NewInt(12000)), 200003, orgId},
+			{types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT, types.ModuleID_MODULE_ID_LEASE, 101, sdk.NewCoin("utoken", math.NewInt(5000)), orgId, 200001},
+			{types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, types.ModuleID_MODULE_ID_LEASE, 102, sdk.NewCoin("utoken", math.NewInt(15000)), orgId, 200002},
+			{types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND, types.ModuleID_MODULE_ID_LEASE, 103, sdk.NewCoin("utoken", math.NewInt(12000)), 200003, orgId},
 			// Sales transactions
-			{types.TransactionType_TRANSACTION_TYPE_SUBNET_SALE, types.ModuleID_MODULE_ID_SUBNET_SALE, 201, sdk.NewCoin("utoken", sdk.NewInt(800000)), 300001, orgId},
-			{types.TransactionType_TRANSACTION_TYPE_ASN_SALE, types.ModuleID_MODULE_ID_ASN_SALE, 301, sdk.NewCoin("utoken", sdk.NewInt(400000)), orgId, 300002},
+			{types.TransactionType_TRANSACTION_TYPE_SUBNET_SALE, types.ModuleID_MODULE_ID_SUBNET_SALE, 201, sdk.NewCoin("utoken", math.NewInt(800000)), 300001, orgId},
+			{types.TransactionType_TRANSACTION_TYPE_ASN_SALE, types.ModuleID_MODULE_ID_ASN_SALE, 301, sdk.NewCoin("utoken", math.NewInt(400000)), orgId, 300002},
 		}
 
 		var txIds []uint64
@@ -296,7 +298,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 				txType,
 				types.ModuleID_MODULE_ID_LEASE,
 				uint64(600001+i),
-				sdk.NewCoin("utoken", sdk.NewInt(1000)),
+				sdk.NewCoin("utoken", math.NewInt(1000)),
 				uint64(700001+i),
 				uint64(800001+i),
 				sample.AccAddress(),
@@ -326,7 +328,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 				types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 				moduleId,
 				uint64(900001+i),
-				sdk.NewCoin("utoken", sdk.NewInt(1000)),
+				sdk.NewCoin("utoken", math.NewInt(1000)),
 				uint64(1000001+i),
 				uint64(1100001+i),
 				sample.AccAddress(),
@@ -345,10 +347,10 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 	t.Run("Amount and Coin Validation", func(t *testing.T) {
 		// Test various coin amounts and denominations
 		testAmounts := []sdk.Coin{
-			sdk.NewCoin("utoken", sdk.NewInt(1)),        // Minimum amount
-			sdk.NewCoin("utoken", sdk.NewInt(1000000)),  // Large amount
-			sdk.NewCoin("stake", sdk.NewInt(500)),       // Different denomination
-			sdk.NewCoin("ibc/ABC123", sdk.NewInt(1000)), // IBC token
+			sdk.NewCoin("utoken", math.NewInt(1)),        // Minimum amount
+			sdk.NewCoin("utoken", math.NewInt(1000000)),  // Large amount
+			sdk.NewCoin("stake", math.NewInt(500)),       // Different denomination
+			sdk.NewCoin("ibc/ABC123", math.NewInt(1000)), // IBC token
 		}
 
 		for i, amount := range testAmounts {
@@ -382,7 +384,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_REFUND,
 			types.ModuleID_MODULE_ID_LEASE,
 			1600001,
-			sdk.NewCoin("utoken", sdk.NewInt(1000)),
+			sdk.NewCoin("utoken", math.NewInt(1000)),
 			sameOrgId, // from
 			sameOrgId, // to (same org)
 			sample.AccAddress(),
@@ -411,7 +413,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 			types.ModuleID_MODULE_ID_LEASE,
 			1600002,
-			sdk.NewCoin("utoken", sdk.NewInt(1000)),
+			sdk.NewCoin("utoken", math.NewInt(1000)),
 			0, // zero from org
 			1700001,
 			sample.AccAddress(),
@@ -439,7 +441,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 				types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 				types.ModuleID_MODULE_ID_LEASE,
 				uint64(1800001+i),
-				sdk.NewCoin("utoken", sdk.NewInt(1000)),
+				sdk.NewCoin("utoken", math.NewInt(1000)),
 				uint64(1900001+i),
 				uint64(2000001+i),
 				addr, // from address
@@ -465,7 +467,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
 			types.ModuleID_MODULE_ID_LEASE,
 			2100001,
-			sdk.NewCoin("utoken", sdk.NewInt(1000)),
+			sdk.NewCoin("utoken", math.NewInt(1000)),
 			2200001,
 			2300001,
 			sample.AccAddress(),
@@ -482,7 +484,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 			types.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT,
 			types.ModuleID_MODULE_ID_LEASE,
 			2100002,
-			sdk.NewCoin("utoken", sdk.NewInt(2000)),
+			sdk.NewCoin("utoken", math.NewInt(2000)),
 			2200002,
 			2300002,
 			sample.AccAddress(),
