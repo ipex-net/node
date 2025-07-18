@@ -37,13 +37,13 @@ type (
 		ContractsByOwner  collections.Map[collections.Pair[uint64, uint64], bool]
 		ContractsByLessee collections.Map[collections.Pair[uint64, uint64], bool]
 		ContractSequence  collections.Sequence
-		
+
 		// Collections for Bid
-		Bids                  collections.Map[collections.Pair[uint64, uint64], types.Bid]  // contract-id, bidder-org -> bid
-		BidsByContract        collections.Map[collections.Pair[uint64, collections.Pair[uint64, uint64]], bool]  // contract-id, (contract-id, bidder-org) -> bool
-		BidsByBidder          collections.Map[collections.Pair[uint64, collections.Pair[uint64, uint64]], bool]  // bidder-org, (contract-id, bidder-org) -> bool
-		
-		ParamsStore       collections.Item[types.Params]
+		Bids           collections.Map[collections.Pair[uint64, uint64], types.Bid]                      // contract-id, bidder-org -> bid
+		BidsByContract collections.Map[collections.Pair[uint64, collections.Pair[uint64, uint64]], bool] // contract-id, (contract-id, bidder-org) -> bool
+		BidsByBidder   collections.Map[collections.Pair[uint64, collections.Pair[uint64, uint64]], bool] // bidder-org, (contract-id, bidder-org) -> bool
+
+		ParamsStore collections.Item[types.Params]
 	}
 )
 
@@ -86,13 +86,13 @@ func NewKeeper(
 		ContractsByOwner:  collections.NewMap(sb, collections.NewPrefix(types.ContractByOwnerKey), "contracts_by_owner", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		ContractsByLessee: collections.NewMap(sb, collections.NewPrefix(types.ContractByLesseeKey), "contracts_by_lessee", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), collections.BoolValue),
 		ContractSequence:  collections.NewSequence(sb, collections.NewPrefix(types.ContractSequenceKey), "contract_sequence"),
-		
+
 		// Initialize Bid collections
-		Bids:                  collections.NewMap(sb, collections.NewPrefix(types.BidKeyPrefix), "bids", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), codec.CollValue[types.Bid](cdc)),
-		BidsByContract:        collections.NewMap(sb, collections.NewPrefix(types.BidByContractKey), "bids_by_contract", collections.PairKeyCodec(collections.Uint64Key, collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key)), collections.BoolValue),
-		BidsByBidder:          collections.NewMap(sb, collections.NewPrefix(types.BidByBidderKey), "bids_by_bidder", collections.PairKeyCodec(collections.Uint64Key, collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key)), collections.BoolValue),
-		
-		ParamsStore:       collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
+		Bids:           collections.NewMap(sb, collections.NewPrefix(types.BidKeyPrefix), "bids", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), codec.CollValue[types.Bid](cdc)),
+		BidsByContract: collections.NewMap(sb, collections.NewPrefix(types.BidByContractKey), "bids_by_contract", collections.PairKeyCodec(collections.Uint64Key, collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key)), collections.BoolValue),
+		BidsByBidder:   collections.NewMap(sb, collections.NewPrefix(types.BidByBidderKey), "bids_by_bidder", collections.PairKeyCodec(collections.Uint64Key, collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key)), collections.BoolValue),
+
+		ParamsStore: collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
 	}
 
 	schema, err := sb.Build()

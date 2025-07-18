@@ -25,14 +25,14 @@ func TestGenesisState_Validate(t *testing.T) {
 
 				BidList: []types.Bid{
 					{
-						Index: 0,
+						Index:      0,
 						ContractId: 1,
-						BidderOrg: 100,
+						BidderOrg:  100,
 					},
 					{
-						Index: 1,
+						Index:      1,
 						ContractId: 1,
-						BidderOrg: 101,
+						BidderOrg:  101,
 					},
 				},
 				// this line is used by starport scaffolding # types/genesis/validField
@@ -44,14 +44,14 @@ func TestGenesisState_Validate(t *testing.T) {
 			genState: &types.GenesisState{
 				BidList: []types.Bid{
 					{
-						Index: 0,
+						Index:      0,
 						ContractId: 1,
-						BidderOrg: 100,
+						BidderOrg:  100,
 					},
 					{
-						Index: 1,
+						Index:      1,
 						ContractId: 1,
-						BidderOrg: 100, // Same contract and bidder = duplicate
+						BidderOrg:  100, // Same contract and bidder = duplicate
 					},
 				},
 			},

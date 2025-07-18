@@ -63,7 +63,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 
 	// If the contract automatically accepts first bidder we skip entire bidding logic and proceeding to contract activation
 	if contract.AcceptFirstBidder {
-		
+
 		// Performing transaction
 		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, sdk.NewCoins(contract.Price)); err != nil {
 			k.Logger().Error("failed to send coins to escrow", "error", err)
@@ -71,7 +71,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		}
 		// Saving payment
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "module:lease")
-		
+
 		// Updating the contract:
 		contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
 		contract.LesseeOrg = msg.LesseeOrg
@@ -119,7 +119,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		// Intended use string validation
 		if msg.IntendedUse == "" || len(msg.IntendedUse) < 3 || len(msg.IntendedUse) > 100 {
 			return nil, errorsmod.Wrap(
-				types.ErrIncorrectIntendedUseLength, 
+				types.ErrIncorrectIntendedUseLength,
 				"intended use string must be between 3 and 100 characters",
 			)
 		}
@@ -131,7 +131,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		}
 		// Saving payment
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_SUBMITTED, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "module:lease")
-		
+
 		// Generate unique index (simple counter for now)
 		allBids := k.GetAllBids(ctx)
 		nextIndex := uint64(len(allBids))
@@ -145,7 +145,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			Status:          types.BidStatus_BID_STATUS_SUBMITTED,
 			CreatedAt:       sdk.UnwrapSDKContext(ctx).BlockTime(),
 			ExpirationHours: msg.BidExpirationHours,
-			Amount:			 contract.Price,
+			Amount:          contract.Price,
 		}
 
 		// Store the bid
@@ -160,7 +160,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 				sdk.NewAttribute(types.BidSubmittedLesseeOrg, strconv.FormatUint(msg.LesseeOrg, 10)),
 				sdk.NewAttribute(types.BidSubmittedPriceAmount, contract.Price.Amount.String()),
 				sdk.NewAttribute(types.BidSubmittedPriceDenom, contract.Price.Denom),
-				sdk.NewAttribute(types.BidSubmittedExpirationHours, strconv.FormatUint(msg.BidExpirationHours,10)),
+				sdk.NewAttribute(types.BidSubmittedExpirationHours, strconv.FormatUint(msg.BidExpirationHours, 10)),
 			),
 		)
 	}

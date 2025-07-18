@@ -21,7 +21,7 @@ import (
 func TestOraclePerformanceAndScalability(t *testing.T) {
 	oracleKeeper, ctx := keepertest.OracleKeeper(t)
 	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(5000)
-	
+
 	// Set up consensus parameters to avoid nil pointer dereference
 	consParams := cmtproto.ConsensusParams{
 		Abci: &cmtproto.ABCIParams{
@@ -40,10 +40,10 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 
 		for i := 0; i < numOrgs; i++ {
 			org := orgtypes.Org{
-				Id:                uint64(1000 + i),
-				Name:              fmt.Sprintf("Organization %d", i),
-				Website:           fmt.Sprintf("https://example%d.com", i),
-				DomainVerified:    false,
+				Id:                     uint64(1000 + i),
+				Name:                   fmt.Sprintf("Organization %d", i),
+				Website:                fmt.Sprintf("https://example%d.com", i),
+				DomainVerified:         false,
 				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-time.Duration(3+i%12) * time.Hour)}[0], // Vary check times
 			}
 			orgs = append(orgs, org)
@@ -100,14 +100,14 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 		for i := 0; i < numSubnets; i++ {
 			subnetId := uint64(2000 + i)
 			subnet := subnettypes.Subnet{
-				Id:             subnetId,
-				NetworkAddress: baseIP + uint64(i*256), // Increment by /24 networks
-				Mask:           24,
-				OriginAsn:      uint64(64512 + i%100), // Vary ASNs
-				Country:        []string{"US", "CA", "GB", "DE", "FR"}[i%5],
-				OwnerOrgId:     uint64(1000 + i%50), // Distribute across 50 orgs
-				RirSyncedAt:      &[]time.Time{baseTime.Add(-time.Duration(2+i%48) * time.Hour)}[0],
-				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-time.Duration(2+i%72) * time.Hour)}[0],
+				Id:                  subnetId,
+				NetworkAddress:      baseIP + uint64(i*256), // Increment by /24 networks
+				Mask:                24,
+				OriginAsn:           uint64(64512 + i%100), // Vary ASNs
+				Country:             []string{"US", "CA", "GB", "DE", "FR"}[i%5],
+				OwnerOrgId:          uint64(1000 + i%50), // Distribute across 50 orgs
+				RirSyncedAt:         &[]time.Time{baseTime.Add(-time.Duration(2+i%48) * time.Hour)}[0],
+				RpkiLastSyncedAt:    &[]time.Time{baseTime.Add(-time.Duration(2+i%72) * time.Hour)}[0],
 				GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-time.Duration(2+i%96) * time.Hour)}[0],
 			}
 			subnets = append(subnets, subnet)
@@ -309,8 +309,8 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 		orgs := make([]orgtypes.Org, 50)
 		for i := 0; i < 50; i++ {
 			orgs[i] = orgtypes.Org{
-				Id:                uint64(1000 + i),
-				Website:           fmt.Sprintf("https://concurrent%d.com", i),
+				Id:                     uint64(1000 + i),
+				Website:                fmt.Sprintf("https://concurrent%d.com", i),
 				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
 			}
 		}
@@ -320,9 +320,9 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 		for i := 0; i < 50; i++ {
 			subnetId := uint64(2000 + i)
 			subnets[i] = subnettypes.Subnet{
-				Id:             subnetId,
-				NetworkAddress: 3232235520 + uint64(i*256),
-				Mask:           24,
+				Id:               subnetId,
+				NetworkAddress:   3232235520 + uint64(i*256),
+				Mask:             24,
 				RirSyncedAt:      &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
 				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
 			}
@@ -417,8 +417,8 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 		largeOrgs := make([]orgtypes.Org, numLargeOrgs)
 		for i := 0; i < numLargeOrgs; i++ {
 			largeOrgs[i] = orgtypes.Org{
-				Id:                uint64(10000 + i),
-				Website:           fmt.Sprintf("https://large%d.example.com", i),
+				Id:                     uint64(10000 + i),
+				Website:                fmt.Sprintf("https://large%d.example.com", i),
 				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-5 * time.Hour)}[0],
 			}
 		}
@@ -428,9 +428,9 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 		for i := 0; i < numLargeSubnets; i++ {
 			subnetId := uint64(20000 + i)
 			largeSubnets[i] = subnettypes.Subnet{
-				Id:             subnetId,
-				NetworkAddress: 167772160 + uint64(i*256), // Start at 10.0.0.0
-				Mask:           24,
+				Id:               subnetId,
+				NetworkAddress:   167772160 + uint64(i*256), // Start at 10.0.0.0
+				Mask:             24,
 				RirSyncedAt:      &[]time.Time{baseTime.Add(-5 * time.Hour)}[0],
 				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-5 * time.Hour)}[0],
 			}
@@ -506,7 +506,7 @@ func TestOraclePerformanceAndScalability(t *testing.T) {
 func TestOracleTimeoutAndFailureHandling(t *testing.T) {
 	oracleKeeper, ctx := keepertest.OracleKeeper(t)
 	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(6000)
-	
+
 	// Set up consensus parameters to avoid nil pointer dereference
 	consParams := cmtproto.ConsensusParams{
 		Abci: &cmtproto.ABCIParams{
@@ -581,8 +581,8 @@ func TestOracleTimeoutAndFailureHandling(t *testing.T) {
 
 		for i := 0; i < numExtremeOrgs; i++ {
 			extremeOrgs = append(extremeOrgs, orgtypes.Org{
-				Id:                uint64(50000 + i),
-				Website:           fmt.Sprintf("https://extreme%d.verylongdomainname.example.com", i),
+				Id:                     uint64(50000 + i),
+				Website:                fmt.Sprintf("https://extreme%d.verylongdomainname.example.com", i),
 				DomainVerifAttemptedAt: &[]time.Time{ctx.BlockTime().Add(-5 * time.Hour)}[0],
 			})
 		}

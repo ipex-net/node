@@ -123,7 +123,7 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 	)
 }
 
-// CancelExpiredBids cancels and refunds all expired bids
+// ProcessExpiredBids cancels and refunds all expired bids
 func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
@@ -147,7 +147,7 @@ func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 		// Refunding the bid
 		bidderAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, bid.BidderOrg)
 		if !found {
-			k.logger.Warn("can not refund bid for contract %d - admin for org %d not found",  bid.ContractId, bid.BidderOrg)
+			k.logger.Warn("can not refund bid for contract %d - admin for org %d not found", bid.ContractId, bid.BidderOrg)
 			continue
 		}
 		coins := sdk.NewCoins(bid.Amount)
@@ -157,7 +157,7 @@ func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 			bidderAdmin,
 			coins,
 		); err != nil {
-			k.logger.Warn("can not refund bid for contract %d and bidder org id %d - transaction failed",  bid.ContractId, bid.BidderOrg)
+			k.logger.Warn("can not refund bid for contract %d and bidder org id %d - transaction failed", bid.ContractId, bid.BidderOrg)
 			continue
 		}
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrg, bid.BidderOrg, "module:lease", bidderAdmin.String())

@@ -23,7 +23,7 @@ import (
 func TestOracleCrossModuleIntegration(t *testing.T) {
 	oracleKeeper, ctx := keepertest.OracleKeeper(t)
 	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(3000)
-	
+
 	// Set up consensus parameters to avoid nil pointer dereference
 	consParams := cmtproto.ConsensusParams{
 		Abci: &cmtproto.ABCIParams{
@@ -48,14 +48,14 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 
 		// Create subnet owned by the organization
 		subnet := subnettypes.Subnet{
-			Id:               2001,
-			NetworkAddress:   3232235521, // 192.168.1.1
-			Mask:             24,
-			OriginAsn:        64512,
-			Country:          "US",
-			OwnerOrgId:       ownerOrg.Id,
-			RirSyncedAt:      &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
-			RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
+			Id:                  2001,
+			NetworkAddress:      3232235521, // 192.168.1.1
+			Mask:                24,
+			OriginAsn:           64512,
+			Country:             "US",
+			OwnerOrgId:          ownerOrg.Id,
+			RirSyncedAt:         &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
+			RpkiLastSyncedAt:    &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
 			GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-3 * time.Hour)}[0],
 		}
 
@@ -191,60 +191,60 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 		// Complex scenario with multiple organizations and subnets across modules
 		orgs := []orgtypes.Org{
 			{
-				Id:                1001,
-				Name:              "Primary Corp",
-				Website:           "https://primary.com",
-				DomainVerified:    false,
+				Id:                     1001,
+				Name:                   "Primary Corp",
+				Website:                "https://primary.com",
+				DomainVerified:         false,
 				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-5 * time.Hour)}[0],
 			},
 			{
-				Id:                1002,
-				Name:              "Secondary Inc",
-				Website:           "https://secondary.net",
-				DomainVerified:    true,
+				Id:                     1002,
+				Name:                   "Secondary Inc",
+				Website:                "https://secondary.net",
+				DomainVerified:         true,
 				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-30 * time.Minute)}[0], // Recently verified
 			},
 			{
-				Id:                1003,
-				Name:              "Tertiary LLC",
-				Website:           "https://tertiary.org",
-				DomainVerified:    false,
+				Id:                     1003,
+				Name:                   "Tertiary LLC",
+				Website:                "https://tertiary.org",
+				DomainVerified:         false,
 				DomainVerifAttemptedAt: &[]time.Time{baseTime.Add(-10 * time.Hour)}[0],
 			},
 		}
 
 		subnets := []subnettypes.Subnet{
 			{
-				Id:             2001,
-				NetworkAddress: 3232235521, // 192.168.1.0/24
-				Mask:           24,
-				OriginAsn:      64512,
-				Country:        "US",
-				OwnerOrgId:     1001,
-				RirSyncedAt:      &[]time.Time{baseTime.Add(-4 * time.Hour)}[0],
-				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-4 * time.Hour)}[0],
+				Id:                  2001,
+				NetworkAddress:      3232235521, // 192.168.1.0/24
+				Mask:                24,
+				OriginAsn:           64512,
+				Country:             "US",
+				OwnerOrgId:          1001,
+				RirSyncedAt:         &[]time.Time{baseTime.Add(-4 * time.Hour)}[0],
+				RpkiLastSyncedAt:    &[]time.Time{baseTime.Add(-4 * time.Hour)}[0],
 				GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-4 * time.Hour)}[0],
 			},
 			{
-				Id:             2002,
-				NetworkAddress: 3232236032, // 192.168.3.0/24
-				Mask:           24,
-				OriginAsn:      64513,
-				Country:        "CA",
-				OwnerOrgId:     1002,
-				RirSyncedAt:      &[]time.Time{baseTime.Add(-6 * time.Hour)}[0],
-				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-6 * time.Hour)}[0],
+				Id:                  2002,
+				NetworkAddress:      3232236032, // 192.168.3.0/24
+				Mask:                24,
+				OriginAsn:           64513,
+				Country:             "CA",
+				OwnerOrgId:          1002,
+				RirSyncedAt:         &[]time.Time{baseTime.Add(-6 * time.Hour)}[0],
+				RpkiLastSyncedAt:    &[]time.Time{baseTime.Add(-6 * time.Hour)}[0],
 				GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-6 * time.Hour)}[0],
 			},
 			{
-				Id:             2003,
-				NetworkAddress: 3232236288, // 192.168.4.0/24
-				Mask:           24,
-				OriginAsn:      64514,
-				Country:        "GB",
-				OwnerOrgId:     1003,
-				RirSyncedAt:      &[]time.Time{baseTime.Add(-2 * time.Hour)}[0], // Recent sync
-				RpkiLastSyncedAt: &[]time.Time{baseTime.Add(-8 * time.Hour)}[0],
+				Id:                  2003,
+				NetworkAddress:      3232236288, // 192.168.4.0/24
+				Mask:                24,
+				OriginAsn:           64514,
+				Country:             "GB",
+				OwnerOrgId:          1003,
+				RirSyncedAt:         &[]time.Time{baseTime.Add(-2 * time.Hour)}[0], // Recent sync
+				RpkiLastSyncedAt:    &[]time.Time{baseTime.Add(-8 * time.Hour)}[0],
 				GeoVerifAttemptedAt: &[]time.Time{baseTime.Add(-8 * time.Hour)}[0],
 			},
 		}
@@ -337,7 +337,7 @@ func TestOracleCrossModuleIntegration(t *testing.T) {
 func TestOracleErrorHandlingIntegration(t *testing.T) {
 	oracleKeeper, ctx := keepertest.OracleKeeper(t)
 	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(4000)
-	
+
 	// Set up consensus parameters to avoid nil pointer dereference
 	consParams := cmtproto.ConsensusParams{
 		Abci: &cmtproto.ABCIParams{
@@ -497,7 +497,7 @@ func (m *mockLeaseKeeper) GetContract(ctx context.Context, id uint64) (leasetype
 		return leasetypes.Contract{
 			Id:        contract.Id,
 			SubnetId:  contract.SubnetId,
-			OwnerOrg: contract.LessorOrg,
+			OwnerOrg:  contract.LessorOrg,
 			LesseeOrg: contract.LesseeOrg,
 		}, true
 	}
@@ -614,4 +614,3 @@ func (m *mockSubnetKeeper) UpdateSubnetOwnershipVerification(ctx context.Context
 func (m *mockSubnetKeeper) IsRirRecordValid(ctx context.Context, subnetId uint64) bool {
 	return !m.invalidRirRecord
 }
-

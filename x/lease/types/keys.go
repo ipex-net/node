@@ -25,7 +25,7 @@ const (
 
 	// ModuleAccountName is the name of the module account
 	ModuleAccountName = ModuleName
-	
+
 	// Bid collection keys
 	BidKeyPrefix     = "Bid/value/"
 	BidByContractKey = "Bid/by_contract/"
@@ -114,13 +114,13 @@ const (
 )
 
 const (
-	BidSubmittedEventType               = "bid_submitted"
-	BidSubmittedCreator                 = "creator"
-	BidSubmittedContractId              = "contract_id"
-	BidSubmittedLesseeOrg               = "lessee_org"
-	BidSubmittedPriceAmount      	    = "price_amount"
-	BidSubmittedPriceDenom        	    = "price_denom"
-	BidSubmittedDepositCollectedAmount  = "deposit_collected_amount"
-	BidSubmittedDepositCollectedDenom   = "deposit_collected_denom"
-	BidSubmittedExpirationHours			= "expiration_hours"
+	BidSubmittedEventType              = "bid_submitted"
+	BidSubmittedCreator                = "creator"
+	BidSubmittedContractId             = "contract_id"
+	BidSubmittedLesseeOrg              = "lessee_org"
+	BidSubmittedPriceAmount            = "price_amount"
+	BidSubmittedPriceDenom             = "price_denom"
+	BidSubmittedDepositCollectedAmount = "deposit_collected_amount"
+	BidSubmittedDepositCollectedDenom  = "deposit_collected_denom"
+	BidSubmittedExpirationHours        = "expiration_hours"
 )

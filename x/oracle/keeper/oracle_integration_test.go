@@ -54,7 +54,7 @@ func TestOracleVoteExtensionLifecycle(t *testing.T) {
 		resp, err := handler.ExtendVoteHandler()(ctx, req)
 		require.NoError(t, err, "should generate empty vote extension")
 		require.NotEmpty(t, resp.VoteExtension, "should return valid JSON vote extension")
-		
+
 		// Parse and verify it's a valid empty vote extension
 		var voteExt abci.OracleVoteExtension
 		err = json.Unmarshal(resp.VoteExtension, &voteExt)
@@ -71,15 +71,15 @@ func TestOracleVoteExtensionLifecycle(t *testing.T) {
 		// Create organizations that need validation
 		testOrgs := []orgtypes.Org{
 			{
-				Id:                1001,
-				Website:           "https://example1.com",
-				DomainVerified:    false,
+				Id:                     1001,
+				Website:                "https://example1.com",
+				DomainVerified:         false,
 				DomainVerifAttemptedAt: &[]time.Time{ctx.BlockTime().Add(-2 * time.Hour)}[0],
 			},
 			{
-				Id:                1002,
-				Website:           "https://example2.com",
-				DomainVerified:    true,
+				Id:                     1002,
+				Website:                "https://example2.com",
+				DomainVerified:         true,
 				DomainVerifAttemptedAt: &[]time.Time{ctx.BlockTime().Add(-30 * time.Minute)}[0], // Recent check
 			},
 		}
@@ -121,14 +121,14 @@ func TestOracleVoteExtensionLifecycle(t *testing.T) {
 		// Create subnets that need various validations
 		testSubnets := []subnettypes.Subnet{
 			{
-				Id:             2001,
-				NetworkAddress: 3232235521, // 192.168.1.1
-				Mask:           24,
-				OriginAsn:      64512,
-				Country:        "US",
-				OwnerOrgId:     1001,
-				RirSyncedAt:      &[]time.Time{ctx.BlockTime().Add(-2 * time.Hour)}[0],
-				RpkiLastSyncedAt: &[]time.Time{ctx.BlockTime().Add(-2 * time.Hour)}[0],
+				Id:                  2001,
+				NetworkAddress:      3232235521, // 192.168.1.1
+				Mask:                24,
+				OriginAsn:           64512,
+				Country:             "US",
+				OwnerOrgId:          1001,
+				RirSyncedAt:         &[]time.Time{ctx.BlockTime().Add(-2 * time.Hour)}[0],
+				RpkiLastSyncedAt:    &[]time.Time{ctx.BlockTime().Add(-2 * time.Hour)}[0],
 				GeoVerifAttemptedAt: &[]time.Time{ctx.BlockTime().Add(-2 * time.Hour)}[0],
 			},
 			{
@@ -138,7 +138,7 @@ func TestOracleVoteExtensionLifecycle(t *testing.T) {
 				OriginAsn:      64513,
 				Country:        "CA",
 				OwnerOrgId:     1002,
-				RirSyncedAt:      &[]time.Time{ctx.BlockTime().Add(-30 * time.Minute)}[0], // Recent sync
+				RirSyncedAt:    &[]time.Time{ctx.BlockTime().Add(-30 * time.Minute)}[0], // Recent sync
 			},
 		}
 
@@ -192,7 +192,7 @@ func TestOracleConsensusAggregation(t *testing.T) {
 	t.Skip("Skipping consensus aggregation test - requires complex validator store setup")
 	_, ctx := keepertest.OracleKeeper(t)
 	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(1500)
-	
+
 	// Set up consensus parameters to avoid nil pointer dereference
 	consParams := cmtproto.ConsensusParams{
 		Abci: &cmtproto.ABCIParams{
@@ -416,7 +416,7 @@ func TestOracleVoteExtensionVerification(t *testing.T) {
 	t.Skip("Skipping vote extension verification test - requires complex validator store setup")
 	oracleKeeper, ctx := keepertest.OracleKeeper(t)
 	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(2000)
-	
+
 	// Set up consensus parameters to avoid nil pointer dereference
 	consParams := cmtproto.ConsensusParams{
 		Abci: &cmtproto.ABCIParams{

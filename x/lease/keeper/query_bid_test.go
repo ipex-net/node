@@ -17,7 +17,6 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-
 func TestBidQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.LeaseKeeper(t)
 	msgs := createNBid(keeper, ctx, 2)

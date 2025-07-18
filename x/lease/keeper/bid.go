@@ -14,7 +14,7 @@ import (
 // updateBidIndexes updates all secondary indexes for a bid
 func (k Keeper) updateBidIndexes(ctx context.Context, bid types.Bid) {
 	bidKey := collections.Join(bid.ContractId, bid.BidderOrg)
-	
+
 	// Index by contract
 	err := k.BidsByContract.Set(ctx, collections.Join(bid.ContractId, bidKey), true)
 	if err != nil {
@@ -31,7 +31,7 @@ func (k Keeper) updateBidIndexes(ctx context.Context, bid types.Bid) {
 // removeBidFromIndexes removes bid from all secondary indexes
 func (k Keeper) removeBidFromIndexes(ctx context.Context, bid types.Bid) {
 	bidKey := collections.Join(bid.ContractId, bid.BidderOrg)
-	
+
 	// Remove from contract index
 	err := k.BidsByContract.Remove(ctx, collections.Join(bid.ContractId, bidKey))
 	if err != nil {
@@ -48,7 +48,7 @@ func (k Keeper) removeBidFromIndexes(ctx context.Context, bid types.Bid) {
 // SetBid set a specific bid in the store
 func (k Keeper) SetBid(ctx context.Context, bid types.Bid) {
 	bidKey := collections.Join(bid.ContractId, bid.BidderOrg)
-	
+
 	// Get old bid to handle index updates
 	oldBid, found := k.GetBid(ctx, bid.ContractId, bid.BidderOrg)
 	if found {
@@ -96,7 +96,7 @@ func (k Keeper) RemoveBid(
 	}
 
 	bidKey := collections.Join(contractId, bidderOrg)
-	
+
 	// Remove from main collection
 	err := k.Bids.Remove(ctx, bidKey)
 	if err != nil {
@@ -175,4 +175,3 @@ func (k Keeper) RemoveAllBidsForContract(ctx context.Context, contractId uint64)
 	}
 	return nil
 }
-
