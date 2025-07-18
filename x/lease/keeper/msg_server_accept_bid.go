@@ -64,6 +64,8 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 			continue
 		}
 		if lostbid.Status != types.BidStatus_BID_STATUS_SUBMITTED {
+			// If it is already rejected or revoked, we just remove it
+			k.RemoveBid(ctx, lostbid.ContractId, lostbid.BidderOrgId)
 			continue
 		}
 		lostBidAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, lostbid.BidderOrgId)
