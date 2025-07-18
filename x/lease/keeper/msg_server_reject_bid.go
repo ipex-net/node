@@ -41,10 +41,8 @@ func (k msgServer) RejectBid(goCtx context.Context, msg *types.MsgRejectBid) (*t
 
 	// Verify creator is OwnerOrgId admin
 	if !k.orgKeeper.VerifyOrgAdmin(goCtx, bid.OwnerOrgId, msg.Creator) {
-		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.BidderOrgId)
+		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, bid.OwnerOrgId)
 	}
-
-
 
 	blocktime := ctx.BlockTime()
 
@@ -64,7 +62,7 @@ func (k msgServer) RejectBid(goCtx context.Context, msg *types.MsgRejectBid) (*t
 	}
 	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrgId, bid.BidderOrgId, "module:lease", bidderAdmin.String())
 
-	bid.Status = types.BidStatus_BID_STATUS_REVOKED
+	bid.Status = types.BidStatus_BID_STATUS_REJECTED
 	bid.UpdatedAt = &blocktime
 	k.SetBid(ctx, bid)
 
