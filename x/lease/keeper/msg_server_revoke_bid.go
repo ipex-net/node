@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"ipex/x/lease/types"
+	paymentstypes "ipex/x/payments/types"
 
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -42,7 +43,28 @@ func (k msgServer) RevokeBid(goCtx context.Context, msg *types.MsgRevokeBid) (*t
 		return nil, errorsmod.Wrapf(types.ErrIncorrectBidStatus, "bid must be in submitted status")
 	}
 
-	// Refunding
+	blocktime := ctx.BlockTime()
+
+	// Refunding the bid
+	bidderAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, bid.BidderOrg)
+	if !found {
+		return nil, errorsmod.Wrapf(types.ErrOrgAdminNotFound, "can not refund bid for contract %d - admin for org %d not found", bid.ContractId, bid.BidderOrg)
+	}
+	coins := sdk.NewCoins(bid.Amount)
+	if err := k.bankKeeper.SendCoinsFromModuleToAccount(
+		ctx,
+		types.ModuleAccountName,
+		bidderAdmin,
+		coins,
+	); err != nil {
+		return nil, errorsmod.Wrapf(types.ErrFundTransfer, "can not refund bid for contract %d and bidder org id %d - transaction failed with error %s", bid.ContractId, bid.BidderOrg, err)
+	}
+	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrg, bid.BidderOrg, "module:lease", bidderAdmin.String())
+
+	bid.Status = types.BidStatus_BID_STATUS_REVOKED
+	bid.UpdatedAt = &blocktime
+	k.SetBid(ctx, bid)
+
 
 	return &types.MsgRevokeBidResponse{}, nil
 }
