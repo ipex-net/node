@@ -31,6 +31,7 @@ service Msg {
   rpc RenewContract      (MsgRenewContract     ) returns (MsgRenewContractResponse     );
   rpc UndoCancelContract (MsgUndoCancelContract) returns (MsgUndoCancelContractResponse);
   rpc RevokeBid          (MsgRevokeBid         ) returns (MsgRevokeBidResponse         );
+  rpc RejectBid          (MsgRejectBid         ) returns (MsgRejectBidResponse         );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -145,4 +146,13 @@ message MsgRevokeBid {
 }
 
 message MsgRevokeBidResponse {}
+
+message MsgRejectBid {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator     = 1;
+  uint64 contractId  = 2;
+  uint64 bidderOrgId = 3;
+}
+
+message MsgRejectBidResponse {}
 

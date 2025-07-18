@@ -65,6 +65,5 @@ func (k msgServer) RevokeBid(goCtx context.Context, msg *types.MsgRevokeBid) (*t
 	bid.UpdatedAt = &blocktime
 	k.SetBid(ctx, bid)
 
-
 	return &types.MsgRevokeBidResponse{}, nil
 }

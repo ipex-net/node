@@ -63,6 +63,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgRevokeBid int = 100
 
+	opWeightMsgRejectBid = "op_weight_msg_reject_bid"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgRejectBid int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -196,6 +200,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		leasesimulation.SimulateMsgRevokeBid(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgRejectBid int
+	simState.AppParams.GetOrGenerate(opWeightMsgRejectBid, &weightMsgRejectBid, nil,
+		func(_ *rand.Rand) {
+			weightMsgRejectBid = defaultWeightMsgRejectBid
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgRejectBid,
+		leasesimulation.SimulateMsgRejectBid(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -281,6 +296,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgRevokeBid,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				leasesimulation.SimulateMsgRevokeBid(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgRejectBid,
+			defaultWeightMsgRejectBid,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				leasesimulation.SimulateMsgRejectBid(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

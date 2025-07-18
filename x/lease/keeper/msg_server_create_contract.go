@@ -29,7 +29,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	}
 
 	// Checking that the price is not nil
-	if msg.Price.Amount.IsZero()  {
+	if msg.Price.Amount.IsZero() {
 		return nil, types.ErrInvalidPrice
 	}
 	// Add this check after verifying the subnet availability

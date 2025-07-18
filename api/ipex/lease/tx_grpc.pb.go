@@ -8,6 +8,7 @@ package lease
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -30,6 +31,7 @@ const (
 	Msg_RenewContract_FullMethodName      = "/ipex.lease.Msg/RenewContract"
 	Msg_UndoCancelContract_FullMethodName = "/ipex.lease.Msg/UndoCancelContract"
 	Msg_RevokeBid_FullMethodName          = "/ipex.lease.Msg/RevokeBid"
+	Msg_RejectBid_FullMethodName          = "/ipex.lease.Msg/RejectBid"
 )
 
 // MsgClient is the client API for Msg service.
@@ -49,6 +51,7 @@ type MsgClient interface {
 	RenewContract(ctx context.Context, in *MsgRenewContract, opts ...grpc.CallOption) (*MsgRenewContractResponse, error)
 	UndoCancelContract(ctx context.Context, in *MsgUndoCancelContract, opts ...grpc.CallOption) (*MsgUndoCancelContractResponse, error)
 	RevokeBid(ctx context.Context, in *MsgRevokeBid, opts ...grpc.CallOption) (*MsgRevokeBidResponse, error)
+	RejectBid(ctx context.Context, in *MsgRejectBid, opts ...grpc.CallOption) (*MsgRejectBidResponse, error)
 }
 
 type msgClient struct {
@@ -158,6 +161,15 @@ func (c *msgClient) RevokeBid(ctx context.Context, in *MsgRevokeBid, opts ...grp
 	return out, nil
 }
 
+func (c *msgClient) RejectBid(ctx context.Context, in *MsgRejectBid, opts ...grpc.CallOption) (*MsgRejectBidResponse, error) {
+	out := new(MsgRejectBidResponse)
+	err := c.cc.Invoke(ctx, Msg_RejectBid_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -175,6 +187,7 @@ type MsgServer interface {
 	RenewContract(context.Context, *MsgRenewContract) (*MsgRenewContractResponse, error)
 	UndoCancelContract(context.Context, *MsgUndoCancelContract) (*MsgUndoCancelContractResponse, error)
 	RevokeBid(context.Context, *MsgRevokeBid) (*MsgRevokeBidResponse, error)
+	RejectBid(context.Context, *MsgRejectBid) (*MsgRejectBidResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -214,6 +227,9 @@ func (UnimplementedMsgServer) UndoCancelContract(context.Context, *MsgUndoCancel
 }
 func (UnimplementedMsgServer) RevokeBid(context.Context, *MsgRevokeBid) (*MsgRevokeBidResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeBid not implemented")
+}
+func (UnimplementedMsgServer) RejectBid(context.Context, *MsgRejectBid) (*MsgRejectBidResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RejectBid not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -426,6 +442,24 @@ func _Msg_RevokeBid_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_RejectBid_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgRejectBid)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).RejectBid(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_RejectBid_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).RejectBid(ctx, req.(*MsgRejectBid))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -476,6 +510,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RevokeBid",
 			Handler:    _Msg_RevokeBid_Handler,
+		},
+		{
+			MethodName: "RejectBid",
+			Handler:    _Msg_RejectBid_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
