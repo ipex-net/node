@@ -110,7 +110,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		// Bid interval validations
 		if msg.BidExpirationHours == 0 || msg.BidExpirationHours > 120 {
 			return nil, errorsmod.Wrapf(
-				types.ErrInvlidBidExpirationInterval,
+				types.ErrInvalidBidExpirationInterval,
 				"bid expiration interval %d should be between 1 and 120",
 				msg.BidExpirationHours,
 			)

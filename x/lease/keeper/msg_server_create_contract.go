@@ -25,12 +25,13 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 
 	// l2BlacklistCountThreshold can not be zero
 	if msg.L2BlacklistCountThreshold == 0 {
-		return nil, errorsmod.Wrap(
-			types.ErrInvalidBlacklistThreshold,
-			"Blacklist threshold can not be zero",
-		)
+		return nil, types.ErrInvalidBlacklistThreshold
 	}
 
+	// Checking that the price is not nil
+	if msg.Price.Amount.IsZero()  {
+		return nil, types.ErrInvalidPrice
+	}
 	// Add this check after verifying the subnet availability
 	if msg.SafetyDeposit.Denom != msg.Price.Denom {
 		return nil, errorsmod.Wrapf(
@@ -80,7 +81,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 
 	//Verify subnet is available
 	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
-		return nil, errorsmod.Wrap(types.ErrSubnetNotReady, "subnet is not ready for lease")
+		return nil, types.ErrSubnetNotReady
 	}
 
 	var contract = types.Contract{
