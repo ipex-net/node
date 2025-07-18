@@ -20,13 +20,13 @@ func (k msgServer) RejectBid(goCtx context.Context, msg *types.MsgRejectBid) (*t
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	// Check if the org id exists
+	// Check if the bidder org exists
 	if msg.BidderOrgId != 0 {
 		if !k.orgKeeper.HasOrg(ctx, msg.BidderOrgId) {
-			return nil, errorsmod.Wrapf(types.ErrInvalidOrgId, "org with ID %d not found", msg.BidderOrgId)
+			return nil, errorsmod.Wrapf(types.ErrInvalidOrgId, "bidder org with ID %d not found", msg.BidderOrgId)
 		}
 	} else {
-		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "org ID not provided")
+		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "bidder org ID not provided")
 	}
 
 	bid, found := k.GetBid(ctx, msg.ContractId, msg.BidderOrgId)
@@ -37,6 +37,15 @@ func (k msgServer) RejectBid(goCtx context.Context, msg *types.MsgRejectBid) (*t
 	// Bid must be in submitted status
 	if bid.Status != types.BidStatus_BID_STATUS_SUBMITTED {
 		return nil, errorsmod.Wrapf(types.ErrIncorrectBidStatus, "bid must be in submitted status")
+	}
+
+	// Check if the owner org exists
+	if bid.OwnerOrgId != 0 {
+		if !k.orgKeeper.HasOrg(ctx, bid.OwnerOrgId) {
+			return nil, errorsmod.Wrapf(types.ErrInvalidOrgId, "owner org with ID %d not found", bid.OwnerOrgId)
+		}
+	} else {
+		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "owner org ID not provided")
 	}
 
 	// Verify creator is OwnerOrgId admin
