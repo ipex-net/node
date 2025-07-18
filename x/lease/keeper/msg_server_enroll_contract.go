@@ -140,7 +140,8 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		bid := types.Bid{
 			Index:           nextIndex,
 			ContractId:      msg.ContractId,
-			BidderOrg:       msg.LesseeOrg,
+			BidderOrgId:     msg.LesseeOrg,
+			OwnerOrgId: 	 contract.OwnerOrg,
 			IntendedUse:     msg.IntendedUse,
 			Status:          types.BidStatus_BID_STATUS_SUBMITTED,
 			CreatedAt:       sdk.UnwrapSDKContext(ctx).BlockTime(),

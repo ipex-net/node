@@ -24,9 +24,9 @@ func (gs GenesisState) Validate() error {
 
 	for _, elem := range gs.BidList {
 		// Create key from contract ID and bidder org
-		key := fmt.Sprintf("%d-%d", elem.ContractId, elem.BidderOrg)
+		key := fmt.Sprintf("%d-%d", elem.ContractId, elem.BidderOrgId)
 		if _, ok := bidKeyMap[key]; ok {
-			return fmt.Errorf("duplicated bid for contract %d and bidder org %d", elem.ContractId, elem.BidderOrg)
+			return fmt.Errorf("duplicated bid for contract %d and bidder org %d", elem.ContractId, elem.BidderOrgId)
 		}
 		bidKeyMap[key] = struct{}{}
 	}

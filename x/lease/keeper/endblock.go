@@ -145,9 +145,9 @@ func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 		}
 
 		// Refunding the bid
-		bidderAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, bid.BidderOrg)
+		bidderAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, bid.BidderOrgId)
 		if !found {
-			k.logger.Warn("can not refund bid for contract %d - admin for org %d not found", bid.ContractId, bid.BidderOrg)
+			k.logger.Warn("can not refund bid for contract %d - admin for org %d not found", bid.ContractId, bid.BidderOrgId)
 			continue
 		}
 		coins := sdk.NewCoins(bid.Amount)
@@ -157,10 +157,10 @@ func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 			bidderAdmin,
 			coins,
 		); err != nil {
-			k.logger.Warn("can not refund bid for contract %d and bidder org id %d - transaction failed", bid.ContractId, bid.BidderOrg)
+			k.logger.Warn("can not refund bid for contract %d and bidder org id %d - transaction failed", bid.ContractId, bid.BidderOrgId)
 			continue
 		}
-		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrg, bid.BidderOrg, "module:lease", bidderAdmin.String())
+		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrgId, bid.BidderOrgId, "module:lease", bidderAdmin.String())
 
 		bid.Status = types.BidStatus_BID_STATUS_EXPIRED
 		bid.UpdatedAt = &blocktime

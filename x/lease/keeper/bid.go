@@ -13,7 +13,7 @@ import (
 
 // updateBidIndexes updates all secondary indexes for a bid
 func (k Keeper) updateBidIndexes(ctx context.Context, bid types.Bid) {
-	bidKey := collections.Join(bid.ContractId, bid.BidderOrg)
+	bidKey := collections.Join(bid.ContractId, bid.BidderOrgId)
 
 	// Index by contract
 	err := k.BidsByContract.Set(ctx, collections.Join(bid.ContractId, bidKey), true)
@@ -22,7 +22,7 @@ func (k Keeper) updateBidIndexes(ctx context.Context, bid types.Bid) {
 	}
 
 	// Index by bidder
-	err = k.BidsByBidder.Set(ctx, collections.Join(bid.BidderOrg, bidKey), true)
+	err = k.BidsByBidder.Set(ctx, collections.Join(bid.BidderOrgId, bidKey), true)
 	if err != nil {
 		panic(err)
 	}
@@ -30,7 +30,7 @@ func (k Keeper) updateBidIndexes(ctx context.Context, bid types.Bid) {
 
 // removeBidFromIndexes removes bid from all secondary indexes
 func (k Keeper) removeBidFromIndexes(ctx context.Context, bid types.Bid) {
-	bidKey := collections.Join(bid.ContractId, bid.BidderOrg)
+	bidKey := collections.Join(bid.ContractId, bid.BidderOrgId)
 
 	// Remove from contract index
 	err := k.BidsByContract.Remove(ctx, collections.Join(bid.ContractId, bidKey))
@@ -39,7 +39,7 @@ func (k Keeper) removeBidFromIndexes(ctx context.Context, bid types.Bid) {
 	}
 
 	// Remove from bidder index
-	err = k.BidsByBidder.Remove(ctx, collections.Join(bid.BidderOrg, bidKey))
+	err = k.BidsByBidder.Remove(ctx, collections.Join(bid.BidderOrgId, bidKey))
 	if err != nil {
 		panic(err)
 	}
@@ -47,10 +47,10 @@ func (k Keeper) removeBidFromIndexes(ctx context.Context, bid types.Bid) {
 
 // SetBid set a specific bid in the store
 func (k Keeper) SetBid(ctx context.Context, bid types.Bid) {
-	bidKey := collections.Join(bid.ContractId, bid.BidderOrg)
+	bidKey := collections.Join(bid.ContractId, bid.BidderOrgId)
 
 	// Get old bid to handle index updates
-	oldBid, found := k.GetBid(ctx, bid.ContractId, bid.BidderOrg)
+	oldBid, found := k.GetBid(ctx, bid.ContractId, bid.BidderOrgId)
 	if found {
 		// Remove old indexes
 		k.removeBidFromIndexes(ctx, oldBid)
@@ -168,7 +168,7 @@ func (k Keeper) GetBidsByBidder(ctx context.Context, bidderOrg uint64) (list []t
 func (k Keeper) RemoveAllBidsForContract(ctx context.Context, contractId uint64) error {
 	bids := k.GetBidsByContract(ctx, contractId)
 	for _, bid := range bids {
-		err := k.RemoveBid(ctx, bid.ContractId, bid.BidderOrg)
+		err := k.RemoveBid(ctx, bid.ContractId, bid.BidderOrgId)
 		if err != nil {
 			return err
 		}
