@@ -41,6 +41,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgRejectBid{},
 	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgAcceptBid{},
+	)
 	// this line is used by starport scaffolding # 3
 
 	registry.RegisterImplementations((*sdk.Msg)(nil),
