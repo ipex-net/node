@@ -20,7 +20,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	// We have treasury but it is only used to accumulate funds received from leasing subnets.
 	// There are two scenarios for enrolement: automatic acceptance and manual bid selection
 
-	//Checking if the address is correct
+	// Checking if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
@@ -40,18 +40,18 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.LesseeOrg)
 	}
 
-	//Getting the contract
+	// Getting the contract
 	contract, found := k.GetContract(ctx, msg.ContractId)
 	if !found {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.ContractId)
 	}
 
-	//Checking the contract status
+	// Checking the contract status
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in forsale status to be enrolled in")
 	}
 
-	//Checking that user has enough funds:
+	// Checking that user has enough funds:
 	creator, _ := sdk.AccAddressFromBech32(msg.Creator)
 	userBalance := k.bankKeeper.SpendableCoins(ctx, creator)
 	if !userBalance.IsAllGTE(sdk.NewCoins(contract.Price)) {
