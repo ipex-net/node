@@ -105,7 +105,7 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 				"refund_amount", contract.SafetyDepositRetained)
 			return
 		}
-		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_REFUND, paymentstypes.ModuleID_MODULE_ID_LEASE, contract.Id, (*contract.SafetyDepositRetained), contract.LesseeOrg, contract.OwnerOrg, "module:lease", refundAddress.String())
+		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COMPENSATION, paymentstypes.ModuleID_MODULE_ID_LEASE, contract.Id, (*contract.SafetyDepositRetained), contract.LesseeOrg, contract.OwnerOrg, "module:lease", refundAddress.String())
 
 		// Reset safety deposit
 		contract.SafetyDepositRetained = nil
@@ -121,4 +121,49 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 	k.logger.Info("Contract terminated",
 		"contract_id", contract.Id,
 	)
+}
+
+// CancelExpiredBids cancels and refunds all expired bids
+func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	// // TESTING
+	// // Only run every 30 blocks
+	// if ctx.BlockHeight()%30 != 0 {
+	// 	return
+	// 	}
+	blocktime := ctx.BlockTime()
+	bids := k.GetAllBids(ctx)
+	for _, bid := range bids {
+		// Skip bids that are not in submitted status
+		if bid.Status != types.BidStatus_BID_STATUS_SUBMITTED {
+			continue
+		}
+		// Skip bids that are not expired
+		if blocktime.Before(bid.CreatedAt.Add(time.Duration(time.Hour * time.Duration(bid.ExpirationHours)))) {
+			continue
+		}
+
+		// Refunding the bid
+		bidderAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, bid.BidderOrg)
+		if !found {
+			k.logger.Warn("can not refund bid for contract %d - admin for org %d not found",  bid.ContractId, bid.BidderOrg)
+			continue
+		}
+		coins := sdk.NewCoins(bid.Amount)
+		if err := k.bankKeeper.SendCoinsFromModuleToAccount(
+			ctx,
+			types.ModuleAccountName,
+			bidderAdmin,
+			coins,
+		); err != nil {
+			k.logger.Warn("can not refund bid for contract %d and bidder org id %d - transaction failed",  bid.ContractId, bid.BidderOrg)
+			continue
+		}
+		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrg, bid.BidderOrg, "module:lease", bidderAdmin.String())
+
+		bid.Status = types.BidStatus_BID_STATUS_EXPIRED
+		bid.UpdatedAt = &blocktime
+		k.SetBid(ctx, bid)
+	}
 }

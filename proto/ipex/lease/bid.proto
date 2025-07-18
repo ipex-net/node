@@ -5,6 +5,7 @@ option go_package = "ipex/x/lease/types";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
 import "gogoproto/gogo.proto"; 
+import "cosmos/base/v1beta1/coin.proto"; 
 
 enum BidStatus {
   BID_STATUS_SUBMITTED = 0;
@@ -17,11 +18,13 @@ enum BidStatus {
 message Bid {
   uint64 index = 1; 
   uint64 contractId = 2; 
-  uint64 bidderOrg = 3; 
-  string intendedUse = 4; 
-  uint64 status = 5; 
-  google.protobuf.Timestamp createdAt = 6 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false ]; 
-  google.protobuf.Timestamp updatedAt = 7 [(gogoproto.stdtime) = true ]; 
-  uint64 expirationHours = 8; 
+  uint64 ownerOrg = 3;
+  uint64 bidderOrg = 4; 
+  string intendedUse = 5; 
+  BidStatus status = 6; 
+  google.protobuf.Timestamp createdAt = 7 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false ]; 
+  google.protobuf.Timestamp updatedAt = 8 [(gogoproto.stdtime) = true ]; 
+  uint64 expirationHours = 9; 
+  cosmos.base.v1beta1.Coin amount = 10 [(gogoproto.nullable) = false];
 }
 

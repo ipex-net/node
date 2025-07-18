@@ -164,6 +164,7 @@ func (k Keeper) GetBidsByBidder(ctx context.Context, bidderOrg uint64) (list []t
 }
 
 // RemoveAllBidsForContract removes all bids for a specific contract
+// TODO: probably not needed as we'll treat them one by one
 func (k Keeper) RemoveAllBidsForContract(ctx context.Context, contractId uint64) error {
 	bids := k.GetBidsByContract(ctx, contractId)
 	for _, bid := range bids {
@@ -175,7 +176,3 @@ func (k Keeper) RemoveAllBidsForContract(ctx context.Context, contractId uint64)
 	return nil
 }
 
-// // CancelExpiredBid cancels the bids that are expired 
-// func (k Keeper) CancelExpiredBid(ctx context.Context) {
-// 	//bids := k.GetAllBid(ctx cp)
-// }

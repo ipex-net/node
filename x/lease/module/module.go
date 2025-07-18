@@ -153,6 +153,7 @@ func (am AppModule) BeginBlock(_ context.Context) error {
 // The end block implementation is optional.
 func (am AppModule) EndBlock(ctx context.Context) error {
 	am.keeper.ProcessExpiredContracts(ctx)
+	am.keeper.ProcessExpiredBids(ctx)
 	return nil
 }
 

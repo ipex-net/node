@@ -105,7 +105,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			),
 		)
 	}
-	// If we manually select the bidder we use the bidding system
+	// If we manually select the bidder - we use the bidding system
 	if !contract.AcceptFirstBidder {
 		// Bid interval validations
 		if msg.BidExpirationHours == 0 || msg.BidExpirationHours > 120 {
@@ -130,7 +130,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 		}
 		// Saving payment
-		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "module:lease")
+		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_SUBMITTED, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "module:lease")
 		
 		// Generate unique index (simple counter for now)
 		allBids := k.GetAllBids(ctx)
@@ -142,9 +142,10 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			ContractId:      msg.ContractId,
 			BidderOrg:       msg.LesseeOrg,
 			IntendedUse:     msg.IntendedUse,
-			Status:          uint64(types.BidStatus_BID_STATUS_SUBMITTED),
+			Status:          types.BidStatus_BID_STATUS_SUBMITTED,
 			CreatedAt:       sdk.UnwrapSDKContext(ctx).BlockTime(),
 			ExpirationHours: msg.BidExpirationHours,
+			Amount:			 contract.Price,
 		}
 
 		// Store the bid
