@@ -81,7 +81,7 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 		); err != nil {
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "can not refund bid for contract %d and bidder org id %d - transaction failed with error %s", lostbid.ContractId, lostbid.BidderOrgId, err)
 		}
-		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrgId, bid.BidderOrgId, "module:lease", lostBidAdmin.String())
+		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, lostbid.ContractId, lostbid.Amount, lostbid.OwnerOrgId, lostbid.BidderOrgId, "module:lease", lostBidAdmin.String())
 
 		k.RemoveBid(ctx, lostbid.ContractId, lostbid.BidderOrgId)
 	}
