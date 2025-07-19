@@ -40,4 +40,6 @@ var (
 	ErrIncorrectIntendedUseLength   = sdkerrors.Register(ModuleName, 1129, "incorrect intended use text length")
 	ErrBidNotFound                  = sdkerrors.Register(ModuleName, 1130, "bid not found")
 	ErrIncorrectBidStatus           = sdkerrors.Register(ModuleName, 1131, "incorrect bid status")
+	ErrOrgNotVerified				= sdkerrors.Register(ModuleName, 1132, "org not verified")
+	ErrInexistentContract			= sdkerrors.Register(ModuleName, 1133, "contract does not exist")
 )
