@@ -259,3 +259,9 @@ func (k Keeper) UpdateOrgDomainValidationStatus(ctx context.Context, orgID uint6
 
 	return nil
 }
+
+// IsOrgVerified returns org domain verification status
+func (k Keeper) IsOrgVerified(ctx context.Context, id uint64) bool {
+	org, _ := k.GetOrg(ctx, id)
+	return org.DomainVerified
+}
