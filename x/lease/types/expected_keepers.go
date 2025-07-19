@@ -32,6 +32,7 @@ type OrgKeeper interface {
 	VerifyOrgAdmin(ctx context.Context, orgid uint64, admin string) bool
 	GetOrgTreasury(ctx context.Context, orgid uint64) (sdk.AccAddress, bool)
 	GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAddress, bool)
+	IsOrgVerified(ctx context.Context, id uint64) bool
 }
 
 type SubnetKeeper interface {

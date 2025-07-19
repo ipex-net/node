@@ -35,6 +35,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "org ID not provided")
 	}
 
+
 	// Verify creator is org admin
 	if !k.orgKeeper.VerifyOrgAdmin(goCtx, msg.LesseeOrg, msg.Creator) {
 		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.LesseeOrg)
@@ -43,8 +44,14 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	// Getting the contract
 	contract, found := k.GetContract(ctx, msg.ContractId)
 	if !found {
-		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.ContractId)
+		return nil, errorsmod.Wrapf(types.ErrInexistentContract, "contract with id %d doesn't exist", msg.ContractId)
 	}
+	
+	// Checking for matching org verification status
+	if !contract.AllowUnverifiedBidders && !k.orgKeeper.IsOrgVerified(ctx, msg.LesseeOrg){
+		return nil, errorsmod.Wrapf(types.ErrOrgNotVerified, "contract only accepts verified orgs")
+	}
+
 
 	// Checking the contract status
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
