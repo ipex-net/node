@@ -127,6 +127,8 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// Interval after expiration that will trigger bid cleanup
+	var bidCleanupThresholdHours uint64  = 48
 	// // TESTING
 	// // Only run every 30 blocks
 	// if ctx.BlockHeight()%30 != 0 {
@@ -135,35 +137,35 @@ func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 	blocktime := ctx.BlockTime()
 	bids := k.GetAllBids(ctx)
 	for _, bid := range bids {
-		// Skip bids that are not in submitted status
-		if bid.Status != types.BidStatus_BID_STATUS_SUBMITTED {
-			continue
-		}
-		// Skip bids that are not expired
-		if blocktime.Before(bid.CreatedAt.Add(time.Duration(time.Hour * time.Duration(bid.ExpirationHours)))) {
-			continue
+
+		// Treating expired bids
+		if bid.Status == types.BidStatus_BID_STATUS_SUBMITTED && blocktime.After(bid.CreatedAt.Add(time.Duration(time.Hour * time.Duration(bid.ExpirationHours)))) {
+			// Refunding the bid
+			bidderAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, bid.BidderOrgId)
+			if !found {
+				k.logger.Warn("can not refund bid for contract %d - admin for org %d not found", bid.ContractId, bid.BidderOrgId)
+				continue
+			}
+			coins := sdk.NewCoins(bid.Amount)
+			if err := k.bankKeeper.SendCoinsFromModuleToAccount(
+				ctx,
+				types.ModuleAccountName,
+				bidderAdmin,
+				coins,
+			); err != nil {
+				k.logger.Warn("can not refund bid for contract %d and bidder org id %d - transaction failed", bid.ContractId, bid.BidderOrgId)
+				continue
+			}
+			k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrgId, bid.BidderOrgId, "module:lease", bidderAdmin.String())
+
+			bid.Status = types.BidStatus_BID_STATUS_EXPIRED
+			bid.UpdatedAt = &blocktime
+			k.SetBid(ctx, bid)
 		}
 
-		// Refunding the bid
-		bidderAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, bid.BidderOrgId)
-		if !found {
-			k.logger.Warn("can not refund bid for contract %d - admin for org %d not found", bid.ContractId, bid.BidderOrgId)
-			continue
+		// Remove old bids
+		if bid.Status != types.BidStatus_BID_STATUS_SUBMITTED && blocktime.After(bid.CreatedAt.Add(time.Duration(time.Hour * time.Duration(bid.ExpirationHours + bidCleanupThresholdHours)))){
+			k.RemoveBid(ctx, bid.ContractId, bid.BidderOrgId)
 		}
-		coins := sdk.NewCoins(bid.Amount)
-		if err := k.bankKeeper.SendCoinsFromModuleToAccount(
-			ctx,
-			types.ModuleAccountName,
-			bidderAdmin,
-			coins,
-		); err != nil {
-			k.logger.Warn("can not refund bid for contract %d and bidder org id %d - transaction failed", bid.ContractId, bid.BidderOrgId)
-			continue
-		}
-		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrgId, bid.BidderOrgId, "module:lease", bidderAdmin.String())
-
-		bid.Status = types.BidStatus_BID_STATUS_EXPIRED
-		bid.UpdatedAt = &blocktime
-		k.SetBid(ctx, bid)
 	}
 }
