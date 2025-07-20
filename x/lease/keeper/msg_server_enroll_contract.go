@@ -131,6 +131,11 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			)
 		}
 
+		// Checking if bid already exists
+		if _, found := k.GetBid(ctx, msg.ContractId, msg.LesseeOrg); found {
+			return nil, errorsmod.Wrapf(types.ErrBidAlreadyExists, "bid for contract %d and org %d already exists", msg.ContractId, msg.LesseeOrg)
+		}
+
 		// Performing transaction
 		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, sdk.NewCoins(contract.Price)); err != nil {
 			k.Logger().Error("failed to send coins to escrow", "error", err)
