@@ -29,21 +29,24 @@ func TestBidQuerySingle(t *testing.T) {
 		{
 			desc: "First",
 			request: &types.QueryGetBidRequest{
-				Index: strconv.FormatUint(msgs[0].Index, 10),
+				ContractId:  msgs[0].ContractId,
+				BidderOrgId: msgs[0].BidderOrgId,
 			},
 			response: &types.QueryGetBidResponse{Bid: msgs[0]},
 		},
 		{
 			desc: "Second",
 			request: &types.QueryGetBidRequest{
-				Index: strconv.FormatUint(msgs[1].Index, 10),
+				ContractId:  msgs[1].ContractId,
+				BidderOrgId: msgs[1].BidderOrgId,
 			},
 			response: &types.QueryGetBidResponse{Bid: msgs[1]},
 		},
 		{
 			desc: "KeyNotFound",
 			request: &types.QueryGetBidRequest{
-				Index: "100000",
+				ContractId:  100000,
+				BidderOrgId: 100000,
 			},
 			err: status.Error(codes.NotFound, "bid not found"),
 		},

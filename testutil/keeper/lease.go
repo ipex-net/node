@@ -66,6 +66,10 @@ func (m mockOrgKeeper) GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAd
 	return sdk.AccAddress{}, false
 }
 
+func (m mockOrgKeeper) IsOrgVerified(ctx context.Context, orgid uint64) bool {
+	return true
+}
+
 type mockSubnetKeeperLease struct{}
 
 func (m mockSubnetKeeperLease) VerifySubnetOwner(ctx context.Context, subnetId uint64, user string) bool {

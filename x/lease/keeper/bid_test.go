@@ -19,9 +19,8 @@ var _ = strconv.IntSize
 func createNBid(keeper keeper.Keeper, ctx context.Context, n int) []types.Bid {
 	items := make([]types.Bid, n)
 	for i := range items {
-		items[i].Index = uint64(i)
 		items[i].ContractId = uint64(i + 1)
-		items[i].BidderOrg = uint64(i + 100)
+		items[i].BidderOrgId = uint64(i + 100)
 
 		keeper.SetBid(ctx, items[i])
 	}
@@ -34,7 +33,7 @@ func TestBidGet(t *testing.T) {
 	for _, item := range items {
 		rst, found := keeper.GetBid(ctx,
 			item.ContractId,
-			item.BidderOrg,
+			item.BidderOrgId,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -49,12 +48,12 @@ func TestBidRemove(t *testing.T) {
 	for _, item := range items {
 		err := keeper.RemoveBid(ctx,
 			item.ContractId,
-			item.BidderOrg,
+			item.BidderOrgId,
 		)
 		require.NoError(t, err)
 		_, found := keeper.GetBid(ctx,
 			item.ContractId,
-			item.BidderOrg,
+			item.BidderOrgId,
 		)
 		require.False(t, found)
 	}
