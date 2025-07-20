@@ -129,11 +129,12 @@ func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 
 	// Interval after expiration that will trigger bid cleanup
 	var bidCleanupThresholdHours uint64  = 48
-	// // TESTING
-	// // Only run every 30 blocks
-	// if ctx.BlockHeight()%30 != 0 {
-	// 	return
-	// 	}
+
+	// Only run every 50 blocks
+	if ctx.BlockHeight()%50 != 0 {
+		return
+	}
+
 	blocktime := ctx.BlockTime()
 	bids := k.GetAllBids(ctx)
 	for _, bid := range bids {
