@@ -76,9 +76,9 @@ func TestBidGetByContract(t *testing.T) {
 	contractId1 := uint64(100)
 	contractId2 := uint64(200)
 
-	bid1 := types.Bid{ContractId: contractId1, BidderOrg: 1, Index: 1}
-	bid2 := types.Bid{ContractId: contractId1, BidderOrg: 2, Index: 2}
-	bid3 := types.Bid{ContractId: contractId2, BidderOrg: 1, Index: 3}
+	bid1 := types.Bid{ContractId: contractId1, BidderOrgId: 1}
+	bid2 := types.Bid{ContractId: contractId1, BidderOrgId: 2}
+	bid3 := types.Bid{ContractId: contractId2, BidderOrgId: 1}
 
 	keeper.SetBid(ctx, bid1)
 	keeper.SetBid(ctx, bid2)
@@ -104,9 +104,9 @@ func TestBidGetByBidder(t *testing.T) {
 	bidderOrg1 := uint64(100)
 	bidderOrg2 := uint64(200)
 
-	bid1 := types.Bid{ContractId: 1, BidderOrg: bidderOrg1, Index: 1}
-	bid2 := types.Bid{ContractId: 2, BidderOrg: bidderOrg1, Index: 2}
-	bid3 := types.Bid{ContractId: 1, BidderOrg: bidderOrg2, Index: 3}
+	bid1 := types.Bid{ContractId: 1, BidderOrgId: bidderOrg1}
+	bid2 := types.Bid{ContractId: 2, BidderOrgId: bidderOrg1}
+	bid3 := types.Bid{ContractId: 1, BidderOrgId: bidderOrg2}
 
 	keeper.SetBid(ctx, bid1)
 	keeper.SetBid(ctx, bid2)
@@ -131,10 +131,10 @@ func TestRemoveAllBidsForContract(t *testing.T) {
 	contractId := uint64(100)
 
 	// Create multiple bids for the same contract
-	bid1 := types.Bid{ContractId: contractId, BidderOrg: 1, Index: 1}
-	bid2 := types.Bid{ContractId: contractId, BidderOrg: 2, Index: 2}
-	bid3 := types.Bid{ContractId: contractId, BidderOrg: 3, Index: 3}
-	bid4 := types.Bid{ContractId: 200, BidderOrg: 1, Index: 4} // Different contract
+	bid1 := types.Bid{ContractId: contractId, BidderOrgId: 1}
+	bid2 := types.Bid{ContractId: contractId, BidderOrgId: 2}
+	bid3 := types.Bid{ContractId: contractId, BidderOrgId: 3}
+	bid4 := types.Bid{ContractId: 200, BidderOrgId: 1} // Different contract
 
 	keeper.SetBid(ctx, bid1)
 	keeper.SetBid(ctx, bid2)

@@ -139,13 +139,8 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		// Saving payment
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_SUBMITTED, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "module:lease")
 
-		// Generate unique index (simple counter for now)
-		allBids := k.GetAllBids(ctx)
-		nextIndex := uint64(len(allBids))
-
 		// Create the bid
 		bid := types.Bid{
-			Index:           nextIndex,
 			ContractId:      msg.ContractId,
 			BidderOrgId:     msg.LesseeOrg,
 			OwnerOrgId:      contract.OwnerOrg,

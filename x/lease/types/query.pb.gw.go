@@ -152,15 +152,26 @@ func request_Query_Bid_0(ctx context.Context, marshaler runtime.Marshaler, clien
 		_   = err
 	)
 
-	val, ok = pathParams["index"]
+	val, ok = pathParams["contractId"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "index")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "contractId")
 	}
 
-	protoReq.Index, err = runtime.String(val)
+	protoReq.ContractId, err = runtime.Uint64(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "index", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "contractId", err)
+	}
+
+	val, ok = pathParams["bidderOrgId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "bidderOrgId")
+	}
+
+	protoReq.BidderOrgId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "bidderOrgId", err)
 	}
 
 	msg, err := client.Bid(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -179,15 +190,26 @@ func local_request_Query_Bid_0(ctx context.Context, marshaler runtime.Marshaler,
 		_   = err
 	)
 
-	val, ok = pathParams["index"]
+	val, ok = pathParams["contractId"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "index")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "contractId")
 	}
 
-	protoReq.Index, err = runtime.String(val)
+	protoReq.ContractId, err = runtime.Uint64(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "index", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "contractId", err)
+	}
+
+	val, ok = pathParams["bidderOrgId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "bidderOrgId")
+	}
+
+	protoReq.BidderOrgId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "bidderOrgId", err)
 	}
 
 	msg, err := server.Bid(ctx, &protoReq)
@@ -503,7 +525,7 @@ var (
 
 	pattern_Query_ListContract_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"ipex", "lease", "list_contract"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_Bid_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"ipex", "lease", "bid", "index"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Bid_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"ipex", "lease", "bid", "contractId", "bidderOrgId"}, "", runtime.AssumeColonVerbOpt(false)))
 
 	pattern_Query_BidAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"ipex", "lease", "bid"}, "", runtime.AssumeColonVerbOpt(false)))
 )

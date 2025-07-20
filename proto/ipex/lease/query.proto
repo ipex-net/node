@@ -35,7 +35,7 @@ service Query {
   
   // Queries a list of Bid items.
   rpc Bid    (QueryGetBidRequest) returns (QueryGetBidResponse) {
-    option (google.api.http).get = "/ipex/lease/bid/{index}";
+    option (google.api.http).get = "/ipex/lease/bid/{contractId}/{bidderOrgId}";
   
   }
   rpc BidAll (QueryAllBidRequest) returns (QueryAllBidResponse) {
@@ -71,7 +71,8 @@ message QueryListContractResponse {
 }
 
 message QueryGetBidRequest {
-  string index = 1;
+  uint64 contractId = 1;
+  uint64 bidderOrgId = 2;
 }
 
 message QueryGetBidResponse {

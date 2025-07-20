@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"strconv"
 
 	"ipex/x/lease/types"
 
@@ -31,20 +30,11 @@ func (k Keeper) Bid(ctx context.Context, req *types.QueryGetBidRequest) (*types.
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	// Convert string index to uint64
-	indexUint64, err := strconv.ParseUint(req.Index, 10, 64)
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, "invalid index format")
+	// Get bid using contract ID and bidder org ID
+	bid, found := k.GetBid(ctx, req.ContractId, req.BidderOrgId)
+	if !found {
+		return nil, status.Error(codes.NotFound, "bid not found")
 	}
 
-	// Find bid by index field
-	// Walk through all bids to find the one with matching index
-	allBids := k.GetAllBids(ctx)
-	for _, bid := range allBids {
-		if bid.Index == indexUint64 {
-			return &types.QueryGetBidResponse{Bid: bid}, nil
-		}
-	}
-
-	return nil, status.Error(codes.NotFound, "bid not found")
+	return &types.QueryGetBidResponse{Bid: bid}, nil
 }
