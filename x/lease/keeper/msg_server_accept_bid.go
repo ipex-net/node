@@ -42,6 +42,11 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 		return nil, errorsmod.Wrapf(types.ErrIncorrectBidStatus, "bid must be in submitted status")
 	}
 
+	// Check that bid haven't expired
+	if ctx.BlockTime().After(bid.CreatedAt.Add(time.Duration(bid.ExpirationHours) * time.Hour)) {
+		return nil, errorsmod.Wrapf(types.ErrBidExpired, "bid has expired")
+ 	
+	}
 	// Check if the owner org exists
 	if bid.OwnerOrgId != 0 {
 		if !k.orgKeeper.HasOrg(ctx, bid.OwnerOrgId) {

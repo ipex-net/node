@@ -43,4 +43,5 @@ var (
 	ErrOrgNotVerified				= sdkerrors.Register(ModuleName, 1132, "org not verified")
 	ErrInexistentContract			= sdkerrors.Register(ModuleName, 1133, "contract does not exist")
 	ErrBidAlreadyExists				= sdkerrors.Register(ModuleName, 1134, "bid already exists")
+	ErrBidExpired					= sdkerrors.Register(ModuleName, 1135, "bid already expired")
 )
