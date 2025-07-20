@@ -56,6 +56,46 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, bid.OwnerOrgId)
 	}
 
+	// Enrolling in contract
+	// Getting the contract
+	contract, found := k.GetContract(ctx, msg.ContractId)
+	if !found {
+		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.ContractId)
+	}
+
+	// Checking the contract status
+	if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in forsale status to be enrolled in")
+	}
+
+	// Updating the contract
+	blockTime := ctx.BlockTime()
+	contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
+	contract.LesseeOrg = bid.BidderOrgId
+
+	// Production:
+	//prepaidUntil := blockTime.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
+	// Testing:
+	prepaidUntil := blockTime.Add(time.Minute * 10)
+	contract.UpdatedAt = blockTime
+	contract.ActivatedAt = &blockTime
+	depositRetained := bid.Amount
+	contract.SafetyDepositRetained = &depositRetained
+	contract.PrepaidUntil = &prepaidUntil
+
+	// Store updated contract
+	k.SetContract(ctx, contract)
+
+	// Initializing lease reputation
+	k.trustKeeper.InitializeLeaseReputation(ctx, contract.Id)
+
+	// Updating the subnet user Org
+	k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, bid.BidderOrgId)
+
+	// Removing accepted bid
+	k.RemoveBid(ctx, bid.ContractId, bid.BidderOrgId)
+
+
 	// Refunding and deleting lost bids
 	bids := k.GetBidsByContract(ctx, bid.ContractId)
 
@@ -85,43 +125,6 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 
 		k.RemoveBid(ctx, lostbid.ContractId, lostbid.BidderOrgId)
 	}
-
-	// Enrolling in contract
-	// Getting the contract
-	contract, found := k.GetContract(ctx, msg.ContractId)
-	if !found {
-		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.ContractId)
-	}
-
-	// Checking the contract status
-	if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
-		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in forsale status to be enrolled in")
-	}
-
-	// Updating the contract
-	blockTime := ctx.BlockTime()
-	contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
-	contract.LesseeOrg = bid.BidderOrgId
-	// Production:
-	//prepaidUntil := blockTime.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
-	// Testing:
-	prepaidUntil := blockTime.Add(time.Minute * 10)
-	contract.UpdatedAt = blockTime
-	contract.ActivatedAt = &blockTime
-	depositRetained := bid.Amount
-	contract.SafetyDepositRetained = &depositRetained
-	contract.PrepaidUntil = &prepaidUntil
-	// Store updated contract
-	k.SetContract(ctx, contract)
-
-	// Initializing lease reputation
-	k.trustKeeper.InitializeLeaseReputation(ctx, contract.Id)
-
-	// Updating the subnet user Org
-	k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, bid.BidderOrgId)
-
-	// Removing accepted bid
-	k.RemoveBid(ctx, bid.ContractId, bid.BidderOrgId)
 
 	// Emit enrollment event
 	ctx.EventManager().EmitEvent(
