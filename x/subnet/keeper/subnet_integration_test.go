@@ -105,7 +105,7 @@ func TestSubnetLifecycleIntegration(t *testing.T) {
 
 		// Set user org
 		userOrgId := uint64(2001)
-		keeper.SetSubnetUserOrg(ctx, id, userOrgId)
+		keeper.SetSubnetUserOrg(ctx, id, userOrgId, true, false)
 
 		// Verify user org was set
 		updatedSubnet, found := keeper.GetSubnet(ctx, id)
@@ -236,7 +236,7 @@ func TestSubnetIndexingIntegration(t *testing.T) {
 		id := keeper.AppendSubnet(ctx, subnet)
 
 		// Set user org
-		keeper.SetSubnetUserOrg(ctx, id, userOrg1)
+		keeper.SetSubnetUserOrg(ctx, id, userOrg1, true, false)
 
 		// Verify user org assignment
 		updatedSubnet, found := keeper.GetSubnet(ctx, id)
@@ -244,7 +244,7 @@ func TestSubnetIndexingIntegration(t *testing.T) {
 		require.Equal(t, userOrg1, updatedSubnet.UserOrgId, "should have correct user org")
 
 		// Change user org
-		keeper.SetSubnetUserOrg(ctx, id, userOrg2)
+		keeper.SetSubnetUserOrg(ctx, id, userOrg2, true, false)
 
 		// Verify user org change
 		finalSubnet, found := keeper.GetSubnet(ctx, id)
@@ -504,7 +504,7 @@ func TestSubnetAuthorizationIntegration(t *testing.T) {
 		require.Equal(t, uint64(0), initialSubnet.UserOrgId, "should not have user org initially")
 
 		// Set user org
-		keeper.SetSubnetUserOrg(ctx, subnetId, userOrgId)
+		keeper.SetSubnetUserOrg(ctx, subnetId, userOrgId, true, false)
 
 		// Verify user org was set
 		updatedSubnet, found := keeper.GetSubnet(ctx, subnetId)

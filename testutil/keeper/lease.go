@@ -80,7 +80,7 @@ func (m mockSubnetKeeperLease) CheckSubnetLeaseAvailability(ctx context.Context,
 	return true
 }
 
-func (m mockSubnetKeeperLease) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64) {
+func (m mockSubnetKeeperLease) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool) {
 }
 
 func (m mockSubnetKeeperLease) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
