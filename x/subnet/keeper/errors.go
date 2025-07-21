@@ -24,4 +24,5 @@ var (
 	ErrASNumberOutOfRange     = sdkerrors.Register(ModuleName, 1212, "as number out of range")
 	ErrInvalidGeolocationData = sdkerrors.Register(ModuleName, 1213, "invalid geolocation data")
 	ErrGeoCooldownPeriod      = sdkerrors.Register(ModuleName, 1214, "geo location cooldown period in effect")
+	ErrGeoChangeProhibited	  = sdkerrors.Register(ModuleName, 1215, "lease contract prohibits geo change")
 )

@@ -67,6 +67,11 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		)
 	}
 
+	// Check if geo change is allowed for the user
+	if isUserAdmin && !subnet.AllowUserGeoChange{
+		return nil, ErrGeoChangeProhibited
+	}
+
 	// Updating the timestamp
 	subnet.GeoDetailsChangedAt = &currentTime
 	// Resetting the verification flag
