@@ -173,3 +173,16 @@ func (k Keeper) GetFirstLeasedContractBySubnet(ctx context.Context, subnetId uin
 
 	return contractId, found
 }
+
+// IsGeoChangeAllowed returns the corresponding contract parameter based on the subnet id
+func (k Keeper) IsGeoChangeAllowed(ctx context.Context, subnetId uint64) (bool) {
+	contractId, found := k.GetFirstLeasedContractBySubnet(ctx, subnetId)
+	if !found {
+		return false
+	}
+	contract, found := k.GetContract(ctx, contractId)
+		if !found {
+		return false
+	}
+	return contract.GeoChangeAllowed
+}
