@@ -24,8 +24,9 @@ const (
 	SubnetCountKey = "Subnet/count/"
 
 	// Collection keys for secondary indexes
-	SubnetByOwnerOrgKey       = "Subnet/by_owner_org/"
-	SubnetByUserOrgKey        = "Subnet/by_user_org/"
-	SubnetByNetworkAddressKey = "Subnet/by_network_address/"
-	SubnetSequenceKey         = "Subnet/sequence/"
+	SubnetByOwnerOrgKey         = "Subnet/by_owner_org/"
+	SubnetByUserOrgKey          = "Subnet/by_user_org/"
+	SubnetByNetworkAddressKey   = "Subnet/by_network_address/"
+	SubnetOriginCheckPendingKey = "Subnet/origin_check_pending/"
+	SubnetSequenceKey           = "Subnet/sequence/"
 )

@@ -35,6 +35,14 @@ func (k Keeper) updateSubnetIndexes(ctx context.Context, subnet types.Subnet) {
 	if err != nil {
 		panic(err)
 	}
+
+	// Index by origin check pending status (only if pending is true)
+	if subnet.OriginCheckPending {
+		err = k.SubnetOriginCheckPending.Set(ctx, subnet.Id, true)
+		if err != nil {
+			panic(err)
+		}
+	}
 }
 
 // removeSubnetFromIndexes removes subnet from all secondary indexes
@@ -58,6 +66,12 @@ func (k Keeper) removeSubnetFromIndexes(ctx context.Context, subnet types.Subnet
 	// Remove from network address index
 	err := k.SubnetsByNetworkAddress.Remove(ctx, collections.Join(subnet.NetworkAddress, subnet.Id))
 	if err != nil {
+		panic(err)
+	}
+
+	// Remove from origin check pending index (always attempt removal)
+	err = k.SubnetOriginCheckPending.Remove(ctx, subnet.Id)
+	if err != nil && !strings.Contains(err.Error(), "collections: not found") {
 		panic(err)
 	}
 }
@@ -94,7 +108,18 @@ func (k Keeper) SetSubnet(ctx context.Context, subnet types.Subnet) {
 	// Get old subnet to handle index updates
 	oldSubnet, found := k.GetSubnet(ctx, subnet.Id)
 	if found {
-		// Remove old indexes
+		// Handle origin check pending index changes specifically
+		if oldSubnet.OriginCheckPending != subnet.OriginCheckPending {
+			if oldSubnet.OriginCheckPending {
+				// Remove from index if was pending
+				err := k.SubnetOriginCheckPending.Remove(ctx, subnet.Id)
+				if err != nil && !strings.Contains(err.Error(), "collections: not found") {
+					panic(err)
+				}
+			}
+		}
+		
+		// Remove old indexes (except origin check pending which we handled above)
 		k.removeSubnetFromIndexes(ctx, oldSubnet)
 	}
 
@@ -591,4 +616,74 @@ func (k Keeper) IsRirRecordValid(ctx context.Context, subnetId uint64) bool {
 		return false
 	}
 	return subnet.RirRecordValid
+}
+
+// SetSubnetOriginCheckPending sets a subnet's origin check pending status to true
+func (k Keeper) SetSubnetOriginCheckPending(ctx context.Context, subnetId uint64) error {
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return fmt.Errorf("subnet with ID %d not found", subnetId)
+	}
+
+	// If already pending, no need to update
+	if subnet.OriginCheckPending {
+		return nil
+	}
+
+	// Update the subnet
+	subnet.OriginCheckPending = true
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	subnet.UpdatedAt = sdkCtx.BlockTime()
+	
+	// Store updated subnet (this will handle the index update via SetSubnet)
+	k.SetSubnet(ctx, subnet)
+
+	return nil
+}
+
+// ClearSubnetOriginCheckPending sets a subnet's origin check pending status to false
+func (k Keeper) ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint64) error {
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return fmt.Errorf("subnet with ID %d not found", subnetId)
+	}
+
+	// If already not pending, no need to update
+	if !subnet.OriginCheckPending {
+		return nil
+	}
+
+	// Update the subnet
+	subnet.OriginCheckPending = false
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	subnet.UpdatedAt = sdkCtx.BlockTime()
+	
+	// Store updated subnet (this will handle the index update via SetSubnet)
+	k.SetSubnet(ctx, subnet)
+
+	return nil
+}
+
+// GetOriginCheckPendingSubnets returns subnet IDs that have origin check pending
+func (k Keeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]uint64, error) {
+	var subnetIDs []uint64
+	count := 0
+	
+	err := k.SubnetOriginCheckPending.Walk(ctx, nil, func(subnetId uint64, _ bool) (bool, error) {
+		subnetIDs = append(subnetIDs, subnetId)
+		count++
+		
+		// Stop if we've reached the limit
+		if limit > 0 && count >= limit {
+			return true, nil // stop iteration
+		}
+		
+		return false, nil // continue iteration
+	})
+	
+	if err != nil {
+		return nil, fmt.Errorf("failed to query origin check pending subnets: %w", err)
+	}
+	
+	return subnetIDs, nil
 }
