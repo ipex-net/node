@@ -98,7 +98,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		k.trustKeeper.InitializeLeaseReputation(ctx, contract.Id)
 
 		// Updating the subnet user Org
-		k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, msg.LesseeOrg)
+		k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, msg.LesseeOrg, contract.GeoChangeAllowed, contract.AllowASNDROPOriginTransfer)
 
 		// Emit enrollment event
 		ctx.EventManager().EmitEvent(

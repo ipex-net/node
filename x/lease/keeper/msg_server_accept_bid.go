@@ -95,7 +95,7 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 	k.trustKeeper.InitializeLeaseReputation(ctx, contract.Id)
 
 	// Updating the subnet user Org
-	k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, bid.BidderOrgId)
+	k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, bid.BidderOrgId, contract.GeoChangeAllowed, contract.AllowASNDROPOriginTransfer)
 
 	// Removing accepted bid
 	k.RemoveBid(ctx, bid.ContractId, bid.BidderOrgId)

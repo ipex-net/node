@@ -207,7 +207,7 @@ func (k Keeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint6
 }
 
 // Set subnet user
-func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64) {
+func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool ) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	// checking that user org exists
 	if userOrgId == 0 || !k.orgKeeper.HasOrg(ctx, userOrgId) {
@@ -218,6 +218,8 @@ func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrg
 		return
 	}
 	subnet.UserOrgId = userOrgId
+	subnet.AllowUserASNDROPOriginTransfer = allowUserASNDROPOriginTransfer
+	subnet.AllowUserGeoChange = allowUserGeoChange
 	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
 }
@@ -234,6 +236,8 @@ func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 	subnet.OriginTransferRequestedAt = nil
 	subnet.RpkiValidityChangedAt = nil
 	subnet.RpkiOriginValid = false
+	subnet.OriginCheckPending = false
+	subnet.UserRequestedASNDROPOriginTransfer = false
 	subnet.Status = types.SubnetStatus_SUBNET_STATUS_READY
 
 	//REBUILD THIS ONCE subnet structure is ready
