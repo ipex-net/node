@@ -633,7 +633,6 @@ func (k Keeper) SetSubnetOriginCheckPending(ctx context.Context, subnetId uint64
 		return fmt.Errorf("subnet with ID %d not found", subnetId)
 	}
 
-	// If already pending, no need to update
 	if subnet.OriginCheckPending {
 		return nil
 	}
@@ -643,7 +642,7 @@ func (k Keeper) SetSubnetOriginCheckPending(ctx context.Context, subnetId uint64
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	subnet.UpdatedAt = sdkCtx.BlockTime()
 	
-	// Store updated subnet (this will handle the index update via SetSubnet)
+	// Store updated subnet
 	k.SetSubnet(ctx, subnet)
 
 	return nil
@@ -656,7 +655,6 @@ func (k Keeper) ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint
 		return fmt.Errorf("subnet with ID %d not found", subnetId)
 	}
 
-	// If already not pending, no need to update
 	if !subnet.OriginCheckPending {
 		return nil
 	}
@@ -666,7 +664,7 @@ func (k Keeper) ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	subnet.UpdatedAt = sdkCtx.BlockTime()
 	
-	// Store updated subnet (this will handle the index update via SetSubnet)
+	// Store updated subnet
 	k.SetSubnet(ctx, subnet)
 
 	return nil
@@ -683,10 +681,10 @@ func (k Keeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]
 		
 		// Stop if we've reached the limit
 		if limit > 0 && count >= limit {
-			return true, nil // stop iteration
+			return true, nil
 		}
 		
-		return false, nil // continue iteration
+		return false, nil
 	})
 	
 	if err != nil {
@@ -694,4 +692,26 @@ func (k Keeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]
 	}
 	
 	return subnetIDs, nil
+}
+
+// SetUserRequestedASNDROPOriginTransfer sets up an indicator that user requested an origin transfer to origin from ASNDROP list. This flag stays on until the end of the lease.
+func (k Keeper) SetUserRequestedASNDROPOriginTransfer(ctx context.Context, subnetId uint64) error {
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return fmt.Errorf("subnet with ID %d not found", subnetId)
+	}
+
+	if subnet.UserRequestedASNDROPOriginTransfer {
+		return nil
+	}
+
+	// Update the subnet
+	subnet.UserRequestedASNDROPOriginTransfer = true
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	subnet.UpdatedAt = sdkCtx.BlockTime()
+	
+	// Store updated subnet
+	k.SetSubnet(ctx, subnet)
+
+	return nil
 }
