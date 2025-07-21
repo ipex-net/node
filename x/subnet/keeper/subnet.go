@@ -373,6 +373,11 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime t
 			return false, nil
 		}
 
+		// If origin check is pending - skip
+		if subnet.OriginCheckPending {
+			return false, nil
+		}
+
 		originTransferAge := referenceTime.Sub(*subnet.OriginTransferRequestedAt)
 
 		// Determine required interval
