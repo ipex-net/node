@@ -216,7 +216,7 @@ func (k Keeper) VerifySubnetOwner(ctx context.Context, subnetId uint64, owner st
 	return k.orgKeeper.VerifyOrgAdmin(ctx, subnet.OwnerOrgId, owner)
 }
 
-// Verify subnet owner
+// CheckSubnetLeaseAvailability verifies subnet availability
 func (k Keeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint64) bool {
 
 	//Fetching the subnet
@@ -231,7 +231,7 @@ func (k Keeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint6
 	return true
 }
 
-// Set subnet user
+// SetSubnetUserOrg sets subnet user and params
 func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool ) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	// checking that user org exists
@@ -249,6 +249,7 @@ func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrg
 	k.SetSubnet(ctx, subnet)
 }
 
+// RemoveSubnetUserOrg removes the user from subnet and resets user params
 func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	subnet, found := k.GetSubnet(ctx, subnetId)
@@ -269,6 +270,7 @@ func (k Keeper) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 	k.SetSubnet(ctx, subnet)
 }
 
+// GetSubnetsForRirSync retrieves subnets for RIR sync
 func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	count := 0
 	maxSubnets := 5
@@ -615,6 +617,7 @@ func (k Keeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetId 
 	return nil
 }
 
+// IsRirRecordValid returns the RIR record validity
 func (k Keeper) IsRirRecordValid(ctx context.Context, subnetId uint64) bool {
 	subnet, found := k.GetSubnet(ctx, subnetId)
 	if !found {
