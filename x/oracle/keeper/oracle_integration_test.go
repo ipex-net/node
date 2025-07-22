@@ -592,6 +592,280 @@ func TestOracleBlockTimeTracking(t *testing.T) {
 	})
 }
 
+// TestSubnetOriginCheckIntegration tests the new subnet origin check functionality
+func TestSubnetOriginCheckIntegration(t *testing.T) {
+	oracleKeeper, ctx := keepertest.OracleKeeper(t)
+	ctx = ctx.WithBlockTime(time.Now()).WithBlockHeight(5000)
+
+	// Set up consensus parameters
+	consParams := cmtproto.ConsensusParams{
+		Abci: &cmtproto.ABCIParams{
+			VoteExtensionsEnableHeight: 1,
+		},
+	}
+	ctx = ctx.WithConsensusParams(consParams)
+
+	baseTime := ctx.BlockTime()
+	oracleKeeper.SetLastBlockTime(ctx, baseTime.Add(-2*time.Hour))
+
+	t.Run("Subnet Origin Check Vote Extension", func(t *testing.T) {
+		// Create subnets with different origin ASNs and pending status
+		subnets := []subnettypes.Subnet{
+			{
+				Id:                  3001,
+				NetworkAddress:      3232235521,
+				Mask:                24,
+				OriginAsn:           64512, // Should be in ASNDROP (mock returns true for 64512-64514)
+				OriginCheckPending:  true,
+				UserOrgId:           1001,
+			},
+			{
+				Id:                  3002,
+				NetworkAddress:      3232236032,
+				Mask:                24,
+				OriginAsn:           64513, // Should be in ASNDROP
+				OriginCheckPending:  true,
+				UserOrgId:           1002,
+			},
+			{
+				Id:                  3003,
+				NetworkAddress:      3232236288,
+				Mask:                24,
+				OriginAsn:           65000, // Should NOT be in ASNDROP (outside 64512-64514 range)
+				OriginCheckPending:  true,
+				UserOrgId:           1003,
+			},
+			{
+				Id:                  3004,
+				NetworkAddress:      3232236544,
+				Mask:                24,
+				OriginAsn:           64514, // Should be in ASNDROP
+				OriginCheckPending:  false, // Not pending - should be skipped
+				UserOrgId:           1004,
+			},
+		}
+
+		mockOrgKeeper := &mockOrgKeeper{}
+		mockSubnetKeeper := &mockSubnetKeeperBasic{subnets: subnets}
+		mockLeaseKeeper := &mockLeaseKeeperBasic{}
+		mockTrustKeeper := &mockTrustKeeperBasic{}
+		mockNetIntel := &mockNetIntelService{ready: true}
+
+		handler := abci.NewVoteExtHandler(
+			ctx.Logger(),
+			oracleKeeper,
+			mockOrgKeeper,
+			mockSubnetKeeper,
+			mockLeaseKeeper,
+			mockNetIntel,
+			mockTrustKeeper,
+		)
+
+		req := &abcitypes.RequestExtendVote{
+			Height: ctx.BlockHeight(),
+		}
+
+		resp, err := handler.ExtendVoteHandler()(ctx, req)
+		require.NoError(t, err, "should generate vote extension with origin checks")
+
+		var voteExt abci.OracleVoteExtension
+		err = json.Unmarshal(resp.VoteExtension, &voteExt)
+		require.NoError(t, err, "should parse vote extension")
+
+		// Verify origin check results
+		require.Contains(t, voteExt.SubnetOriginCheck, uint64(3001), "should check subnet 3001 (pending)")
+		require.Contains(t, voteExt.SubnetOriginCheck, uint64(3002), "should check subnet 3002 (pending)")
+		require.Contains(t, voteExt.SubnetOriginCheck, uint64(3003), "should check subnet 3003 (pending)")
+		require.NotContains(t, voteExt.SubnetOriginCheck, uint64(3004), "should skip subnet 3004 (not pending)")
+
+		// Verify ASNDROP check results
+		require.True(t, voteExt.SubnetOriginCheck[3001], "subnet 3001 ASN 64512 should be in ASNDROP")
+		require.True(t, voteExt.SubnetOriginCheck[3002], "subnet 3002 ASN 64513 should be in ASNDROP") 
+		require.False(t, voteExt.SubnetOriginCheck[3003], "subnet 3003 ASN 65000 should NOT be in ASNDROP")
+	})
+
+	t.Run("Subnet Origin Check Processing in PreBlocker", func(t *testing.T) {
+		// Track method calls
+		flagASNDROPCalls := make(map[uint64]bool)
+		clearPendingCalls := make(map[uint64]bool)
+
+		mockSubnetKeeper := &mockSubnetKeeperWithTracking{
+			subnets: []subnettypes.Subnet{
+				{Id: 4001, OriginAsn: 64512, OriginCheckPending: true},
+				{Id: 4002, OriginAsn: 65000, OriginCheckPending: true},
+			},
+			flagASNDROPCalls:  flagASNDROPCalls,
+			clearPendingCalls: clearPendingCalls,
+		}
+
+		proposalHandler := abci.NewProposalHandler(
+			ctx.Logger(),
+			&mockOrgKeeper{},
+			mockSubnetKeeper,
+			&mockLeaseKeeperBasic{},
+			&mockTrustKeeperBasic{},
+			&mockValidatorStore{},
+		)
+
+		// Create validation results with origin check data
+		validationResults := abci.NetworkValidationResults{
+			OrgValidationResults:       make(map[uint64]bool),
+			SubnetSyncResults:          make(map[uint64]subnettypes.SubnetInfo),
+			RpkiValidationResults:      make(map[uint64]bool),
+			GeoValidationResults:       make(map[uint64]bool),
+			SubnetOwnerValidation:      make(map[uint64]bool),
+			SubnetBlacklistSyncResults: make(map[uint64]trusttypes.SubnetBlacklistCount),
+			SubnetOriginCheckResults: map[uint64]bool{
+				4001: true,  // ASN in ASNDROP - should call FlagUserRequestedASNDROPOrigin
+				4002: false, // ASN not in ASNDROP - should call ClearSubnetOriginCheckPending
+			},
+			ExtendedCommitInfo: abcitypes.ExtendedCommitInfo{},
+		}
+
+		injectedTx, err := json.Marshal(validationResults)
+		require.NoError(t, err, "should marshal validation results")
+
+		req := &abcitypes.RequestFinalizeBlock{
+			Height: ctx.BlockHeight(),
+			Txs:    [][]byte{injectedTx},
+		}
+
+		resp, err := proposalHandler.PreBlocker(ctx, req)
+		require.NoError(t, err, "should process origin check results")
+		require.NotNil(t, resp, "should return PreBlocker response")
+
+		// Verify correct methods were called
+		require.True(t, flagASNDROPCalls[4001], "should call FlagUserRequestedASNDROPOrigin for subnet 4001")
+		require.False(t, flagASNDROPCalls[4002], "should NOT call FlagUserRequestedASNDROPOrigin for subnet 4002")
+		
+		require.False(t, clearPendingCalls[4001], "should NOT call ClearSubnetOriginCheckPending for subnet 4001")
+		require.True(t, clearPendingCalls[4002], "should call ClearSubnetOriginCheckPending for subnet 4002")
+	})
+
+	t.Run("NetIntel Service Unavailable for Origin Check", func(t *testing.T) {
+		subnet := subnettypes.Subnet{
+			Id:                 5001,
+			NetworkAddress:     3232235521,
+			Mask:              24,
+			OriginAsn:         64512,
+			OriginCheckPending: true,
+		}
+
+		mockOrgKeeper := &mockOrgKeeper{}
+		mockSubnetKeeper := &mockSubnetKeeperBasic{subnets: []subnettypes.Subnet{subnet}}
+		mockLeaseKeeper := &mockLeaseKeeperBasic{}
+		mockTrustKeeper := &mockTrustKeeperBasic{}
+		mockNetIntel := &mockNetIntelService{ready: false} // Service not ready
+
+		handler := abci.NewVoteExtHandler(
+			ctx.Logger(),
+			oracleKeeper,
+			mockOrgKeeper,
+			mockSubnetKeeper,
+			mockLeaseKeeper,
+			mockNetIntel,
+			mockTrustKeeper,
+		)
+
+		req := &abcitypes.RequestExtendVote{
+			Height: ctx.BlockHeight(),
+		}
+
+		resp, err := handler.ExtendVoteHandler()(ctx, req)
+		require.NoError(t, err, "should handle NetIntel unavailability gracefully")
+
+		var voteExt abci.OracleVoteExtension
+		err = json.Unmarshal(resp.VoteExtension, &voteExt)
+		require.NoError(t, err, "should parse vote extension")
+
+		// Should not include origin check results when NetIntel is unavailable
+		require.Empty(t, voteExt.SubnetOriginCheck, "should not include origin check when NetIntel unavailable")
+	})
+}
+
+// Mock subnet keeper with method call tracking for testing
+type mockSubnetKeeperWithTracking struct {
+	subnets           []subnettypes.Subnet
+	flagASNDROPCalls  map[uint64]bool
+	clearPendingCalls map[uint64]bool
+}
+
+func (m *mockSubnetKeeperWithTracking) GetSubnet(ctx context.Context, id uint64) (subnettypes.Subnet, bool) {
+	for _, subnet := range m.subnets {
+		if subnet.Id == id {
+			return subnet, true
+		}
+	}
+	return subnettypes.Subnet{}, false
+}
+
+func (m *mockSubnetKeeperWithTracking) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
+	return []subnettypes.Subnet{}
+}
+
+func (m *mockSubnetKeeperWithTracking) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
+	return []subnettypes.Subnet{}
+}
+
+func (m *mockSubnetKeeperWithTracking) GetSubnetsForGeoValidation(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
+	return []subnettypes.Subnet{}
+}
+
+func (m *mockSubnetKeeperWithTracking) GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
+	return []subnettypes.Subnet{}
+}
+
+func (m *mockSubnetKeeperWithTracking) CheckSubnetLeaseAvailability(ctx context.Context, subnetID uint64) bool {
+	return true
+}
+
+func (m *mockSubnetKeeperWithTracking) SetSubnet(ctx context.Context, subnet subnettypes.Subnet) {}
+
+func (m *mockSubnetKeeperWithTracking) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info subnettypes.SubnetInfo) error {
+	return nil
+}
+
+func (m *mockSubnetKeeperWithTracking) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
+	return nil
+}
+
+func (m *mockSubnetKeeperWithTracking) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
+	return nil
+}
+
+func (m *mockSubnetKeeperWithTracking) UpdateSubnetOwnershipVerification(ctx context.Context, subnetId uint64, isValid bool) error {
+	return nil
+}
+
+func (m *mockSubnetKeeperWithTracking) IsRirRecordValid(ctx context.Context, subnetId uint64) bool {
+	return true
+}
+
+func (m *mockSubnetKeeperWithTracking) ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint64) error {
+	m.clearPendingCalls[subnetId] = true
+	return nil
+}
+
+func (m *mockSubnetKeeperWithTracking) GetOriginCheckPendingSubnets(ctx context.Context, limit int) []uint64 {
+	var result []uint64
+	count := 0
+	for _, subnet := range m.subnets {
+		if subnet.OriginCheckPending {
+			result = append(result, subnet.Id)
+			count++
+			if limit > 0 && count >= limit {
+				break
+			}
+		}
+	}
+	return result
+}
+
+func (m *mockSubnetKeeperWithTracking) FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) error {
+	m.flagASNDROPCalls[subnetId] = true
+	return nil
+}
+
 // Helper functions for creating vote extensions
 
 func createOrgValidationVoteExt(t *testing.T, height int64, validations map[uint64]bool) []byte {
@@ -734,6 +1008,29 @@ func (m *mockSubnetKeeperBasic) IsRirRecordValid(ctx context.Context, subnetId u
 	return true
 }
 
+func (m *mockSubnetKeeperBasic) ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint64) error {
+	return nil
+}
+
+func (m *mockSubnetKeeperBasic) GetOriginCheckPendingSubnets(ctx context.Context, limit int) []uint64 {
+	var result []uint64
+	count := 0
+	for _, subnet := range m.subnets {
+		if subnet.OriginCheckPending {
+			result = append(result, subnet.Id)
+			count++
+			if limit > 0 && count >= limit {
+				break
+			}
+		}
+	}
+	return result
+}
+
+func (m *mockSubnetKeeperBasic) FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) error {
+	return nil
+}
+
 type mockLeaseKeeperBasic struct{}
 
 func (m *mockLeaseKeeperBasic) GetContract(ctx context.Context, id uint64) (leasetypes.Contract, bool) {
@@ -798,6 +1095,11 @@ func (m *mockNetIntelService) CheckCountry(ip string, countryCode string) bool {
 		return country == countryCode
 	}
 	return false
+}
+
+func (m *mockNetIntelService) CheckASNDrop(asn int32) bool {
+	// Mock implementation - for testing, assume ASNs 64512-64514 are in ASNDROP
+	return asn >= 64512 && asn <= 64514
 }
 
 type mockValidatorStore struct{}

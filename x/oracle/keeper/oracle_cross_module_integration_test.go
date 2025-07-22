@@ -614,3 +614,26 @@ func (m *mockSubnetKeeper) UpdateSubnetOwnershipVerification(ctx context.Context
 func (m *mockSubnetKeeper) IsRirRecordValid(ctx context.Context, subnetId uint64) bool {
 	return !m.invalidRirRecord
 }
+
+func (m *mockSubnetKeeper) ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint64) error {
+	return nil
+}
+
+func (m *mockSubnetKeeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) []uint64 {
+	var result []uint64
+	count := 0
+	for _, subnet := range m.subnets {
+		if subnet.OriginCheckPending {
+			result = append(result, subnet.Id)
+			count++
+			if limit > 0 && count >= limit {
+				break
+			}
+		}
+	}
+	return result
+}
+
+func (m *mockSubnetKeeper) FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) error {
+	return nil
+}
