@@ -26,6 +26,7 @@ type NetworkValidationResults struct {
 	GeoValidationResults       map[uint64]bool
 	SubnetOwnerValidation      map[uint64]bool
 	SubnetBlacklistSyncResults map[uint64]trusttypes.SubnetBlacklistCount
+	SubnetOriginCheckResults   map[uint64]bool
 	ExtendedCommitInfo         abci.ExtendedCommitInfo
 }
 
@@ -68,7 +69,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 			}
 
 			// Compute consensus on validation results (produce empty maps on error)
-			orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
+			orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, subnetOriginCheckResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
 			if err != nil {
 				h.logger.Error("failed to compute validation results; injecting empty maps", "err", err)
 				orgValidationResults = make(map[uint64]bool)
@@ -77,6 +78,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 				geoValidationResults = make(map[uint64]bool)
 				subnetOwnershipResults = make(map[uint64]bool)
 				subnetBlacklistSyncResults = make(map[uint64]trusttypes.SubnetBlacklistCount)
+				subnetOriginCheckResults = make(map[uint64]bool)
 			}
 
 			// Create the injected transaction with validation results
@@ -87,6 +89,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 				GeoValidationResults:       geoValidationResults,
 				SubnetOwnerValidation:      subnetOwnershipResults,
 				SubnetBlacklistSyncResults: subnetBlacklistSyncResults,
+				SubnetOriginCheckResults:   subnetOriginCheckResults,
 				ExtendedCommitInfo:         req.LocalLastCommit,
 			}
 
@@ -107,7 +110,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 }
 
 // computeValidationResults aggregates validation results from vote extensions
-func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, map[uint64]bool, map[uint64]bool, map[uint64]bool, map[uint64]trusttypes.SubnetBlacklistCount, error) {
+func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, map[uint64]bool, map[uint64]bool, map[uint64]bool, map[uint64]trusttypes.SubnetBlacklistCount, map[uint64]bool, error) {
 	// Maps to store aggregated validation results
 	orgValidationResults := make(map[uint64]bool)
 	subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
@@ -115,6 +118,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	geoValidationResults := make(map[uint64]bool)
 	subnetOwnershipResults := make(map[uint64]bool)
 	subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount)
+	subnetOriginCheckResults :=make(map[uint64]bool)
 
 	// Maps to track voting power for org validations
 	orgValidPower := make(map[uint64]int64)
@@ -150,6 +154,9 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		count     trusttypes.SubnetBlacklistCount
 	}
 	blacklistVotePowers := []blacklistVotePower{}
+
+	originValidPower := make(map[uint64]int64)
+	originInvalidPower := make(map[uint64]int64)
 
 	// Process each vote extension
 	for _, v := range ci.Votes {
@@ -240,6 +247,15 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 				power:     v.Validator.Power,
 				count:     blacklistCount,
 			})
+		}
+
+		// Aggregate subnet origin check results based on voting power:
+		for subnetID, isValid := range voteExt.SubnetOriginCheck {
+			if isValid {
+				originValidPower[subnetID] += v.Validator.Power
+			} else {
+				originInvalidPower[subnetID] += v.Validator.Power
+			}
 		}
 	}
 
@@ -396,7 +412,28 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			subnetBlacklistSyncResults[subnetID] = blacklistInfoMap[subnetID][maxCountJSON]
 		}
 	}
-	return orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, nil
+
+	// Build the union of all subnet IDs that appeared in origin check
+	allOriginCheckSubnetIDs := make(map[uint64]struct{})
+	for subnetID := range originValidPower {
+		allOriginCheckSubnetIDs[subnetID] = struct{}{}
+	}
+	for subnetID := range originInvalidPower {
+		allOriginCheckSubnetIDs[subnetID] = struct{}{}
+	}
+
+	// Determine final origin check result based on majority voting power
+	for subnetID := range allOriginCheckSubnetIDs {
+		vp := originValidPower[subnetID]
+		ip := originInvalidPower[subnetID]
+		total := vp + ip
+		if total > 0 && vp > total/2 {
+			subnetOriginCheckResults[subnetID] = true
+		} else {
+			subnetOriginCheckResults[subnetID] = false
+		}
+	}
+	return orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, subnetOriginCheckResults, nil
 }
 
 func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
@@ -427,7 +464,7 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		}
 
 		// Verify the proposer's validation results by computing the same calculation
-		orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
+		orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, originCheckResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
 		if err != nil {
 			h.logger.Error("failed to compute validation results", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
@@ -442,6 +479,12 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		// Compare the proposer's RPKI validation results with our own calculation
 		if err := compareRpkiValidationResults(injectedVoteExtTx.RpkiValidationResults, rpkiValidationResults); err != nil {
 			h.logger.Error("RPKI validation results don't match", "err", err)
+			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
+		}
+
+		// Compare the proposer's origin check results with our own calculation
+		if err := compareOriginCheckResults(injectedVoteExtTx.SubnetOriginCheckResults, originCheckResults); err != nil {
+			h.logger.Error("Origin check results don't match", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
 		}
 
@@ -509,6 +552,27 @@ func compareRpkiValidationResults(r1, r2 map[uint64]bool) error {
 		}
 		if valid1 != valid2 {
 			return fmt.Errorf("RPKI validation result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
+		}
+	}
+
+	return nil
+}
+
+// compareOriginCheckResults checks if two origin check result maps match
+func compareOriginCheckResults(r1, r2 map[uint64]bool) error {
+	// Check if both maps have the same number of entries
+	if len(r1) != len(r2) {
+		return fmt.Errorf("Origin check result maps have different sizes: %d vs %d", len(r1), len(r2))
+	}
+
+	// Check if all entries match
+	for subnetID, valid1 := range r1 {
+		valid2, exists := r2[subnetID]
+		if !exists {
+			return fmt.Errorf("subnet ID %d missing from second result map", subnetID)
+		}
+		if valid1 != valid2 {
+			return fmt.Errorf("Origin check result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
 		}
 	}
 
@@ -683,6 +747,33 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 			h.logger.Info("updated subnet RPKI validation status",
 				"subnet_id", subnetID,
 				"is_valid", isValid)
+		}
+	}
+
+	// Process origin check results for each subnet
+	for subnetId, isInASNDROP := range injectedVoteExtTx.SubnetOriginCheckResults {
+		if isInASNDROP {
+			if err := h.subnetKeeper.FlagUserRequestedASNDROPOrigin(ctx, subnetId); err != nil {
+				h.logger.Error("failed to set ASNDROP origin transfer flag",
+				"subnet_id", subnetId,
+				"is_in_asndrop", isInASNDROP,
+				"error", err)
+			} else {
+				h.logger.Info("ASNDROP origin transfer flag set",
+				"subnet_id", subnetId,
+				"is_in_asndrop", isInASNDROP)
+			}
+		} else {
+			if err := h.subnetKeeper.ClearSubnetOriginCheckPending(ctx, subnetId); err != nil {
+				h.logger.Error("failed to clear origin check flag",
+				"subnet_id", subnetId,
+				"is_in_asndrop", isInASNDROP,
+				"error", err)
+			} else {
+				h.logger.Info("origin check cleared",
+				"subnet_id", subnetId,
+				"is_in_asndrop", isInASNDROP)
+			}
 		}
 	}
 
