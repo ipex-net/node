@@ -88,6 +88,7 @@ type NetIntelService interface {
 
 	// Geolocation checking
 	CheckCountry(ip string, countryCode string) bool
+	CheckASNDrop(asn int32) bool
 }
 
 type TrustKeeper interface {
