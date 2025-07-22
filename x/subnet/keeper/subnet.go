@@ -694,8 +694,8 @@ func (k Keeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]
 	return subnetIDs, nil
 }
 
-// SetUserRequestedASNDROPOriginTransfer sets up an indicator that user requested an origin transfer to origin from ASNDROP list. This flag stays on until the end of the lease.
-func (k Keeper) SetUserRequestedASNDROPOriginTransfer(ctx context.Context, subnetId uint64) error {
+// FlagUserRequestedASNDROPOrigin sets up an indicator that user requested an origin transfer to origin from ASNDROP list. This flag stays on until the end of the lease.
+func (k Keeper) FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) error {
 	subnet, found := k.GetSubnet(ctx, subnetId)
 	if !found {
 		return fmt.Errorf("subnet with ID %d not found", subnetId)
