@@ -704,8 +704,11 @@ func (k Keeper) FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uin
 	if subnet.UserRequestedASNDROPOriginTransfer {
 		return nil
 	}
-
-	// Update the subnet
+	// Reset origin
+	subnet.OriginAsn = 0
+	// Reset verification tag
+	subnet.OriginCheckPending = false
+	// Set ASNDROP flag
 	subnet.UserRequestedASNDROPOriginTransfer = true
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	subnet.UpdatedAt = sdkCtx.BlockTime()
