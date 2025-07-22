@@ -42,6 +42,9 @@ type SubnetKeeper interface {
 	GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) (list []subnettypes.Subnet)
 	UpdateSubnetOwnershipVerification(ctx context.Context, subnetId uint64, isValid bool) error
 	IsRirRecordValid(ctx context.Context, subnetId uint64) bool
+	ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint64) error
+	GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]uint64, error)
+	FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) error
 }
 
 // LeaseKeeper defines the expected interface for the lease module.
