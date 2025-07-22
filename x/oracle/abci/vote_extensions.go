@@ -35,6 +35,7 @@ const (
 	RPKIQueryTimeout  = 1 * time.Second
 	TracerouteTimeout = 5 * time.Second
 	rDNSLookupTimeout = 1 * time.Second
+	OriginVerificationLimit = 10
 )
 
 type VoteExtHandler struct {
@@ -77,12 +78,13 @@ type OracleVoteExtension struct {
 	SubnetGeoValidation   map[uint64]bool
 	SubnetOwnerValidation map[uint64]bool
 	SubnetBlacklistSync   map[uint64]trusttypes.SubnetBlacklistCount
+	SubnetOriginCheck     map[uint64]bool
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 	return func(ctx sdk.Context, req *abci.RequestExtendVote) (*abci.ResponseExtendVote, error) {
 
-		var subnetsForBlacklistSync []uint64
+		var subnetsForBlacklistSync, subnetsForOriginCheck []uint64
 		var orgsToValidate []orgtypes.Org
 		var subnetsToRirSync, subnetsForRPKIValidation, subnetsForGeoValidation, subnetsForOwnershipVerification []subnettypes.Subnet
 
@@ -91,7 +93,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		// Get the data for validation
 		if !found {
 			h.logger.Error("No block time available for vote extension")
-			subnetsForBlacklistSync = []uint64{}
+			subnetsForBlacklistSync, subnetsForOriginCheck = []uint64{}, []uint64{}
 			orgsToValidate = []orgtypes.Org{}
 			subnetsToRirSync, subnetsForRPKIValidation, subnetsForGeoValidation, subnetsForOwnershipVerification = []subnettypes.Subnet{}, []subnettypes.Subnet{}, []subnettypes.Subnet{}, []subnettypes.Subnet{}
 		} else {
@@ -101,9 +103,10 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			subnetsForRPKIValidation = h.SubnetKeeper.GetSubnetsForRPKIValidation(ctx, lastBlockTime)
 			subnetsForGeoValidation = h.SubnetKeeper.GetSubnetsForGeoValidation(ctx, lastBlockTime)
 			subnetsForOwnershipVerification = h.SubnetKeeper.GetSubnetsForOwnershipVerification(ctx, lastBlockTime)
+			subnetsForOriginCheck = h.SubnetKeeper.GetOriginCheckPendingSubnets(ctx, OriginVerificationLimit)
 		}
 
-		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetsForBlacklistSync) == 0 {
+		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetsForBlacklistSync) == 0 && len(subnetsForOriginCheck) == 0 {
 			h.logger.Info("No validations needed, returning empty vote extension", "height", req.Height)
 			// Still create a valid JSON vote extension even if empty
 			voteExt := OracleVoteExtension{
@@ -114,6 +117,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 				SubnetGeoValidation:   make(map[uint64]bool),
 				SubnetOwnerValidation: make(map[uint64]bool),
 				SubnetBlacklistSync:   make(map[uint64]trusttypes.SubnetBlacklistCount),
+				SubnetOriginCheck:     make(map[uint64]bool),
 			}
 			bz, err := json.Marshal(voteExt)
 			if err != nil {
@@ -130,6 +134,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			"subnets_geo_count", len(subnetsForGeoValidation),
 			"subnets_owner_val_count", len(subnetsForOwnershipVerification),
 			"subnets_blacklist_sync_count", len(subnetsForBlacklistSync),
+			"subnets_origin_check_count", len(subnetsForOriginCheck),
 		)
 		// Maps to store validation results
 		domainValidationResults := make(map[uint64]bool)
@@ -138,6 +143,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		subnetGeoValidationResults := make(map[uint64]bool)
 		subnetOwnershipVerifResults := make(map[uint64]bool)
 		subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount)
+		subnetOriginCheckResults := make(map[uint64]bool)
 
 		if len(orgsToValidate) > 0 {
 			h.logger.Info("performing domain validations for vote extension", "height", req.Height)
@@ -301,6 +307,29 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			}
 		}
 
+		if len(subnetsForOriginCheck) > 0 {
+			h.logger.Info("performing asn origin check for vote extension","height", req.Height)
+			for _, subnetId := range subnetsForOriginCheck {
+				subnet, ok := h.SubnetKeeper.GetSubnet(ctx, subnetId)
+				if !ok {
+					continue
+				}
+				if h.NetIntelService != nil && h.NetIntelService.IsReady() {
+					// Use NetIntel service to check if IP is in the expected country
+					isInASNDROP := h.NetIntelService.CheckASNDrop(int32(subnet.OriginAsn))
+					subnetOriginCheckResults[subnetId] = isInASNDROP
+					h.logger.Info("NetIntel asn origin check result",
+						"subnet_id", subnet.Id,
+						"inside_asndrop", isInASNDROP,
+						"netintel_ready", true)
+				} else {
+					h.logger.Error("NetIntel origin check failed ",
+						"subnet_id", subnet.Id,
+						"netintel_ready", false)
+				}
+			}
+		}
+
 		// Create vote extension
 		voteExt := OracleVoteExtension{
 			Height:                req.Height,
@@ -310,6 +339,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			SubnetGeoValidation:   subnetGeoValidationResults,
 			SubnetOwnerValidation: subnetOwnershipVerifResults,
 			SubnetBlacklistSync:   subnetBlacklistSyncResults,
+			SubnetOriginCheck:     subnetOriginCheckResults,
 		}
 
 		// Log the results
