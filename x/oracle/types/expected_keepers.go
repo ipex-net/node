@@ -43,7 +43,7 @@ type SubnetKeeper interface {
 	UpdateSubnetOwnershipVerification(ctx context.Context, subnetId uint64, isValid bool) error
 	IsRirRecordValid(ctx context.Context, subnetId uint64) bool
 	ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint64) error
-	GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]uint64, error)
+	GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]uint64)
 	FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) error
 }
 

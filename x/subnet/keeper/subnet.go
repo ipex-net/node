@@ -671,7 +671,7 @@ func (k Keeper) ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint
 }
 
 // GetOriginCheckPendingSubnets returns subnet IDs that have origin check pending
-func (k Keeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]uint64, error) {
+func (k Keeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]uint64) {
 	var subnetIDs []uint64
 	count := 0
 	
@@ -688,10 +688,10 @@ func (k Keeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]
 	})
 	
 	if err != nil {
-		return nil, fmt.Errorf("failed to query origin check pending subnets: %w", err)
+		return nil
 	}
 	
-	return subnetIDs, nil
+	return subnetIDs
 }
 
 // FlagUserRequestedASNDROPOrigin sets up an indicator that user requested an origin transfer to origin from ASNDROP list. This flag stays on until the end of the lease.
