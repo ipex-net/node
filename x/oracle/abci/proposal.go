@@ -118,7 +118,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	geoValidationResults := make(map[uint64]bool)
 	subnetOwnershipResults := make(map[uint64]bool)
 	subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount)
-	subnetOriginCheckResults :=make(map[uint64]bool)
+	subnetOriginCheckResults := make(map[uint64]bool)
 
 	// Maps to track voting power for org validations
 	orgValidPower := make(map[uint64]int64)
@@ -755,24 +755,24 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 		if isInASNDROP {
 			if err := h.subnetKeeper.FlagUserRequestedASNDROPOrigin(ctx, subnetId); err != nil {
 				h.logger.Error("failed to set ASNDROP origin transfer flag",
-				"subnet_id", subnetId,
-				"is_in_asndrop", isInASNDROP,
-				"error", err)
+					"subnet_id", subnetId,
+					"is_in_asndrop", isInASNDROP,
+					"error", err)
 			} else {
 				h.logger.Info("ASNDROP origin transfer flag set",
-				"subnet_id", subnetId,
-				"is_in_asndrop", isInASNDROP)
+					"subnet_id", subnetId,
+					"is_in_asndrop", isInASNDROP)
 			}
 		} else {
 			if err := h.subnetKeeper.ClearSubnetOriginCheckPending(ctx, subnetId); err != nil {
 				h.logger.Error("failed to clear origin check flag",
-				"subnet_id", subnetId,
-				"is_in_asndrop", isInASNDROP,
-				"error", err)
+					"subnet_id", subnetId,
+					"is_in_asndrop", isInASNDROP,
+					"error", err)
 			} else {
 				h.logger.Info("origin check cleared",
-				"subnet_id", subnetId,
-				"is_in_asndrop", isInASNDROP)
+					"subnet_id", subnetId,
+					"is_in_asndrop", isInASNDROP)
 			}
 		}
 	}

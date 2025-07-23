@@ -118,7 +118,7 @@ func (k Keeper) SetSubnet(ctx context.Context, subnet types.Subnet) {
 				}
 			}
 		}
-		
+
 		// Remove old indexes (except origin check pending which we handled above)
 		k.removeSubnetFromIndexes(ctx, oldSubnet)
 	}
@@ -232,7 +232,7 @@ func (k Keeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint6
 }
 
 // SetSubnetUserOrg sets subnet user and params
-func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool ) {
+func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	// checking that user org exists
 	if userOrgId == 0 || !k.orgKeeper.HasOrg(ctx, userOrgId) {
@@ -641,7 +641,7 @@ func (k Keeper) SetSubnetOriginCheckPending(ctx context.Context, subnetId uint64
 	subnet.OriginCheckPending = true
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	subnet.UpdatedAt = sdkCtx.BlockTime()
-	
+
 	// Store updated subnet
 	k.SetSubnet(ctx, subnet)
 
@@ -663,7 +663,7 @@ func (k Keeper) ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint
 	subnet.OriginCheckPending = false
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	subnet.UpdatedAt = sdkCtx.BlockTime()
-	
+
 	// Store updated subnet
 	k.SetSubnet(ctx, subnet)
 
@@ -671,26 +671,26 @@ func (k Keeper) ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint
 }
 
 // GetOriginCheckPendingSubnets returns subnet IDs that have origin check pending
-func (k Keeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) ([]uint64) {
+func (k Keeper) GetOriginCheckPendingSubnets(ctx context.Context, limit int) []uint64 {
 	var subnetIDs []uint64
 	count := 0
-	
+
 	err := k.SubnetOriginCheckPending.Walk(ctx, nil, func(subnetId uint64, _ bool) (bool, error) {
 		subnetIDs = append(subnetIDs, subnetId)
 		count++
-		
+
 		// Stop if we've reached the limit
 		if limit > 0 && count >= limit {
 			return true, nil
 		}
-		
+
 		return false, nil
 	})
-	
+
 	if err != nil {
 		return nil
 	}
-	
+
 	return subnetIDs
 }
 
@@ -712,7 +712,7 @@ func (k Keeper) FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uin
 	subnet.UserRequestedASNDROPOriginTransfer = true
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	subnet.UpdatedAt = sdkCtx.BlockTime()
-	
+
 	// Store updated subnet
 	k.SetSubnet(ctx, subnet)
 

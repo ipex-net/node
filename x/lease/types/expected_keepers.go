@@ -38,9 +38,9 @@ type OrgKeeper interface {
 type SubnetKeeper interface {
 	VerifySubnetOwner(ctx context.Context, subnetId uint64, user string) bool
 	CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint64) bool
-	SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool )
+	SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool)
 	RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64)
-	IsUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) bool 
+	IsUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) bool
 }
 
 type PaymentsKeeper interface {

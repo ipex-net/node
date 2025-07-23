@@ -22,16 +22,16 @@ func TestASNDROPFunctionality(t *testing.T) {
 	t.Run("FlagUserRequestedASNDROPOrigin", func(t *testing.T) {
 		// Create a subnet with origin settings
 		subnet := types.Subnet{
-			NetworkAddress:                    uint64(0x08080800), // 8.8.8.0
-			Mask:                             24,
-			Status:                           types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:                       ownerOrgId,
-			UserOrgId:                        userOrgId,
-			OriginAsn:                        65001,
-			OriginCheckPending:               true,
+			NetworkAddress:                     uint64(0x08080800), // 8.8.8.0
+			Mask:                               24,
+			Status:                             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:                         ownerOrgId,
+			UserOrgId:                          userOrgId,
+			OriginAsn:                          65001,
+			OriginCheckPending:                 true,
 			UserRequestedASNDROPOriginTransfer: false,
-			CreatedAt:                        ctx.BlockTime(),
-			UpdatedAt:                        ctx.BlockTime(),
+			CreatedAt:                          ctx.BlockTime(),
+			UpdatedAt:                          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)
@@ -52,16 +52,16 @@ func TestASNDROPFunctionality(t *testing.T) {
 	t.Run("FlagUserRequestedASNDROPOrigin - Already Flagged", func(t *testing.T) {
 		// Create a subnet that already has ASNDROP flag set
 		subnet := types.Subnet{
-			NetworkAddress:                    uint64(0x01010100), // 1.1.1.0
-			Mask:                             24,
-			Status:                           types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:                       ownerOrgId,
-			UserOrgId:                        userOrgId,
-			OriginAsn:                        65002,
-			OriginCheckPending:               false,
+			NetworkAddress:                     uint64(0x01010100), // 1.1.1.0
+			Mask:                               24,
+			Status:                             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:                         ownerOrgId,
+			UserOrgId:                          userOrgId,
+			OriginAsn:                          65002,
+			OriginCheckPending:                 false,
 			UserRequestedASNDROPOriginTransfer: true, // Already flagged
-			CreatedAt:                        ctx.BlockTime(),
-			UpdatedAt:                        ctx.BlockTime(),
+			CreatedAt:                          ctx.BlockTime(),
+			UpdatedAt:                          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)
@@ -87,15 +87,15 @@ func TestASNDROPFunctionality(t *testing.T) {
 	t.Run("SetSubnetUserOrg with ASNDROP Parameters", func(t *testing.T) {
 		// Create a base subnet
 		subnet := types.Subnet{
-			NetworkAddress:                    uint64(0x02020200), // 2.2.2.0
-			Mask:                             24,
-			Status:                           types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:                       ownerOrgId,
-			UserOrgId:                        0, // No user org initially
-			AllowUserASNDROPOriginTransfer:    false,
+			NetworkAddress:                     uint64(0x02020200), // 2.2.2.0
+			Mask:                               24,
+			Status:                             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:                         ownerOrgId,
+			UserOrgId:                          0, // No user org initially
+			AllowUserASNDROPOriginTransfer:     false,
 			UserRequestedASNDROPOriginTransfer: false,
-			CreatedAt:                        ctx.BlockTime(),
-			UpdatedAt:                        ctx.BlockTime(),
+			CreatedAt:                          ctx.BlockTime(),
+			UpdatedAt:                          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)
@@ -115,15 +115,15 @@ func TestASNDROPFunctionality(t *testing.T) {
 	t.Run("SetSubnetUserOrg without ASNDROP Permission", func(t *testing.T) {
 		// Create a base subnet
 		subnet := types.Subnet{
-			NetworkAddress:                    uint64(0x03030300), // 3.3.3.0
-			Mask:                             24,
-			Status:                           types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:                       ownerOrgId,
-			UserOrgId:                        0,
-			AllowUserASNDROPOriginTransfer:    false,
+			NetworkAddress:                     uint64(0x03030300), // 3.3.3.0
+			Mask:                               24,
+			Status:                             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:                         ownerOrgId,
+			UserOrgId:                          0,
+			AllowUserASNDROPOriginTransfer:     false,
 			UserRequestedASNDROPOriginTransfer: false,
-			CreatedAt:                        ctx.BlockTime(),
-			UpdatedAt:                        ctx.BlockTime(),
+			CreatedAt:                          ctx.BlockTime(),
+			UpdatedAt:                          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)
@@ -142,17 +142,17 @@ func TestASNDROPFunctionality(t *testing.T) {
 	t.Run("RemoveSubnetUserOrg Clears ASNDROP Flags", func(t *testing.T) {
 		// Create a subnet with ASNDROP settings enabled
 		subnet := types.Subnet{
-			NetworkAddress:                    uint64(0x04040400), // 4.4.4.0
-			Mask:                             24,
-			Status:                           types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:                       ownerOrgId,
-			UserOrgId:                        userOrgId,
-			OriginAsn:                        65003,
-			OriginCheckPending:               true,
-			AllowUserASNDROPOriginTransfer:    true,
+			NetworkAddress:                     uint64(0x04040400), // 4.4.4.0
+			Mask:                               24,
+			Status:                             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:                         ownerOrgId,
+			UserOrgId:                          userOrgId,
+			OriginAsn:                          65003,
+			OriginCheckPending:                 true,
+			AllowUserASNDROPOriginTransfer:     true,
 			UserRequestedASNDROPOriginTransfer: true,
-			CreatedAt:                        ctx.BlockTime(),
-			UpdatedAt:                        ctx.BlockTime(),
+			CreatedAt:                          ctx.BlockTime(),
+			UpdatedAt:                          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)
@@ -173,15 +173,15 @@ func TestASNDROPFunctionality(t *testing.T) {
 	t.Run("ASNDROP Field Persistence", func(t *testing.T) {
 		// Create subnet and verify ASNDROP fields persist through updates
 		subnet := types.Subnet{
-			NetworkAddress:                    uint64(0x05050500), // 5.5.5.0
-			Mask:                             24,
-			Status:                           types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:                       ownerOrgId,
-			UserOrgId:                        userOrgId,
-			AllowUserASNDROPOriginTransfer:    true,
+			NetworkAddress:                     uint64(0x05050500), // 5.5.5.0
+			Mask:                               24,
+			Status:                             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:                         ownerOrgId,
+			UserOrgId:                          userOrgId,
+			AllowUserASNDROPOriginTransfer:     true,
 			UserRequestedASNDROPOriginTransfer: false,
-			CreatedAt:                        ctx.BlockTime(),
-			UpdatedAt:                        ctx.BlockTime(),
+			CreatedAt:                          ctx.BlockTime(),
+			UpdatedAt:                          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)
@@ -206,17 +206,17 @@ func TestASNDROPFunctionality(t *testing.T) {
 	t.Run("ASNDROP Integration with Origin Check Pending", func(t *testing.T) {
 		// Test the interaction between ASNDROP functionality and origin check pending
 		subnet := types.Subnet{
-			NetworkAddress:                    uint64(0x06060600), // 6.6.6.0
-			Mask:                             24,
-			Status:                           types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:                       ownerOrgId,
-			UserOrgId:                        userOrgId,
-			OriginAsn:                        65004,
-			OriginCheckPending:               true,
-			AllowUserASNDROPOriginTransfer:    true,
+			NetworkAddress:                     uint64(0x06060600), // 6.6.6.0
+			Mask:                               24,
+			Status:                             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:                         ownerOrgId,
+			UserOrgId:                          userOrgId,
+			OriginAsn:                          65004,
+			OriginCheckPending:                 true,
+			AllowUserASNDROPOriginTransfer:     true,
 			UserRequestedASNDROPOriginTransfer: false,
-			CreatedAt:                        ctx.BlockTime(),
-			UpdatedAt:                        ctx.BlockTime(),
+			CreatedAt:                          ctx.BlockTime(),
+			UpdatedAt:                          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)

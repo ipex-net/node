@@ -190,7 +190,7 @@ func (k Keeper) CanTerminateWithoutPenalty(ctx context.Context, contractId uint6
 	}
 	l1Listed, l2Count, failedAbuseCount, found := k.trustKeeper.GetShortLeaseReputation(ctx, contract.SubnetId)
 
-	// ineligibe - can't find reputation record 
+	// ineligibe - can't find reputation record
 	if !found {
 		return false
 	}
@@ -200,7 +200,7 @@ func (k Keeper) CanTerminateWithoutPenalty(ctx context.Context, contractId uint6
 		return true
 	}
 
-	// eligible if there are abuse cases that failed to resolve 
+	// eligible if there are abuse cases that failed to resolve
 	if failedAbuseCount > 0 {
 		return true
 	}

@@ -30,11 +30,11 @@ import (
 )
 
 const (
-	DNSLookupTimeout  = 1 * time.Second
-	RDAPQueryTimeout  = 1 * time.Second
-	RPKIQueryTimeout  = 1 * time.Second
-	TracerouteTimeout = 5 * time.Second
-	rDNSLookupTimeout = 1 * time.Second
+	DNSLookupTimeout        = 1 * time.Second
+	RDAPQueryTimeout        = 1 * time.Second
+	RPKIQueryTimeout        = 1 * time.Second
+	TracerouteTimeout       = 5 * time.Second
+	rDNSLookupTimeout       = 1 * time.Second
 	OriginVerificationLimit = 10
 )
 
@@ -308,7 +308,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		}
 
 		if len(subnetsForOriginCheck) > 0 {
-			h.logger.Info("performing asn origin check for vote extension","height", req.Height)
+			h.logger.Info("performing asn origin check for vote extension", "height", req.Height)
 			for _, subnetId := range subnetsForOriginCheck {
 				subnet, ok := h.SubnetKeeper.GetSubnet(ctx, subnetId)
 				if !ok {

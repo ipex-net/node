@@ -21,13 +21,13 @@ func TestOriginCheckPendingIndex(t *testing.T) {
 	t.Run("Set Origin Check Pending", func(t *testing.T) {
 		// Create subnet with origin check pending false
 		subnet := types.Subnet{
-			NetworkAddress:      uint64(0x08080800), // 8.8.8.0
-			Mask:                24,
-			Status:              types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:          ownerOrgId,
-			OriginCheckPending:  false,
-			CreatedAt:           ctx.BlockTime(),
-			UpdatedAt:           ctx.BlockTime(),
+			NetworkAddress:     uint64(0x08080800), // 8.8.8.0
+			Mask:               24,
+			Status:             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:         ownerOrgId,
+			OriginCheckPending: false,
+			CreatedAt:          ctx.BlockTime(),
+			UpdatedAt:          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)
@@ -54,13 +54,13 @@ func TestOriginCheckPendingIndex(t *testing.T) {
 	t.Run("Clear Origin Check Pending", func(t *testing.T) {
 		// Create subnet with origin check pending true
 		subnet := types.Subnet{
-			NetworkAddress:      uint64(0x01010100), // 1.1.1.0
-			Mask:                24,
-			Status:              types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:          ownerOrgId,
-			OriginCheckPending:  true,
-			CreatedAt:           ctx.BlockTime(),
-			UpdatedAt:           ctx.BlockTime(),
+			NetworkAddress:     uint64(0x01010100), // 1.1.1.0
+			Mask:               24,
+			Status:             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:         ownerOrgId,
+			OriginCheckPending: true,
+			CreatedAt:          ctx.BlockTime(),
+			UpdatedAt:          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)
@@ -89,13 +89,13 @@ func TestOriginCheckPendingIndex(t *testing.T) {
 		var subnetIDs []uint64
 		for i := 0; i < 7; i++ {
 			subnet := types.Subnet{
-				NetworkAddress:      uint64(0x02000000 + (i * 256)), // 2.0.0.0, 2.0.1.0, etc.
-				Mask:                24,
-				Status:              types.SubnetStatus_SUBNET_STATUS_READY,
-				OwnerOrgId:          ownerOrgId,
-				OriginCheckPending:  true,
-				CreatedAt:           ctx.BlockTime(),
-				UpdatedAt:           ctx.BlockTime(),
+				NetworkAddress:     uint64(0x02000000 + (i * 256)), // 2.0.0.0, 2.0.1.0, etc.
+				Mask:               24,
+				Status:             types.SubnetStatus_SUBNET_STATUS_READY,
+				OwnerOrgId:         ownerOrgId,
+				OriginCheckPending: true,
+				CreatedAt:          ctx.BlockTime(),
+				UpdatedAt:          ctx.BlockTime(),
 			}
 
 			subnetId := keeper.AppendSubnet(ctx, subnet)
@@ -111,18 +111,17 @@ func TestOriginCheckPendingIndex(t *testing.T) {
 		require.GreaterOrEqual(t, len(allPendingSubnets), 7, "should return all pending subnets")
 	})
 
-
 	t.Run("Remove Subnet User Org Clears Pending", func(t *testing.T) {
 		// Create subnet with origin check pending and user org
 		subnet := types.Subnet{
-			NetworkAddress:      uint64(0x04040400), // 4.4.4.0
-			Mask:                24,
-			Status:              types.SubnetStatus_SUBNET_STATUS_READY,
-			OwnerOrgId:          ownerOrgId,
-			UserOrgId:           2001,
-			OriginCheckPending:  true,
-			CreatedAt:           ctx.BlockTime(),
-			UpdatedAt:           ctx.BlockTime(),
+			NetworkAddress:     uint64(0x04040400), // 4.4.4.0
+			Mask:               24,
+			Status:             types.SubnetStatus_SUBNET_STATUS_READY,
+			OwnerOrgId:         ownerOrgId,
+			UserOrgId:          2001,
+			OriginCheckPending: true,
+			CreatedAt:          ctx.BlockTime(),
+			UpdatedAt:          ctx.BlockTime(),
 		}
 
 		subnetId := keeper.AppendSubnet(ctx, subnet)

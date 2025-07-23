@@ -42,6 +42,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Shows a bid",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contractId"}, {ProtoField: "bidderOrgId"}},
 				},
+				{
+					RpcMethod:      "CanTerminateLeaseWithoutPenalty",
+					Use:            "can-terminate-lease-without-penalty [contract-id]",
+					Short:          "Query can-terminate-lease-without-penalty",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contractId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

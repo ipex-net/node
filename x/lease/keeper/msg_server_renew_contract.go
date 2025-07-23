@@ -133,14 +133,10 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	// Update the contract:
 	blockTime := ctx.BlockTime()
 
-
-
 	// Production:
 	//prepaidUntil := contract.PrepaidUntil.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
 	// Testing:
 	prepaidUntil := contract.PrepaidUntil.Add(time.Minute)
-
-
 
 	// Reactivate expired contract that is still in grace period and therefore not terminated
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED {

@@ -55,10 +55,10 @@ func (k msgServer) UpdateSubnetOrigin(goCtx context.Context, msg *types.MsgUpdat
 	}
 
 	// If there is no specific authorization to allow origin transfer anywhere we set the check to pending
-	if !subnet.AllowUserASNDROPOriginTransfer{
+	if !subnet.AllowUserASNDROPOriginTransfer {
 		subnet.OriginCheckPending = true
 	}
-	
+
 	subnet.OriginAsn = msg.As
 	currentTime := ctx.BlockTime()
 

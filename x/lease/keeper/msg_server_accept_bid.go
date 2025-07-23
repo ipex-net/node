@@ -16,7 +16,6 @@ import (
 func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*types.MsgAcceptBidResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-
 	//Checking if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
@@ -45,7 +44,7 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 	// Check that bid haven't expired
 	if ctx.BlockTime().After(bid.CreatedAt.Add(time.Duration(bid.ExpirationHours) * time.Hour)) {
 		return nil, errorsmod.Wrapf(types.ErrBidExpired, "bid has expired")
- 	
+
 	}
 	// Check if the owner org exists
 	if bid.OwnerOrgId != 0 {
@@ -99,7 +98,6 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 
 	// Removing accepted bid
 	k.RemoveBid(ctx, bid.ContractId, bid.BidderOrgId)
-
 
 	// Refunding and deleting lost bids
 	bids := k.GetBidsByContract(ctx, bid.ContractId)

@@ -128,7 +128,7 @@ func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Interval after expiration that will trigger bid cleanup
-	var bidCleanupThresholdHours uint64  = 48
+	var bidCleanupThresholdHours uint64 = 48
 
 	// Only run every 50 blocks
 	if ctx.BlockHeight()%50 != 0 {
@@ -140,7 +140,7 @@ func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 	for _, bid := range bids {
 
 		// Treating expired bids
-		if bid.Status == types.BidStatus_BID_STATUS_SUBMITTED && blocktime.After(bid.CreatedAt.Add(time.Duration(time.Hour * time.Duration(bid.ExpirationHours)))) {
+		if bid.Status == types.BidStatus_BID_STATUS_SUBMITTED && blocktime.After(bid.CreatedAt.Add(time.Duration(time.Hour*time.Duration(bid.ExpirationHours)))) {
 			// Refunding the bid
 			bidderAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, bid.BidderOrgId)
 			if !found {
@@ -165,7 +165,7 @@ func (k Keeper) ProcessExpiredBids(goCtx context.Context) {
 		}
 
 		// Remove old bids
-		if bid.Status != types.BidStatus_BID_STATUS_SUBMITTED && blocktime.After(bid.CreatedAt.Add(time.Duration(time.Hour * time.Duration(bid.ExpirationHours + bidCleanupThresholdHours)))){
+		if bid.Status != types.BidStatus_BID_STATUS_SUBMITTED && blocktime.After(bid.CreatedAt.Add(time.Duration(time.Hour*time.Duration(bid.ExpirationHours+bidCleanupThresholdHours)))) {
 			k.RemoveBid(ctx, bid.ContractId, bid.BidderOrgId)
 		}
 	}

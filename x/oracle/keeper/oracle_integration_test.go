@@ -612,36 +612,36 @@ func TestSubnetOriginCheckIntegration(t *testing.T) {
 		// Create subnets with different origin ASNs and pending status
 		subnets := []subnettypes.Subnet{
 			{
-				Id:                  3001,
-				NetworkAddress:      3232235521,
-				Mask:                24,
-				OriginAsn:           64512, // Should be in ASNDROP (mock returns true for 64512-64514)
-				OriginCheckPending:  true,
-				UserOrgId:           1001,
+				Id:                 3001,
+				NetworkAddress:     3232235521,
+				Mask:               24,
+				OriginAsn:          64512, // Should be in ASNDROP (mock returns true for 64512-64514)
+				OriginCheckPending: true,
+				UserOrgId:          1001,
 			},
 			{
-				Id:                  3002,
-				NetworkAddress:      3232236032,
-				Mask:                24,
-				OriginAsn:           64513, // Should be in ASNDROP
-				OriginCheckPending:  true,
-				UserOrgId:           1002,
+				Id:                 3002,
+				NetworkAddress:     3232236032,
+				Mask:               24,
+				OriginAsn:          64513, // Should be in ASNDROP
+				OriginCheckPending: true,
+				UserOrgId:          1002,
 			},
 			{
-				Id:                  3003,
-				NetworkAddress:      3232236288,
-				Mask:                24,
-				OriginAsn:           65000, // Should NOT be in ASNDROP (outside 64512-64514 range)
-				OriginCheckPending:  true,
-				UserOrgId:           1003,
+				Id:                 3003,
+				NetworkAddress:     3232236288,
+				Mask:               24,
+				OriginAsn:          65000, // Should NOT be in ASNDROP (outside 64512-64514 range)
+				OriginCheckPending: true,
+				UserOrgId:          1003,
 			},
 			{
-				Id:                  3004,
-				NetworkAddress:      3232236544,
-				Mask:                24,
-				OriginAsn:           64514, // Should be in ASNDROP
-				OriginCheckPending:  false, // Not pending - should be skipped
-				UserOrgId:           1004,
+				Id:                 3004,
+				NetworkAddress:     3232236544,
+				Mask:               24,
+				OriginAsn:          64514, // Should be in ASNDROP
+				OriginCheckPending: false, // Not pending - should be skipped
+				UserOrgId:          1004,
 			},
 		}
 
@@ -680,7 +680,7 @@ func TestSubnetOriginCheckIntegration(t *testing.T) {
 
 		// Verify ASNDROP check results
 		require.True(t, voteExt.SubnetOriginCheck[3001], "subnet 3001 ASN 64512 should be in ASNDROP")
-		require.True(t, voteExt.SubnetOriginCheck[3002], "subnet 3002 ASN 64513 should be in ASNDROP") 
+		require.True(t, voteExt.SubnetOriginCheck[3002], "subnet 3002 ASN 64513 should be in ASNDROP")
 		require.False(t, voteExt.SubnetOriginCheck[3003], "subnet 3003 ASN 65000 should NOT be in ASNDROP")
 	})
 
@@ -737,7 +737,7 @@ func TestSubnetOriginCheckIntegration(t *testing.T) {
 		// Verify correct methods were called
 		require.True(t, flagASNDROPCalls[4001], "should call FlagUserRequestedASNDROPOrigin for subnet 4001")
 		require.False(t, flagASNDROPCalls[4002], "should NOT call FlagUserRequestedASNDROPOrigin for subnet 4002")
-		
+
 		require.False(t, clearPendingCalls[4001], "should NOT call ClearSubnetOriginCheckPending for subnet 4001")
 		require.True(t, clearPendingCalls[4002], "should call ClearSubnetOriginCheckPending for subnet 4002")
 	})
@@ -746,8 +746,8 @@ func TestSubnetOriginCheckIntegration(t *testing.T) {
 		subnet := subnettypes.Subnet{
 			Id:                 5001,
 			NetworkAddress:     3232235521,
-			Mask:              24,
-			OriginAsn:         64512,
+			Mask:               24,
+			OriginAsn:          64512,
 			OriginCheckPending: true,
 		}
 
