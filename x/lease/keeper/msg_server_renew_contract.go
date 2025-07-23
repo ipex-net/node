@@ -16,34 +16,32 @@ import (
 
 func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContract) (*types.MsgRenewContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	//How much of each renewal we want to retain until safety deposit is not met
+	// Percent amount of retained renewal payment
 	const retainer int = 10
 
-	//NOTE: only org admin can renew for the contract. All refunds go to org admin as well.
+	// NOTE: only org admin can renew for the contract. All refunds go to org admin as well.
 
-	//Checking if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	//Getting the contract
 	contract, found := k.GetContract(ctx, msg.ContractId)
 	if !found {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.ContractId)
 	}
 
-	//Checking the contract status
+	// Check the contract status
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER && contract.Status != types.ContractStatus_CONTRACT_STATUS_EXPIRED {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in leased, canceled by owner or expired status to be renewed")
 	}
 
-	//Only allow renewal if the PrepaidUntil date is withtin 1 month
+	// Only allow renewal if the PrepaidUntil date is withtin 1 month
 	if contract.PrepaidUntil.After(ctx.BlockTime().AddDate(0, 1, 0)) {
 		return nil, errorsmod.Wrapf(types.ErrRenewalDateTooDistant, "contract renewal date %s is too far in the future", contract.PrepaidUntil)
 	}
 
-	//Checking that if we renew the contract we won't go beyond the revocation date
+	// Check that if we renew the contract we won't go beyond the revocation date
 	if contract.RevocationEffectiveAt != nil && contract.PrepaidUntil.AddDate(0, 1, 0).After(*contract.RevocationEffectiveAt) {
 		return nil, errorsmod.Wrap(types.ErrRenewalBeyondRevocationDate, "renewal period extends beyond contract revocation effective date")
 	}
@@ -57,7 +55,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "Contract doesn't have lessee org")
 	}
 
-	//Checking that the contract owner has Treasury account setup
+	// Check that the contract owner has treasury account setup
 	ownerTreasury, found := k.orgKeeper.GetOrgTreasury(ctx, contract.OwnerOrg)
 	if !found {
 		return nil, errorsmod.Wrap(types.ErrOrgTreasuryNotFound, "owner org doesn't have treasury")
@@ -68,7 +66,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, contract.LesseeOrg)
 	}
 
-	//Checking that user has enough funds:
+	// Check that user has enough funds:
 	creator, _ := sdk.AccAddressFromBech32(msg.Creator)
 	userBalance := k.bankKeeper.SpendableCoins(ctx, creator)
 	if !userBalance.IsAllGTE(sdk.NewCoins(contract.Price)) {
@@ -77,7 +75,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 			contract.Price.String(), userBalance.String())
 	}
 
-	//Calculating the amounts to retain and to send to owner
+	// Calculate the amounts to retain and to send to owner
 	depositTargetAmount := contract.SafetyDeposit.Amount
 
 	var depositRetainedAmount math.Int
@@ -88,15 +86,15 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 		depositRetainedAmount = math.ZeroInt()
 	}
 
-	//By default we want to pay everything to owner
+	// By default pay everything to owner
 	renewalFeeAmount := contract.Price.Amount
 	payoutOwnerAmount := renewalFeeAmount
 	payoutEscrowAmount := math.ZeroInt()
 
-	// Only retain funds if we haven't met the safety deposit target yet
+	// Only retain funds if contract haven't met the safety deposit target yet
 	if depositRetainedAmount.LT(depositTargetAmount) {
 
-		// Calculate how much more we need to reach the deposit target
+		// Calculate the amount needed to reach the deposit target
 		depositRemainingAmount := depositTargetAmount.Sub(depositRetainedAmount)
 
 		// Calculate retained amount of the renewal fee
@@ -112,7 +110,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	// Convert amounts back to Coins for the payout
 	payoutOwner := sdk.NewCoin(contract.Price.Denom, payoutOwnerAmount)
 
-	//Collecting the retainer to module account
+	// Collect the retainer to module account
 	if payoutEscrowAmount != math.ZeroInt() {
 		payoutEscrow := sdk.NewCoin(contract.Price.Denom, payoutEscrowAmount)
 		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, sdk.NewCoins(payoutEscrow)); err != nil {
@@ -125,20 +123,26 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 		contract.SafetyDepositRetained.Amount = depositRetainedAmount
 	}
 
-	//Sending the payout to owner's treasury
+	// Send the payout to owner's treasury
 	if err := k.bankKeeper.SendCoins(ctx, creator, ownerTreasury, sdk.NewCoins(payoutOwner)); err != nil {
 		k.Logger().Error("failed to send coins to escrow", "error", err)
 		return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 	}
 	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, payoutOwner, contract.LesseeOrg, contract.OwnerOrg, creator.String(), ownerTreasury.String())
 
-	//Updating the contract:
+	// Update the contract:
 	blockTime := ctx.BlockTime()
-	//Production:
+
+
+
+	// Production:
 	//prepaidUntil := contract.PrepaidUntil.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
-	//Testing:
+	// Testing:
 	prepaidUntil := contract.PrepaidUntil.Add(time.Minute)
-	//If the contract was in expired state we set it back to active
+
+
+
+	// Reactivate expired contract that is still in grace period and therefore not terminated
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED {
 		contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
 	}
