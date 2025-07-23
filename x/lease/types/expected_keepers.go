@@ -60,4 +60,5 @@ type PaymentsKeeper interface {
 type TrustKeeper interface {
 	InitializeLeaseReputation(ctx context.Context, leaseId uint64)
 	RemoveLeaseReputation(ctx context.Context, leaseId uint64)
+	GetShortLeaseReputation(ctx context.Context, index uint64) (l1Listed bool, l2Count int32, failedAbuse uint64, found bool)
 }
