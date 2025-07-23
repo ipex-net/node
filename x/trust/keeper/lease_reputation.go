@@ -51,3 +51,16 @@ func (k Keeper) InitializeLeaseReputation(ctx context.Context, leaseId uint64) {
 	k.SetLeaseReputation(ctx, leaseReputation)
 
 }
+
+// GetShortLeaseReputation retrieves lease reputation data including L1 listing status, L2 count, failed abuse count, and existence flag
+func (k Keeper) GetShortLeaseReputation(ctx context.Context, index uint64) (l1Listed bool, l2Count int32, failedAbuse uint64, found bool) {
+	reputation, err := k.LeaseReputations.Get(ctx, index)
+	if err != nil {
+		return false, 0, 0, false
+	}
+	l1Listed = false
+	if reputation.Level1Count != 0 {
+		l1Listed = true
+	}
+	return l1Listed, reputation.Level2Count, reputation.AbuseFailed, true
+}
