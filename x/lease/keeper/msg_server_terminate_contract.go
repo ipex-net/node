@@ -29,13 +29,9 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "Contract %d doesn't exist", msg.Id)
 	}
 
-	// Checking the contract status
-	// Even if the contract was cancelled, premature termination will lead to safety deposit transfer to lessee
-	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED &&
-		contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE &&
-		contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER {
-		return nil, errorsmod.Wrapf(types.ErrInvalidContractStatus, "can not terminate contract in %s state", contract.Status)
-	}
+	// Determine if Lessor eligible for termination without penalty
+	noPenalty := k.CanTerminateWithoutPenalty(ctx, msg.Id)
+
 
 	// Checking that the sender is the admin of the owner org
 	if !k.orgKeeper.VerifyOrgAdmin(ctx, contract.OwnerOrg, msg.Creator) {
@@ -48,9 +44,8 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		return nil, errorsmod.Wrapf(types.ErrOrgAdminNotFound, "admin for org %d not found", contract.LesseeOrg)
 	}
 
-	// Checking if there's safety deposit to refund and that revocationEffectiveAt is in future or is not set
-	// If revocation date already passed the contract will be terminated automatically in endblocker func, not here
-	if contract.SafetyDepositRetained != nil && (contract.RevocationEffectiveAt == nil || contract.RevocationEffectiveAt.After(ctx.BlockTime())) {
+	// Transfer Safety Deposit to lessee only if there is a deposit and noPenalty is false
+	if contract.SafetyDepositRetained != nil && !noPenalty {
 		coins := sdk.NewCoins(*contract.SafetyDepositRetained)
 
 		if err := k.bankKeeper.SendCoinsFromModuleToAccount(
@@ -66,13 +61,17 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		contract.SafetyDepositRetained = nil
 	}
 
-	//Updating the contract
 	blockTime := ctx.BlockTime()
 	oneMonthAfterActivation := contract.ActivatedAt.AddDate(0, 1, 0)
 
 	var statuslog string
+
 	// Determine the appropriate termination status based on timing
-	if blockTime.Before(oneMonthAfterActivation) {
+	if noPenalty {
+		// Contract terminated during the first month
+		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED_WITHOUT_LESSOR_PENALTY
+		statuslog = "terminated_without_lessor_penalty"
+	} else if blockTime.Before(oneMonthAfterActivation) {
 		// Contract terminated during the first month
 		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED_FIRST_MONTH
 		statuslog = "terminated_first_month"
