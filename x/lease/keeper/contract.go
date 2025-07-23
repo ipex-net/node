@@ -173,3 +173,43 @@ func (k Keeper) GetFirstLeasedContractBySubnet(ctx context.Context, subnetId uin
 
 	return contractId, found
 }
+
+// CanTerminateWithoutPenalty checks if a lessor is eligible to terminate their contract early
+// without incurring penalties. When eligible, the lessor's safety deposit is fully refunded.
+// Returns true if early termination is allowed without penalty, false otherwise.
+func (k Keeper) CanTerminateWithoutPenalty(ctx context.Context, contractId uint64) bool {
+	contract, found := k.GetContract(ctx, contractId)
+	// ineligible can't find contract
+	if !found {
+		return false
+	}
+
+	// eligible if user requested to transfer origin to AS inside of ASNDROP list
+	if !contract.AllowASNDROPOriginTransfer && k.subnetKeeper.IsUserRequestedASNDROPOrigin(ctx, contract.SubnetId) {
+		return true
+	}
+	l1Listed, l2Count, failedAbuseCount, found := k.trustKeeper.GetShortLeaseReputation(ctx, contract.SubnetId)
+
+	// ineligibe - can't find reputation record 
+	if !found {
+		return false
+	}
+
+	// eligible if lease entered L1 blacklist during the lease time
+	if l1Listed {
+		return true
+	}
+
+	// eligible if there are abuse cases that failed to resolve 
+	if failedAbuseCount > 0 {
+		return true
+	}
+
+	// eligible if the number of IPs listed in L2 blaclist is greater than defined by contract
+	if l2Count > int32(contract.L2BlacklistCountThreshold) {
+		return true
+	}
+
+	// otherwise ineligible
+	return false
+}
