@@ -79,6 +79,12 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		return nil, errorsmod.Wrapf(types.ErrNotSubnetOwnerAdmin, "address %s is not an admin of the owner org %d of the subnet", msg.Creator, msg.OwnerOrg)
 	}
 
+	// Check that the contract creator has treasury account setup
+	_, found := k.orgKeeper.GetOrgTreasury(ctx, msg.OwnerOrg)
+	if !found {
+		return nil, errorsmod.Wrap(types.ErrOrgTreasuryNotFound, "owner org doesn't have treasury")
+	}
+
 	//Verify subnet is available
 	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
 		return nil, types.ErrSubnetNotReady
