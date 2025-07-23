@@ -718,3 +718,12 @@ func (k Keeper) FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uin
 
 	return nil
 }
+
+// IsUserRequestedASNDROPOrigin returns true if user requested origin transfer to origin from ASNDROP list
+func (k Keeper) IsUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) bool {
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return false
+	}
+	return subnet.UserRequestedASNDROPOriginTransfer
+}
