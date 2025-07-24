@@ -29,6 +29,11 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "Contract %d doesn't exist", msg.Id)
 	}
 
+	// Can only terminate contracts that are leased, cancelled or expired
+	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER && contract.Status != types.ContractStatus_CONTRACT_STATUS_EXPIRED {
+		return nil, types.ErrInvalidContractStatus
+	}
+
 	// Determine if Lessor eligible for termination without penalty
 	noPenalty := k.CanTerminateWithoutPenalty(ctx, msg.Id)
 
