@@ -37,15 +37,18 @@ func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteCon
 	}
 
 	err = k.RemoveContract(ctx, msg.Id)
+	if err != nil {
+		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "failed to remove contract %d: %s", msg.Id, err)
+	}
+
 	k.trustKeeper.RemoveLeaseReputation(ctx, msg.Id)
 
-	if err == nil {
-		ctx.EventManager().EmitEvent(
-			sdk.NewEvent(types.ContractDeletedEventType,
-				sdk.NewAttribute(types.ContractDeletedEventCreator, msg.Creator),
-				sdk.NewAttribute(types.ContractDeletedEventContractId, strconv.FormatUint(msg.Id, 10)),
-			),
-		)
-	}
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(types.ContractDeletedEventType,
+			sdk.NewAttribute(types.ContractDeletedEventCreator, msg.Creator),
+			sdk.NewAttribute(types.ContractDeletedEventContractId, strconv.FormatUint(msg.Id, 10)),
+		),
+	)
+	
 	return &types.MsgDeleteContractResponse{}, nil
 }
