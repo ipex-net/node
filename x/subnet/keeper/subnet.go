@@ -757,7 +757,7 @@ func (k Keeper) IsUserRefundAllowed(ctx context.Context, subnetId uint64) bool {
 	// this covers two main cases:
 	// - requested ASN was not set in RPKI in 72 hours
 	// - previously set and validated origin doesn't validate in RPKI anymore
-	if !subnet.RpkiOriginValid && subnet.OriginTransferRequestedAt.Before(threeDaysAgo){
+	if !subnet.RpkiOriginValid && subnet.OriginTransferRequestedAt != nil && subnet.OriginTransferRequestedAt.Before(threeDaysAgo){
 		return true
 	}
 
