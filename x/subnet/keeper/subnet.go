@@ -727,3 +727,39 @@ func (k Keeper) IsUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint6
 	}
 	return subnet.UserRequestedASNDROPOriginTransfer
 }
+
+func (k Keeper) IsUserRefundAllowed(ctx context.Context, subnetId uint64) bool {
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return false
+	}
+
+	// no refund if rpki origin is valid
+	if subnet.RpkiOriginValid {
+		return false
+	}
+
+	// no origin - no refund
+	if subnet.OriginAsn == 0 {
+		return false
+	}
+
+	// no refund for users that requested origin transfer to ASNDROP origins
+	if subnet.UserRequestedASNDROPOriginTransfer {
+		return false
+	}
+
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	currentTime := sdkCtx.BlockTime()
+	threeDaysAgo := currentTime.Add(-3 * 24 * time.Hour)
+	
+	// eligible for refund if rpki origin invalid and requested more than three days ago
+	// this covers two main cases:
+	// - requested ASN was not set in RPKI in 72 hours
+	// - previously set and validated origin doesn't validate in RPKI anymore
+	if !subnet.RpkiOriginValid && subnet.OriginTransferRequestedAt.Before(threeDaysAgo){
+		return true
+	}
+
+	return false
+}
