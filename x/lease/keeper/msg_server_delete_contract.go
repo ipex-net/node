@@ -15,7 +15,7 @@ import (
 func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteContract) (*types.MsgDeleteContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	//Checking if the address is correct
+	// Checking if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
@@ -26,12 +26,12 @@ func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteCon
 		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
 
-	//Only FORSALE contracts can be deleted
+	// Only FORSALE contracts can be deleted
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
 		return nil, errorsmod.Wrap(types.ErrInvalidContractStatus, "contract must be in forsale status")
 	}
 
-	//Only admin of owner org can delete contract
+	// Only admin of owner org can delete contract
 	if !k.orgKeeper.VerifyOrgAdmin(ctx, contract.OwnerOrg, msg.Creator) {
 		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect contract owner")
 	}
