@@ -79,7 +79,6 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		// Contract terminated during the first month
 		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED_FIRST_MONTH
 		statuslog = "terminated_first_month"
-
 	} else {
 		// Contract terminated after the first month
 		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED_WITHOUT_NOTICE
@@ -89,7 +88,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	contract.TerminatedAt = &blockTime
 	k.SetContract(ctx, contract)
 
-	//Removing the user from the subnet
+	// Remove user from the subnet
 	k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
 
 	// Emit the termination event

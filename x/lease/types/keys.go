@@ -124,3 +124,10 @@ const (
 	BidSubmittedDepositCollectedDenom  = "deposit_collected_denom"
 	BidSubmittedExpirationHours        = "expiration_hours"
 )
+
+const (
+	LesseeRefundEmittedEventType  = "lessee_refund_emitted"
+	LesseeRefundEmittedCreator    = "creator"
+	LesseeRefundEmittedContractId = "contract_id"
+	LesseeRefundEmittedAt         = "emitted_at"
+)
