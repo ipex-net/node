@@ -74,7 +74,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	// Determine the appropriate termination status based on timing
 	if noPenalty {
 		// Contract terminated during the first month
-		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED_WITHOUT_LESSOR_PENALTY
+		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED_WITH_LESSEE_CONTRACT_VIOLATION
 		statuslog = "terminated_without_lessor_penalty"
 	} else if blockTime.Before(oneMonthAfterActivation) {
 		// Contract terminated during the first month
