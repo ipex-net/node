@@ -146,6 +146,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a accept-bid tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contractId"}, {ProtoField: "bidderOrgId"}},
 				},
+				{
+					RpcMethod:      "RequestLesseeRefund",
+					Use:            "request-lessee-refund [contract-id]",
+					Short:          "Send a request-lessee-refund tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contractId"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

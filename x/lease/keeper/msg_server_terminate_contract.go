@@ -37,7 +37,6 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	// Determine if Lessor eligible for termination without penalty
 	noPenalty := k.CanTerminateWithoutPenalty(ctx, msg.Id)
 
-
 	// Checking that the sender is the admin of the owner org
 	if !k.orgKeeper.VerifyOrgAdmin(ctx, contract.OwnerOrg, msg.Creator) {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized, "incorrect owner admin %s", msg.Creator)

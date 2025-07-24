@@ -20,19 +20,20 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams       (MsgUpdateParams      ) returns (MsgUpdateParamsResponse      );
-  rpc CreateContract     (MsgCreateContract    ) returns (MsgCreateContractResponse    );
-  rpc UpdateContract     (MsgUpdateContract    ) returns (MsgUpdateContractResponse    );
-  rpc DeleteContract     (MsgDeleteContract    ) returns (MsgDeleteContractResponse    );
-  rpc CancelContract     (MsgCancelContract    ) returns (MsgCancelContractResponse    );
-  rpc RevokeContract     (MsgRevokeContract    ) returns (MsgRevokeContractResponse    );
-  rpc EnrollContract     (MsgEnrollContract    ) returns (MsgEnrollContractResponse    );
-  rpc TerminateContract  (MsgTerminateContract ) returns (MsgTerminateContractResponse );
-  rpc RenewContract      (MsgRenewContract     ) returns (MsgRenewContractResponse     );
-  rpc UndoCancelContract (MsgUndoCancelContract) returns (MsgUndoCancelContractResponse);
-  rpc RevokeBid          (MsgRevokeBid         ) returns (MsgRevokeBidResponse         );
-  rpc RejectBid          (MsgRejectBid         ) returns (MsgRejectBidResponse         );
-  rpc AcceptBid          (MsgAcceptBid         ) returns (MsgAcceptBidResponse         );
+  rpc UpdateParams        (MsgUpdateParams       ) returns (MsgUpdateParamsResponse       );
+  rpc CreateContract      (MsgCreateContract     ) returns (MsgCreateContractResponse     );
+  rpc UpdateContract      (MsgUpdateContract     ) returns (MsgUpdateContractResponse     );
+  rpc DeleteContract      (MsgDeleteContract     ) returns (MsgDeleteContractResponse     );
+  rpc CancelContract      (MsgCancelContract     ) returns (MsgCancelContractResponse     );
+  rpc RevokeContract      (MsgRevokeContract     ) returns (MsgRevokeContractResponse     );
+  rpc EnrollContract      (MsgEnrollContract     ) returns (MsgEnrollContractResponse     );
+  rpc TerminateContract   (MsgTerminateContract  ) returns (MsgTerminateContractResponse  );
+  rpc RenewContract       (MsgRenewContract      ) returns (MsgRenewContractResponse      );
+  rpc UndoCancelContract  (MsgUndoCancelContract ) returns (MsgUndoCancelContractResponse );
+  rpc RevokeBid           (MsgRevokeBid          ) returns (MsgRevokeBidResponse          );
+  rpc RejectBid           (MsgRejectBid          ) returns (MsgRejectBidResponse          );
+  rpc AcceptBid           (MsgAcceptBid          ) returns (MsgAcceptBidResponse          );
+  rpc RequestLesseeRefund (MsgRequestLesseeRefund) returns (MsgRequestLesseeRefundResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -165,4 +166,14 @@ message MsgAcceptBid {
 }
 
 message MsgAcceptBidResponse {}
+
+message MsgRequestLesseeRefund {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator    = 1;
+  uint64 contractId = 2;
+}
+
+message MsgRequestLesseeRefundResponse {
+  bool success = 1;
+}
 
