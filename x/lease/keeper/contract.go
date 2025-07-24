@@ -184,6 +184,16 @@ func (k Keeper) CanTerminateWithoutPenalty(ctx context.Context, contractId uint6
 		return false
 	}
 
+	// ineligible if not leased or cancelled
+	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_LESSEE && contract.Status != types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER {
+		return false
+	}
+
+	// if contract on expired status lessor can terminate without penalty
+	if contract.Status == types.ContractStatus_CONTRACT_STATUS_EXPIRED {
+		return true
+	}
+
 	// eligible if user requested to transfer origin to AS inside of ASNDROP list
 	if !contract.AllowASNDROPOriginTransfer && k.subnetKeeper.IsUserRequestedASNDROPOrigin(ctx, contract.SubnetId) {
 		return true
