@@ -17,7 +17,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	// Minimum revocation period
 	minimumRevocationPeriod := uint64(1)
 
-	//Checking if the address is correct
+	// Check if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
@@ -28,11 +28,12 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		return nil, types.ErrInvalidBlacklistThreshold
 	}
 
-	// Checking that the price is not nil
+	// Check that the price is not nil
 	if msg.Price.Amount.IsZero() {
 		return nil, types.ErrInvalidPrice
 	}
-	// Add this check after verifying the subnet availability
+
+	// Check matching denoms
 	if msg.SafetyDeposit.Denom != msg.Price.Denom {
 		return nil, errorsmod.Wrapf(
 			types.ErrInvalidDeposit,
@@ -42,6 +43,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		)
 	}
 
+	// Check safety deposit amount
 	if msg.SafetyDeposit.Amount.LT(msg.Price.Amount) {
 		return nil, errorsmod.Wrapf(
 			types.ErrInvalidDeposit,
@@ -51,6 +53,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		)
 	}
 
+	// Check revocation period duration
 	if msg.RevocationPeriodMonth < minimumRevocationPeriod {
 		return nil, errorsmod.Wrapf(
 			types.ErrInvalidRevocationPeriod,
@@ -85,11 +88,12 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		return nil, errorsmod.Wrap(types.ErrOrgTreasuryNotFound, "owner org doesn't have treasury")
 	}
 
-	//Verify subnet is available
+	// Verify that subnet is available
 	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
 		return nil, types.ErrSubnetNotReady
 	}
 
+	// Instantiate contract
 	var contract = types.Contract{
 		SubnetId:                   msg.SubnetId,
 		OwnerOrg:                   msg.OwnerOrg,
@@ -107,6 +111,8 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		AllowASNDROPOriginTransfer: msg.AllowASNDROPOriginTransfer,
 		AllowUnverifiedBidders:     msg.AllowUnverifiedBidders,
 	}
+
+	// Create contract
 	id := k.AppendContract(
 		ctx,
 		contract,

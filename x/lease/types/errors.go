@@ -44,5 +44,5 @@ var (
 	ErrInexistentContract           = sdkerrors.Register(ModuleName, 1133, "contract does not exist")
 	ErrBidAlreadyExists             = sdkerrors.Register(ModuleName, 1134, "bid already exists")
 	ErrBidExpired                   = sdkerrors.Register(ModuleName, 1135, "bid already expired")
-	ErrRefundNotAllowed				= sdkerrors.Register(ModuleName, 1135, "refund not allowed")
+	ErrRefundNotAllowed				= sdkerrors.Register(ModuleName, 1136, "refund not allowed")
 )
