@@ -41,6 +41,7 @@ type SubnetKeeper interface {
 	SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool)
 	RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64)
 	IsUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) bool
+	IsUserRefundAllowed(ctx context.Context, subnetId uint64) bool
 }
 
 type PaymentsKeeper interface {
