@@ -15,7 +15,7 @@ import (
 func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteContract) (*types.MsgDeleteContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Checking if the address is correct
+	// Check if the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
