@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -293,4 +294,179 @@ func TestBidByLessorQuery(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestBidByContractPaginated(t *testing.T) {
+	keeper, ctx := keepertest.LeaseKeeper(t)
+	
+	// Create multiple bids for the same contract
+	contractId := uint64(1)
+	bids := []types.Bid{
+		{ContractId: contractId, BidderOrgId: 101, OwnerOrgId: 201},
+		{ContractId: contractId, BidderOrgId: 102, OwnerOrgId: 201},
+		{ContractId: contractId, BidderOrgId: 103, OwnerOrgId: 201},
+		{ContractId: contractId, BidderOrgId: 104, OwnerOrgId: 201},
+		{ContractId: contractId, BidderOrgId: 105, OwnerOrgId: 201},
+	}
+
+	for _, bid := range bids {
+		keeper.SetBid(ctx, bid)
+	}
+
+	request := func(next []byte, limit uint64) *types.QueryBidByContractRequest {
+		return &types.QueryBidByContractRequest{
+			ContractId: contractId,
+			Pagination: &query.PageRequest{
+				Key:   next,
+				Limit: limit,
+			},
+		}
+	}
+
+	t.Run("WithLimit", func(t *testing.T) {
+		resp, err := keeper.BidByContract(ctx, request(nil, 2))
+		require.NoError(t, err)
+		require.Equal(t, 2, len(resp.Bid))
+		require.NotNil(t, resp.Pagination.NextKey)
+	})
+
+	t.Run("WithPagination", func(t *testing.T) {
+		// First page
+		resp1, err := keeper.BidByContract(ctx, request(nil, 2))
+		require.NoError(t, err)
+		require.Equal(t, 2, len(resp1.Bid))
+		require.NotNil(t, resp1.Pagination.NextKey)
+
+		// Second page
+		resp2, err := keeper.BidByContract(ctx, request(resp1.Pagination.NextKey, 2))
+		require.NoError(t, err)
+		require.Equal(t, 2, len(resp2.Bid))
+		require.NotNil(t, resp2.Pagination.NextKey)
+
+		// Third page
+		resp3, err := keeper.BidByContract(ctx, request(resp2.Pagination.NextKey, 2))
+		require.NoError(t, err)
+		require.Equal(t, 1, len(resp3.Bid))
+		require.Nil(t, resp3.Pagination.NextKey) // Last page
+	})
+
+	t.Run("AllResults", func(t *testing.T) {
+		resp, err := keeper.BidByContract(ctx, request(nil, 0)) // No limit
+		require.NoError(t, err)
+		require.Equal(t, len(bids), len(resp.Bid))
+		require.Nil(t, resp.Pagination.NextKey)
+	})
+}
+
+func TestBidByBidderPaginated(t *testing.T) {
+	keeper, ctx := keepertest.LeaseKeeper(t)
+	
+	// Create multiple bids from the same bidder
+	bidderOrgId := uint64(101)
+	bids := []types.Bid{
+		{ContractId: 1, BidderOrgId: bidderOrgId, OwnerOrgId: 201},
+		{ContractId: 2, BidderOrgId: bidderOrgId, OwnerOrgId: 202},
+		{ContractId: 3, BidderOrgId: bidderOrgId, OwnerOrgId: 203},
+		{ContractId: 4, BidderOrgId: bidderOrgId, OwnerOrgId: 204},
+		{ContractId: 5, BidderOrgId: bidderOrgId, OwnerOrgId: 205},
+	}
+
+	for _, bid := range bids {
+		keeper.SetBid(ctx, bid)
+	}
+
+	request := func(next []byte, limit uint64) *types.QueryBidByBidderRequest {
+		return &types.QueryBidByBidderRequest{
+			BidderOrgId: bidderOrgId,
+			Pagination: &query.PageRequest{
+				Key:   next,
+				Limit: limit,
+			},
+		}
+	}
+
+	t.Run("WithLimit", func(t *testing.T) {
+		resp, err := keeper.BidByBidder(ctx, request(nil, 2))
+		require.NoError(t, err)
+		require.Equal(t, 2, len(resp.Bid))
+		require.NotNil(t, resp.Pagination.NextKey)
+	})
+
+	t.Run("WithPagination", func(t *testing.T) {
+		// First page
+		resp1, err := keeper.BidByBidder(ctx, request(nil, 3))
+		require.NoError(t, err)
+		require.Equal(t, 3, len(resp1.Bid))
+		require.NotNil(t, resp1.Pagination.NextKey)
+
+		// Second page
+		resp2, err := keeper.BidByBidder(ctx, request(resp1.Pagination.NextKey, 3))
+		require.NoError(t, err)
+		require.Equal(t, 2, len(resp2.Bid))
+		require.Nil(t, resp2.Pagination.NextKey) // Last page
+	})
+
+	t.Run("AllResults", func(t *testing.T) {
+		resp, err := keeper.BidByBidder(ctx, request(nil, 0)) // No limit
+		require.NoError(t, err)
+		require.Equal(t, len(bids), len(resp.Bid))
+		require.Nil(t, resp.Pagination.NextKey)
+	})
+}
+
+func TestBidByLessorPaginated(t *testing.T) {
+	keeper, ctx := keepertest.LeaseKeeper(t)
+	
+	// Create multiple bids for contracts owned by the same lessor
+	lessorOrgId := uint64(201)
+	bids := []types.Bid{
+		{ContractId: 1, BidderOrgId: 101, OwnerOrgId: lessorOrgId},
+		{ContractId: 1, BidderOrgId: 102, OwnerOrgId: lessorOrgId},
+		{ContractId: 2, BidderOrgId: 103, OwnerOrgId: lessorOrgId},
+		{ContractId: 2, BidderOrgId: 104, OwnerOrgId: lessorOrgId},
+		{ContractId: 3, BidderOrgId: 105, OwnerOrgId: lessorOrgId},
+		{ContractId: 3, BidderOrgId: 106, OwnerOrgId: lessorOrgId},
+	}
+
+	for _, bid := range bids {
+		keeper.SetBid(ctx, bid)
+	}
+
+	request := func(next []byte, limit uint64) *types.QueryBidByLessorRequest {
+		return &types.QueryBidByLessorRequest{
+			LessorOrgId: lessorOrgId,
+			Pagination: &query.PageRequest{
+				Key:   next,
+				Limit: limit,
+			},
+		}
+	}
+
+	t.Run("WithLimit", func(t *testing.T) {
+		resp, err := keeper.BidByLessor(ctx, request(nil, 3))
+		require.NoError(t, err)
+		require.Equal(t, 3, len(resp.Bid))
+		require.NotNil(t, resp.Pagination.NextKey)
+	})
+
+	t.Run("WithPagination", func(t *testing.T) {
+		// First page
+		resp1, err := keeper.BidByLessor(ctx, request(nil, 4))
+		require.NoError(t, err)
+		require.Equal(t, 4, len(resp1.Bid))
+		require.NotNil(t, resp1.Pagination.NextKey)
+
+		// Second page
+		resp2, err := keeper.BidByLessor(ctx, request(resp1.Pagination.NextKey, 4))
+		require.NoError(t, err)
+		require.Equal(t, 2, len(resp2.Bid))
+		require.Nil(t, resp2.Pagination.NextKey) // Last page
+	})
+
+	t.Run("AllResults", func(t *testing.T) {
+		resp, err := keeper.BidByLessor(ctx, request(nil, 0)) // No limit
+		require.NoError(t, err)
+		require.Equal(t, len(bids), len(resp.Bid))
+		require.Nil(t, resp.Pagination.NextKey)
+	})
 }
