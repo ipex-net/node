@@ -69,7 +69,7 @@ func (k Keeper) ListContract(ctx context.Context, req *types.QueryListContractRe
 		contracts = append(contracts, value)
 		lastKey = key
 		collectedCount++
-		
+
 		return false, nil
 	})
 

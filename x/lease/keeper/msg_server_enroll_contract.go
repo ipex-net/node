@@ -25,7 +25,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
-	
+
 	// Check that contractId is not nil
 	if msg.ContractId == 0 {
 		return nil, types.ErrContractIdCantBeNil

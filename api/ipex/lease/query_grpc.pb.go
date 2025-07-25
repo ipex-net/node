@@ -24,6 +24,7 @@ const (
 	Query_ListContract_FullMethodName                    = "/ipex.lease.Query/ListContract"
 	Query_Bid_FullMethodName                             = "/ipex.lease.Query/Bid"
 	Query_CanTerminateLeaseWithoutPenalty_FullMethodName = "/ipex.lease.Query/CanTerminateLeaseWithoutPenalty"
+	Query_BidByContract_FullMethodName                   = "/ipex.lease.Query/BidByContract"
 )
 
 // QueryClient is the client API for Query service.
@@ -40,6 +41,8 @@ type QueryClient interface {
 	Bid(ctx context.Context, in *QueryGetBidRequest, opts ...grpc.CallOption) (*QueryGetBidResponse, error)
 	// Queries a list of CanTerminateLeaseWithoutPenalty items.
 	CanTerminateLeaseWithoutPenalty(ctx context.Context, in *QueryCanTerminateLeaseWithoutPenaltyRequest, opts ...grpc.CallOption) (*QueryCanTerminateLeaseWithoutPenaltyResponse, error)
+	// Queries a list of BidByContract items.
+	BidByContract(ctx context.Context, in *QueryBidByContractRequest, opts ...grpc.CallOption) (*QueryBidByContractResponse, error)
 }
 
 type queryClient struct {
@@ -95,6 +98,15 @@ func (c *queryClient) CanTerminateLeaseWithoutPenalty(ctx context.Context, in *Q
 	return out, nil
 }
 
+func (c *queryClient) BidByContract(ctx context.Context, in *QueryBidByContractRequest, opts ...grpc.CallOption) (*QueryBidByContractResponse, error) {
+	out := new(QueryBidByContractResponse)
+	err := c.cc.Invoke(ctx, Query_BidByContract_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -109,6 +121,8 @@ type QueryServer interface {
 	Bid(context.Context, *QueryGetBidRequest) (*QueryGetBidResponse, error)
 	// Queries a list of CanTerminateLeaseWithoutPenalty items.
 	CanTerminateLeaseWithoutPenalty(context.Context, *QueryCanTerminateLeaseWithoutPenaltyRequest) (*QueryCanTerminateLeaseWithoutPenaltyResponse, error)
+	// Queries a list of BidByContract items.
+	BidByContract(context.Context, *QueryBidByContractRequest) (*QueryBidByContractResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -130,6 +144,9 @@ func (UnimplementedQueryServer) Bid(context.Context, *QueryGetBidRequest) (*Quer
 }
 func (UnimplementedQueryServer) CanTerminateLeaseWithoutPenalty(context.Context, *QueryCanTerminateLeaseWithoutPenaltyRequest) (*QueryCanTerminateLeaseWithoutPenaltyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CanTerminateLeaseWithoutPenalty not implemented")
+}
+func (UnimplementedQueryServer) BidByContract(context.Context, *QueryBidByContractRequest) (*QueryBidByContractResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BidByContract not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -234,6 +251,24 @@ func _Query_CanTerminateLeaseWithoutPenalty_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_BidByContract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryBidByContractRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BidByContract(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_BidByContract_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BidByContract(ctx, req.(*QueryBidByContractRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -260,6 +295,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CanTerminateLeaseWithoutPenalty",
 			Handler:    _Query_CanTerminateLeaseWithoutPenalty_Handler,
+		},
+		{
+			MethodName: "BidByContract",
+			Handler:    _Query_BidByContract_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

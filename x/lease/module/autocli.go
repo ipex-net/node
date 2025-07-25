@@ -44,6 +44,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contractId"}},
 				},
 
+				{
+					RpcMethod:      "BidByContract",
+					Use:            "bid-by-contract [contract-id]",
+					Short:          "Query bid-by-contract",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "contractId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

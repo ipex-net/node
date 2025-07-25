@@ -752,12 +752,12 @@ func (k Keeper) IsUserRefundAllowed(ctx context.Context, subnetId uint64) bool {
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	currentTime := sdkCtx.BlockTime()
 	threeDaysAgo := currentTime.Add(-3 * 24 * time.Hour)
-	
+
 	// eligible for refund if rpki origin invalid and requested more than three days ago
 	// this covers two main cases:
 	// - requested ASN was not set in RPKI in 72 hours
 	// - previously set and validated origin doesn't validate in RPKI anymore
-	if !subnet.RpkiOriginValid && subnet.OriginTransferRequestedAt != nil && subnet.OriginTransferRequestedAt.Before(threeDaysAgo){
+	if !subnet.RpkiOriginValid && subnet.OriginTransferRequestedAt != nil && subnet.OriginTransferRequestedAt.Before(threeDaysAgo) {
 		return true
 	}
 

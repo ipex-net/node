@@ -20,7 +20,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	const retainer int = 10
 
 	// NOTE: only org admin can renew for the contract. All refunds go to org admin as well.
-	
+
 	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {

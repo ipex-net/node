@@ -44,9 +44,9 @@ func (k msgServer) RevokeContract(goCtx context.Context, msg *types.MsgRevokeCon
 
 	// Check PrepaidUntil is not nil to avoid null dereference
 	if contract.PrepaidUntil == nil {
-      return nil, errorsmod.Wrap(types.ErrContractExpired, "Contract has no prepaid period set")
-  	}
-	
+		return nil, errorsmod.Wrap(types.ErrContractExpired, "Contract has no prepaid period set")
+	}
+
 	// Update the contract
 	blockTime := ctx.BlockTime()
 	revocationTime := contract.PrepaidUntil.AddDate(0, int(contract.RevocationPeriodMonth), 0)

@@ -73,8 +73,8 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	}
 
 	if contract.ActivatedAt == nil {
-      return nil, errorsmod.Wrap(types.ErrContractNotActivated, "Contract has no activation date set")
-  	}
+		return nil, errorsmod.Wrap(types.ErrContractNotActivated, "Contract has no activation date set")
+	}
 
 	blockTime := ctx.BlockTime()
 	oneMonthAfterActivation := contract.ActivatedAt.AddDate(0, 1, 0)

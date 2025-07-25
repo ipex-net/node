@@ -52,15 +52,15 @@ func (k msgServer) RequestLesseeRefund(goCtx context.Context, msg *types.MsgRequ
 	// Get linked subnet
 	if k.subnetKeeper.IsUserRefundAllowed(ctx, contract.SubnetId) {
 		// Get lessee org admin address
-		// NB lessee org admin validation logic may change, so we want to be sure to send refund to correct address 
+		// NB lessee org admin validation logic may change, so we want to be sure to send refund to correct address
 		lesseeAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, contract.LesseeOrg)
 		if !found {
 			return &types.MsgRequestLesseeRefundResponse{Success: false}, errorsmod.Wrapf(types.ErrOrgAdminNotFound, "admin for org %d not found", contract.LesseeOrg)
 		}
-		
+
 		// Instantiate refund amount in coins
 		coins := sdk.NewCoins(*contract.SafetyDepositRetained)
-		
+
 		// Process refund
 		if err := k.bankKeeper.SendCoinsFromModuleToAccount(
 			ctx,
@@ -70,10 +70,10 @@ func (k msgServer) RequestLesseeRefund(goCtx context.Context, msg *types.MsgRequ
 		); err != nil {
 			return &types.MsgRequestLesseeRefundResponse{Success: false}, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer safety deposit to lessee org admin: %s", err)
 		}
-		
+
 		// Record transaction in log
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COMPENSATION, paymentstypes.ModuleID_MODULE_ID_LEASE, contract.Id, (*contract.SafetyDepositRetained), contract.LesseeOrg, contract.OwnerOrg, "module:lease", lesseeAdmin.String())
-		
+
 		// Update contract
 		blockTime := ctx.BlockTime()
 		contract.SafetyDepositRetained = nil

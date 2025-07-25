@@ -20,7 +20,7 @@ func (k Keeper) ShowContract(goCtx context.Context, req *types.QueryShowContract
 	if req.Id == 0 {
 		return nil, types.ErrContractIdCantBeNil
 	}
-	
+
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	contract, found := k.GetContract(ctx, req.Id)

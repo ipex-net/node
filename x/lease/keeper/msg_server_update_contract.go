@@ -54,13 +54,13 @@ func (k msgServer) UpdateContract(goCtx context.Context, msg *types.MsgUpdateCon
 
 	// Check that safety deposit is greater than contract price
 	if contract.SafetyDeposit.Amount.LT(msg.Price.Amount) {
-      return nil, errorsmod.Wrapf(
-          types.ErrInvalidDeposit,
-          "safety deposit amount (%s) must be greater than or equal to new price (%s)",
-          contract.SafetyDeposit.Amount.String(),
-          msg.Price.Amount.String(),
-      )
-  	}
+		return nil, errorsmod.Wrapf(
+			types.ErrInvalidDeposit,
+			"safety deposit amount (%s) must be greater than or equal to new price (%s)",
+			contract.SafetyDeposit.Amount.String(),
+			msg.Price.Amount.String(),
+		)
+	}
 
 	// Update contract
 	contract.Price = msg.Price

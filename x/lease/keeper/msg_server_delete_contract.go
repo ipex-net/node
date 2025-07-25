@@ -55,6 +55,6 @@ func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteCon
 			sdk.NewAttribute(types.ContractDeletedEventContractId, strconv.FormatUint(msg.Id, 10)),
 		),
 	)
-	
+
 	return &types.MsgDeleteContractResponse{}, nil
 }
