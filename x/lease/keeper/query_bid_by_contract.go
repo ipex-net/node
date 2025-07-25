@@ -7,8 +7,8 @@ import (
 	"ipex/x/lease/types"
 
 	"cosmossdk.io/collections"
-	"github.com/cosmos/cosmos-sdk/types/query"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -47,7 +47,7 @@ func (k Keeper) BidByContract(goCtx context.Context, req *types.QueryBidByContra
 			keyBytes := make([]byte, 16)
 			binary.BigEndian.PutUint64(keyBytes[:8], key.K1())
 			binary.BigEndian.PutUint64(keyBytes[8:], key.K2())
-			
+
 			if string(keyBytes) <= string(startKey) {
 				return false, nil
 			}

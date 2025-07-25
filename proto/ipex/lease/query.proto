@@ -50,6 +50,12 @@ service Query {
     option (google.api.http).get = "/ipex/lease/bid_by_contract/{contractId}";
   
   }
+  
+  // Queries a list of BidByBidder items.
+  rpc BidByBidder (QueryBidByBidderRequest) returns (QueryBidByBidderResponse) {
+    option (google.api.http).get = "/ipex/lease/bid_by_bidder/{bidderOrgId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -101,6 +107,16 @@ message QueryBidByContractRequest {
 }
 
 message QueryBidByContractResponse {
+  repeated Bid                                    bid        = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryBidByBidderRequest {
+  uint64                                bidderOrgId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination  = 2;
+}
+
+message QueryBidByBidderResponse {
   repeated Bid                                    bid        = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
