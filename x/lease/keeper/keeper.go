@@ -42,6 +42,7 @@ type (
 		Bids           collections.Map[collections.Pair[uint64, uint64], types.Bid]                      // contract-id, bidder-org -> bid
 		BidsByContract collections.Map[collections.Pair[uint64, collections.Pair[uint64, uint64]], bool] // contract-id, (contract-id, bidder-org) -> bool
 		BidsByBidder   collections.Map[collections.Pair[uint64, collections.Pair[uint64, uint64]], bool] // bidder-org, (contract-id, bidder-org) -> bool
+		BidsByLessor   collections.Map[collections.Pair[uint64, collections.Pair[uint64, uint64]], bool] // lessor-org, (contract-id, bidder-org) -> bool
 
 		ParamsStore collections.Item[types.Params]
 	}
@@ -91,6 +92,7 @@ func NewKeeper(
 		Bids:           collections.NewMap(sb, collections.NewPrefix(types.BidKeyPrefix), "bids", collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key), codec.CollValue[types.Bid](cdc)),
 		BidsByContract: collections.NewMap(sb, collections.NewPrefix(types.BidByContractKey), "bids_by_contract", collections.PairKeyCodec(collections.Uint64Key, collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key)), collections.BoolValue),
 		BidsByBidder:   collections.NewMap(sb, collections.NewPrefix(types.BidByBidderKey), "bids_by_bidder", collections.PairKeyCodec(collections.Uint64Key, collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key)), collections.BoolValue),
+		BidsByLessor:   collections.NewMap(sb, collections.NewPrefix(types.BidByLessorKey), "bids_by_lessor", collections.PairKeyCodec(collections.Uint64Key, collections.PairKeyCodec(collections.Uint64Key, collections.Uint64Key)), collections.BoolValue),
 
 		ParamsStore: collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
 	}

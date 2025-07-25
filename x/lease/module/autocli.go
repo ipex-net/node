@@ -58,6 +58,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "bidderOrgId"}},
 				},
 
+				{
+					RpcMethod:      "BidByLessor",
+					Use:            "bid-by-lessor [lessor-org-id]",
+					Short:          "Query bid-by-lessor",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "lessorOrgId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

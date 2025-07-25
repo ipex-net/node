@@ -26,6 +26,12 @@ func (k Keeper) updateBidIndexes(ctx context.Context, bid types.Bid) {
 	if err != nil {
 		panic(err)
 	}
+
+	// Index by lessor (owner)
+	err = k.BidsByLessor.Set(ctx, collections.Join(bid.OwnerOrgId, bidKey), true)
+	if err != nil {
+		panic(err)
+	}
 }
 
 // removeBidFromIndexes removes bid from all secondary indexes
@@ -40,6 +46,12 @@ func (k Keeper) removeBidFromIndexes(ctx context.Context, bid types.Bid) {
 
 	// Remove from bidder index
 	err = k.BidsByBidder.Remove(ctx, collections.Join(bid.BidderOrgId, bidKey))
+	if err != nil {
+		panic(err)
+	}
+
+	// Remove from lessor index
+	err = k.BidsByLessor.Remove(ctx, collections.Join(bid.OwnerOrgId, bidKey))
 	if err != nil {
 		panic(err)
 	}

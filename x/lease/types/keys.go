@@ -30,6 +30,7 @@ const (
 	BidKeyPrefix     = "Bid/value/"
 	BidByContractKey = "Bid/by_contract/"
 	BidByBidderKey   = "Bid/by_bidder/"
+	BidByLessorKey   = "Bid/by_lessor/"
 )
 
 var (

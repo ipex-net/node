@@ -52,7 +52,7 @@ func (k Keeper) BidByContract(goCtx context.Context, req *types.QueryBidByContra
 
 	if startIdx < uint64(len(bids)) {
 		paginatedBids = bids[startIdx:endIdx]
-		
+
 		// Set nextKey if there are more results
 		if endIdx < uint64(len(bids)) {
 			nextKey = make([]byte, 8)

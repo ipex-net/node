@@ -56,6 +56,12 @@ service Query {
     option (google.api.http).get = "/ipex/lease/bid_by_bidder/{bidderOrgId}";
   
   }
+  
+  // Queries a list of BidByLessor items.
+  rpc BidByLessor (QueryBidByLessorRequest) returns (QueryBidByLessorResponse) {
+    option (google.api.http).get = "/ipex/lease/bid_by_lessor/{lessorOrgId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -117,6 +123,16 @@ message QueryBidByBidderRequest {
 }
 
 message QueryBidByBidderResponse {
+  repeated Bid                                    bid        = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryBidByLessorRequest {
+  uint64                                lessorOrgId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination  = 2;
+}
+
+message QueryBidByLessorResponse {
   repeated Bid                                    bid        = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
