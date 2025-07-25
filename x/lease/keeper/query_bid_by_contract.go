@@ -6,7 +6,6 @@ import (
 
 	"ipex/x/lease/types"
 
-	"cosmossdk.io/collections"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
@@ -25,59 +24,47 @@ func (k Keeper) BidByContract(goCtx context.Context, req *types.QueryBidByContra
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// Use the existing helper function to get all bids for this contract
+	bids := k.GetBidsByContract(ctx, req.ContractId)
+
 	// Set up pagination defaults
 	limit := uint64(100)
 	if req.Pagination != nil && req.Pagination.Limit > 0 {
 		limit = req.Pagination.Limit
 	}
 
-	var startKey []byte
+	var startIdx uint64 = 0
 	if req.Pagination != nil && len(req.Pagination.Key) > 0 {
-		startKey = req.Pagination.Key
+		// Decode startIdx from pagination key
+		if len(req.Pagination.Key) >= 8 {
+			startIdx = binary.BigEndian.Uint64(req.Pagination.Key[:8])
+		}
 	}
 
-	var bids []types.Bid
+	// Apply pagination to the results
+	var paginatedBids []types.Bid
 	var nextKey []byte
-	count := uint64(0)
 
-	// Iterate through the Bids collection with prefix for this contract
-	err := k.Bids.Walk(ctx, collections.NewPrefixedPairRange[uint64, uint64](req.ContractId), func(key collections.Pair[uint64, uint64], bid types.Bid) (bool, error) {
-		// If we have a startKey, skip until we reach it
-		if len(startKey) > 0 {
-			keyBytes := make([]byte, 16)
-			binary.BigEndian.PutUint64(keyBytes[:8], key.K1())
-			binary.BigEndian.PutUint64(keyBytes[8:], key.K2())
+	endIdx := startIdx + limit
+	if endIdx > uint64(len(bids)) {
+		endIdx = uint64(len(bids))
+	}
 
-			if string(keyBytes) <= string(startKey) {
-				return false, nil
-			}
+	if startIdx < uint64(len(bids)) {
+		paginatedBids = bids[startIdx:endIdx]
+		
+		// Set nextKey if there are more results
+		if endIdx < uint64(len(bids)) {
+			nextKey = make([]byte, 8)
+			binary.BigEndian.PutUint64(nextKey, endIdx)
 		}
-
-		// Add the bid to results
-		bids = append(bids, bid)
-		count++
-
-		// If we've reached the limit, set nextKey and stop
-		if count >= limit {
-			keyBytes := make([]byte, 16)
-			binary.BigEndian.PutUint64(keyBytes[:8], key.K1())
-			binary.BigEndian.PutUint64(keyBytes[8:], key.K2())
-			nextKey = keyBytes
-			return true, nil
-		}
-
-		return false, nil
-	})
-
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	return &types.QueryBidByContractResponse{
-		Bid: bids,
+		Bid: paginatedBids,
 		Pagination: &query.PageResponse{
 			NextKey: nextKey,
-			Total:   count,
+			Total:   uint64(len(paginatedBids)),
 		},
 	}, nil
 }
