@@ -23,7 +23,6 @@ const (
 	Query_ShowContract_FullMethodName                    = "/ipex.lease.Query/ShowContract"
 	Query_ListContract_FullMethodName                    = "/ipex.lease.Query/ListContract"
 	Query_Bid_FullMethodName                             = "/ipex.lease.Query/Bid"
-	Query_BidAll_FullMethodName                          = "/ipex.lease.Query/BidAll"
 	Query_CanTerminateLeaseWithoutPenalty_FullMethodName = "/ipex.lease.Query/CanTerminateLeaseWithoutPenalty"
 )
 
@@ -39,7 +38,6 @@ type QueryClient interface {
 	ListContract(ctx context.Context, in *QueryListContractRequest, opts ...grpc.CallOption) (*QueryListContractResponse, error)
 	// Queries a list of Bid items.
 	Bid(ctx context.Context, in *QueryGetBidRequest, opts ...grpc.CallOption) (*QueryGetBidResponse, error)
-	BidAll(ctx context.Context, in *QueryAllBidRequest, opts ...grpc.CallOption) (*QueryAllBidResponse, error)
 	// Queries a list of CanTerminateLeaseWithoutPenalty items.
 	CanTerminateLeaseWithoutPenalty(ctx context.Context, in *QueryCanTerminateLeaseWithoutPenaltyRequest, opts ...grpc.CallOption) (*QueryCanTerminateLeaseWithoutPenaltyResponse, error)
 }
@@ -88,15 +86,6 @@ func (c *queryClient) Bid(ctx context.Context, in *QueryGetBidRequest, opts ...g
 	return out, nil
 }
 
-func (c *queryClient) BidAll(ctx context.Context, in *QueryAllBidRequest, opts ...grpc.CallOption) (*QueryAllBidResponse, error) {
-	out := new(QueryAllBidResponse)
-	err := c.cc.Invoke(ctx, Query_BidAll_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *queryClient) CanTerminateLeaseWithoutPenalty(ctx context.Context, in *QueryCanTerminateLeaseWithoutPenaltyRequest, opts ...grpc.CallOption) (*QueryCanTerminateLeaseWithoutPenaltyResponse, error) {
 	out := new(QueryCanTerminateLeaseWithoutPenaltyResponse)
 	err := c.cc.Invoke(ctx, Query_CanTerminateLeaseWithoutPenalty_FullMethodName, in, out, opts...)
@@ -118,7 +107,6 @@ type QueryServer interface {
 	ListContract(context.Context, *QueryListContractRequest) (*QueryListContractResponse, error)
 	// Queries a list of Bid items.
 	Bid(context.Context, *QueryGetBidRequest) (*QueryGetBidResponse, error)
-	BidAll(context.Context, *QueryAllBidRequest) (*QueryAllBidResponse, error)
 	// Queries a list of CanTerminateLeaseWithoutPenalty items.
 	CanTerminateLeaseWithoutPenalty(context.Context, *QueryCanTerminateLeaseWithoutPenaltyRequest) (*QueryCanTerminateLeaseWithoutPenaltyResponse, error)
 	mustEmbedUnimplementedQueryServer()
@@ -139,9 +127,6 @@ func (UnimplementedQueryServer) ListContract(context.Context, *QueryListContract
 }
 func (UnimplementedQueryServer) Bid(context.Context, *QueryGetBidRequest) (*QueryGetBidResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Bid not implemented")
-}
-func (UnimplementedQueryServer) BidAll(context.Context, *QueryAllBidRequest) (*QueryAllBidResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BidAll not implemented")
 }
 func (UnimplementedQueryServer) CanTerminateLeaseWithoutPenalty(context.Context, *QueryCanTerminateLeaseWithoutPenaltyRequest) (*QueryCanTerminateLeaseWithoutPenaltyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CanTerminateLeaseWithoutPenalty not implemented")
@@ -231,24 +216,6 @@ func _Query_Bid_Handler(srv interface{}, ctx context.Context, dec func(interface
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_BidAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryAllBidRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).BidAll(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Query_BidAll_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).BidAll(ctx, req.(*QueryAllBidRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Query_CanTerminateLeaseWithoutPenalty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryCanTerminateLeaseWithoutPenaltyRequest)
 	if err := dec(in); err != nil {
@@ -289,10 +256,6 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Bid",
 			Handler:    _Query_Bid_Handler,
-		},
-		{
-			MethodName: "BidAll",
-			Handler:    _Query_BidAll_Handler,
 		},
 		{
 			MethodName: "CanTerminateLeaseWithoutPenalty",

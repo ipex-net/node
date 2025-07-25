@@ -32,11 +32,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 
 				{
-					RpcMethod: "BidAll",
-					Use:       "list-bid",
-					Short:     "List all bid",
-				},
-				{
 					RpcMethod:      "Bid",
 					Use:            "show-bid [contract-id] [bidder-org-id]",
 					Short:          "Shows a bid",

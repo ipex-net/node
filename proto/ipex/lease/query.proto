@@ -38,10 +38,6 @@ service Query {
     option (google.api.http).get = "/ipex/lease/bid/{contractId}/{bidderOrgId}";
   
   }
-  rpc BidAll (QueryAllBidRequest) returns (QueryAllBidResponse) {
-    option (google.api.http).get = "/ipex/lease/bid";
-  
-  }
   
   // Queries a list of CanTerminateLeaseWithoutPenalty items.
   rpc CanTerminateLeaseWithoutPenalty (QueryCanTerminateLeaseWithoutPenaltyRequest) returns (QueryCanTerminateLeaseWithoutPenaltyResponse) {
@@ -83,15 +79,6 @@ message QueryGetBidRequest {
 
 message QueryGetBidResponse {
   Bid bid = 1 [(gogoproto.nullable) = false];
-}
-
-message QueryAllBidRequest {
-  cosmos.base.query.v1beta1.PageRequest pagination = 1;
-}
-
-message QueryAllBidResponse {
-  repeated Bid                                    bid        = 1 [(gogoproto.nullable) = false];
-           cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 message QueryCanTerminateLeaseWithoutPenaltyRequest {
