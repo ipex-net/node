@@ -15,12 +15,18 @@ import (
 func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteContract) (*types.MsgDeleteContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Check if the address is correct
+	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
+	// Check that contractId is not nil
+	if msg.Id == 0 {
+		return nil, types.ErrContractIdCantBeNil
+	}
+
+	// Fetch contract
 	contract, found := k.GetContract(ctx, msg.Id)
 	if !found {
 		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))

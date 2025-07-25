@@ -14,16 +14,18 @@ import (
 )
 
 func (k msgServer) RequestLesseeRefund(goCtx context.Context, msg *types.MsgRequestLesseeRefund) (*types.MsgRequestLesseeRefundResponse, error) {
-	// Check contract id
-	if msg.ContractId == 0 {
-          return &types.MsgRequestLesseeRefundResponse{Success: false}, errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "contract ID cannot be zero")
-    }
 
 	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return &types.MsgRequestLesseeRefundResponse{Success: false}, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+
+	// Check that contractId is not nil
+	if msg.ContractId == 0 {
+		return nil, types.ErrContractIdCantBeNil
+	}
+
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Fetch the contract

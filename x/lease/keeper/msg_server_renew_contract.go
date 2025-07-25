@@ -20,10 +20,16 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	const retainer int = 10
 
 	// NOTE: only org admin can renew for the contract. All refunds go to org admin as well.
-
+	
+	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// Check that contractId is not nil
+	if msg.ContractId == 0 {
+		return nil, types.ErrContractIdCantBeNil
 	}
 
 	contract, found := k.GetContract(ctx, msg.ContractId)
@@ -117,10 +123,12 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 			k.Logger().Error("failed to transfer funds to safety deposit", "error", err)
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to safety deposit: %s", err)
 		}
+
+		// Log transaction
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, payoutEscrow, contract.LesseeOrg, contract.OwnerOrg, creator.String(), "module:lease")
 
 		depositRetainedAmount = depositRetainedAmount.Add(payoutEscrowAmount)
-		
+
 		if contract.SafetyDepositRetained == nil {
 			contract.SafetyDepositRetained = &sdk.Coin{Denom: contract.Price.Denom, Amount: depositRetainedAmount}
 		} else {
@@ -150,6 +158,7 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	}
 	contract.UpdatedAt = blockTime
 	contract.PrepaidUntil = &prepaidUntil
+
 	// Store updated contract
 	k.SetContract(ctx, contract)
 

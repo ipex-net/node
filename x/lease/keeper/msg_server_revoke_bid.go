@@ -14,10 +14,15 @@ import (
 func (k msgServer) RevokeBid(goCtx context.Context, msg *types.MsgRevokeBid) (*types.MsgRevokeBidResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	//Checking if the address is correct
+	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// Check that contractId is not nil
+	if msg.ContractId == 0 {
+		return nil, types.ErrContractIdCantBeNil
 	}
 
 	// Check if the org id exists

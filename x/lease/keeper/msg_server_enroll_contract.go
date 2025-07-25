@@ -20,10 +20,15 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	// We have treasury but it is only used to accumulate funds received from leasing subnets.
 	// There are two scenarios for enrolement: automatic acceptance and manual bid selection
 
-	// Checking if the address is correct
+	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+	
+	// Check that contractId is not nil
+	if msg.ContractId == 0 {
+		return nil, types.ErrContractIdCantBeNil
 	}
 
 	// Check if the org id exists
@@ -40,23 +45,23 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.LesseeOrg)
 	}
 
-	// Getting the contract
+	// Gett the contract
 	contract, found := k.GetContract(ctx, msg.ContractId)
 	if !found {
 		return nil, errorsmod.Wrapf(types.ErrInexistentContract, "contract with id %d doesn't exist", msg.ContractId)
 	}
 
-	// Checking for matching org verification status
+	// Check for matching org verification status
 	if !contract.AllowUnverifiedBidders && !k.orgKeeper.IsOrgVerified(ctx, msg.LesseeOrg) {
 		return nil, errorsmod.Wrapf(types.ErrOrgNotVerified, "contract only accepts verified orgs")
 	}
 
-	// Checking the contract status
+	// Check the contract status
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "contract must be in forsale status to be enrolled in")
 	}
 
-	// Checking that user has enough funds:
+	// Check that user has enough funds:
 	creator, _ := sdk.AccAddressFromBech32(msg.Creator)
 	userBalance := k.bankKeeper.SpendableCoins(ctx, creator)
 	if !userBalance.IsAllGTE(sdk.NewCoins(contract.Price)) {
@@ -66,24 +71,26 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 	}
 	blockTime := ctx.BlockTime()
 
-	// If the contract automatically accepts first bidder we skip entire bidding logic and proceeding to contract activation
+	// If the contract automatically accepts first bidder we skip entire bidding logic and proceed with contract activation
 	if contract.AcceptFirstBidder {
 
-		// Performing transaction
+		// Perform transaction
 		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, sdk.NewCoins(contract.Price)); err != nil {
 			k.Logger().Error("failed to send coins to escrow", "error", err)
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 		}
-		// Saving payment
+		// Log payment
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "module:lease")
 
-		// Updating the contract:
+		// Update the contract:
 		contract.Status = types.ContractStatus_CONTRACT_STATUS_LEASED
 		contract.LesseeOrg = msg.LesseeOrg
+
 		// Production:
 		//prepaidUntil := blockTime.AddDate(0, 1, 0) // 0 years, 1 month, 0 days
 		// Testing:
 		prepaidUntil := blockTime.Add(time.Minute * 10)
+
 		contract.UpdatedAt = blockTime
 		contract.ActivatedAt = &blockTime
 		depositRetained := contract.Price
@@ -92,10 +99,10 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		// Store updated contract
 		k.SetContract(ctx, contract)
 
-		// Initializing lease reputation
+		// Initialize the lease reputation
 		k.trustKeeper.InitializeLeaseReputation(ctx, contract.Id)
 
-		// Updating the subnet user Org
+		// Update the subnet user Org
 		k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, msg.LesseeOrg, contract.GeoChangeAllowed, contract.AllowASNDROPOriginTransfer)
 
 		// Emit enrollment event
@@ -110,7 +117,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			),
 		)
 	}
-	// If we manually select the bidder - we use the bidding system
+	// If first bid is not automatically accepter - use the bidding system
 	if !contract.AcceptFirstBidder {
 		// Bid interval validations
 		if msg.BidExpirationHours == 0 || msg.BidExpirationHours > 120 {
@@ -129,17 +136,17 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			)
 		}
 
-		// Checking if bid already exists
+		// Check if bid already exists
 		if _, found := k.GetBid(ctx, msg.ContractId, msg.LesseeOrg); found {
 			return nil, errorsmod.Wrapf(types.ErrBidAlreadyExists, "bid for contract %d and org %d already exists", msg.ContractId, msg.LesseeOrg)
 		}
 
-		// Performing transaction
+		// Perform transaction
 		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creator, types.ModuleAccountName, sdk.NewCoins(contract.Price)); err != nil {
 			k.Logger().Error("failed to send coins to escrow", "error", err)
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer funds to escrow: %s", err)
 		}
-		// Saving payment
+		// Save payment
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_SUBMITTED, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, contract.Price, msg.LesseeOrg, contract.OwnerOrg, msg.Creator, "module:lease")
 
 		// Create the bid

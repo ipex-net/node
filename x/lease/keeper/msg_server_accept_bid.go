@@ -16,10 +16,15 @@ import (
 func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*types.MsgAcceptBidResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	//Checking if the address is correct
+	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// Check that contractId is not nil
+	if msg.ContractId == 0 {
+		return nil, types.ErrContractIdCantBeNil
 	}
 
 	// Check if the bidder org exists
@@ -60,8 +65,7 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, bid.OwnerOrgId)
 	}
 
-	// Enrolling in contract
-	// Getting the contract
+	// Get the contract
 	contract, found := k.GetContract(ctx, msg.ContractId)
 	if !found {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.ContractId)
@@ -90,16 +94,16 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 	// Store updated contract
 	k.SetContract(ctx, contract)
 
-	// Initializing lease reputation
+	// Initialize lease reputation
 	k.trustKeeper.InitializeLeaseReputation(ctx, contract.Id)
 
-	// Updating the subnet user Org
+	// Update the subnet user Org
 	k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, bid.BidderOrgId, contract.GeoChangeAllowed, contract.AllowASNDROPOriginTransfer)
 
-	// Removing accepted bid
+	// Remove accepted bid
 	k.RemoveBid(ctx, bid.ContractId, bid.BidderOrgId)
 
-	// Refunding and deleting lost bids
+	// Refund and delete lost bids
 	bids := k.GetBidsByContract(ctx, bid.ContractId)
 
 	for _, lostbid := range bids {

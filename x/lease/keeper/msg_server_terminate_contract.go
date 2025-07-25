@@ -17,13 +17,18 @@ import (
 func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTerminateContract) (*types.MsgTerminateContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Checking if the address is correct
+	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	// Fetching the contract
+	// Check that contractId is not nil
+	if msg.Id == 0 {
+		return nil, types.ErrContractIdCantBeNil
+	}
+
+	// Fetch the contract
 	contract, found := k.GetContract(ctx, msg.Id)
 	if !found {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "Contract %d doesn't exist", msg.Id)
@@ -34,15 +39,15 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		return nil, types.ErrInvalidContractStatus
 	}
 
-	// Determine if Lessor eligible for termination without penalty
+	// Determine if lessor is eligible for termination without penalty
 	noPenalty := k.CanTerminateWithoutPenalty(ctx, msg.Id)
 
-	// Checking that the sender is the admin of the owner org
+	// Check that the sender is the admin of the owner org
 	if !k.orgKeeper.VerifyOrgAdmin(ctx, contract.OwnerOrg, msg.Creator) {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized, "incorrect owner admin %s", msg.Creator)
 	}
 
-	// Getting the lessee org admin
+	// Get the lessee org admin
 	lesseeAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, contract.LesseeOrg)
 	if !found {
 		return nil, errorsmod.Wrapf(types.ErrOrgAdminNotFound, "admin for org %d not found", contract.LesseeOrg)
@@ -60,6 +65,8 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		); err != nil {
 			return nil, errorsmod.Wrapf(types.ErrFundTransfer, "failed to transfer safety deposit to lessee org admin: %s", err)
 		}
+
+		// Log transaction
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COMPENSATION, paymentstypes.ModuleID_MODULE_ID_LEASE, contract.Id, (*contract.SafetyDepositRetained), contract.LesseeOrg, contract.OwnerOrg, "module:lease", lesseeAdmin.String())
 
 		contract.SafetyDepositRetained = nil

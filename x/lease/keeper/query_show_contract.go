@@ -16,6 +16,11 @@ func (k Keeper) ShowContract(goCtx context.Context, req *types.QueryShowContract
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
+	// Check that contractId is not nil
+	if req.Id == 0 {
+		return nil, types.ErrContractIdCantBeNil
+	}
+	
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	contract, found := k.GetContract(ctx, req.Id)

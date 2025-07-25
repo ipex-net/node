@@ -14,10 +14,15 @@ import (
 func (k msgServer) RejectBid(goCtx context.Context, msg *types.MsgRejectBid) (*types.MsgRejectBidResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	//Checking if the address is correct
+	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// Check that contractId is not nil
+	if msg.ContractId == 0 {
+		return nil, types.ErrContractIdCantBeNil
 	}
 
 	// Check if the bidder org exists
@@ -29,6 +34,7 @@ func (k msgServer) RejectBid(goCtx context.Context, msg *types.MsgRejectBid) (*t
 		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "bidder org ID not provided")
 	}
 
+	// Fetch bid
 	bid, found := k.GetBid(ctx, msg.ContractId, msg.BidderOrgId)
 	if !found {
 		return nil, errorsmod.Wrapf(types.ErrBidNotFound, "bid not found for contract id %d and bidder org id %d", msg.ContractId, msg.BidderOrgId)
@@ -55,7 +61,7 @@ func (k msgServer) RejectBid(goCtx context.Context, msg *types.MsgRejectBid) (*t
 
 	blocktime := ctx.BlockTime()
 
-	// Refunding the bid
+	// Refund the bid
 	bidderAdmin, found := k.orgKeeper.GetOrgAdmin(ctx, bid.BidderOrgId)
 	if !found {
 		return nil, errorsmod.Wrapf(types.ErrOrgAdminNotFound, "can not refund bid for contract %d - admin for org %d not found", bid.ContractId, bid.BidderOrgId)
@@ -69,6 +75,8 @@ func (k msgServer) RejectBid(goCtx context.Context, msg *types.MsgRejectBid) (*t
 	); err != nil {
 		return nil, errorsmod.Wrapf(types.ErrFundTransfer, "can not refund bid for contract %d and bidder org id %d - transaction failed with error %s", bid.ContractId, bid.BidderOrgId, err)
 	}
+
+	// Log transaction
 	k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_BID_REFUNDED, paymentstypes.ModuleID_MODULE_ID_LEASE, bid.ContractId, bid.Amount, bid.OwnerOrgId, bid.BidderOrgId, "module:lease", bidderAdmin.String())
 
 	bid.Status = types.BidStatus_BID_STATUS_REJECTED

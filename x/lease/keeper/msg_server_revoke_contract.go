@@ -15,32 +15,35 @@ import (
 func (k msgServer) RevokeContract(goCtx context.Context, msg *types.MsgRevokeContract) (*types.MsgRevokeContractResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	//Checking if the address is correct
+	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	//Fetching the contract
+	// Check that contractId is not nil
+	if msg.Id == 0 {
+		return nil, types.ErrContractIdCantBeNil
+	}
+
+	// Fetch the contract
 	contract, found := k.GetContract(ctx, msg.Id)
 	if !found {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrKeyNotFound, "Contract %d doesn't exist", msg.Id)
 	}
 
-	//Checking the contract status
+	// Check the contract status
 	if contract.Status != types.ContractStatus_CONTRACT_STATUS_LEASED {
 		return nil, errorsmod.Wrap(types.ErrInvalidContractStatus, "can not revoke that is not in LEASED state")
 	}
 
-	//Checking that the sender is the admin of the owner org
+	// Check that the sender is the admin of the owner org
 	if !k.orgKeeper.VerifyOrgAdmin(ctx, contract.OwnerOrg, msg.Creator) {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized, "incorrect owner admin %s", msg.Creator)
 	}
 
-	//Updating the contract
+	// Update the contract
 	blockTime := ctx.BlockTime()
-	//Getting the Revocation time from the subnet was prepaid until and Revocation Notice period
-	//Rerouting subnet prior to this time involves a penalty and reputational damage
 	revocationTime := contract.PrepaidUntil.AddDate(0, int(contract.RevocationPeriodMonth), 0)
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER
 	contract.UpdatedAt = blockTime
