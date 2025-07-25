@@ -8,8 +8,13 @@ import (
 	"cosmossdk.io/collections"
 )
 
-func (k Keeper) GetContractsByLessee(ctx context.Context, lesseeOrgId uint64) []types.Contract {
+func (k Keeper) GetContractsByLessee(ctx context.Context, lesseeOrgId uint64) ([]types.Contract, error) {
 	var contracts []types.Contract
+
+	// Validate input
+	if lesseeOrgId == 0 {
+		return contracts, nil // Return empty slice for zero ID
+	}
 
 	// Query all contracts for this lessee org using prefix iteration
 	rng := collections.NewPrefixedPairRange[uint64, uint64](lesseeOrgId)
@@ -24,8 +29,8 @@ func (k Keeper) GetContractsByLessee(ctx context.Context, lesseeOrgId uint64) []
 	})
 
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	return contracts
+	return contracts, nil
 }
