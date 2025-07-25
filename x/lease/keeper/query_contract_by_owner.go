@@ -8,8 +8,13 @@ import (
 	"cosmossdk.io/collections"
 )
 
-func (k Keeper) GetContractsByOwner(ctx context.Context, ownerOrgId uint64) []types.Contract {
+func (k Keeper) GetContractsByOwner(ctx context.Context, ownerOrgId uint64) ([]types.Contract, error) {
 	var contracts []types.Contract
+
+	// Validate input
+	if ownerOrgId == 0 {
+		return contracts, nil // Return empty slice for zero ID
+	}
 
 	// Query all contracts for this owner org using prefix iteration
 	rng := collections.NewPrefixedPairRange[uint64, uint64](ownerOrgId)
@@ -24,8 +29,8 @@ func (k Keeper) GetContractsByOwner(ctx context.Context, ownerOrgId uint64) []ty
 	})
 
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	return contracts
+	return contracts, nil
 }
