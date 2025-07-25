@@ -72,6 +72,10 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		contract.SafetyDepositRetained = nil
 	}
 
+	if contract.ActivatedAt == nil {
+      return nil, errorsmod.Wrap(types.ErrContractNotActivated, "Contract has no activation date set")
+  	}
+
 	blockTime := ctx.BlockTime()
 	oneMonthAfterActivation := contract.ActivatedAt.AddDate(0, 1, 0)
 
@@ -103,7 +107,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 		sdk.NewEvent(types.ContractTerminatedByOwnerEventType,
 			sdk.NewAttribute(types.ContractTerminatedByOwnerCreator, msg.Creator),
 			sdk.NewAttribute(types.ContractTerminatedByOwnerContractId, strconv.FormatUint(contract.Id, 10)),
-			sdk.NewAttribute(types.ContractDeletedEventType, statuslog),
+			sdk.NewAttribute(types.ContractTerminatedByOwnerType, statuslog),
 			sdk.NewAttribute(types.ContractTerminatedByOwnerAt, contract.UpdatedAt.Format(time.RFC3339)),
 		),
 	)
