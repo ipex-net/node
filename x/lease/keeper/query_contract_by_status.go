@@ -8,7 +8,7 @@ import (
 	"cosmossdk.io/collections"
 )
 
-func (k Keeper) GetContractsByStatus(ctx context.Context, status types.ContractStatus) []types.Contract {
+func (k Keeper) GetContractsByStatus(ctx context.Context, status types.ContractStatus) ([]types.Contract, error) {
 	var contracts []types.Contract
 
 	// Query all contracts with this status using prefix iteration
@@ -24,8 +24,8 @@ func (k Keeper) GetContractsByStatus(ctx context.Context, status types.ContractS
 	})
 
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	return contracts
+	return contracts, nil
 }
