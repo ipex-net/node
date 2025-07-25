@@ -187,3 +187,21 @@ func (k Keeper) RemoveAllBidsForContract(ctx context.Context, contractId uint64)
 	}
 	return nil
 }
+
+// GetBidsByLessor returns all bids for a specific lessor (owner) organization
+func (k Keeper) GetBidsByLessor(ctx context.Context, lessorOrg uint64) (list []types.Bid) {
+	// Get all bids for this lessor
+	rng := collections.NewPrefixedPairRange[uint64, collections.Pair[uint64, uint64]](lessorOrg)
+	err := k.BidsByLessor.Walk(ctx, rng, func(key collections.Pair[uint64, collections.Pair[uint64, uint64]], _ bool) (bool, error) {
+		bidKey := key.K2()
+		bid, found := k.GetBid(ctx, bidKey.K1(), bidKey.K2())
+		if found {
+			list = append(list, bid)
+		}
+		return false, nil
+	})
+	if err != nil {
+		panic(err)
+	}
+	return
+}
