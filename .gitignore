@@ -33,3 +33,6 @@ go.work.sum
 
 # Data
 data/maxmind/GeoLite2-Country.mmdb
+
+# Build 
+ipexd

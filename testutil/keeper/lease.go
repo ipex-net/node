@@ -86,6 +86,14 @@ func (m mockSubnetKeeperLease) SetSubnetUserOrg(goCtx context.Context, subnetId 
 func (m mockSubnetKeeperLease) RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64) {
 }
 
+func (m mockSubnetKeeperLease) IsUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) bool {
+	return false
+}
+
+func (m mockSubnetKeeperLease) IsUserRefundAllowed(ctx context.Context, subnetId uint64) bool {
+	return true
+}
+
 type mockPaymentsKeeper struct{}
 
 func (m mockPaymentsKeeper) RecordTransaction(
@@ -108,6 +116,10 @@ func (m mockTrustKeeperLease) InitializeLeaseReputation(ctx context.Context, lea
 }
 
 func (m mockTrustKeeperLease) RemoveLeaseReputation(ctx context.Context, leaseId uint64) {
+}
+
+func (m mockTrustKeeperLease) GetShortLeaseReputation(ctx context.Context, index uint64) (l1Listed bool, l2Count int32, failedAbuse uint64, found bool) {
+	return false, 0, 0, false
 }
 
 func LeaseKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
