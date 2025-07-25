@@ -120,7 +120,13 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 		k.paymentsKeeper.RecordTransaction(ctx, paymentstypes.TransactionType_TRANSACTION_TYPE_SAFETY_DEPOSIT_COLLECT, paymentstypes.ModuleID_MODULE_ID_LEASE, msg.ContractId, payoutEscrow, contract.LesseeOrg, contract.OwnerOrg, creator.String(), "module:lease")
 
 		depositRetainedAmount = depositRetainedAmount.Add(payoutEscrowAmount)
-		contract.SafetyDepositRetained.Amount = depositRetainedAmount
+		
+		if contract.SafetyDepositRetained == nil {
+			contract.SafetyDepositRetained = &sdk.Coin{Denom: contract.Price.Denom, Amount: depositRetainedAmount}
+		} else {
+			contract.SafetyDepositRetained.Amount = depositRetainedAmount
+		}
+
 	}
 
 	// Send the payout to owner's treasury
