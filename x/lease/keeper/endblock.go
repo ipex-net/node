@@ -130,7 +130,7 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 
 	// Update lessor reputation	
 	err = k.trustKeeper.LogLessorContractTermination(ctx, contract.OwnerOrg, false, ipCount)
-		if err != nil {
+	if err != nil {
 		k.logger.Error("failed to update lessor reputation on contract termination", "error", err)
 	}
 
