@@ -44,6 +44,11 @@ func (k Keeper) InitializeLesseeReputation(ctx context.Context, lesseeId uint64)
 		Level3Count: 0,
 		Level4Count: 0,
 		LastUpdated: nil,
+		IpMonthsTotal: 0,
+		IpsRentedNow: 0,
+		ContractsActive: 0,
+		ContractsTerminated: 0,
+		ContractsTerminatedViolated: 0,
 	}
 
 	// Set the subnet reputation in the store
