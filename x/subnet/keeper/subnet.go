@@ -763,3 +763,25 @@ func (k Keeper) IsUserRefundAllowed(ctx context.Context, subnetId uint64) bool {
 
 	return false
 }
+
+// GetSubnetIpCount returns the number of IPs in subnet 
+func (k Keeper) GetSubnetIpCount(ctx context.Context, subnetId uint64) uint64 {
+	if subnetId == 0 {
+		return 0
+	}
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		return 0
+	}
+	return IPCountFromMask(subnet.Mask)
+}
+
+// IPCountFromMask returns the count of IPs per mask
+func IPCountFromMask(mask uint64) uint64 {
+   if mask > 32 {
+       return 0
+   }
+   
+   hostBits := 32 - mask
+   return 1 << hostBits 
+}
