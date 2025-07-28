@@ -63,7 +63,7 @@ type TrustKeeper interface {
 	InitializeLeaseReputation(ctx context.Context, leaseId uint64)
 	RemoveLeaseReputation(ctx context.Context, leaseId uint64)
 	GetShortLeaseReputation(ctx context.Context, index uint64) (l1Listed bool, l2Count int32, failedAbuse uint64, found bool)
-	LogLesseeContractTermination(ctx context.Context, lesseeId uint64, noPenalty bool, ipCount uint64) error
+	LogLesseeContractTermination(ctx context.Context, lesseeId uint64, lesseeContractViolation bool, ipCount uint64) error
 	LogLesseeContractRenewal(ctx context.Context, lesseeId uint64, ipCount uint64) error
 	LogLesseeContractActivation(ctx context.Context, lesseeId uint64, ipCount uint64) error
 }

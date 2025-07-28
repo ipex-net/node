@@ -121,7 +121,7 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 	
 	// Log usage stats
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
-	k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, true, ipCount)
+	k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, false, ipCount)
 	k.logger.Info("Contract terminated",
 		"contract_id", contract.Id,
 	)

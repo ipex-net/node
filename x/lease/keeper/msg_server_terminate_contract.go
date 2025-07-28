@@ -80,21 +80,29 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	oneMonthAfterActivation := contract.ActivatedAt.AddDate(0, 1, 0)
 
 	var statuslog string
-
+	lesseeContractViolation := false
+	lessorContractViolation := false
 	// Determine the appropriate termination status based on timing
-	if noPenalty {
-		// Contract terminated during the first month
+	if noPenalty && contract.Status == types.ContractStatus_CONTRACT_STATUS_EXPIRED {
+		// Contract has expired and terminated gracefully
+		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED
+		statuslog = "terminated_on_expiration"
+	} else if noPenalty && contract.Status != types.ContractStatus_CONTRACT_STATUS_EXPIRED {
+		// Contract terminated prematurely with no penalty for lessor => contract violated by lessee
 		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED_WITH_LESSEE_CONTRACT_VIOLATION
-		statuslog = "terminated_without_lessor_penalty"
+		statuslog = "terminated_with_lessee_violation"
+		lesseeContractViolation = true
 	} else if blockTime.Before(oneMonthAfterActivation) {
-		// Contract terminated during the first month
+		// Contract terminated during the first month - doesn't count as lessor violation
 		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED_FIRST_MONTH
 		statuslog = "terminated_first_month"
 	} else {
 		// Contract terminated after the first month
 		contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED_WITHOUT_NOTICE
 		statuslog = "terminated_without_notice"
+		lessorContractViolation = true
 	}
+
 	contract.UpdatedAt = blockTime
 	contract.TerminatedAt = &blockTime
 	k.SetContract(ctx, contract)
@@ -103,8 +111,9 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
 
 	// Log usage stats
+	_ = lessorContractViolation
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
-	k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, noPenalty, ipCount)
+	k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg,  lesseeContractViolation, ipCount)
 
 	// Emit the termination event
 	ctx.EventManager().EmitEvent(
