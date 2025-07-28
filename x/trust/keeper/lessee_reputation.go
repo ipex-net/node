@@ -57,6 +57,7 @@ func (k Keeper) InitializeLesseeReputation(ctx context.Context, lesseeId uint64)
 
 }
 
+// LogLesseeContractTermination updates usage stats on contract termination
 func (k Keeper) LogLesseeContractTermination(ctx context.Context, lesseeId uint64, violated bool, subnetMask uint64) error {
 	ipCount := IPCountFromMask(subnetMask)
 	if lesseeId == 0 {
@@ -78,6 +79,50 @@ func (k Keeper) LogLesseeContractTermination(ctx context.Context, lesseeId uint6
 	}
 	lesseeRep.ContractsActive--
 	lesseeRep.IpsRentedNow = lesseeRep.IpsRentedNow - ipCount
+	k.SetLesseeReputation(ctx, lesseeRep)
+	return nil
+}
+
+// LogLesseeContractRenewal updates usage stats on contract renewal
+func (k Keeper) LogLesseeContractRenewal(ctx context.Context, lesseeId uint64, subnetMask uint64) error {
+	ipCount := IPCountFromMask(subnetMask)
+	if lesseeId == 0 {
+		return fmt.Errorf("lessee id can't be nil")
+	}
+	if subnetMask > 32 || subnetMask < 8 {
+		return fmt.Errorf("incorrect subnet mask")
+	}
+	if ipCount == 0 {
+		return fmt.Errorf("incorrect ip count")
+	}
+	lesseeRep, found := k.GetLesseeReputation(ctx, lesseeId)
+	if !found {
+		return fmt.Errorf("can not find lessee")
+	}
+	lesseeRep.IpMonthsTotal = lesseeRep.IpMonthsTotal + ipCount
+	k.SetLesseeReputation(ctx, lesseeRep)
+	return nil
+}
+
+// LogLesseeContractActivation updates usage stats on contract activation
+func (k Keeper) LogLesseeContractActivation(ctx context.Context, lesseeId uint64, subnetMask uint64) error {
+	ipCount := IPCountFromMask(subnetMask)
+	if lesseeId == 0 {
+		return fmt.Errorf("lessee id can't be nil")
+	}
+	if subnetMask > 32 || subnetMask < 8 {
+		return fmt.Errorf("incorrect subnet mask")
+	}
+	if ipCount == 0 {
+		return fmt.Errorf("incorrect ip count")
+	}
+	lesseeRep, found := k.GetLesseeReputation(ctx, lesseeId)
+	if !found {
+		return fmt.Errorf("can not find lessee")
+	}
+	lesseeRep.IpMonthsTotal = lesseeRep.IpMonthsTotal + ipCount
+	lesseeRep.ContractsActive++
+	lesseeRep.IpsRentedNow = lesseeRep.IpsRentedNow + ipCount
 	k.SetLesseeReputation(ctx, lesseeRep)
 	return nil
 }
