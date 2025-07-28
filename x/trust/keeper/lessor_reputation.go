@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	"ipex/x/trust/types"
 )
@@ -47,4 +48,62 @@ func (k Keeper) InitializeLessorReputation(ctx context.Context, lessorId uint64)
 
 	// Set the lessor reputation in the store
 	k.SetLessorReputation(ctx, lessorReputation)
+}
+
+// LogLessorContractTermination updates usage stats on contract termination
+func (k Keeper) LogLessorContractTermination(ctx context.Context, lessorId uint64, lessorContractViolation bool, ipCount uint64) error {
+	if lessorId == 0 {
+		return fmt.Errorf("lessor id can't be nil")
+	}
+	if ipCount == 0 {
+		return fmt.Errorf("incorrect ip count")
+	}
+	lessorRep, found := k.GetLessorReputation(ctx, lessorId)
+	if !found {
+		return fmt.Errorf("can not find lessor")
+	}
+	lessorRep.ContractsTerminated++
+	if lessorContractViolation {
+		lessorRep.ContractsTerminatedViolated++
+	}
+	lessorRep.ContractsActive--
+	lessorRep.IpsLeasedNow = lessorRep.IpsLeasedNow - ipCount
+	k.SetLessorReputation(ctx, lessorRep)
+	return nil
+}
+
+// LogLessorContractRenewal updates usage stats on contract renewal
+func (k Keeper) LogLessorContractRenewal(ctx context.Context, lessorId uint64, ipCount uint64) error {
+	if lessorId == 0 {
+		return fmt.Errorf("lessor id can't be nil")
+	}
+	if ipCount == 0 {
+		return fmt.Errorf("incorrect ip count")
+	}
+	lessorRep, found := k.GetLessorReputation(ctx, lessorId)
+	if !found {
+		return fmt.Errorf("can not find lessor")
+	}
+	lessorRep.IpMonthsTotal = lessorRep.IpMonthsTotal + ipCount
+	k.SetLessorReputation(ctx, lessorRep)
+	return nil
+}
+
+// LogLessorContractActivation updates usage stats on contract activation
+func (k Keeper) LogLessorContractActivation(ctx context.Context, lessorId uint64, ipCount uint64) error {
+	if lessorId == 0 {
+		return fmt.Errorf("lessor id can't be nil")
+	}
+	if ipCount == 0 {
+		return fmt.Errorf("incorrect ip count")
+	}
+	lessorRep, found := k.GetLessorReputation(ctx, lessorId)
+	if !found {
+		return fmt.Errorf("can not find lessor")
+	}
+	lessorRep.IpMonthsTotal = lessorRep.IpMonthsTotal + ipCount
+	lessorRep.ContractsActive++
+	lessorRep.IpsLeasedNow = lessorRep.IpsLeasedNow + ipCount
+	k.SetLessorReputation(ctx, lessorRep)
+	return nil
 }
