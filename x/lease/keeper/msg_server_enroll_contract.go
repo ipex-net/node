@@ -105,6 +105,9 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		// Update the subnet user Org
 		k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, msg.LesseeOrg, contract.GeoChangeAllowed, contract.AllowASNDROPOriginTransfer)
 
+		ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
+		// Log usage stats
+		k.trustKeeper.LogLesseeContractActivation(ctx, msg.LesseeOrg, ipCount)
 		// Emit enrollment event
 		ctx.EventManager().EmitEvent(
 			sdk.NewEvent(
