@@ -16,6 +16,11 @@ message LesseeReputation {
   uint64 abuseFailed = 8;
   uint64 abuseInProgress = 9;
   map<uint32, AbuseTypeStats> abuseByType = 10; 
+  uint64 ipMonthsTotal = 11;              // IP-months accumulated
+  uint64 ipsRentedNow = 12;               // Currently rented IPs
+  uint64 contractsActive = 13;            // Active contracts
+  uint64 contractsTerminated = 14;        // All terminated contracts
+  uint64 contractsTerminatedViolated = 15; // Terminated due to violations
 }
 
 message AbuseTypeStats {

@@ -106,17 +106,22 @@ func (x *_LesseeReputation_10_map) IsValid() bool {
 }
 
 var (
-	md_LesseeReputation                 protoreflect.MessageDescriptor
-	fd_LesseeReputation_index           protoreflect.FieldDescriptor
-	fd_LesseeReputation_level1Count     protoreflect.FieldDescriptor
-	fd_LesseeReputation_level2Count     protoreflect.FieldDescriptor
-	fd_LesseeReputation_level3Count     protoreflect.FieldDescriptor
-	fd_LesseeReputation_level4Count     protoreflect.FieldDescriptor
-	fd_LesseeReputation_lastUpdated     protoreflect.FieldDescriptor
-	fd_LesseeReputation_abuseResolved   protoreflect.FieldDescriptor
-	fd_LesseeReputation_abuseFailed     protoreflect.FieldDescriptor
-	fd_LesseeReputation_abuseInProgress protoreflect.FieldDescriptor
-	fd_LesseeReputation_abuseByType     protoreflect.FieldDescriptor
+	md_LesseeReputation                             protoreflect.MessageDescriptor
+	fd_LesseeReputation_index                       protoreflect.FieldDescriptor
+	fd_LesseeReputation_level1Count                 protoreflect.FieldDescriptor
+	fd_LesseeReputation_level2Count                 protoreflect.FieldDescriptor
+	fd_LesseeReputation_level3Count                 protoreflect.FieldDescriptor
+	fd_LesseeReputation_level4Count                 protoreflect.FieldDescriptor
+	fd_LesseeReputation_lastUpdated                 protoreflect.FieldDescriptor
+	fd_LesseeReputation_abuseResolved               protoreflect.FieldDescriptor
+	fd_LesseeReputation_abuseFailed                 protoreflect.FieldDescriptor
+	fd_LesseeReputation_abuseInProgress             protoreflect.FieldDescriptor
+	fd_LesseeReputation_abuseByType                 protoreflect.FieldDescriptor
+	fd_LesseeReputation_ipMonthsTotal               protoreflect.FieldDescriptor
+	fd_LesseeReputation_ipsRentedNow                protoreflect.FieldDescriptor
+	fd_LesseeReputation_contractsActive             protoreflect.FieldDescriptor
+	fd_LesseeReputation_contractsTerminated         protoreflect.FieldDescriptor
+	fd_LesseeReputation_contractsTerminatedViolated protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -132,6 +137,11 @@ func init() {
 	fd_LesseeReputation_abuseFailed = md_LesseeReputation.Fields().ByName("abuseFailed")
 	fd_LesseeReputation_abuseInProgress = md_LesseeReputation.Fields().ByName("abuseInProgress")
 	fd_LesseeReputation_abuseByType = md_LesseeReputation.Fields().ByName("abuseByType")
+	fd_LesseeReputation_ipMonthsTotal = md_LesseeReputation.Fields().ByName("ipMonthsTotal")
+	fd_LesseeReputation_ipsRentedNow = md_LesseeReputation.Fields().ByName("ipsRentedNow")
+	fd_LesseeReputation_contractsActive = md_LesseeReputation.Fields().ByName("contractsActive")
+	fd_LesseeReputation_contractsTerminated = md_LesseeReputation.Fields().ByName("contractsTerminated")
+	fd_LesseeReputation_contractsTerminatedViolated = md_LesseeReputation.Fields().ByName("contractsTerminatedViolated")
 }
 
 var _ protoreflect.Message = (*fastReflection_LesseeReputation)(nil)
@@ -259,6 +269,36 @@ func (x *fastReflection_LesseeReputation) Range(f func(protoreflect.FieldDescrip
 			return
 		}
 	}
+	if x.IpMonthsTotal != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.IpMonthsTotal)
+		if !f(fd_LesseeReputation_ipMonthsTotal, value) {
+			return
+		}
+	}
+	if x.IpsRentedNow != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.IpsRentedNow)
+		if !f(fd_LesseeReputation_ipsRentedNow, value) {
+			return
+		}
+	}
+	if x.ContractsActive != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ContractsActive)
+		if !f(fd_LesseeReputation_contractsActive, value) {
+			return
+		}
+	}
+	if x.ContractsTerminated != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ContractsTerminated)
+		if !f(fd_LesseeReputation_contractsTerminated, value) {
+			return
+		}
+	}
+	if x.ContractsTerminatedViolated != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ContractsTerminatedViolated)
+		if !f(fd_LesseeReputation_contractsTerminatedViolated, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -294,6 +334,16 @@ func (x *fastReflection_LesseeReputation) Has(fd protoreflect.FieldDescriptor) b
 		return x.AbuseInProgress != uint64(0)
 	case "ipex.trust.LesseeReputation.abuseByType":
 		return len(x.AbuseByType) != 0
+	case "ipex.trust.LesseeReputation.ipMonthsTotal":
+		return x.IpMonthsTotal != uint64(0)
+	case "ipex.trust.LesseeReputation.ipsRentedNow":
+		return x.IpsRentedNow != uint64(0)
+	case "ipex.trust.LesseeReputation.contractsActive":
+		return x.ContractsActive != uint64(0)
+	case "ipex.trust.LesseeReputation.contractsTerminated":
+		return x.ContractsTerminated != uint64(0)
+	case "ipex.trust.LesseeReputation.contractsTerminatedViolated":
+		return x.ContractsTerminatedViolated != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -330,6 +380,16 @@ func (x *fastReflection_LesseeReputation) Clear(fd protoreflect.FieldDescriptor)
 		x.AbuseInProgress = uint64(0)
 	case "ipex.trust.LesseeReputation.abuseByType":
 		x.AbuseByType = nil
+	case "ipex.trust.LesseeReputation.ipMonthsTotal":
+		x.IpMonthsTotal = uint64(0)
+	case "ipex.trust.LesseeReputation.ipsRentedNow":
+		x.IpsRentedNow = uint64(0)
+	case "ipex.trust.LesseeReputation.contractsActive":
+		x.ContractsActive = uint64(0)
+	case "ipex.trust.LesseeReputation.contractsTerminated":
+		x.ContractsTerminated = uint64(0)
+	case "ipex.trust.LesseeReputation.contractsTerminatedViolated":
+		x.ContractsTerminatedViolated = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -379,6 +439,21 @@ func (x *fastReflection_LesseeReputation) Get(descriptor protoreflect.FieldDescr
 		}
 		mapValue := &_LesseeReputation_10_map{m: &x.AbuseByType}
 		return protoreflect.ValueOfMap(mapValue)
+	case "ipex.trust.LesseeReputation.ipMonthsTotal":
+		value := x.IpMonthsTotal
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.LesseeReputation.ipsRentedNow":
+		value := x.IpsRentedNow
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.LesseeReputation.contractsActive":
+		value := x.ContractsActive
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.LesseeReputation.contractsTerminated":
+		value := x.ContractsTerminated
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.trust.LesseeReputation.contractsTerminatedViolated":
+		value := x.ContractsTerminatedViolated
+		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -421,6 +496,16 @@ func (x *fastReflection_LesseeReputation) Set(fd protoreflect.FieldDescriptor, v
 		mv := value.Map()
 		cmv := mv.(*_LesseeReputation_10_map)
 		x.AbuseByType = *cmv.m
+	case "ipex.trust.LesseeReputation.ipMonthsTotal":
+		x.IpMonthsTotal = value.Uint()
+	case "ipex.trust.LesseeReputation.ipsRentedNow":
+		x.IpsRentedNow = value.Uint()
+	case "ipex.trust.LesseeReputation.contractsActive":
+		x.ContractsActive = value.Uint()
+	case "ipex.trust.LesseeReputation.contractsTerminated":
+		x.ContractsTerminated = value.Uint()
+	case "ipex.trust.LesseeReputation.contractsTerminatedViolated":
+		x.ContractsTerminatedViolated = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -468,6 +553,16 @@ func (x *fastReflection_LesseeReputation) Mutable(fd protoreflect.FieldDescripto
 		panic(fmt.Errorf("field abuseFailed of message ipex.trust.LesseeReputation is not mutable"))
 	case "ipex.trust.LesseeReputation.abuseInProgress":
 		panic(fmt.Errorf("field abuseInProgress of message ipex.trust.LesseeReputation is not mutable"))
+	case "ipex.trust.LesseeReputation.ipMonthsTotal":
+		panic(fmt.Errorf("field ipMonthsTotal of message ipex.trust.LesseeReputation is not mutable"))
+	case "ipex.trust.LesseeReputation.ipsRentedNow":
+		panic(fmt.Errorf("field ipsRentedNow of message ipex.trust.LesseeReputation is not mutable"))
+	case "ipex.trust.LesseeReputation.contractsActive":
+		panic(fmt.Errorf("field contractsActive of message ipex.trust.LesseeReputation is not mutable"))
+	case "ipex.trust.LesseeReputation.contractsTerminated":
+		panic(fmt.Errorf("field contractsTerminated of message ipex.trust.LesseeReputation is not mutable"))
+	case "ipex.trust.LesseeReputation.contractsTerminatedViolated":
+		panic(fmt.Errorf("field contractsTerminatedViolated of message ipex.trust.LesseeReputation is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -503,6 +598,16 @@ func (x *fastReflection_LesseeReputation) NewField(fd protoreflect.FieldDescript
 	case "ipex.trust.LesseeReputation.abuseByType":
 		m := make(map[uint32]*AbuseTypeStats)
 		return protoreflect.ValueOfMap(&_LesseeReputation_10_map{m: &m})
+	case "ipex.trust.LesseeReputation.ipMonthsTotal":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.LesseeReputation.ipsRentedNow":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.LesseeReputation.contractsActive":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.LesseeReputation.contractsTerminated":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.trust.LesseeReputation.contractsTerminatedViolated":
+		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.trust.LesseeReputation"))
@@ -628,6 +733,21 @@ func (x *fastReflection_LesseeReputation) ProtoMethods() *protoiface.Methods {
 				}
 			}
 		}
+		if x.IpMonthsTotal != 0 {
+			n += 1 + runtime.Sov(uint64(x.IpMonthsTotal))
+		}
+		if x.IpsRentedNow != 0 {
+			n += 1 + runtime.Sov(uint64(x.IpsRentedNow))
+		}
+		if x.ContractsActive != 0 {
+			n += 1 + runtime.Sov(uint64(x.ContractsActive))
+		}
+		if x.ContractsTerminated != 0 {
+			n += 1 + runtime.Sov(uint64(x.ContractsTerminated))
+		}
+		if x.ContractsTerminatedViolated != 0 {
+			n += 1 + runtime.Sov(uint64(x.ContractsTerminatedViolated))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -656,6 +776,31 @@ func (x *fastReflection_LesseeReputation) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.ContractsTerminatedViolated != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ContractsTerminatedViolated))
+			i--
+			dAtA[i] = 0x78
+		}
+		if x.ContractsTerminated != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ContractsTerminated))
+			i--
+			dAtA[i] = 0x70
+		}
+		if x.ContractsActive != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ContractsActive))
+			i--
+			dAtA[i] = 0x68
+		}
+		if x.IpsRentedNow != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.IpsRentedNow))
+			i--
+			dAtA[i] = 0x60
+		}
+		if x.IpMonthsTotal != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.IpMonthsTotal))
+			i--
+			dAtA[i] = 0x58
 		}
 		if len(x.AbuseByType) > 0 {
 			MaRsHaLmAp := func(k uint32, v *AbuseTypeStats) (protoiface.MarshalOutput, error) {
@@ -1111,6 +1256,101 @@ func (x *fastReflection_LesseeReputation) ProtoMethods() *protoiface.Methods {
 				}
 				x.AbuseByType[mapkey] = mapvalue
 				iNdEx = postIndex
+			case 11:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IpMonthsTotal", wireType)
+				}
+				x.IpMonthsTotal = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.IpMonthsTotal |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 12:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IpsRentedNow", wireType)
+				}
+				x.IpsRentedNow = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.IpsRentedNow |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 13:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ContractsActive", wireType)
+				}
+				x.ContractsActive = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ContractsActive |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 14:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ContractsTerminated", wireType)
+				}
+				x.ContractsTerminated = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ContractsTerminated |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 15:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ContractsTerminatedViolated", wireType)
+				}
+				x.ContractsTerminatedViolated = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ContractsTerminatedViolated |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -1743,16 +1983,21 @@ type LesseeReputation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Index           uint64                     `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
-	Level1Count     int32                      `protobuf:"varint,2,opt,name=level1Count,proto3" json:"level1Count,omitempty"`
-	Level2Count     int32                      `protobuf:"varint,3,opt,name=level2Count,proto3" json:"level2Count,omitempty"`
-	Level3Count     int32                      `protobuf:"varint,4,opt,name=level3Count,proto3" json:"level3Count,omitempty"`
-	Level4Count     int32                      `protobuf:"varint,5,opt,name=level4Count,proto3" json:"level4Count,omitempty"`
-	LastUpdated     *timestamppb.Timestamp     `protobuf:"bytes,6,opt,name=lastUpdated,proto3" json:"lastUpdated,omitempty"`
-	AbuseResolved   uint64                     `protobuf:"varint,7,opt,name=abuseResolved,proto3" json:"abuseResolved,omitempty"`
-	AbuseFailed     uint64                     `protobuf:"varint,8,opt,name=abuseFailed,proto3" json:"abuseFailed,omitempty"`
-	AbuseInProgress uint64                     `protobuf:"varint,9,opt,name=abuseInProgress,proto3" json:"abuseInProgress,omitempty"`
-	AbuseByType     map[uint32]*AbuseTypeStats `protobuf:"bytes,10,rep,name=abuseByType,proto3" json:"abuseByType,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Index                       uint64                     `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
+	Level1Count                 int32                      `protobuf:"varint,2,opt,name=level1Count,proto3" json:"level1Count,omitempty"`
+	Level2Count                 int32                      `protobuf:"varint,3,opt,name=level2Count,proto3" json:"level2Count,omitempty"`
+	Level3Count                 int32                      `protobuf:"varint,4,opt,name=level3Count,proto3" json:"level3Count,omitempty"`
+	Level4Count                 int32                      `protobuf:"varint,5,opt,name=level4Count,proto3" json:"level4Count,omitempty"`
+	LastUpdated                 *timestamppb.Timestamp     `protobuf:"bytes,6,opt,name=lastUpdated,proto3" json:"lastUpdated,omitempty"`
+	AbuseResolved               uint64                     `protobuf:"varint,7,opt,name=abuseResolved,proto3" json:"abuseResolved,omitempty"`
+	AbuseFailed                 uint64                     `protobuf:"varint,8,opt,name=abuseFailed,proto3" json:"abuseFailed,omitempty"`
+	AbuseInProgress             uint64                     `protobuf:"varint,9,opt,name=abuseInProgress,proto3" json:"abuseInProgress,omitempty"`
+	AbuseByType                 map[uint32]*AbuseTypeStats `protobuf:"bytes,10,rep,name=abuseByType,proto3" json:"abuseByType,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	IpMonthsTotal               uint64                     `protobuf:"varint,11,opt,name=ipMonthsTotal,proto3" json:"ipMonthsTotal,omitempty"`                             // IP-months accumulated
+	IpsRentedNow                uint64                     `protobuf:"varint,12,opt,name=ipsRentedNow,proto3" json:"ipsRentedNow,omitempty"`                               // Currently rented IPs
+	ContractsActive             uint64                     `protobuf:"varint,13,opt,name=contractsActive,proto3" json:"contractsActive,omitempty"`                         // Active contracts
+	ContractsTerminated         uint64                     `protobuf:"varint,14,opt,name=contractsTerminated,proto3" json:"contractsTerminated,omitempty"`                 // All terminated contracts
+	ContractsTerminatedViolated uint64                     `protobuf:"varint,15,opt,name=contractsTerminatedViolated,proto3" json:"contractsTerminatedViolated,omitempty"` // Terminated due to violations
 }
 
 func (x *LesseeReputation) Reset() {
@@ -1845,6 +2090,41 @@ func (x *LesseeReputation) GetAbuseByType() map[uint32]*AbuseTypeStats {
 	return nil
 }
 
+func (x *LesseeReputation) GetIpMonthsTotal() uint64 {
+	if x != nil {
+		return x.IpMonthsTotal
+	}
+	return 0
+}
+
+func (x *LesseeReputation) GetIpsRentedNow() uint64 {
+	if x != nil {
+		return x.IpsRentedNow
+	}
+	return 0
+}
+
+func (x *LesseeReputation) GetContractsActive() uint64 {
+	if x != nil {
+		return x.ContractsActive
+	}
+	return 0
+}
+
+func (x *LesseeReputation) GetContractsTerminated() uint64 {
+	if x != nil {
+		return x.ContractsTerminated
+	}
+	return 0
+}
+
+func (x *LesseeReputation) GetContractsTerminatedViolated() uint64 {
+	if x != nil {
+		return x.ContractsTerminatedViolated
+	}
+	return 0
+}
+
 type AbuseTypeStats struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1913,7 +2193,7 @@ var file_ipex_trust_lessee_reputation_proto_rawDesc = []byte{
 	0x73, 0x74, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67,
-	0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x95, 0x04, 0x0a, 0x10, 0x4c, 0x65,
+	0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xfd, 0x05, 0x0a, 0x10, 0x4c, 0x65,
 	0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x14,
 	0x0a, 0x05, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x69,
 	0x6e, 0x64, 0x65, 0x78, 0x12, 0x20, 0x0a, 0x0b, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x31, 0x43, 0x6f,
@@ -1941,33 +2221,47 @@ var file_ipex_trust_lessee_reputation_proto_rawDesc = []byte{
 	0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x70, 0x75,
 	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x41, 0x62, 0x75, 0x73, 0x65, 0x42, 0x79, 0x54, 0x79,
 	0x70, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x0b, 0x61, 0x62, 0x75, 0x73, 0x65, 0x42, 0x79,
-	0x54, 0x79, 0x70, 0x65, 0x1a, 0x5b, 0x0a, 0x10, 0x41, 0x62, 0x75, 0x73, 0x65, 0x42, 0x79, 0x54,
-	0x79, 0x70, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x31, 0x0a, 0x05, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x69, 0x70, 0x64, 0x65,
-	0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e, 0x41, 0x62, 0x75, 0x73, 0x65, 0x54, 0x79, 0x70,
-	0x65, 0x53, 0x74, 0x61, 0x74, 0x73, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
-	0x01, 0x22, 0xaa, 0x01, 0x0a, 0x0e, 0x41, 0x62, 0x75, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x53,
-	0x74, 0x61, 0x74, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64,
-	0x12, 0x16, 0x0a, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04,
-	0x52, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x6e, 0x50, 0x72,
-	0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x69, 0x6e,
-	0x50, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x12, 0x44, 0x0a, 0x0c, 0x6c, 0x61, 0x73, 0x74,
-	0x49, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a,
-	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
-	0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x04, 0x90, 0xdf, 0x1f, 0x01,
-	0x52, 0x0c, 0x6c, 0x61, 0x73, 0x74, 0x49, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x42, 0x8c,
-	0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75,
-	0x73, 0x74, 0x42, 0x15, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69, 0x70, 0x64,
-	0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75,
-	0x73, 0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58, 0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54,
-	0x72, 0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75,
-	0x73, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
-	0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x54, 0x72, 0x75, 0x73, 0x74, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x54, 0x79, 0x70, 0x65, 0x12, 0x24, 0x0a, 0x0d, 0x69, 0x70, 0x4d, 0x6f, 0x6e, 0x74, 0x68, 0x73,
+	0x54, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0d, 0x69, 0x70, 0x4d,
+	0x6f, 0x6e, 0x74, 0x68, 0x73, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x22, 0x0a, 0x0c, 0x69, 0x70,
+	0x73, 0x52, 0x65, 0x6e, 0x74, 0x65, 0x64, 0x4e, 0x6f, 0x77, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x04,
+	0x52, 0x0c, 0x69, 0x70, 0x73, 0x52, 0x65, 0x6e, 0x74, 0x65, 0x64, 0x4e, 0x6f, 0x77, 0x12, 0x28,
+	0x0a, 0x0f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x73, 0x41, 0x63, 0x74, 0x69, 0x76,
+	0x65, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
+	0x74, 0x73, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x12, 0x30, 0x0a, 0x13, 0x63, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x73, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x64, 0x18,
+	0x0e, 0x20, 0x01, 0x28, 0x04, 0x52, 0x13, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x73,
+	0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x64, 0x12, 0x40, 0x0a, 0x1b, 0x63, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x73, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65,
+	0x64, 0x56, 0x69, 0x6f, 0x6c, 0x61, 0x74, 0x65, 0x64, 0x18, 0x0f, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x1b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x73, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e,
+	0x61, 0x74, 0x65, 0x64, 0x56, 0x69, 0x6f, 0x6c, 0x61, 0x74, 0x65, 0x64, 0x1a, 0x5b, 0x0a, 0x10,
+	0x41, 0x62, 0x75, 0x73, 0x65, 0x42, 0x79, 0x54, 0x79, 0x70, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79,
+	0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x6b,
+	0x65, 0x79, 0x12, 0x31, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x1b, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x2e,
+	0x41, 0x62, 0x75, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x53, 0x74, 0x61, 0x74, 0x73, 0x52, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xaa, 0x01, 0x0a, 0x0e, 0x41, 0x62,
+	0x75, 0x73, 0x65, 0x54, 0x79, 0x70, 0x65, 0x53, 0x74, 0x61, 0x74, 0x73, 0x12, 0x1a, 0x0a, 0x08,
+	0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08,
+	0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x61, 0x69, 0x6c,
+	0x65, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64,
+	0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x67, 0x72, 0x65, 0x73, 0x73,
+	0x12, 0x44, 0x0a, 0x0c, 0x6c, 0x61, 0x73, 0x74, 0x49, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x42, 0x04, 0x90, 0xdf, 0x1f, 0x01, 0x52, 0x0c, 0x6c, 0x61, 0x73, 0x74, 0x49, 0x6e,
+	0x63, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x42, 0x8c, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x74, 0x72, 0x75, 0x73, 0x74, 0x42, 0x15, 0x4c, 0x65, 0x73, 0x73,
+	0x65, 0x65, 0x52, 0x65, 0x70, 0x75, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74,
+	0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2f, 0x74, 0x72, 0x75, 0x73, 0x74, 0xa2, 0x02, 0x03, 0x49, 0x54, 0x58,
+	0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x54, 0x72, 0x75, 0x73, 0x74, 0xca, 0x02,
+	0x0b, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73, 0x74, 0xe2, 0x02, 0x17, 0x49,
+	0x70, 0x64, 0x65, 0x78, 0x5c, 0x54, 0x72, 0x75, 0x73, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65,
+	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a,
+	0x54, 0x72, 0x75, 0x73, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
