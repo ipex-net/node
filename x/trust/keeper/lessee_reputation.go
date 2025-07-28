@@ -58,7 +58,7 @@ func (k Keeper) InitializeLesseeReputation(ctx context.Context, lesseeId uint64)
 }
 
 // LogLesseeContractTermination updates usage stats on contract termination
-func (k Keeper) LogLesseeContractTermination(ctx context.Context, lesseeId uint64, violated bool, ipCount uint64) error {
+func (k Keeper) LogLesseeContractTermination(ctx context.Context, lesseeId uint64, noPenalty bool, ipCount uint64) error {
 	if lesseeId == 0 {
 		return fmt.Errorf("lessee id can't be nil")
 	}
@@ -70,7 +70,7 @@ func (k Keeper) LogLesseeContractTermination(ctx context.Context, lesseeId uint6
 		return fmt.Errorf("can not find lessee")
 	}
 	lesseeRep.ContractsTerminated++
-	if violated {
+	if !noPenalty {
 		lesseeRep.ContractsTerminatedViolated++
 	}
 	lesseeRep.ContractsActive--
