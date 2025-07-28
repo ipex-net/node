@@ -162,6 +162,10 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	// Store updated contract
 	k.SetContract(ctx, contract)
 
+	// Log usage stats
+	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
+	k.trustKeeper.LogLesseeContractRenewal(ctx, contract.LesseeOrg, ipCount)
+	
 	// Emit renewal event
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
