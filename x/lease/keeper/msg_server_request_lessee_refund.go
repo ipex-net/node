@@ -85,6 +85,8 @@ func (k msgServer) RequestLesseeRefund(goCtx context.Context, msg *types.MsgRequ
 		// Remove user from the subnet
 		k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
 
+		ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
+		k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, false, ipCount)
 		// Emit refund event
 		ctx.EventManager().EmitEvent(
 			sdk.NewEvent(types.LesseeRefundEmittedEventType,
