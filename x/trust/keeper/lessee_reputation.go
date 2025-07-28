@@ -58,13 +58,9 @@ func (k Keeper) InitializeLesseeReputation(ctx context.Context, lesseeId uint64)
 }
 
 // LogLesseeContractTermination updates usage stats on contract termination
-func (k Keeper) LogLesseeContractTermination(ctx context.Context, lesseeId uint64, violated bool, subnetMask uint64) error {
-	ipCount := IPCountFromMask(subnetMask)
+func (k Keeper) LogLesseeContractTermination(ctx context.Context, lesseeId uint64, violated bool, ipCount uint64) error {
 	if lesseeId == 0 {
 		return fmt.Errorf("lessee id can't be nil")
-	}
-	if subnetMask > 32 || subnetMask < 8 {
-		return fmt.Errorf("incorrect subnet mask")
 	}
 	if ipCount == 0 {
 		return fmt.Errorf("incorrect ip count")
@@ -84,13 +80,9 @@ func (k Keeper) LogLesseeContractTermination(ctx context.Context, lesseeId uint6
 }
 
 // LogLesseeContractRenewal updates usage stats on contract renewal
-func (k Keeper) LogLesseeContractRenewal(ctx context.Context, lesseeId uint64, subnetMask uint64) error {
-	ipCount := IPCountFromMask(subnetMask)
+func (k Keeper) LogLesseeContractRenewal(ctx context.Context, lesseeId uint64, ipCount uint64) error {
 	if lesseeId == 0 {
 		return fmt.Errorf("lessee id can't be nil")
-	}
-	if subnetMask > 32 || subnetMask < 8 {
-		return fmt.Errorf("incorrect subnet mask")
 	}
 	if ipCount == 0 {
 		return fmt.Errorf("incorrect ip count")
@@ -105,13 +97,9 @@ func (k Keeper) LogLesseeContractRenewal(ctx context.Context, lesseeId uint64, s
 }
 
 // LogLesseeContractActivation updates usage stats on contract activation
-func (k Keeper) LogLesseeContractActivation(ctx context.Context, lesseeId uint64, subnetMask uint64) error {
-	ipCount := IPCountFromMask(subnetMask)
+func (k Keeper) LogLesseeContractActivation(ctx context.Context, lesseeId uint64, ipCount uint64) error {
 	if lesseeId == 0 {
 		return fmt.Errorf("lessee id can't be nil")
-	}
-	if subnetMask > 32 || subnetMask < 8 {
-		return fmt.Errorf("incorrect subnet mask")
 	}
 	if ipCount == 0 {
 		return fmt.Errorf("incorrect ip count")
@@ -125,14 +113,4 @@ func (k Keeper) LogLesseeContractActivation(ctx context.Context, lesseeId uint64
 	lesseeRep.IpsRentedNow = lesseeRep.IpsRentedNow + ipCount
 	k.SetLesseeReputation(ctx, lesseeRep)
 	return nil
-}
-
-// IPCountFromMask returns the count of IPs per mask
-func IPCountFromMask(mask uint64) uint64 {
-   if mask > 32 {
-       return 0
-   }
-   
-   hostBits := 32 - mask
-   return 1 << hostBits 
 }
