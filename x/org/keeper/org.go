@@ -67,7 +67,7 @@ func (k Keeper) AppendOrg(
 
 	// Initialize lessor reputation for new org
 	k.trustKeeper.InitializeLessorReputation(ctx, org.Id)
-	
+
 	return org.Id
 }
 
@@ -121,6 +121,9 @@ func (k Keeper) RemoveOrg(ctx context.Context, id uint64) {
 
 	// Remove lessee reputation
 	k.trustKeeper.RemoveLesseeReputation(ctx, id)
+
+	// Remove lessor reputation
+	k.trustKeeper.RemoveLessorReputation(ctx, id)
 }
 
 // GetAllOrg returns all org
