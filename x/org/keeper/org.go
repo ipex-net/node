@@ -64,6 +64,10 @@ func (k Keeper) AppendOrg(
 
 	// Initialize lessee reputation for new org
 	k.trustKeeper.InitializeLesseeReputation(ctx, org.Id)
+
+	// Initialize lessor reputation for new org
+	k.trustKeeper.InitializeLessorReputation(ctx, org.Id)
+	
 	return org.Id
 }
 
