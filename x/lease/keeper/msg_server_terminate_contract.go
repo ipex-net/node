@@ -102,6 +102,10 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	// Remove user from the subnet
 	k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
 
+	// Log usage stats
+	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
+	k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, noPenalty, ipCount)
+
 	// Emit the termination event
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(types.ContractTerminatedByOwnerEventType,
