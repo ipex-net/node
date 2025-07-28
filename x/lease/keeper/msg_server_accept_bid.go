@@ -133,6 +133,10 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 		k.RemoveBid(ctx, lostbid.ContractId, lostbid.BidderOrgId)
 	}
 
+	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
+	// Log usage stats
+	k.trustKeeper.LogLesseeContractActivation(ctx, bid.BidderOrgId, ipCount)
+	
 	// Emit enrollment event
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
