@@ -52,7 +52,7 @@ func (k Keeper) BidByLessor(goCtx context.Context, req *types.QueryBidByLessorRe
 
 	if startIdx < uint64(len(bids)) {
 		paginatedBids = bids[startIdx:endIdx]
-		
+
 		// Set nextKey if there are more results
 		if endIdx < uint64(len(bids)) {
 			nextKey = make([]byte, 8)

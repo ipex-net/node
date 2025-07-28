@@ -298,7 +298,7 @@ func TestBidByLessorQuery(t *testing.T) {
 
 func TestBidByContractPaginated(t *testing.T) {
 	keeper, ctx := keepertest.LeaseKeeper(t)
-	
+
 	// Create multiple bids for the same contract
 	contractId := uint64(1)
 	bids := []types.Bid{
@@ -360,7 +360,7 @@ func TestBidByContractPaginated(t *testing.T) {
 
 func TestBidByBidderPaginated(t *testing.T) {
 	keeper, ctx := keepertest.LeaseKeeper(t)
-	
+
 	// Create multiple bids from the same bidder
 	bidderOrgId := uint64(101)
 	bids := []types.Bid{
@@ -416,7 +416,7 @@ func TestBidByBidderPaginated(t *testing.T) {
 
 func TestBidByLessorPaginated(t *testing.T) {
 	keeper, ctx := keepertest.LeaseKeeper(t)
-	
+
 	// Create multiple bids for contracts owned by the same lessor
 	lessorOrgId := uint64(201)
 	bids := []types.Bid{

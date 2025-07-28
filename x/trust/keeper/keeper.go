@@ -34,6 +34,7 @@ type (
 		// Collections for Reputation Systems
 		LeaseReputations  collections.Map[uint64, types.LeaseReputation]
 		LesseeReputations collections.Map[uint64, types.LesseeReputation]
+		LessorReputations collections.Map[uint64, types.LessorReputation]
 		SubnetReputations collections.Map[uint64, types.SubnetReputation]
 		ParamsStore       collections.Item[types.Params]
 	}
@@ -69,6 +70,7 @@ func NewKeeper(
 		// Initialize reputation collections
 		LeaseReputations:  collections.NewMap(sb, collections.NewPrefix(types.LeaseReputationKeyPrefix), "lease_reputations", collections.Uint64Key, codec.CollValue[types.LeaseReputation](cdc)),
 		LesseeReputations: collections.NewMap(sb, collections.NewPrefix(types.LesseeReputationKeyPrefix), "lessee_reputations", collections.Uint64Key, codec.CollValue[types.LesseeReputation](cdc)),
+		LessorReputations: collections.NewMap(sb, collections.NewPrefix(types.LessorReputationKeyPrefix), "lessor_reputations", collections.Uint64Key, codec.CollValue[types.LessorReputation](cdc)),
 		SubnetReputations: collections.NewMap(sb, collections.NewPrefix(types.SubnetReputationKeyPrefix), "subnet_reputations", collections.Uint64Key, codec.CollValue[types.SubnetReputation](cdc)),
 		ParamsStore:       collections.NewItem(sb, collections.NewPrefix(types.ParamsKey), "params", codec.CollValue[types.Params](cdc)),
 	}

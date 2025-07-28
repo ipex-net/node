@@ -48,6 +48,14 @@ func TestGenesis(t *testing.T) {
 				Index: 1,
 			},
 		},
+		LessorReputationList: []types.LessorReputation{
+			{
+				Index: 0,
+			},
+			{
+				Index: 1,
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -64,5 +72,6 @@ func TestGenesis(t *testing.T) {
 	require.Equal(t, genesisState.BlacklistLogCount, got.BlacklistLogCount)
 	require.ElementsMatch(t, genesisState.LeaseReputationList, got.LeaseReputationList)
 	require.ElementsMatch(t, genesisState.LesseeReputationList, got.LesseeReputationList)
+	require.ElementsMatch(t, genesisState.LessorReputationList, got.LessorReputationList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

@@ -118,7 +118,7 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 	contract.UpdatedAt = currentTime
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED
 	k.SetContract(ctx, contract)
-	
+
 	// Log usage stats
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
 	k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, false, ipCount)

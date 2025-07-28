@@ -1,0 +1,15 @@
+syntax = "proto3";
+package ipex.trust;
+
+option go_package = "ipex/x/trust/types";
+
+message LessorReputation {
+  uint64 index = 1; 
+  uint64 ipMonthsTotal = 2; 
+  uint64 ipsLeasedNow = 3; 
+  uint64 contractsActive = 4; 
+  uint64 contractsTerminated = 5; 
+  uint64 contractsTerminatedViolated = 6; 
+  
+}
+

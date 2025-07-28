@@ -56,6 +56,14 @@ func TestGenesisState_Validate(t *testing.T) {
 						Index: 1,
 					},
 				},
+				LessorReputationList: []types.LessorReputation{
+					{
+						Index: 0,
+					},
+					{
+						Index: 1,
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -118,6 +126,20 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "duplicated lesseeReputation",
 			genState: &types.GenesisState{
 				LesseeReputationList: []types.LesseeReputation{
+					{
+						Index: 0,
+					},
+					{
+						Index: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated lessorReputation",
+			genState: &types.GenesisState{
+				LessorReputationList: []types.LessorReputation{
 					{
 						Index: 0,
 					},

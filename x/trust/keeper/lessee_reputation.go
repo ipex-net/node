@@ -39,16 +39,16 @@ func (k Keeper) InitializeLesseeReputation(ctx context.Context, lesseeId uint64)
 
 	// Create new lesee reputation with initial values
 	lesseeReputation := types.LesseeReputation{
-		Index:       lesseeId,
-		Level1Count: 0, // Initialize all counts to zero
-		Level2Count: 0,
-		Level3Count: 0,
-		Level4Count: 0,
-		LastUpdated: nil,
-		IpMonthsTotal: 0,
-		IpsRentedNow: 0,
-		ContractsActive: 0,
-		ContractsTerminated: 0,
+		Index:                       lesseeId,
+		Level1Count:                 0, // Initialize all counts to zero
+		Level2Count:                 0,
+		Level3Count:                 0,
+		Level4Count:                 0,
+		LastUpdated:                 nil,
+		IpMonthsTotal:               0,
+		IpsRentedNow:                0,
+		ContractsActive:             0,
+		ContractsTerminated:         0,
 		ContractsTerminatedViolated: 0,
 	}
 

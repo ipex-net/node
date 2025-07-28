@@ -29,7 +29,7 @@ func createNContract(keeper keeper.Keeper, ctx context.Context, n int) []types.C
 
 func TestListContractPaginated(t *testing.T) {
 	keeper, ctx := keepertest.LeaseKeeper(t)
-	
+
 	// Create multiple contracts for pagination testing
 	contracts := []types.Contract{
 		{Id: 1, SubnetId: 101, OwnerOrg: 201, LesseeOrg: 301},

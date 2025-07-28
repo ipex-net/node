@@ -113,7 +113,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	// Log usage stats
 	_ = lessorContractViolation
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
-	k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg,  lesseeContractViolation, ipCount)
+	k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, lesseeContractViolation, ipCount)
 
 	// Emit the termination event
 	ctx.EventManager().EmitEvent(

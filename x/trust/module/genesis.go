@@ -36,6 +36,10 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.LesseeReputationList {
 		k.SetLesseeReputation(ctx, elem)
 	}
+	// Set all the lessorReputation
+	for _, elem := range genState.LessorReputationList {
+		k.SetLessorReputation(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	if err := k.SetParams(ctx, genState.Params); err != nil {
 		panic(err)
@@ -59,6 +63,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	}
 	genesis.LeaseReputationList = k.GetAllLeaseReputation(ctx)
 	genesis.LesseeReputationList = k.GetAllLesseeReputation(ctx)
+	genesis.LessorReputationList = k.GetAllLessorReputation(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis
