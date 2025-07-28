@@ -162,9 +162,19 @@ func (k msgServer) RenewContract(goCtx context.Context, msg *types.MsgRenewContr
 	// Store updated contract
 	k.SetContract(ctx, contract)
 
-	// Log usage stats
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
-	k.trustKeeper.LogLesseeContractRenewal(ctx, contract.LesseeOrg, ipCount)
+
+	// Update lessee reputation
+	err = k.trustKeeper.LogLesseeContractRenewal(ctx, contract.LesseeOrg, ipCount)
+	if err != nil {
+		k.logger.Error("failed to update lessee reputation on contract renewal", "error", err)
+	}
+
+	// Update lessor reputation
+	err = k.trustKeeper.LogLessorContractRenewal(ctx, contract.OwnerOrg, ipCount)
+	if err != nil {
+		k.logger.Error("failed to update lessor reputation on contract renewal", "error", err)
+	}
 
 	// Emit renewal event
 	ctx.EventManager().EmitEvent(

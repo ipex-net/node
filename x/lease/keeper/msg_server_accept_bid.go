@@ -134,8 +134,18 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 	}
 
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
-	// Log usage stats
-	k.trustKeeper.LogLesseeContractActivation(ctx, bid.BidderOrgId, ipCount)
+
+	// Update lessee reputation
+	err = k.trustKeeper.LogLesseeContractActivation(ctx, contract.LesseeOrg, ipCount)
+	if err != nil {
+		k.logger.Error("failed to update lessee reputation on bid acceptance", "error", err)
+	}
+
+	// Update lessor reputation	
+	err = k.trustKeeper.LogLessorContractActivation(ctx, contract.OwnerOrg, ipCount)
+		if err != nil {
+		k.logger.Error("failed to update lessor reputation on bid acceptance", "error", err)
+	}
 
 	// Emit enrollment event
 	ctx.EventManager().EmitEvent(

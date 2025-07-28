@@ -110,10 +110,19 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	// Remove user from the subnet
 	k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
 
-	// Log usage stats
-	_ = lessorContractViolation
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
-	k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, lesseeContractViolation, ipCount)
+	
+	// Update lessee reputation
+	err = k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, lesseeContractViolation, ipCount)
+	if err != nil {
+		k.logger.Error("failed to update lessee reputation on contract termination", "error", err)
+	}
+
+	// Update lessor reputation
+	err = k.trustKeeper.LogLessorContractTermination(ctx, contract.OwnerOrg, lessorContractViolation, ipCount)
+	if err != nil {
+		k.logger.Error("failed to update lessor reputation on contract termination", "error", err)
+	}
 
 	// Emit the termination event
 	ctx.EventManager().EmitEvent(

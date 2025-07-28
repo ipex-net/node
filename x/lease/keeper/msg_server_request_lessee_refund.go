@@ -86,7 +86,19 @@ func (k msgServer) RequestLesseeRefund(goCtx context.Context, msg *types.MsgRequ
 		k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
 
 		ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
-		k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, false, ipCount)
+
+		// Update lessee reputation - no contract violation as refund granted
+		err = k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, false, ipCount)
+		if err != nil {
+			k.logger.Error("failed to update lessee reputation on contract refund", "error", err)
+		}
+
+		// Update lessor reputation - contract violation registered, as lessee refund granted
+		err = k.trustKeeper.LogLessorContractTermination(ctx, contract.OwnerOrg, true, ipCount)
+		if err != nil {
+			k.logger.Error("failed to update lessor reputation on contract refund", "error", err)
+		}
+
 		// Emit refund event
 		ctx.EventManager().EmitEvent(
 			sdk.NewEvent(types.LesseeRefundEmittedEventType,

@@ -102,12 +102,23 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		// Initialize the lease reputation
 		k.trustKeeper.InitializeLeaseReputation(ctx, contract.Id)
 
-		// Update the subnet user Org
+		// Set the subnet user
 		k.subnetKeeper.SetSubnetUserOrg(ctx, contract.SubnetId, msg.LesseeOrg, contract.GeoChangeAllowed, contract.AllowASNDROPOriginTransfer)
 
 		ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
-		// Log usage stats
-		k.trustKeeper.LogLesseeContractActivation(ctx, msg.LesseeOrg, ipCount)
+
+		// Update lessee reputation
+		err = k.trustKeeper.LogLesseeContractActivation(ctx, msg.LesseeOrg, ipCount)
+		if err != nil {
+			k.logger.Error("failed to update lessee reputation on contract activation", "error", err)
+		}
+
+		// Update lessor reputation	
+		err = k.trustKeeper.LogLessorContractActivation(ctx, contract.OwnerOrg, ipCount)
+			if err != nil {
+			k.logger.Error("failed to update lessor reputation on contract activation", "error", err)
+		}
+
 		// Emit enrollment event
 		ctx.EventManager().EmitEvent(
 			sdk.NewEvent(
@@ -120,7 +131,8 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			),
 		)
 	}
-	// If first bid is not automatically accepter - use the bidding system
+	
+	// If first bid is not automatically accepted - use the bidding system
 	if !contract.AcceptFirstBidder {
 		// Bid interval validations
 		if msg.BidExpirationHours == 0 || msg.BidExpirationHours > 120 {

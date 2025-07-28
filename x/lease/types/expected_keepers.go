@@ -66,4 +66,7 @@ type TrustKeeper interface {
 	LogLesseeContractTermination(ctx context.Context, lesseeId uint64, lesseeContractViolation bool, ipCount uint64) error
 	LogLesseeContractRenewal(ctx context.Context, lesseeId uint64, ipCount uint64) error
 	LogLesseeContractActivation(ctx context.Context, lesseeId uint64, ipCount uint64) error
+	LogLessorContractTermination(ctx context.Context, lessorId uint64, lessorContractViolation bool, ipCount uint64) error
+	LogLessorContractRenewal(ctx context.Context, lessorId uint64, ipCount uint64) error
+	LogLessorContractActivation(ctx context.Context, lessorId uint64, ipCount uint64) error
 }
