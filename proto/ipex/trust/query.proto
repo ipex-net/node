@@ -239,16 +239,21 @@ message QueryAllLesseeReputationResponse {
 }
 
 message LesseeReputationDisplay {
-           uint64                    index           =  1;
-           int32                     level1Count     =  2;
-           int32                     level2Count     =  3;
-           int32                     level3Count     =  4;
-           int32                     level4Count     =  5;
-           google.protobuf.Timestamp lastUpdated     =  6 [(gogoproto.stdtime) = true];
-           uint64                    abuseResolved   =  7;
-           uint64                    abuseFailed     =  8;
-           uint64                    abuseInProgress =  9;
-  repeated AbuseTypeStatsDisplay     abuseByType     = 10;
+          uint64                    index           =  1;
+          int32                     level1Count     =  2;
+          int32                     level2Count     =  3;
+          int32                     level3Count     =  4;
+          int32                     level4Count     =  5;
+          google.protobuf.Timestamp lastUpdated     =  6 [(gogoproto.stdtime) = true];
+          uint64                    abuseResolved   =  7;
+          uint64                    abuseFailed     =  8;
+          uint64                    abuseInProgress =  9;
+ repeated AbuseTypeStatsDisplay     abuseByType     = 10;
+          uint64 ipMonthsTotal                      = 11;
+          uint64 ipsRentedNow                       = 12;
+          uint64 contractsActive                    = 13;
+          uint64 contractsTerminated                = 14;
+          uint64 contractsTerminatedViolated        = 15;
 }
 
 message AbuseTypeStatsDisplay {
