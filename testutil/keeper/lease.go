@@ -94,6 +94,10 @@ func (m mockSubnetKeeperLease) IsUserRefundAllowed(ctx context.Context, subnetId
 	return true
 }
 
+func (m mockSubnetKeeperLease) GetSubnetIpCount(ctx context.Context, subnetId uint64) uint64 {
+	return 256 // Mock /24 subnet
+}
+
 type mockPaymentsKeeper struct{}
 
 func (m mockPaymentsKeeper) RecordTransaction(
@@ -120,6 +124,30 @@ func (m mockTrustKeeperLease) RemoveLeaseReputation(ctx context.Context, leaseId
 
 func (m mockTrustKeeperLease) GetShortLeaseReputation(ctx context.Context, index uint64) (l1Listed bool, l2Count int32, failedAbuse uint64, found bool) {
 	return false, 0, 0, false
+}
+
+func (m mockTrustKeeperLease) LogLesseeContractTermination(ctx context.Context, lesseeId uint64, lesseeContractViolation bool, ipCount uint64) error {
+	return nil
+}
+
+func (m mockTrustKeeperLease) LogLesseeContractRenewal(ctx context.Context, lesseeId uint64, ipCount uint64) error {
+	return nil
+}
+
+func (m mockTrustKeeperLease) LogLesseeContractActivation(ctx context.Context, lesseeId uint64, ipCount uint64) error {
+	return nil
+}
+
+func (m mockTrustKeeperLease) LogLessorContractTermination(ctx context.Context, lessorId uint64, lessorContractViolation bool, ipCount uint64) error {
+	return nil
+}
+
+func (m mockTrustKeeperLease) LogLessorContractRenewal(ctx context.Context, lessorId uint64, ipCount uint64) error {
+	return nil
+}
+
+func (m mockTrustKeeperLease) LogLessorContractActivation(ctx context.Context, lessorId uint64, ipCount uint64) error {
+	return nil
 }
 
 func LeaseKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {

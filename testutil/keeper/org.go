@@ -31,6 +31,12 @@ func (m mockTrustKeeperOrg) InitializeLesseeReputation(ctx context.Context, less
 func (m mockTrustKeeperOrg) RemoveLesseeReputation(ctx context.Context, index uint64) {
 }
 
+func (m mockTrustKeeperOrg) InitializeLessorReputation(ctx context.Context, lessorId uint64) {
+}
+
+func (m mockTrustKeeperOrg) RemoveLessorReputation(ctx context.Context, index uint64) {
+}
+
 func OrgKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
 
