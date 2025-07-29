@@ -66,8 +66,16 @@ func (k Keeper) LogLessorContractTermination(ctx context.Context, lessorId uint6
 	if lessorContractViolation {
 		lessorRep.ContractsTerminatedViolated++
 	}
-	lessorRep.ContractsActive--
-	lessorRep.IpsLeasedNow = lessorRep.IpsLeasedNow - ipCount
+	// Prevent underflow for ContractsActive
+	if lessorRep.ContractsActive > 0 {
+		lessorRep.ContractsActive--
+	}
+	// Prevent underflow for IpsLeasedNow  
+	if lessorRep.IpsLeasedNow >= ipCount {
+		lessorRep.IpsLeasedNow = lessorRep.IpsLeasedNow - ipCount
+	} else {
+		lessorRep.IpsLeasedNow = 0
+	}
 	k.SetLessorReputation(ctx, lessorRep)
 	return nil
 }
