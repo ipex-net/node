@@ -19,7 +19,7 @@ var _ = strconv.IntSize
 func createNLessorReputation(keeper keeper.Keeper, ctx context.Context, n int) []types.LessorReputation {
 	items := make([]types.LessorReputation, n)
 	for i := range items {
-		items[i].Index = int32(i)
+		items[i].Index = uint64(i)
 
 		keeper.SetLessorReputation(ctx, items[i])
 	}
