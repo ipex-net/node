@@ -73,8 +73,16 @@ func (k Keeper) LogLesseeContractTermination(ctx context.Context, lesseeId uint6
 	if lesseeContractViolation {
 		lesseeRep.ContractsTerminatedViolated++
 	}
-	lesseeRep.ContractsActive--
-	lesseeRep.IpsRentedNow = lesseeRep.IpsRentedNow - ipCount
+	// Prevent underflow for ContractsActive
+	if lesseeRep.ContractsActive > 0 {
+		lesseeRep.ContractsActive--
+	}
+	// Prevent underflow for IpsRentedNow
+	if lesseeRep.IpsRentedNow >= ipCount {
+		lesseeRep.IpsRentedNow = lesseeRep.IpsRentedNow - ipCount
+	} else {
+		lesseeRep.IpsRentedNow = 0
+	}
 	k.SetLesseeReputation(ctx, lesseeRep)
 	return nil
 }
