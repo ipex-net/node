@@ -785,3 +785,18 @@ func IPCountFromMask(mask uint64) uint64 {
 	hostBits := 32 - mask
 	return 1 << hostBits
 }
+
+// GetSubnetMarketDetails returns marketplace related details for the subnet
+func (k Keeper) GetSubnetMarketDetails(ctx context.Context, subnetId uint64) (networkAddress uint64, mask uint64, country string, rir string, err error) {
+	if subnetId == 0 {
+		err = fmt.Errorf("subnet id can not be nil")
+		return
+	}
+	subnet, found := k.GetSubnet(ctx, subnetId)
+	if !found {
+		err = fmt.Errorf("subnet with ID %d not found", subnetId)
+		return
+	}
+
+	return subnet.NetworkAddress, subnet.Mask, subnet.Country, subnet.Rir, nil
+} 
