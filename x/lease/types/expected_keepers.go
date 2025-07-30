@@ -43,6 +43,7 @@ type SubnetKeeper interface {
 	IsUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) bool
 	IsUserRefundAllowed(ctx context.Context, subnetId uint64) bool
 	GetSubnetIpCount(ctx context.Context, subnetId uint64) uint64
+	GetSubnetMarketDetails(ctx context.Context, subnetId uint64) (networkAddress uint64, mask uint64, country string, rir string, err error)
 }
 
 type PaymentsKeeper interface {

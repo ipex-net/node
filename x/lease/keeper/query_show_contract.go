@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	"ipex/x/lease/types"
 
@@ -28,5 +29,17 @@ func (k Keeper) ShowContract(goCtx context.Context, req *types.QueryShowContract
 		return nil, sdkerrors.ErrKeyNotFound
 	}
 
-	return &types.QueryShowContractResponse{Contract: contract}, nil
+	// Get subnet market details
+	networkAddress, mask, country, rir, err := k.subnetKeeper.GetSubnetMarketDetails(ctx, contract.SubnetId)
+	if err != nil {
+		return nil, status.Error(codes.Internal, fmt.Sprintf("failed to get subnet market details: %v", err))
+	}
+
+	return &types.QueryShowContractResponse{
+		Contract:       contract,
+		NetworkAddress: networkAddress,
+		Mask:           mask,
+		Country:        country,
+		Rir:            rir,
+	}, nil
 }
