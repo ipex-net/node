@@ -18,6 +18,7 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/stretchr/testify/require"
 
+	"ipex/testutil/sample"
 	"ipex/x/lease/keeper"
 	"ipex/x/lease/types"
 	paymentstypes "ipex/x/payments/types"
@@ -60,7 +61,9 @@ func (m mockOrgKeeper) VerifyOrgAdmin(ctx context.Context, orgid uint64, admin s
 }
 
 func (m mockOrgKeeper) GetOrgTreasury(ctx context.Context, orgid uint64) (sdk.AccAddress, bool) {
-	return sdk.AccAddress{}, false
+	// Return a mock treasury address for testing
+	treasuryAddr, _ := sdk.AccAddressFromBech32(sample.AccAddress())
+	return treasuryAddr, true
 }
 
 func (m mockOrgKeeper) GetOrgAdmin(ctx context.Context, orgid uint64) (sdk.AccAddress, bool) {
@@ -71,19 +74,28 @@ func (m mockOrgKeeper) IsOrgVerified(ctx context.Context, orgid uint64) bool {
 	return true
 }
 
-type mockSubnetKeeperLease struct{}
+type mockSubnetKeeperLease struct {
+	// Configuration for different test scenarios
+	GeoDbRecordVerified bool
+	RirRecordValid      bool
+	SubnetExists        bool
+}
 
 func (m mockSubnetKeeperLease) GetSubnet(ctx context.Context, id uint64) (subnettypes.Subnet, bool) {
-	// Mock subnet with basic data
+	if !m.SubnetExists {
+		return subnettypes.Subnet{}, false
+	}
+	
+	// Mock subnet with configurable validation states
 	subnet := subnettypes.Subnet{
-		Id:             id,
-		NetworkAddress: 167772160, // 10.0.0.0
-		Mask:           24,
-		Country:        "US",
-		Rir:            "ARIN",
-		Status:         subnettypes.SubnetStatus_SUBNET_STATUS_READY,
-		RirRecordValid: true,
-		GeoDbRecordVerified: true,
+		Id:                  id,
+		NetworkAddress:      167772160, // 10.0.0.0
+		Mask:                24,
+		Country:             "US",
+		Rir:                 "ARIN",
+		Status:              subnettypes.SubnetStatus_SUBNET_STATUS_READY,
+		RirRecordValid:      m.RirRecordValid,
+		GeoDbRecordVerified: m.GeoDbRecordVerified,
 	}
 	return subnet, true
 }
@@ -186,7 +198,52 @@ func LeaseKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 		mockAccountKeeper{},
 		mockBankKeeper{},
 		mockOrgKeeper{},
-		mockSubnetKeeperLease{},
+		mockSubnetKeeperLease{
+			GeoDbRecordVerified: true,
+			RirRecordValid:      true,
+			SubnetExists:        true,
+		},
+		mockPaymentsKeeper{},
+		mockTrustKeeperLease{},
+	)
+
+	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())
+
+	// Initialize params
+	if err := k.SetParams(ctx, types.DefaultParams()); err != nil {
+		panic(err)
+	}
+
+	return k, ctx
+}
+
+// LeaseKeeperWithMockSubnet creates a lease keeper with a custom mock subnet keeper
+// for testing different subnet validation scenarios
+func LeaseKeeperWithMockSubnet(t testing.TB, geoDbVerified, rirValid, subnetExists bool) (keeper.Keeper, sdk.Context) {
+	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
+
+	db := dbm.NewMemDB()
+	stateStore := store.NewCommitMultiStore(db, log.NewNopLogger(), metrics.NewNoOpMetrics())
+	stateStore.MountStoreWithDB(storeKey, storetypes.StoreTypeIAVL, db)
+	require.NoError(t, stateStore.LoadLatestVersion())
+
+	registry := codectypes.NewInterfaceRegistry()
+	cdc := codec.NewProtoCodec(registry)
+	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
+
+	k := keeper.NewKeeper(
+		cdc,
+		runtime.NewKVStoreService(storeKey),
+		log.NewNopLogger(),
+		authority.String(),
+		mockAccountKeeper{},
+		mockBankKeeper{},
+		mockOrgKeeper{},
+		mockSubnetKeeperLease{
+			GeoDbRecordVerified: geoDbVerified,
+			RirRecordValid:      rirValid,
+			SubnetExists:        subnetExists,
+		},
 		mockPaymentsKeeper{},
 		mockTrustKeeperLease{},
 	)
