@@ -61,10 +61,18 @@ func isReservedIPRange(ip net.IP) bool {
 func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubnet) (*types.MsgCreateSubnetResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	//Checking if the address is correct
+	// Check that the address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// Check that country code is correct
+	if msg.Country == "" {
+		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "country data can not be empty")
+	}
+	if len(msg.Country) != 2 {
+		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "country code must be 2 letters")
 	}
 
 	// Validate IP address format using regex
@@ -73,12 +81,12 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "invalid IPv4 address format (%s)", parsedIp.String())
 	}
 
-	//Validate that the last octet is equal to zero, as the smallest subnet size is /24
+	// Validate that the last octet is equal to zero, as the smallest subnet size is /24
 	if msg.NetworkAddress&0xFF != 0 {
 		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "fourth octet must be zero for subnet (%s)", parsedIp.String())
 	}
 
-	// Check if IP is in a reserved range
+	// Check that IP is not in a reserved range
 	if isReservedIPRange(parsedIp) {
 		return nil, errorsmod.Wrapf(ErrReservedIPRange, "IP address is in a reserved range (%s)", parsedIp.String())
 	}
@@ -112,14 +120,17 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, walkErr
 	}
 
-	//Creating new subnet
+	// Initialize new subnet
+	currentTime := ctx.BlockTime()
 	var subnet = types.Subnet{
-		NetworkAddress: msg.NetworkAddress,
-		Mask:           msg.Mask,
-		Status:         types.SubnetStatus_SUBNET_STATUS_INITIAL,
-		OwnerOrgId:     msg.OwnerOrgId,
-		CreatedAt:      ctx.BlockTime(),
-		UpdatedAt:      ctx.BlockTime(),
+		NetworkAddress: 		msg.NetworkAddress,
+		Mask:           		msg.Mask,
+		Status:         		types.SubnetStatus_SUBNET_STATUS_INITIAL,
+		OwnerOrgId:     		msg.OwnerOrgId,
+		CreatedAt:      		currentTime,
+		UpdatedAt:      		currentTime,
+		Country: 				msg.Country,
+		GeoDetailsChangedAt: 	&currentTime,
 	}
 	id := k.AppendSubnet(
 		ctx,

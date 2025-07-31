@@ -48,6 +48,7 @@ message MsgCreateSubnet {
   uint64 networkAddress = 3;
   uint64 mask           = 4;
   string rir            = 5;
+  string country        = 6;
 }
 
 message MsgCreateSubnetResponse {

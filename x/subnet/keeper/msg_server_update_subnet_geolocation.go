@@ -17,16 +17,18 @@ import (
 func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.MsgUpdateSubnetGeolocation) (*types.MsgUpdateSubnetGeolocationResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	//Checking if the address is correct
+	// Check that address is correct
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	//Checking that the provided values are not nil
-	//|| msg.Region == "" || msg.City == "" || msg.PostalCode == "" 
+	// Check that country code is correct
 	if msg.Country == "" {
-		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "Country data can not be empty")
+		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "country data can not be empty")
+	}
+	if len(msg.Country) != 2 {
+		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "country code must be 2 letters")
 	}
 	if msg.Region != "" {
 		err = validateGeo(msg.Country, msg.Region)
@@ -37,7 +39,7 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		return nil, errorsmod.Wrap(ErrInvalidGeolocationData, err.Error())
 	}
 
-	//Fetching the subnet
+	// Fetch the subnet
 	subnet, found := k.GetSubnet(ctx, msg.Id)
 	if !found {
 		return nil, errorsmod.Wrapf(ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
@@ -45,10 +47,10 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 
 	// Check that data is actually different
 	if subnet.Country == msg.Country && subnet.Region == msg.Region && subnet.City == msg.City && subnet.PostalCode == msg.PostalCode {
-		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "Geolocation data can not be identical")
+		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "geolocation data can not be identical")
 	}
 
-	// Implementing 6 hour geo cooldown
+	// Check 6 hour geo cooldown
 	currentTime := ctx.BlockTime()
 	if subnet.GeoDetailsChangedAt != nil && currentTime.Sub(*subnet.GeoDetailsChangedAt) < 6*time.Hour {
 		// Calculate remaining time in hours (rounded up)
@@ -61,11 +63,11 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		)
 
 	}
-	// convenience flags
+
 	isOwnerAdmin := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator)
 	isUserAdmin := k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.UserOrgId, msg.Creator)
 
-	//Only continue if signer is subnet admin and there's no lessor or if the signer is lessor
+	// Continue if signer is subnet admin and there's no lessor or if the signer is lessor
 	if !((subnet.UserOrgId == 0 && isOwnerAdmin) || isUserAdmin) {
 		return nil, errorsmod.Wrapf(
 			ErrNotOrgAdmin,
@@ -79,19 +81,19 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		return nil, ErrGeoChangeProhibited
 	}
 
-	// Updating the timestamp
+	// Update the timestamp
 	subnet.GeoDetailsChangedAt = &currentTime
-	// Resetting the verification flag
+	// Reset the verification flag
 	subnet.TraceGeoVerified = false
-	// Resetting the last check timestamp
+	// Reset the last check timestamp
 	subnet.GeoVerifAttemptedAt = nil
-	// Updating geo details
+	// Update geo details
 	subnet.Country = msg.Country
 	subnet.Region = msg.Region
 	subnet.City = msg.City
 	subnet.PostalCode = msg.PostalCode
 
-	// Updating the subnet change timestamp
+	// Update the subnet change timestamp
 	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
 
