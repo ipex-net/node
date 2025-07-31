@@ -413,6 +413,7 @@ func TestSubnetValidationIntegration(t *testing.T) {
 			OwnerOrgId:          1001,
 			Country:             "US",
 			GeoDetailsChangedAt: &baseTime,
+			RpkiOriginValid:     true, // Required for geo validation
 			CreatedAt:           ctx.BlockTime(),
 			UpdatedAt:           ctx.BlockTime(),
 		}
@@ -702,6 +703,7 @@ func TestSubnetPerformanceAndScalability(t *testing.T) {
 			if config.hasCountry {
 				subnet.Country = "US"
 				subnet.GeoDetailsChangedAt = &baseTime
+				subnet.RpkiOriginValid = true // Required for geo validation
 			}
 
 			id := keeper.AppendSubnet(ctx, subnet)
