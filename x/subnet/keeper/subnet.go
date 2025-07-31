@@ -466,6 +466,11 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 			return false, nil
 		}
 
+		// Skip if origin invalid
+		if !subnet.RpkiOriginValid {
+			return false, nil
+		}
+
 		geoChangeAge := referenceTime.Sub(*subnet.GeoDetailsChangedAt)
 
 		// Determine required interval
