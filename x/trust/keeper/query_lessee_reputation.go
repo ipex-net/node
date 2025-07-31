@@ -14,20 +14,20 @@ import (
 // Helper function to convert LesseeReputation to LesseeReputationDisplay
 func (k Keeper) convertLesseeReputationToDisplay(value types.LesseeReputation) types.LesseeReputationDisplay {
 	display := types.LesseeReputationDisplay{
-		Index:           				value.Index,
-		Level1Count:     				value.Level1Count,
-		Level2Count:     				value.Level2Count,
-		Level3Count:     				value.Level3Count,
-		Level4Count:     				value.Level4Count,
-		LastUpdated:     				value.LastUpdated,
-		AbuseResolved:   				value.AbuseResolved,
-		AbuseFailed:     				value.AbuseFailed,
-		AbuseInProgress: 				value.AbuseInProgress,
-		IpMonthsTotal:	 				value.IpMonthsTotal,
-		IpsRentedNow:	 				value.IpsRentedNow,
-		ContractsActive: 				value.ContractsActive,
-		ContractsTerminated:			value.ContractsTerminated,
-		ContractsTerminatedViolated:	value.ContractsTerminatedViolated,
+		Index:                       value.Index,
+		Level1Count:                 value.Level1Count,
+		Level2Count:                 value.Level2Count,
+		Level3Count:                 value.Level3Count,
+		Level4Count:                 value.Level4Count,
+		LastUpdated:                 value.LastUpdated,
+		AbuseResolved:               value.AbuseResolved,
+		AbuseFailed:                 value.AbuseFailed,
+		AbuseInProgress:             value.AbuseInProgress,
+		IpMonthsTotal:               value.IpMonthsTotal,
+		IpsRentedNow:                value.IpsRentedNow,
+		ContractsActive:             value.ContractsActive,
+		ContractsTerminated:         value.ContractsTerminated,
+		ContractsTerminatedViolated: value.ContractsTerminatedViolated,
 	}
 
 	// Convert map to slice, only include initialized entries

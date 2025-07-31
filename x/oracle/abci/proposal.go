@@ -230,7 +230,6 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			}
 		}
 
-
 		// Aggregate geo db validation results based on voting power
 		for subnetID, isValid := range voteExt.SubnetGeoDbValidation {
 			if isValid {
@@ -339,7 +338,6 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			geoValidationResults[subnetID] = false
 		}
 	}
-
 
 	// Build the union of all subnet IDs that appeared in geo db validation
 	allGeoDbSubnetIDs := make(map[uint64]struct{})
@@ -858,7 +856,7 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 				"is_valid", isValid)
 		}
 	}
-	
+
 	// Update the geo db validation status for each subnet
 	for subnetID, isValid := range injectedVoteExtTx.GeoDbValidationResults {
 		if err := h.subnetKeeper.UpdateSubnetGeoDbValidationStatus(ctx, subnetID, isValid); err != nil {

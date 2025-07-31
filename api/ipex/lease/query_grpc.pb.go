@@ -27,6 +27,7 @@ const (
 	Query_BidByContract_FullMethodName                   = "/ipex.lease.Query/BidByContract"
 	Query_BidByBidder_FullMethodName                     = "/ipex.lease.Query/BidByBidder"
 	Query_BidByLessor_FullMethodName                     = "/ipex.lease.Query/BidByLessor"
+	Query_MarketplaceContract_FullMethodName             = "/ipex.lease.Query/MarketplaceContract"
 )
 
 // QueryClient is the client API for Query service.
@@ -49,6 +50,8 @@ type QueryClient interface {
 	BidByBidder(ctx context.Context, in *QueryBidByBidderRequest, opts ...grpc.CallOption) (*QueryBidByBidderResponse, error)
 	// Queries a list of BidByLessor items.
 	BidByLessor(ctx context.Context, in *QueryBidByLessorRequest, opts ...grpc.CallOption) (*QueryBidByLessorResponse, error)
+	// Queries a list of MarketplaceContract items.
+	MarketplaceContract(ctx context.Context, in *QueryMarketplaceContractRequest, opts ...grpc.CallOption) (*QueryMarketplaceContractResponse, error)
 }
 
 type queryClient struct {
@@ -131,6 +134,15 @@ func (c *queryClient) BidByLessor(ctx context.Context, in *QueryBidByLessorReque
 	return out, nil
 }
 
+func (c *queryClient) MarketplaceContract(ctx context.Context, in *QueryMarketplaceContractRequest, opts ...grpc.CallOption) (*QueryMarketplaceContractResponse, error) {
+	out := new(QueryMarketplaceContractResponse)
+	err := c.cc.Invoke(ctx, Query_MarketplaceContract_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -151,6 +163,8 @@ type QueryServer interface {
 	BidByBidder(context.Context, *QueryBidByBidderRequest) (*QueryBidByBidderResponse, error)
 	// Queries a list of BidByLessor items.
 	BidByLessor(context.Context, *QueryBidByLessorRequest) (*QueryBidByLessorResponse, error)
+	// Queries a list of MarketplaceContract items.
+	MarketplaceContract(context.Context, *QueryMarketplaceContractRequest) (*QueryMarketplaceContractResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -181,6 +195,9 @@ func (UnimplementedQueryServer) BidByBidder(context.Context, *QueryBidByBidderRe
 }
 func (UnimplementedQueryServer) BidByLessor(context.Context, *QueryBidByLessorRequest) (*QueryBidByLessorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BidByLessor not implemented")
+}
+func (UnimplementedQueryServer) MarketplaceContract(context.Context, *QueryMarketplaceContractRequest) (*QueryMarketplaceContractResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MarketplaceContract not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -339,6 +356,24 @@ func _Query_BidByLessor_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_MarketplaceContract_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryMarketplaceContractRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).MarketplaceContract(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_MarketplaceContract_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).MarketplaceContract(ctx, req.(*QueryMarketplaceContractRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -377,6 +412,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BidByLessor",
 			Handler:    _Query_BidByLessor_Handler,
+		},
+		{
+			MethodName: "MarketplaceContract",
+			Handler:    _Query_MarketplaceContract_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

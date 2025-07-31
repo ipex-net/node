@@ -819,7 +819,6 @@ func (m *mockSubnetKeeperWithTracking) GetSubnetsForOwnershipVerification(ctx co
 	return []subnettypes.Subnet{}
 }
 
-
 func (m *mockSubnetKeeperWithTracking) SetSubnet(ctx context.Context, subnet subnettypes.Subnet) {}
 
 func (m *mockSubnetKeeperWithTracking) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info subnettypes.SubnetInfo) error {
@@ -996,7 +995,6 @@ func (m *mockSubnetKeeperBasic) GetSubnetsForGeoDbValidation(ctx context.Context
 func (m *mockSubnetKeeperBasic) GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
 	return []subnettypes.Subnet{}
 }
-
 
 func (m *mockSubnetKeeperBasic) SetSubnet(ctx context.Context, subnet subnettypes.Subnet) {}
 

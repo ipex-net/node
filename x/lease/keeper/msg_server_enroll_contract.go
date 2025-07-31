@@ -113,7 +113,7 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 			k.logger.Error("failed to update lessee reputation on contract activation", "error", err)
 		}
 
-		// Update lessor reputation	
+		// Update lessor reputation
 		err = k.trustKeeper.LogLessorContractActivation(ctx, contract.OwnerOrg, ipCount)
 		if err != nil {
 			k.logger.Error("failed to update lessor reputation on contract activation", "error", err)

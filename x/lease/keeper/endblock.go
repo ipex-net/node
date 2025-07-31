@@ -119,7 +119,6 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 	contract.Status = types.ContractStatus_CONTRACT_STATUS_TERMINATED
 	k.SetContract(ctx, contract)
 
-
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
 
 	// Update lessee reputation
@@ -128,13 +127,13 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 		k.logger.Error("failed to update lessee reputation on contract termination", "error", err)
 	}
 
-	// Update lessor reputation	
+	// Update lessor reputation
 	err = k.trustKeeper.LogLessorContractTermination(ctx, contract.OwnerOrg, false, ipCount)
 	if err != nil {
 		k.logger.Error("failed to update lessor reputation on contract termination", "error", err)
 	}
 
-	k.logger.Info("contract automatically terminated","contract_id", contract.Id)
+	k.logger.Info("contract automatically terminated", "contract_id", contract.Id)
 }
 
 // ProcessExpiredBids cancels and refunds all expired bids

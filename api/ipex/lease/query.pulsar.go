@@ -7523,6 +7523,1478 @@ func (x *fastReflection_QueryBidByLessorResponse) ProtoMethods() *protoiface.Met
 	}
 }
 
+var (
+	md_QueryMarketplaceContractRequest                protoreflect.MessageDescriptor
+	fd_QueryMarketplaceContractRequest_mask           protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractRequest_rir            protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractRequest_country        protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractRequest_minprice       protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractRequest_maxprice       protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractRequest_networkAddress protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractRequest_firstOctet     protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractRequest_secondOctet    protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractRequest_thirdOctet     protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractRequest_pagination     protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_lease_query_proto_init()
+	md_QueryMarketplaceContractRequest = File_ipex_lease_query_proto.Messages().ByName("QueryMarketplaceContractRequest")
+	fd_QueryMarketplaceContractRequest_mask = md_QueryMarketplaceContractRequest.Fields().ByName("mask")
+	fd_QueryMarketplaceContractRequest_rir = md_QueryMarketplaceContractRequest.Fields().ByName("rir")
+	fd_QueryMarketplaceContractRequest_country = md_QueryMarketplaceContractRequest.Fields().ByName("country")
+	fd_QueryMarketplaceContractRequest_minprice = md_QueryMarketplaceContractRequest.Fields().ByName("minprice")
+	fd_QueryMarketplaceContractRequest_maxprice = md_QueryMarketplaceContractRequest.Fields().ByName("maxprice")
+	fd_QueryMarketplaceContractRequest_networkAddress = md_QueryMarketplaceContractRequest.Fields().ByName("networkAddress")
+	fd_QueryMarketplaceContractRequest_firstOctet = md_QueryMarketplaceContractRequest.Fields().ByName("firstOctet")
+	fd_QueryMarketplaceContractRequest_secondOctet = md_QueryMarketplaceContractRequest.Fields().ByName("secondOctet")
+	fd_QueryMarketplaceContractRequest_thirdOctet = md_QueryMarketplaceContractRequest.Fields().ByName("thirdOctet")
+	fd_QueryMarketplaceContractRequest_pagination = md_QueryMarketplaceContractRequest.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryMarketplaceContractRequest)(nil)
+
+type fastReflection_QueryMarketplaceContractRequest QueryMarketplaceContractRequest
+
+func (x *QueryMarketplaceContractRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryMarketplaceContractRequest)(x)
+}
+
+func (x *QueryMarketplaceContractRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_lease_query_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryMarketplaceContractRequest_messageType fastReflection_QueryMarketplaceContractRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryMarketplaceContractRequest_messageType{}
+
+type fastReflection_QueryMarketplaceContractRequest_messageType struct{}
+
+func (x fastReflection_QueryMarketplaceContractRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryMarketplaceContractRequest)(nil)
+}
+func (x fastReflection_QueryMarketplaceContractRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryMarketplaceContractRequest)
+}
+func (x fastReflection_QueryMarketplaceContractRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryMarketplaceContractRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryMarketplaceContractRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryMarketplaceContractRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryMarketplaceContractRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryMarketplaceContractRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryMarketplaceContractRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryMarketplaceContractRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryMarketplaceContractRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryMarketplaceContractRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryMarketplaceContractRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Mask != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Mask)
+		if !f(fd_QueryMarketplaceContractRequest_mask, value) {
+			return
+		}
+	}
+	if x.Rir != "" {
+		value := protoreflect.ValueOfString(x.Rir)
+		if !f(fd_QueryMarketplaceContractRequest_rir, value) {
+			return
+		}
+	}
+	if x.Country != "" {
+		value := protoreflect.ValueOfString(x.Country)
+		if !f(fd_QueryMarketplaceContractRequest_country, value) {
+			return
+		}
+	}
+	if x.Minprice != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Minprice)
+		if !f(fd_QueryMarketplaceContractRequest_minprice, value) {
+			return
+		}
+	}
+	if x.Maxprice != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Maxprice)
+		if !f(fd_QueryMarketplaceContractRequest_maxprice, value) {
+			return
+		}
+	}
+	if x.NetworkAddress != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.NetworkAddress)
+		if !f(fd_QueryMarketplaceContractRequest_networkAddress, value) {
+			return
+		}
+	}
+	if x.FirstOctet != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.FirstOctet)
+		if !f(fd_QueryMarketplaceContractRequest_firstOctet, value) {
+			return
+		}
+	}
+	if x.SecondOctet != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.SecondOctet)
+		if !f(fd_QueryMarketplaceContractRequest_secondOctet, value) {
+			return
+		}
+	}
+	if x.ThirdOctet != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ThirdOctet)
+		if !f(fd_QueryMarketplaceContractRequest_thirdOctet, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryMarketplaceContractRequest_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryMarketplaceContractRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractRequest.mask":
+		return x.Mask != uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.rir":
+		return x.Rir != ""
+	case "ipex.lease.QueryMarketplaceContractRequest.country":
+		return x.Country != ""
+	case "ipex.lease.QueryMarketplaceContractRequest.minprice":
+		return x.Minprice != uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.maxprice":
+		return x.Maxprice != uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.networkAddress":
+		return x.NetworkAddress != uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.firstOctet":
+		return x.FirstOctet != uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.secondOctet":
+		return x.SecondOctet != uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.thirdOctet":
+		return x.ThirdOctet != uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryMarketplaceContractRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractRequest.mask":
+		x.Mask = uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.rir":
+		x.Rir = ""
+	case "ipex.lease.QueryMarketplaceContractRequest.country":
+		x.Country = ""
+	case "ipex.lease.QueryMarketplaceContractRequest.minprice":
+		x.Minprice = uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.maxprice":
+		x.Maxprice = uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.networkAddress":
+		x.NetworkAddress = uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.firstOctet":
+		x.FirstOctet = uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.secondOctet":
+		x.SecondOctet = uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.thirdOctet":
+		x.ThirdOctet = uint64(0)
+	case "ipex.lease.QueryMarketplaceContractRequest.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryMarketplaceContractRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.lease.QueryMarketplaceContractRequest.mask":
+		value := x.Mask
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryMarketplaceContractRequest.rir":
+		value := x.Rir
+		return protoreflect.ValueOfString(value)
+	case "ipex.lease.QueryMarketplaceContractRequest.country":
+		value := x.Country
+		return protoreflect.ValueOfString(value)
+	case "ipex.lease.QueryMarketplaceContractRequest.minprice":
+		value := x.Minprice
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryMarketplaceContractRequest.maxprice":
+		value := x.Maxprice
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryMarketplaceContractRequest.networkAddress":
+		value := x.NetworkAddress
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryMarketplaceContractRequest.firstOctet":
+		value := x.FirstOctet
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryMarketplaceContractRequest.secondOctet":
+		value := x.SecondOctet
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryMarketplaceContractRequest.thirdOctet":
+		value := x.ThirdOctet
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryMarketplaceContractRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryMarketplaceContractRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractRequest.mask":
+		x.Mask = value.Uint()
+	case "ipex.lease.QueryMarketplaceContractRequest.rir":
+		x.Rir = value.Interface().(string)
+	case "ipex.lease.QueryMarketplaceContractRequest.country":
+		x.Country = value.Interface().(string)
+	case "ipex.lease.QueryMarketplaceContractRequest.minprice":
+		x.Minprice = value.Uint()
+	case "ipex.lease.QueryMarketplaceContractRequest.maxprice":
+		x.Maxprice = value.Uint()
+	case "ipex.lease.QueryMarketplaceContractRequest.networkAddress":
+		x.NetworkAddress = value.Uint()
+	case "ipex.lease.QueryMarketplaceContractRequest.firstOctet":
+		x.FirstOctet = value.Uint()
+	case "ipex.lease.QueryMarketplaceContractRequest.secondOctet":
+		x.SecondOctet = value.Uint()
+	case "ipex.lease.QueryMarketplaceContractRequest.thirdOctet":
+		x.ThirdOctet = value.Uint()
+	case "ipex.lease.QueryMarketplaceContractRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryMarketplaceContractRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	case "ipex.lease.QueryMarketplaceContractRequest.mask":
+		panic(fmt.Errorf("field mask of message ipex.lease.QueryMarketplaceContractRequest is not mutable"))
+	case "ipex.lease.QueryMarketplaceContractRequest.rir":
+		panic(fmt.Errorf("field rir of message ipex.lease.QueryMarketplaceContractRequest is not mutable"))
+	case "ipex.lease.QueryMarketplaceContractRequest.country":
+		panic(fmt.Errorf("field country of message ipex.lease.QueryMarketplaceContractRequest is not mutable"))
+	case "ipex.lease.QueryMarketplaceContractRequest.minprice":
+		panic(fmt.Errorf("field minprice of message ipex.lease.QueryMarketplaceContractRequest is not mutable"))
+	case "ipex.lease.QueryMarketplaceContractRequest.maxprice":
+		panic(fmt.Errorf("field maxprice of message ipex.lease.QueryMarketplaceContractRequest is not mutable"))
+	case "ipex.lease.QueryMarketplaceContractRequest.networkAddress":
+		panic(fmt.Errorf("field networkAddress of message ipex.lease.QueryMarketplaceContractRequest is not mutable"))
+	case "ipex.lease.QueryMarketplaceContractRequest.firstOctet":
+		panic(fmt.Errorf("field firstOctet of message ipex.lease.QueryMarketplaceContractRequest is not mutable"))
+	case "ipex.lease.QueryMarketplaceContractRequest.secondOctet":
+		panic(fmt.Errorf("field secondOctet of message ipex.lease.QueryMarketplaceContractRequest is not mutable"))
+	case "ipex.lease.QueryMarketplaceContractRequest.thirdOctet":
+		panic(fmt.Errorf("field thirdOctet of message ipex.lease.QueryMarketplaceContractRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryMarketplaceContractRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractRequest.mask":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryMarketplaceContractRequest.rir":
+		return protoreflect.ValueOfString("")
+	case "ipex.lease.QueryMarketplaceContractRequest.country":
+		return protoreflect.ValueOfString("")
+	case "ipex.lease.QueryMarketplaceContractRequest.minprice":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryMarketplaceContractRequest.maxprice":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryMarketplaceContractRequest.networkAddress":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryMarketplaceContractRequest.firstOctet":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryMarketplaceContractRequest.secondOctet":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryMarketplaceContractRequest.thirdOctet":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryMarketplaceContractRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryMarketplaceContractRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.lease.QueryMarketplaceContractRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryMarketplaceContractRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryMarketplaceContractRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryMarketplaceContractRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryMarketplaceContractRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryMarketplaceContractRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.Mask != 0 {
+			n += 1 + runtime.Sov(uint64(x.Mask))
+		}
+		l = len(x.Rir)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.Country)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.Minprice != 0 {
+			n += 1 + runtime.Sov(uint64(x.Minprice))
+		}
+		if x.Maxprice != 0 {
+			n += 1 + runtime.Sov(uint64(x.Maxprice))
+		}
+		if x.NetworkAddress != 0 {
+			n += 1 + runtime.Sov(uint64(x.NetworkAddress))
+		}
+		if x.FirstOctet != 0 {
+			n += 1 + runtime.Sov(uint64(x.FirstOctet))
+		}
+		if x.SecondOctet != 0 {
+			n += 1 + runtime.Sov(uint64(x.SecondOctet))
+		}
+		if x.ThirdOctet != 0 {
+			n += 1 + runtime.Sov(uint64(x.ThirdOctet))
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryMarketplaceContractRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x52
+		}
+		if x.ThirdOctet != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ThirdOctet))
+			i--
+			dAtA[i] = 0x48
+		}
+		if x.SecondOctet != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.SecondOctet))
+			i--
+			dAtA[i] = 0x40
+		}
+		if x.FirstOctet != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.FirstOctet))
+			i--
+			dAtA[i] = 0x38
+		}
+		if x.NetworkAddress != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.NetworkAddress))
+			i--
+			dAtA[i] = 0x30
+		}
+		if x.Maxprice != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Maxprice))
+			i--
+			dAtA[i] = 0x28
+		}
+		if x.Minprice != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Minprice))
+			i--
+			dAtA[i] = 0x20
+		}
+		if len(x.Country) > 0 {
+			i -= len(x.Country)
+			copy(dAtA[i:], x.Country)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Country)))
+			i--
+			dAtA[i] = 0x1a
+		}
+		if len(x.Rir) > 0 {
+			i -= len(x.Rir)
+			copy(dAtA[i:], x.Rir)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Rir)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if x.Mask != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Mask))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryMarketplaceContractRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryMarketplaceContractRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryMarketplaceContractRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Mask", wireType)
+				}
+				x.Mask = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Mask |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Rir", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Rir = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 3:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Country", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Country = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 4:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Minprice", wireType)
+				}
+				x.Minprice = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Minprice |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 5:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Maxprice", wireType)
+				}
+				x.Maxprice = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Maxprice |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 6:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NetworkAddress", wireType)
+				}
+				x.NetworkAddress = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.NetworkAddress |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 7:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field FirstOctet", wireType)
+				}
+				x.FirstOctet = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.FirstOctet |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 8:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SecondOctet", wireType)
+				}
+				x.SecondOctet = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.SecondOctet |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 9:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ThirdOctet", wireType)
+				}
+				x.ThirdOctet = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ThirdOctet |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 10:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var _ protoreflect.List = (*_QueryMarketplaceContractResponse_1_list)(nil)
+
+type _QueryMarketplaceContractResponse_1_list struct {
+	list *[]*Contract
+}
+
+func (x *_QueryMarketplaceContractResponse_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_QueryMarketplaceContractResponse_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_QueryMarketplaceContractResponse_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Contract)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_QueryMarketplaceContractResponse_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Contract)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_QueryMarketplaceContractResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(Contract)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryMarketplaceContractResponse_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_QueryMarketplaceContractResponse_1_list) NewElement() protoreflect.Value {
+	v := new(Contract)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryMarketplaceContractResponse_1_list) IsValid() bool {
+	return x.list != nil
+}
+
+var (
+	md_QueryMarketplaceContractResponse            protoreflect.MessageDescriptor
+	fd_QueryMarketplaceContractResponse_contract   protoreflect.FieldDescriptor
+	fd_QueryMarketplaceContractResponse_pagination protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_lease_query_proto_init()
+	md_QueryMarketplaceContractResponse = File_ipex_lease_query_proto.Messages().ByName("QueryMarketplaceContractResponse")
+	fd_QueryMarketplaceContractResponse_contract = md_QueryMarketplaceContractResponse.Fields().ByName("contract")
+	fd_QueryMarketplaceContractResponse_pagination = md_QueryMarketplaceContractResponse.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryMarketplaceContractResponse)(nil)
+
+type fastReflection_QueryMarketplaceContractResponse QueryMarketplaceContractResponse
+
+func (x *QueryMarketplaceContractResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryMarketplaceContractResponse)(x)
+}
+
+func (x *QueryMarketplaceContractResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_lease_query_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryMarketplaceContractResponse_messageType fastReflection_QueryMarketplaceContractResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryMarketplaceContractResponse_messageType{}
+
+type fastReflection_QueryMarketplaceContractResponse_messageType struct{}
+
+func (x fastReflection_QueryMarketplaceContractResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryMarketplaceContractResponse)(nil)
+}
+func (x fastReflection_QueryMarketplaceContractResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryMarketplaceContractResponse)
+}
+func (x fastReflection_QueryMarketplaceContractResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryMarketplaceContractResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryMarketplaceContractResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryMarketplaceContractResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryMarketplaceContractResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryMarketplaceContractResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryMarketplaceContractResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryMarketplaceContractResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryMarketplaceContractResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryMarketplaceContractResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryMarketplaceContractResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.Contract) != 0 {
+		value := protoreflect.ValueOfList(&_QueryMarketplaceContractResponse_1_list{list: &x.Contract})
+		if !f(fd_QueryMarketplaceContractResponse_contract, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryMarketplaceContractResponse_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryMarketplaceContractResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractResponse.contract":
+		return len(x.Contract) != 0
+	case "ipex.lease.QueryMarketplaceContractResponse.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryMarketplaceContractResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractResponse.contract":
+		x.Contract = nil
+	case "ipex.lease.QueryMarketplaceContractResponse.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryMarketplaceContractResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.lease.QueryMarketplaceContractResponse.contract":
+		if len(x.Contract) == 0 {
+			return protoreflect.ValueOfList(&_QueryMarketplaceContractResponse_1_list{})
+		}
+		listValue := &_QueryMarketplaceContractResponse_1_list{list: &x.Contract}
+		return protoreflect.ValueOfList(listValue)
+	case "ipex.lease.QueryMarketplaceContractResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryMarketplaceContractResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractResponse.contract":
+		lv := value.List()
+		clv := lv.(*_QueryMarketplaceContractResponse_1_list)
+		x.Contract = *clv.list
+	case "ipex.lease.QueryMarketplaceContractResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryMarketplaceContractResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractResponse.contract":
+		if x.Contract == nil {
+			x.Contract = []*Contract{}
+		}
+		value := &_QueryMarketplaceContractResponse_1_list{list: &x.Contract}
+		return protoreflect.ValueOfList(value)
+	case "ipex.lease.QueryMarketplaceContractResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryMarketplaceContractResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.QueryMarketplaceContractResponse.contract":
+		list := []*Contract{}
+		return protoreflect.ValueOfList(&_QueryMarketplaceContractResponse_1_list{list: &list})
+	case "ipex.lease.QueryMarketplaceContractResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryMarketplaceContractResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryMarketplaceContractResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryMarketplaceContractResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.lease.QueryMarketplaceContractResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryMarketplaceContractResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryMarketplaceContractResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryMarketplaceContractResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryMarketplaceContractResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryMarketplaceContractResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if len(x.Contract) > 0 {
+			for _, e := range x.Contract {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryMarketplaceContractResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.Contract) > 0 {
+			for iNdEx := len(x.Contract) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Contract[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0xa
+			}
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryMarketplaceContractResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryMarketplaceContractResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryMarketplaceContractResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Contract", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Contract = append(x.Contract, &Contract{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Contract[len(x.Contract)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -8154,6 +9626,156 @@ func (x *QueryBidByLessorResponse) GetPagination() *v1beta1.PageResponse {
 	return nil
 }
 
+type QueryMarketplaceContractRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Mask           uint64               `protobuf:"varint,1,opt,name=mask,proto3" json:"mask,omitempty"`
+	Rir            string               `protobuf:"bytes,2,opt,name=rir,proto3" json:"rir,omitempty"`
+	Country        string               `protobuf:"bytes,3,opt,name=country,proto3" json:"country,omitempty"`
+	Minprice       uint64               `protobuf:"varint,4,opt,name=minprice,proto3" json:"minprice,omitempty"`
+	Maxprice       uint64               `protobuf:"varint,5,opt,name=maxprice,proto3" json:"maxprice,omitempty"`
+	NetworkAddress uint64               `protobuf:"varint,6,opt,name=networkAddress,proto3" json:"networkAddress,omitempty"`
+	FirstOctet     uint64               `protobuf:"varint,7,opt,name=firstOctet,proto3" json:"firstOctet,omitempty"`
+	SecondOctet    uint64               `protobuf:"varint,8,opt,name=secondOctet,proto3" json:"secondOctet,omitempty"`
+	ThirdOctet     uint64               `protobuf:"varint,9,opt,name=thirdOctet,proto3" json:"thirdOctet,omitempty"`
+	Pagination     *v1beta1.PageRequest `protobuf:"bytes,10,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QueryMarketplaceContractRequest) Reset() {
+	*x = QueryMarketplaceContractRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_lease_query_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryMarketplaceContractRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryMarketplaceContractRequest) ProtoMessage() {}
+
+// Deprecated: Use QueryMarketplaceContractRequest.ProtoReflect.Descriptor instead.
+func (*QueryMarketplaceContractRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_lease_query_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *QueryMarketplaceContractRequest) GetMask() uint64 {
+	if x != nil {
+		return x.Mask
+	}
+	return 0
+}
+
+func (x *QueryMarketplaceContractRequest) GetRir() string {
+	if x != nil {
+		return x.Rir
+	}
+	return ""
+}
+
+func (x *QueryMarketplaceContractRequest) GetCountry() string {
+	if x != nil {
+		return x.Country
+	}
+	return ""
+}
+
+func (x *QueryMarketplaceContractRequest) GetMinprice() uint64 {
+	if x != nil {
+		return x.Minprice
+	}
+	return 0
+}
+
+func (x *QueryMarketplaceContractRequest) GetMaxprice() uint64 {
+	if x != nil {
+		return x.Maxprice
+	}
+	return 0
+}
+
+func (x *QueryMarketplaceContractRequest) GetNetworkAddress() uint64 {
+	if x != nil {
+		return x.NetworkAddress
+	}
+	return 0
+}
+
+func (x *QueryMarketplaceContractRequest) GetFirstOctet() uint64 {
+	if x != nil {
+		return x.FirstOctet
+	}
+	return 0
+}
+
+func (x *QueryMarketplaceContractRequest) GetSecondOctet() uint64 {
+	if x != nil {
+		return x.SecondOctet
+	}
+	return 0
+}
+
+func (x *QueryMarketplaceContractRequest) GetThirdOctet() uint64 {
+	if x != nil {
+		return x.ThirdOctet
+	}
+	return 0
+}
+
+func (x *QueryMarketplaceContractRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type QueryMarketplaceContractResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Contract   []*Contract           `protobuf:"bytes,1,rep,name=contract,proto3" json:"contract,omitempty"`
+	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QueryMarketplaceContractResponse) Reset() {
+	*x = QueryMarketplaceContractResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_lease_query_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryMarketplaceContractResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryMarketplaceContractResponse) ProtoMessage() {}
+
+// Deprecated: Use QueryMarketplaceContractResponse.ProtoReflect.Descriptor instead.
+func (*QueryMarketplaceContractResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_lease_query_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *QueryMarketplaceContractResponse) GetContract() []*Contract {
+	if x != nil {
+		return x.Contract
+	}
+	return nil
+}
+
+func (x *QueryMarketplaceContractResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 var File_ipex_lease_query_proto protoreflect.FileDescriptor
 
 var file_ipex_lease_query_proto_rawDesc = []byte{
@@ -8273,89 +9895,139 @@ var file_ipex_lease_query_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61,
 	0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
 	0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70,
-	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0x91, 0x09, 0x0a, 0x05, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x12, 0x68, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1f, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20,
-	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x86, 0x01,
-	0x0a, 0x0c, 0x53, 0x68, 0x6f, 0x77, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x25,
-	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65,
-	0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x43, 0x6f, 0x6e,
-	0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12, 0x1f, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65,
-	0x61, 0x73, 0x65, 0x2f, 0x73, 0x68, 0x6f, 0x77, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
-	0x74, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x81, 0x01, 0x0a, 0x0c, 0x4c, 0x69, 0x73, 0x74, 0x43,
-	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
-	0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x43,
-	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26,
-	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x12, 0x1a,
-	0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x73,
-	0x74, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x7d, 0x0a, 0x03, 0x42, 0x69,
-	0x64, 0x12, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x69, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x20, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x69, 0x64, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x33, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2d, 0x12, 0x2b, 0x2f, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69, 0x64, 0x2f, 0x7b,
-	0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x7d, 0x2f, 0x7b, 0x62, 0x69, 0x64,
-	0x64, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0xdd, 0x01, 0x0a, 0x1f, 0x43, 0x61,
-	0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x57,
-	0x69, 0x74, 0x68, 0x6f, 0x75, 0x74, 0x50, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x12, 0x38, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x43, 0x61, 0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x4c, 0x65, 0x61,
-	0x73, 0x65, 0x57, 0x69, 0x74, 0x68, 0x6f, 0x75, 0x74, 0x50, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x39, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
-	0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x61, 0x6e, 0x54, 0x65,
-	0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x57, 0x69, 0x74, 0x68,
-	0x6f, 0x75, 0x74, 0x50, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x45, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x3f, 0x12, 0x3d, 0x2f, 0x69, 0x70, 0x64,
-	0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x63, 0x61, 0x6e, 0x5f, 0x74, 0x65, 0x72,
-	0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x5f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x5f, 0x77, 0x69, 0x74,
-	0x68, 0x6f, 0x75, 0x74, 0x5f, 0x70, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x2f, 0x7b, 0x63, 0x6f,
-	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x7d, 0x12, 0x93, 0x01, 0x0a, 0x0d, 0x42, 0x69,
-	0x64, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x26, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42,
-	0x69, 0x64, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73,
-	0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x74,
-	0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x31, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x2b, 0x12, 0x29, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x2f, 0x62, 0x69, 0x64, 0x5f, 0x62, 0x79, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61,
-	0x63, 0x74, 0x2f, 0x7b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x7d, 0x12,
-	0x8c, 0x01, 0x0a, 0x0b, 0x42, 0x69, 0x64, 0x42, 0x79, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x12,
-	0x24, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65,
-	0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x42, 0x69,
-	0x64, 0x64, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x2f, 0x62, 0x69, 0x64, 0x5f, 0x62, 0x79, 0x5f, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72,
-	0x2f, 0x7b, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0x8c,
-	0x01, 0x0a, 0x0b, 0x42, 0x69, 0x64, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x12, 0x24,
-	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x4c, 0x65, 0x73,
-	0x73, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73,
-	0x65, 0x2f, 0x62, 0x69, 0x64, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x2f,
-	0x7b, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x42, 0x81, 0x01,
-	0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73,
-	0x65, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x15, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0xa2, 0x02, 0x03, 0x49, 0x4c, 0x58, 0xaa, 0x02, 0x0b, 0x49,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64,
-	0x65, 0x78, 0x5c, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78,
-	0x5c, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x4c, 0x65, 0x61, 0x73,
-	0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xeb, 0x02, 0x0a, 0x1f, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a,
+	0x04, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x04, 0x6d, 0x61, 0x73,
+	0x6b, 0x12, 0x10, 0x0a, 0x03, 0x72, 0x69, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03,
+	0x72, 0x69, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x1a, 0x0a,
+	0x08, 0x6d, 0x69, 0x6e, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x08, 0x6d, 0x69, 0x6e, 0x70, 0x72, 0x69, 0x63, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x6d, 0x61, 0x78,
+	0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x6d, 0x61, 0x78,
+	0x70, 0x72, 0x69, 0x63, 0x65, 0x12, 0x26, 0x0a, 0x0e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0e, 0x6e,
+	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x1e, 0x0a,
+	0x0a, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28,
+	0x04, 0x52, 0x0a, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x12, 0x20, 0x0a,
+	0x0b, 0x73, 0x65, 0x63, 0x6f, 0x6e, 0x64, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x18, 0x08, 0x20, 0x01,
+	0x28, 0x04, 0x52, 0x0b, 0x73, 0x65, 0x63, 0x6f, 0x6e, 0x64, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x12,
+	0x1e, 0x0a, 0x0a, 0x74, 0x68, 0x69, 0x72, 0x64, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x18, 0x09, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x0a, 0x74, 0x68, 0x69, 0x72, 0x64, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x12,
+	0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0a, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73,
+	0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e,
+	0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67,
+	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xa4, 0x01, 0x0a, 0x20, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x37, 0x0a, 0x08,
+	0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x15,
+	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x43, 0x6f, 0x6e,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x08, 0x63, 0x6f, 0x6e,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d,
+	0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31,
+	0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0x9a,
+	0x0b, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x68, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61,
+	0x6d, 0x73, 0x12, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12, 0x13, 0x2f,
+	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x70, 0x61, 0x72, 0x61,
+	0x6d, 0x73, 0x12, 0x86, 0x01, 0x0a, 0x0c, 0x53, 0x68, 0x6f, 0x77, 0x43, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x12, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x43, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68,
+	0x6f, 0x77, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12, 0x1f, 0x2f, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x73, 0x68, 0x6f, 0x77, 0x5f, 0x63, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x81, 0x01, 0x0a, 0x0c,
+	0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x25, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12,
+	0x7d, 0x0a, 0x03, 0x42, 0x69, 0x64, 0x12, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c,
+	0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x69, 0x64,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
+	0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x69,
+	0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x33, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x2d, 0x12, 0x2b, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f,
+	0x62, 0x69, 0x64, 0x2f, 0x7b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x7d,
+	0x2f, 0x7b, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0xdd,
+	0x01, 0x0a, 0x1f, 0x43, 0x61, 0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x4c,
+	0x65, 0x61, 0x73, 0x65, 0x57, 0x69, 0x74, 0x68, 0x6f, 0x75, 0x74, 0x50, 0x65, 0x6e, 0x61, 0x6c,
+	0x74, 0x79, 0x12, 0x38, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x61, 0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61,
+	0x74, 0x65, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x57, 0x69, 0x74, 0x68, 0x6f, 0x75, 0x74, 0x50, 0x65,
+	0x6e, 0x61, 0x6c, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x39, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x43, 0x61, 0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x4c, 0x65, 0x61, 0x73,
+	0x65, 0x57, 0x69, 0x74, 0x68, 0x6f, 0x75, 0x74, 0x50, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x45, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x3f, 0x12,
+	0x3d, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x63, 0x61,
+	0x6e, 0x5f, 0x74, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x5f, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x5f, 0x77, 0x69, 0x74, 0x68, 0x6f, 0x75, 0x74, 0x5f, 0x70, 0x65, 0x6e, 0x61, 0x6c, 0x74,
+	0x79, 0x2f, 0x7b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x7d, 0x12, 0x93,
+	0x01, 0x0a, 0x0d, 0x42, 0x69, 0x64, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x12, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42,
+	0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x31, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2b, 0x12, 0x29, 0x2f, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69, 0x64, 0x5f, 0x62, 0x79, 0x5f, 0x63,
+	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x2f, 0x7b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
+	0x74, 0x49, 0x64, 0x7d, 0x12, 0x8c, 0x01, 0x0a, 0x0b, 0x42, 0x69, 0x64, 0x42, 0x79, 0x42, 0x69,
+	0x64, 0x64, 0x65, 0x72, 0x12, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61,
+	0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x42, 0x69, 0x64,
+	0x64, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69,
+	0x64, 0x42, 0x79, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69, 0x64, 0x5f, 0x62, 0x79, 0x5f, 0x62,
+	0x69, 0x64, 0x64, 0x65, 0x72, 0x2f, 0x7b, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72, 0x4f, 0x72, 0x67,
+	0x49, 0x64, 0x7d, 0x12, 0x8c, 0x01, 0x0a, 0x0b, 0x42, 0x69, 0x64, 0x42, 0x79, 0x4c, 0x65, 0x73,
+	0x73, 0x6f, 0x72, 0x12, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73,
+	0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64,
+	0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69, 0x64, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65,
+	0x73, 0x73, 0x6f, 0x72, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x4f, 0x72, 0x67, 0x49,
+	0x64, 0x7d, 0x12, 0x86, 0x02, 0x0a, 0x13, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61,
+	0x63, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x61,
+	0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x61, 0x72, 0x6b,
+	0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x91, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x8a,
+	0x01, 0x12, 0x87, 0x01, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65,
+	0x2f, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x5f, 0x63, 0x6f, 0x6e,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x2f, 0x7b, 0x6d, 0x61, 0x73, 0x6b, 0x7d, 0x2f, 0x7b, 0x72, 0x69,
+	0x72, 0x7d, 0x2f, 0x7b, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x7d, 0x2f, 0x7b, 0x6d, 0x69,
+	0x6e, 0x70, 0x72, 0x69, 0x63, 0x65, 0x7d, 0x2f, 0x7b, 0x6d, 0x61, 0x78, 0x70, 0x72, 0x69, 0x63,
+	0x65, 0x7d, 0x2f, 0x7b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x7d, 0x2f, 0x7b, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x7d,
+	0x2f, 0x7b, 0x73, 0x65, 0x63, 0x6f, 0x6e, 0x64, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x7d, 0x2f, 0x7b,
+	0x74, 0x68, 0x69, 0x72, 0x64, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x7d, 0x42, 0x81, 0x01, 0x0a, 0x0f,
+	0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x42,
+	0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x15, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c,
+	0x65, 0x61, 0x73, 0x65, 0xa2, 0x02, 0x03, 0x49, 0x4c, 0x58, 0xaa, 0x02, 0x0b, 0x49, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xca, 0x02, 0x0b, 0x49, 0x70, 0x64, 0x65, 0x78,
+	0x5c, 0x4c, 0x65, 0x61, 0x73, 0x65, 0xe2, 0x02, 0x17, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x4c,
+	0x65, 0x61, 0x73, 0x65, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
+	0xea, 0x02, 0x0c, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -8370,7 +10042,7 @@ func file_ipex_lease_query_proto_rawDescGZIP() []byte {
 	return file_ipex_lease_query_proto_rawDescData
 }
 
-var file_ipex_lease_query_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_ipex_lease_query_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_ipex_lease_query_proto_goTypes = []interface{}{
 	(*QueryParamsRequest)(nil),                           // 0: ipex.lease.QueryParamsRequest
 	(*QueryParamsResponse)(nil),                          // 1: ipex.lease.QueryParamsResponse
@@ -8388,49 +10060,56 @@ var file_ipex_lease_query_proto_goTypes = []interface{}{
 	(*QueryBidByBidderResponse)(nil),                     // 13: ipex.lease.QueryBidByBidderResponse
 	(*QueryBidByLessorRequest)(nil),                      // 14: ipex.lease.QueryBidByLessorRequest
 	(*QueryBidByLessorResponse)(nil),                     // 15: ipex.lease.QueryBidByLessorResponse
-	(*Params)(nil),                                       // 16: ipex.lease.Params
-	(*Contract)(nil),                                     // 17: ipex.lease.Contract
-	(*v1beta1.PageRequest)(nil),                          // 18: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),                         // 19: cosmos.base.query.v1beta1.PageResponse
-	(*Bid)(nil),                                          // 20: ipex.lease.Bid
+	(*QueryMarketplaceContractRequest)(nil),              // 16: ipex.lease.QueryMarketplaceContractRequest
+	(*QueryMarketplaceContractResponse)(nil),             // 17: ipex.lease.QueryMarketplaceContractResponse
+	(*Params)(nil),                                       // 18: ipex.lease.Params
+	(*Contract)(nil),                                     // 19: ipex.lease.Contract
+	(*v1beta1.PageRequest)(nil),                          // 20: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),                         // 21: cosmos.base.query.v1beta1.PageResponse
+	(*Bid)(nil),                                          // 22: ipex.lease.Bid
 }
 var file_ipex_lease_query_proto_depIdxs = []int32{
-	16, // 0: ipex.lease.QueryParamsResponse.params:type_name -> ipex.lease.Params
-	17, // 1: ipex.lease.QueryShowContractResponse.contract:type_name -> ipex.lease.Contract
-	18, // 2: ipex.lease.QueryListContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	17, // 3: ipex.lease.QueryListContractResponse.contract:type_name -> ipex.lease.Contract
-	19, // 4: ipex.lease.QueryListContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	20, // 5: ipex.lease.QueryGetBidResponse.bid:type_name -> ipex.lease.Bid
-	18, // 6: ipex.lease.QueryBidByContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	20, // 7: ipex.lease.QueryBidByContractResponse.bid:type_name -> ipex.lease.Bid
-	19, // 8: ipex.lease.QueryBidByContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	18, // 9: ipex.lease.QueryBidByBidderRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	20, // 10: ipex.lease.QueryBidByBidderResponse.bid:type_name -> ipex.lease.Bid
-	19, // 11: ipex.lease.QueryBidByBidderResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	18, // 12: ipex.lease.QueryBidByLessorRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	20, // 13: ipex.lease.QueryBidByLessorResponse.bid:type_name -> ipex.lease.Bid
-	19, // 14: ipex.lease.QueryBidByLessorResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	0,  // 15: ipex.lease.Query.Params:input_type -> ipex.lease.QueryParamsRequest
-	2,  // 16: ipex.lease.Query.ShowContract:input_type -> ipex.lease.QueryShowContractRequest
-	4,  // 17: ipex.lease.Query.ListContract:input_type -> ipex.lease.QueryListContractRequest
-	6,  // 18: ipex.lease.Query.Bid:input_type -> ipex.lease.QueryGetBidRequest
-	8,  // 19: ipex.lease.Query.CanTerminateLeaseWithoutPenalty:input_type -> ipex.lease.QueryCanTerminateLeaseWithoutPenaltyRequest
-	10, // 20: ipex.lease.Query.BidByContract:input_type -> ipex.lease.QueryBidByContractRequest
-	12, // 21: ipex.lease.Query.BidByBidder:input_type -> ipex.lease.QueryBidByBidderRequest
-	14, // 22: ipex.lease.Query.BidByLessor:input_type -> ipex.lease.QueryBidByLessorRequest
-	1,  // 23: ipex.lease.Query.Params:output_type -> ipex.lease.QueryParamsResponse
-	3,  // 24: ipex.lease.Query.ShowContract:output_type -> ipex.lease.QueryShowContractResponse
-	5,  // 25: ipex.lease.Query.ListContract:output_type -> ipex.lease.QueryListContractResponse
-	7,  // 26: ipex.lease.Query.Bid:output_type -> ipex.lease.QueryGetBidResponse
-	9,  // 27: ipex.lease.Query.CanTerminateLeaseWithoutPenalty:output_type -> ipex.lease.QueryCanTerminateLeaseWithoutPenaltyResponse
-	11, // 28: ipex.lease.Query.BidByContract:output_type -> ipex.lease.QueryBidByContractResponse
-	13, // 29: ipex.lease.Query.BidByBidder:output_type -> ipex.lease.QueryBidByBidderResponse
-	15, // 30: ipex.lease.Query.BidByLessor:output_type -> ipex.lease.QueryBidByLessorResponse
-	23, // [23:31] is the sub-list for method output_type
-	15, // [15:23] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	18, // 0: ipex.lease.QueryParamsResponse.params:type_name -> ipex.lease.Params
+	19, // 1: ipex.lease.QueryShowContractResponse.contract:type_name -> ipex.lease.Contract
+	20, // 2: ipex.lease.QueryListContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	19, // 3: ipex.lease.QueryListContractResponse.contract:type_name -> ipex.lease.Contract
+	21, // 4: ipex.lease.QueryListContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	22, // 5: ipex.lease.QueryGetBidResponse.bid:type_name -> ipex.lease.Bid
+	20, // 6: ipex.lease.QueryBidByContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 7: ipex.lease.QueryBidByContractResponse.bid:type_name -> ipex.lease.Bid
+	21, // 8: ipex.lease.QueryBidByContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	20, // 9: ipex.lease.QueryBidByBidderRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 10: ipex.lease.QueryBidByBidderResponse.bid:type_name -> ipex.lease.Bid
+	21, // 11: ipex.lease.QueryBidByBidderResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	20, // 12: ipex.lease.QueryBidByLessorRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	22, // 13: ipex.lease.QueryBidByLessorResponse.bid:type_name -> ipex.lease.Bid
+	21, // 14: ipex.lease.QueryBidByLessorResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	20, // 15: ipex.lease.QueryMarketplaceContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	19, // 16: ipex.lease.QueryMarketplaceContractResponse.contract:type_name -> ipex.lease.Contract
+	21, // 17: ipex.lease.QueryMarketplaceContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	0,  // 18: ipex.lease.Query.Params:input_type -> ipex.lease.QueryParamsRequest
+	2,  // 19: ipex.lease.Query.ShowContract:input_type -> ipex.lease.QueryShowContractRequest
+	4,  // 20: ipex.lease.Query.ListContract:input_type -> ipex.lease.QueryListContractRequest
+	6,  // 21: ipex.lease.Query.Bid:input_type -> ipex.lease.QueryGetBidRequest
+	8,  // 22: ipex.lease.Query.CanTerminateLeaseWithoutPenalty:input_type -> ipex.lease.QueryCanTerminateLeaseWithoutPenaltyRequest
+	10, // 23: ipex.lease.Query.BidByContract:input_type -> ipex.lease.QueryBidByContractRequest
+	12, // 24: ipex.lease.Query.BidByBidder:input_type -> ipex.lease.QueryBidByBidderRequest
+	14, // 25: ipex.lease.Query.BidByLessor:input_type -> ipex.lease.QueryBidByLessorRequest
+	16, // 26: ipex.lease.Query.MarketplaceContract:input_type -> ipex.lease.QueryMarketplaceContractRequest
+	1,  // 27: ipex.lease.Query.Params:output_type -> ipex.lease.QueryParamsResponse
+	3,  // 28: ipex.lease.Query.ShowContract:output_type -> ipex.lease.QueryShowContractResponse
+	5,  // 29: ipex.lease.Query.ListContract:output_type -> ipex.lease.QueryListContractResponse
+	7,  // 30: ipex.lease.Query.Bid:output_type -> ipex.lease.QueryGetBidResponse
+	9,  // 31: ipex.lease.Query.CanTerminateLeaseWithoutPenalty:output_type -> ipex.lease.QueryCanTerminateLeaseWithoutPenaltyResponse
+	11, // 32: ipex.lease.Query.BidByContract:output_type -> ipex.lease.QueryBidByContractResponse
+	13, // 33: ipex.lease.Query.BidByBidder:output_type -> ipex.lease.QueryBidByBidderResponse
+	15, // 34: ipex.lease.Query.BidByLessor:output_type -> ipex.lease.QueryBidByLessorResponse
+	17, // 35: ipex.lease.Query.MarketplaceContract:output_type -> ipex.lease.QueryMarketplaceContractResponse
+	27, // [27:36] is the sub-list for method output_type
+	18, // [18:27] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_ipex_lease_query_proto_init() }
@@ -8634,6 +10313,30 @@ func file_ipex_lease_query_proto_init() {
 				return nil
 			}
 		}
+		file_ipex_lease_query_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryMarketplaceContractRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_lease_query_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryMarketplaceContractResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -8641,7 +10344,7 @@ func file_ipex_lease_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_lease_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

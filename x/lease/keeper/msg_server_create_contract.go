@@ -127,10 +127,10 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		AcceptFirstBidder:          msg.AcceptFirstBidder,
 		AllowASNDROPOriginTransfer: msg.AllowASNDROPOriginTransfer,
 		AllowUnverifiedBidders:     msg.AllowUnverifiedBidders,
-		NetworkAddress: 			subnet.NetworkAddress,
-		Mask:						subnet.Mask,
-		Rir:						subnet.Rir,
-		Country: 					subnet.Country,
+		NetworkAddress:             subnet.NetworkAddress,
+		Mask:                       subnet.Mask,
+		Rir:                        subnet.Rir,
+		Country:                    subnet.Country,
 	}
 
 	// Create contract

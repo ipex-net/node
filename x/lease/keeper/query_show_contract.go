@@ -29,6 +29,6 @@ func (k Keeper) ShowContract(goCtx context.Context, req *types.QueryShowContract
 	}
 
 	return &types.QueryShowContractResponse{
-		Contract:       contract,
+		Contract: contract,
 	}, nil
 }

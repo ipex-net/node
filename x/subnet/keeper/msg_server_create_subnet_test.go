@@ -206,7 +206,7 @@ func TestMsgServer_CreateSubnet(t *testing.T) {
 
 	t.Run("valid country codes acceptance", func(t *testing.T) {
 		validCountries := []string{"US", "CA", "GB", "DE", "FR", "JP", "AU", "BR"}
-		
+
 		for i, countryCode := range validCountries {
 			t.Run("country_"+countryCode, func(t *testing.T) {
 				msg := &types.MsgCreateSubnet{

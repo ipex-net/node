@@ -111,7 +111,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 	k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
 
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
-	
+
 	// Update lessee reputation
 	err = k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, lesseeContractViolation, ipCount)
 	if err != nil {

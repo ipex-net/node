@@ -27,17 +27,17 @@ func TestMsgServer_CreateContract(t *testing.T) {
 
 	t.Run("successful contract creation", func(t *testing.T) {
 		msg := &types.MsgCreateContract{
-			Creator:                   creator,
-			OwnerOrg:                  ownerOrg,
-			SubnetId:                  subnetId,
-			Price:                     price,
-			SafetyDeposit:             safetyDeposit,
-			RevocationPeriodMonth:     revocationPeriod,
-			L2BlacklistCountThreshold: 5,
-			GeoChangeAllowed:          true,
-			AcceptFirstBidder:         false,
+			Creator:                    creator,
+			OwnerOrg:                   ownerOrg,
+			SubnetId:                   subnetId,
+			Price:                      price,
+			SafetyDeposit:              safetyDeposit,
+			RevocationPeriodMonth:      revocationPeriod,
+			L2BlacklistCountThreshold:  5,
+			GeoChangeAllowed:           true,
+			AcceptFirstBidder:          false,
 			AllowASNDROPOriginTransfer: false,
-			AllowUnverifiedBidders:    false,
+			AllowUnverifiedBidders:     false,
 		}
 
 		resp, err := srv.CreateContract(wctx, msg)
@@ -55,7 +55,7 @@ func TestMsgServer_CreateContract(t *testing.T) {
 			require.Equal(t, price, contract.Price)
 			require.Equal(t, safetyDeposit, contract.SafetyDeposit)
 			require.Equal(t, types.ContractStatus_CONTRACT_STATUS_FORSALE, contract.Status)
-			
+
 			// Verify subnet market details are populated in contract
 			require.Equal(t, uint64(167772160), contract.NetworkAddress) // 10.0.0.0 from mock
 			require.Equal(t, uint64(24), contract.Mask)
@@ -152,17 +152,17 @@ func TestMsgServer_CreateContract(t *testing.T) {
 		for _, tc := range testCases {
 			t.Run(tc.name, func(t *testing.T) {
 				msg := &types.MsgCreateContract{
-					Creator:                   creator,
-					OwnerOrg:                  ownerOrg,
-					SubnetId:                  subnetId,
-					Price:                     price,
-					SafetyDeposit:             safetyDeposit,
-					RevocationPeriodMonth:     revocationPeriod,
-					L2BlacklistCountThreshold: 5,
-					GeoChangeAllowed:          true,
-					AcceptFirstBidder:         false,
+					Creator:                    creator,
+					OwnerOrg:                   ownerOrg,
+					SubnetId:                   subnetId,
+					Price:                      price,
+					SafetyDeposit:              safetyDeposit,
+					RevocationPeriodMonth:      revocationPeriod,
+					L2BlacklistCountThreshold:  5,
+					GeoChangeAllowed:           true,
+					AcceptFirstBidder:          false,
 					AllowASNDROPOriginTransfer: false,
-					AllowUnverifiedBidders:    false,
+					AllowUnverifiedBidders:     false,
 				}
 
 				tc.modifyMsg(msg)

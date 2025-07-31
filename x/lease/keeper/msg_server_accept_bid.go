@@ -141,9 +141,9 @@ func (k msgServer) AcceptBid(goCtx context.Context, msg *types.MsgAcceptBid) (*t
 		k.logger.Error("failed to update lessee reputation on bid acceptance", "error", err)
 	}
 
-	// Update lessor reputation	
+	// Update lessor reputation
 	err = k.trustKeeper.LogLessorContractActivation(ctx, contract.OwnerOrg, ipCount)
-		if err != nil {
+	if err != nil {
 		k.logger.Error("failed to update lessor reputation on bid acceptance", "error", err)
 	}
 

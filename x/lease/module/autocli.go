@@ -65,6 +65,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "lessorOrgId"}},
 				},
 
+				{
+					RpcMethod:      "MarketplaceContract",
+					Use:            "marketplace-contract [mask] [rir] [country] [minprice] [maxprice] [network-address] [first-octet] [second-octet] [third-octect]",
+					Short:          "Query marketplace-contract",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "mask"}, {ProtoField: "rir"}, {ProtoField: "country"}, {ProtoField: "minprice"}, {ProtoField: "maxprice"}, {ProtoField: "networkAddress"}, {ProtoField: "firstOctet"}, {ProtoField: "secondOctet"}, {ProtoField: "thirdOctect"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

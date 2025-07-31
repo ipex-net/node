@@ -521,7 +521,6 @@ func TestSubnetAuthorizationIntegration(t *testing.T) {
 		require.Equal(t, uint64(0), finalSubnet.UserOrgId, "should have user org removed")
 	})
 
-
 	t.Run("RIR Record Validation", func(t *testing.T) {
 		// Test RIR record validation check
 		isValid := keeper.IsRirRecordValid(ctx, subnetId)

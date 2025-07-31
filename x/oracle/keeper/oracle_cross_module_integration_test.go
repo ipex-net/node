@@ -599,7 +599,6 @@ func (m *mockSubnetKeeper) GetSubnetsForOwnershipVerification(ctx context.Contex
 	return []subnettypes.Subnet{}
 }
 
-
 func (m *mockSubnetKeeper) SetSubnet(ctx context.Context, subnet subnettypes.Subnet) {}
 
 func (m *mockSubnetKeeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info subnettypes.SubnetInfo) error {

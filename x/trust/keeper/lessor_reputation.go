@@ -70,7 +70,7 @@ func (k Keeper) LogLessorContractTermination(ctx context.Context, lessorId uint6
 	if lessorRep.ContractsActive > 0 {
 		lessorRep.ContractsActive--
 	}
-	// Prevent underflow for IpsLeasedNow  
+	// Prevent underflow for IpsLeasedNow
 	if lessorRep.IpsLeasedNow >= ipCount {
 		lessorRep.IpsLeasedNow = lessorRep.IpsLeasedNow - ipCount
 	} else {

@@ -85,7 +85,7 @@ func (m mockSubnetKeeperLease) GetSubnet(ctx context.Context, id uint64) (subnet
 	if !m.SubnetExists {
 		return subnettypes.Subnet{}, false
 	}
-	
+
 	// Mock subnet with configurable validation states
 	subnet := subnettypes.Subnet{
 		Id:                  id,
@@ -103,7 +103,6 @@ func (m mockSubnetKeeperLease) GetSubnet(ctx context.Context, id uint64) (subnet
 func (m mockSubnetKeeperLease) VerifySubnetOwner(ctx context.Context, subnetId uint64, user string) bool {
 	return true
 }
-
 
 func (m mockSubnetKeeperLease) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool) {
 }

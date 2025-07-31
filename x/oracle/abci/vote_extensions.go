@@ -109,7 +109,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			subnetsForGeoDbValidation = h.SubnetKeeper.GetSubnetsForGeoDbValidation(ctx, lastBlockTime)
 		}
 
-		if len(orgsToValidate) + len(subnetsToRirSync) + len(subnetsForRPKIValidation) + len(subnetsForGeoValidation) + len(subnetsForOwnershipVerification) + len(subnetsForBlacklistSync) + len(subnetsForOriginCheck) + len(subnetsForGeoDbValidation) == 0 {
+		if len(orgsToValidate)+len(subnetsToRirSync)+len(subnetsForRPKIValidation)+len(subnetsForGeoValidation)+len(subnetsForOwnershipVerification)+len(subnetsForBlacklistSync)+len(subnetsForOriginCheck)+len(subnetsForGeoDbValidation) == 0 {
 			h.logger.Info("No validations needed, returning empty vote extension", "height", req.Height)
 			// Still create a valid JSON vote extension even if empty
 			voteExt := OracleVoteExtension{
@@ -738,7 +738,7 @@ func (h *VoteExtHandler) VerifyVoteExtensionHandler() sdk.VerifyVoteExtensionHan
 				}
 			}
 		}
-		
+
 		// Check that all subnet IDs in geo validation are valid
 		if voteExt.SubnetGeoValidation != nil {
 			for subnetID := range voteExt.SubnetGeoValidation {

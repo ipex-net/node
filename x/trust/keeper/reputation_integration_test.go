@@ -134,7 +134,7 @@ func TestReputationEdgeCasesContractCounts(t *testing.T) {
 	// With underflow protection, ContractsActive should stay at 0
 	require.Equal(t, uint64(0), rep.ContractsActive, "ContractsActive should not underflow")
 
-	// Activate a contract  
+	// Activate a contract
 	err = keeper.LogLesseeContractActivation(ctx, lesseeId, ipCount)
 	require.NoError(t, err)
 
@@ -174,7 +174,7 @@ func TestReputationIPCountAccuracy(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			// Use unique lessee ID for each test
 			currentLesseeId := lesseeId + uint64(len(tc.name))
-			
+
 			keeper.InitializeLesseeReputation(ctx, currentLesseeId)
 
 			// Activate
@@ -212,7 +212,7 @@ func TestReputationFunctionParameterValidation(t *testing.T) {
 
 	// Test all functions with zero parameters
 	testFunctions := []struct {
-		name string
+		name     string
 		testFunc func() error
 	}{
 		{
@@ -221,9 +221,9 @@ func TestReputationFunctionParameterValidation(t *testing.T) {
 		},
 		{
 			"LogLesseeContractActivation zero IP count",
-			func() error { 
+			func() error {
 				keeper.InitializeLesseeReputation(ctx, 999)
-				return keeper.LogLesseeContractActivation(ctx, 999, 0) 
+				return keeper.LogLesseeContractActivation(ctx, 999, 0)
 			},
 		},
 		{
@@ -232,9 +232,9 @@ func TestReputationFunctionParameterValidation(t *testing.T) {
 		},
 		{
 			"LogLessorContractActivation zero IP count",
-			func() error { 
+			func() error {
 				keeper.InitializeLessorReputation(ctx, 998)
-				return keeper.LogLessorContractActivation(ctx, 998, 0) 
+				return keeper.LogLessorContractActivation(ctx, 998, 0)
 			},
 		},
 	}

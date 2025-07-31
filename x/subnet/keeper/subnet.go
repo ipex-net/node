@@ -372,9 +372,9 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime t
 		switch {
 		case subnet.RpkiOriginValid:
 			requiredInterval = 6 * time.Hour
-		case originTransferAge < 6 * time.Hour: 
+		case originTransferAge < 6*time.Hour:
 			requiredInterval = 1 * time.Minute
-		case originTransferAge < 24 * time.Hour:
+		case originTransferAge < 24*time.Hour:
 			requiredInterval = 5 * time.Minute
 		default:
 			requiredInterval = time.Hour
@@ -462,9 +462,9 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 
 		switch {
 		// If geo change is recent - attempt the validation every hours
-		case geoChangeAge < 72 * time.Hour:
+		case geoChangeAge < 72*time.Hour:
 			requiredInterval = 1 * time.Hour
-		case geoChangeAge < 240 * time.Hour:
+		case geoChangeAge < 240*time.Hour:
 			requiredInterval = 6 * time.Hour
 		default:
 			requiredInterval = 72 * time.Hour
@@ -541,17 +541,17 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenc
 
 		switch {
 		case subnet.OwnershipVerified:
-			requiredInterval = 72 * time.Hour 
+			requiredInterval = 72 * time.Hour
 		// Gradually decrease the verification intervals for increased subnet ages
-		case subnetAge < 24 * time.Hour: 
+		case subnetAge < 24*time.Hour:
 			requiredInterval = 1 * time.Minute
-		case subnetAge < 7 * 24 * time.Hour:
+		case subnetAge < 7*24*time.Hour:
 			requiredInterval = 15 * time.Minute
-		case subnetAge < 14 * 24 * time.Hour: 
+		case subnetAge < 14*24*time.Hour:
 			requiredInterval = 30 * time.Minute
-		case subnetAge < 30 * 24 * time.Hour: 
+		case subnetAge < 30*24*time.Hour:
 			requiredInterval = 1 * time.Hour
-		default: 
+		default:
 			requiredInterval = 72 * time.Hour
 		}
 
@@ -793,16 +793,15 @@ func (k Keeper) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime 
 			return false, nil
 		}
 
-
 		geoChangeAge := referenceTime.Sub(*subnet.GeoDetailsChangedAt)
 
 		// Determine required interval
 		var requiredInterval time.Duration
 
 		switch {
-		case geoChangeAge < 72 * time.Hour:
+		case geoChangeAge < 72*time.Hour:
 			requiredInterval = 5 * time.Minute
-		case geoChangeAge < 240 * time.Hour:
+		case geoChangeAge < 240*time.Hour:
 			requiredInterval = 6 * time.Hour
 		default:
 			requiredInterval = 72 * time.Hour
@@ -832,7 +831,7 @@ func (k Keeper) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime 
 	return
 }
 
-// UpdateSubnetDbGeoValidationStatus updates the subnet Geo DB validation status 
+// UpdateSubnetDbGeoValidationStatus updates the subnet Geo DB validation status
 func (k Keeper) UpdateSubnetGeoDbValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
 	// Get the subnet
 	subnet, found := k.GetSubnet(ctx, subnetID)
