@@ -45,6 +45,8 @@ type SubnetKeeper interface {
 	ClearSubnetOriginCheckPending(ctx context.Context, subnetId uint64) error
 	GetOriginCheckPendingSubnets(ctx context.Context, limit int) []uint64
 	FlagUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) error
+	GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime time.Time) (list []subnettypes.Subnet)
+	UpdateSubnetGeoDbValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error
 }
 
 // LeaseKeeper defines the expected interface for the lease module.

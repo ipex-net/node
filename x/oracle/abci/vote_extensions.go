@@ -79,6 +79,7 @@ type OracleVoteExtension struct {
 	SubnetOwnerValidation map[uint64]bool
 	SubnetBlacklistSync   map[uint64]trusttypes.SubnetBlacklistCount
 	SubnetOriginCheck     map[uint64]bool
+	SubnetGeoDbValidation map[uint64]bool
 }
 
 func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
@@ -86,16 +87,17 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 
 		var subnetsForBlacklistSync, subnetsForOriginCheck []uint64
 		var orgsToValidate []orgtypes.Org
-		var subnetsToRirSync, subnetsForRPKIValidation, subnetsForGeoValidation, subnetsForOwnershipVerification []subnettypes.Subnet
+		var subnetsToRirSync, subnetsForRPKIValidation, subnetsForGeoValidation, subnetsForOwnershipVerification, subnetsForGeoDbValidation []subnettypes.Subnet
 
 		// Get the last block time from oracle keeper
 		lastBlockTime, found := h.OracleKeeper.GetLastBlockTime(ctx)
+
 		// Get the data for validation
 		if !found {
 			h.logger.Error("No block time available for vote extension")
 			subnetsForBlacklistSync, subnetsForOriginCheck = []uint64{}, []uint64{}
 			orgsToValidate = []orgtypes.Org{}
-			subnetsToRirSync, subnetsForRPKIValidation, subnetsForGeoValidation, subnetsForOwnershipVerification = []subnettypes.Subnet{}, []subnettypes.Subnet{}, []subnettypes.Subnet{}, []subnettypes.Subnet{}
+			subnetsToRirSync, subnetsForRPKIValidation, subnetsForGeoValidation, subnetsForOwnershipVerification, subnetsForGeoDbValidation = []subnettypes.Subnet{}, []subnettypes.Subnet{}, []subnettypes.Subnet{}, []subnettypes.Subnet{}, []subnettypes.Subnet{}
 		} else {
 			subnetsForBlacklistSync = h.TrustKeeper.GetSubnetsForReputationScanning(ctx, lastBlockTime)
 			orgsToValidate = h.OrgKeeper.GetOrgsForDomainValidation(ctx, lastBlockTime)
@@ -104,9 +106,10 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			subnetsForGeoValidation = h.SubnetKeeper.GetSubnetsForGeoValidation(ctx, lastBlockTime)
 			subnetsForOwnershipVerification = h.SubnetKeeper.GetSubnetsForOwnershipVerification(ctx, lastBlockTime)
 			subnetsForOriginCheck = h.SubnetKeeper.GetOriginCheckPendingSubnets(ctx, OriginVerificationLimit)
+			subnetsForGeoDbValidation = h.SubnetKeeper.GetSubnetsForGeoDbValidation(ctx, lastBlockTime)
 		}
 
-		if len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 && len(subnetsForGeoValidation) == 0 && len(subnetsForOwnershipVerification) == 0 && len(subnetsForBlacklistSync) == 0 && len(subnetsForOriginCheck) == 0 {
+		if len(orgsToValidate) + len(subnetsToRirSync) + len(subnetsForRPKIValidation) + len(subnetsForGeoValidation) + len(subnetsForOwnershipVerification) + len(subnetsForBlacklistSync) + len(subnetsForOriginCheck) + len(subnetsForGeoDbValidation) == 0 {
 			h.logger.Info("No validations needed, returning empty vote extension", "height", req.Height)
 			// Still create a valid JSON vote extension even if empty
 			voteExt := OracleVoteExtension{
@@ -118,6 +121,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 				SubnetOwnerValidation: make(map[uint64]bool),
 				SubnetBlacklistSync:   make(map[uint64]trusttypes.SubnetBlacklistCount),
 				SubnetOriginCheck:     make(map[uint64]bool),
+				SubnetGeoDbValidation: make(map[uint64]bool),
 			}
 			bz, err := json.Marshal(voteExt)
 			if err != nil {
@@ -135,6 +139,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			"subnets_owner_val_count", len(subnetsForOwnershipVerification),
 			"subnets_blacklist_sync_count", len(subnetsForBlacklistSync),
 			"subnets_origin_check_count", len(subnetsForOriginCheck),
+			"subnets_geo_db_count", len(subnetsForGeoDbValidation),
 		)
 		// Maps to store validation results
 		domainValidationResults := make(map[uint64]bool)
@@ -144,6 +149,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		subnetOwnershipVerifResults := make(map[uint64]bool)
 		subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount)
 		subnetOriginCheckResults := make(map[uint64]bool)
+		subnetGeoDbValidationResults := make(map[uint64]bool)
 
 		if len(orgsToValidate) > 0 {
 			h.logger.Info("performing domain validations for vote extension", "height", req.Height)
@@ -203,6 +209,11 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 		if len(subnetsForGeoValidation) > 0 && len(orgsToValidate) == 0 && len(subnetsToRirSync) == 0 && len(subnetsForRPKIValidation) == 0 {
 			h.logger.Info("performing subnet last hop geo validation for vote extension", "height", req.Height)
 			subnetGeoValidationResults = h.VerifyGeoTrace(subnetsForGeoValidation)
+		}
+
+		if len(subnetsForGeoDbValidation) > 0 {
+			h.logger.Info("performing subnet geo DB validation for vote extension", "height", req.Height)
+			subnetGeoDbValidationResults = h.VerifyGeoDb(subnetsForGeoDbValidation)
 		}
 
 		if len(subnetsForOwnershipVerification) > 0 {
@@ -340,6 +351,7 @@ func (h *VoteExtHandler) ExtendVoteHandler() sdk.ExtendVoteHandler {
 			SubnetOwnerValidation: subnetOwnershipVerifResults,
 			SubnetBlacklistSync:   subnetBlacklistSyncResults,
 			SubnetOriginCheck:     subnetOriginCheckResults,
+			SubnetGeoDbValidation: subnetGeoDbValidationResults,
 		}
 
 		// Log the results
@@ -716,6 +728,28 @@ func (h *VoteExtHandler) VerifyVoteExtensionHandler() sdk.VerifyVoteExtensionHan
 				}
 			}
 		}
+
+		// Check that all subnet IDs in geo DB validation are valid
+		if voteExt.SubnetGeoDbValidation != nil {
+			for subnetID := range voteExt.SubnetGeoDbValidation {
+				_, found := h.SubnetKeeper.GetSubnet(ctx, subnetID)
+				if !found {
+					return nil, fmt.Errorf("subnet ID %d in geo DB validation does not exist", subnetID)
+				}
+			}
+		}
+		
+		// Check that all subnet IDs in geo validation are valid
+		if voteExt.SubnetGeoValidation != nil {
+			for subnetID := range voteExt.SubnetGeoValidation {
+				// Verify the subnet exists in state
+				_, found := h.SubnetKeeper.GetSubnet(ctx, subnetID)
+				if !found {
+					return nil, fmt.Errorf("subnet ID %d in geo validation does not exist", subnetID)
+				}
+			}
+		}
+
 		// Accept the vote extension
 		return &abci.ResponseVerifyVoteExtension{Status: abci.ResponseVerifyVoteExtension_ACCEPT}, nil
 	}
@@ -1286,4 +1320,22 @@ func (h *VoteExtHandler) SyncSubnetBlacklist(subnetId uint64, cidr string) (trus
 		Level3Count: uint32(l3),
 		Level4Count: uint32(l4),
 	}, nil
+}
+
+// VerifyGeoDb verifies that country provided in subnet geolocation matches the country record in any of the IP databases
+func (h *VoteExtHandler) VerifyGeoDb(subnets []subnettypes.Subnet) map[uint64]bool {
+
+	// Initialize results map to store validation outcomes by subnet ID
+	results := make(map[uint64]bool)
+
+	// Perform validation
+	for _, subnet := range subnets {
+		if subnet.Country == "" || subnet.NetworkAddress == 0 {
+			continue
+		}
+		ip := convertDecimalIPToString(subnet.NetworkAddress + 1)
+		results[subnet.Id] = h.NetIntelService.CheckCountry(ip, subnet.Country)
+	}
+
+	return results
 }

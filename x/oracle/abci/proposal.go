@@ -27,6 +27,7 @@ type NetworkValidationResults struct {
 	SubnetOwnerValidation      map[uint64]bool
 	SubnetBlacklistSyncResults map[uint64]trusttypes.SubnetBlacklistCount
 	SubnetOriginCheckResults   map[uint64]bool
+	GeoDbValidationResults     map[uint64]bool
 	ExtendedCommitInfo         abci.ExtendedCommitInfo
 }
 
@@ -69,7 +70,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 			}
 
 			// Compute consensus on validation results (produce empty maps on error)
-			orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, subnetOriginCheckResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
+			orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, subnetOriginCheckResults, geoDbValidationResults, err := h.computeValidationResults(ctx, req.LocalLastCommit)
 			if err != nil {
 				h.logger.Error("failed to compute validation results; injecting empty maps", "err", err)
 				orgValidationResults = make(map[uint64]bool)
@@ -79,6 +80,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 				subnetOwnershipResults = make(map[uint64]bool)
 				subnetBlacklistSyncResults = make(map[uint64]trusttypes.SubnetBlacklistCount)
 				subnetOriginCheckResults = make(map[uint64]bool)
+				geoDbValidationResults = make(map[uint64]bool)
 			}
 
 			// Create the injected transaction with validation results
@@ -90,6 +92,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 				SubnetOwnerValidation:      subnetOwnershipResults,
 				SubnetBlacklistSyncResults: subnetBlacklistSyncResults,
 				SubnetOriginCheckResults:   subnetOriginCheckResults,
+				GeoDbValidationResults:     geoDbValidationResults,
 				ExtendedCommitInfo:         req.LocalLastCommit,
 			}
 
@@ -110,7 +113,7 @@ func (h *ProposalHandler) PrepareProposal() sdk.PrepareProposalHandler {
 }
 
 // computeValidationResults aggregates validation results from vote extensions
-func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, map[uint64]bool, map[uint64]bool, map[uint64]bool, map[uint64]trusttypes.SubnetBlacklistCount, map[uint64]bool, error) {
+func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.ExtendedCommitInfo) (map[uint64]bool, map[uint64]subnettypes.SubnetInfo, map[uint64]bool, map[uint64]bool, map[uint64]bool, map[uint64]trusttypes.SubnetBlacklistCount, map[uint64]bool, map[uint64]bool, error) {
 	// Maps to store aggregated validation results
 	orgValidationResults := make(map[uint64]bool)
 	subnetSyncResults := make(map[uint64]subnettypes.SubnetInfo)
@@ -119,6 +122,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	subnetOwnershipResults := make(map[uint64]bool)
 	subnetBlacklistSyncResults := make(map[uint64]trusttypes.SubnetBlacklistCount)
 	subnetOriginCheckResults := make(map[uint64]bool)
+	geoDbValidationResults := make(map[uint64]bool)
 
 	// Maps to track voting power for org validations
 	orgValidPower := make(map[uint64]int64)
@@ -128,9 +132,13 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 	rpkiValidPower := make(map[uint64]int64)
 	rpkiInvalidPower := make(map[uint64]int64)
 
-	// Maps to track voting power for TraceGeo validations
+	// Maps to track voting power for trace geo validations
 	geoValidPower := make(map[uint64]int64)
 	geoInvalidPower := make(map[uint64]int64)
+
+	// Maps to track voting power for geo db validations
+	geoDbValidPower := make(map[uint64]int64)
+	geoDbInvalidPower := make(map[uint64]int64)
 
 	// Maps to track voting power for subnet ownership validation
 	subnetOwnerValidPower := make(map[uint64]int64)
@@ -222,6 +230,16 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			}
 		}
 
+
+		// Aggregate geo db validation results based on voting power
+		for subnetID, isValid := range voteExt.SubnetGeoDbValidation {
+			if isValid {
+				geoDbValidPower[subnetID] += v.Validator.Power
+			} else {
+				geoDbInvalidPower[subnetID] += v.Validator.Power
+			}
+		}
+
 		// Aggregate subnet ownership verification results based on voting power
 		for subnetID, isValid := range voteExt.SubnetOwnerValidation {
 			if isValid {
@@ -301,7 +319,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 		}
 	}
 
-	// Build the union of all subnet IDs that appeared in Geo validation
+	// Build the union of all subnet IDs that appeared in geo validation
 	allGeoSubnetIDs := make(map[uint64]struct{})
 	for subnetID := range geoValidPower {
 		allGeoSubnetIDs[subnetID] = struct{}{}
@@ -319,6 +337,28 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			geoValidationResults[subnetID] = true
 		} else {
 			geoValidationResults[subnetID] = false
+		}
+	}
+
+
+	// Build the union of all subnet IDs that appeared in geo db validation
+	allGeoDbSubnetIDs := make(map[uint64]struct{})
+	for subnetID := range geoDbValidPower {
+		allGeoDbSubnetIDs[subnetID] = struct{}{}
+	}
+	for subnetID := range geoDbInvalidPower {
+		allGeoDbSubnetIDs[subnetID] = struct{}{}
+	}
+
+	// Determine final Geo validation result based on majority voting power
+	for subnetID := range allGeoDbSubnetIDs {
+		vp := geoDbValidPower[subnetID]
+		ip := geoDbInvalidPower[subnetID]
+		total := vp + ip
+		if total > 0 && vp > total/2 {
+			geoDbValidationResults[subnetID] = true
+		} else {
+			geoDbValidationResults[subnetID] = false
 		}
 	}
 
@@ -433,7 +473,7 @@ func (h *ProposalHandler) computeValidationResults(_ sdk.Context, ci abci.Extend
 			subnetOriginCheckResults[subnetID] = false
 		}
 	}
-	return orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, subnetOriginCheckResults, nil
+	return orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, subnetOriginCheckResults, geoDbValidationResults, nil
 }
 
 func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
@@ -464,7 +504,7 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		}
 
 		// Verify the proposer's validation results by computing the same calculation
-		orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, originCheckResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
+		orgValidationResults, subnetSyncResults, rpkiValidationResults, geoValidationResults, subnetOwnershipResults, subnetBlacklistSyncResults, originCheckResults, geoDbValidationResults, err := h.computeValidationResults(ctx, injectedVoteExtTx.ExtendedCommitInfo)
 		if err != nil {
 			h.logger.Error("failed to compute validation results", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
@@ -497,6 +537,12 @@ func (h *ProposalHandler) ProcessProposal() sdk.ProcessProposalHandler {
 		// Compare the proposer's geo validation results with our own calculation
 		if err := compareGeoValidationResults(injectedVoteExtTx.GeoValidationResults, geoValidationResults); err != nil {
 			h.logger.Error("geo validation results don't match", "err", err)
+			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
+		}
+
+		// Compare the proposer's geo validation results with our own calculation
+		if err := compareGeoDbValidationResults(injectedVoteExtTx.GeoDbValidationResults, geoDbValidationResults); err != nil {
+			h.logger.Error("geo db validation results don't match", "err", err)
 			return &abci.ResponseProcessProposal{Status: abci.ResponseProcessProposal_REJECT}, nil
 		}
 
@@ -628,6 +674,27 @@ func compareGeoValidationResults(r1, r2 map[uint64]bool) error {
 		}
 		if valid1 != valid2 {
 			return fmt.Errorf("geo validation result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
+		}
+	}
+
+	return nil
+}
+
+// compareGeoDbValidationResults checks if two geo validation result maps match
+func compareGeoDbValidationResults(r1, r2 map[uint64]bool) error {
+	// Check if both maps have the same number of entries
+	if len(r1) != len(r2) {
+		return fmt.Errorf("geo db validation result maps have different sizes: %d vs %d", len(r1), len(r2))
+	}
+
+	// Check if all entries match
+	for subnetID, valid1 := range r1 {
+		valid2, exists := r2[subnetID]
+		if !exists {
+			return fmt.Errorf("subnet ID %d missing from second result map", subnetID)
+		}
+		if valid1 != valid2 {
+			return fmt.Errorf("geo db validation result mismatch for subnet ID %d: %t vs %t", subnetID, valid1, valid2)
 		}
 	}
 

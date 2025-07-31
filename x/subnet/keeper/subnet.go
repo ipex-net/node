@@ -864,7 +864,7 @@ func (k Keeper) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime 
 }
 
 // UpdateSubnetDbGeoValidationStatus updates the subnet Geo DB validation status 
-func (k Keeper) UpdateSubnetDbGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
+func (k Keeper) UpdateSubnetGeoDbValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
 	// Get the subnet
 	subnet, found := k.GetSubnet(ctx, subnetID)
 	if !found {
