@@ -122,9 +122,6 @@ func (m mockSubnetKeeperLease) IsUserRefundAllowed(ctx context.Context, subnetId
 func (m mockSubnetKeeperLease) GetSubnetIpCount(ctx context.Context, subnetId uint64) uint64 {
 	return 256 // Mock /24 subnet
 }
-func (m mockSubnetKeeperLease) GetSubnetMarketDetails(ctx context.Context, subnetId uint64) (networkAddress uint64, mask uint64, country string, rir string, err error) {
-	return 167772160, 24, "US", "ARIN", nil // Mock 10.0.0.0/24
-}
 
 type mockPaymentsKeeper struct{}
 
