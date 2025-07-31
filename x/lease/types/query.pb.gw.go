@@ -488,7 +488,7 @@ func local_request_Query_BidByLessor_0(ctx context.Context, marshaler runtime.Ma
 }
 
 var (
-	filter_Query_MarketplaceContract_0 = &utilities.DoubleArray{Encoding: map[string]int{"mask": 0, "rir": 1, "country": 2, "minprice": 3, "maxprice": 4, "networkAddress": 5, "firstOctet": 6, "secondOctet": 7, "thirdOctet": 8}, Base: []int{1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}}
+	filter_Query_MarketplaceContract_0 = &utilities.DoubleArray{Encoding: map[string]int{"mask": 0, "rir": 1, "country": 2, "minprice": 3, "maxprice": 4, "networkAddress": 5, "firstOctet": 6}, Base: []int{1, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8}}
 )
 
 func request_Query_MarketplaceContract_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -577,28 +577,6 @@ func request_Query_MarketplaceContract_0(ctx context.Context, marshaler runtime.
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "firstOctet", err)
-	}
-
-	val, ok = pathParams["secondOctet"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "secondOctet")
-	}
-
-	protoReq.SecondOctet, err = runtime.Uint64(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "secondOctet", err)
-	}
-
-	val, ok = pathParams["thirdOctet"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "thirdOctet")
-	}
-
-	protoReq.ThirdOctet, err = runtime.Uint64(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "thirdOctet", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -699,28 +677,6 @@ func local_request_Query_MarketplaceContract_0(ctx context.Context, marshaler ru
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "firstOctet", err)
-	}
-
-	val, ok = pathParams["secondOctet"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "secondOctet")
-	}
-
-	protoReq.SecondOctet, err = runtime.Uint64(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "secondOctet", err)
-	}
-
-	val, ok = pathParams["thirdOctet"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "thirdOctet")
-	}
-
-	protoReq.ThirdOctet, err = runtime.Uint64(val)
-
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "thirdOctet", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -1189,7 +1145,7 @@ var (
 
 	pattern_Query_BidByLessor_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"ipex", "lease", "bid_by_lessor", "lessorOrgId"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_MarketplaceContract_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 1, 0, 4, 1, 5, 7, 1, 0, 4, 1, 5, 8, 1, 0, 4, 1, 5, 9, 1, 0, 4, 1, 5, 10, 1, 0, 4, 1, 5, 11}, []string{"ipex", "lease", "marketplace_contract", "mask", "rir", "country", "minprice", "maxprice", "networkAddress", "firstOctet", "secondOctet", "thirdOctet"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_MarketplaceContract_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 1, 0, 4, 1, 5, 7, 1, 0, 4, 1, 5, 8, 1, 0, 4, 1, 5, 9}, []string{"ipex", "lease", "marketplace_contract", "mask", "rir", "country", "minprice", "maxprice", "networkAddress", "firstOctet"}, "", runtime.AssumeColonVerbOpt(false)))
 )
 
 var (
