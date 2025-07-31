@@ -321,7 +321,7 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Tim
 	return
 }
 
-// UpdateOrgValidationStatus updates the domain validation status for an organization
+// UpdateSubnetRirDetails updates the RIR validation details for a subnet
 func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, info types.SubnetInfo) error {
 	// Get the subnet
 	subnet, found := k.GetSubnet(ctx, subnetID)
@@ -353,7 +353,7 @@ func (k Keeper) UpdateSubnetRirDetails(ctx context.Context, subnetID uint64, inf
 	now := sdkCtx.BlockTime()
 	subnet.RirSyncedAt = &now
 	subnet.UpdatedAt = now
-	// Save the updated organization
+	// Save the updated subnet
 	k.SetSubnet(ctx, subnet)
 
 	return nil
@@ -379,7 +379,6 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime t
 		if subnet.OriginCheckPending {
 			return false, nil
 		}
-
 		originTransferAge := referenceTime.Sub(*subnet.OriginTransferRequestedAt)
 
 		// Determine required interval
@@ -388,9 +387,9 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime t
 		switch {
 		case subnet.RpkiOriginValid:
 			requiredInterval = 6 * time.Hour
-		case originTransferAge < 6*time.Hour: // Org age < 1 day
+		case originTransferAge < 6 * time.Hour: 
 			requiredInterval = 1 * time.Minute
-		case originTransferAge < 24*time.Hour: // Org age < 1 day
+		case originTransferAge < 24 * time.Hour:
 			requiredInterval = 5 * time.Minute
 		default:
 			requiredInterval = time.Hour
@@ -419,7 +418,7 @@ func (k Keeper) GetSubnetsForRPKIValidation(ctx context.Context, referenceTime t
 	return
 }
 
-// UpdateOrgValidationStatus updates the domain validation status for an organization
+// UpdateSubnetRpkiValidationStatus updates the RPKI validation status for a subnet
 func (k Keeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
 	// Get the subnet
 	subnet, found := k.GetSubnet(ctx, subnetID)
@@ -439,7 +438,7 @@ func (k Keeper) UpdateSubnetRpkiValidationStatus(ctx context.Context, subnetID u
 	// In any case we update timestamps
 	subnet.UpdatedAt = now
 	subnet.RpkiLastSyncedAt = &now
-	// Save the updated organization
+	// Save the updated subnet
 	k.SetSubnet(ctx, subnet)
 
 	return nil
@@ -478,9 +477,9 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 
 		switch {
 		// If geo change is recent - attempt the validation every hours
-		case geoChangeAge < 72*time.Hour:
+		case geoChangeAge < 72 * time.Hour:
 			requiredInterval = 1 * time.Hour
-		case geoChangeAge < 240*time.Hour:
+		case geoChangeAge < 240 * time.Hour:
 			requiredInterval = 6 * time.Hour
 		default:
 			requiredInterval = 72 * time.Hour
@@ -510,7 +509,7 @@ func (k Keeper) GetSubnetsForGeoValidation(ctx context.Context, referenceTime ti
 	return
 }
 
-// UpdateOrgValidationStatus updates the domain validation status for an organization
+// UpdateSubnetGeoValidationStatus updates the Geo trace verification status
 func (k Keeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
 	// Get the subnet
 	subnet, found := k.GetSubnet(ctx, subnetID)
@@ -522,14 +521,12 @@ func (k Keeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID ui
 	sdkCtx := sdk.UnwrapSDKContext(ctx)
 	now := sdkCtx.BlockTime()
 
-	// If status changed - reflecting changes
-	if subnet.TraceGeoVerified != isValid {
-		subnet.TraceGeoVerified = isValid
-	}
-	// In any case we update timestamps
+	// Update subnet
+	subnet.TraceGeoVerified = isValid
 	subnet.UpdatedAt = now
 	subnet.GeoVerifAttemptedAt = &now
-	// Save the updated organization
+
+	// Save subnet
 	k.SetSubnet(ctx, subnet)
 
 	return nil
@@ -558,19 +555,18 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenc
 		}
 
 		switch {
-		// If ownership was verified previously - we re-check every 3 days
 		case subnet.OwnershipVerified:
-			requiredInterval = 72 * time.Hour //If subnet is verified we run re-verification every 3 days
-		// We want to gradually decrease the verification intervals for increased subnet ages
-		case subnetAge < 24*time.Hour: // Org age < 1 day
+			requiredInterval = 72 * time.Hour 
+		// Gradually decrease the verification intervals for increased subnet ages
+		case subnetAge < 24 * time.Hour: 
 			requiredInterval = 1 * time.Minute
-		case subnetAge < 7*24*time.Hour: // < 7 days
+		case subnetAge < 7 * 24 * time.Hour:
 			requiredInterval = 15 * time.Minute
-		case subnetAge < 14*24*time.Hour: // < 14 days
+		case subnetAge < 14 * 24 * time.Hour: 
 			requiredInterval = 30 * time.Minute
-		case subnetAge < 30*24*time.Hour: // < 30 days
+		case subnetAge < 30 * 24 * time.Hour: 
 			requiredInterval = 1 * time.Hour
-		default: // > 30 days
+		default: 
 			requiredInterval = 72 * time.Hour
 		}
 
@@ -597,7 +593,7 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenc
 	return
 }
 
-// UpdateOrgValidationStatus updates the domain validation status for an organization
+// UpdateSubnetOwnershipVerification updates the ownership verification status for a subnet
 func (k Keeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetId uint64, isValid bool) error {
 	// Get the subnet
 	subnet, found := k.GetSubnet(ctx, subnetId)
@@ -616,7 +612,7 @@ func (k Keeper) UpdateSubnetOwnershipVerification(ctx context.Context, subnetId 
 	// In any case we update timestamps
 	subnet.UpdatedAt = now
 	subnet.OwnershipVerifLastAttemptedAt = &now
-	// Save the updated organization
+	// Save the updated subnet
 	k.SetSubnet(ctx, subnet)
 
 	return nil
@@ -805,3 +801,85 @@ func (k Keeper) GetSubnetMarketDetails(ctx context.Context, subnetId uint64) (ne
 
 	return subnet.NetworkAddress, subnet.Mask, subnet.Country, subnet.Rir, nil
 } 
+
+
+// GetSubnetsForGeoDbValidation retrieves subnets for geo validation
+func (k Keeper) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
+	count := 0
+	maxSubnets := 5
+
+	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
+		// If no country set - don't validate
+		if subnet.Country == "" {
+			return false, nil
+		}
+
+		// Skip if no geo details change requested timestamp present
+		if subnet.GeoDetailsChangedAt == nil {
+			return false, nil
+		}
+
+		// Skip if subnet already passed verification
+		if subnet.GeoDbRecordVerified {
+			return false, nil
+		}
+
+
+		geoChangeAge := referenceTime.Sub(*subnet.GeoDetailsChangedAt)
+
+		// Determine required interval
+		var requiredInterval time.Duration
+
+		switch {
+		case geoChangeAge < 72 * time.Hour:
+			requiredInterval = 5 * time.Minute
+		case geoChangeAge < 240 * time.Hour:
+			requiredInterval = 6 * time.Hour
+		default:
+			requiredInterval = 72 * time.Hour
+		}
+
+		// Skip if not enough time has passed
+		if subnet.GeoDbVerifAttemptedAt != nil {
+			timeSinceLastAttempt := referenceTime.Sub(*subnet.GeoDbVerifAttemptedAt)
+			if timeSinceLastAttempt < requiredInterval {
+				return false, nil
+			}
+		}
+
+		list = append(list, subnet)
+		// Increment count and check if we've reached the maximum
+		count++
+		if count >= maxSubnets {
+			return true, nil // stop iteration
+		}
+
+		return false, nil
+	})
+
+	if err != nil {
+		panic(err)
+	}
+	return
+}
+
+// UpdateSubnetDbGeoValidationStatus updates the subnet Geo DB validation status 
+func (k Keeper) UpdateSubnetDbGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
+	// Get the subnet
+	subnet, found := k.GetSubnet(ctx, subnetID)
+	if !found {
+		return fmt.Errorf("subnet with ID %d not found", subnetID)
+	}
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	now := sdkCtx.BlockTime()
+
+	// Update subnet
+	subnet.GeoDbRecordVerified = isValid
+	subnet.UpdatedAt = now
+	subnet.GeoDbVerifAttemptedAt = &now
+
+	// Save subnet
+	k.SetSubnet(ctx, subnet)
+
+	return nil
+}
