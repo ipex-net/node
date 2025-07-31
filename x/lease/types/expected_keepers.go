@@ -3,6 +3,7 @@ package types
 import (
 	"context"
 	paymentstypes "ipex/x/payments/types"
+	subnettypes "ipex/x/subnet/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -36,8 +37,8 @@ type OrgKeeper interface {
 }
 
 type SubnetKeeper interface {
+	GetSubnet(ctx context.Context, id uint64) (subnettypes.Subnet, bool)
 	VerifySubnetOwner(ctx context.Context, subnetId uint64, user string) bool
-	CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint64) bool
 	SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool)
 	RemoveSubnetUserOrg(goCtx context.Context, subnetId uint64)
 	IsUserRequestedASNDROPOrigin(ctx context.Context, subnetId uint64) bool

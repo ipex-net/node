@@ -216,21 +216,6 @@ func (k Keeper) VerifySubnetOwner(ctx context.Context, subnetId uint64, owner st
 	return k.orgKeeper.VerifyOrgAdmin(ctx, subnet.OwnerOrgId, owner)
 }
 
-// CheckSubnetLeaseAvailability verifies subnet availability
-func (k Keeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint64) bool {
-
-	//Fetching the subnet
-	_, found := k.GetSubnet(ctx, subnetId)
-	if !found {
-		return false
-	}
-	//TODO: Turn on when subnet status management is ready
-	//if subnet.Status != types.SubnetStatus_SUBNET_STATUS_READY {
-	//	return false
-	//}
-	return true
-}
-
 // SetSubnetUserOrg sets subnet user and params
 func (k Keeper) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool) {
 	ctx := sdk.UnwrapSDKContext(goCtx)

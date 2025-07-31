@@ -521,26 +521,6 @@ func TestSubnetAuthorizationIntegration(t *testing.T) {
 		require.Equal(t, uint64(0), finalSubnet.UserOrgId, "should have user org removed")
 	})
 
-	t.Run("Lease Availability Check", func(t *testing.T) {
-		// Test lease availability for ready subnet
-		isAvailable := keeper.CheckSubnetLeaseAvailability(ctx, subnetId)
-		require.True(t, isAvailable, "should allow lease for ready subnet")
-
-		// Update subnet to leased status
-		subnet, found := keeper.GetSubnet(ctx, subnetId)
-		require.True(t, found, "should find subnet")
-
-		subnet.Status = types.SubnetStatus_SUBNET_STATUS_LEASED
-		keeper.SetSubnet(ctx, subnet)
-
-		// Test lease availability for leased subnet
-		isAvailableLeased := keeper.CheckSubnetLeaseAvailability(ctx, subnetId)
-		require.True(t, isAvailableLeased, "should still allow lease check for leased subnet")
-
-		// Test with non-existent subnet
-		isAvailableNonExistent := keeper.CheckSubnetLeaseAvailability(ctx, 99999)
-		require.False(t, isAvailableNonExistent, "should reject non-existent subnet")
-	})
 
 	t.Run("RIR Record Validation", func(t *testing.T) {
 		// Test RIR record validation check

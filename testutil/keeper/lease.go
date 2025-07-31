@@ -21,6 +21,7 @@ import (
 	"ipex/x/lease/keeper"
 	"ipex/x/lease/types"
 	paymentstypes "ipex/x/payments/types"
+	subnettypes "ipex/x/subnet/types"
 )
 
 // Mock keepers for testing
@@ -72,13 +73,25 @@ func (m mockOrgKeeper) IsOrgVerified(ctx context.Context, orgid uint64) bool {
 
 type mockSubnetKeeperLease struct{}
 
+func (m mockSubnetKeeperLease) GetSubnet(ctx context.Context, id uint64) (subnettypes.Subnet, bool) {
+	// Mock subnet with basic data
+	subnet := subnettypes.Subnet{
+		Id:             id,
+		NetworkAddress: 167772160, // 10.0.0.0
+		Mask:           24,
+		Country:        "US",
+		Rir:            "ARIN",
+		Status:         subnettypes.SubnetStatus_SUBNET_STATUS_READY,
+		RirRecordValid: true,
+		GeoDbRecordVerified: true,
+	}
+	return subnet, true
+}
+
 func (m mockSubnetKeeperLease) VerifySubnetOwner(ctx context.Context, subnetId uint64, user string) bool {
 	return true
 }
 
-func (m mockSubnetKeeperLease) CheckSubnetLeaseAvailability(ctx context.Context, subnetId uint64) bool {
-	return true
-}
 
 func (m mockSubnetKeeperLease) SetSubnetUserOrg(goCtx context.Context, subnetId uint64, userOrgId uint64, allowUserGeoChange bool, allowUserASNDROPOriginTransfer bool) {
 }

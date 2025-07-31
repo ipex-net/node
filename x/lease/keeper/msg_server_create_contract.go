@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"ipex/x/lease/types"
+	subnettypes "ipex/x/subnet/types"
 
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -88,9 +89,25 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		return nil, errorsmod.Wrap(types.ErrOrgTreasuryNotFound, "owner org doesn't have treasury")
 	}
 
+	// Fetch the subnet
+	subnet, found := k.subnetKeeper.GetSubnet(ctx, msg.SubnetId)
+	if !found {
+		return nil, types.ErrSubnetNotFound
+	}
+
 	// Verify that subnet is available
-	if !k.subnetKeeper.CheckSubnetLeaseAvailability(goCtx, msg.SubnetId) {
-		return nil, types.ErrSubnetNotReady
+	if subnet.Status != subnettypes.SubnetStatus_SUBNET_STATUS_READY {
+		return nil, errorsmod.Wrap(types.ErrSubnetNotReady, "incorrect subnet status")
+	}
+
+	// Check that geo db record is verified
+	if !subnet.GeoDbRecordVerified {
+		return nil, errorsmod.Wrap(types.ErrSubnetNotReady, "geo db record not verified")
+	}
+
+	// Check that RIR record is verified
+	if !subnet.RirRecordValid {
+		return nil, errorsmod.Wrap(types.ErrSubnetNotReady, "rir record not verified")
 	}
 
 	// Instantiate contract
@@ -110,6 +127,10 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		AcceptFirstBidder:          msg.AcceptFirstBidder,
 		AllowASNDROPOriginTransfer: msg.AllowASNDROPOriginTransfer,
 		AllowUnverifiedBidders:     msg.AllowUnverifiedBidders,
+		NetworkAddress: 			subnet.NetworkAddress,
+		Mask:						subnet.Mask,
+		Rir:						subnet.Rir,
+		Country: 					subnet.Country,
 	}
 
 	// Create contract

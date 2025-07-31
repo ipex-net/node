@@ -599,9 +599,6 @@ func (m *mockSubnetKeeper) GetSubnetsForOwnershipVerification(ctx context.Contex
 	return []subnettypes.Subnet{}
 }
 
-func (m *mockSubnetKeeper) CheckSubnetLeaseAvailability(ctx context.Context, subnetID uint64) bool {
-	return true
-}
 
 func (m *mockSubnetKeeper) SetSubnet(ctx context.Context, subnet subnettypes.Subnet) {}
 

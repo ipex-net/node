@@ -27,8 +27,6 @@ type OrgKeeper interface {
 
 // SubnetKeeper defines the expected interface for the subnet module.
 type SubnetKeeper interface {
-	// CheckSubnetLeaseAvailability returns true if the subnet is available for leasing.
-	CheckSubnetLeaseAvailability(ctx context.Context, subnetID uint64) bool
 	// GetSubnet retrieves a Subnet by ID.
 	GetSubnet(ctx context.Context, id uint64) (subnettypes.Subnet, bool)
 	// SetSubnet updates the given Subnet.
