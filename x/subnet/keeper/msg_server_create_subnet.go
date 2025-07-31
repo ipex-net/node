@@ -75,6 +75,12 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "country code must be 2 letters")
 	}
 
+	// Validate country
+	err = validateCountry(msg.Country)
+	if err != nil {
+		return nil, errorsmod.Wrap(ErrInvalidGeolocationData, err.Error())
+	}
+
 	// Validate IP address format using regex
 	parsedIp := UintToNetIP(msg.NetworkAddress)
 	if parsedIp == nil {

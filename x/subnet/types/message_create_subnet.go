@@ -8,12 +8,13 @@ import (
 
 var _ sdk.Msg = &MsgCreateSubnet{}
 
-func NewMsgCreateSubnet(creator string, ownerOrgId uint64, networkAddress uint64, mask uint64) *MsgCreateSubnet {
+func NewMsgCreateSubnet(creator string, ownerOrgId uint64, networkAddress uint64, mask uint64, country string) *MsgCreateSubnet {
 	return &MsgCreateSubnet{
 		Creator:        creator,
 		OwnerOrgId:     ownerOrgId,
 		NetworkAddress: networkAddress,
 		Mask:           mask,
+		Country:        country,
 	}
 }
 
