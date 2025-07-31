@@ -585,6 +585,16 @@ func (m *mockSubnetKeeper) GetSubnetsForGeoValidation(ctx context.Context, refer
 	return result
 }
 
+func (m *mockSubnetKeeper) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
+	var result []subnettypes.Subnet
+	for _, subnet := range m.subnets {
+		if subnet.GeoDbVerifAttemptedAt != nil && subnet.GeoDbVerifAttemptedAt.Before(referenceTime) {
+			result = append(result, subnet)
+		}
+	}
+	return result
+}
+
 func (m *mockSubnetKeeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
 	return []subnettypes.Subnet{}
 }
@@ -604,6 +614,10 @@ func (m *mockSubnetKeeper) UpdateSubnetRpkiValidationStatus(ctx context.Context,
 }
 
 func (m *mockSubnetKeeper) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
+	return nil
+}
+
+func (m *mockSubnetKeeper) UpdateSubnetGeoDbValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
 	return nil
 }
 

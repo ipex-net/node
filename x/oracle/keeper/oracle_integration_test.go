@@ -811,6 +811,10 @@ func (m *mockSubnetKeeperWithTracking) GetSubnetsForGeoValidation(ctx context.Co
 	return []subnettypes.Subnet{}
 }
 
+func (m *mockSubnetKeeperWithTracking) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
+	return []subnettypes.Subnet{}
+}
+
 func (m *mockSubnetKeeperWithTracking) GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
 	return []subnettypes.Subnet{}
 }
@@ -830,6 +834,10 @@ func (m *mockSubnetKeeperWithTracking) UpdateSubnetRpkiValidationStatus(ctx cont
 }
 
 func (m *mockSubnetKeeperWithTracking) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
+	return nil
+}
+
+func (m *mockSubnetKeeperWithTracking) UpdateSubnetGeoDbValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
 	return nil
 }
 
@@ -978,6 +986,16 @@ func (m *mockSubnetKeeperBasic) GetSubnetsForGeoValidation(ctx context.Context, 
 	return result
 }
 
+func (m *mockSubnetKeeperBasic) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
+	var result []subnettypes.Subnet
+	for _, subnet := range m.subnets {
+		if subnet.GeoDbVerifAttemptedAt != nil && subnet.GeoDbVerifAttemptedAt.Before(referenceTime) {
+			result = append(result, subnet)
+		}
+	}
+	return result
+}
+
 func (m *mockSubnetKeeperBasic) GetSubnetsForOwnershipVerification(ctx context.Context, referenceTime time.Time) []subnettypes.Subnet {
 	return []subnettypes.Subnet{}
 }
@@ -997,6 +1015,10 @@ func (m *mockSubnetKeeperBasic) UpdateSubnetRpkiValidationStatus(ctx context.Con
 }
 
 func (m *mockSubnetKeeperBasic) UpdateSubnetGeoValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
+	return nil
+}
+
+func (m *mockSubnetKeeperBasic) UpdateSubnetGeoDbValidationStatus(ctx context.Context, subnetID uint64, isValid bool) error {
 	return nil
 }
 
