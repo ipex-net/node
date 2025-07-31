@@ -24,12 +24,19 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 	}
 
 	//Checking that the provided values are not nil
-	if msg.Country == "" || msg.Region == "" || msg.City == "" || msg.PostalCode == "" {
-		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "Geolocation data can not be empty")
+	//|| msg.Region == "" || msg.City == "" || msg.PostalCode == "" 
+	if msg.Country == "" {
+		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "Country data can not be empty")
 	}
-	if err := validateGeo(msg.Country, msg.Region); err != nil {
+	if msg.Region != "" {
+		err = validateGeo(msg.Country, msg.Region)
+	} else {
+		err = validateCountry(msg.Country)
+	}
+	if err != nil {
 		return nil, errorsmod.Wrap(ErrInvalidGeolocationData, err.Error())
 	}
+
 	//Fetching the subnet
 	subnet, found := k.GetSubnet(ctx, msg.Id)
 	if !found {
@@ -83,6 +90,7 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 	subnet.Region = msg.Region
 	subnet.City = msg.City
 	subnet.PostalCode = msg.PostalCode
+
 	// Updating the subnet change timestamp
 	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
@@ -103,6 +111,15 @@ func validateGeo(alpha2, iso31662 string) error {
 	}
 	if sub.Country() != country { // “US-TX” must match “US”
 		return fmt.Errorf("%s does not belong to country %s", iso31662, alpha2)
+	}
+	return nil
+}
+
+// validateCountry return nil on success or an error if country invalid
+func validateCountry(alpha2 string) error {
+	country := countries.ByName(strings.ToUpper(alpha2))
+	if !country.IsValid() { // ISO-3166-1 check
+		return fmt.Errorf("invalid ISO-3166-1 alpha-2 country code: %s", alpha2)
 	}
 	return nil
 }
