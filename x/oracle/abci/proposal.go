@@ -858,6 +858,21 @@ func (h *ProposalHandler) PreBlocker(ctx sdk.Context, req *abci.RequestFinalizeB
 				"is_valid", isValid)
 		}
 	}
+	
+	// Update the geo db validation status for each subnet
+	for subnetID, isValid := range injectedVoteExtTx.GeoDbValidationResults {
+		if err := h.subnetKeeper.UpdateSubnetGeoDbValidationStatus(ctx, subnetID, isValid); err != nil {
+			// Log error but continue with other subnets
+			h.logger.Error("failed to update subnet geo db validation status",
+				"subnet_id", subnetID,
+				"is_valid", isValid,
+				"error", err)
+		} else {
+			h.logger.Info("updated subnet geo db validation status",
+				"subnet_id", subnetID,
+				"is_valid", isValid)
+		}
+	}
 
 	// Update the subnet ownership verification status for each subnet
 	for subnetID, isValid := range injectedVoteExtTx.SubnetOwnerValidation {
