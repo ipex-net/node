@@ -100,7 +100,7 @@ func (k Keeper) LogLessorContractRenewal(ctx context.Context, lessorId uint64, i
 // LogLessorContractActivation updates usage stats on contract activation
 func (k Keeper) LogLessorContractActivation(ctx context.Context, lessorId uint64, ipCount uint64) error {
 	if lessorId == 0 {
-		return fmt.Errorf("lessor id can't be nil")
+		return fmt.Errorf("lessor id can not be nil")
 	}
 	if ipCount == 0 {
 		return fmt.Errorf("incorrect ip count")
@@ -114,4 +114,19 @@ func (k Keeper) LogLessorContractActivation(ctx context.Context, lessorId uint64
 	lessorRep.IpsLeasedNow = lessorRep.IpsLeasedNow + ipCount
 	k.SetLessorReputation(ctx, lessorRep)
 	return nil
+}
+
+// LessorHasActiveContracts returns true if lessor has any active contracts
+func (k Keeper) LessorHasActiveContracts(ctx context.Context, lessorId uint64) (bool, error) {
+	if lessorId == 0 {
+		return false, fmt.Errorf("lessor id can not be nil")
+	}
+	lessorRep, found := k.GetLessorReputation(ctx, lessorId)
+	if !found {
+		return false, fmt.Errorf("can not find lessor")
+	}
+	if lessorRep.ContractsActive > 0 {
+		return true, nil
+	}
+	return false, nil
 }
