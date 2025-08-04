@@ -46,7 +46,6 @@ func (k Keeper) GetUserOrgRole(goCtx context.Context, req *types.QueryGetUserOrg
 	if isAdmin {
 		response.OrgId = adminOrg.Id
 		response.LegalName = adminOrg.LegalName
-		response.IsCreator = false
 		response.IsAdmin = true
 	}
 
