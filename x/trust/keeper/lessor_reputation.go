@@ -107,7 +107,7 @@ func (k Keeper) LogLessorContractActivation(ctx context.Context, lessorId uint64
 	}
 	lessorRep, found := k.GetLessorReputation(ctx, lessorId)
 	if !found {
-		return fmt.Errorf("can not find lessor")
+		return fmt.Errorf("can not find lessor reputation")
 	}
 	lessorRep.IpMonthsTotal = lessorRep.IpMonthsTotal + ipCount
 	lessorRep.ContractsActive++
@@ -123,7 +123,7 @@ func (k Keeper) LessorHasActiveContracts(ctx context.Context, lessorId uint64) (
 	}
 	lessorRep, found := k.GetLessorReputation(ctx, lessorId)
 	if !found {
-		return false, fmt.Errorf("can not find lessor")
+		return false, fmt.Errorf("can not find lessor reputation")
 	}
 	if lessorRep.ContractsActive > 0 {
 		return true, nil
