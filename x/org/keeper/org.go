@@ -272,3 +272,41 @@ func (k Keeper) IsOrgVerified(ctx context.Context, id uint64) bool {
 	org, _ := k.GetOrg(ctx, id)
 	return org.DomainVerified
 }
+
+func (k Keeper) VerifyOrgCreator(ctx context.Context, orgid uint64, creator string) bool {
+	// Validate the provided creator address
+	_, err := sdk.AccAddressFromBech32(creator)
+	if err != nil {
+		return false
+	}
+	
+	// Get the org
+	org, found := k.GetOrg(ctx, orgid)
+	if !found {
+		return false
+	}
+
+	return org.Creator == creator
+}
+
+func (k Keeper) GetOrgByCreatorAddress(ctx context.Context, creatorAddr string) (types.Org, bool) {
+	// Get org ID from creator index
+	orgId, err := k.OrgsByCreator.Get(ctx, creatorAddr)
+	if err != nil {
+		return types.Org{}, false
+	}
+	
+	// Get the org
+	return k.GetOrg(ctx, orgId)
+}
+
+func (k Keeper) GetOrgByAdminAddress(ctx context.Context, adminAddr string) (types.Org, bool) {
+	// Get org ID from admin index  
+	orgId, err := k.OrgsByAdmin.Get(ctx, adminAddr)
+	if err != nil {
+		return types.Org{}, false
+	}
+	
+	// Get the org
+	return k.GetOrg(ctx, orgId)
+}
