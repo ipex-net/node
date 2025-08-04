@@ -11,6 +11,7 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg) (*types.MsgRegisterOrgResponse, error) {
@@ -29,7 +30,7 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		AbuseEmail:         msg.AbuseEmail,
 		ContactEmail:       msg.ContactEmail,
 		DomainVerified:     false,
-		Treasury:           msg.Treasury,
+		Treasury:           msg.Creator,
 		CreatedAt:          ctx.BlockTime(),
 		UpdatedAt:          ctx.BlockTime(),
 	}
@@ -43,13 +44,13 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 	// Check if address is already a creator of any org
 	_, err = k.OrgsByCreator.Get(ctx, msg.Creator)
 	if err == nil {
-		return nil, errorsmod.Wrapf(ErrPermissionDenied,"address %s is already creator of an organization", msg.Creator)
+		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized,"address %s is already creator of an organization", msg.Creator)
 	}
 
 	// Check if address is already an admin of any org  
 	_, err = k.OrgsByAdmin.Get(ctx, msg.Creator)
 	if err == nil {
-		return nil, errorsmod.Wrapf(ErrPermissionDenied,"address %s is already admin of an organization", msg.Creator)
+		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized,"address %s is already admin of an organization", msg.Creator)
 	}
 
 	var missingFields []string
@@ -80,9 +81,6 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 	}
 	if msg.ContactEmail == "" {
 		missingFields = append(missingFields, "contact_email")
-	}
-	if msg.Treasury == "" {
-		missingFields = append(missingFields, "treasury")
 	}
 
 	if len(missingFields) > 0 {
@@ -143,7 +141,6 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 			sdk.NewAttribute(types.OrgRegisteredEventCreator, msg.Creator),
 			sdk.NewAttribute(types.OrgRegisteredEventId, strconv.FormatUint(id, 10)),
 			sdk.NewAttribute(types.OrgRegisteredEventName, msg.Name),
-			sdk.NewAttribute(types.OrgRegisteredEventAdmin, msg.Creator),
 			sdk.NewAttribute(types.OrgRegisteredEventLegalName, msg.LegalName),
 			sdk.NewAttribute(types.OrgRegisteredEventAddress, msg.Address),
 			sdk.NewAttribute(types.OrgRegisteredEventRegistrationNumber, msg.RegistrationNumber),
@@ -152,7 +149,6 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 			sdk.NewAttribute(types.OrgRegisteredEventWebsite, msg.Website),
 			sdk.NewAttribute(types.OrgRegisteredEventAbuseEmail, msg.AbuseEmail),
 			sdk.NewAttribute(types.OrgRegisteredEventContactEmail, msg.ContactEmail),
-			sdk.NewAttribute(types.OrgRegisteredEventTreasury, msg.Treasury),
 		),
 	)
 

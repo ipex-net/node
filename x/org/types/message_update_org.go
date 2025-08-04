@@ -21,7 +21,6 @@ func NewMsgUpdateOrg(creator string, id uint64, admin string, name string, legal
 		Website:            website,
 		AbuseEmail:         abuseEmail,
 		ContactEmail:       contactEmail,
-		Treasury:           treasury,
 	}
 }
 
@@ -29,20 +28,6 @@ func (msg *MsgUpdateOrg) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
-	}
-
-	if msg.Admin != "" {
-		_, err := sdk.AccAddressFromBech32(msg.Admin)
-		if err != nil {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid admin address (%s)", err)
-		}
-	}
-
-	if msg.Treasury != "" {
-		_, err := sdk.AccAddressFromBech32(msg.Treasury)
-		if err != nil {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid treasury address (%s)", err)
-		}
 	}
 
 	return nil

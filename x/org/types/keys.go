@@ -45,7 +45,6 @@ const (
 	OrgRegisteredEventCreator            = "creator"
 	OrgRegisteredEventId                 = "org_id"
 	OrgRegisteredEventName               = "name"
-	OrgRegisteredEventAdmin              = "admin"
 	OrgRegisteredEventLegalName          = "legal_name"
 	OrgRegisteredEventAddress            = "address"
 	OrgRegisteredEventRegistrationNumber = "registration_number"
@@ -54,7 +53,6 @@ const (
 	OrgRegisteredEventWebsite            = "website"
 	OrgRegisteredEventAbuseEmail         = "abuse_email"
 	OrgRegisteredEventContactEmail       = "contact_email"
-	OrgRegisteredEventTreasury           = "treasury"
 )
 
 // Org updated
@@ -62,7 +60,6 @@ const (
 	OrgUpdatedEventType               = "org_updated"
 	OrgUpdatedEventCreator            = "creator"
 	OrgUpdatedEventId                 = "org_id"
-	OrgUpdatedEventAdmin              = "admin"
 	OrgUpdatedEventLegalName          = "legal_name"
 	OrgUpdatedEventAddress            = "address"
 	OrgUpdatedEventRegistrationNumber = "registration_number"
@@ -71,5 +68,4 @@ const (
 	OrgUpdatedEventWebsite            = "website"
 	OrgUpdatedEventAbuseEmail         = "abuse_email"
 	OrgUpdatedEventContactEmail       = "contact_email"
-	OrgUpdatedEventTreasury           = "treasury"
 )

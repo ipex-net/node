@@ -33,8 +33,7 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 		msg.TaxId == "" &&
 		msg.Website == "" &&
 		msg.AbuseEmail == "" &&
-		msg.ContactEmail == "" &&
-		msg.Treasury == "" {
+		msg.ContactEmail == ""{
 		return nil, errorsmod.Wrapf(ErrNothingToUpdate, "at least one field must be provided for update")
 	}
 
@@ -93,18 +92,14 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 	}
 
 	//Checking permissions
-	if msg.Creator != org.Admin {
-		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+	if msg.Creator != org.Creator {
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect org creator")
 	}
 
 	//Keeping track of changes
 	var updatedFields []sdk.Attribute
 
 	//Setting trasferred parameters
-	if msg.Admin != "" {
-		org.Admin = msg.Admin
-		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventAdmin, msg.Admin))
-	}
 	if msg.LegalName != "" {
 		org.LegalName = msg.LegalName
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventLegalName, msg.LegalName))
@@ -139,10 +134,6 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 	if msg.ContactEmail != "" {
 		org.ContactEmail = msg.ContactEmail
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventContactEmail, msg.ContactEmail))
-	}
-	if msg.Treasury != "" {
-		org.Treasury = msg.Treasury
-		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventTreasury, msg.Treasury))
 	}
 
 	org.UpdatedAt = ctx.BlockTime()

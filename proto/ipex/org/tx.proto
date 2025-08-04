@@ -51,7 +51,6 @@ message MsgRegisterOrg {
   string website            =  8;
   string abuseEmail         =  9;
   string contactEmail       = 10;
-  string treasury           = 11;
 }
 
 message MsgRegisterOrgResponse {
@@ -62,17 +61,15 @@ message MsgUpdateOrg {
   option (cosmos.msg.v1.signer) = "creator";
   string creator            =  1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   uint64 id                 =  2;
-  string admin              =  3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string name               =  4;
-  string legalName          =  5;
-  string address            =  6;
-  string registrationNumber =  7;
-  string countryCode        =  8;
-  string taxId              =  9;
-  string website            = 10;
-  string abuseEmail         = 11;
-  string contactEmail       = 12;
-  string treasury           = 13 [(cosmos_proto.scalar) = "cosmos.AddressString"]; 
+  string name               =  3;
+  string legalName          =  4;
+  string address            =  5;
+  string registrationNumber =  6;
+  string countryCode        =  7;
+  string taxId              =  8;
+  string website            =  9;
+  string abuseEmail         = 10;
+  string contactEmail       = 11;
 }
 
 message MsgUpdateOrgResponse {}
