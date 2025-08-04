@@ -34,10 +34,22 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		UpdatedAt:          ctx.BlockTime(),
 	}
 
-	//Creator address validation
+	// Validate creator address
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, errorsmod.Wrapf(ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	// Check if address is already a creator of any org
+	_, err = k.OrgsByCreator.Get(ctx, msg.Creator)
+	if err == nil {
+		return nil, errorsmod.Wrapf(ErrPermissionDenied,"address %s is already creator of an organization", msg.Creator)
+	}
+
+	// Check if address is already an admin of any org  
+	_, err = k.OrgsByAdmin.Get(ctx, msg.Creator)
+	if err == nil {
+		return nil, errorsmod.Wrapf(ErrPermissionDenied,"address %s is already admin of an organization", msg.Creator)
 	}
 
 	var missingFields []string

@@ -21,4 +21,5 @@ var (
 	ErrNothingToUpdate           = sdkerrors.Register(ModuleName, 1208, "no fields provided for update")
 	ErrRequiredFields            = sdkerrors.Register(ModuleName, 1209, "all required fields must be provided")
 	ErrOrgNotFound               = sdkerrors.Register(ModuleName, 1210, "organization not found")
+	ErrPermissionDenied			 = sdkerrors.Register(ModuleName, 1211, "permission denied")
 )
