@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"fmt"
 	"net/url"
 	"regexp"
 	"strconv"
@@ -18,10 +17,7 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, errorsmod.Wrapf(
-			ErrInvalidAddress,
-			"invalid creator address (%s)",
-			err)
+		return nil, errorsmod.Wrapf(ErrInvalidAddress,"invalid creator address (%s)",err)
 	}
 
 	// First check if all fields are empty
@@ -33,7 +29,7 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 		msg.TaxId == "" &&
 		msg.Website == "" &&
 		msg.AbuseEmail == "" &&
-		msg.ContactEmail == ""{
+		msg.ContactEmail == "" {
 		return nil, errorsmod.Wrapf(ErrNothingToUpdate, "at least one field must be provided for update")
 	}
 
@@ -78,28 +74,28 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 
 	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	if msg.AbuseEmail != "" && !emailRegex.MatchString(msg.AbuseEmail) {
-		return nil, errorsmod.Wrap(ErrInvalidEmail, "invalid abuse email")
+		return nil, errorsmod.Wrapf(ErrInvalidEmail, "invalid abuse email (%s)", msg.AbuseEmail)
 	}
 
 	if msg.ContactEmail != "" && !emailRegex.MatchString(msg.ContactEmail) {
-		return nil, errorsmod.Wrap(ErrInvalidEmail, "invalid contact email")
+		return nil, errorsmod.Wrapf(ErrInvalidEmail, "invalid contact email (%s)", msg.ContactEmail)
 	}
 
-	//Fetching the org
+	// Fetch the org
 	org, found := k.GetOrg(ctx, msg.Id)
 	if !found {
-		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
+		return nil, errorsmod.Wrapf(ErrOrgNotFound, "org with id %d doesn't exist", msg.Id)
 	}
 
-	//Checking permissions
+	// Check permissions
 	if msg.Creator != org.Creator {
 		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect org creator")
 	}
 
-	//Keeping track of changes
+	// Keep track of changes
 	var updatedFields []sdk.Attribute
 
-	//Setting trasferred parameters
+	// Set trasferred parameters
 	if msg.LegalName != "" {
 		org.LegalName = msg.LegalName
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventLegalName, msg.LegalName))
@@ -138,19 +134,19 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 
 	org.UpdatedAt = ctx.BlockTime()
 
-	//Setting the changes
+	// Set the changes
 	k.SetOrg(
 		ctx,
 		org,
 	)
 
-	// Setting base event attributes
+	// Set base event attributes
 	baseAttributes := []sdk.Attribute{
 		sdk.NewAttribute(types.OrgUpdatedEventCreator, msg.Creator),
 		sdk.NewAttribute(types.OrgUpdatedEventId, strconv.FormatUint(msg.Id, 10)),
 	}
 
-	// Appending the changed attributes
+	// Append the changed attributes
 	allAttributes := append(baseAttributes, updatedFields...)
 
 	// Emit the organization update event
