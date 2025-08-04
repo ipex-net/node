@@ -39,6 +39,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgChangeOrgAdmin int = 100
 
+	opWeightMsgChangeOrgTreasury = "op_weight_msg_change_org_treasury"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgChangeOrgTreasury int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -106,6 +110,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		orgsimulation.SimulateMsgChangeOrgAdmin(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgChangeOrgTreasury int
+	simState.AppParams.GetOrGenerate(opWeightMsgChangeOrgTreasury, &weightMsgChangeOrgTreasury, nil,
+		func(_ *rand.Rand) {
+			weightMsgChangeOrgTreasury = defaultWeightMsgChangeOrgTreasury
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgChangeOrgTreasury,
+		orgsimulation.SimulateMsgChangeOrgTreasury(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -143,6 +158,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgChangeOrgAdmin,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				orgsimulation.SimulateMsgChangeOrgAdmin(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgChangeOrgTreasury,
+			defaultWeightMsgChangeOrgTreasury,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				orgsimulation.SimulateMsgChangeOrgTreasury(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

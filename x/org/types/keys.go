@@ -72,8 +72,16 @@ const (
 
 // Admin changed
 const (
-	OrgAdminChangedEventType 		 = "org_admin_changed"
-	OrgAdminChangedCreator            = "creator"
-	OrgAdminChangedId                 = "org_id"
-	OrgAdminChangedNewAdmin			 = "new_admin"
+	OrgAdminChangedEventType = "org_admin_changed"
+	OrgAdminChangedCreator   = "creator"
+	OrgAdminChangedId        = "org_id"
+	OrgAdminChangedNewAdmin  = "new_admin"
+)
+
+// Treasury changed
+const (
+	OrgTreasuryChangedEventType 	= "org_treasury_changed"
+	OrgTreasuryChangedCreator   	= "creator"
+	OrgTreasuryChangedId       		= "org_id"
+	OrgTreasuryChangedNewTreasury  	= "new_treasury"
 )

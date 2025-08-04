@@ -23,7 +23,7 @@ func (k msgServer) ChangeOrgAdmin(goCtx context.Context, msg *types.MsgChangeOrg
 	// Validate new admin address format
 	_, err = sdk.AccAddressFromBech32(msg.NewAdmin)
 	if err != nil {
-		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress,"invalid admin address: %s", err)
+		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid admin address: %s", err)
 	}
 
 	// Fetch the org
@@ -59,7 +59,7 @@ func (k msgServer) ChangeOrgAdmin(goCtx context.Context, msg *types.MsgChangeOrg
 	org.UpdatedAt = ctx.BlockTime()
 
 	// Set the changes
-	k.SetOrg(ctx,org)
+	k.SetOrg(ctx, org)
 
 	// Emit the admin change  event
 	ctx.EventManager().EmitEvent(

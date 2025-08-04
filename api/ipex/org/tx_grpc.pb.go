@@ -8,6 +8,7 @@ package org
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,11 +20,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName   = "/ipex.org.Msg/UpdateParams"
-	Msg_RegisterOrg_FullMethodName    = "/ipex.org.Msg/RegisterOrg"
-	Msg_UpdateOrg_FullMethodName      = "/ipex.org.Msg/UpdateOrg"
-	Msg_DeleteOrg_FullMethodName      = "/ipex.org.Msg/DeleteOrg"
-	Msg_ChangeOrgAdmin_FullMethodName = "/ipex.org.Msg/ChangeOrgAdmin"
+	Msg_UpdateParams_FullMethodName      = "/ipex.org.Msg/UpdateParams"
+	Msg_RegisterOrg_FullMethodName       = "/ipex.org.Msg/RegisterOrg"
+	Msg_UpdateOrg_FullMethodName         = "/ipex.org.Msg/UpdateOrg"
+	Msg_DeleteOrg_FullMethodName         = "/ipex.org.Msg/DeleteOrg"
+	Msg_ChangeOrgAdmin_FullMethodName    = "/ipex.org.Msg/ChangeOrgAdmin"
+	Msg_ChangeOrgTreasury_FullMethodName = "/ipex.org.Msg/ChangeOrgTreasury"
 )
 
 // MsgClient is the client API for Msg service.
@@ -37,6 +39,7 @@ type MsgClient interface {
 	UpdateOrg(ctx context.Context, in *MsgUpdateOrg, opts ...grpc.CallOption) (*MsgUpdateOrgResponse, error)
 	DeleteOrg(ctx context.Context, in *MsgDeleteOrg, opts ...grpc.CallOption) (*MsgDeleteOrgResponse, error)
 	ChangeOrgAdmin(ctx context.Context, in *MsgChangeOrgAdmin, opts ...grpc.CallOption) (*MsgChangeOrgAdminResponse, error)
+	ChangeOrgTreasury(ctx context.Context, in *MsgChangeOrgTreasury, opts ...grpc.CallOption) (*MsgChangeOrgTreasuryResponse, error)
 }
 
 type msgClient struct {
@@ -92,6 +95,15 @@ func (c *msgClient) ChangeOrgAdmin(ctx context.Context, in *MsgChangeOrgAdmin, o
 	return out, nil
 }
 
+func (c *msgClient) ChangeOrgTreasury(ctx context.Context, in *MsgChangeOrgTreasury, opts ...grpc.CallOption) (*MsgChangeOrgTreasuryResponse, error) {
+	out := new(MsgChangeOrgTreasuryResponse)
+	err := c.cc.Invoke(ctx, Msg_ChangeOrgTreasury_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -103,6 +115,7 @@ type MsgServer interface {
 	UpdateOrg(context.Context, *MsgUpdateOrg) (*MsgUpdateOrgResponse, error)
 	DeleteOrg(context.Context, *MsgDeleteOrg) (*MsgDeleteOrgResponse, error)
 	ChangeOrgAdmin(context.Context, *MsgChangeOrgAdmin) (*MsgChangeOrgAdminResponse, error)
+	ChangeOrgTreasury(context.Context, *MsgChangeOrgTreasury) (*MsgChangeOrgTreasuryResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -124,6 +137,9 @@ func (UnimplementedMsgServer) DeleteOrg(context.Context, *MsgDeleteOrg) (*MsgDel
 }
 func (UnimplementedMsgServer) ChangeOrgAdmin(context.Context, *MsgChangeOrgAdmin) (*MsgChangeOrgAdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeOrgAdmin not implemented")
+}
+func (UnimplementedMsgServer) ChangeOrgTreasury(context.Context, *MsgChangeOrgTreasury) (*MsgChangeOrgTreasuryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeOrgTreasury not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -228,6 +244,24 @@ func _Msg_ChangeOrgAdmin_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_ChangeOrgTreasury_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgChangeOrgTreasury)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ChangeOrgTreasury(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_ChangeOrgTreasury_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ChangeOrgTreasury(ctx, req.(*MsgChangeOrgTreasury))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -254,6 +288,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ChangeOrgAdmin",
 			Handler:    _Msg_ChangeOrgAdmin_Handler,
+		},
+		{
+			MethodName: "ChangeOrgTreasury",
+			Handler:    _Msg_ChangeOrgTreasury_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
