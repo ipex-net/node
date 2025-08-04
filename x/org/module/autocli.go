@@ -71,6 +71,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a delete-org tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
+				{
+					RpcMethod:      "ChangeOrgAdmin",
+					Use:            "change-org-admin [org-id] [new-admin]",
+					Short:          "Send a change-org-admin tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "orgId"}, {ProtoField: "newAdmin"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

@@ -16,10 +16,11 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
-  rpc RegisterOrg  (MsgRegisterOrg ) returns (MsgRegisterOrgResponse );
-  rpc UpdateOrg    (MsgUpdateOrg   ) returns (MsgUpdateOrgResponse   );
-  rpc DeleteOrg    (MsgDeleteOrg   ) returns (MsgDeleteOrgResponse   );
+  rpc UpdateParams   (MsgUpdateParams  ) returns (MsgUpdateParamsResponse  );
+  rpc RegisterOrg    (MsgRegisterOrg   ) returns (MsgRegisterOrgResponse   );
+  rpc UpdateOrg      (MsgUpdateOrg     ) returns (MsgUpdateOrgResponse     );
+  rpc DeleteOrg      (MsgDeleteOrg     ) returns (MsgDeleteOrgResponse     );
+  rpc ChangeOrgAdmin (MsgChangeOrgAdmin) returns (MsgChangeOrgAdminResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -81,4 +82,13 @@ message MsgDeleteOrg {
 }
 
 message MsgDeleteOrgResponse {}
+
+message MsgChangeOrgAdmin {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator  = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 orgId    = 2;
+  string newAdmin = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+message MsgChangeOrgAdminResponse {}
 

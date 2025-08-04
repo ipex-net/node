@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cosmos/cosmos-sdk/types/query"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -491,10 +491,10 @@ func TestMarketplaceContract(t *testing.T) {
 		resp, err := keeper.MarketplaceContract(ctx, request(24, "", "", 0, 0, 0, 0))
 		require.NoError(t, err)
 		require.NotNil(t, resp)
-		
+
 		// Should return contracts 1, 5, 6, 8 (all /24 and FORSALE)
 		require.Equal(t, 4, len(resp.Contract))
-		
+
 		// Verify all returned contracts have status FORSALE
 		for _, contract := range resp.Contract {
 			require.Equal(t, types.ContractStatus_CONTRACT_STATUS_FORSALE, contract.Status)
@@ -713,7 +713,7 @@ func TestMarketplaceContractIntegration(t *testing.T) {
 	t.Run("RealWorldScenario", func(t *testing.T) {
 		// Reset context for fresh test
 		keeper, ctx = keepertest.LeaseKeeper(t)
-		
+
 		// Create realistic marketplace scenario
 		realWorldContracts := []types.Contract{
 			// US-EAST: 8.8.8.0/24, $150/month, Google DNS range
@@ -797,7 +797,7 @@ func TestMarketplaceContractIntegration(t *testing.T) {
 			})
 			require.NoError(t, err)
 			require.Equal(t, 3, len(resp.Contract)) // Contracts 1, 2, 3
-			
+
 			// Verify all are under $200
 			for _, contract := range resp.Contract {
 				require.LessOrEqual(t, contract.Price.Amount.Uint64(), uint64(200))
@@ -975,7 +975,7 @@ func TestMarketplaceContractIntegration(t *testing.T) {
 			require.NoError(t, err)
 
 			allContracts = append(allContracts, resp.Contract...)
-			
+
 			if resp.Pagination.NextKey == nil {
 				break
 			}
@@ -999,7 +999,7 @@ func TestMarketplaceContractValidationEdgeCases(t *testing.T) {
 
 	t.Run("AllValidRIRsAccepted", func(t *testing.T) {
 		validRirs := []string{"ARIN", "RIPE", "APNIC", "LACNIC", "AFRINIC"}
-		
+
 		for _, rir := range validRirs {
 			t.Run("RIR_"+rir, func(t *testing.T) {
 				resp, err := keeper.MarketplaceContract(ctx, &types.QueryMarketplaceContractRequest{
@@ -1025,7 +1025,7 @@ func TestMarketplaceContractValidationEdgeCases(t *testing.T) {
 	t.Run("ValidCountryCodesFromDifferentRegions", func(t *testing.T) {
 		validCountries := []string{
 			"US", "CA", "MX", // North America
-			"BR", "AR", "CL", // South America  
+			"BR", "AR", "CL", // South America
 			"GB", "DE", "FR", "IT", "ES", "NL", // Europe
 			"JP", "CN", "KR", "IN", "SG", "AU", // Asia-Pacific
 			"ZA", "NG", "EG", "KE", // Africa
@@ -1045,9 +1045,9 @@ func TestMarketplaceContractValidationEdgeCases(t *testing.T) {
 
 	t.Run("BoundaryValueTesting", func(t *testing.T) {
 		testCases := []struct {
-			name    string
-			mask    uint64
-			valid   bool
+			name  string
+			mask  uint64
+			valid bool
 		}{
 			{"mask_7", 7, false},
 			{"mask_8", 8, true},
@@ -1076,7 +1076,7 @@ func TestMarketplaceContractValidationEdgeCases(t *testing.T) {
 			Mask:           24,
 			Minprice:       18446744073709551615, // Max uint64
 			Maxprice:       18446744073709551615, // Max uint64
-			NetworkAddress: 0xFFFFFF00,          // 255.255.255.0
+			NetworkAddress: 0xFFFFFF00,           // 255.255.255.0
 			FirstOctet:     255,
 		})
 		require.NoError(t, err)

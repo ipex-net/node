@@ -279,7 +279,7 @@ func (k Keeper) VerifyOrgCreator(ctx context.Context, orgid uint64, creator stri
 	if err != nil {
 		return false
 	}
-	
+
 	// Get the org
 	org, found := k.GetOrg(ctx, orgid)
 	if !found {
@@ -295,59 +295,18 @@ func (k Keeper) GetOrgByCreatorAddress(ctx context.Context, creatorAddr string) 
 	if err != nil {
 		return types.Org{}, false
 	}
-	
+
 	// Get the org
 	return k.GetOrg(ctx, orgId)
 }
 
 func (k Keeper) GetOrgByAdminAddress(ctx context.Context, adminAddr string) (types.Org, bool) {
-	// Get org ID from admin index  
+	// Get org ID from admin index
 	orgId, err := k.OrgsByAdmin.Get(ctx, adminAddr)
 	if err != nil {
 		return types.Org{}, false
 	}
-	
+
 	// Get the org
 	return k.GetOrg(ctx, orgId)
-}
-
-
-// ValidateAdminChange validates if an address can become admin of an org
-// Returns error if the address already has conflicting org roles
-func (k Keeper) ValidateAdminChange(ctx context.Context, orgId uint64, newAdminAddr string) error {
-	// Validate address format
-	_, err := sdk.AccAddressFromBech32(newAdminAddr)
-	if err != nil {
-		return fmt.Errorf("invalid admin address: %s", err)
-	}
-
-	// Get the current org
-	org, found := k.GetOrg(ctx, orgId)
-	if !found {
-		return fmt.Errorf("org with ID %d not found", orgId)
-	}
-
-	// Allow if the new admin is the same as current admin (no change)
-	if org.Admin == newAdminAddr {
-		return nil
-	}
-
-	// Allow if the new admin is the creator of the SAME org (creator can always be admin of their own org)
-	if org.Creator == newAdminAddr {
-		return nil
-	}
-
-	// Check if address is already admin of a DIFFERENT org
-	existingOrgId, err := k.OrgsByAdmin.Get(ctx, newAdminAddr)
-	if err == nil && existingOrgId != orgId {
-		return fmt.Errorf("address %s is already admin of organization %d", newAdminAddr, existingOrgId)
-	}
-
-	// Check if address is creator of a DIFFERENT org
-	existingCreatorOrgId, err := k.OrgsByCreator.Get(ctx, newAdminAddr)
-	if err == nil && existingCreatorOrgId != orgId {
-		return fmt.Errorf("address %s is already creator of organization %d", newAdminAddr, existingCreatorOrgId)
-	}
-
-	return nil
 }

@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName = "/ipex.org.Msg/UpdateParams"
-	Msg_RegisterOrg_FullMethodName  = "/ipex.org.Msg/RegisterOrg"
-	Msg_UpdateOrg_FullMethodName    = "/ipex.org.Msg/UpdateOrg"
-	Msg_DeleteOrg_FullMethodName    = "/ipex.org.Msg/DeleteOrg"
+	Msg_UpdateParams_FullMethodName   = "/ipex.org.Msg/UpdateParams"
+	Msg_RegisterOrg_FullMethodName    = "/ipex.org.Msg/RegisterOrg"
+	Msg_UpdateOrg_FullMethodName      = "/ipex.org.Msg/UpdateOrg"
+	Msg_DeleteOrg_FullMethodName      = "/ipex.org.Msg/DeleteOrg"
+	Msg_ChangeOrgAdmin_FullMethodName = "/ipex.org.Msg/ChangeOrgAdmin"
 )
 
 // MsgClient is the client API for Msg service.
@@ -35,6 +36,7 @@ type MsgClient interface {
 	RegisterOrg(ctx context.Context, in *MsgRegisterOrg, opts ...grpc.CallOption) (*MsgRegisterOrgResponse, error)
 	UpdateOrg(ctx context.Context, in *MsgUpdateOrg, opts ...grpc.CallOption) (*MsgUpdateOrgResponse, error)
 	DeleteOrg(ctx context.Context, in *MsgDeleteOrg, opts ...grpc.CallOption) (*MsgDeleteOrgResponse, error)
+	ChangeOrgAdmin(ctx context.Context, in *MsgChangeOrgAdmin, opts ...grpc.CallOption) (*MsgChangeOrgAdminResponse, error)
 }
 
 type msgClient struct {
@@ -81,6 +83,15 @@ func (c *msgClient) DeleteOrg(ctx context.Context, in *MsgDeleteOrg, opts ...grp
 	return out, nil
 }
 
+func (c *msgClient) ChangeOrgAdmin(ctx context.Context, in *MsgChangeOrgAdmin, opts ...grpc.CallOption) (*MsgChangeOrgAdminResponse, error) {
+	out := new(MsgChangeOrgAdminResponse)
+	err := c.cc.Invoke(ctx, Msg_ChangeOrgAdmin_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -91,6 +102,7 @@ type MsgServer interface {
 	RegisterOrg(context.Context, *MsgRegisterOrg) (*MsgRegisterOrgResponse, error)
 	UpdateOrg(context.Context, *MsgUpdateOrg) (*MsgUpdateOrgResponse, error)
 	DeleteOrg(context.Context, *MsgDeleteOrg) (*MsgDeleteOrgResponse, error)
+	ChangeOrgAdmin(context.Context, *MsgChangeOrgAdmin) (*MsgChangeOrgAdminResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -109,6 +121,9 @@ func (UnimplementedMsgServer) UpdateOrg(context.Context, *MsgUpdateOrg) (*MsgUpd
 }
 func (UnimplementedMsgServer) DeleteOrg(context.Context, *MsgDeleteOrg) (*MsgDeleteOrgResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrg not implemented")
+}
+func (UnimplementedMsgServer) ChangeOrgAdmin(context.Context, *MsgChangeOrgAdmin) (*MsgChangeOrgAdminResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeOrgAdmin not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -195,6 +210,24 @@ func _Msg_DeleteOrg_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_ChangeOrgAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgChangeOrgAdmin)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ChangeOrgAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_ChangeOrgAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ChangeOrgAdmin(ctx, req.(*MsgChangeOrgAdmin))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -217,6 +250,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteOrg",
 			Handler:    _Msg_DeleteOrg_Handler,
+		},
+		{
+			MethodName: "ChangeOrgAdmin",
+			Handler:    _Msg_ChangeOrgAdmin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

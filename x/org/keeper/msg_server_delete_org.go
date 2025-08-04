@@ -17,14 +17,14 @@ func (k msgServer) DeleteOrg(goCtx context.Context, msg *types.MsgDeleteOrg) (*t
 
 	contract, found := k.GetOrg(ctx, msg.Id)
 	if !found {
-		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
+		return nil, errorsmod.Wrap(types.ErrOrgNotFound, fmt.Sprintf("org with id %d not found", msg.Id))
 	}
 	if msg.Creator != contract.Creator {
 		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect org creator")
 	}
 	active, err := k.trustKeeper.LessorHasActiveContracts(ctx, msg.Id)
 	if err != nil {
-		return nil, errorsmod.Wrap(ErrOrgNotFound, "can not get count of active contracts")
+		return nil, errorsmod.Wrap(types.ErrOrgNotFound, "can not get count of active contracts")
 	}
 	if active {
 		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "can not delete org with active contracts")

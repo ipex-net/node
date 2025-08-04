@@ -11,8 +11,8 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 	"github.com/biter777/countries"
-	"github.com/cosmos/cosmos-sdk/types/query"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -55,12 +55,12 @@ func validateNetworkAddress(networkAddress uint64) error {
 	if parsedIp == nil {
 		return fmt.Errorf("invalid IPv4 address format")
 	}
-	
+
 	// Validate that the last octet is equal to zero, as the smallest subnet size is /24
 	if networkAddress&0xFF != 0 {
 		return fmt.Errorf("fourth octet must be zero for subnet (%s)", parsedIp.String())
 	}
-	
+
 	return nil
 }
 

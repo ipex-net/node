@@ -38,19 +38,19 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 	// Validate creator address
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, errorsmod.Wrapf(ErrInvalidAddress, "invalid creator address (%s)", err)
+		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
 	// Check if address is already a creator of any org
 	_, err = k.OrgsByCreator.Get(ctx, msg.Creator)
 	if err == nil {
-		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized,"address %s is already creator of an organization", msg.Creator)
+		return nil, errorsmod.Wrapf(types.ErrAlreadyAdmin, "address %s is already creator of an organization", msg.Creator)
 	}
 
-	// Check if address is already an admin of any org  
+	// Check if address is already an admin of any org
 	_, err = k.OrgsByAdmin.Get(ctx, msg.Creator)
 	if err == nil {
-		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized,"address %s is already admin of an organization", msg.Creator)
+		return nil, errorsmod.Wrapf(types.ErrAlreadyAdmin, "address %s is already admin of an organization", msg.Creator)
 	}
 
 	var missingFields []string
@@ -84,51 +84,51 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 	}
 
 	if len(missingFields) > 0 {
-		return nil, errorsmod.Wrapf(ErrRequiredFields, "missing required fields: %s", strings.Join(missingFields, ", "))
+		return nil, errorsmod.Wrapf(types.ErrRequiredFields, "missing required fields: %s", strings.Join(missingFields, ", "))
 	}
 
 	//Validating the format
 	nameRegex := regexp.MustCompile(`^[a-zA-Z0-9\s.-]{3,50}$`)
 	if !nameRegex.MatchString(msg.Name) {
-		return nil, errorsmod.Wrap(ErrInvalidName, "name must be 3-50 characters and can only contain letters, numbers, spaces, dots, and hyphens")
+		return nil, errorsmod.Wrap(types.ErrInvalidName, "name must be 3-50 characters and can only contain letters, numbers, spaces, dots, and hyphens")
 	}
 
 	legalNameRegex := regexp.MustCompile(`^[a-zA-Z0-9\s.,&'-]{3,100}$`)
 	if !legalNameRegex.MatchString(msg.LegalName) {
-		return nil, errorsmod.Wrap(ErrInvalidLegalName, "legal name must be 3-100 characters and can contain letters, numbers, spaces, and basic punctuation")
+		return nil, errorsmod.Wrap(types.ErrInvalidLegalName, "legal name must be 3-100 characters and can contain letters, numbers, spaces, and basic punctuation")
 	}
 
 	addressRegex := regexp.MustCompile(`^[a-zA-Z0-9\s,.-]{5,200}$`)
 	if !addressRegex.MatchString(msg.Address) {
-		return nil, errorsmod.Wrap(ErrInvalidAddress, "address must be 5-200 characters and can contain letters, numbers, spaces, commas, dots, and hyphens")
+		return nil, errorsmod.Wrap(types.ErrInvalidAddress, "address must be 5-200 characters and can contain letters, numbers, spaces, commas, dots, and hyphens")
 	}
 
 	regNumRegex := regexp.MustCompile(`^[A-Z0-9-]{5,20}$`)
 	if !regNumRegex.MatchString(msg.RegistrationNumber) {
-		return nil, errorsmod.Wrap(ErrInvalidRegistrationNumber, "registration number must be 5-20 characters and can only contain capital letters, numbers, and hyphens")
+		return nil, errorsmod.Wrap(types.ErrInvalidRegistrationNumber, "registration number must be 5-20 characters and can only contain capital letters, numbers, and hyphens")
 	}
 	countryCodeRegex := regexp.MustCompile(`^[A-Z]{2}$`)
 	if !countryCodeRegex.MatchString(msg.CountryCode) {
-		return nil, errorsmod.Wrap(ErrInvalidCountryCode, "country code must be exactly 2 capital letters")
+		return nil, errorsmod.Wrap(types.ErrInvalidCountryCode, "country code must be exactly 2 capital letters")
 	}
 
 	parsedUrl, err := url.Parse(msg.Website)
 	if err != nil {
-		return nil, errorsmod.Wrapf(ErrInvalidWebsiteUrl, "invalid geofeed URL format (%s)", msg.Website)
+		return nil, errorsmod.Wrapf(types.ErrInvalidWebsiteUrl, "invalid geofeed URL format (%s)", msg.Website)
 	}
 
 	// Check if host is present
 	if parsedUrl.Host == "" {
-		return nil, errorsmod.Wrapf(ErrInvalidWebsiteUrl, "website URL must have a valid host (%s)", msg.Website)
+		return nil, errorsmod.Wrapf(types.ErrInvalidWebsiteUrl, "website URL must have a valid host (%s)", msg.Website)
 	}
 
 	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	if !emailRegex.MatchString(msg.AbuseEmail) {
-		return nil, errorsmod.Wrap(ErrInvalidEmail, "invalid abuse email")
+		return nil, errorsmod.Wrap(types.ErrInvalidEmail, "invalid abuse email")
 	}
 
 	if !emailRegex.MatchString(msg.ContactEmail) {
-		return nil, errorsmod.Wrap(ErrInvalidEmail, "invalid contact email")
+		return nil, errorsmod.Wrap(types.ErrInvalidEmail, "invalid contact email")
 	}
 
 	id := k.AppendOrg(

@@ -69,3 +69,11 @@ const (
 	OrgUpdatedEventAbuseEmail         = "abuse_email"
 	OrgUpdatedEventContactEmail       = "contact_email"
 )
+
+// Admin changed
+const (
+	OrgAdminChangedEventType 		 = "org_admin_changed"
+	OrgAdminChangedCreator            = "creator"
+	OrgAdminChangedId                 = "org_id"
+	OrgAdminChangedNewAdmin			 = "new_admin"
+)
