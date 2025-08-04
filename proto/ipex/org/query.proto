@@ -130,8 +130,9 @@ message QueryGetUserOrgRoleRequest {
 
 message QueryGetUserOrgRoleResponse {
   uint64 orgId = 1;
-  string legalName = 2;
-  bool   isCreator = 3;
-  bool   isAdmin   = 4;
+  string legalName  = 2;
+  bool   isCreator  = 3;
+  bool   isAdmin    = 4;
+  bool   isVerified = 5;
 }
 

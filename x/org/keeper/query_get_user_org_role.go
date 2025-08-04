@@ -37,16 +37,18 @@ func (k Keeper) GetUserOrgRole(goCtx context.Context, req *types.QueryGetUserOrg
 	// Initialize response
 	response := &types.QueryGetUserOrgRoleResponse{}
 
-	if isCreator {
-		response.OrgId = creatorOrg.Id
-		response.LegalName = creatorOrg.LegalName
-		response.IsCreator = true
-	}
-
 	if isAdmin {
 		response.OrgId = adminOrg.Id
 		response.LegalName = adminOrg.LegalName
+		response.IsVerified = adminOrg.DomainVerified
 		response.IsAdmin = true
+	}
+	
+	if isCreator {
+		response.OrgId = creatorOrg.Id
+		response.LegalName = creatorOrg.LegalName
+		response.IsVerified = creatorOrg.DomainVerified
+		response.IsCreator = true
 	}
 
 	return response, nil

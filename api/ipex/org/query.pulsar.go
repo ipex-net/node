@@ -6948,11 +6948,12 @@ func (x *fastReflection_QueryGetUserOrgRoleRequest) ProtoMethods() *protoiface.M
 }
 
 var (
-	md_QueryGetUserOrgRoleResponse           protoreflect.MessageDescriptor
-	fd_QueryGetUserOrgRoleResponse_orgId     protoreflect.FieldDescriptor
-	fd_QueryGetUserOrgRoleResponse_legalName protoreflect.FieldDescriptor
-	fd_QueryGetUserOrgRoleResponse_isCreator protoreflect.FieldDescriptor
-	fd_QueryGetUserOrgRoleResponse_isAdmin   protoreflect.FieldDescriptor
+	md_QueryGetUserOrgRoleResponse            protoreflect.MessageDescriptor
+	fd_QueryGetUserOrgRoleResponse_orgId      protoreflect.FieldDescriptor
+	fd_QueryGetUserOrgRoleResponse_legalName  protoreflect.FieldDescriptor
+	fd_QueryGetUserOrgRoleResponse_isCreator  protoreflect.FieldDescriptor
+	fd_QueryGetUserOrgRoleResponse_isAdmin    protoreflect.FieldDescriptor
+	fd_QueryGetUserOrgRoleResponse_isVerified protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -6962,6 +6963,7 @@ func init() {
 	fd_QueryGetUserOrgRoleResponse_legalName = md_QueryGetUserOrgRoleResponse.Fields().ByName("legalName")
 	fd_QueryGetUserOrgRoleResponse_isCreator = md_QueryGetUserOrgRoleResponse.Fields().ByName("isCreator")
 	fd_QueryGetUserOrgRoleResponse_isAdmin = md_QueryGetUserOrgRoleResponse.Fields().ByName("isAdmin")
+	fd_QueryGetUserOrgRoleResponse_isVerified = md_QueryGetUserOrgRoleResponse.Fields().ByName("isVerified")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryGetUserOrgRoleResponse)(nil)
@@ -7053,6 +7055,12 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) Range(f func(protoreflect.F
 			return
 		}
 	}
+	if x.IsVerified != false {
+		value := protoreflect.ValueOfBool(x.IsVerified)
+		if !f(fd_QueryGetUserOrgRoleResponse_isVerified, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -7076,6 +7084,8 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) Has(fd protoreflect.FieldDe
 		return x.IsCreator != false
 	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
 		return x.IsAdmin != false
+	case "ipex.org.QueryGetUserOrgRoleResponse.isVerified":
+		return x.IsVerified != false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
@@ -7100,6 +7110,8 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) Clear(fd protoreflect.Field
 		x.IsCreator = false
 	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
 		x.IsAdmin = false
+	case "ipex.org.QueryGetUserOrgRoleResponse.isVerified":
+		x.IsVerified = false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
@@ -7127,6 +7139,9 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) Get(descriptor protoreflect
 		return protoreflect.ValueOfBool(value)
 	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
 		value := x.IsAdmin
+		return protoreflect.ValueOfBool(value)
+	case "ipex.org.QueryGetUserOrgRoleResponse.isVerified":
+		value := x.IsVerified
 		return protoreflect.ValueOfBool(value)
 	default:
 		if descriptor.IsExtension() {
@@ -7156,6 +7171,8 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) Set(fd protoreflect.FieldDe
 		x.IsCreator = value.Bool()
 	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
 		x.IsAdmin = value.Bool()
+	case "ipex.org.QueryGetUserOrgRoleResponse.isVerified":
+		x.IsVerified = value.Bool()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
@@ -7184,6 +7201,8 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) Mutable(fd protoreflect.Fie
 		panic(fmt.Errorf("field isCreator of message ipex.org.QueryGetUserOrgRoleResponse is not mutable"))
 	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
 		panic(fmt.Errorf("field isAdmin of message ipex.org.QueryGetUserOrgRoleResponse is not mutable"))
+	case "ipex.org.QueryGetUserOrgRoleResponse.isVerified":
+		panic(fmt.Errorf("field isVerified of message ipex.org.QueryGetUserOrgRoleResponse is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
@@ -7204,6 +7223,8 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) NewField(fd protoreflect.Fi
 	case "ipex.org.QueryGetUserOrgRoleResponse.isCreator":
 		return protoreflect.ValueOfBool(false)
 	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
+		return protoreflect.ValueOfBool(false)
+	case "ipex.org.QueryGetUserOrgRoleResponse.isVerified":
 		return protoreflect.ValueOfBool(false)
 	default:
 		if fd.IsExtension() {
@@ -7287,6 +7308,9 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) ProtoMethods() *protoiface.
 		if x.IsAdmin {
 			n += 2
 		}
+		if x.IsVerified {
+			n += 2
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -7315,6 +7339,16 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) ProtoMethods() *protoiface.
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.IsVerified {
+			i--
+			if x.IsVerified {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x28
 		}
 		if x.IsAdmin {
 			i--
@@ -7488,6 +7522,26 @@ func (x *fastReflection_QueryGetUserOrgRoleResponse) ProtoMethods() *protoiface.
 					}
 				}
 				x.IsAdmin = bool(v != 0)
+			case 5:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IsVerified", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.IsVerified = bool(v != 0)
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -8108,10 +8162,11 @@ type QueryGetUserOrgRoleResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OrgId     uint64 `protobuf:"varint,1,opt,name=orgId,proto3" json:"orgId,omitempty"`
-	LegalName string `protobuf:"bytes,2,opt,name=legalName,proto3" json:"legalName,omitempty"`
-	IsCreator bool   `protobuf:"varint,3,opt,name=isCreator,proto3" json:"isCreator,omitempty"`
-	IsAdmin   bool   `protobuf:"varint,4,opt,name=isAdmin,proto3" json:"isAdmin,omitempty"`
+	OrgId      uint64 `protobuf:"varint,1,opt,name=orgId,proto3" json:"orgId,omitempty"`
+	LegalName  string `protobuf:"bytes,2,opt,name=legalName,proto3" json:"legalName,omitempty"`
+	IsCreator  bool   `protobuf:"varint,3,opt,name=isCreator,proto3" json:"isCreator,omitempty"`
+	IsAdmin    bool   `protobuf:"varint,4,opt,name=isAdmin,proto3" json:"isAdmin,omitempty"`
+	IsVerified bool   `protobuf:"varint,5,opt,name=isVerified,proto3" json:"isVerified,omitempty"`
 }
 
 func (x *QueryGetUserOrgRoleResponse) Reset() {
@@ -8158,6 +8213,13 @@ func (x *QueryGetUserOrgRoleResponse) GetIsCreator() bool {
 func (x *QueryGetUserOrgRoleResponse) GetIsAdmin() bool {
 	if x != nil {
 		return x.IsAdmin
+	}
+	return false
+}
+
+func (x *QueryGetUserOrgRoleResponse) GetIsVerified() bool {
+	if x != nil {
+		return x.IsVerified
 	}
 	return false
 }
@@ -8261,7 +8323,7 @@ var file_ipex_org_query_proto_rawDesc = []byte{
 	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22,
-	0x89, 0x01, 0x0a, 0x1b, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72,
+	0xa9, 0x01, 0x0a, 0x1b, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72,
 	0x4f, 0x72, 0x67, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
 	0x14, 0x0a, 0x05, 0x6f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05,
 	0x6f, 0x72, 0x67, 0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x6c, 0x65, 0x67, 0x61, 0x6c, 0x4e, 0x61,
@@ -8269,7 +8331,9 @@ var file_ipex_org_query_proto_rawDesc = []byte{
 	0x61, 0x6d, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x69, 0x73, 0x43, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72,
 	0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x69, 0x73, 0x43, 0x72, 0x65, 0x61, 0x74, 0x6f,
 	0x72, 0x12, 0x18, 0x0a, 0x07, 0x69, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x18, 0x04, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x07, 0x69, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x32, 0x9f, 0x07, 0x0a, 0x05,
+	0x28, 0x08, 0x52, 0x07, 0x69, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x1e, 0x0a, 0x0a, 0x69,
+	0x73, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52,
+	0x0a, 0x69, 0x73, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x32, 0x9f, 0x07, 0x0a, 0x05,
 	0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x62, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12,
 	0x1d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72,
 	0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e,
