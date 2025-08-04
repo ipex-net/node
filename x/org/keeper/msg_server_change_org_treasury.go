@@ -20,7 +20,7 @@ func (k msgServer) ChangeOrgTreasury(goCtx context.Context, msg *types.MsgChange
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	// Validate new treasury address 
+	// Validate new treasury address
 	_, err = sdk.AccAddressFromBech32(msg.NewTreasury)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid treasury address: %s", err)

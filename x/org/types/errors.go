@@ -20,5 +20,5 @@ var (
 	ErrRequiredFields            = sdkerrors.Register(ModuleName, 1109, "all required fields must be provided")
 	ErrOrgNotFound               = sdkerrors.Register(ModuleName, 1110, "organization not found")
 	ErrAlreadyAdmin              = sdkerrors.Register(ModuleName, 1111, "already an admin")
-	ErrNoChange 				 = sdkerrors.Register(ModuleName, 1112, "no change requested")
+	ErrNoChange                  = sdkerrors.Register(ModuleName, 1112, "no change requested")
 )

@@ -45,11 +45,19 @@ service Query {
   // Queries org by admin
   rpc OrgByAdmin (QueryOrgByAdminRequest) returns (QueryOrgByAdminResponse) {
     option (google.api.http).get = "/ipex/org/org_by_admin/{admin}";
+  
   }
   
   // Queries org by creator
   rpc OrgByCreator (QueryOrgByCreatorRequest) returns (QueryOrgByCreatorResponse) {
     option (google.api.http).get = "/ipex/org/org_by_creator/{creator}";
+  
+  }
+  
+  // Queries a list of GetUserOrgRole items.
+  rpc GetUserOrgRole (QueryGetUserOrgRoleRequest) returns (QueryGetUserOrgRoleResponse) {
+    option (google.api.http).get = "/ipex/org/get_user_org_role/{address}";
+  
   }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -92,27 +100,38 @@ message QueryListOrgRequest {
 }
 
 message QueryListOrgResponse {
-  repeated Org org = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated Org                                    org        = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 message QueryOrgByAdminRequest {
-  string admin = 1;
+  string                                admin      = 1;
   cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
 message QueryOrgByAdminResponse {
-  Org                                     Org        = 1;
+  Org                                    Org        = 1;
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 message QueryOrgByCreatorRequest {
-  string creator = 1;
+  string                                creator    = 1;
   cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
 message QueryOrgByCreatorResponse {
-  Org                                     Org        = 1;
+  Org                                    Org        = 1;
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetUserOrgRoleRequest {
+  string address   = 1;
+}
+
+message QueryGetUserOrgRoleResponse {
+  uint64 orgId = 1;
+  string legalName = 2;
+  bool   isCreator = 3;
+  bool   isAdmin   = 4;
 }
 

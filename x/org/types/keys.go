@@ -80,8 +80,8 @@ const (
 
 // Treasury changed
 const (
-	OrgTreasuryChangedEventType 	= "org_treasury_changed"
-	OrgTreasuryChangedCreator   	= "creator"
-	OrgTreasuryChangedId       		= "org_id"
-	OrgTreasuryChangedNewTreasury  	= "new_treasury"
+	OrgTreasuryChangedEventType   = "org_treasury_changed"
+	OrgTreasuryChangedCreator     = "creator"
+	OrgTreasuryChangedId          = "org_id"
+	OrgTreasuryChangedNewTreasury = "new_treasury"
 )

@@ -2,19 +2,18 @@
 package org
 
 import (
-	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	_ "cosmossdk.io/api/amino"
 	v1beta1 "cosmossdk.io/api/cosmos/base/query/v1beta1"
+	fmt "fmt"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
 var (
@@ -6528,6 +6527,1002 @@ func (x *fastReflection_QueryOrgByCreatorResponse) ProtoMethods() *protoiface.Me
 	}
 }
 
+var (
+	md_QueryGetUserOrgRoleRequest         protoreflect.MessageDescriptor
+	fd_QueryGetUserOrgRoleRequest_address protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_org_query_proto_init()
+	md_QueryGetUserOrgRoleRequest = File_ipex_org_query_proto.Messages().ByName("QueryGetUserOrgRoleRequest")
+	fd_QueryGetUserOrgRoleRequest_address = md_QueryGetUserOrgRoleRequest.Fields().ByName("address")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryGetUserOrgRoleRequest)(nil)
+
+type fastReflection_QueryGetUserOrgRoleRequest QueryGetUserOrgRoleRequest
+
+func (x *QueryGetUserOrgRoleRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryGetUserOrgRoleRequest)(x)
+}
+
+func (x *QueryGetUserOrgRoleRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_org_query_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryGetUserOrgRoleRequest_messageType fastReflection_QueryGetUserOrgRoleRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryGetUserOrgRoleRequest_messageType{}
+
+type fastReflection_QueryGetUserOrgRoleRequest_messageType struct{}
+
+func (x fastReflection_QueryGetUserOrgRoleRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryGetUserOrgRoleRequest)(nil)
+}
+func (x fastReflection_QueryGetUserOrgRoleRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryGetUserOrgRoleRequest)
+}
+func (x fastReflection_QueryGetUserOrgRoleRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryGetUserOrgRoleRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryGetUserOrgRoleRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryGetUserOrgRoleRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryGetUserOrgRoleRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryGetUserOrgRoleRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Address != "" {
+		value := protoreflect.ValueOfString(x.Address)
+		if !f(fd_QueryGetUserOrgRoleRequest_address, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleRequest.address":
+		return x.Address != ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleRequest"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleRequest.address":
+		x.Address = ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleRequest"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleRequest.address":
+		value := x.Address
+		return protoreflect.ValueOfString(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleRequest"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleRequest.address":
+		x.Address = value.Interface().(string)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleRequest"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleRequest.address":
+		panic(fmt.Errorf("field address of message ipex.org.QueryGetUserOrgRoleRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleRequest"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleRequest.address":
+		return protoreflect.ValueOfString("")
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleRequest"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.org.QueryGetUserOrgRoleRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryGetUserOrgRoleRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryGetUserOrgRoleRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.Address)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryGetUserOrgRoleRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.Address) > 0 {
+			i -= len(x.Address)
+			copy(dAtA[i:], x.Address)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Address)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryGetUserOrgRoleRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryGetUserOrgRoleRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryGetUserOrgRoleRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Address = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryGetUserOrgRoleResponse           protoreflect.MessageDescriptor
+	fd_QueryGetUserOrgRoleResponse_orgId     protoreflect.FieldDescriptor
+	fd_QueryGetUserOrgRoleResponse_legalName protoreflect.FieldDescriptor
+	fd_QueryGetUserOrgRoleResponse_isCreator protoreflect.FieldDescriptor
+	fd_QueryGetUserOrgRoleResponse_isAdmin   protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_org_query_proto_init()
+	md_QueryGetUserOrgRoleResponse = File_ipex_org_query_proto.Messages().ByName("QueryGetUserOrgRoleResponse")
+	fd_QueryGetUserOrgRoleResponse_orgId = md_QueryGetUserOrgRoleResponse.Fields().ByName("orgId")
+	fd_QueryGetUserOrgRoleResponse_legalName = md_QueryGetUserOrgRoleResponse.Fields().ByName("legalName")
+	fd_QueryGetUserOrgRoleResponse_isCreator = md_QueryGetUserOrgRoleResponse.Fields().ByName("isCreator")
+	fd_QueryGetUserOrgRoleResponse_isAdmin = md_QueryGetUserOrgRoleResponse.Fields().ByName("isAdmin")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryGetUserOrgRoleResponse)(nil)
+
+type fastReflection_QueryGetUserOrgRoleResponse QueryGetUserOrgRoleResponse
+
+func (x *QueryGetUserOrgRoleResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryGetUserOrgRoleResponse)(x)
+}
+
+func (x *QueryGetUserOrgRoleResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_org_query_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryGetUserOrgRoleResponse_messageType fastReflection_QueryGetUserOrgRoleResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryGetUserOrgRoleResponse_messageType{}
+
+type fastReflection_QueryGetUserOrgRoleResponse_messageType struct{}
+
+func (x fastReflection_QueryGetUserOrgRoleResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryGetUserOrgRoleResponse)(nil)
+}
+func (x fastReflection_QueryGetUserOrgRoleResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryGetUserOrgRoleResponse)
+}
+func (x fastReflection_QueryGetUserOrgRoleResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryGetUserOrgRoleResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryGetUserOrgRoleResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryGetUserOrgRoleResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryGetUserOrgRoleResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryGetUserOrgRoleResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.OrgId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.OrgId)
+		if !f(fd_QueryGetUserOrgRoleResponse_orgId, value) {
+			return
+		}
+	}
+	if x.LegalName != "" {
+		value := protoreflect.ValueOfString(x.LegalName)
+		if !f(fd_QueryGetUserOrgRoleResponse_legalName, value) {
+			return
+		}
+	}
+	if x.IsCreator != false {
+		value := protoreflect.ValueOfBool(x.IsCreator)
+		if !f(fd_QueryGetUserOrgRoleResponse_isCreator, value) {
+			return
+		}
+	}
+	if x.IsAdmin != false {
+		value := protoreflect.ValueOfBool(x.IsAdmin)
+		if !f(fd_QueryGetUserOrgRoleResponse_isAdmin, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleResponse.orgId":
+		return x.OrgId != uint64(0)
+	case "ipex.org.QueryGetUserOrgRoleResponse.legalName":
+		return x.LegalName != ""
+	case "ipex.org.QueryGetUserOrgRoleResponse.isCreator":
+		return x.IsCreator != false
+	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
+		return x.IsAdmin != false
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleResponse.orgId":
+		x.OrgId = uint64(0)
+	case "ipex.org.QueryGetUserOrgRoleResponse.legalName":
+		x.LegalName = ""
+	case "ipex.org.QueryGetUserOrgRoleResponse.isCreator":
+		x.IsCreator = false
+	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
+		x.IsAdmin = false
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleResponse.orgId":
+		value := x.OrgId
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.org.QueryGetUserOrgRoleResponse.legalName":
+		value := x.LegalName
+		return protoreflect.ValueOfString(value)
+	case "ipex.org.QueryGetUserOrgRoleResponse.isCreator":
+		value := x.IsCreator
+		return protoreflect.ValueOfBool(value)
+	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
+		value := x.IsAdmin
+		return protoreflect.ValueOfBool(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleResponse.orgId":
+		x.OrgId = value.Uint()
+	case "ipex.org.QueryGetUserOrgRoleResponse.legalName":
+		x.LegalName = value.Interface().(string)
+	case "ipex.org.QueryGetUserOrgRoleResponse.isCreator":
+		x.IsCreator = value.Bool()
+	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
+		x.IsAdmin = value.Bool()
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleResponse.orgId":
+		panic(fmt.Errorf("field orgId of message ipex.org.QueryGetUserOrgRoleResponse is not mutable"))
+	case "ipex.org.QueryGetUserOrgRoleResponse.legalName":
+		panic(fmt.Errorf("field legalName of message ipex.org.QueryGetUserOrgRoleResponse is not mutable"))
+	case "ipex.org.QueryGetUserOrgRoleResponse.isCreator":
+		panic(fmt.Errorf("field isCreator of message ipex.org.QueryGetUserOrgRoleResponse is not mutable"))
+	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
+		panic(fmt.Errorf("field isAdmin of message ipex.org.QueryGetUserOrgRoleResponse is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.org.QueryGetUserOrgRoleResponse.orgId":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.org.QueryGetUserOrgRoleResponse.legalName":
+		return protoreflect.ValueOfString("")
+	case "ipex.org.QueryGetUserOrgRoleResponse.isCreator":
+		return protoreflect.ValueOfBool(false)
+	case "ipex.org.QueryGetUserOrgRoleResponse.isAdmin":
+		return protoreflect.ValueOfBool(false)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.org.QueryGetUserOrgRoleResponse"))
+		}
+		panic(fmt.Errorf("message ipex.org.QueryGetUserOrgRoleResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.org.QueryGetUserOrgRoleResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryGetUserOrgRoleResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryGetUserOrgRoleResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.OrgId != 0 {
+			n += 1 + runtime.Sov(uint64(x.OrgId))
+		}
+		l = len(x.LegalName)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.IsCreator {
+			n += 2
+		}
+		if x.IsAdmin {
+			n += 2
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryGetUserOrgRoleResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.IsAdmin {
+			i--
+			if x.IsAdmin {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x20
+		}
+		if x.IsCreator {
+			i--
+			if x.IsCreator {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x18
+		}
+		if len(x.LegalName) > 0 {
+			i -= len(x.LegalName)
+			copy(dAtA[i:], x.LegalName)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.LegalName)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if x.OrgId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.OrgId))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryGetUserOrgRoleResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryGetUserOrgRoleResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryGetUserOrgRoleResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OrgId", wireType)
+				}
+				x.OrgId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.OrgId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LegalName", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.LegalName = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IsCreator", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.IsCreator = bool(v != 0)
+			case 4:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IsAdmin", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.IsAdmin = bool(v != 0)
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -7073,6 +8068,100 @@ func (x *QueryOrgByCreatorResponse) GetPagination() *v1beta1.PageResponse {
 	return nil
 }
 
+type QueryGetUserOrgRoleRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+}
+
+func (x *QueryGetUserOrgRoleRequest) Reset() {
+	*x = QueryGetUserOrgRoleRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_org_query_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryGetUserOrgRoleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryGetUserOrgRoleRequest) ProtoMessage() {}
+
+// Deprecated: Use QueryGetUserOrgRoleRequest.ProtoReflect.Descriptor instead.
+func (*QueryGetUserOrgRoleRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_org_query_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *QueryGetUserOrgRoleRequest) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+type QueryGetUserOrgRoleResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	OrgId     uint64 `protobuf:"varint,1,opt,name=orgId,proto3" json:"orgId,omitempty"`
+	LegalName string `protobuf:"bytes,2,opt,name=legalName,proto3" json:"legalName,omitempty"`
+	IsCreator bool   `protobuf:"varint,3,opt,name=isCreator,proto3" json:"isCreator,omitempty"`
+	IsAdmin   bool   `protobuf:"varint,4,opt,name=isAdmin,proto3" json:"isAdmin,omitempty"`
+}
+
+func (x *QueryGetUserOrgRoleResponse) Reset() {
+	*x = QueryGetUserOrgRoleResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_org_query_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryGetUserOrgRoleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryGetUserOrgRoleResponse) ProtoMessage() {}
+
+// Deprecated: Use QueryGetUserOrgRoleResponse.ProtoReflect.Descriptor instead.
+func (*QueryGetUserOrgRoleResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_org_query_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *QueryGetUserOrgRoleResponse) GetOrgId() uint64 {
+	if x != nil {
+		return x.OrgId
+	}
+	return 0
+}
+
+func (x *QueryGetUserOrgRoleResponse) GetLegalName() string {
+	if x != nil {
+		return x.LegalName
+	}
+	return ""
+}
+
+func (x *QueryGetUserOrgRoleResponse) GetIsCreator() bool {
+	if x != nil {
+		return x.IsCreator
+	}
+	return false
+}
+
+func (x *QueryGetUserOrgRoleResponse) GetIsAdmin() bool {
+	if x != nil {
+		return x.IsAdmin
+	}
+	return false
+}
+
 var File_ipex_org_query_proto protoreflect.FileDescriptor
 
 var file_ipex_org_query_proto_rawDesc = []byte{
@@ -7168,64 +8257,85 @@ var file_ipex_org_query_proto_rawDesc = []byte{
 	0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
 	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50,
 	0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67,
-	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0x8d, 0x06, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x12, 0x62, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1d, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72,
-	0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x69, 0x70, 0x64,
-	0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61,
-	0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x19, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x13, 0x12, 0x11, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x70,
-	0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x61, 0x0a, 0x03, 0x4f, 0x72, 0x67, 0x12, 0x1d, 0x2e, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65,
-	0x74, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74,
-	0x4f, 0x72, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f,
-	0x6f, 0x72, 0x67, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x5f, 0x0a, 0x06, 0x4f, 0x72, 0x67, 0x41,
-	0x6c, 0x6c, 0x12, 0x1d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x16, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x10, 0x12, 0x0e, 0x2f, 0x69, 0x70, 0x64, 0x65,
-	0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x6f, 0x72, 0x67, 0x12, 0x6c, 0x0a, 0x07, 0x53, 0x68, 0x6f,
-	0x77, 0x4f, 0x72, 0x67, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x20, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1a, 0x12, 0x18, 0x2f,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x73, 0x68, 0x6f, 0x77, 0x5f, 0x6f,
-	0x72, 0x67, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x67, 0x0a, 0x07, 0x4c, 0x69, 0x73, 0x74, 0x4f,
-	0x72, 0x67, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x6f, 0x72, 0x67,
-	0x12, 0x7c, 0x0a, 0x0a, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x21,
+	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x36, 0x0a, 0x1a, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22,
+	0x89, 0x01, 0x0a, 0x1b, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72,
+	0x4f, 0x72, 0x67, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x14, 0x0a, 0x05, 0x6f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05,
+	0x6f, 0x72, 0x67, 0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x6c, 0x65, 0x67, 0x61, 0x6c, 0x4e, 0x61,
+	0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6c, 0x65, 0x67, 0x61, 0x6c, 0x4e,
+	0x61, 0x6d, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x69, 0x73, 0x43, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x69, 0x73, 0x43, 0x72, 0x65, 0x61, 0x74, 0x6f,
+	0x72, 0x12, 0x18, 0x0a, 0x07, 0x69, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x08, 0x52, 0x07, 0x69, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x32, 0x9f, 0x07, 0x0a, 0x05,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x62, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12,
+	0x1d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e,
 	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x4f, 0x72, 0x67, 0x42, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x22, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12, 0x1f, 0x2f,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x6f, 0x72, 0x67, 0x5f, 0x62, 0x79,
-	0x5f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2f, 0x7b, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x7d, 0x12, 0x86,
-	0x01, 0x0a, 0x0c, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x43, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x12,
-	0x23, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x43, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x25, 0x12, 0x23, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x6f,
-	0x72, 0x67, 0x5f, 0x62, 0x79, 0x5f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x2f, 0x7b, 0x63,
-	0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x7d, 0x42, 0x75, 0x0a, 0x0d, 0x63, 0x6f, 0x6d, 0x2e, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50,
-	0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x13, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70,
-	0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0xa2, 0x02, 0x03, 0x49, 0x4f,
-	0x58, 0xaa, 0x02, 0x09, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x4f, 0x72, 0x67, 0xca, 0x02, 0x09,
-	0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x4f, 0x72, 0x67, 0xe2, 0x02, 0x15, 0x49, 0x70, 0x64, 0x65,
-	0x78, 0x5c, 0x4f, 0x72, 0x67, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
-	0x61, 0xea, 0x02, 0x0a, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x4f, 0x72, 0x67, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x19,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x13, 0x12, 0x11, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f,
+	0x72, 0x67, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x61, 0x0a, 0x03, 0x4f, 0x72, 0x67,
+	0x12, 0x1d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x1b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
+	0x6f, 0x72, 0x67, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x5f, 0x0a, 0x06,
+	0x4f, 0x72, 0x67, 0x41, 0x6c, 0x6c, 0x12, 0x1d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f,
+	0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x4f, 0x72, 0x67, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72,
+	0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x16, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x10, 0x12, 0x0e, 0x2f,
+	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x6f, 0x72, 0x67, 0x12, 0x6c, 0x0a,
+	0x07, 0x53, 0x68, 0x6f, 0x77, 0x4f, 0x72, 0x67, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x4f, 0x72,
+	0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x4f, 0x72,
+	0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x20, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x1a, 0x12, 0x18, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x73, 0x68,
+	0x6f, 0x77, 0x5f, 0x6f, 0x72, 0x67, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x67, 0x0a, 0x07, 0x4c,
+	0x69, 0x73, 0x74, 0x4f, 0x72, 0x67, 0x12, 0x1e, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f,
+	0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x4f, 0x72, 0x67, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f,
+	0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x4f, 0x72, 0x67, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12,
+	0x13, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x6c, 0x69, 0x73, 0x74,
+	0x5f, 0x6f, 0x72, 0x67, 0x12, 0x7c, 0x0a, 0x0a, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x41, 0x64, 0x6d,
+	0x69, 0x6e, 0x12, 0x21, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72,
+	0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x41, 0x64, 0x6d, 0x69,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x21, 0x12, 0x1f, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72, 0x67, 0x2f, 0x6f, 0x72,
+	0x67, 0x5f, 0x62, 0x79, 0x5f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2f, 0x7b, 0x61, 0x64, 0x6d, 0x69,
+	0x6e, 0x7d, 0x12, 0x86, 0x01, 0x0a, 0x0c, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x43, 0x72, 0x65, 0x61,
+	0x74, 0x6f, 0x72, 0x12, 0x23, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x43, 0x72, 0x65, 0x61, 0x74, 0x6f,
+	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4f, 0x72, 0x67, 0x42, 0x79, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x25, 0x12, 0x23, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f,
+	0x72, 0x67, 0x2f, 0x6f, 0x72, 0x67, 0x5f, 0x62, 0x79, 0x5f, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f,
+	0x72, 0x2f, 0x7b, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x7d, 0x12, 0x8f, 0x01, 0x0a, 0x0e,
+	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x6f, 0x6c, 0x65, 0x12, 0x25,
+	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72,
+	0x67, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x4f, 0x72,
+	0x67, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2e, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x28, 0x12, 0x26, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72,
+	0x67, 0x2f, 0x67, 0x65, 0x74, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x6f, 0x72, 0x67, 0x5f, 0x72,
+	0x6f, 0x6c, 0x65, 0x2f, 0x7b, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x42, 0x75, 0x0a,
+	0x0d, 0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6f, 0x72, 0x67, 0x42, 0x0a,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x13, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6f, 0x72,
+	0x67, 0xa2, 0x02, 0x03, 0x49, 0x4f, 0x58, 0xaa, 0x02, 0x09, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e,
+	0x4f, 0x72, 0x67, 0xca, 0x02, 0x09, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x4f, 0x72, 0x67, 0xe2,
+	0x02, 0x15, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x4f, 0x72, 0x67, 0x5c, 0x47, 0x50, 0x42, 0x4d,
+	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0a, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a,
+	0x3a, 0x4f, 0x72, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -7240,43 +8350,45 @@ func file_ipex_org_query_proto_rawDescGZIP() []byte {
 	return file_ipex_org_query_proto_rawDescData
 }
 
-var file_ipex_org_query_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_ipex_org_query_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_ipex_org_query_proto_goTypes = []interface{}{
-	(*QueryParamsRequest)(nil),        // 0: ipex.org.QueryParamsRequest
-	(*QueryParamsResponse)(nil),       // 1: ipex.org.QueryParamsResponse
-	(*QueryGetOrgRequest)(nil),        // 2: ipex.org.QueryGetOrgRequest
-	(*QueryGetOrgResponse)(nil),       // 3: ipex.org.QueryGetOrgResponse
-	(*QueryAllOrgRequest)(nil),        // 4: ipex.org.QueryAllOrgRequest
-	(*QueryAllOrgResponse)(nil),       // 5: ipex.org.QueryAllOrgResponse
-	(*QueryShowOrgRequest)(nil),       // 6: ipex.org.QueryShowOrgRequest
-	(*QueryShowOrgResponse)(nil),      // 7: ipex.org.QueryShowOrgResponse
-	(*QueryListOrgRequest)(nil),       // 8: ipex.org.QueryListOrgRequest
-	(*QueryListOrgResponse)(nil),      // 9: ipex.org.QueryListOrgResponse
-	(*QueryOrgByAdminRequest)(nil),    // 10: ipex.org.QueryOrgByAdminRequest
-	(*QueryOrgByAdminResponse)(nil),   // 11: ipex.org.QueryOrgByAdminResponse
-	(*QueryOrgByCreatorRequest)(nil),  // 12: ipex.org.QueryOrgByCreatorRequest
-	(*QueryOrgByCreatorResponse)(nil), // 13: ipex.org.QueryOrgByCreatorResponse
-	(*Params)(nil),                    // 14: ipex.org.Params
-	(*Org)(nil),                       // 15: ipex.org.Org
-	(*v1beta1.PageRequest)(nil),       // 16: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),      // 17: cosmos.base.query.v1beta1.PageResponse
+	(*QueryParamsRequest)(nil),          // 0: ipex.org.QueryParamsRequest
+	(*QueryParamsResponse)(nil),         // 1: ipex.org.QueryParamsResponse
+	(*QueryGetOrgRequest)(nil),          // 2: ipex.org.QueryGetOrgRequest
+	(*QueryGetOrgResponse)(nil),         // 3: ipex.org.QueryGetOrgResponse
+	(*QueryAllOrgRequest)(nil),          // 4: ipex.org.QueryAllOrgRequest
+	(*QueryAllOrgResponse)(nil),         // 5: ipex.org.QueryAllOrgResponse
+	(*QueryShowOrgRequest)(nil),         // 6: ipex.org.QueryShowOrgRequest
+	(*QueryShowOrgResponse)(nil),        // 7: ipex.org.QueryShowOrgResponse
+	(*QueryListOrgRequest)(nil),         // 8: ipex.org.QueryListOrgRequest
+	(*QueryListOrgResponse)(nil),        // 9: ipex.org.QueryListOrgResponse
+	(*QueryOrgByAdminRequest)(nil),      // 10: ipex.org.QueryOrgByAdminRequest
+	(*QueryOrgByAdminResponse)(nil),     // 11: ipex.org.QueryOrgByAdminResponse
+	(*QueryOrgByCreatorRequest)(nil),    // 12: ipex.org.QueryOrgByCreatorRequest
+	(*QueryOrgByCreatorResponse)(nil),   // 13: ipex.org.QueryOrgByCreatorResponse
+	(*QueryGetUserOrgRoleRequest)(nil),  // 14: ipex.org.QueryGetUserOrgRoleRequest
+	(*QueryGetUserOrgRoleResponse)(nil), // 15: ipex.org.QueryGetUserOrgRoleResponse
+	(*Params)(nil),                      // 16: ipex.org.Params
+	(*Org)(nil),                         // 17: ipex.org.Org
+	(*v1beta1.PageRequest)(nil),         // 18: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),        // 19: cosmos.base.query.v1beta1.PageResponse
 }
 var file_ipex_org_query_proto_depIdxs = []int32{
-	14, // 0: ipex.org.QueryParamsResponse.params:type_name -> ipex.org.Params
-	15, // 1: ipex.org.QueryGetOrgResponse.Org:type_name -> ipex.org.Org
-	16, // 2: ipex.org.QueryAllOrgRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	15, // 3: ipex.org.QueryAllOrgResponse.Org:type_name -> ipex.org.Org
-	17, // 4: ipex.org.QueryAllOrgResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	15, // 5: ipex.org.QueryShowOrgResponse.org:type_name -> ipex.org.Org
-	16, // 6: ipex.org.QueryListOrgRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	15, // 7: ipex.org.QueryListOrgResponse.org:type_name -> ipex.org.Org
-	17, // 8: ipex.org.QueryListOrgResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	16, // 9: ipex.org.QueryOrgByAdminRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	15, // 10: ipex.org.QueryOrgByAdminResponse.Org:type_name -> ipex.org.Org
-	17, // 11: ipex.org.QueryOrgByAdminResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	16, // 12: ipex.org.QueryOrgByCreatorRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	15, // 13: ipex.org.QueryOrgByCreatorResponse.Org:type_name -> ipex.org.Org
-	17, // 14: ipex.org.QueryOrgByCreatorResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	16, // 0: ipex.org.QueryParamsResponse.params:type_name -> ipex.org.Params
+	17, // 1: ipex.org.QueryGetOrgResponse.Org:type_name -> ipex.org.Org
+	18, // 2: ipex.org.QueryAllOrgRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 3: ipex.org.QueryAllOrgResponse.Org:type_name -> ipex.org.Org
+	19, // 4: ipex.org.QueryAllOrgResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	17, // 5: ipex.org.QueryShowOrgResponse.org:type_name -> ipex.org.Org
+	18, // 6: ipex.org.QueryListOrgRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 7: ipex.org.QueryListOrgResponse.org:type_name -> ipex.org.Org
+	19, // 8: ipex.org.QueryListOrgResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	18, // 9: ipex.org.QueryOrgByAdminRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 10: ipex.org.QueryOrgByAdminResponse.Org:type_name -> ipex.org.Org
+	19, // 11: ipex.org.QueryOrgByAdminResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	18, // 12: ipex.org.QueryOrgByCreatorRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	17, // 13: ipex.org.QueryOrgByCreatorResponse.Org:type_name -> ipex.org.Org
+	19, // 14: ipex.org.QueryOrgByCreatorResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
 	0,  // 15: ipex.org.Query.Params:input_type -> ipex.org.QueryParamsRequest
 	2,  // 16: ipex.org.Query.Org:input_type -> ipex.org.QueryGetOrgRequest
 	4,  // 17: ipex.org.Query.OrgAll:input_type -> ipex.org.QueryAllOrgRequest
@@ -7284,15 +8396,17 @@ var file_ipex_org_query_proto_depIdxs = []int32{
 	8,  // 19: ipex.org.Query.ListOrg:input_type -> ipex.org.QueryListOrgRequest
 	10, // 20: ipex.org.Query.OrgByAdmin:input_type -> ipex.org.QueryOrgByAdminRequest
 	12, // 21: ipex.org.Query.OrgByCreator:input_type -> ipex.org.QueryOrgByCreatorRequest
-	1,  // 22: ipex.org.Query.Params:output_type -> ipex.org.QueryParamsResponse
-	3,  // 23: ipex.org.Query.Org:output_type -> ipex.org.QueryGetOrgResponse
-	5,  // 24: ipex.org.Query.OrgAll:output_type -> ipex.org.QueryAllOrgResponse
-	7,  // 25: ipex.org.Query.ShowOrg:output_type -> ipex.org.QueryShowOrgResponse
-	9,  // 26: ipex.org.Query.ListOrg:output_type -> ipex.org.QueryListOrgResponse
-	11, // 27: ipex.org.Query.OrgByAdmin:output_type -> ipex.org.QueryOrgByAdminResponse
-	13, // 28: ipex.org.Query.OrgByCreator:output_type -> ipex.org.QueryOrgByCreatorResponse
-	22, // [22:29] is the sub-list for method output_type
-	15, // [15:22] is the sub-list for method input_type
+	14, // 22: ipex.org.Query.GetUserOrgRole:input_type -> ipex.org.QueryGetUserOrgRoleRequest
+	1,  // 23: ipex.org.Query.Params:output_type -> ipex.org.QueryParamsResponse
+	3,  // 24: ipex.org.Query.Org:output_type -> ipex.org.QueryGetOrgResponse
+	5,  // 25: ipex.org.Query.OrgAll:output_type -> ipex.org.QueryAllOrgResponse
+	7,  // 26: ipex.org.Query.ShowOrg:output_type -> ipex.org.QueryShowOrgResponse
+	9,  // 27: ipex.org.Query.ListOrg:output_type -> ipex.org.QueryListOrgResponse
+	11, // 28: ipex.org.Query.OrgByAdmin:output_type -> ipex.org.QueryOrgByAdminResponse
+	13, // 29: ipex.org.Query.OrgByCreator:output_type -> ipex.org.QueryOrgByCreatorResponse
+	15, // 30: ipex.org.Query.GetUserOrgRole:output_type -> ipex.org.QueryGetUserOrgRoleResponse
+	23, // [23:31] is the sub-list for method output_type
+	15, // [15:23] is the sub-list for method input_type
 	15, // [15:15] is the sub-list for extension type_name
 	15, // [15:15] is the sub-list for extension extendee
 	0,  // [0:15] is the sub-list for field type_name
@@ -7474,6 +8588,30 @@ func file_ipex_org_query_proto_init() {
 				return nil
 			}
 		}
+		file_ipex_org_query_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryGetUserOrgRoleRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_org_query_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryGetUserOrgRoleResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -7481,7 +8619,7 @@ func file_ipex_org_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_org_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -42,6 +42,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{},
 				},
 
+				{
+					RpcMethod:      "GetUserOrgRole",
+					Use:            "get-user-org-role [address]",
+					Short:          "Query user's organization role",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "address"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
