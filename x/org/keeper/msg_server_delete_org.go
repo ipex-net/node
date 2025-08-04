@@ -19,10 +19,19 @@ func (k msgServer) DeleteOrg(goCtx context.Context, msg *types.MsgDeleteOrg) (*t
 	if !found {
 		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
-	if msg.Creator != contract.Admin {
-		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+	if msg.Creator != contract.Creator {
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect org creator")
 	}
-	//TODO: Check for active contracts before removing
+	active, err := k.trustKeeper.LessorHasActiveContracts(ctx, msg.Id)
+	if err != nil {
+		return nil, errorsmod.Wrap(ErrOrgNotFound, "can not get count of active contracts")
+	}
+	if active {
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "can not delete org with active contracts")
+	}
+
+	// TODO: check org balance before removing
+	// TODO: last contract cooldown period before removing
 	k.RemoveOrg(ctx, msg.Id)
 
 	ctx.EventManager().EmitEvent(
