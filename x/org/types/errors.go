@@ -21,4 +21,5 @@ var (
 	ErrOrgNotFound               = sdkerrors.Register(ModuleName, 1110, "organization not found")
 	ErrAlreadyAdmin              = sdkerrors.Register(ModuleName, 1111, "already an admin")
 	ErrNoChange                  = sdkerrors.Register(ModuleName, 1112, "no change requested")
+	ErrNotImplemented			 = sdkerrors.Register(ModuleName, 1113, "functionnality not implemented")
 )

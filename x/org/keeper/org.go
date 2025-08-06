@@ -104,6 +104,8 @@ func (k Keeper) GetOrg(ctx context.Context, id uint64) (val types.Org, found boo
 
 // RemoveOrg removes a org from the store
 func (k Keeper) RemoveOrg(ctx context.Context, id uint64) {
+	// Can not implement this for the moment as no clear rules on subnet removal 
+	return
 	// Get the org first to access its indexed fields
 	org, found := k.GetOrg(ctx, id)
 	if !found {
@@ -124,6 +126,11 @@ func (k Keeper) RemoveOrg(ctx context.Context, id uint64) {
 
 	// Remove lessor reputation
 	k.trustKeeper.RemoveLessorReputation(ctx, id)
+
+
+	// Delete all subnets
+	// Delete all lease contracts
+
 }
 
 // GetAllOrg returns all org

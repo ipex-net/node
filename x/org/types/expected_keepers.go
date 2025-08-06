@@ -31,3 +31,4 @@ type TrustKeeper interface {
 	RemoveLessorReputation(ctx context.Context, index uint64)
 	LessorHasActiveContracts(ctx context.Context, lessorId uint64) (bool, error)
 }
+
