@@ -851,3 +851,31 @@ func (k Keeper) UpdateSubnetGeoDbValidationStatus(ctx context.Context, subnetID 
 
 	return nil
 }
+
+// OrgHasSubnetUsers returns true if there are subnet user(s) for any subnet that org is an owner and false, if there are is none
+func (k Keeper) OrgHasSubnetUsers(ctx context.Context, orgId uint64) (bool, error) {
+	if orgId == 0 {
+		return false, fmt.Errorf("Subnet ID can not be 0")
+	}
+
+	var hasUser bool
+
+	// Iterate over all subnets with this owner org ID using prefix iteration
+	rng := collections.NewPrefixedPairRange[uint64, uint64](orgId)
+	err := k.SubnetsByOwnerOrg.Walk(ctx, rng, func(key collections.Pair[uint64, uint64], value bool) (bool, error) {
+		// key.K2() is the subnet ID
+		subnetId := key.K2()
+		subnet, found := k.GetSubnet(ctx, subnetId)
+		if found && subnet.UserOrgId > 0 {
+			hasUser = true
+			return true, nil
+		}
+		return false, nil
+	})
+
+	if err != nil {
+		return hasUser, err
+	}
+
+	return hasUser, nil
+}
