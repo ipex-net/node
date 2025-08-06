@@ -103,9 +103,9 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 		return nil, errorsmod.Wrap(types.ErrInvalidAddress, "address must be 5-200 characters and can contain letters, numbers, spaces, commas, dots, and hyphens")
 	}
 
-	regNumRegex := regexp.MustCompile(`^[A-Z0-9-]{5,20}$`)
+	regNumRegex := regexp.MustCompile(`^[a-zA-Z0-9-]{5,20}$`)
 	if !regNumRegex.MatchString(msg.RegistrationNumber) {
-		return nil, errorsmod.Wrap(types.ErrInvalidRegistrationNumber, "registration number must be 5-20 characters and can only contain capital letters, numbers, and hyphens")
+		return nil, errorsmod.Wrap(types.ErrInvalidRegistrationNumber, "registration number must be 5-20 characters and can only contain letters, numbers, and hyphens")
 	}
 	countryCodeRegex := regexp.MustCompile(`^[A-Z]{2}$`)
 	if !countryCodeRegex.MatchString(msg.CountryCode) {
@@ -114,12 +114,12 @@ func (k msgServer) RegisterOrg(goCtx context.Context, msg *types.MsgRegisterOrg)
 
 	parsedUrl, err := url.Parse(msg.Website)
 	if err != nil {
-		return nil, errorsmod.Wrapf(types.ErrInvalidWebsiteUrl, "invalid geofeed URL format (%s)", msg.Website)
+		return nil, errorsmod.Wrapf(types.ErrInvalidWebsiteUrl, "can not parse website (%s)", msg.Website)
 	}
 
 	// Check if host is present
 	if parsedUrl.Host == "" {
-		return nil, errorsmod.Wrapf(types.ErrInvalidWebsiteUrl, "website URL must have a valid host (%s)", msg.Website)
+		return nil, errorsmod.Wrapf(types.ErrInvalidWebsiteUrl, "website URL must have a valid host (%s : %s)", msg.Website, parsedUrl.Host)
 	}
 
 	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
