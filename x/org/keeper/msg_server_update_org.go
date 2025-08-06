@@ -95,41 +95,50 @@ func (k msgServer) UpdateOrg(goCtx context.Context, msg *types.MsgUpdateOrg) (*t
 	// Keep track of changes
 	var updatedFields []sdk.Attribute
 
-	// Set trasferred parameters
-	if msg.LegalName != "" {
+	// Set transferred parameters - only update if different from current value
+	if msg.Name != "" && msg.Name != org.Name {
+		org.Name = msg.Name
+		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventName, msg.Name))
+	}
+	if msg.LegalName != "" && msg.LegalName != org.LegalName {
 		org.LegalName = msg.LegalName
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventLegalName, msg.LegalName))
 	}
-	if msg.Address != "" {
+	if msg.Address != "" && msg.Address != org.Address {
 		org.Address = msg.Address
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventAddress, msg.Address))
 	}
-	if msg.RegistrationNumber != "" {
+	if msg.RegistrationNumber != "" && msg.RegistrationNumber != org.RegistrationNumber {
 		org.RegistrationNumber = msg.RegistrationNumber
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventRegistrationNumber, msg.RegistrationNumber))
 	}
-	if msg.CountryCode != "" {
+	if msg.CountryCode != "" && msg.CountryCode != org.CountryCode {
 		org.CountryCode = msg.CountryCode
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventCountryCode, msg.CountryCode))
 	}
-	if msg.TaxId != "" {
+	if msg.TaxId != "" && msg.TaxId != org.TaxId {
 		org.TaxId = msg.TaxId
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventTaxId, msg.TaxId))
 	}
-	if msg.Website != "" {
+	if msg.Website != "" && msg.Website != org.Website {
 		org.Website = msg.Website
 		org.DomainVerified = false
 		org.DomainVerifAttemptedAt = nil
 		org.DomainVerifiedAt = nil
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventWebsite, msg.Website))
 	}
-	if msg.AbuseEmail != "" {
+	if msg.AbuseEmail != "" && msg.AbuseEmail != org.AbuseEmail {
 		org.AbuseEmail = msg.AbuseEmail
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventAbuseEmail, msg.AbuseEmail))
 	}
-	if msg.ContactEmail != "" {
+	if msg.ContactEmail != "" && msg.ContactEmail != org.ContactEmail {
 		org.ContactEmail = msg.ContactEmail
 		updatedFields = append(updatedFields, sdk.NewAttribute(types.OrgUpdatedEventContactEmail, msg.ContactEmail))
+	}
+
+	// Check if any fields were actually changed
+	if len(updatedFields) == 0 {
+		return nil, errorsmod.Wrap(types.ErrNoChange, "no changes detected in provided fields")
 	}
 
 	org.UpdatedAt = ctx.BlockTime()

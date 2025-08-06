@@ -60,6 +60,7 @@ const (
 	OrgUpdatedEventType               = "org_updated"
 	OrgUpdatedEventCreator            = "creator"
 	OrgUpdatedEventId                 = "org_id"
+	OrgUpdatedEventName               = "name"
 	OrgUpdatedEventLegalName          = "legal_name"
 	OrgUpdatedEventAddress            = "address"
 	OrgUpdatedEventRegistrationNumber = "registration_number"
