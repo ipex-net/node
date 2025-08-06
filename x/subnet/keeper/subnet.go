@@ -852,10 +852,10 @@ func (k Keeper) UpdateSubnetGeoDbValidationStatus(ctx context.Context, subnetID 
 	return nil
 }
 
-// OrgHasSubnetUsers returns true if there are subnet user(s) for any subnet that org is an owner and false, if there are is none
+// OrgHasSubnetUsers returns true if there are subnet user(s) for any subnet owned by the org, and false if there are none
 func (k Keeper) OrgHasSubnetUsers(ctx context.Context, orgId uint64) (bool, error) {
 	if orgId == 0 {
-		return false, fmt.Errorf("Subnet ID can not be 0")
+		return false, fmt.Errorf("org ID can not be 0")
 	}
 
 	var hasUser bool
@@ -878,4 +878,35 @@ func (k Keeper) OrgHasSubnetUsers(ctx context.Context, orgId uint64) (bool, erro
 	}
 
 	return hasUser, nil
+}
+
+// DeleteOrgSubnets removes subnets where orgId is an owner, and org's subnet have no users
+func (k Keeper) DeleteOrgSubnets(ctx context.Context, orgId uint64) error {
+	if orgId == 0 {
+		return fmt.Errorf("org ID can not be 0")
+	}
+	hasUsers, err := k.OrgHasSubnetUsers(ctx, orgId)
+	if err != nil {
+		return err
+	}
+	if hasUsers {
+		return fmt.Errorf("cannot remove subnets that have users")
+	}
+
+	// Iterate over all subnets with this owner org ID using prefix iteration
+	rng := collections.NewPrefixedPairRange[uint64, uint64](orgId)
+	err = k.SubnetsByOwnerOrg.Walk(ctx, rng, func(key collections.Pair[uint64, uint64], value bool) (bool, error) {
+		// key.K2() is the subnet ID
+		subnetId := key.K2()
+		subnet, found := k.GetSubnet(ctx, subnetId)
+		if found {
+			k.RemoveSubnet(ctx, subnet.Id)
+		}
+		return false, nil
+	})
+
+	if err != nil {
+		return err
+	}
+	return nil
 }
