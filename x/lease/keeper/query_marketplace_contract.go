@@ -129,7 +129,7 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 	var lastKey uint64
 
 	// Set up pagination parameters
-	limit := uint64(100) // Default limit
+	limit := uint64(20) // Default limit
 	offset := uint64(0)
 	var startKey *uint64
 
