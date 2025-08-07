@@ -30,7 +30,6 @@ export interface MsgCreateSubnet {
   ownerOrgId: number;
   networkAddress: number;
   mask: number;
-  rir: string;
   country: string;
 }
 
@@ -198,7 +197,7 @@ export const MsgUpdateParamsResponse: MessageFns<MsgUpdateParamsResponse> = {
 };
 
 function createBaseMsgCreateSubnet(): MsgCreateSubnet {
-  return { creator: "", ownerOrgId: 0, networkAddress: 0, mask: 0, rir: "", country: "" };
+  return { creator: "", ownerOrgId: 0, networkAddress: 0, mask: 0, country: "" };
 }
 
 export const MsgCreateSubnet: MessageFns<MsgCreateSubnet> = {
@@ -215,11 +214,8 @@ export const MsgCreateSubnet: MessageFns<MsgCreateSubnet> = {
     if (message.mask !== 0) {
       writer.uint32(32).uint64(message.mask);
     }
-    if (message.rir !== "") {
-      writer.uint32(42).string(message.rir);
-    }
     if (message.country !== "") {
-      writer.uint32(50).string(message.country);
+      writer.uint32(42).string(message.country);
     }
     return writer;
   },
@@ -268,14 +264,6 @@ export const MsgCreateSubnet: MessageFns<MsgCreateSubnet> = {
             break;
           }
 
-          message.rir = reader.string();
-          continue;
-        }
-        case 6: {
-          if (tag !== 50) {
-            break;
-          }
-
           message.country = reader.string();
           continue;
         }
@@ -294,7 +282,6 @@ export const MsgCreateSubnet: MessageFns<MsgCreateSubnet> = {
       ownerOrgId: isSet(object.ownerOrgId) ? globalThis.Number(object.ownerOrgId) : 0,
       networkAddress: isSet(object.networkAddress) ? globalThis.Number(object.networkAddress) : 0,
       mask: isSet(object.mask) ? globalThis.Number(object.mask) : 0,
-      rir: isSet(object.rir) ? globalThis.String(object.rir) : "",
       country: isSet(object.country) ? globalThis.String(object.country) : "",
     };
   },
@@ -313,9 +300,6 @@ export const MsgCreateSubnet: MessageFns<MsgCreateSubnet> = {
     if (message.mask !== 0) {
       obj.mask = Math.round(message.mask);
     }
-    if (message.rir !== "") {
-      obj.rir = message.rir;
-    }
     if (message.country !== "") {
       obj.country = message.country;
     }
@@ -331,7 +315,6 @@ export const MsgCreateSubnet: MessageFns<MsgCreateSubnet> = {
     message.ownerOrgId = object.ownerOrgId ?? 0;
     message.networkAddress = object.networkAddress ?? 0;
     message.mask = object.mask ?? 0;
-    message.rir = object.rir ?? "";
     message.country = object.country ?? "";
     return message;
   },
