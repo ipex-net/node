@@ -41,6 +41,24 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Query show-subnet",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
+				{
+					RpcMethod:      "SubnetByOwnerOrg",
+					Use:            "subnet-by-owner-org [owner-org-id]",
+					Short:          "Query subnets by owner org",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "owner_org_id"}},
+				},
+				{
+					RpcMethod:      "SubnetByUserOrg",
+					Use:            "subnet-by-user-org [user-org-id]",
+					Short:          "Query subnets by user org",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "user_org_id"}},
+				},
+				{
+					RpcMethod:      "SubnetByNetworkAddress",
+					Use:            "subnet-by-network-address [network-address]",
+					Short:          "Query subnets by network address",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "network_address"}},
+				},
 
 				// this line is used by ignite scaffolding # autocli/query
 			},
