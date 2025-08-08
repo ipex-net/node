@@ -51,6 +51,8 @@ func (k Keeper) GetTransactionsByOrgPaginated(ctx context.Context, orgId uint64,
 		}
 	}
 
+	var collectingItems = true
+
 	// Use org index to efficiently get transactions for this organization
 	rng := collections.NewPrefixedPairRange[uint64, uint64](orgId)
 	err := k.TransactionsByOrg.Walk(ctx, rng, func(key collections.Pair[uint64, uint64], value bool) (bool, error) {
@@ -62,22 +64,26 @@ func (k Keeper) GetTransactionsByOrgPaginated(ctx context.Context, orgId uint64,
 			return false, nil
 		}
 
-		// Stop if we've collected enough items
-		if uint64(len(transactions)) >= limit {
-			return true, nil
+		if collectingItems {
+			// Stop if we've collected enough items
+			if uint64(len(transactions)) >= limit {
+				collectingItems = false
+				return false, nil
+			}
+
+			// Get the transaction ID from the key
+			transactionId := key.K2()
+
+			// Fetch the full transaction
+			transaction, found := k.GetTransaction(ctx, transactionId)
+			if !found {
+				// Transaction might have been deleted, skip
+				return false, nil
+			}
+
+			transactions = append(transactions, transaction)
 		}
 
-		// Get the transaction ID from the key
-		transactionId := key.K2()
-
-		// Fetch the full transaction
-		transaction, found := k.GetTransaction(ctx, transactionId)
-		if !found {
-			// Transaction might have been deleted, skip
-			return false, nil
-		}
-
-		transactions = append(transactions, transaction)
 		return false, nil
 	})
 

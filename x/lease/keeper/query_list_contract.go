@@ -45,6 +45,7 @@ func (k Keeper) ListContract(ctx context.Context, req *types.QueryListContractRe
 
 	var skipped uint64
 	var collectedCount uint64
+	var collectingItems = true
 
 	// Use collections to iterate through contracts with pagination
 	err := k.Contracts.Walk(ctx, nil, func(key uint64, value types.Contract) (bool, error) {
@@ -61,14 +62,17 @@ func (k Keeper) ListContract(ctx context.Context, req *types.QueryListContractRe
 			return false, nil
 		}
 
-		// Stop if we've collected enough items
-		if collectedCount >= limit {
-			return true, nil
-		}
+		if collectingItems {
+			// Stop if we've collected enough items
+			if collectedCount >= limit {
+				collectingItems = false
+				return false, nil
+			}
 
-		contracts = append(contracts, value)
-		lastKey = key
-		collectedCount++
+			contracts = append(contracts, value)
+			lastKey = key
+			collectedCount++
+		}
 
 		return false, nil
 	})

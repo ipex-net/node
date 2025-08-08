@@ -19,6 +19,7 @@ func (k Keeper) TransactionAll(ctx context.Context, req *types.QueryAllTransacti
 	var transactions []types.Transaction
 	var count uint64
 	var skipped uint64
+	var collectingItems = true
 
 	// Set up pagination parameters
 	limit := uint64(100) // Default limit
@@ -42,12 +43,16 @@ func (k Keeper) TransactionAll(ctx context.Context, req *types.QueryAllTransacti
 			return false, nil
 		}
 
-		// Stop if we've collected enough items
-		if uint64(len(transactions)) >= limit {
-			return true, nil
+		if collectingItems {
+			// Stop if we've collected enough items
+			if uint64(len(transactions)) >= limit {
+				collectingItems = false
+				return false, nil
+			}
+
+			transactions = append(transactions, value)
 		}
 
-		transactions = append(transactions, value)
 		return false, nil
 	})
 

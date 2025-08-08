@@ -18,6 +18,7 @@ func (k Keeper) ComplaintAll(ctx context.Context, req *types.QueryAllComplaintRe
 	var complaints []types.Complaint
 	var count uint64
 	var skipped uint64
+	var collectingItems = true
 
 	// Set up pagination parameters
 	limit := uint64(100) // Default limit
@@ -41,12 +42,16 @@ func (k Keeper) ComplaintAll(ctx context.Context, req *types.QueryAllComplaintRe
 			return false, nil
 		}
 
-		// Stop if we've collected enough items
-		if uint64(len(complaints)) >= limit {
-			return true, nil
+		if collectingItems {
+			// Stop if we've collected enough items
+			if uint64(len(complaints)) >= limit {
+				collectingItems = false
+				return false, nil
+			}
+
+			complaints = append(complaints, value)
 		}
 
-		complaints = append(complaints, value)
 		return false, nil
 	})
 

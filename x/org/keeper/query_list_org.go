@@ -18,6 +18,7 @@ func (k Keeper) ListOrg(ctx context.Context, req *types.QueryListOrgRequest) (*t
 	var orgs []types.Org
 	var count uint64
 	var skipped uint64
+	var collectingItems = true
 
 	// Set up pagination parameters
 	limit := uint64(100) // Default limit
@@ -41,12 +42,16 @@ func (k Keeper) ListOrg(ctx context.Context, req *types.QueryListOrgRequest) (*t
 			return false, nil
 		}
 
-		// Stop if we've collected enough items
-		if uint64(len(orgs)) >= limit {
-			return true, nil
+		if collectingItems {
+			// Stop if we've collected enough items
+			if uint64(len(orgs)) >= limit {
+				collectingItems = false
+				return false, nil
+			}
+
+			orgs = append(orgs, value)
 		}
 
-		orgs = append(orgs, value)
 		return false, nil
 	})
 

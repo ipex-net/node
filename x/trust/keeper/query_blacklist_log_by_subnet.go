@@ -47,6 +47,7 @@ func (k Keeper) BlacklistLogBySubnet(ctx context.Context, req *types.QueryBlackl
 
 	var skipped uint64
 	var collectedCount uint64
+	var collectingItems = true
 
 	// Iterate over all logs with this subnet ID using prefix iteration (reverse for latest first)
 	rng := collections.NewPrefixedPairRange[uint64, uint64](req.SubnetId).Descending()
@@ -60,25 +61,28 @@ func (k Keeper) BlacklistLogBySubnet(ctx context.Context, req *types.QueryBlackl
 
 		totalCount++
 
-		// If using key-based pagination, skip until we reach the start key (reverse order)
-		if startKey != nil && logId <= *startKey {
-			return false, nil
-		}
+		if collectingItems {
+			// If using key-based pagination, skip until we reach the start key (reverse order)
+			if startKey != nil && logId <= *startKey {
+				return false, nil
+			}
 
-		// Skip entries until we reach the offset (for offset-based pagination)
-		if startKey == nil && skipped < offset {
-			skipped++
-			return false, nil
-		}
+			// Skip entries until we reach the offset (for offset-based pagination)
+			if startKey == nil && skipped < offset {
+				skipped++
+				return false, nil
+			}
 
-		// Stop if we've collected enough items
-		if collectedCount >= limit {
-			return true, nil
-		}
+			// Stop collecting items if we've collected enough
+			if collectedCount >= limit {
+				collectingItems = false
+				return false, nil // Continue counting but stop collecting
+			}
 
-		blacklistLogs = append(blacklistLogs, log)
-		lastKey = logId
-		collectedCount++
+			blacklistLogs = append(blacklistLogs, log)
+			lastKey = logId
+			collectedCount++
+		}
 
 		return false, nil
 	})

@@ -47,31 +47,35 @@ func (k Keeper) BlacklistLogAll(ctx context.Context, req *types.QueryAllBlacklis
 
 	var skipped uint64
 	var collectedCount uint64
+	var collectingItems = true
 
 	// Create range for reverse iteration (latest first)
 	rng := new(collections.Range[uint64]).Descending()
 	err := k.BlacklistLogs.Walk(ctx, rng, func(key uint64, value types.BlacklistLog) (bool, error) {
 		totalCount++
 
-		// If using key-based pagination, skip until we reach the start key (reverse order)
-		if startKey != nil && key <= *startKey {
-			return false, nil
-		}
+		if collectingItems {
+			// If using key-based pagination, skip until we reach the start key (reverse order)
+			if startKey != nil && key <= *startKey {
+				return false, nil
+			}
 
-		// Skip entries until we reach the offset (for offset-based pagination)
-		if startKey == nil && skipped < offset {
-			skipped++
-			return false, nil
-		}
+			// Skip entries until we reach the offset (for offset-based pagination)
+			if startKey == nil && skipped < offset {
+				skipped++
+				return false, nil
+			}
 
-		// Stop if we've collected enough items
-		if collectedCount >= limit {
-			return true, nil
-		}
+			// Stop collecting items if we've collected enough
+			if collectedCount >= limit {
+				collectingItems = false
+				return false, nil // Continue counting but stop collecting
+			}
 
-		blacklistLogs = append(blacklistLogs, value)
-		lastKey = key
-		collectedCount++
+			blacklistLogs = append(blacklistLogs, value)
+			lastKey = key
+			collectedCount++
+		}
 
 		return false, nil
 	})

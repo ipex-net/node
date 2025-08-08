@@ -153,6 +153,7 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 
 	var skipped uint64
 	var collectedCount uint64
+	var collectingItems = true
 
 	// Use collections to iterate through contracts with pagination
 	err := k.Contracts.Walk(ctx, nil, func(key uint64, contract types.Contract) (bool, error) {
@@ -202,25 +203,28 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 		// Contract matches all filters, now apply pagination logic
 		totalCount++
 
-		// If using key-based pagination, skip until we reach the start key
-		if startKey != nil && key <= *startKey {
-			return false, nil
-		}
+		if collectingItems {
+			// If using key-based pagination, skip until we reach the start key
+			if startKey != nil && key <= *startKey {
+				return false, nil
+			}
 
-		// Skip entries until we reach the offset (for offset-based pagination)
-		if startKey == nil && skipped < offset {
-			skipped++
-			return false, nil
-		}
+			// Skip entries until we reach the offset (for offset-based pagination)
+			if startKey == nil && skipped < offset {
+				skipped++
+				return false, nil
+			}
 
-		// Stop if we've collected enough items
-		if collectedCount >= limit {
-			return true, nil
-		}
+			// Stop collecting items if we've collected enough
+			if collectedCount >= limit {
+				collectingItems = false
+				return false, nil // Continue counting but stop collecting
+			}
 
-		contracts = append(contracts, contract)
-		lastKey = key
-		collectedCount++
+			contracts = append(contracts, contract)
+			lastKey = key
+			collectedCount++
+		}
 
 		return false, nil
 	})

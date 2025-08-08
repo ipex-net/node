@@ -43,27 +43,33 @@ func (k Keeper) ListSubnet(ctx context.Context, req *types.QueryListSubnetReques
 		}
 	}
 
+	var collectingItems = true
+
 	// Use collections to iterate through subnets with pagination
 	err := k.Subnets.Walk(ctx, nil, func(key uint64, value types.Subnet) (bool, error) {
 		count++
 
-		// If using key-based pagination, skip until we reach the start key
-		if startKey != nil && key <= *startKey {
-			return false, nil
+		if collectingItems {
+			// If using key-based pagination, skip until we reach the start key
+			if startKey != nil && key <= *startKey {
+				return false, nil
+			}
+
+			// Skip entries until we reach the offset (for offset-based pagination)
+			if startKey == nil && skipped < offset {
+				skipped++
+				return false, nil
+			}
+
+			// Stop collecting items if we've collected enough
+			if uint64(len(subnets)) >= limit {
+				collectingItems = false
+				return false, nil // Continue counting but stop collecting
+			}
+
+			subnets = append(subnets, value)
 		}
 
-		// Skip entries until we reach the offset (for offset-based pagination)
-		if startKey == nil && skipped < offset {
-			skipped++
-			return false, nil
-		}
-
-		// Stop if we've collected enough items
-		if uint64(len(subnets)) >= limit {
-			return true, nil
-		}
-
-		subnets = append(subnets, value)
 		return false, nil
 	})
 
