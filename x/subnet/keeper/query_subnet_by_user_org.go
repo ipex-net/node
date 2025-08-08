@@ -46,6 +46,7 @@ func (k Keeper) SubnetByUserOrg(ctx context.Context, req *types.QuerySubnetByUse
 
 	var skipped uint64
 	var collectedCount uint64
+	var collectingItems = true
 
 	// Iterate over all subnets with this user org ID using prefix iteration
 	rng := collections.NewPrefixedPairRange[uint64, uint64](req.UserOrgId)
@@ -60,25 +61,28 @@ func (k Keeper) SubnetByUserOrg(ctx context.Context, req *types.QuerySubnetByUse
 		// Count total matching subnets
 		totalCount++
 
-		// If using key-based pagination, skip until we reach the start key
-		if startKey != nil && subnetId <= *startKey {
-			return false, nil
-		}
+		if collectingItems {
+			// If using key-based pagination, skip until we reach the start key
+			if startKey != nil && subnetId <= *startKey {
+				return false, nil
+			}
 
-		// Skip entries until we reach the offset (for offset-based pagination)
-		if startKey == nil && skipped < offset {
-			skipped++
-			return false, nil
-		}
+			// Skip entries until we reach the offset (for offset-based pagination)
+			if startKey == nil && skipped < offset {
+				skipped++
+				return false, nil
+			}
 
-		// Stop if we've collected enough items
-		if collectedCount >= limit {
-			return true, nil
-		}
+			// Stop collecting items if we've reached the limit, but continue counting
+			if collectedCount >= limit {
+				collectingItems = false
+				return false, nil
+			}
 
-		subnets = append(subnets, subnet)
-		lastKey = subnetId
-		collectedCount++
+			subnets = append(subnets, subnet)
+			lastKey = subnetId
+			collectedCount++
+		}
 
 		return false, nil
 	})

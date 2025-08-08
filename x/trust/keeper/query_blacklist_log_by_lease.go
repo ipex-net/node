@@ -63,7 +63,7 @@ func (k Keeper) BlacklistLogByLease(ctx context.Context, req *types.QueryBlackli
 
 		if collectingItems {
 			// If using key-based pagination, skip until we reach the start key (reverse order)
-			if startKey != nil && logId <= *startKey {
+			if startKey != nil && logId >= *startKey {
 				return false, nil
 			}
 

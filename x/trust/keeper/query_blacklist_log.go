@@ -56,7 +56,7 @@ func (k Keeper) BlacklistLogAll(ctx context.Context, req *types.QueryAllBlacklis
 
 		if collectingItems {
 			// If using key-based pagination, skip until we reach the start key (reverse order)
-			if startKey != nil && key <= *startKey {
+			if startKey != nil && key >= *startKey {
 				return false, nil
 			}
 
