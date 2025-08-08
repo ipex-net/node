@@ -28,7 +28,7 @@ func (k Keeper) BidByBidder(goCtx context.Context, req *types.QueryBidByBidderRe
 	bids := k.GetBidsByBidder(ctx, req.BidderOrgId)
 
 	// Set up pagination defaults
-	limit := uint64(100)
+	limit := uint64(20)
 	if req.Pagination != nil && req.Pagination.Limit > 0 {
 		limit = req.Pagination.Limit
 	}
@@ -64,7 +64,7 @@ func (k Keeper) BidByBidder(goCtx context.Context, req *types.QueryBidByBidderRe
 		Bid: paginatedBids,
 		Pagination: &query.PageResponse{
 			NextKey: nextKey,
-			Total:   uint64(len(paginatedBids)),
+			Total:   uint64(len(bids)),
 		},
 	}, nil
 }
