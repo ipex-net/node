@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"encoding/binary"
 
 	"ipex/x/subnet/types"
 
@@ -20,8 +21,10 @@ func (k Keeper) ListSubnet(ctx context.Context, req *types.QueryListSubnetReques
 	var skipped uint64
 
 	// Set up pagination parameters
-	limit := uint64(100) // Default limit
+	limit := uint64(20) // Default limit
 	offset := uint64(0)
+	var startKey *uint64
+
 	if req.Pagination != nil {
 		if req.Pagination.Limit > 0 {
 			limit = req.Pagination.Limit
@@ -29,14 +32,28 @@ func (k Keeper) ListSubnet(ctx context.Context, req *types.QueryListSubnetReques
 		if req.Pagination.Offset > 0 {
 			offset = req.Pagination.Offset
 		}
+		// Support key-based pagination
+		if len(req.Pagination.Key) > 0 {
+			// Parse the key as uint64 (subnet ID)
+			if len(req.Pagination.Key) == 8 {
+				keyValue := binary.BigEndian.Uint64(req.Pagination.Key)
+				startKey = &keyValue
+				offset = 0 // When using key-based pagination, ignore offset
+			}
+		}
 	}
 
 	// Use collections to iterate through subnets with pagination
 	err := k.Subnets.Walk(ctx, nil, func(key uint64, value types.Subnet) (bool, error) {
 		count++
 
-		// Skip entries until we reach the offset
-		if skipped < offset {
+		// If using key-based pagination, skip until we reach the start key
+		if startKey != nil && key <= *startKey {
+			return false, nil
+		}
+
+		// Skip entries until we reach the offset (for offset-based pagination)
+		if startKey == nil && skipped < offset {
 			skipped++
 			return false, nil
 		}
@@ -56,9 +73,14 @@ func (k Keeper) ListSubnet(ctx context.Context, req *types.QueryListSubnetReques
 
 	// Calculate next key for pagination
 	var nextKey []byte
-	if uint64(len(subnets)) == limit && count > offset+limit {
-		// There are more items available
-		nextKey = []byte("has_more")
+	var lastKey uint64
+	if uint64(len(subnets)) == limit {
+		// Convert the last subnet ID to bytes for next key
+		if len(subnets) > 0 {
+			lastKey = subnets[len(subnets)-1].Id
+			nextKey = make([]byte, 8)
+			binary.BigEndian.PutUint64(nextKey, lastKey)
+		}
 	}
 
 	return &types.QueryListSubnetResponse{
