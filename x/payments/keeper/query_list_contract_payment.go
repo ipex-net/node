@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"encoding/binary"
 
 	"ipex/x/payments/types"
 
@@ -17,6 +18,35 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 	}
 
 	var transactions []types.Transaction
+	var totalCount uint64
+	var lastKey uint64
+
+	// Set up pagination parameters
+	limit := uint64(20) // Default limit
+	offset := uint64(0)
+	var startKey *uint64
+
+	if req.Pagination != nil {
+		if req.Pagination.Limit > 0 {
+			limit = req.Pagination.Limit
+		}
+		if req.Pagination.Offset > 0 {
+			offset = req.Pagination.Offset
+		}
+		// Support key-based pagination
+		if len(req.Pagination.Key) > 0 {
+			// Parse the key as uint64 (transaction ID)
+			if len(req.Pagination.Key) == 8 {
+				keyValue := binary.BigEndian.Uint64(req.Pagination.Key)
+				startKey = &keyValue
+				offset = 0 // When using key-based pagination, ignore offset
+			}
+		}
+	}
+
+	var skipped uint64
+	var collectedCount uint64
+	var collectingItems = true
 
 	// Use entity index to efficiently get transactions for this entity
 	rng := collections.NewPrefixedPairRange[uint64, uint64](req.Id)
@@ -31,7 +61,32 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 			return false, nil
 		}
 
-		transactions = append(transactions, transaction)
+		// Count total matching transactions (always count for accurate total)
+		totalCount++
+
+		if collectingItems {
+			// If using key-based pagination, skip until we reach the start key
+			if startKey != nil && transactionId <= *startKey {
+				return false, nil
+			}
+
+			// Skip entries until we reach the offset (for offset-based pagination)
+			if startKey == nil && skipped < offset {
+				skipped++
+				return false, nil
+			}
+
+			// Stop collecting items if we've collected enough
+			if collectedCount >= limit {
+				collectingItems = false
+				return false, nil // Continue counting but stop collecting
+			}
+
+			transactions = append(transactions, transaction)
+			lastKey = transactionId
+			collectedCount++
+		}
+
 		return false, nil
 	})
 
@@ -39,33 +94,19 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	// Apply pagination to the collected transactions
-	offset := int(req.Pagination.GetOffset())
-	limit := int(req.Pagination.GetLimit())
-	total := uint64(len(transactions))
-
-	// Apply offset
-	if offset > len(transactions) {
-		offset = len(transactions)
-	}
-	transactions = transactions[offset:]
-
-	// Apply limit
-	if limit > 0 && limit < len(transactions) {
-		transactions = transactions[:limit]
-	}
-
-	pageResponse := &query.PageResponse{
-		Total: total,
-	}
-
-	// Set next key if there are more results
-	if req.Pagination.GetCountTotal() {
-		pageResponse.Total = total
+	// Calculate next key for pagination
+	var nextKey []byte
+	if collectedCount == limit {
+		// Convert the last transaction ID to bytes for next key
+		nextKey = make([]byte, 8)
+		binary.BigEndian.PutUint64(nextKey, lastKey)
 	}
 
 	return &types.QueryListContractPaymentResponse{
 		Transaction: transactions,
-		Pagination:  pageResponse,
+		Pagination: &query.PageResponse{
+			NextKey: nextKey,
+			Total:   totalCount,
+		},
 	}, nil
 }
