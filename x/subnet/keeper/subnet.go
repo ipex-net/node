@@ -775,7 +775,7 @@ func IPCountFromMask(mask uint64) uint64 {
 // GetSubnetsForGeoDbValidation retrieves subnets for geo validation
 func (k Keeper) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime time.Time) (list []types.Subnet) {
 	count := 0
-	maxSubnets := 5
+	maxSubnets := 10
 
 	err := k.Subnets.Walk(ctx, nil, func(key uint64, subnet types.Subnet) (bool, error) {
 		// If no country set - don't validate
@@ -799,9 +799,9 @@ func (k Keeper) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime 
 		var requiredInterval time.Duration
 
 		switch {
-		case geoChangeAge < 72*time.Hour:
-			requiredInterval = 5 * time.Minute
-		case geoChangeAge < 240*time.Hour:
+		case geoChangeAge < 72 * time.Hour:
+			requiredInterval = 2 * time.Minute
+		case geoChangeAge < 240 * time.Hour:
 			requiredInterval = 6 * time.Hour
 		default:
 			requiredInterval = 72 * time.Hour

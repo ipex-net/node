@@ -101,8 +101,13 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 	}
 
 	// Check that geo db record is verified
-	if !subnet.GeoDbRecordVerified {
-		return nil, errorsmod.Wrap(types.ErrSubnetNotReady, "geo db record not verified")
+	// if !subnet.GeoDbRecordVerified {
+	// 	return nil, errorsmod.Wrap(types.ErrSubnetNotReady, "geo db record not verified")
+	// }
+
+	// Check that there's no other lease for this subnet
+	if _, duplicateFound := k.GetFirstLeasedContractBySubnet(ctx, msg.SubnetId); duplicateFound {
+		return nil, types.ErrSubnetAlreadyLinked
 	}
 
 	// Check that RIR record is verified

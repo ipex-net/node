@@ -47,4 +47,5 @@ var (
 	ErrRefundNotAllowed             = sdkerrors.Register(ModuleName, 1136, "refund not allowed")
 	ErrContractIdCantBeNil          = sdkerrors.Register(ModuleName, 1137, "contract id can not be nil")
 	ErrContractNotActivated         = sdkerrors.Register(ModuleName, 1138, "contract not activated")
+	ErrSubnetAlreadyLinked			= sdkerrors.Register(ModuleName, 1139, "subnet already linked to a contract")
 )
