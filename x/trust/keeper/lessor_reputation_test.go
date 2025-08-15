@@ -210,7 +210,7 @@ func TestLogLessorContractActivationZeroLessorId(t *testing.T) {
 
 	err := keeper.LogLessorContractActivation(ctx, 0, 256)
 	require.Error(t, err)
-	require.Contains(t, err.Error(), "lessor id can't be nil")
+	require.Contains(t, err.Error(), "lessor id can not be nil")
 }
 
 func TestLogLessorContractActivationZeroIpCount(t *testing.T) {

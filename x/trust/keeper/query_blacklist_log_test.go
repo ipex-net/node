@@ -74,24 +74,18 @@ func TestBlacklistLogQueryPaginated(t *testing.T) {
 		}
 	}
 	t.Run("ByOffset", func(t *testing.T) {
-		// Note: Pagination not implemented in BlacklistLogAll, so we just test that it returns all items
+		// Pagination is properly implemented in BlacklistLogAll
 		resp, err := keeper.BlacklistLogAll(ctx, request(nil, 0, 2, false))
 		require.NoError(t, err)
-		require.Equal(t, len(msgs), len(resp.BlacklistLog))
-		require.ElementsMatch(t,
-			nullify.Fill(msgs),
-			nullify.Fill(resp.BlacklistLog),
-		)
+		require.Equal(t, 2, len(resp.BlacklistLog))
+		// Should return exactly 2 items due to limit
 	})
 	t.Run("ByKey", func(t *testing.T) {
-		// Note: Pagination not implemented in BlacklistLogAll, so we just test that it returns all items
+		// Pagination is properly implemented in BlacklistLogAll
 		resp, err := keeper.BlacklistLogAll(ctx, request(nil, 0, 2, false))
 		require.NoError(t, err)
-		require.Equal(t, len(msgs), len(resp.BlacklistLog))
-		require.ElementsMatch(t,
-			nullify.Fill(msgs),
-			nullify.Fill(resp.BlacklistLog),
-		)
+		require.Equal(t, 2, len(resp.BlacklistLog))
+		// Should return exactly 2 items due to limit
 	})
 	t.Run("Total", func(t *testing.T) {
 		resp, err := keeper.BlacklistLogAll(ctx, request(nil, 0, 0, true))

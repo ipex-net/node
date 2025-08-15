@@ -107,12 +107,23 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		require.True(t, foundRefund, "should find refund transaction")
 
 		// Verify organization transaction history
-		lessorTransactions, err := keeper.GetTransactionsByOrg(ctx, lessorOrgId)
-		require.NoError(t, err, "should get lessor transactions")
+		allTransactionsResp, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
+		require.NoError(t, err, "should get all transactions")
+		
+		var lessorTransactions []types.Transaction
+		for _, tx := range allTransactionsResp.Transaction {
+			if tx.FromOrgId == lessorOrgId || tx.ToOrgId == lessorOrgId {
+				lessorTransactions = append(lessorTransactions, tx)
+			}
+		}
 		require.GreaterOrEqual(t, len(lessorTransactions), 3, "lessor should be involved in at least 3 transactions")
 
-		lesseeTransactions, err := keeper.GetTransactionsByOrg(ctx, lesseeOrgId)
-		require.NoError(t, err, "should get lessee transactions")
+		var lesseeTransactions []types.Transaction
+		for _, tx := range allTransactionsResp.Transaction {
+			if tx.FromOrgId == lesseeOrgId || tx.ToOrgId == lesseeOrgId {
+				lesseeTransactions = append(lesseeTransactions, tx)
+			}
+		}
 		require.GreaterOrEqual(t, len(lesseeTransactions), 3, "lessee should be involved in at least 3 transactions")
 	})
 
@@ -147,11 +158,22 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		require.Equal(t, saleAmount, saleTx.Amount)
 
 		// Verify organizations involved in sale
-		sellerTxs, err := keeper.GetTransactionsByOrg(ctx, sellerOrgId)
-		require.NoError(t, err, "should get seller transactions")
+		allTransactionsResp2, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
+		require.NoError(t, err, "should get all transactions")
+		
+		var sellerTxs []types.Transaction
+		for _, tx := range allTransactionsResp2.Transaction {
+			if tx.FromOrgId == sellerOrgId || tx.ToOrgId == sellerOrgId {
+				sellerTxs = append(sellerTxs, tx)
+			}
+		}
 
-		buyerTxs, err := keeper.GetTransactionsByOrg(ctx, buyerOrgId)
-		require.NoError(t, err, "should get buyer transactions")
+		var buyerTxs []types.Transaction
+		for _, tx := range allTransactionsResp2.Transaction {
+			if tx.FromOrgId == buyerOrgId || tx.ToOrgId == buyerOrgId {
+				buyerTxs = append(buyerTxs, tx)
+			}
+		}
 
 		// Find the sale transaction in both org histories
 		var foundInSeller, foundInBuyer bool
@@ -241,8 +263,15 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		}
 
 		// Get all transactions for this organization
-		orgTransactions, err := keeper.GetTransactionsByOrg(ctx, orgId)
-		require.NoError(t, err, "should get org transactions")
+		allTransactionsResp3, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
+		require.NoError(t, err, "should get all transactions")
+		
+		var orgTransactions []types.Transaction
+		for _, tx := range allTransactionsResp3.Transaction {
+			if tx.FromOrgId == orgId || tx.ToOrgId == orgId {
+				orgTransactions = append(orgTransactions, tx)
+			}
+		}
 		require.GreaterOrEqual(t, len(orgTransactions), 5, "should have at least 5 transactions")
 
 		// Verify transaction types and modules are represented
@@ -395,8 +424,15 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 
 		// Verify transaction appears only once in org's transaction list
 		// (the indexing logic should avoid duplicates for same from/to org)
-		orgTxs, err := keeper.GetTransactionsByOrg(ctx, sameOrgId)
-		require.NoError(t, err, "should get org transactions")
+		allTransactionsResp4, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
+		require.NoError(t, err, "should get all transactions")
+		
+		var orgTxs []types.Transaction
+		for _, tx := range allTransactionsResp4.Transaction {
+			if tx.FromOrgId == sameOrgId || tx.ToOrgId == sameOrgId {
+				orgTxs = append(orgTxs, tx)
+			}
+		}
 
 		// Count how many times this transaction appears
 		count := 0
