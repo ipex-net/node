@@ -64,7 +64,7 @@ func TestMsgServer_CreateContract(t *testing.T) {
 		}
 	})
 
-	t.Run("contract creation fails when subnet geo db record not verified", func(t *testing.T) {
+	t.Run("contract creation succeeds even when subnet geo db record not verified (validation disabled)", func(t *testing.T) {
 		// Use custom keeper with GeoDbRecordVerified = false
 		k, ctx := keepertest.LeaseKeeperWithMockSubnet(t, false, true, true)
 		srv := keeper.NewMsgServerImpl(k)
@@ -81,8 +81,7 @@ func TestMsgServer_CreateContract(t *testing.T) {
 		}
 
 		_, err := srv.CreateContract(wctx, msg)
-		require.Error(t, err)
-		require.Contains(t, err.Error(), "geo db record not verified")
+		require.NoError(t, err)
 	})
 
 	t.Run("contract creation fails when subnet RIR record not valid", func(t *testing.T) {
@@ -177,7 +176,7 @@ func TestMsgServer_CreateContract(t *testing.T) {
 
 // TestMsgServer_CreateContractWithGeoDB tests contract creation specifically with GeoDb validation
 func TestMsgServer_CreateContractWithGeoDB(t *testing.T) {
-	t.Run("requires geo db record verification", func(t *testing.T) {
+	t.Run("geo db record verification not currently enforced", func(t *testing.T) {
 		// Create a custom keeper with mock that can control GeoDbRecordVerified status
 		k, ctx := keepertest.LeaseKeeperWithMockSubnet(t, false, true, true) // geoDb=false, rir=true, exists=true
 		srv := keeper.NewMsgServerImpl(k)
@@ -194,8 +193,7 @@ func TestMsgServer_CreateContractWithGeoDB(t *testing.T) {
 		}
 
 		_, err := srv.CreateContract(wctx, msg)
-		require.Error(t, err)
-		require.Contains(t, err.Error(), "geo db record not verified")
+		require.NoError(t, err) // Currently geo db validation is disabled
 	})
 
 	t.Run("requires rir record validation", func(t *testing.T) {
