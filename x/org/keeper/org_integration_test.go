@@ -137,18 +137,23 @@ func TestOrganizationLifecycleIntegration(t *testing.T) {
 		_, found := keeper.GetOrg(ctx, orgId)
 		require.True(t, found, "should find organization before removal")
 
-		// Remove organization
+		// Attempt to remove organization (currently disabled)
 		keeper.RemoveOrg(ctx, orgId)
 
-		// Verify organization was removed
+		// Verify organization still exists since removal is disabled
 		_, found = keeper.GetOrg(ctx, orgId)
-		require.False(t, found, "should not find organization after removal")
+		require.True(t, found, "organization should still exist since removal is disabled")
 
-		// Verify organization is not in the list
+		// Verify organization is still in the list
 		allOrgs := keeper.GetAllOrg(ctx)
+		foundInList := false
 		for _, o := range allOrgs {
-			require.NotEqual(t, orgId, o.Id, "removed organization should not appear in list")
+			if o.Id == orgId {
+				foundInList = true
+				break
+			}
 		}
+		require.True(t, foundInList, "organization should still appear in list since removal is disabled")
 	})
 
 	t.Run("Authorization Validation", func(t *testing.T) {
@@ -390,21 +395,25 @@ func TestOrganizationIndexingIntegration(t *testing.T) {
 			require.Equal(t, orgIds[i], org.Id, "should have correct ID")
 		}
 
-		// Test removal of some organizations
+		// Test attempted removal of some organizations (currently disabled)
 		for i := 0; i < 3; i++ {
 			keeper.RemoveOrg(ctx, orgIds[i])
 		}
 
-		// Verify remaining organizations
+		// Verify all organizations still exist since removal is disabled
 		remainingOrgs := keeper.GetAllOrg(ctx)
-		removedIds := make(map[uint64]bool)
+		attemptedRemovalIds := make(map[uint64]bool)
 		for i := 0; i < 3; i++ {
-			removedIds[orgIds[i]] = true
+			attemptedRemovalIds[orgIds[i]] = true
 		}
 
+		foundAttemptedRemovals := 0
 		for _, org := range remainingOrgs {
-			require.False(t, removedIds[org.Id], "removed organization should not appear in list")
+			if attemptedRemovalIds[org.Id] {
+				foundAttemptedRemovals++
+			}
 		}
+		require.Equal(t, 3, foundAttemptedRemovals, "all attempted removals should still be present since removal is disabled")
 	})
 }
 

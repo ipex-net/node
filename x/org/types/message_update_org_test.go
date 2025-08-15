@@ -28,38 +28,23 @@ func TestMsgUpdateOrg_ValidateBasic(t *testing.T) {
 		}, {
 			name: "valid message",
 			msg: MsgUpdateOrg{
-				Creator:  validAddr,
-				Id:       1,
-				Name:     "Test Org",
-				Admin:    validAddr,
-				Treasury: validAddr,
+				Creator:            validAddr,
+				Id:                 1,
+				Name:               "Test Org",
+				LegalName:          "Test Organization LLC",
+				Address:            "123 Test St",
+				RegistrationNumber: "REG123",
+				CountryCode:        "US",
+				TaxId:              "TAX123",
+				Website:            "https://testorg.com",
+				AbuseEmail:         "abuse@testorg.com",
 			},
 		}, {
-			name: "invalid admin address",
+			name: "minimal valid message",
 			msg: MsgUpdateOrg{
 				Creator: validAddr,
 				Id:      1,
 				Name:    "Test Org",
-				Admin:   "invalid_address",
-			},
-			err: sdkerrors.ErrInvalidAddress,
-		}, {
-			name: "invalid treasury address",
-			msg: MsgUpdateOrg{
-				Creator:  validAddr,
-				Id:       1,
-				Name:     "Test Org",
-				Treasury: "invalid_address",
-			},
-			err: sdkerrors.ErrInvalidAddress,
-		}, {
-			name: "empty admin and treasury are valid",
-			msg: MsgUpdateOrg{
-				Creator:  validAddr,
-				Id:       1,
-				Name:     "Test Org",
-				Admin:    "",
-				Treasury: "",
 			},
 		},
 	}

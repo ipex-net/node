@@ -299,12 +299,12 @@ func TestOrganizationCrossModuleIntegration(t *testing.T) {
 		require.True(t, found, "should find created organization")
 		require.Equal(t, orgId, retrievedOrg.Id, "should have correct ID")
 
-		// Test organization removal removes lessee reputation
+		// Test organization removal attempt (currently disabled)
 		keeper.RemoveOrg(ctx, orgId)
 
-		// Verify organization was removed
+		// Verify organization still exists since removal is disabled
 		_, found = keeper.GetOrg(ctx, orgId)
-		require.False(t, found, "should not find removed organization")
+		require.True(t, found, "organization should still exist since removal is disabled")
 	})
 
 	t.Run("Organization Sequence Management", func(t *testing.T) {
@@ -400,14 +400,14 @@ func TestOrganizationCrossModuleIntegration(t *testing.T) {
 		exists := keeper.HasOrg(ctx, orgId)
 		require.True(t, exists, "should confirm organization exists")
 
-		// Test state after removal
+		// Test state after removal attempt (currently disabled)
 		keeper.RemoveOrg(ctx, orgId)
 
 		exists = keeper.HasOrg(ctx, orgId)
-		require.False(t, exists, "should confirm organization no longer exists")
+		require.True(t, exists, "organization should still exist since removal is disabled")
 
 		_, found = keeper.GetOrg(ctx, orgId)
-		require.False(t, found, "should not find removed organization")
+		require.True(t, found, "organization should still be found since removal is disabled")
 	})
 
 	t.Run("Performance and Scalability", func(t *testing.T) {
@@ -463,23 +463,27 @@ func TestOrganizationCrossModuleIntegration(t *testing.T) {
 		lookupTime := time.Since(startTime)
 		t.Logf("Performed 10 individual lookups in %v", lookupTime)
 
-		// Test bulk removal performance
+		// Test bulk removal performance (removal is currently disabled)
 		startTime = time.Now()
 		for i := 0; i < 10; i++ {
 			keeper.RemoveOrg(ctx, orgIds[i])
 		}
 		removalTime := time.Since(startTime)
-		t.Logf("Removed 10 organizations in %v", removalTime)
+		t.Logf("Attempted removal of 10 organizations in %v", removalTime)
 
-		// Verify remaining organizations
+		// Verify all organizations still exist since removal is disabled
 		remainingOrgs := keeper.GetAllOrg(ctx)
-		removedIds := make(map[uint64]bool)
+		attemptedRemovalIds := make(map[uint64]bool)
 		for i := 0; i < 10; i++ {
-			removedIds[orgIds[i]] = true
+			attemptedRemovalIds[orgIds[i]] = true
 		}
 
+		foundAttemptedRemovals := 0
 		for _, org := range remainingOrgs {
-			require.False(t, removedIds[org.Id], "removed organization should not appear in list")
+			if attemptedRemovalIds[org.Id] {
+				foundAttemptedRemovals++
+			}
 		}
+		require.Equal(t, 10, foundAttemptedRemovals, "all attempted removals should still be present since removal is disabled")
 	})
 }

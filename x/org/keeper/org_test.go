@@ -37,8 +37,9 @@ func TestOrgRemove(t *testing.T) {
 	keeper, ctx := keepertest.OrgKeeper(t)
 	items := createNOrg(keeper, ctx, 10)
 	for _, item := range items {
+		// RemoveOrg is currently disabled in production
 		keeper.RemoveOrg(ctx, item.Id)
-		// Check that the org was removed by checking if it exists in GetAllOrg
+		// Check that the org still exists since removal is disabled
 		allOrgs := keeper.GetAllOrg(ctx)
 		found := false
 		for _, org := range allOrgs {
@@ -47,7 +48,7 @@ func TestOrgRemove(t *testing.T) {
 				break
 			}
 		}
-		require.False(t, found)
+		require.True(t, found, "org should still exist since removal is disabled")
 	}
 }
 
