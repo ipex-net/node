@@ -10,6 +10,5 @@ message LessorReputation {
   uint64 contractsActive = 4; 
   uint64 contractsTerminated = 5; 
   uint64 contractsTerminatedViolated = 6; 
-  
 }
 

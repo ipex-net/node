@@ -45,7 +45,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				{
 					RpcMethod:      "GetUserOrgRole",
 					Use:            "get-user-org-role [address]",
-					Short:          "Query user's organization role",
+					Short:          "Query user's org and roles",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "address"}},
 				},
 
