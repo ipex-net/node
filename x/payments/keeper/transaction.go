@@ -158,7 +158,6 @@ func (k Keeper) RecordTransaction(
 		FromAddress:     fromAddress,
 		ToAddress:       toAddress,
 		Timestamp:       &blockTime,
-		BlockHeight:     ctx.BlockHeight(),
 	}
 
 	//Append the transaction
