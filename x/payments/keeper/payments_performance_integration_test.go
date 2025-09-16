@@ -283,12 +283,13 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 		// Test update performance
 		startTime := time.Now()
-		for i, txId := range testTxIds[:10] { // Update first 10
+		for _, txId := range testTxIds[:10] { // Update first 10
 			tx, found := keeper.GetTransaction(ctx, txId)
 			require.True(t, found, "should find transaction for update")
 
-			// Update block height (simulating a correction)
-			tx.BlockHeight = ctx.BlockHeight() + int64(i+1)
+			// Update timestamp (simulating a correction)
+			newTime := ctx.BlockTime().Add(time.Duration(txId) * time.Second)
+			tx.Timestamp = &newTime
 			keeper.SetTransaction(ctx, tx)
 		}
 		updateTime := time.Since(startTime)

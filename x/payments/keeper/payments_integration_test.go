@@ -53,7 +53,6 @@ func TestTransactionLifecycleIntegration(t *testing.T) {
 		require.Equal(t, uint64(2001), retrievedTx.ToOrgId, "should have correct to org ID")
 		require.Equal(t, fromAddress, retrievedTx.FromAddress, "should have correct from address")
 		require.Equal(t, toAddress, retrievedTx.ToAddress, "should have correct to address")
-		require.Equal(t, int64(100), retrievedTx.BlockHeight, "should have correct block height")
 		require.NotNil(t, retrievedTx.Timestamp, "should have timestamp")
 		require.Equal(t, baseTime, *retrievedTx.Timestamp, "should have correct timestamp")
 	})
@@ -138,7 +137,6 @@ func TestTransactionLifecycleIntegration(t *testing.T) {
 			ToOrgId:         6001,
 			FromAddress:     sample.AccAddress(),
 			ToAddress:       sample.AccAddress(),
-			BlockHeight:     ctx.BlockHeight(),
 			Timestamp:       &baseTime,
 		}
 
@@ -149,13 +147,14 @@ func TestTransactionLifecycleIntegration(t *testing.T) {
 		require.True(t, found, "should find transaction for update")
 
 		// Update some fields (note: in practice, transactions might be immutable)
-		updatedTx.BlockHeight = ctx.BlockHeight() + 1
+		newTime := baseTime.Add(time.Hour)
+		updatedTx.Timestamp = &newTime
 		keeper.SetTransaction(ctx, updatedTx)
 
 		// Verify update
 		finalTx, found := keeper.GetTransaction(ctx, txId)
 		require.True(t, found, "should find updated transaction")
-		require.Equal(t, ctx.BlockHeight()+1, finalTx.BlockHeight, "should have updated block height")
+		require.Equal(t, newTime, *finalTx.Timestamp, "should have updated timestamp")
 		require.Equal(t, originalTx.Amount, finalTx.Amount, "should preserve original amount")
 	})
 
@@ -170,7 +169,6 @@ func TestTransactionLifecycleIntegration(t *testing.T) {
 			ToOrgId:         8001,
 			FromAddress:     sample.AccAddress(),
 			ToAddress:       sample.AccAddress(),
-			BlockHeight:     ctx.BlockHeight(),
 			Timestamp:       &baseTime,
 		}
 

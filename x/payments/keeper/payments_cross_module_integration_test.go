@@ -530,14 +530,12 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 		// Verify first transaction has initial block data
 		tx1, found := keeper.GetTransaction(ctx, txId1)
 		require.True(t, found, "should find first transaction")
-		require.Equal(t, initialHeight, tx1.BlockHeight, "should have initial block height")
 		require.NotNil(t, tx1.Timestamp, "should have timestamp")
 		require.Equal(t, initialTime, *tx1.Timestamp, "should have initial timestamp")
 
 		// Verify second transaction has updated block data
 		tx2, found := keeper.GetTransaction(ctx, txId2)
 		require.True(t, found, "should find second transaction")
-		require.Equal(t, newHeight, tx2.BlockHeight, "should have new block height")
 		require.NotNil(t, tx2.Timestamp, "should have timestamp")
 		require.Equal(t, newTime, *tx2.Timestamp, "should have new timestamp")
 

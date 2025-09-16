@@ -66,7 +66,45 @@ func (k Keeper) ListPaymentFiltered(goCtx context.Context, req *types.QueryListP
 			return false, nil
 		}
 
-		// Count total matching transactions (always count for accurate total)
+		// Apply filters first - skip transaction if it doesn't match criteria
+		
+		// Filter by transaction type (0 means no filter)
+		if req.TransactionType != 0 && uint64(transaction.TransactionType) != req.TransactionType {
+			return false, nil
+		}
+		
+		// Filter by module ID (0 means no filter)  
+		if req.ModuleId != 0 && uint64(transaction.RelatedModuleId) != req.ModuleId {
+			return false, nil
+		}
+		
+		// Filter by timestamp range (0 means no filter)
+		if transaction.Timestamp != nil {
+			transactionTimestamp := uint64(transaction.Timestamp.Unix())
+			if req.FromTimestamp != 0 && transactionTimestamp < req.FromTimestamp {
+				return false, nil
+			}
+			if req.ToTimestamp != 0 && transactionTimestamp > req.ToTimestamp {
+				return false, nil
+			}
+		}
+		
+		// Filter by amount range (0 means no filter)
+		transactionAmount := transaction.Amount.Amount
+		if req.MinAmount != 0 {
+			minAmount := math.NewIntFromUint64(req.MinAmount)
+			if transactionAmount.LT(minAmount) {
+				return false, nil
+			}
+		}
+		if req.MaxAmount != 0 {
+			maxAmount := math.NewIntFromUint64(req.MaxAmount)
+			if transactionAmount.GT(maxAmount) {
+				return false, nil
+			}
+		}
+
+		// Transaction passed all filters - count it
 		totalCount++
 
 		if collectingItems {
@@ -85,44 +123,6 @@ func (k Keeper) ListPaymentFiltered(goCtx context.Context, req *types.QueryListP
 			if collectedCount >= limit {
 				collectingItems = false
 				return false, nil // Continue counting but stop collecting
-			}
-
-			// Apply filters - skip transaction if it doesn't match criteria
-			
-			// Filter by transaction type (0 means no filter)
-			if req.TransactionType != 0 && uint64(transaction.TransactionType) != req.TransactionType {
-				return false, nil
-			}
-			
-			// Filter by module ID (0 means no filter)  
-			if req.ModuleId != 0 && uint64(transaction.RelatedModuleId) != req.ModuleId {
-				return false, nil
-			}
-			
-			// Filter by timestamp range (0 means no filter)
-			if transaction.Timestamp != nil {
-				transactionTimestamp := uint64(transaction.Timestamp.Unix())
-				if req.FromTimestamp != 0 && transactionTimestamp < req.FromTimestamp {
-					return false, nil
-				}
-				if req.ToTimestamp != 0 && transactionTimestamp > req.ToTimestamp {
-					return false, nil
-				}
-			}
-			
-			// Filter by amount range (0 means no filter)
-			transactionAmount := transaction.Amount.Amount
-			if req.MinAmount != 0 {
-				minAmount := math.NewIntFromUint64(req.MinAmount)
-				if transactionAmount.LT(minAmount) {
-					return false, nil
-				}
-			}
-			if req.MaxAmount != 0 {
-				maxAmount := math.NewIntFromUint64(req.MaxAmount)
-				if transactionAmount.GT(maxAmount) {
-					return false, nil
-				}
 			}
 
 			transactions = append(transactions, transaction)
