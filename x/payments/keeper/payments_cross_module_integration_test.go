@@ -109,7 +109,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		// Verify organization transaction history
 		allTransactionsResp, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
 		require.NoError(t, err, "should get all transactions")
-		
+
 		var lessorTransactions []types.Transaction
 		for _, tx := range allTransactionsResp.Transaction {
 			if tx.FromOrgId == lessorOrgId || tx.ToOrgId == lessorOrgId {
@@ -160,7 +160,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		// Verify organizations involved in sale
 		allTransactionsResp2, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
 		require.NoError(t, err, "should get all transactions")
-		
+
 		var sellerTxs []types.Transaction
 		for _, tx := range allTransactionsResp2.Transaction {
 			if tx.FromOrgId == sellerOrgId || tx.ToOrgId == sellerOrgId {
@@ -265,7 +265,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 		// Get all transactions for this organization
 		allTransactionsResp3, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
 		require.NoError(t, err, "should get all transactions")
-		
+
 		var orgTransactions []types.Transaction
 		for _, tx := range allTransactionsResp3.Transaction {
 			if tx.FromOrgId == orgId || tx.ToOrgId == orgId {
@@ -426,7 +426,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 		// (the indexing logic should avoid duplicates for same from/to org)
 		allTransactionsResp4, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
 		require.NoError(t, err, "should get all transactions")
-		
+
 		var orgTxs []types.Transaction
 		for _, tx := range allTransactionsResp4.Transaction {
 			if tx.FromOrgId == sameOrgId || tx.ToOrgId == sameOrgId {

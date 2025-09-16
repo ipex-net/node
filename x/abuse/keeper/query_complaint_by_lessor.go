@@ -100,7 +100,7 @@ func (k Keeper) ComplaintByLessor(ctx context.Context, req *types.QueryComplaint
 	}
 
 	return &types.QueryComplaintByLessorResponse{
-		Complaint:  complaints,
+		Complaint: complaints,
 		Pagination: &query.PageResponse{
 			NextKey: nextKey,
 			Total:   totalCount,

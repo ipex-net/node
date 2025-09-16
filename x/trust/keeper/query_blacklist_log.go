@@ -4,8 +4,9 @@ import (
 	"context"
 	"encoding/binary"
 
-	"cosmossdk.io/collections"
 	"ipex/x/trust/types"
+
+	"cosmossdk.io/collections"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"

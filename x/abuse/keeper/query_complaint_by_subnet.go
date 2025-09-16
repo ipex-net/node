@@ -100,7 +100,7 @@ func (k Keeper) ComplaintBySubnet(ctx context.Context, req *types.QueryComplaint
 	}
 
 	return &types.QueryComplaintBySubnetResponse{
-		Complaint:  complaints,
+		Complaint: complaints,
 		Pagination: &query.PageResponse{
 			NextKey: nextKey,
 			Total:   totalCount,

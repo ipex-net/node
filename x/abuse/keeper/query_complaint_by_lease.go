@@ -100,7 +100,7 @@ func (k Keeper) ComplaintByLease(ctx context.Context, req *types.QueryComplaintB
 	}
 
 	return &types.QueryComplaintByLeaseResponse{
-		Complaint:  complaints,
+		Complaint: complaints,
 		Pagination: &query.PageResponse{
 			NextKey: nextKey,
 			Total:   totalCount,

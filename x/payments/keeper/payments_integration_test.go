@@ -331,7 +331,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		// Test filtering transactions for org1 (involved in tx1 as from, tx3 as to)
 		allTransactionsResp, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
 		require.NoError(t, err, "should get all transactions")
-		
+
 		var org1Transactions []types.Transaction
 		for _, tx := range allTransactionsResp.Transaction {
 			if tx.FromOrgId == orgId1 || tx.ToOrgId == orgId1 {
@@ -488,7 +488,7 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		// First get all transactions and filter by organization to get total count
 		allTransactionsResp, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
 		require.NoError(t, err, "should get all transactions")
-		
+
 		var totalTxs []types.Transaction
 		for _, tx := range allTransactionsResp.Transaction {
 			if tx.FromOrgId == orgId || tx.ToOrgId == orgId {
@@ -500,14 +500,14 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		// Test paginated query for organization (first page) by filtering all transactions
 		allTransactionsPage1, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
 		require.NoError(t, err, "should get transactions for pagination")
-		
+
 		var allOrgTransactions []types.Transaction
 		for _, tx := range allTransactionsPage1.Transaction {
 			if tx.FromOrgId == orgId || tx.ToOrgId == orgId {
 				allOrgTransactions = append(allOrgTransactions, tx)
 			}
 		}
-		
+
 		// Simulate first page by taking first 3 transactions
 		var transactions []types.Transaction
 		for i := 0; i < len(allOrgTransactions) && i < 3; i++ {

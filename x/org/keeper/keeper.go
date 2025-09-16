@@ -54,7 +54,7 @@ func NewKeeper(
 		storeService: storeService,
 		authority:    authority,
 		logger:       logger,
-		trustKeeper: trustKeeper,
+		trustKeeper:  trustKeeper,
 
 		// Initialize collections
 		Orgs:          collections.NewMap(sb, collections.NewPrefix(types.OrgKey), "orgs", collections.Uint64Key, codec.CollValue[types.Org](cdc)),

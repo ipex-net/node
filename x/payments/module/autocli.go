@@ -35,6 +35,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
 
+				{
+					RpcMethod:      "ListPaymentFiltered",
+					Use:            "list-payment-filtered [org-id] [transaction-type] [module-id] [from-timestamp] [to-timestamp] [min-amount] [max-amount]",
+					Short:          "Query list-payment-filtered",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "orgId"}, {ProtoField: "transactionType"}, {ProtoField: "moduleId"}, {ProtoField: "fromTimestamp"}, {ProtoField: "toTimestamp"}, {ProtoField: "minAmount"}, {ProtoField: "maxAmount"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

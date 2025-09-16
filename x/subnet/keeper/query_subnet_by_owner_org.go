@@ -100,7 +100,7 @@ func (k Keeper) SubnetByOwnerOrg(ctx context.Context, req *types.QuerySubnetByOw
 	}
 
 	return &types.QuerySubnetByOwnerOrgResponse{
-		Subnet:     subnets,
+		Subnet: subnets,
 		Pagination: &query.PageResponse{
 			NextKey: nextKey,
 			Total:   totalCount,

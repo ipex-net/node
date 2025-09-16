@@ -25,8 +25,8 @@ func (k Keeper) GetUserOrgRole(goCtx context.Context, req *types.QueryGetUserOrg
 
 	// Check if user is a creator of any org
 	creatorOrg, isCreator := k.GetOrgByCreatorAddress(ctx, req.Address)
-	
-	// Check if user is an admin of any org  
+
+	// Check if user is an admin of any org
 	adminOrg, isAdmin := k.GetOrgByAdminAddress(ctx, req.Address)
 
 	// Validate that user can only be part of one org
@@ -43,7 +43,7 @@ func (k Keeper) GetUserOrgRole(goCtx context.Context, req *types.QueryGetUserOrg
 		response.IsVerified = adminOrg.DomainVerified
 		response.IsAdmin = true
 	}
-	
+
 	if isCreator {
 		response.OrgId = creatorOrg.Id
 		response.LegalName = creatorOrg.LegalName

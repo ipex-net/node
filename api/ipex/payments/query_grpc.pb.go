@@ -23,6 +23,7 @@ const (
 	Query_Transaction_FullMethodName         = "/ipex.payments.Query/Transaction"
 	Query_TransactionAll_FullMethodName      = "/ipex.payments.Query/TransactionAll"
 	Query_ListContractPayment_FullMethodName = "/ipex.payments.Query/ListContractPayment"
+	Query_ListPaymentFiltered_FullMethodName = "/ipex.payments.Query/ListPaymentFiltered"
 )
 
 // QueryClient is the client API for Query service.
@@ -36,6 +37,8 @@ type QueryClient interface {
 	TransactionAll(ctx context.Context, in *QueryAllTransactionRequest, opts ...grpc.CallOption) (*QueryAllTransactionResponse, error)
 	// Queries a list of ListContractPayment items.
 	ListContractPayment(ctx context.Context, in *QueryListContractPaymentRequest, opts ...grpc.CallOption) (*QueryListContractPaymentResponse, error)
+	// Queries a list of ListPaymentFiltered items.
+	ListPaymentFiltered(ctx context.Context, in *QueryListPaymentFilteredRequest, opts ...grpc.CallOption) (*QueryListPaymentFilteredResponse, error)
 }
 
 type queryClient struct {
@@ -82,6 +85,15 @@ func (c *queryClient) ListContractPayment(ctx context.Context, in *QueryListCont
 	return out, nil
 }
 
+func (c *queryClient) ListPaymentFiltered(ctx context.Context, in *QueryListPaymentFilteredRequest, opts ...grpc.CallOption) (*QueryListPaymentFilteredResponse, error) {
+	out := new(QueryListPaymentFilteredResponse)
+	err := c.cc.Invoke(ctx, Query_ListPaymentFiltered_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -93,6 +105,8 @@ type QueryServer interface {
 	TransactionAll(context.Context, *QueryAllTransactionRequest) (*QueryAllTransactionResponse, error)
 	// Queries a list of ListContractPayment items.
 	ListContractPayment(context.Context, *QueryListContractPaymentRequest) (*QueryListContractPaymentResponse, error)
+	// Queries a list of ListPaymentFiltered items.
+	ListPaymentFiltered(context.Context, *QueryListPaymentFilteredRequest) (*QueryListPaymentFilteredResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -111,6 +125,9 @@ func (UnimplementedQueryServer) TransactionAll(context.Context, *QueryAllTransac
 }
 func (UnimplementedQueryServer) ListContractPayment(context.Context, *QueryListContractPaymentRequest) (*QueryListContractPaymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListContractPayment not implemented")
+}
+func (UnimplementedQueryServer) ListPaymentFiltered(context.Context, *QueryListPaymentFilteredRequest) (*QueryListPaymentFilteredResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPaymentFiltered not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -197,6 +214,24 @@ func _Query_ListContractPayment_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListPaymentFiltered_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListPaymentFilteredRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListPaymentFiltered(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListPaymentFiltered_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListPaymentFiltered(ctx, req.(*QueryListPaymentFilteredRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -219,6 +254,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListContractPayment",
 			Handler:    _Query_ListContractPayment_Handler,
+		},
+		{
+			MethodName: "ListPaymentFiltered",
+			Handler:    _Query_ListPaymentFiltered_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

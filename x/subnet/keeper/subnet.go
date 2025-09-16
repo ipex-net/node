@@ -799,9 +799,9 @@ func (k Keeper) GetSubnetsForGeoDbValidation(ctx context.Context, referenceTime 
 		var requiredInterval time.Duration
 
 		switch {
-		case geoChangeAge < 72 * time.Hour:
+		case geoChangeAge < 72*time.Hour:
 			requiredInterval = 2 * time.Minute
-		case geoChangeAge < 240 * time.Hour:
+		case geoChangeAge < 240*time.Hour:
 			requiredInterval = 6 * time.Hour
 		default:
 			requiredInterval = 72 * time.Hour

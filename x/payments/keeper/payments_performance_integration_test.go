@@ -158,7 +158,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 			startTime = time.Now()
 			allTransactionsResp, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
 			require.NoError(t, err, "should get all transactions")
-			
+
 			var orgTxs []types.Transaction
 			for _, tx := range allTransactionsResp.Transaction {
 				if tx.FromOrgId == orgId || tx.ToOrgId == orgId {
@@ -183,7 +183,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 				},
 			})
 			require.NoError(t, err, "should get transactions for pagination")
-			
+
 			var paginatedTxs []types.Transaction
 			for _, tx := range allTransactionsPage.Transaction {
 				if (tx.FromOrgId == orgId || tx.ToOrgId == orgId) && len(paginatedTxs) < 5 {

@@ -3710,6 +3710,1291 @@ func (x *fastReflection_QueryListContractPaymentResponse) ProtoMethods() *protoi
 	}
 }
 
+var (
+	md_QueryListPaymentFilteredRequest                 protoreflect.MessageDescriptor
+	fd_QueryListPaymentFilteredRequest_orgId           protoreflect.FieldDescriptor
+	fd_QueryListPaymentFilteredRequest_transactionType protoreflect.FieldDescriptor
+	fd_QueryListPaymentFilteredRequest_moduleId        protoreflect.FieldDescriptor
+	fd_QueryListPaymentFilteredRequest_fromTimestamp   protoreflect.FieldDescriptor
+	fd_QueryListPaymentFilteredRequest_toTimestamp     protoreflect.FieldDescriptor
+	fd_QueryListPaymentFilteredRequest_minAmount       protoreflect.FieldDescriptor
+	fd_QueryListPaymentFilteredRequest_maxAmount       protoreflect.FieldDescriptor
+	fd_QueryListPaymentFilteredRequest_pagination      protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_payments_query_proto_init()
+	md_QueryListPaymentFilteredRequest = File_ipex_payments_query_proto.Messages().ByName("QueryListPaymentFilteredRequest")
+	fd_QueryListPaymentFilteredRequest_orgId = md_QueryListPaymentFilteredRequest.Fields().ByName("orgId")
+	fd_QueryListPaymentFilteredRequest_transactionType = md_QueryListPaymentFilteredRequest.Fields().ByName("transactionType")
+	fd_QueryListPaymentFilteredRequest_moduleId = md_QueryListPaymentFilteredRequest.Fields().ByName("moduleId")
+	fd_QueryListPaymentFilteredRequest_fromTimestamp = md_QueryListPaymentFilteredRequest.Fields().ByName("fromTimestamp")
+	fd_QueryListPaymentFilteredRequest_toTimestamp = md_QueryListPaymentFilteredRequest.Fields().ByName("toTimestamp")
+	fd_QueryListPaymentFilteredRequest_minAmount = md_QueryListPaymentFilteredRequest.Fields().ByName("minAmount")
+	fd_QueryListPaymentFilteredRequest_maxAmount = md_QueryListPaymentFilteredRequest.Fields().ByName("maxAmount")
+	fd_QueryListPaymentFilteredRequest_pagination = md_QueryListPaymentFilteredRequest.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryListPaymentFilteredRequest)(nil)
+
+type fastReflection_QueryListPaymentFilteredRequest QueryListPaymentFilteredRequest
+
+func (x *QueryListPaymentFilteredRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryListPaymentFilteredRequest)(x)
+}
+
+func (x *QueryListPaymentFilteredRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_payments_query_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryListPaymentFilteredRequest_messageType fastReflection_QueryListPaymentFilteredRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryListPaymentFilteredRequest_messageType{}
+
+type fastReflection_QueryListPaymentFilteredRequest_messageType struct{}
+
+func (x fastReflection_QueryListPaymentFilteredRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryListPaymentFilteredRequest)(nil)
+}
+func (x fastReflection_QueryListPaymentFilteredRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryListPaymentFilteredRequest)
+}
+func (x fastReflection_QueryListPaymentFilteredRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryListPaymentFilteredRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryListPaymentFilteredRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryListPaymentFilteredRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryListPaymentFilteredRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryListPaymentFilteredRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryListPaymentFilteredRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryListPaymentFilteredRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryListPaymentFilteredRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryListPaymentFilteredRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryListPaymentFilteredRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.OrgId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.OrgId)
+		if !f(fd_QueryListPaymentFilteredRequest_orgId, value) {
+			return
+		}
+	}
+	if x.TransactionType != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.TransactionType)
+		if !f(fd_QueryListPaymentFilteredRequest_transactionType, value) {
+			return
+		}
+	}
+	if x.ModuleId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ModuleId)
+		if !f(fd_QueryListPaymentFilteredRequest_moduleId, value) {
+			return
+		}
+	}
+	if x.FromTimestamp != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.FromTimestamp)
+		if !f(fd_QueryListPaymentFilteredRequest_fromTimestamp, value) {
+			return
+		}
+	}
+	if x.ToTimestamp != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ToTimestamp)
+		if !f(fd_QueryListPaymentFilteredRequest_toTimestamp, value) {
+			return
+		}
+	}
+	if x.MinAmount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.MinAmount)
+		if !f(fd_QueryListPaymentFilteredRequest_minAmount, value) {
+			return
+		}
+	}
+	if x.MaxAmount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.MaxAmount)
+		if !f(fd_QueryListPaymentFilteredRequest_maxAmount, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryListPaymentFilteredRequest_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryListPaymentFilteredRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredRequest.orgId":
+		return x.OrgId != uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.transactionType":
+		return x.TransactionType != uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.moduleId":
+		return x.ModuleId != uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.fromTimestamp":
+		return x.FromTimestamp != uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.toTimestamp":
+		return x.ToTimestamp != uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.minAmount":
+		return x.MinAmount != uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.maxAmount":
+		return x.MaxAmount != uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredRequest"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryListPaymentFilteredRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredRequest.orgId":
+		x.OrgId = uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.transactionType":
+		x.TransactionType = uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.moduleId":
+		x.ModuleId = uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.fromTimestamp":
+		x.FromTimestamp = uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.toTimestamp":
+		x.ToTimestamp = uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.minAmount":
+		x.MinAmount = uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.maxAmount":
+		x.MaxAmount = uint64(0)
+	case "ipex.payments.QueryListPaymentFilteredRequest.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredRequest"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryListPaymentFilteredRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredRequest.orgId":
+		value := x.OrgId
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.payments.QueryListPaymentFilteredRequest.transactionType":
+		value := x.TransactionType
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.payments.QueryListPaymentFilteredRequest.moduleId":
+		value := x.ModuleId
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.payments.QueryListPaymentFilteredRequest.fromTimestamp":
+		value := x.FromTimestamp
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.payments.QueryListPaymentFilteredRequest.toTimestamp":
+		value := x.ToTimestamp
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.payments.QueryListPaymentFilteredRequest.minAmount":
+		value := x.MinAmount
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.payments.QueryListPaymentFilteredRequest.maxAmount":
+		value := x.MaxAmount
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.payments.QueryListPaymentFilteredRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredRequest"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryListPaymentFilteredRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredRequest.orgId":
+		x.OrgId = value.Uint()
+	case "ipex.payments.QueryListPaymentFilteredRequest.transactionType":
+		x.TransactionType = value.Uint()
+	case "ipex.payments.QueryListPaymentFilteredRequest.moduleId":
+		x.ModuleId = value.Uint()
+	case "ipex.payments.QueryListPaymentFilteredRequest.fromTimestamp":
+		x.FromTimestamp = value.Uint()
+	case "ipex.payments.QueryListPaymentFilteredRequest.toTimestamp":
+		x.ToTimestamp = value.Uint()
+	case "ipex.payments.QueryListPaymentFilteredRequest.minAmount":
+		x.MinAmount = value.Uint()
+	case "ipex.payments.QueryListPaymentFilteredRequest.maxAmount":
+		x.MaxAmount = value.Uint()
+	case "ipex.payments.QueryListPaymentFilteredRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredRequest"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryListPaymentFilteredRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	case "ipex.payments.QueryListPaymentFilteredRequest.orgId":
+		panic(fmt.Errorf("field orgId of message ipex.payments.QueryListPaymentFilteredRequest is not mutable"))
+	case "ipex.payments.QueryListPaymentFilteredRequest.transactionType":
+		panic(fmt.Errorf("field transactionType of message ipex.payments.QueryListPaymentFilteredRequest is not mutable"))
+	case "ipex.payments.QueryListPaymentFilteredRequest.moduleId":
+		panic(fmt.Errorf("field moduleId of message ipex.payments.QueryListPaymentFilteredRequest is not mutable"))
+	case "ipex.payments.QueryListPaymentFilteredRequest.fromTimestamp":
+		panic(fmt.Errorf("field fromTimestamp of message ipex.payments.QueryListPaymentFilteredRequest is not mutable"))
+	case "ipex.payments.QueryListPaymentFilteredRequest.toTimestamp":
+		panic(fmt.Errorf("field toTimestamp of message ipex.payments.QueryListPaymentFilteredRequest is not mutable"))
+	case "ipex.payments.QueryListPaymentFilteredRequest.minAmount":
+		panic(fmt.Errorf("field minAmount of message ipex.payments.QueryListPaymentFilteredRequest is not mutable"))
+	case "ipex.payments.QueryListPaymentFilteredRequest.maxAmount":
+		panic(fmt.Errorf("field maxAmount of message ipex.payments.QueryListPaymentFilteredRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredRequest"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryListPaymentFilteredRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredRequest.orgId":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.payments.QueryListPaymentFilteredRequest.transactionType":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.payments.QueryListPaymentFilteredRequest.moduleId":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.payments.QueryListPaymentFilteredRequest.fromTimestamp":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.payments.QueryListPaymentFilteredRequest.toTimestamp":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.payments.QueryListPaymentFilteredRequest.minAmount":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.payments.QueryListPaymentFilteredRequest.maxAmount":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.payments.QueryListPaymentFilteredRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredRequest"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryListPaymentFilteredRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.payments.QueryListPaymentFilteredRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryListPaymentFilteredRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryListPaymentFilteredRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryListPaymentFilteredRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryListPaymentFilteredRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryListPaymentFilteredRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.OrgId != 0 {
+			n += 1 + runtime.Sov(uint64(x.OrgId))
+		}
+		if x.TransactionType != 0 {
+			n += 1 + runtime.Sov(uint64(x.TransactionType))
+		}
+		if x.ModuleId != 0 {
+			n += 1 + runtime.Sov(uint64(x.ModuleId))
+		}
+		if x.FromTimestamp != 0 {
+			n += 1 + runtime.Sov(uint64(x.FromTimestamp))
+		}
+		if x.ToTimestamp != 0 {
+			n += 1 + runtime.Sov(uint64(x.ToTimestamp))
+		}
+		if x.MinAmount != 0 {
+			n += 1 + runtime.Sov(uint64(x.MinAmount))
+		}
+		if x.MaxAmount != 0 {
+			n += 1 + runtime.Sov(uint64(x.MaxAmount))
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryListPaymentFilteredRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x42
+		}
+		if x.MaxAmount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.MaxAmount))
+			i--
+			dAtA[i] = 0x38
+		}
+		if x.MinAmount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.MinAmount))
+			i--
+			dAtA[i] = 0x30
+		}
+		if x.ToTimestamp != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ToTimestamp))
+			i--
+			dAtA[i] = 0x28
+		}
+		if x.FromTimestamp != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.FromTimestamp))
+			i--
+			dAtA[i] = 0x20
+		}
+		if x.ModuleId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ModuleId))
+			i--
+			dAtA[i] = 0x18
+		}
+		if x.TransactionType != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.TransactionType))
+			i--
+			dAtA[i] = 0x10
+		}
+		if x.OrgId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.OrgId))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryListPaymentFilteredRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryListPaymentFilteredRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryListPaymentFilteredRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OrgId", wireType)
+				}
+				x.OrgId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.OrgId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TransactionType", wireType)
+				}
+				x.TransactionType = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.TransactionType |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ModuleId", wireType)
+				}
+				x.ModuleId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ModuleId |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 4:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field FromTimestamp", wireType)
+				}
+				x.FromTimestamp = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.FromTimestamp |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 5:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ToTimestamp", wireType)
+				}
+				x.ToTimestamp = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ToTimestamp |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 6:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MinAmount", wireType)
+				}
+				x.MinAmount = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.MinAmount |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 7:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MaxAmount", wireType)
+				}
+				x.MaxAmount = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.MaxAmount |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 8:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryListPaymentFilteredResponse             protoreflect.MessageDescriptor
+	fd_QueryListPaymentFilteredResponse_transaction protoreflect.FieldDescriptor
+	fd_QueryListPaymentFilteredResponse_pagination  protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_payments_query_proto_init()
+	md_QueryListPaymentFilteredResponse = File_ipex_payments_query_proto.Messages().ByName("QueryListPaymentFilteredResponse")
+	fd_QueryListPaymentFilteredResponse_transaction = md_QueryListPaymentFilteredResponse.Fields().ByName("transaction")
+	fd_QueryListPaymentFilteredResponse_pagination = md_QueryListPaymentFilteredResponse.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryListPaymentFilteredResponse)(nil)
+
+type fastReflection_QueryListPaymentFilteredResponse QueryListPaymentFilteredResponse
+
+func (x *QueryListPaymentFilteredResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryListPaymentFilteredResponse)(x)
+}
+
+func (x *QueryListPaymentFilteredResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_payments_query_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryListPaymentFilteredResponse_messageType fastReflection_QueryListPaymentFilteredResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryListPaymentFilteredResponse_messageType{}
+
+type fastReflection_QueryListPaymentFilteredResponse_messageType struct{}
+
+func (x fastReflection_QueryListPaymentFilteredResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryListPaymentFilteredResponse)(nil)
+}
+func (x fastReflection_QueryListPaymentFilteredResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryListPaymentFilteredResponse)
+}
+func (x fastReflection_QueryListPaymentFilteredResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryListPaymentFilteredResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryListPaymentFilteredResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryListPaymentFilteredResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryListPaymentFilteredResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryListPaymentFilteredResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryListPaymentFilteredResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryListPaymentFilteredResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryListPaymentFilteredResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryListPaymentFilteredResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryListPaymentFilteredResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Transaction != nil {
+		value := protoreflect.ValueOfMessage(x.Transaction.ProtoReflect())
+		if !f(fd_QueryListPaymentFilteredResponse_transaction, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryListPaymentFilteredResponse_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryListPaymentFilteredResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredResponse.transaction":
+		return x.Transaction != nil
+	case "ipex.payments.QueryListPaymentFilteredResponse.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredResponse"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryListPaymentFilteredResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredResponse.transaction":
+		x.Transaction = nil
+	case "ipex.payments.QueryListPaymentFilteredResponse.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredResponse"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryListPaymentFilteredResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredResponse.transaction":
+		value := x.Transaction
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.payments.QueryListPaymentFilteredResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredResponse"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryListPaymentFilteredResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredResponse.transaction":
+		x.Transaction = value.Message().Interface().(*Transaction)
+	case "ipex.payments.QueryListPaymentFilteredResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredResponse"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryListPaymentFilteredResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredResponse.transaction":
+		if x.Transaction == nil {
+			x.Transaction = new(Transaction)
+		}
+		return protoreflect.ValueOfMessage(x.Transaction.ProtoReflect())
+	case "ipex.payments.QueryListPaymentFilteredResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredResponse"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryListPaymentFilteredResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.payments.QueryListPaymentFilteredResponse.transaction":
+		m := new(Transaction)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.payments.QueryListPaymentFilteredResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.payments.QueryListPaymentFilteredResponse"))
+		}
+		panic(fmt.Errorf("message ipex.payments.QueryListPaymentFilteredResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryListPaymentFilteredResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.payments.QueryListPaymentFilteredResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryListPaymentFilteredResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryListPaymentFilteredResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryListPaymentFilteredResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryListPaymentFilteredResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryListPaymentFilteredResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.Transaction != nil {
+			l = options.Size(x.Transaction)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryListPaymentFilteredResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if x.Transaction != nil {
+			encoded, err := options.Marshal(x.Transaction)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryListPaymentFilteredResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryListPaymentFilteredResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryListPaymentFilteredResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Transaction", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Transaction == nil {
+					x.Transaction = &Transaction{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Transaction); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -4021,6 +5306,140 @@ func (x *QueryListContractPaymentResponse) GetPagination() *v1beta1.PageResponse
 	return nil
 }
 
+type QueryListPaymentFilteredRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	OrgId           uint64               `protobuf:"varint,1,opt,name=orgId,proto3" json:"orgId,omitempty"`
+	TransactionType uint64               `protobuf:"varint,2,opt,name=transactionType,proto3" json:"transactionType,omitempty"`
+	ModuleId        uint64               `protobuf:"varint,3,opt,name=moduleId,proto3" json:"moduleId,omitempty"`
+	FromTimestamp   uint64               `protobuf:"varint,4,opt,name=fromTimestamp,proto3" json:"fromTimestamp,omitempty"`
+	ToTimestamp     uint64               `protobuf:"varint,5,opt,name=toTimestamp,proto3" json:"toTimestamp,omitempty"`
+	MinAmount       uint64               `protobuf:"varint,6,opt,name=minAmount,proto3" json:"minAmount,omitempty"`
+	MaxAmount       uint64               `protobuf:"varint,7,opt,name=maxAmount,proto3" json:"maxAmount,omitempty"`
+	Pagination      *v1beta1.PageRequest `protobuf:"bytes,8,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QueryListPaymentFilteredRequest) Reset() {
+	*x = QueryListPaymentFilteredRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_payments_query_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryListPaymentFilteredRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryListPaymentFilteredRequest) ProtoMessage() {}
+
+// Deprecated: Use QueryListPaymentFilteredRequest.ProtoReflect.Descriptor instead.
+func (*QueryListPaymentFilteredRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_payments_query_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *QueryListPaymentFilteredRequest) GetOrgId() uint64 {
+	if x != nil {
+		return x.OrgId
+	}
+	return 0
+}
+
+func (x *QueryListPaymentFilteredRequest) GetTransactionType() uint64 {
+	if x != nil {
+		return x.TransactionType
+	}
+	return 0
+}
+
+func (x *QueryListPaymentFilteredRequest) GetModuleId() uint64 {
+	if x != nil {
+		return x.ModuleId
+	}
+	return 0
+}
+
+func (x *QueryListPaymentFilteredRequest) GetFromTimestamp() uint64 {
+	if x != nil {
+		return x.FromTimestamp
+	}
+	return 0
+}
+
+func (x *QueryListPaymentFilteredRequest) GetToTimestamp() uint64 {
+	if x != nil {
+		return x.ToTimestamp
+	}
+	return 0
+}
+
+func (x *QueryListPaymentFilteredRequest) GetMinAmount() uint64 {
+	if x != nil {
+		return x.MinAmount
+	}
+	return 0
+}
+
+func (x *QueryListPaymentFilteredRequest) GetMaxAmount() uint64 {
+	if x != nil {
+		return x.MaxAmount
+	}
+	return 0
+}
+
+func (x *QueryListPaymentFilteredRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type QueryListPaymentFilteredResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Transaction *Transaction          `protobuf:"bytes,1,opt,name=transaction,proto3" json:"transaction,omitempty"`
+	Pagination  *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QueryListPaymentFilteredResponse) Reset() {
+	*x = QueryListPaymentFilteredResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_payments_query_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryListPaymentFilteredResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryListPaymentFilteredResponse) ProtoMessage() {}
+
+// Deprecated: Use QueryListPaymentFilteredResponse.ProtoReflect.Descriptor instead.
+func (*QueryListPaymentFilteredResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_payments_query_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *QueryListPaymentFilteredResponse) GetTransaction() *Transaction {
+	if x != nil {
+		return x.Transaction
+	}
+	return nil
+}
+
+func (x *QueryListPaymentFilteredResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 var File_ipex_payments_query_proto protoreflect.FileDescriptor
 
 var file_ipex_payments_query_proto_rawDesc = []byte{
@@ -4089,54 +5508,102 @@ var file_ipex_payments_query_proto_rawDesc = []byte{
 	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62,
 	0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61,
 	0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a,
-	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0xcd, 0x04, 0x0a, 0x05, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x12, 0x71, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x22,
-	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x23, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65,
-	0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x12,
-	0x16, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73,
-	0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x90, 0x01, 0x0a, 0x0b, 0x54, 0x72, 0x61, 0x6e,
-	0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2a, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
-	0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65,
-	0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d,
-	0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x54, 0x72, 0x61,
-	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x12, 0x20, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61,
-	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x8e, 0x01, 0x0a, 0x0e, 0x54,
-	0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x12, 0x2a, 0x2e,
+	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xc9, 0x02, 0x0a, 0x1f, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x46,
+	0x69, 0x6c, 0x74, 0x65, 0x72, 0x65, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14,
+	0x0a, 0x05, 0x6f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x6f,
+	0x72, 0x67, 0x49, 0x64, 0x12, 0x28, 0x0a, 0x0f, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0f, 0x74,
+	0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1a,
+	0x0a, 0x08, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x49, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04,
+	0x52, 0x08, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x49, 0x64, 0x12, 0x24, 0x0a, 0x0d, 0x66, 0x72,
+	0x6f, 0x6d, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x04, 0x52, 0x0d, 0x66, 0x72, 0x6f, 0x6d, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
+	0x12, 0x20, 0x0a, 0x0b, 0x74, 0x6f, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x18,
+	0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x74, 0x6f, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x12, 0x1c, 0x0a, 0x09, 0x6d, 0x69, 0x6e, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18,
+	0x06, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x6d, 0x69, 0x6e, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74,
+	0x12, 0x1c, 0x0a, 0x09, 0x6d, 0x61, 0x78, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x07, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x09, 0x6d, 0x61, 0x78, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x46,
+	0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x08, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
+	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50,
+	0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xaa, 0x01, 0x0a, 0x20, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x46, 0x69, 0x6c, 0x74, 0x65,
+	0x72, 0x65, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3d, 0x0a, 0x0b, 0x74,
+	0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x1b, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74,
+	0x73, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0b, 0x74,
+	0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61,
+	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27,
+	0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65,
+	0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x32, 0xd5, 0x06, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x71, 0x0a,
+	0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x22, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
+	0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61,
+	0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x12, 0x16, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73,
+	0x12, 0x90, 0x01, 0x0a, 0x0b, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x12, 0x2a, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74,
+	0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x22, 0x12, 0x20, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e,
+	0x74, 0x73, 0x2f, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x7b,
+	0x69, 0x64, 0x7d, 0x12, 0x8e, 0x01, 0x0a, 0x0e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x41, 0x6c, 0x6c, 0x12, 0x2a, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70,
+	0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c,
+	0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65,
+	0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x54, 0x72, 0x61, 0x6e,
+	0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x23, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x12, 0x1b, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
+	0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0xac, 0x01, 0x0a, 0x13, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x2f, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x50,
+	0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e,
 	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x41, 0x6c, 0x6c, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69,
-	0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x69, 0x70, 0x64, 0x65,
-	0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x41, 0x6c, 0x6c, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x23, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x12, 0x1b,
-	0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f,
-	0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0xac, 0x01, 0x0a, 0x13,
-	0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x50, 0x61, 0x79, 0x6d,
-	0x65, 0x6e, 0x74, 0x12, 0x2f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d,
-	0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f,
-	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79,
-	0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x43,
-	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x32, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2c, 0x12, 0x2a,
-	0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f,
-	0x6c, 0x69, 0x73, 0x74, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x70, 0x61,
-	0x79, 0x6d, 0x65, 0x6e, 0x74, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x42, 0x93, 0x01, 0x0a, 0x12, 0x63,
-	0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74,
-	0x73, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x18, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0xa2, 0x02, 0x03, 0x49, 0x50, 0x58, 0xaa,
-	0x02, 0x0e, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73,
-	0xca, 0x02, 0x0e, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74,
-	0x73, 0xe2, 0x02, 0x1a, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e,
-	0x74, 0x73, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
-	0x0f, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x32, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2c, 0x12, 0x2a, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
+	0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x63, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x2f, 0x7b,
+	0x69, 0x64, 0x7d, 0x12, 0x85, 0x02, 0x0a, 0x13, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x79, 0x6d,
+	0x65, 0x6e, 0x74, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x65, 0x64, 0x12, 0x2f, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x46, 0x69, 0x6c,
+	0x74, 0x65, 0x72, 0x65, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x46, 0x69,
+	0x6c, 0x74, 0x65, 0x72, 0x65, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x8a,
+	0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x83, 0x01, 0x12, 0x80, 0x01, 0x2f, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x5f,
+	0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x65, 0x64,
+	0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x2f, 0x7b, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x7d, 0x2f, 0x7b, 0x6d, 0x6f, 0x64, 0x75,
+	0x6c, 0x65, 0x49, 0x64, 0x7d, 0x2f, 0x7b, 0x66, 0x72, 0x6f, 0x6d, 0x54, 0x69, 0x6d, 0x65, 0x73,
+	0x74, 0x61, 0x6d, 0x70, 0x7d, 0x2f, 0x7b, 0x74, 0x6f, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x7d, 0x2f, 0x7b, 0x6d, 0x69, 0x6e, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x7d, 0x2f,
+	0x7b, 0x6d, 0x61, 0x78, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x7d, 0x42, 0x93, 0x01, 0x0a, 0x12,
+	0x63, 0x6f, 0x6d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e,
+	0x74, 0x73, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
+	0x5a, 0x18, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x70, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0xa2, 0x02, 0x03, 0x49, 0x50, 0x58,
+	0xaa, 0x02, 0x0e, 0x49, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74,
+	0x73, 0xca, 0x02, 0x0e, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e,
+	0x74, 0x73, 0xe2, 0x02, 0x1a, 0x49, 0x70, 0x64, 0x65, 0x78, 0x5c, 0x50, 0x61, 0x79, 0x6d, 0x65,
+	0x6e, 0x74, 0x73, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea,
+	0x02, 0x0f, 0x49, 0x70, 0x64, 0x65, 0x78, 0x3a, 0x3a, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x6e, 0x74,
+	0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -4151,7 +5618,7 @@ func file_ipex_payments_query_proto_rawDescGZIP() []byte {
 	return file_ipex_payments_query_proto_rawDescData
 }
 
-var file_ipex_payments_query_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_ipex_payments_query_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_ipex_payments_query_proto_goTypes = []interface{}{
 	(*QueryParamsRequest)(nil),               // 0: ipex.payments.QueryParamsRequest
 	(*QueryParamsResponse)(nil),              // 1: ipex.payments.QueryParamsResponse
@@ -4161,33 +5628,40 @@ var file_ipex_payments_query_proto_goTypes = []interface{}{
 	(*QueryAllTransactionResponse)(nil),      // 5: ipex.payments.QueryAllTransactionResponse
 	(*QueryListContractPaymentRequest)(nil),  // 6: ipex.payments.QueryListContractPaymentRequest
 	(*QueryListContractPaymentResponse)(nil), // 7: ipex.payments.QueryListContractPaymentResponse
-	(*Params)(nil),                           // 8: ipex.payments.Params
-	(*Transaction)(nil),                      // 9: ipex.payments.Transaction
-	(*v1beta1.PageRequest)(nil),              // 10: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),             // 11: cosmos.base.query.v1beta1.PageResponse
+	(*QueryListPaymentFilteredRequest)(nil),  // 8: ipex.payments.QueryListPaymentFilteredRequest
+	(*QueryListPaymentFilteredResponse)(nil), // 9: ipex.payments.QueryListPaymentFilteredResponse
+	(*Params)(nil),                           // 10: ipex.payments.Params
+	(*Transaction)(nil),                      // 11: ipex.payments.Transaction
+	(*v1beta1.PageRequest)(nil),              // 12: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),             // 13: cosmos.base.query.v1beta1.PageResponse
 }
 var file_ipex_payments_query_proto_depIdxs = []int32{
-	8,  // 0: ipex.payments.QueryParamsResponse.params:type_name -> ipex.payments.Params
-	9,  // 1: ipex.payments.QueryGetTransactionResponse.Transaction:type_name -> ipex.payments.Transaction
-	10, // 2: ipex.payments.QueryAllTransactionRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	9,  // 3: ipex.payments.QueryAllTransactionResponse.Transaction:type_name -> ipex.payments.Transaction
-	11, // 4: ipex.payments.QueryAllTransactionResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	10, // 5: ipex.payments.QueryListContractPaymentRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	9,  // 6: ipex.payments.QueryListContractPaymentResponse.transaction:type_name -> ipex.payments.Transaction
-	11, // 7: ipex.payments.QueryListContractPaymentResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	0,  // 8: ipex.payments.Query.Params:input_type -> ipex.payments.QueryParamsRequest
-	2,  // 9: ipex.payments.Query.Transaction:input_type -> ipex.payments.QueryGetTransactionRequest
-	4,  // 10: ipex.payments.Query.TransactionAll:input_type -> ipex.payments.QueryAllTransactionRequest
-	6,  // 11: ipex.payments.Query.ListContractPayment:input_type -> ipex.payments.QueryListContractPaymentRequest
-	1,  // 12: ipex.payments.Query.Params:output_type -> ipex.payments.QueryParamsResponse
-	3,  // 13: ipex.payments.Query.Transaction:output_type -> ipex.payments.QueryGetTransactionResponse
-	5,  // 14: ipex.payments.Query.TransactionAll:output_type -> ipex.payments.QueryAllTransactionResponse
-	7,  // 15: ipex.payments.Query.ListContractPayment:output_type -> ipex.payments.QueryListContractPaymentResponse
-	12, // [12:16] is the sub-list for method output_type
-	8,  // [8:12] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	10, // 0: ipex.payments.QueryParamsResponse.params:type_name -> ipex.payments.Params
+	11, // 1: ipex.payments.QueryGetTransactionResponse.Transaction:type_name -> ipex.payments.Transaction
+	12, // 2: ipex.payments.QueryAllTransactionRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	11, // 3: ipex.payments.QueryAllTransactionResponse.Transaction:type_name -> ipex.payments.Transaction
+	13, // 4: ipex.payments.QueryAllTransactionResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	12, // 5: ipex.payments.QueryListContractPaymentRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	11, // 6: ipex.payments.QueryListContractPaymentResponse.transaction:type_name -> ipex.payments.Transaction
+	13, // 7: ipex.payments.QueryListContractPaymentResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	12, // 8: ipex.payments.QueryListPaymentFilteredRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	11, // 9: ipex.payments.QueryListPaymentFilteredResponse.transaction:type_name -> ipex.payments.Transaction
+	13, // 10: ipex.payments.QueryListPaymentFilteredResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	0,  // 11: ipex.payments.Query.Params:input_type -> ipex.payments.QueryParamsRequest
+	2,  // 12: ipex.payments.Query.Transaction:input_type -> ipex.payments.QueryGetTransactionRequest
+	4,  // 13: ipex.payments.Query.TransactionAll:input_type -> ipex.payments.QueryAllTransactionRequest
+	6,  // 14: ipex.payments.Query.ListContractPayment:input_type -> ipex.payments.QueryListContractPaymentRequest
+	8,  // 15: ipex.payments.Query.ListPaymentFiltered:input_type -> ipex.payments.QueryListPaymentFilteredRequest
+	1,  // 16: ipex.payments.Query.Params:output_type -> ipex.payments.QueryParamsResponse
+	3,  // 17: ipex.payments.Query.Transaction:output_type -> ipex.payments.QueryGetTransactionResponse
+	5,  // 18: ipex.payments.Query.TransactionAll:output_type -> ipex.payments.QueryAllTransactionResponse
+	7,  // 19: ipex.payments.Query.ListContractPayment:output_type -> ipex.payments.QueryListContractPaymentResponse
+	9,  // 20: ipex.payments.Query.ListPaymentFiltered:output_type -> ipex.payments.QueryListPaymentFilteredResponse
+	16, // [16:21] is the sub-list for method output_type
+	11, // [11:16] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_ipex_payments_query_proto_init() }
@@ -4294,6 +5768,30 @@ func file_ipex_payments_query_proto_init() {
 				return nil
 			}
 		}
+		file_ipex_payments_query_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryListPaymentFilteredRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_payments_query_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryListPaymentFilteredResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -4301,7 +5799,7 @@ func file_ipex_payments_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_payments_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
