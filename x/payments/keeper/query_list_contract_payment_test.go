@@ -68,6 +68,22 @@ func TestListContractPaymentPaginated(t *testing.T) {
 		// Check pagination response includes total count
 		require.Equal(t, uint64(len(msgs)), resp.Pagination.Total)
 	})
+	t.Run("LatestFirst", func(t *testing.T) {
+		// Test that transactions are returned in descending order (latest first)
+		resp, err := keeper.ListContractPayment(ctx, request(nil, 0, 5, false))
+		require.NoError(t, err)
+		require.Equal(t, 5, len(resp.Transaction))
+		
+		// Verify transactions are in descending ID order (latest first)
+		for i := 1; i < len(resp.Transaction); i++ {
+			require.Greater(t, resp.Transaction[i-1].Id, resp.Transaction[i].Id,
+				"transactions should be ordered by ID descending (latest first)")
+		}
+		
+		// The first transaction should have the highest ID (latest)
+		require.Equal(t, uint64(5), resp.Transaction[0].Id, "first transaction should have highest ID")
+		require.Equal(t, uint64(1), resp.Transaction[4].Id, "last transaction should have lowest ID")
+	})
 	t.Run("InvalidRequest", func(t *testing.T) {
 		_, err := keeper.ListContractPayment(ctx, nil)
 		require.ErrorIs(t, err, status.Error(codes.InvalidArgument, "invalid request"))

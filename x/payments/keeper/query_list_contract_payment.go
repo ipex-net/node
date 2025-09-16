@@ -48,8 +48,8 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 	var collectedCount uint64
 	var collectingItems = true
 
-	// Use entity index to efficiently get transactions for this entity
-	rng := collections.NewPrefixedPairRange[uint64, uint64](req.Id)
+	// Use entity index to efficiently get transactions for this entity (reverse for latest first)
+	rng := collections.NewPrefixedPairRange[uint64, uint64](req.Id).Descending()
 	err := k.TransactionsByEntity.Walk(goCtx, rng, func(key collections.Pair[uint64, uint64], value bool) (bool, error) {
 		// Get the transaction ID from the key
 		transactionId := key.K2()
@@ -65,8 +65,8 @@ func (k Keeper) ListContractPayment(goCtx context.Context, req *types.QueryListC
 		totalCount++
 
 		if collectingItems {
-			// If using key-based pagination, skip until we reach the start key
-			if startKey != nil && transactionId <= *startKey {
+			// If using key-based pagination, skip until we reach the start key (reverse order)
+			if startKey != nil && transactionId >= *startKey {
 				return false, nil
 			}
 
