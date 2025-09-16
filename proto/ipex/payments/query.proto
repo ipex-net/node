@@ -91,7 +91,7 @@ message QueryListPaymentFilteredRequest {
 }
 
 message QueryListPaymentFilteredResponse {
-  Transaction                            transaction = 1;
-  cosmos.base.query.v1beta1.PageResponse pagination  = 2;
+  repeated  Transaction                             transaction = 1 [(gogoproto.nullable) = false];
+            cosmos.base.query.v1beta1.PageResponse  pagination  = 2;
 }
 
