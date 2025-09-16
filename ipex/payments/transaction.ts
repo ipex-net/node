@@ -147,7 +147,6 @@ export interface Transaction {
   toOrgId: number;
   fromAddress: string;
   toAddress: string;
-  blockHeight: number;
   timestamp: Date | undefined;
 }
 
@@ -162,7 +161,6 @@ function createBaseTransaction(): Transaction {
     toOrgId: 0,
     fromAddress: "",
     toAddress: "",
-    blockHeight: 0,
     timestamp: undefined,
   };
 }
@@ -196,11 +194,8 @@ export const Transaction: MessageFns<Transaction> = {
     if (message.toAddress !== "") {
       writer.uint32(74).string(message.toAddress);
     }
-    if (message.blockHeight !== 0) {
-      writer.uint32(80).int64(message.blockHeight);
-    }
     if (message.timestamp !== undefined) {
-      Timestamp.encode(toTimestamp(message.timestamp), writer.uint32(90).fork()).join();
+      Timestamp.encode(toTimestamp(message.timestamp), writer.uint32(82).fork()).join();
     }
     return writer;
   },
@@ -285,15 +280,7 @@ export const Transaction: MessageFns<Transaction> = {
           continue;
         }
         case 10: {
-          if (tag !== 80) {
-            break;
-          }
-
-          message.blockHeight = longToNumber(reader.int64());
-          continue;
-        }
-        case 11: {
-          if (tag !== 90) {
+          if (tag !== 82) {
             break;
           }
 
@@ -320,7 +307,6 @@ export const Transaction: MessageFns<Transaction> = {
       toOrgId: isSet(object.toOrgId) ? globalThis.Number(object.toOrgId) : 0,
       fromAddress: isSet(object.fromAddress) ? globalThis.String(object.fromAddress) : "",
       toAddress: isSet(object.toAddress) ? globalThis.String(object.toAddress) : "",
-      blockHeight: isSet(object.blockHeight) ? globalThis.Number(object.blockHeight) : 0,
       timestamp: isSet(object.timestamp) ? fromJsonTimestamp(object.timestamp) : undefined,
     };
   },
@@ -354,9 +340,6 @@ export const Transaction: MessageFns<Transaction> = {
     if (message.toAddress !== "") {
       obj.toAddress = message.toAddress;
     }
-    if (message.blockHeight !== 0) {
-      obj.blockHeight = Math.round(message.blockHeight);
-    }
     if (message.timestamp !== undefined) {
       obj.timestamp = message.timestamp.toISOString();
     }
@@ -379,7 +362,6 @@ export const Transaction: MessageFns<Transaction> = {
     message.toOrgId = object.toOrgId ?? 0;
     message.fromAddress = object.fromAddress ?? "";
     message.toAddress = object.toAddress ?? "";
-    message.blockHeight = object.blockHeight ?? 0;
     message.timestamp = object.timestamp ?? undefined;
     return message;
   },

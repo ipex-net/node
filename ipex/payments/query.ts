@@ -49,6 +49,22 @@ export interface QueryListContractPaymentResponse {
   pagination: PageResponse | undefined;
 }
 
+export interface QueryListPaymentFilteredRequest {
+  orgId: number;
+  transactionType: number;
+  moduleId: number;
+  fromTimestamp: number;
+  toTimestamp: number;
+  minAmount: number;
+  maxAmount: number;
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryListPaymentFilteredResponse {
+  transaction: Transaction[];
+  pagination: PageResponse | undefined;
+}
+
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
@@ -574,6 +590,275 @@ export const QueryListContractPaymentResponse: MessageFns<QueryListContractPayme
   },
 };
 
+function createBaseQueryListPaymentFilteredRequest(): QueryListPaymentFilteredRequest {
+  return {
+    orgId: 0,
+    transactionType: 0,
+    moduleId: 0,
+    fromTimestamp: 0,
+    toTimestamp: 0,
+    minAmount: 0,
+    maxAmount: 0,
+    pagination: undefined,
+  };
+}
+
+export const QueryListPaymentFilteredRequest: MessageFns<QueryListPaymentFilteredRequest> = {
+  encode(message: QueryListPaymentFilteredRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.orgId !== 0) {
+      writer.uint32(8).uint64(message.orgId);
+    }
+    if (message.transactionType !== 0) {
+      writer.uint32(16).uint64(message.transactionType);
+    }
+    if (message.moduleId !== 0) {
+      writer.uint32(24).uint64(message.moduleId);
+    }
+    if (message.fromTimestamp !== 0) {
+      writer.uint32(32).uint64(message.fromTimestamp);
+    }
+    if (message.toTimestamp !== 0) {
+      writer.uint32(40).uint64(message.toTimestamp);
+    }
+    if (message.minAmount !== 0) {
+      writer.uint32(48).uint64(message.minAmount);
+    }
+    if (message.maxAmount !== 0) {
+      writer.uint32(56).uint64(message.maxAmount);
+    }
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(66).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryListPaymentFilteredRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryListPaymentFilteredRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.orgId = longToNumber(reader.uint64());
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.transactionType = longToNumber(reader.uint64());
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.moduleId = longToNumber(reader.uint64());
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.fromTimestamp = longToNumber(reader.uint64());
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.toTimestamp = longToNumber(reader.uint64());
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.minAmount = longToNumber(reader.uint64());
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.maxAmount = longToNumber(reader.uint64());
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryListPaymentFilteredRequest {
+    return {
+      orgId: isSet(object.orgId) ? globalThis.Number(object.orgId) : 0,
+      transactionType: isSet(object.transactionType) ? globalThis.Number(object.transactionType) : 0,
+      moduleId: isSet(object.moduleId) ? globalThis.Number(object.moduleId) : 0,
+      fromTimestamp: isSet(object.fromTimestamp) ? globalThis.Number(object.fromTimestamp) : 0,
+      toTimestamp: isSet(object.toTimestamp) ? globalThis.Number(object.toTimestamp) : 0,
+      minAmount: isSet(object.minAmount) ? globalThis.Number(object.minAmount) : 0,
+      maxAmount: isSet(object.maxAmount) ? globalThis.Number(object.maxAmount) : 0,
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryListPaymentFilteredRequest): unknown {
+    const obj: any = {};
+    if (message.orgId !== 0) {
+      obj.orgId = Math.round(message.orgId);
+    }
+    if (message.transactionType !== 0) {
+      obj.transactionType = Math.round(message.transactionType);
+    }
+    if (message.moduleId !== 0) {
+      obj.moduleId = Math.round(message.moduleId);
+    }
+    if (message.fromTimestamp !== 0) {
+      obj.fromTimestamp = Math.round(message.fromTimestamp);
+    }
+    if (message.toTimestamp !== 0) {
+      obj.toTimestamp = Math.round(message.toTimestamp);
+    }
+    if (message.minAmount !== 0) {
+      obj.minAmount = Math.round(message.minAmount);
+    }
+    if (message.maxAmount !== 0) {
+      obj.maxAmount = Math.round(message.maxAmount);
+    }
+    if (message.pagination !== undefined) {
+      obj.pagination = PageRequest.toJSON(message.pagination);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<QueryListPaymentFilteredRequest>, I>>(base?: I): QueryListPaymentFilteredRequest {
+    return QueryListPaymentFilteredRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryListPaymentFilteredRequest>, I>>(
+    object: I,
+  ): QueryListPaymentFilteredRequest {
+    const message = createBaseQueryListPaymentFilteredRequest();
+    message.orgId = object.orgId ?? 0;
+    message.transactionType = object.transactionType ?? 0;
+    message.moduleId = object.moduleId ?? 0;
+    message.fromTimestamp = object.fromTimestamp ?? 0;
+    message.toTimestamp = object.toTimestamp ?? 0;
+    message.minAmount = object.minAmount ?? 0;
+    message.maxAmount = object.maxAmount ?? 0;
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageRequest.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryListPaymentFilteredResponse(): QueryListPaymentFilteredResponse {
+  return { transaction: [], pagination: undefined };
+}
+
+export const QueryListPaymentFilteredResponse: MessageFns<QueryListPaymentFilteredResponse> = {
+  encode(message: QueryListPaymentFilteredResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.transaction) {
+      Transaction.encode(v!, writer.uint32(10).fork()).join();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryListPaymentFilteredResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryListPaymentFilteredResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.transaction.push(Transaction.decode(reader, reader.uint32()));
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryListPaymentFilteredResponse {
+    return {
+      transaction: globalThis.Array.isArray(object?.transaction)
+        ? object.transaction.map((e: any) => Transaction.fromJSON(e))
+        : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryListPaymentFilteredResponse): unknown {
+    const obj: any = {};
+    if (message.transaction?.length) {
+      obj.transaction = message.transaction.map((e) => Transaction.toJSON(e));
+    }
+    if (message.pagination !== undefined) {
+      obj.pagination = PageResponse.toJSON(message.pagination);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<QueryListPaymentFilteredResponse>, I>>(
+    base?: I,
+  ): QueryListPaymentFilteredResponse {
+    return QueryListPaymentFilteredResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryListPaymentFilteredResponse>, I>>(
+    object: I,
+  ): QueryListPaymentFilteredResponse {
+    const message = createBaseQueryListPaymentFilteredResponse();
+    message.transaction = object.transaction?.map((e) => Transaction.fromPartial(e)) || [];
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageResponse.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -583,6 +868,8 @@ export interface Query {
   TransactionAll(request: QueryAllTransactionRequest): Promise<QueryAllTransactionResponse>;
   /** Queries a list of ListContractPayment items. */
   ListContractPayment(request: QueryListContractPaymentRequest): Promise<QueryListContractPaymentResponse>;
+  /** Queries a list of ListPaymentFiltered items. */
+  ListPaymentFiltered(request: QueryListPaymentFilteredRequest): Promise<QueryListPaymentFilteredResponse>;
 }
 
 export const QueryServiceName = "ipex.payments.Query";
@@ -596,6 +883,7 @@ export class QueryClientImpl implements Query {
     this.Transaction = this.Transaction.bind(this);
     this.TransactionAll = this.TransactionAll.bind(this);
     this.ListContractPayment = this.ListContractPayment.bind(this);
+    this.ListPaymentFiltered = this.ListPaymentFiltered.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -619,6 +907,12 @@ export class QueryClientImpl implements Query {
     const data = QueryListContractPaymentRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "ListContractPayment", data);
     return promise.then((data) => QueryListContractPaymentResponse.decode(new BinaryReader(data)));
+  }
+
+  ListPaymentFiltered(request: QueryListPaymentFilteredRequest): Promise<QueryListPaymentFilteredResponse> {
+    const data = QueryListPaymentFilteredRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "ListPaymentFiltered", data);
+    return promise.then((data) => QueryListPaymentFilteredResponse.decode(new BinaryReader(data)));
   }
 }
 

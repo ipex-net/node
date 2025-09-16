@@ -53,8 +53,8 @@ func (k Keeper) ListPaymentFiltered(goCtx context.Context, req *types.QueryListP
 	var collectedCount uint64
 	var collectingItems = true
 
-	// Use org index to efficiently get transactions for this organization
-	rng := collections.NewPrefixedPairRange[uint64, uint64](req.OrgId)
+	// Use org index to efficiently get transactions for this organization (reverse for latest first)
+	rng := collections.NewPrefixedPairRange[uint64, uint64](req.OrgId).Descending()
 	err := k.TransactionsByOrg.Walk(goCtx, rng, func(key collections.Pair[uint64, uint64], value bool) (bool, error) {
 		// Get the transaction ID from the key
 		transactionId := key.K2()
@@ -108,8 +108,8 @@ func (k Keeper) ListPaymentFiltered(goCtx context.Context, req *types.QueryListP
 		totalCount++
 
 		if collectingItems {
-			// If using key-based pagination, skip until we reach the start key
-			if startKey != nil && transactionId <= *startKey {
+			// If using key-based pagination, skip until we reach the start key (reverse order)
+			if startKey != nil && transactionId >= *startKey {
 				return false, nil
 			}
 

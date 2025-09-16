@@ -329,6 +329,29 @@ func TestListPaymentFiltered(t *testing.T) {
 		}
 	})
 
+	t.Run("Latest Entries First", func(t *testing.T) {
+		// Query all transactions for orgId1 to check ordering
+		req := &types.QueryListPaymentFilteredRequest{
+			OrgId: orgId1,
+			Pagination: &query.PageRequest{
+				Limit: 10,
+			},
+		}
+
+		resp, err := keeper.ListPaymentFiltered(ctx, req)
+		require.NoError(t, err)
+		require.Len(t, resp.Transaction, 3, "should find 3 transactions for orgId1")
+
+		// Verify transactions are ordered by ID descending (latest first)
+		for i := 1; i < len(resp.Transaction); i++ {
+			require.Greater(t, resp.Transaction[i-1].Id, resp.Transaction[i].Id,
+				"transactions should be ordered by ID descending (latest first)")
+		}
+
+		// The first transaction should be the one with the highest ID (latest)
+		require.Equal(t, txIds[3], resp.Transaction[0].Id, "first transaction should be the ASN sale (latest)")
+	})
+
 	t.Run("Invalid Request", func(t *testing.T) {
 		resp, err := keeper.ListPaymentFiltered(ctx, nil)
 		require.Error(t, err)
@@ -404,5 +427,32 @@ func TestListPaymentFilteredPerformance(t *testing.T) {
 		require.NoError(t, err)
 		t.Logf("Filtered query completed in %v, found %d transactions", duration, len(resp.Transaction))
 		require.Less(t, duration, time.Millisecond*50, "filtered query should complete quickly")
+	})
+
+	t.Run("Reverse Order Performance", func(t *testing.T) {
+		start := time.Now()
+
+		// Test that reverse ordering doesn't impact performance
+		req := &types.QueryListPaymentFilteredRequest{
+			OrgId: orgId,
+			Pagination: &query.PageRequest{
+				Limit: 20,
+			},
+		}
+
+		resp, err := keeper.ListPaymentFiltered(ctx, req)
+		duration := time.Since(start)
+
+		require.NoError(t, err)
+		require.Len(t, resp.Transaction, 20, "should retrieve 20 transactions")
+
+		// Verify transactions are in descending order (latest first)
+		for i := 1; i < len(resp.Transaction); i++ {
+			require.Greater(t, resp.Transaction[i-1].Id, resp.Transaction[i].Id,
+				"transactions should be in descending order")
+		}
+
+		t.Logf("Reverse order query completed in %v", duration)
+		require.Less(t, duration, time.Millisecond*50, "reverse order query should be fast")
 	})
 }

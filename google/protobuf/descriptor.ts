@@ -1130,7 +1130,12 @@ export interface FieldOptions {
   deprecated?:
     | boolean
     | undefined;
-  /** For Google-internal migration only. Do not use. */
+  /**
+   * DEPRECATED. DO NOT USE!
+   * For Google-internal migration only. Do not use.
+   *
+   * @deprecated
+   */
   weak?:
     | boolean
     | undefined;
