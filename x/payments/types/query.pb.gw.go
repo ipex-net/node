@@ -214,7 +214,7 @@ func local_request_Query_ListContractPayment_0(ctx context.Context, marshaler ru
 }
 
 var (
-	filter_Query_ListPaymentFiltered_0 = &utilities.DoubleArray{Encoding: map[string]int{"orgId": 0, "transactionType": 1, "moduleId": 2, "fromTimestamp": 3, "toTimestamp": 4, "minAmount": 5, "maxAmount": 6}, Base: []int{1, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8}}
+	filter_Query_ListPaymentFiltered_0 = &utilities.DoubleArray{Encoding: map[string]int{"orgId": 0, "transactionType": 1, "moduleId": 2, "fromTimestamp": 3, "toTimestamp": 4, "minAmount": 5, "maxAmount": 6, "entityId": 7, "fromOrgId": 8, "toOrgId": 9}, Base: []int{1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}}
 )
 
 func request_Query_ListPaymentFiltered_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -303,6 +303,39 @@ func request_Query_ListPaymentFiltered_0(ctx context.Context, marshaler runtime.
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "maxAmount", err)
+	}
+
+	val, ok = pathParams["entityId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "entityId")
+	}
+
+	protoReq.EntityId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "entityId", err)
+	}
+
+	val, ok = pathParams["fromOrgId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "fromOrgId")
+	}
+
+	protoReq.FromOrgId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "fromOrgId", err)
+	}
+
+	val, ok = pathParams["toOrgId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "toOrgId")
+	}
+
+	protoReq.ToOrgId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "toOrgId", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -403,6 +436,39 @@ func local_request_Query_ListPaymentFiltered_0(ctx context.Context, marshaler ru
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "maxAmount", err)
+	}
+
+	val, ok = pathParams["entityId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "entityId")
+	}
+
+	protoReq.EntityId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "entityId", err)
+	}
+
+	val, ok = pathParams["fromOrgId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "fromOrgId")
+	}
+
+	protoReq.FromOrgId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "fromOrgId", err)
+	}
+
+	val, ok = pathParams["toOrgId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "toOrgId")
+	}
+
+	protoReq.ToOrgId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "toOrgId", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -691,7 +757,7 @@ var (
 
 	pattern_Query_ListContractPayment_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"ipex", "payments", "list_contract_payment", "id"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_ListPaymentFiltered_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 1, 0, 4, 1, 5, 7, 1, 0, 4, 1, 5, 8, 1, 0, 4, 1, 5, 9}, []string{"ipex", "payments", "list_payment_filtered", "orgId", "transactionType", "moduleId", "fromTimestamp", "toTimestamp", "minAmount", "maxAmount"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_ListPaymentFiltered_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 1, 0, 4, 1, 5, 7, 1, 0, 4, 1, 5, 8, 1, 0, 4, 1, 5, 9, 1, 0, 4, 1, 5, 10, 1, 0, 4, 1, 5, 11, 1, 0, 4, 1, 5, 12}, []string{"ipex", "payments", "list_payment_filtered", "orgId", "transactionType", "moduleId", "fromTimestamp", "toTimestamp", "minAmount", "maxAmount", "entityId", "fromOrgId", "toOrgId"}, "", runtime.AssumeColonVerbOpt(false)))
 )
 
 var (

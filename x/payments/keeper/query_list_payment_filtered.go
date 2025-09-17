@@ -103,6 +103,21 @@ func (k Keeper) ListPaymentFiltered(goCtx context.Context, req *types.QueryListP
 				return false, nil
 			}
 		}
+		
+		// Filter by entity ID (0 means no filter)
+		if req.EntityId != 0 && transaction.EntityId != req.EntityId {
+			return false, nil
+		}
+		
+		// Filter by fromOrgId (0 means no filter)
+		if req.FromOrgId != 0 && transaction.FromOrgId != req.FromOrgId {
+			return false, nil
+		}
+		
+		// Filter by toOrgId (0 means no filter)
+		if req.ToOrgId != 0 && transaction.ToOrgId != req.ToOrgId {
+			return false, nil
+		}
 
 		// Transaction passed all filters - count it
 		totalCount++

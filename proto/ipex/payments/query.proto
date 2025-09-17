@@ -38,7 +38,7 @@ service Query {
   
   // Queries a list of ListPaymentFiltered items.
   rpc ListPaymentFiltered (QueryListPaymentFilteredRequest) returns (QueryListPaymentFilteredResponse) {
-    option (google.api.http).get = "/ipex/payments/list_payment_filtered/{orgId}/{transactionType}/{moduleId}/{fromTimestamp}/{toTimestamp}/{minAmount}/{maxAmount}";
+    option (google.api.http).get = "/ipex/payments/list_payment_filtered/{orgId}/{transactionType}/{moduleId}/{fromTimestamp}/{toTimestamp}/{minAmount}/{maxAmount}/{entityId}/{fromOrgId}/{toOrgId}";
   
   }
 }
@@ -87,7 +87,10 @@ message QueryListPaymentFilteredRequest {
   uint64                                toTimestamp     = 5;
   uint64                                minAmount       = 6;
   uint64                                maxAmount       = 7;
-  cosmos.base.query.v1beta1.PageRequest pagination      = 8;
+  uint64                                entityId        = 8;
+  uint64                                fromOrgId       = 9;
+  uint64                                toOrgId         = 10;
+  cosmos.base.query.v1beta1.PageRequest pagination      = 11;
 }
 
 message QueryListPaymentFilteredResponse {

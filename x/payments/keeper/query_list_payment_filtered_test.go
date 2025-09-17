@@ -289,6 +289,82 @@ func TestListPaymentFiltered(t *testing.T) {
 		}
 	})
 
+	t.Run("Filter by Entity ID", func(t *testing.T) {
+		// Query for transactions with specific entity ID
+		req := &types.QueryListPaymentFilteredRequest{
+			OrgId:    orgId1,
+			EntityId: 10001, // First test transaction
+			Pagination: &query.PageRequest{
+				Limit: 10,
+			},
+		}
+
+		resp, err := keeper.ListPaymentFiltered(ctx, req)
+		require.NoError(t, err)
+		require.Len(t, resp.Transaction, 1, "should find 1 transaction with entity ID 10001")
+		require.Equal(t, uint64(10001), resp.Transaction[0].EntityId, "should have correct entity ID")
+	})
+
+	t.Run("Filter by FromOrgId", func(t *testing.T) {
+		// Query for transactions where orgId1 is the sender
+		req := &types.QueryListPaymentFilteredRequest{
+			OrgId:     orgId1,
+			FromOrgId: orgId1,
+			Pagination: &query.PageRequest{
+				Limit: 10,
+			},
+		}
+
+		resp, err := keeper.ListPaymentFiltered(ctx, req)
+		require.NoError(t, err)
+		require.Len(t, resp.Transaction, 3, "should find 3 transactions where orgId1 is sender")
+
+		for _, tx := range resp.Transaction {
+			require.Equal(t, orgId1, tx.FromOrgId, "all transactions should have orgId1 as sender")
+		}
+	})
+
+	t.Run("Filter by ToOrgId", func(t *testing.T) {
+		// Query for transactions where orgId2 is the recipient
+		req := &types.QueryListPaymentFilteredRequest{
+			OrgId:   orgId1,
+			ToOrgId: orgId2,
+			Pagination: &query.PageRequest{
+				Limit: 10,
+			},
+		}
+
+		resp, err := keeper.ListPaymentFiltered(ctx, req)
+		require.NoError(t, err)
+		require.Len(t, resp.Transaction, 2, "should find 2 transactions where orgId2 is recipient")
+
+		for _, tx := range resp.Transaction {
+			require.Equal(t, orgId2, tx.ToOrgId, "all transactions should have orgId2 as recipient")
+		}
+	})
+
+	t.Run("Multiple New Filters Combined", func(t *testing.T) {
+		// Query with entity ID and fromOrgId filters
+		req := &types.QueryListPaymentFilteredRequest{
+			OrgId:     orgId1,
+			EntityId:  10002,
+			FromOrgId: orgId1,
+			ToOrgId:   orgId2,
+			Pagination: &query.PageRequest{
+				Limit: 10,
+			},
+		}
+
+		resp, err := keeper.ListPaymentFiltered(ctx, req)
+		require.NoError(t, err)
+		require.Len(t, resp.Transaction, 1, "should find 1 transaction matching all criteria")
+
+		tx := resp.Transaction[0]
+		require.Equal(t, uint64(10002), tx.EntityId, "should have correct entity ID")
+		require.Equal(t, orgId1, tx.FromOrgId, "should have correct from org ID")
+		require.Equal(t, orgId2, tx.ToOrgId, "should have correct to org ID")
+	})
+
 	t.Run("Edge Cases", func(t *testing.T) {
 		// Query with all zero filters (except orgId) - should return all transactions for org
 		req := &types.QueryListPaymentFilteredRequest{
@@ -299,6 +375,9 @@ func TestListPaymentFiltered(t *testing.T) {
 			ToTimestamp:     0, // No filter
 			MinAmount:       0, // No filter
 			MaxAmount:       0, // No filter
+			EntityId:        0, // No filter
+			FromOrgId:       0, // No filter
+			ToOrgId:         0, // No filter
 			Pagination: &query.PageRequest{
 				Limit: 10,
 			},
@@ -454,5 +533,38 @@ func TestListPaymentFilteredPerformance(t *testing.T) {
 
 		t.Logf("Reverse order query completed in %v", duration)
 		require.Less(t, duration, time.Millisecond*50, "reverse order query should be fast")
+	})
+
+	t.Run("Extended Filter Performance", func(t *testing.T) {
+		start := time.Now()
+
+		// Test performance with all new filters applied
+		req := &types.QueryListPaymentFilteredRequest{
+			OrgId:           orgId,
+			ModuleId:        uint64(types.ModuleID_MODULE_ID_LEASE),
+			FromTimestamp:   uint64(baseTime.Add(time.Minute * 10).Unix()),
+			ToTimestamp:     uint64(baseTime.Add(time.Minute * 50).Unix()),
+			MinAmount:       1100,
+			MaxAmount:       1500,
+			EntityId:        0,     // No specific entity filter
+			FromOrgId:       orgId, // Only as sender
+			ToOrgId:        0,      // Any recipient
+			Pagination: &query.PageRequest{
+				Limit: 20,
+			},
+		}
+
+		resp, err := keeper.ListPaymentFiltered(ctx, req)
+		duration := time.Since(start)
+
+		require.NoError(t, err)
+		t.Logf("Extended filter query completed in %v, found %d transactions", duration, len(resp.Transaction))
+		require.Less(t, duration, time.Millisecond*50, "extended filter query should be fast")
+
+		// Verify all returned transactions match the filters
+		for _, tx := range resp.Transaction {
+			require.Equal(t, orgId, tx.FromOrgId, "should match fromOrgId filter")
+			require.Equal(t, types.ModuleID_MODULE_ID_LEASE, tx.RelatedModuleId, "should match module filter")
+		}
 	})
 }
