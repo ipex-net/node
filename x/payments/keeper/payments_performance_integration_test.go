@@ -71,9 +71,11 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 		var allTxIds []uint64
 
-		// Create transactions for each entity
+		// Create transactions for each entity using consistent organizations
 		startTime := time.Now()
 		for _, entityId := range entities {
+			baseFromOrg := uint64(500001)
+			baseToOrg := uint64(600001)
 			for i := 0; i < transactionsPerEntity; i++ {
 				txId := keeper.RecordTransaction(
 					ctx,
@@ -81,8 +83,8 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 					types.ModuleID_MODULE_ID_LEASE,
 					entityId,
 					sdk.NewCoin("utoken", math.NewInt(int64(1000+i))),
-					uint64(500001+i),
-					uint64(600001+i),
+					baseFromOrg, // Use same org for all transactions in entity
+					baseToOrg,   // Use same org for all transactions in entity
 					sample.AccAddress(),
 					sample.AccAddress(),
 				)
@@ -95,8 +97,9 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		// Test entity query performance
 		for _, entityId := range entities {
 			startTime = time.Now()
-			resp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-				Id:         entityId,
+			resp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+				OrgId:      uint64(500001), // Use the consistent org used in test data
+				EntityId:   entityId,
 				Pagination: &query.PageRequest{Limit: 100},
 			})
 			queryTime := time.Since(startTime)
@@ -156,15 +159,13 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		// Test organization query performance
 		for _, orgId := range orgIds[:5] { // Test first 5 orgs
 			startTime = time.Now()
-			allTransactionsResp, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
-			require.NoError(t, err, "should get all transactions")
+			allTransactionsResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+				OrgId:      orgId,
+				Pagination: &query.PageRequest{Limit: 1000},
+			})
+			require.NoError(t, err, "should get org transactions")
 
-			var orgTxs []types.Transaction
-			for _, tx := range allTransactionsResp.Transaction {
-				if tx.FromOrgId == orgId || tx.ToOrgId == orgId {
-					orgTxs = append(orgTxs, tx)
-				}
-			}
+			orgTxs := allTransactionsResp.Transaction
 			queryTime := time.Since(startTime)
 
 			// Since we're filtering from all transactions, we may not find all expected transactions
@@ -174,22 +175,18 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 			t.Logf("Expected at least %d transactions, found %d for org %d", transactionsPerOrg, len(orgTxs), orgId)
 			t.Logf("Queried %d transactions for org %d in %v", len(orgTxs), orgId, queryTime)
 
-			// Test paginated org queries by simulating pagination with filtering
+			// Test paginated org queries with proper filtering
 			startTime = time.Now()
-			allTransactionsPage, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{
+			allTransactionsPage, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+				OrgId: orgId,
 				Pagination: &query.PageRequest{
-					Limit:  20, // Get more than we need, then filter and limit
+					Limit:  5, // Get first 5 transactions for this org
 					Offset: 0,
 				},
 			})
-			require.NoError(t, err, "should get transactions for pagination")
+			require.NoError(t, err, "should get paginated transactions for org")
 
-			var paginatedTxs []types.Transaction
-			for _, tx := range allTransactionsPage.Transaction {
-				if (tx.FromOrgId == orgId || tx.ToOrgId == orgId) && len(paginatedTxs) < 5 {
-					paginatedTxs = append(paginatedTxs, tx)
-				}
-			}
+			paginatedTxs := allTransactionsPage.Transaction
 			paginatedQueryTime := time.Since(startTime)
 
 			require.LessOrEqual(t, len(paginatedTxs), 5, "should respect pagination limit")
@@ -205,6 +202,8 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		var largeTxIds []uint64
 		startTime := time.Now()
 
+		largeFromOrg := uint64(950001)
+		largeToOrg := uint64(960001)
 		for i := 0; i < numLargeTransactions; i++ {
 			txId := keeper.RecordTransaction(
 				ctx,
@@ -212,8 +211,8 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 				types.ModuleID_MODULE_ID_LEASE,
 				largeEntityId,
 				sdk.NewCoin("utoken", math.NewInt(int64(1000+i))),
-				uint64(950001+i),
-				uint64(960001+i),
+				largeFromOrg, // Use consistent org for all large entity transactions
+				largeToOrg,   // Use consistent org for all large entity transactions
 				sample.AccAddress(),
 				sample.AccAddress(),
 			)
@@ -230,8 +229,9 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		startTime = time.Now()
 		for page := 0; page < totalPages; page++ {
 			offset := page * pageSize
-			resp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-				Id: largeEntityId,
+			resp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+				OrgId:    largeFromOrg, // Use the consistent org
+				EntityId: largeEntityId,
 				Pagination: &query.PageRequest{
 					Limit:  uint64(pageSize),
 					Offset: uint64(offset),
@@ -264,8 +264,10 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		testEntityId := uint64(1000001)
 		numTestTransactions := 50
 
-		// Create transactions
+		// Create transactions using consistent organizations
 		var testTxIds []uint64
+		testFromOrg := uint64(1100001)
+		testToOrg := uint64(1200001)
 		for i := 0; i < numTestTransactions; i++ {
 			txId := keeper.RecordTransaction(
 				ctx,
@@ -273,8 +275,8 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 				types.ModuleID_MODULE_ID_LEASE,
 				testEntityId,
 				sdk.NewCoin("utoken", math.NewInt(int64(1000+i))),
-				uint64(1100001+i),
-				uint64(1200001+i),
+				testFromOrg, // Use consistent org for all test transactions
+				testToOrg,   // Use consistent org for all test transactions
 				sample.AccAddress(),
 				sample.AccAddress(),
 			)
@@ -304,8 +306,9 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		t.Logf("Removed 10 transactions in %v", removalTime)
 
 		// Verify index consistency after modifications
-		remainingTxs, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-			Id:         testEntityId,
+		remainingTxs, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:      testFromOrg, // Use the consistent org
+			EntityId:   testEntityId,
 			Pagination: &query.PageRequest{Limit: 100},
 		})
 		require.NoError(t, err, "should query remaining transactions")
@@ -319,9 +322,11 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 		startTime := time.Now()
 
-		// Create transactions for multiple entities simultaneously
+		// Create transactions for multiple entities simultaneously using consistent orgs
 		for entityOffset := 0; entityOffset < numConcurrentEntities; entityOffset++ {
 			entityId := uint64(1300001 + entityOffset)
+			concurrentFromOrg := uint64(1400001 + entityOffset)
+			concurrentToOrg := uint64(1500001 + entityOffset)
 
 			for txOffset := 0; txOffset < transactionsPerConcurrentEntity; txOffset++ {
 				keeper.RecordTransaction(
@@ -330,8 +335,8 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 					types.ModuleID(1+(txOffset%3)),
 					entityId,
 					sdk.NewCoin("utoken", math.NewInt(int64(1000+txOffset))),
-					uint64(1400001+entityOffset),
-					uint64(1500001+entityOffset),
+					concurrentFromOrg, // Use consistent org for each entity
+					concurrentToOrg,   // Use consistent org for each entity
 					sample.AccAddress(),
 					sample.AccAddress(),
 				)
@@ -346,9 +351,11 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		startTime = time.Now()
 		for entityOffset := 0; entityOffset < numConcurrentEntities; entityOffset++ {
 			entityId := uint64(1300001 + entityOffset)
+			concurrentFromOrg := uint64(1400001 + entityOffset)
 
-			resp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-				Id:         entityId,
+			resp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+				OrgId:      concurrentFromOrg, // Use the org specific to this entity
+				EntityId:   entityId,
 				Pagination: &query.PageRequest{Limit: 50},
 			})
 			require.NoError(t, err, "should query entity %d", entityId)
@@ -385,8 +392,9 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 		// Test empty results
 		startTime := time.Now()
-		emptyResp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-			Id:         9999999, // Non-existent entity
+		emptyResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:      1, // Use a valid org ID
+			EntityId:   9999999, // Non-existent entity
 			Pagination: &query.PageRequest{Limit: 10},
 		})
 		emptyQueryTime := time.Since(startTime)
@@ -399,7 +407,9 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		// Test very large pagination offset
 		largeEntityId := uint64(1600001)
 
-		// Create a few transactions for this entity
+		// Create a few transactions for this entity using consistent orgs
+		edgeCaseFromOrg := uint64(1700001)
+		edgeCaseToOrg := uint64(1800001)
 		for i := 0; i < 5; i++ {
 			keeper.RecordTransaction(
 				ctx,
@@ -407,8 +417,8 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 				types.ModuleID_MODULE_ID_LEASE,
 				largeEntityId,
 				sdk.NewCoin("utoken", math.NewInt(int64(1000+i))),
-				uint64(1700001+i),
-				uint64(1800001+i),
+				edgeCaseFromOrg, // Use consistent org for edge case entity
+				edgeCaseToOrg,   // Use consistent org for edge case entity
 				sample.AccAddress(),
 				sample.AccAddress(),
 			)
@@ -416,8 +426,9 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 		// Test with offset larger than available transactions
 		startTime = time.Now()
-		largeOffsetResp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-			Id: largeEntityId,
+		largeOffsetResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:    edgeCaseFromOrg, // Use the consistent org
+			EntityId: largeEntityId,
 			Pagination: &query.PageRequest{
 				Limit:  10,
 				Offset: 100, // Much larger than available transactions
@@ -432,8 +443,9 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 
 		// Test zero limit (should use reasonable default)
 		startTime = time.Now()
-		zeroLimitResp, err := keeper.ListContractPayment(ctx, &types.QueryListContractPaymentRequest{
-			Id: largeEntityId,
+		zeroLimitResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:    edgeCaseFromOrg, // Use the consistent org
+			EntityId: largeEntityId,
 			Pagination: &query.PageRequest{
 				Limit:  0, // Zero limit
 				Offset: 0,

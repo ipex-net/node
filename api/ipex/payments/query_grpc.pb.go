@@ -21,8 +21,6 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Query_Params_FullMethodName              = "/ipex.payments.Query/Params"
 	Query_Transaction_FullMethodName         = "/ipex.payments.Query/Transaction"
-	Query_TransactionAll_FullMethodName      = "/ipex.payments.Query/TransactionAll"
-	Query_ListContractPayment_FullMethodName = "/ipex.payments.Query/ListContractPayment"
 	Query_ListPaymentFiltered_FullMethodName = "/ipex.payments.Query/ListPaymentFiltered"
 )
 
@@ -34,9 +32,6 @@ type QueryClient interface {
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	// Queries a list of Transaction items.
 	Transaction(ctx context.Context, in *QueryGetTransactionRequest, opts ...grpc.CallOption) (*QueryGetTransactionResponse, error)
-	TransactionAll(ctx context.Context, in *QueryAllTransactionRequest, opts ...grpc.CallOption) (*QueryAllTransactionResponse, error)
-	// Queries a list of ListContractPayment items.
-	ListContractPayment(ctx context.Context, in *QueryListContractPaymentRequest, opts ...grpc.CallOption) (*QueryListContractPaymentResponse, error)
 	// Queries a list of ListPaymentFiltered items.
 	ListPaymentFiltered(ctx context.Context, in *QueryListPaymentFilteredRequest, opts ...grpc.CallOption) (*QueryListPaymentFilteredResponse, error)
 }
@@ -67,24 +62,6 @@ func (c *queryClient) Transaction(ctx context.Context, in *QueryGetTransactionRe
 	return out, nil
 }
 
-func (c *queryClient) TransactionAll(ctx context.Context, in *QueryAllTransactionRequest, opts ...grpc.CallOption) (*QueryAllTransactionResponse, error) {
-	out := new(QueryAllTransactionResponse)
-	err := c.cc.Invoke(ctx, Query_TransactionAll_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryClient) ListContractPayment(ctx context.Context, in *QueryListContractPaymentRequest, opts ...grpc.CallOption) (*QueryListContractPaymentResponse, error) {
-	out := new(QueryListContractPaymentResponse)
-	err := c.cc.Invoke(ctx, Query_ListContractPayment_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *queryClient) ListPaymentFiltered(ctx context.Context, in *QueryListPaymentFilteredRequest, opts ...grpc.CallOption) (*QueryListPaymentFilteredResponse, error) {
 	out := new(QueryListPaymentFilteredResponse)
 	err := c.cc.Invoke(ctx, Query_ListPaymentFiltered_FullMethodName, in, out, opts...)
@@ -102,9 +79,6 @@ type QueryServer interface {
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	// Queries a list of Transaction items.
 	Transaction(context.Context, *QueryGetTransactionRequest) (*QueryGetTransactionResponse, error)
-	TransactionAll(context.Context, *QueryAllTransactionRequest) (*QueryAllTransactionResponse, error)
-	// Queries a list of ListContractPayment items.
-	ListContractPayment(context.Context, *QueryListContractPaymentRequest) (*QueryListContractPaymentResponse, error)
 	// Queries a list of ListPaymentFiltered items.
 	ListPaymentFiltered(context.Context, *QueryListPaymentFilteredRequest) (*QueryListPaymentFilteredResponse, error)
 	mustEmbedUnimplementedQueryServer()
@@ -119,12 +93,6 @@ func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*Q
 }
 func (UnimplementedQueryServer) Transaction(context.Context, *QueryGetTransactionRequest) (*QueryGetTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Transaction not implemented")
-}
-func (UnimplementedQueryServer) TransactionAll(context.Context, *QueryAllTransactionRequest) (*QueryAllTransactionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TransactionAll not implemented")
-}
-func (UnimplementedQueryServer) ListContractPayment(context.Context, *QueryListContractPaymentRequest) (*QueryListContractPaymentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListContractPayment not implemented")
 }
 func (UnimplementedQueryServer) ListPaymentFiltered(context.Context, *QueryListPaymentFilteredRequest) (*QueryListPaymentFilteredResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPaymentFiltered not implemented")
@@ -178,42 +146,6 @@ func _Query_Transaction_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_TransactionAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryAllTransactionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).TransactionAll(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Query_TransactionAll_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).TransactionAll(ctx, req.(*QueryAllTransactionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Query_ListContractPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryListContractPaymentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).ListContractPayment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Query_ListContractPayment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).ListContractPayment(ctx, req.(*QueryListContractPaymentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Query_ListPaymentFiltered_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryListPaymentFilteredRequest)
 	if err := dec(in); err != nil {
@@ -246,14 +178,6 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Transaction",
 			Handler:    _Query_Transaction_Handler,
-		},
-		{
-			MethodName: "TransactionAll",
-			Handler:    _Query_TransactionAll_Handler,
-		},
-		{
-			MethodName: "ListContractPayment",
-			Handler:    _Query_ListContractPayment_Handler,
 		},
 		{
 			MethodName: "ListPaymentFiltered",

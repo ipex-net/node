@@ -239,15 +239,12 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			sample.AccAddress(),
 		)
 
-		// Test ListContractPayment query (queries by entity)
-		req := &types.QueryListContractPaymentRequest{
-			Id: entityId1,
-			Pagination: &query.PageRequest{
-				Limit: 10,
-			},
-		}
-
-		resp, err := keeper.ListContractPayment(ctx, req)
+		// Test ListPaymentFiltered query (queries by entity) - replaced ListContractPayment
+		resp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:      1001, // Use an org that's involved in the entity transactions
+			EntityId:   entityId1,
+			Pagination: &query.PageRequest{Limit: 10},
+		})
 		require.NoError(t, err, "should successfully query transactions by entity")
 		require.NotNil(t, resp, "should have response")
 		require.Len(t, resp.Transaction, 2, "should find 2 transactions for entity1")
@@ -268,14 +265,11 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		require.True(t, foundTx2, "should find second transaction")
 
 		// Test with entity2 (should find only one transaction)
-		req2 := &types.QueryListContractPaymentRequest{
-			Id: entityId2,
-			Pagination: &query.PageRequest{
-				Limit: 10,
-			},
-		}
-
-		resp2, err := keeper.ListContractPayment(ctx, req2)
+		resp2, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:      3001, // Use the fromOrg for entity2 transaction
+			EntityId:   entityId2,
+			Pagination: &query.PageRequest{Limit: 10},
+		})
 		require.NoError(t, err, "should successfully query transactions by entity2")
 		require.Len(t, resp2.Transaction, 1, "should find 1 transaction for entity2")
 		require.Equal(t, tx3Id, resp2.Transaction[0].Id, "should find correct transaction for entity2")
@@ -327,15 +321,13 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		)
 
 		// Test filtering transactions for org1 (involved in tx1 as from, tx3 as to)
-		allTransactionsResp, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
-		require.NoError(t, err, "should get all transactions")
+		allTransactionsResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:      orgId1,
+			Pagination: &query.PageRequest{Limit: 1000},
+		})
+		require.NoError(t, err, "should get org1 transactions")
 
-		var org1Transactions []types.Transaction
-		for _, tx := range allTransactionsResp.Transaction {
-			if tx.FromOrgId == orgId1 || tx.ToOrgId == orgId1 {
-				org1Transactions = append(org1Transactions, tx)
-			}
-		}
+		org1Transactions := allTransactionsResp.Transaction
 		require.Len(t, org1Transactions, 2, "org1 should be involved in 2 transactions")
 
 		var foundTx1, foundTx3 bool
@@ -353,12 +345,12 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		require.True(t, foundTx3, "should find tx3 for org1")
 
 		// Test filtering transactions for org2 (involved in tx1 as to, tx2 as from)
-		var org2Transactions []types.Transaction
-		for _, tx := range allTransactionsResp.Transaction {
-			if tx.FromOrgId == orgId2 || tx.ToOrgId == orgId2 {
-				org2Transactions = append(org2Transactions, tx)
-			}
-		}
+		org2TransactionsResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:      orgId2,
+			Pagination: &query.PageRequest{Limit: 1000},
+		})
+		require.NoError(t, err, "should get org2 transactions")
+		org2Transactions := org2TransactionsResp.Transaction
 		require.Len(t, org2Transactions, 2, "org2 should be involved in 2 transactions")
 
 		var foundTx1ForOrg2, foundTx2 bool
@@ -379,8 +371,10 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 	t.Run("Pagination by Entity", func(t *testing.T) {
 		entityId := uint64(40001)
 
-		// Create multiple transactions for the same entity
+		// Create multiple transactions for the same entity using same organizations
 		var expectedTxIds []uint64
+		baseFromOrg := uint64(50001)
+		baseToOrg := uint64(60001)
 		for i := 0; i < 5; i++ {
 			txId := keeper.RecordTransaction(
 				ctx,
@@ -388,8 +382,8 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 				types.ModuleID_MODULE_ID_LEASE,
 				entityId,
 				sdk.NewCoin("token", math.NewInt(int64(1000+i*100))),
-				uint64(50001+i),
-				uint64(60001+i),
+				baseFromOrg, // Use same fromOrg for all transactions
+				baseToOrg,   // Use same toOrg for all transactions
 				sample.AccAddress(),
 				sample.AccAddress(),
 			)
@@ -397,42 +391,39 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 		}
 
 		// Test pagination - get first 2 transactions
-		req := &types.QueryListContractPaymentRequest{
-			Id: entityId,
+		resp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:    baseFromOrg, // Use the org that has transactions for this entity
+			EntityId: entityId,
 			Pagination: &query.PageRequest{
 				Limit:  2,
 				Offset: 0,
 			},
-		}
-
-		resp, err := keeper.ListContractPayment(ctx, req)
+		})
 		require.NoError(t, err, "should successfully paginate")
 		require.Len(t, resp.Transaction, 2, "should get 2 transactions")
 		require.Equal(t, uint64(5), resp.Pagination.Total, "should have correct total count")
 
 		// Test pagination - get next 2 transactions
-		req2 := &types.QueryListContractPaymentRequest{
-			Id: entityId,
+		resp2, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:    baseFromOrg, // Use the same org for consistency
+			EntityId: entityId,
 			Pagination: &query.PageRequest{
 				Limit:  2,
 				Offset: 2,
 			},
-		}
-
-		resp2, err := keeper.ListContractPayment(ctx, req2)
+		})
 		require.NoError(t, err, "should successfully paginate second page")
 		require.Len(t, resp2.Transaction, 2, "should get 2 transactions on second page")
 
 		// Test pagination - get remaining transaction
-		req3 := &types.QueryListContractPaymentRequest{
-			Id: entityId,
+		resp3, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:    baseFromOrg, // Use the same org for consistency
+			EntityId: entityId,
 			Pagination: &query.PageRequest{
 				Limit:  2,
 				Offset: 4,
 			},
-		}
-
-		resp3, err := keeper.ListContractPayment(ctx, req3)
+		})
 		require.NoError(t, err, "should successfully paginate third page")
 		require.Len(t, resp3.Transaction, 1, "should get 1 transaction on third page")
 
@@ -483,28 +474,24 @@ func TestTransactionIndexingIntegration(t *testing.T) {
 			expectedTxIds = append(expectedTxIds, txId)
 		}
 
-		// First get all transactions and filter by organization to get total count
-		allTransactionsResp, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
-		require.NoError(t, err, "should get all transactions")
+		// First get all transactions for the organization to get total count
+		allTransactionsResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:      orgId,
+			Pagination: &query.PageRequest{Limit: 1000},
+		})
+		require.NoError(t, err, "should get org transactions")
 
-		var totalTxs []types.Transaction
-		for _, tx := range allTransactionsResp.Transaction {
-			if tx.FromOrgId == orgId || tx.ToOrgId == orgId {
-				totalTxs = append(totalTxs, tx)
-			}
-		}
+		totalTxs := allTransactionsResp.Transaction
 		require.Len(t, totalTxs, 7, "should find all 7 transactions for org")
 
-		// Test paginated query for organization (first page) by filtering all transactions
-		allTransactionsPage1, err := keeper.TransactionAll(ctx, &types.QueryAllTransactionRequest{})
-		require.NoError(t, err, "should get transactions for pagination")
+		// Test paginated query for organization (first page)
+		allTransactionsPage1, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
+			OrgId:      orgId,
+			Pagination: &query.PageRequest{Limit: 1000},
+		})
+		require.NoError(t, err, "should get org transactions for pagination")
 
-		var allOrgTransactions []types.Transaction
-		for _, tx := range allTransactionsPage1.Transaction {
-			if tx.FromOrgId == orgId || tx.ToOrgId == orgId {
-				allOrgTransactions = append(allOrgTransactions, tx)
-			}
-		}
+		allOrgTransactions := allTransactionsPage1.Transaction
 
 		// Simulate first page by taking first 3 transactions
 		var transactions []types.Transaction

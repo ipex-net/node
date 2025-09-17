@@ -25,16 +25,6 @@ service Query {
     option (google.api.http).get = "/ipex/payments/transaction/{id}";
   
   }
-  rpc TransactionAll (QueryAllTransactionRequest) returns (QueryAllTransactionResponse) {
-    option (google.api.http).get = "/ipex/payments/transaction";
-  
-  }
-  
-  // Queries a list of ListContractPayment items.
-  rpc ListContractPayment (QueryListContractPaymentRequest) returns (QueryListContractPaymentResponse) {
-    option (google.api.http).get = "/ipex/payments/list_contract_payment/{id}";
-  
-  }
   
   // Queries a list of ListPaymentFiltered items.
   rpc ListPaymentFiltered (QueryListPaymentFilteredRequest) returns (QueryListPaymentFilteredResponse) {
@@ -60,24 +50,6 @@ message QueryGetTransactionResponse {
   Transaction Transaction = 1 [(gogoproto.nullable) = false];
 }
 
-message QueryAllTransactionRequest {
-  cosmos.base.query.v1beta1.PageRequest pagination = 1;
-}
-
-message QueryAllTransactionResponse {
-  repeated Transaction                            Transaction = 1 [(gogoproto.nullable) = false];
-           cosmos.base.query.v1beta1.PageResponse pagination  = 2;
-}
-
-message QueryListContractPaymentRequest {
-  uint64                                id         = 1;
-  cosmos.base.query.v1beta1.PageRequest pagination = 2;
-}
-
-message QueryListContractPaymentResponse {
-  repeated Transaction                            transaction = 1 [(gogoproto.nullable) = false];
-           cosmos.base.query.v1beta1.PageResponse pagination  = 2;
-}
 
 message QueryListPaymentFilteredRequest {
   uint64                                orgId           = 1;

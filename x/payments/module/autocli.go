@@ -18,20 +18,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:     "Shows the parameters of the module",
 				},
 				{
-					RpcMethod: "TransactionAll",
-					Use:       "list-transaction",
-					Short:     "List all transaction",
-				},
-				{
 					RpcMethod:      "Transaction",
 					Use:            "show-transaction [id]",
 					Short:          "Shows a transaction by id",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
-				},
-				{
-					RpcMethod:      "ListContractPayment",
-					Use:            "list-contract-payment [id]",
-					Short:          "Query list-contract-payment",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
 
