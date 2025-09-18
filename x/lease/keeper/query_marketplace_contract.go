@@ -84,25 +84,21 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 		return nil, errorsmod.Wrap(types.ErrInvalidPrefixLength, "mask must be between 8 and 24")
 	}
 
-	// Validate optional fields if provided (trim whitespace and ignore placeholder values)
-	trimmedRir := strings.TrimSpace(req.Rir)
-	if trimmedRir != "" && trimmedRir != "none" && trimmedRir != "any" {
-		if err := validateRir(trimmedRir); err != nil {
+	// Validate optional fields if provided (strict validation - no trimming)
+	if req.Rir != "" && req.Rir != "none" && req.Rir != "any" {
+		if err := validateRir(req.Rir); err != nil {
 			return nil, errorsmod.Wrap(types.ErrUnknownRIR, err.Error())
 		}
-		req.Rir = trimmedRir // Use trimmed value for filtering
 	} else {
-		req.Rir = "" // Normalize to empty string
+		req.Rir = "" // Normalize placeholder values to empty string
 	}
 
-	trimmedCountry := strings.TrimSpace(req.Country)
-	if trimmedCountry != "" && trimmedCountry != "none" && trimmedCountry != "any" {
-		if err := validateCountryCode(trimmedCountry); err != nil {
+	if req.Country != "" && req.Country != "none" && req.Country != "any" {
+		if err := validateCountryCode(req.Country); err != nil {
 			return nil, errorsmod.Wrap(types.ErrInvalidCountryCode, err.Error())
 		}
-		req.Country = trimmedCountry // Use trimmed value for filtering
 	} else {
-		req.Country = "" // Normalize to empty string
+		req.Country = "" // Normalize placeholder values to empty string
 	}
 
 	if req.NetworkAddress != 0 {
