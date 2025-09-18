@@ -73,9 +73,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 
 				{
-					RpcMethod:      "ListContractFiltered",
-					Use:            "list-contract-filtered [owner-org] [lessee-org] [mask] [rir] [country] [min-price] [max-price] [network-address] [first-octet] [status] [revocation-period-month] [created-at-from] [created-at-to] [activated-at-from] [activated-at-to] [prepaid-until-from] [prepaid-until-to] [updated-at-from] [updated-at-to]",
-					Short:          "Query list-contract-filtered",
+					RpcMethod:      "ContractByOwner",
+					Use:            "contract-by-owner [owner-org] [lessee-org] [mask] [rir] [country] [min-price] [max-price] [network-address] [first-octet] [status] [revocation-period-month] [created-at-from] [created-at-to] [activated-at-from] [activated-at-to] [prepaid-until-from] [prepaid-until-to] [updated-at-from] [updated-at-to]",
+					Short:          "Query contract-by-owner",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ownerOrg"}, {ProtoField: "lesseeOrg"}, {ProtoField: "mask"}, {ProtoField: "rir"}, {ProtoField: "country"}, {ProtoField: "minPrice"}, {ProtoField: "maxPrice"}, {ProtoField: "networkAddress"}, {ProtoField: "firstOctet"}, {ProtoField: "status"}, {ProtoField: "revocationPeriodMonth"}, {ProtoField: "createdAtFrom"}, {ProtoField: "createdAtTo"}, {ProtoField: "activatedAtFrom"}, {ProtoField: "activatedAtTo"}, {ProtoField: "prepaidUntilFrom"}, {ProtoField: "prepaidUntilTo"}, {ProtoField: "updatedAtFrom"}, {ProtoField: "updatedAtTo"}},
 				},
 

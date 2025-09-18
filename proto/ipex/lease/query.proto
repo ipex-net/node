@@ -69,9 +69,9 @@ service Query {
   
   }
   
-  // Queries a list of ListContractFiltered items.
-  rpc ListContractFiltered (QueryListContractFilteredRequest) returns (QueryListContractFilteredResponse) {
-    option (google.api.http).get = "/ipex/lease/list_contract_filtered/{ownerOrg}/{lesseeOrg}/{mask}/{rir}/{country}/{minPrice}/{maxPrice}/{networkAddress}/{firstOctet}/{status}/{revocationPeriodMonth}/{createdAtFrom}/{createdAtTo}/{activatedAtFrom}/{activatedAtTo}/{prepaidUntilFrom}/{prepaidUntilTo}/{updatedAtFrom}/{updatedAtTo}";
+  // Queries a list of ContractByOwner items.
+  rpc ContractByOwner (QueryContractByOwnerRequest) returns (QueryContractByOwnerResponse) {
+    option (google.api.http).get = "/ipex/lease/contract_by_owner/{ownerOrg}/{lesseeOrg}/{mask}/{rir}/{country}/{minPrice}/{maxPrice}/{networkAddress}/{firstOctet}/{status}/{revocationPeriodMonth}/{createdAtFrom}/{createdAtTo}/{activatedAtFrom}/{activatedAtTo}/{prepaidUntilFrom}/{prepaidUntilTo}/{updatedAtFrom}/{updatedAtTo}";
   
   }
 }
@@ -165,7 +165,7 @@ message QueryMarketplaceContractResponse {
            cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message QueryListContractFilteredRequest {
+message QueryContractByOwnerRequest {
   uint64                                ownerOrg              =  1;
   uint64                                lesseeOrg             =  2;
   uint64                                mask                  =  3;
@@ -188,7 +188,7 @@ message QueryListContractFilteredRequest {
   cosmos.base.query.v1beta1.PageRequest pagination            = 20;
 }
 
-message QueryListContractFilteredResponse {
+message QueryContractByOwnerResponse {
   repeated  Contract                               contract   = 1 [(gogoproto.nullable) = false];
             cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

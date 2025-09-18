@@ -163,17 +163,17 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 			return false, nil
 		}
 
-		// Apply optional RIR filter
+		// Apply RIR filter
 		if req.Rir != "" && !strings.EqualFold(contract.Rir, req.Rir) {
 			return false, nil
 		}
 
-		// Apply optional country filter
+		// Apply country filter
 		if req.Country != "" && !strings.EqualFold(contract.Country, req.Country) {
 			return false, nil
 		}
 
-		// Apply optional network address filter
+		// Apply network address filter
 		if req.NetworkAddress != 0 && contract.NetworkAddress != req.NetworkAddress {
 			return false, nil
 		}

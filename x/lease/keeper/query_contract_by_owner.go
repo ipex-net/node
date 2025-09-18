@@ -9,12 +9,13 @@ import (
 
 	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) ListContractFiltered(goCtx context.Context, req *types.QueryListContractFilteredRequest) (*types.QueryListContractFilteredResponse, error) {
+func (k Keeper) ContractByOwner(goCtx context.Context, req *types.QueryContractByOwnerRequest) (*types.QueryContractByOwnerResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -25,7 +26,7 @@ func (k Keeper) ListContractFiltered(goCtx context.Context, req *types.QueryList
 	}
 
 	// Validate required mask field
-	if req.Mask < 8 || req.Mask > 24 {
+	if req.Mask != 0 && (req.Mask < 8 || req.Mask > 24) {
 		return nil, errorsmod.Wrap(types.ErrInvalidPrefixLength, "mask must be between 8 and 24")
 	}
 
@@ -145,12 +146,18 @@ func (k Keeper) ListContractFiltered(goCtx context.Context, req *types.QueryList
 		}
 
 		// Filter by price range (0 means no filter)
-		contractPrice := contract.Price.Amount.Uint64()
-		if req.MinPrice > 0 && contractPrice < req.MinPrice {
-			return false, nil
+		contractPrice := contract.Price.Amount
+		if req.MinPrice != 0 {
+			minPrice := math.NewIntFromUint64(req.MinPrice)
+			if contractPrice.LT(minPrice) {
+				return false, nil
+			}
 		}
-		if req.MaxPrice > 0 && contractPrice > req.MaxPrice {
-			return false, nil
+		if req.MaxPrice != 0 {
+			maxPrice := math.NewIntFromUint64(req.MaxPrice)
+			if contractPrice.GT(maxPrice) {
+				return false, nil
+			}
 		}
 
 		// Filter by network address (0 means no filter)
@@ -177,7 +184,6 @@ func (k Keeper) ListContractFiltered(goCtx context.Context, req *types.QueryList
 		}
 
 		// Filter by created timestamp range (0 means no filter)
-		// CreatedAt is time.Time (non-nullable), check for zero value
 		if !contract.CreatedAt.IsZero() {
 			createdTimestamp := uint64(contract.CreatedAt.Unix())
 			if req.CreatedAtFrom != 0 && createdTimestamp < req.CreatedAtFrom {
@@ -263,7 +269,7 @@ func (k Keeper) ListContractFiltered(goCtx context.Context, req *types.QueryList
 		binary.BigEndian.PutUint64(nextKey, lastKey)
 	}
 
-	return &types.QueryListContractFilteredResponse{
+	return &types.QueryContractByOwnerResponse{
 		Contract: contracts,
 		Pagination: &query.PageResponse{
 			NextKey: nextKey,
