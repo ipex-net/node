@@ -2,18 +2,19 @@
 package lease
 
 import (
+	fmt "fmt"
+	io "io"
+	reflect "reflect"
+	sync "sync"
+
 	_ "cosmossdk.io/api/amino"
 	v1beta1 "cosmossdk.io/api/cosmos/base/query/v1beta1"
-	fmt "fmt"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	io "io"
-	reflect "reflect"
-	sync "sync"
 )
 
 var (
@@ -10861,6 +10862,1909 @@ func (x *fastReflection_QueryContractByOwnerResponse) ProtoMethods() *protoiface
 	}
 }
 
+var (
+	md_QueryContractByLesseeRequest                       protoreflect.MessageDescriptor
+	fd_QueryContractByLesseeRequest_lesseeOrg             protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_ownerOrg              protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_mask                  protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_rir                   protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_country               protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_minPrice              protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_maxPrice              protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_networkAddress        protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_firstOctet            protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_status                protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_revocationPeriodMonth protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_createdAtFrom         protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_createdAtTo           protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_activatedAtFrom       protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_activatedAtTo         protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_prepaidUntilFrom      protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_prepaidUntilTo        protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_updatedAtFrom         protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_updatedAtTo           protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeRequest_pagination            protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_lease_query_proto_init()
+	md_QueryContractByLesseeRequest = File_ipex_lease_query_proto.Messages().ByName("QueryContractByLesseeRequest")
+	fd_QueryContractByLesseeRequest_lesseeOrg = md_QueryContractByLesseeRequest.Fields().ByName("lesseeOrg")
+	fd_QueryContractByLesseeRequest_ownerOrg = md_QueryContractByLesseeRequest.Fields().ByName("ownerOrg")
+	fd_QueryContractByLesseeRequest_mask = md_QueryContractByLesseeRequest.Fields().ByName("mask")
+	fd_QueryContractByLesseeRequest_rir = md_QueryContractByLesseeRequest.Fields().ByName("rir")
+	fd_QueryContractByLesseeRequest_country = md_QueryContractByLesseeRequest.Fields().ByName("country")
+	fd_QueryContractByLesseeRequest_minPrice = md_QueryContractByLesseeRequest.Fields().ByName("minPrice")
+	fd_QueryContractByLesseeRequest_maxPrice = md_QueryContractByLesseeRequest.Fields().ByName("maxPrice")
+	fd_QueryContractByLesseeRequest_networkAddress = md_QueryContractByLesseeRequest.Fields().ByName("networkAddress")
+	fd_QueryContractByLesseeRequest_firstOctet = md_QueryContractByLesseeRequest.Fields().ByName("firstOctet")
+	fd_QueryContractByLesseeRequest_status = md_QueryContractByLesseeRequest.Fields().ByName("status")
+	fd_QueryContractByLesseeRequest_revocationPeriodMonth = md_QueryContractByLesseeRequest.Fields().ByName("revocationPeriodMonth")
+	fd_QueryContractByLesseeRequest_createdAtFrom = md_QueryContractByLesseeRequest.Fields().ByName("createdAtFrom")
+	fd_QueryContractByLesseeRequest_createdAtTo = md_QueryContractByLesseeRequest.Fields().ByName("createdAtTo")
+	fd_QueryContractByLesseeRequest_activatedAtFrom = md_QueryContractByLesseeRequest.Fields().ByName("activatedAtFrom")
+	fd_QueryContractByLesseeRequest_activatedAtTo = md_QueryContractByLesseeRequest.Fields().ByName("activatedAtTo")
+	fd_QueryContractByLesseeRequest_prepaidUntilFrom = md_QueryContractByLesseeRequest.Fields().ByName("prepaidUntilFrom")
+	fd_QueryContractByLesseeRequest_prepaidUntilTo = md_QueryContractByLesseeRequest.Fields().ByName("prepaidUntilTo")
+	fd_QueryContractByLesseeRequest_updatedAtFrom = md_QueryContractByLesseeRequest.Fields().ByName("updatedAtFrom")
+	fd_QueryContractByLesseeRequest_updatedAtTo = md_QueryContractByLesseeRequest.Fields().ByName("updatedAtTo")
+	fd_QueryContractByLesseeRequest_pagination = md_QueryContractByLesseeRequest.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryContractByLesseeRequest)(nil)
+
+type fastReflection_QueryContractByLesseeRequest QueryContractByLesseeRequest
+
+func (x *QueryContractByLesseeRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryContractByLesseeRequest)(x)
+}
+
+func (x *QueryContractByLesseeRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_lease_query_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryContractByLesseeRequest_messageType fastReflection_QueryContractByLesseeRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryContractByLesseeRequest_messageType{}
+
+type fastReflection_QueryContractByLesseeRequest_messageType struct{}
+
+func (x fastReflection_QueryContractByLesseeRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryContractByLesseeRequest)(nil)
+}
+func (x fastReflection_QueryContractByLesseeRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryContractByLesseeRequest)
+}
+func (x fastReflection_QueryContractByLesseeRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryContractByLesseeRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryContractByLesseeRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryContractByLesseeRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryContractByLesseeRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryContractByLesseeRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryContractByLesseeRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryContractByLesseeRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryContractByLesseeRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryContractByLesseeRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryContractByLesseeRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.LesseeOrg != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.LesseeOrg)
+		if !f(fd_QueryContractByLesseeRequest_lesseeOrg, value) {
+			return
+		}
+	}
+	if x.OwnerOrg != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.OwnerOrg)
+		if !f(fd_QueryContractByLesseeRequest_ownerOrg, value) {
+			return
+		}
+	}
+	if x.Mask != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Mask)
+		if !f(fd_QueryContractByLesseeRequest_mask, value) {
+			return
+		}
+	}
+	if x.Rir != "" {
+		value := protoreflect.ValueOfString(x.Rir)
+		if !f(fd_QueryContractByLesseeRequest_rir, value) {
+			return
+		}
+	}
+	if x.Country != "" {
+		value := protoreflect.ValueOfString(x.Country)
+		if !f(fd_QueryContractByLesseeRequest_country, value) {
+			return
+		}
+	}
+	if x.MinPrice != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.MinPrice)
+		if !f(fd_QueryContractByLesseeRequest_minPrice, value) {
+			return
+		}
+	}
+	if x.MaxPrice != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.MaxPrice)
+		if !f(fd_QueryContractByLesseeRequest_maxPrice, value) {
+			return
+		}
+	}
+	if x.NetworkAddress != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.NetworkAddress)
+		if !f(fd_QueryContractByLesseeRequest_networkAddress, value) {
+			return
+		}
+	}
+	if x.FirstOctet != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.FirstOctet)
+		if !f(fd_QueryContractByLesseeRequest_firstOctet, value) {
+			return
+		}
+	}
+	if x.Status != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Status)
+		if !f(fd_QueryContractByLesseeRequest_status, value) {
+			return
+		}
+	}
+	if x.RevocationPeriodMonth != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.RevocationPeriodMonth)
+		if !f(fd_QueryContractByLesseeRequest_revocationPeriodMonth, value) {
+			return
+		}
+	}
+	if x.CreatedAtFrom != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.CreatedAtFrom)
+		if !f(fd_QueryContractByLesseeRequest_createdAtFrom, value) {
+			return
+		}
+	}
+	if x.CreatedAtTo != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.CreatedAtTo)
+		if !f(fd_QueryContractByLesseeRequest_createdAtTo, value) {
+			return
+		}
+	}
+	if x.ActivatedAtFrom != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ActivatedAtFrom)
+		if !f(fd_QueryContractByLesseeRequest_activatedAtFrom, value) {
+			return
+		}
+	}
+	if x.ActivatedAtTo != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ActivatedAtTo)
+		if !f(fd_QueryContractByLesseeRequest_activatedAtTo, value) {
+			return
+		}
+	}
+	if x.PrepaidUntilFrom != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.PrepaidUntilFrom)
+		if !f(fd_QueryContractByLesseeRequest_prepaidUntilFrom, value) {
+			return
+		}
+	}
+	if x.PrepaidUntilTo != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.PrepaidUntilTo)
+		if !f(fd_QueryContractByLesseeRequest_prepaidUntilTo, value) {
+			return
+		}
+	}
+	if x.UpdatedAtFrom != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.UpdatedAtFrom)
+		if !f(fd_QueryContractByLesseeRequest_updatedAtFrom, value) {
+			return
+		}
+	}
+	if x.UpdatedAtTo != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.UpdatedAtTo)
+		if !f(fd_QueryContractByLesseeRequest_updatedAtTo, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryContractByLesseeRequest_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryContractByLesseeRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeRequest.lesseeOrg":
+		return x.LesseeOrg != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.ownerOrg":
+		return x.OwnerOrg != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.mask":
+		return x.Mask != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.rir":
+		return x.Rir != ""
+	case "ipex.lease.QueryContractByLesseeRequest.country":
+		return x.Country != ""
+	case "ipex.lease.QueryContractByLesseeRequest.minPrice":
+		return x.MinPrice != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.maxPrice":
+		return x.MaxPrice != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.networkAddress":
+		return x.NetworkAddress != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.firstOctet":
+		return x.FirstOctet != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.status":
+		return x.Status != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.revocationPeriodMonth":
+		return x.RevocationPeriodMonth != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtFrom":
+		return x.CreatedAtFrom != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtTo":
+		return x.CreatedAtTo != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtFrom":
+		return x.ActivatedAtFrom != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtTo":
+		return x.ActivatedAtTo != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilFrom":
+		return x.PrepaidUntilFrom != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilTo":
+		return x.PrepaidUntilTo != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtFrom":
+		return x.UpdatedAtFrom != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtTo":
+		return x.UpdatedAtTo != uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryContractByLesseeRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeRequest.lesseeOrg":
+		x.LesseeOrg = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.ownerOrg":
+		x.OwnerOrg = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.mask":
+		x.Mask = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.rir":
+		x.Rir = ""
+	case "ipex.lease.QueryContractByLesseeRequest.country":
+		x.Country = ""
+	case "ipex.lease.QueryContractByLesseeRequest.minPrice":
+		x.MinPrice = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.maxPrice":
+		x.MaxPrice = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.networkAddress":
+		x.NetworkAddress = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.firstOctet":
+		x.FirstOctet = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.status":
+		x.Status = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.revocationPeriodMonth":
+		x.RevocationPeriodMonth = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtFrom":
+		x.CreatedAtFrom = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtTo":
+		x.CreatedAtTo = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtFrom":
+		x.ActivatedAtFrom = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtTo":
+		x.ActivatedAtTo = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilFrom":
+		x.PrepaidUntilFrom = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilTo":
+		x.PrepaidUntilTo = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtFrom":
+		x.UpdatedAtFrom = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtTo":
+		x.UpdatedAtTo = uint64(0)
+	case "ipex.lease.QueryContractByLesseeRequest.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryContractByLesseeRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.lease.QueryContractByLesseeRequest.lesseeOrg":
+		value := x.LesseeOrg
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.ownerOrg":
+		value := x.OwnerOrg
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.mask":
+		value := x.Mask
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.rir":
+		value := x.Rir
+		return protoreflect.ValueOfString(value)
+	case "ipex.lease.QueryContractByLesseeRequest.country":
+		value := x.Country
+		return protoreflect.ValueOfString(value)
+	case "ipex.lease.QueryContractByLesseeRequest.minPrice":
+		value := x.MinPrice
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.maxPrice":
+		value := x.MaxPrice
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.networkAddress":
+		value := x.NetworkAddress
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.firstOctet":
+		value := x.FirstOctet
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.status":
+		value := x.Status
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.revocationPeriodMonth":
+		value := x.RevocationPeriodMonth
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtFrom":
+		value := x.CreatedAtFrom
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtTo":
+		value := x.CreatedAtTo
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtFrom":
+		value := x.ActivatedAtFrom
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtTo":
+		value := x.ActivatedAtTo
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilFrom":
+		value := x.PrepaidUntilFrom
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilTo":
+		value := x.PrepaidUntilTo
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtFrom":
+		value := x.UpdatedAtFrom
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtTo":
+		value := x.UpdatedAtTo
+		return protoreflect.ValueOfUint64(value)
+	case "ipex.lease.QueryContractByLesseeRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryContractByLesseeRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeRequest.lesseeOrg":
+		x.LesseeOrg = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.ownerOrg":
+		x.OwnerOrg = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.mask":
+		x.Mask = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.rir":
+		x.Rir = value.Interface().(string)
+	case "ipex.lease.QueryContractByLesseeRequest.country":
+		x.Country = value.Interface().(string)
+	case "ipex.lease.QueryContractByLesseeRequest.minPrice":
+		x.MinPrice = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.maxPrice":
+		x.MaxPrice = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.networkAddress":
+		x.NetworkAddress = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.firstOctet":
+		x.FirstOctet = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.status":
+		x.Status = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.revocationPeriodMonth":
+		x.RevocationPeriodMonth = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtFrom":
+		x.CreatedAtFrom = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtTo":
+		x.CreatedAtTo = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtFrom":
+		x.ActivatedAtFrom = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtTo":
+		x.ActivatedAtTo = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilFrom":
+		x.PrepaidUntilFrom = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilTo":
+		x.PrepaidUntilTo = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtFrom":
+		x.UpdatedAtFrom = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtTo":
+		x.UpdatedAtTo = value.Uint()
+	case "ipex.lease.QueryContractByLesseeRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryContractByLesseeRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	case "ipex.lease.QueryContractByLesseeRequest.lesseeOrg":
+		panic(fmt.Errorf("field lesseeOrg of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.ownerOrg":
+		panic(fmt.Errorf("field ownerOrg of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.mask":
+		panic(fmt.Errorf("field mask of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.rir":
+		panic(fmt.Errorf("field rir of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.country":
+		panic(fmt.Errorf("field country of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.minPrice":
+		panic(fmt.Errorf("field minPrice of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.maxPrice":
+		panic(fmt.Errorf("field maxPrice of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.networkAddress":
+		panic(fmt.Errorf("field networkAddress of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.firstOctet":
+		panic(fmt.Errorf("field firstOctet of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.status":
+		panic(fmt.Errorf("field status of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.revocationPeriodMonth":
+		panic(fmt.Errorf("field revocationPeriodMonth of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtFrom":
+		panic(fmt.Errorf("field createdAtFrom of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtTo":
+		panic(fmt.Errorf("field createdAtTo of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtFrom":
+		panic(fmt.Errorf("field activatedAtFrom of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtTo":
+		panic(fmt.Errorf("field activatedAtTo of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilFrom":
+		panic(fmt.Errorf("field prepaidUntilFrom of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilTo":
+		panic(fmt.Errorf("field prepaidUntilTo of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtFrom":
+		panic(fmt.Errorf("field updatedAtFrom of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtTo":
+		panic(fmt.Errorf("field updatedAtTo of message ipex.lease.QueryContractByLesseeRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryContractByLesseeRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeRequest.lesseeOrg":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.ownerOrg":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.mask":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.rir":
+		return protoreflect.ValueOfString("")
+	case "ipex.lease.QueryContractByLesseeRequest.country":
+		return protoreflect.ValueOfString("")
+	case "ipex.lease.QueryContractByLesseeRequest.minPrice":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.maxPrice":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.networkAddress":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.firstOctet":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.status":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.revocationPeriodMonth":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtFrom":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.createdAtTo":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtFrom":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.activatedAtTo":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilFrom":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.prepaidUntilTo":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtFrom":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.updatedAtTo":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "ipex.lease.QueryContractByLesseeRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeRequest"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryContractByLesseeRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.lease.QueryContractByLesseeRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryContractByLesseeRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryContractByLesseeRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryContractByLesseeRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryContractByLesseeRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryContractByLesseeRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.LesseeOrg != 0 {
+			n += 1 + runtime.Sov(uint64(x.LesseeOrg))
+		}
+		if x.OwnerOrg != 0 {
+			n += 1 + runtime.Sov(uint64(x.OwnerOrg))
+		}
+		if x.Mask != 0 {
+			n += 1 + runtime.Sov(uint64(x.Mask))
+		}
+		l = len(x.Rir)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.Country)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.MinPrice != 0 {
+			n += 1 + runtime.Sov(uint64(x.MinPrice))
+		}
+		if x.MaxPrice != 0 {
+			n += 1 + runtime.Sov(uint64(x.MaxPrice))
+		}
+		if x.NetworkAddress != 0 {
+			n += 1 + runtime.Sov(uint64(x.NetworkAddress))
+		}
+		if x.FirstOctet != 0 {
+			n += 1 + runtime.Sov(uint64(x.FirstOctet))
+		}
+		if x.Status != 0 {
+			n += 1 + runtime.Sov(uint64(x.Status))
+		}
+		if x.RevocationPeriodMonth != 0 {
+			n += 1 + runtime.Sov(uint64(x.RevocationPeriodMonth))
+		}
+		if x.CreatedAtFrom != 0 {
+			n += 1 + runtime.Sov(uint64(x.CreatedAtFrom))
+		}
+		if x.CreatedAtTo != 0 {
+			n += 1 + runtime.Sov(uint64(x.CreatedAtTo))
+		}
+		if x.ActivatedAtFrom != 0 {
+			n += 1 + runtime.Sov(uint64(x.ActivatedAtFrom))
+		}
+		if x.ActivatedAtTo != 0 {
+			n += 1 + runtime.Sov(uint64(x.ActivatedAtTo))
+		}
+		if x.PrepaidUntilFrom != 0 {
+			n += 2 + runtime.Sov(uint64(x.PrepaidUntilFrom))
+		}
+		if x.PrepaidUntilTo != 0 {
+			n += 2 + runtime.Sov(uint64(x.PrepaidUntilTo))
+		}
+		if x.UpdatedAtFrom != 0 {
+			n += 2 + runtime.Sov(uint64(x.UpdatedAtFrom))
+		}
+		if x.UpdatedAtTo != 0 {
+			n += 2 + runtime.Sov(uint64(x.UpdatedAtTo))
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 2 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryContractByLesseeRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x1
+			i--
+			dAtA[i] = 0xa2
+		}
+		if x.UpdatedAtTo != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.UpdatedAtTo))
+			i--
+			dAtA[i] = 0x1
+			i--
+			dAtA[i] = 0x98
+		}
+		if x.UpdatedAtFrom != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.UpdatedAtFrom))
+			i--
+			dAtA[i] = 0x1
+			i--
+			dAtA[i] = 0x90
+		}
+		if x.PrepaidUntilTo != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.PrepaidUntilTo))
+			i--
+			dAtA[i] = 0x1
+			i--
+			dAtA[i] = 0x88
+		}
+		if x.PrepaidUntilFrom != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.PrepaidUntilFrom))
+			i--
+			dAtA[i] = 0x1
+			i--
+			dAtA[i] = 0x80
+		}
+		if x.ActivatedAtTo != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ActivatedAtTo))
+			i--
+			dAtA[i] = 0x78
+		}
+		if x.ActivatedAtFrom != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ActivatedAtFrom))
+			i--
+			dAtA[i] = 0x70
+		}
+		if x.CreatedAtTo != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.CreatedAtTo))
+			i--
+			dAtA[i] = 0x68
+		}
+		if x.CreatedAtFrom != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.CreatedAtFrom))
+			i--
+			dAtA[i] = 0x60
+		}
+		if x.RevocationPeriodMonth != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.RevocationPeriodMonth))
+			i--
+			dAtA[i] = 0x58
+		}
+		if x.Status != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Status))
+			i--
+			dAtA[i] = 0x50
+		}
+		if x.FirstOctet != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.FirstOctet))
+			i--
+			dAtA[i] = 0x48
+		}
+		if x.NetworkAddress != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.NetworkAddress))
+			i--
+			dAtA[i] = 0x40
+		}
+		if x.MaxPrice != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.MaxPrice))
+			i--
+			dAtA[i] = 0x38
+		}
+		if x.MinPrice != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.MinPrice))
+			i--
+			dAtA[i] = 0x30
+		}
+		if len(x.Country) > 0 {
+			i -= len(x.Country)
+			copy(dAtA[i:], x.Country)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Country)))
+			i--
+			dAtA[i] = 0x2a
+		}
+		if len(x.Rir) > 0 {
+			i -= len(x.Rir)
+			copy(dAtA[i:], x.Rir)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Rir)))
+			i--
+			dAtA[i] = 0x22
+		}
+		if x.Mask != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Mask))
+			i--
+			dAtA[i] = 0x18
+		}
+		if x.OwnerOrg != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.OwnerOrg))
+			i--
+			dAtA[i] = 0x10
+		}
+		if x.LesseeOrg != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.LesseeOrg))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryContractByLesseeRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryContractByLesseeRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryContractByLesseeRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LesseeOrg", wireType)
+				}
+				x.LesseeOrg = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.LesseeOrg |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OwnerOrg", wireType)
+				}
+				x.OwnerOrg = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.OwnerOrg |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Mask", wireType)
+				}
+				x.Mask = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Mask |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 4:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Rir", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Rir = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 5:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Country", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Country = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 6:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MinPrice", wireType)
+				}
+				x.MinPrice = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.MinPrice |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 7:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MaxPrice", wireType)
+				}
+				x.MaxPrice = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.MaxPrice |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 8:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NetworkAddress", wireType)
+				}
+				x.NetworkAddress = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.NetworkAddress |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 9:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field FirstOctet", wireType)
+				}
+				x.FirstOctet = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.FirstOctet |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 10:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+				}
+				x.Status = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Status |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 11:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RevocationPeriodMonth", wireType)
+				}
+				x.RevocationPeriodMonth = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.RevocationPeriodMonth |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 12:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreatedAtFrom", wireType)
+				}
+				x.CreatedAtFrom = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.CreatedAtFrom |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 13:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreatedAtTo", wireType)
+				}
+				x.CreatedAtTo = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.CreatedAtTo |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 14:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ActivatedAtFrom", wireType)
+				}
+				x.ActivatedAtFrom = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ActivatedAtFrom |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 15:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ActivatedAtTo", wireType)
+				}
+				x.ActivatedAtTo = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ActivatedAtTo |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 16:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field PrepaidUntilFrom", wireType)
+				}
+				x.PrepaidUntilFrom = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.PrepaidUntilFrom |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 17:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field PrepaidUntilTo", wireType)
+				}
+				x.PrepaidUntilTo = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.PrepaidUntilTo |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 18:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UpdatedAtFrom", wireType)
+				}
+				x.UpdatedAtFrom = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.UpdatedAtFrom |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 19:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UpdatedAtTo", wireType)
+				}
+				x.UpdatedAtTo = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.UpdatedAtTo |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 20:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryContractByLesseeResponse            protoreflect.MessageDescriptor
+	fd_QueryContractByLesseeResponse_contract   protoreflect.FieldDescriptor
+	fd_QueryContractByLesseeResponse_pagination protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_ipex_lease_query_proto_init()
+	md_QueryContractByLesseeResponse = File_ipex_lease_query_proto.Messages().ByName("QueryContractByLesseeResponse")
+	fd_QueryContractByLesseeResponse_contract = md_QueryContractByLesseeResponse.Fields().ByName("contract")
+	fd_QueryContractByLesseeResponse_pagination = md_QueryContractByLesseeResponse.Fields().ByName("pagination")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryContractByLesseeResponse)(nil)
+
+type fastReflection_QueryContractByLesseeResponse QueryContractByLesseeResponse
+
+func (x *QueryContractByLesseeResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryContractByLesseeResponse)(x)
+}
+
+func (x *QueryContractByLesseeResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_ipex_lease_query_proto_msgTypes[21]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryContractByLesseeResponse_messageType fastReflection_QueryContractByLesseeResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryContractByLesseeResponse_messageType{}
+
+type fastReflection_QueryContractByLesseeResponse_messageType struct{}
+
+func (x fastReflection_QueryContractByLesseeResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryContractByLesseeResponse)(nil)
+}
+func (x fastReflection_QueryContractByLesseeResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryContractByLesseeResponse)
+}
+func (x fastReflection_QueryContractByLesseeResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryContractByLesseeResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryContractByLesseeResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryContractByLesseeResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryContractByLesseeResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryContractByLesseeResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryContractByLesseeResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryContractByLesseeResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryContractByLesseeResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryContractByLesseeResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryContractByLesseeResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Contract != nil {
+		value := protoreflect.ValueOfMessage(x.Contract.ProtoReflect())
+		if !f(fd_QueryContractByLesseeResponse_contract, value) {
+			return
+		}
+	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryContractByLesseeResponse_pagination, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryContractByLesseeResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeResponse.contract":
+		return x.Contract != nil
+	case "ipex.lease.QueryContractByLesseeResponse.pagination":
+		return x.Pagination != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryContractByLesseeResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeResponse.contract":
+		x.Contract = nil
+	case "ipex.lease.QueryContractByLesseeResponse.pagination":
+		x.Pagination = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryContractByLesseeResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "ipex.lease.QueryContractByLesseeResponse.contract":
+		value := x.Contract
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "ipex.lease.QueryContractByLesseeResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryContractByLesseeResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeResponse.contract":
+		x.Contract = value.Message().Interface().(*Contract)
+	case "ipex.lease.QueryContractByLesseeResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryContractByLesseeResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeResponse.contract":
+		if x.Contract == nil {
+			x.Contract = new(Contract)
+		}
+		return protoreflect.ValueOfMessage(x.Contract.ProtoReflect())
+	case "ipex.lease.QueryContractByLesseeResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryContractByLesseeResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "ipex.lease.QueryContractByLesseeResponse.contract":
+		m := new(Contract)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	case "ipex.lease.QueryContractByLesseeResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: ipex.lease.QueryContractByLesseeResponse"))
+		}
+		panic(fmt.Errorf("message ipex.lease.QueryContractByLesseeResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryContractByLesseeResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in ipex.lease.QueryContractByLesseeResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryContractByLesseeResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryContractByLesseeResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryContractByLesseeResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryContractByLesseeResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryContractByLesseeResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.Contract != nil {
+			l = options.Size(x.Contract)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryContractByLesseeResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if x.Contract != nil {
+			encoded, err := options.Marshal(x.Contract)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryContractByLesseeResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryContractByLesseeResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryContractByLesseeResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Contract", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Contract == nil {
+					x.Contract = &Contract{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Contract); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -11856,6 +13760,236 @@ func (x *QueryContractByOwnerResponse) GetPagination() *v1beta1.PageResponse {
 	return nil
 }
 
+type QueryContractByLesseeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	LesseeOrg             uint64               `protobuf:"varint,1,opt,name=lesseeOrg,proto3" json:"lesseeOrg,omitempty"`
+	OwnerOrg              uint64               `protobuf:"varint,2,opt,name=ownerOrg,proto3" json:"ownerOrg,omitempty"`
+	Mask                  uint64               `protobuf:"varint,3,opt,name=mask,proto3" json:"mask,omitempty"`
+	Rir                   string               `protobuf:"bytes,4,opt,name=rir,proto3" json:"rir,omitempty"`
+	Country               string               `protobuf:"bytes,5,opt,name=country,proto3" json:"country,omitempty"`
+	MinPrice              uint64               `protobuf:"varint,6,opt,name=minPrice,proto3" json:"minPrice,omitempty"`
+	MaxPrice              uint64               `protobuf:"varint,7,opt,name=maxPrice,proto3" json:"maxPrice,omitempty"`
+	NetworkAddress        uint64               `protobuf:"varint,8,opt,name=networkAddress,proto3" json:"networkAddress,omitempty"`
+	FirstOctet            uint64               `protobuf:"varint,9,opt,name=firstOctet,proto3" json:"firstOctet,omitempty"`
+	Status                uint64               `protobuf:"varint,10,opt,name=status,proto3" json:"status,omitempty"`
+	RevocationPeriodMonth uint64               `protobuf:"varint,11,opt,name=revocationPeriodMonth,proto3" json:"revocationPeriodMonth,omitempty"`
+	CreatedAtFrom         uint64               `protobuf:"varint,12,opt,name=createdAtFrom,proto3" json:"createdAtFrom,omitempty"`
+	CreatedAtTo           uint64               `protobuf:"varint,13,opt,name=createdAtTo,proto3" json:"createdAtTo,omitempty"`
+	ActivatedAtFrom       uint64               `protobuf:"varint,14,opt,name=activatedAtFrom,proto3" json:"activatedAtFrom,omitempty"`
+	ActivatedAtTo         uint64               `protobuf:"varint,15,opt,name=activatedAtTo,proto3" json:"activatedAtTo,omitempty"`
+	PrepaidUntilFrom      uint64               `protobuf:"varint,16,opt,name=prepaidUntilFrom,proto3" json:"prepaidUntilFrom,omitempty"`
+	PrepaidUntilTo        uint64               `protobuf:"varint,17,opt,name=prepaidUntilTo,proto3" json:"prepaidUntilTo,omitempty"`
+	UpdatedAtFrom         uint64               `protobuf:"varint,18,opt,name=updatedAtFrom,proto3" json:"updatedAtFrom,omitempty"`
+	UpdatedAtTo           uint64               `protobuf:"varint,19,opt,name=updatedAtTo,proto3" json:"updatedAtTo,omitempty"`
+	Pagination            *v1beta1.PageRequest `protobuf:"bytes,20,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QueryContractByLesseeRequest) Reset() {
+	*x = QueryContractByLesseeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_lease_query_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryContractByLesseeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryContractByLesseeRequest) ProtoMessage() {}
+
+// Deprecated: Use QueryContractByLesseeRequest.ProtoReflect.Descriptor instead.
+func (*QueryContractByLesseeRequest) Descriptor() ([]byte, []int) {
+	return file_ipex_lease_query_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *QueryContractByLesseeRequest) GetLesseeOrg() uint64 {
+	if x != nil {
+		return x.LesseeOrg
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetOwnerOrg() uint64 {
+	if x != nil {
+		return x.OwnerOrg
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetMask() uint64 {
+	if x != nil {
+		return x.Mask
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetRir() string {
+	if x != nil {
+		return x.Rir
+	}
+	return ""
+}
+
+func (x *QueryContractByLesseeRequest) GetCountry() string {
+	if x != nil {
+		return x.Country
+	}
+	return ""
+}
+
+func (x *QueryContractByLesseeRequest) GetMinPrice() uint64 {
+	if x != nil {
+		return x.MinPrice
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetMaxPrice() uint64 {
+	if x != nil {
+		return x.MaxPrice
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetNetworkAddress() uint64 {
+	if x != nil {
+		return x.NetworkAddress
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetFirstOctet() uint64 {
+	if x != nil {
+		return x.FirstOctet
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetStatus() uint64 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetRevocationPeriodMonth() uint64 {
+	if x != nil {
+		return x.RevocationPeriodMonth
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetCreatedAtFrom() uint64 {
+	if x != nil {
+		return x.CreatedAtFrom
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetCreatedAtTo() uint64 {
+	if x != nil {
+		return x.CreatedAtTo
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetActivatedAtFrom() uint64 {
+	if x != nil {
+		return x.ActivatedAtFrom
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetActivatedAtTo() uint64 {
+	if x != nil {
+		return x.ActivatedAtTo
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetPrepaidUntilFrom() uint64 {
+	if x != nil {
+		return x.PrepaidUntilFrom
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetPrepaidUntilTo() uint64 {
+	if x != nil {
+		return x.PrepaidUntilTo
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetUpdatedAtFrom() uint64 {
+	if x != nil {
+		return x.UpdatedAtFrom
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetUpdatedAtTo() uint64 {
+	if x != nil {
+		return x.UpdatedAtTo
+	}
+	return 0
+}
+
+func (x *QueryContractByLesseeRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type QueryContractByLesseeResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Contract   *Contract             `protobuf:"bytes,1,opt,name=contract,proto3" json:"contract,omitempty"`
+	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *QueryContractByLesseeResponse) Reset() {
+	*x = QueryContractByLesseeResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ipex_lease_query_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryContractByLesseeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryContractByLesseeResponse) ProtoMessage() {}
+
+// Deprecated: Use QueryContractByLesseeResponse.ProtoReflect.Descriptor instead.
+func (*QueryContractByLesseeResponse) Descriptor() ([]byte, []int) {
+	return file_ipex_lease_query_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *QueryContractByLesseeResponse) GetContract() *Contract {
+	if x != nil {
+		return x.Contract
+	}
+	return nil
+}
+
+func (x *QueryContractByLesseeResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 var File_ipex_lease_query_proto protoreflect.FileDescriptor
 
 var file_ipex_lease_query_proto_rawDesc = []byte{
@@ -12061,105 +14195,187 @@ var file_ipex_lease_query_proto_rawDesc = []byte{
 	0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65,
 	0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52,
 	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x32, 0x95, 0x0e, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x68, 0x0a,
-	0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1f, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
-	0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d,
-	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61,
-	0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x15, 0x12, 0x13, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65,
-	0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x86, 0x01, 0x0a, 0x0c, 0x53, 0x68, 0x6f, 0x77,
-	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77,
-	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x12,
-	0x1f, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x73, 0x68,
-	0x6f, 0x77, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
-	0x12, 0x81, 0x01, 0x0a, 0x0c, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
-	0x74, 0x12, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
-	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74,
-	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x63, 0x6f, 0x6e, 0x74,
-	0x72, 0x61, 0x63, 0x74, 0x12, 0x7d, 0x0a, 0x03, 0x42, 0x69, 0x64, 0x12, 0x1f, 0x2e, 0x69, 0x70,
-	0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47,
-	0x65, 0x74, 0x42, 0x69, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x69,
-	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x47, 0x65, 0x74, 0x42, 0x69, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x33,
-	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2d, 0x12, 0x2b, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c,
-	0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69, 0x64, 0x2f, 0x7b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61,
-	0x63, 0x74, 0x49, 0x64, 0x7d, 0x2f, 0x7b, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72, 0x4f, 0x72, 0x67,
-	0x49, 0x64, 0x7d, 0x12, 0xdd, 0x01, 0x0a, 0x1f, 0x43, 0x61, 0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69,
-	0x6e, 0x61, 0x74, 0x65, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x57, 0x69, 0x74, 0x68, 0x6f, 0x75, 0x74,
-	0x50, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x12, 0x38, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e,
-	0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x61, 0x6e, 0x54, 0x65,
-	0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x57, 0x69, 0x74, 0x68,
-	0x6f, 0x75, 0x74, 0x50, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x39, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x61, 0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74,
-	0x65, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x57, 0x69, 0x74, 0x68, 0x6f, 0x75, 0x74, 0x50, 0x65, 0x6e,
-	0x61, 0x6c, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x45, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x3f, 0x12, 0x3d, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x2f, 0x63, 0x61, 0x6e, 0x5f, 0x74, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65,
-	0x5f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x5f, 0x77, 0x69, 0x74, 0x68, 0x6f, 0x75, 0x74, 0x5f, 0x70,
-	0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x2f, 0x7b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
-	0x49, 0x64, 0x7d, 0x12, 0x93, 0x01, 0x0a, 0x0d, 0x42, 0x69, 0x64, 0x42, 0x79, 0x43, 0x6f, 0x6e,
-	0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65,
-	0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x43, 0x6f,
-	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x31, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2b, 0x12, 0x29,
-	0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69, 0x64,
-	0x5f, 0x62, 0x79, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x2f, 0x7b, 0x63, 0x6f,
-	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x7d, 0x12, 0x8c, 0x01, 0x0a, 0x0b, 0x42, 0x69,
-	0x64, 0x42, 0x79, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x12, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65,
-	0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64,
-	0x42, 0x79, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28,
-	0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69, 0x64,
-	0x5f, 0x62, 0x79, 0x5f, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72, 0x2f, 0x7b, 0x62, 0x69, 0x64, 0x64,
-	0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0x8c, 0x01, 0x0a, 0x0b, 0x42, 0x69, 0x64,
-	0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x12, 0x24, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
-	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42,
-	0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25,
+	0x69, 0x6f, 0x6e, 0x22, 0xe2, 0x05, 0x0a, 0x1c, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x6f, 0x6e,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72,
+	0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f,
+	0x72, 0x67, 0x12, 0x1a, 0x0a, 0x08, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x12, 0x12,
+	0x0a, 0x04, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x04, 0x6d, 0x61,
+	0x73, 0x6b, 0x12, 0x10, 0x0a, 0x03, 0x72, 0x69, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x03, 0x72, 0x69, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x18,
+	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x1a,
+	0x0a, 0x08, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x69, 0x63, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x04,
+	0x52, 0x08, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x69, 0x63, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x6d, 0x61,
+	0x78, 0x50, 0x72, 0x69, 0x63, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x04, 0x52, 0x08, 0x6d, 0x61,
+	0x78, 0x50, 0x72, 0x69, 0x63, 0x65, 0x12, 0x26, 0x0a, 0x0e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
+	0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x08, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0e,
+	0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x1e,
+	0x0a, 0x0a, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x18, 0x09, 0x20, 0x01,
+	0x28, 0x04, 0x52, 0x0a, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x12, 0x16,
+	0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06,
+	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x34, 0x0a, 0x15, 0x72, 0x65, 0x76, 0x6f, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x4d, 0x6f, 0x6e, 0x74, 0x68, 0x18,
+	0x0b, 0x20, 0x01, 0x28, 0x04, 0x52, 0x15, 0x72, 0x65, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x4d, 0x6f, 0x6e, 0x74, 0x68, 0x12, 0x24, 0x0a, 0x0d,
+	0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x46, 0x72, 0x6f, 0x6d, 0x18, 0x0c, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x0d, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x46, 0x72,
+	0x6f, 0x6d, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x54,
+	0x6f, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0b, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64,
+	0x41, 0x74, 0x54, 0x6f, 0x12, 0x28, 0x0a, 0x0f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x65,
+	0x64, 0x41, 0x74, 0x46, 0x72, 0x6f, 0x6d, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0f, 0x61,
+	0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x46, 0x72, 0x6f, 0x6d, 0x12, 0x24,
+	0x0a, 0x0d, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x54, 0x6f, 0x18,
+	0x0f, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0d, 0x61, 0x63, 0x74, 0x69, 0x76, 0x61, 0x74, 0x65, 0x64,
+	0x41, 0x74, 0x54, 0x6f, 0x12, 0x2a, 0x0a, 0x10, 0x70, 0x72, 0x65, 0x70, 0x61, 0x69, 0x64, 0x55,
+	0x6e, 0x74, 0x69, 0x6c, 0x46, 0x72, 0x6f, 0x6d, 0x18, 0x10, 0x20, 0x01, 0x28, 0x04, 0x52, 0x10,
+	0x70, 0x72, 0x65, 0x70, 0x61, 0x69, 0x64, 0x55, 0x6e, 0x74, 0x69, 0x6c, 0x46, 0x72, 0x6f, 0x6d,
+	0x12, 0x26, 0x0a, 0x0e, 0x70, 0x72, 0x65, 0x70, 0x61, 0x69, 0x64, 0x55, 0x6e, 0x74, 0x69, 0x6c,
+	0x54, 0x6f, 0x18, 0x11, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0e, 0x70, 0x72, 0x65, 0x70, 0x61, 0x69,
+	0x64, 0x55, 0x6e, 0x74, 0x69, 0x6c, 0x54, 0x6f, 0x12, 0x24, 0x0a, 0x0d, 0x75, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x64, 0x41, 0x74, 0x46, 0x72, 0x6f, 0x6d, 0x18, 0x12, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x0d, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x46, 0x72, 0x6f, 0x6d, 0x12, 0x20,
+	0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x54, 0x6f, 0x18, 0x13, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x54, 0x6f,
+	0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x14,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61,
+	0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
+	0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61,
+	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x9b, 0x01, 0x0a, 0x1d, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73,
+	0x65, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x31, 0x0a, 0x08, 0x63, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x52, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x47, 0x0a,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e,
+	0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61,
+	0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0xb2, 0x11, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x12, 0x68, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x1f, 0x2e, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61,
+	0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50,
+	0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65,
+	0x61, 0x73, 0x65, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x86, 0x01, 0x0a, 0x0c, 0x53,
+	0x68, 0x6f, 0x77, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x25, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53,
+	0x68, 0x6f, 0x77, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x68, 0x6f, 0x77, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
+	0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x27, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x21, 0x12, 0x1f, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65,
+	0x2f, 0x73, 0x68, 0x6f, 0x77, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x2f, 0x7b,
+	0x69, 0x64, 0x7d, 0x12, 0x81, 0x01, 0x0a, 0x0c, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x12, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61,
+	0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
+	0x69, 0x73, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x63,
+	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x7d, 0x0a, 0x03, 0x42, 0x69, 0x64, 0x12, 0x1f,
 	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a, 0x12, 0x28, 0x2f,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69, 0x64, 0x5f,
-	0x62, 0x79, 0x5f, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73, 0x6f,
-	0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0xe8, 0x01, 0x0a, 0x13, 0x4d, 0x61, 0x72, 0x6b,
-	0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12,
-	0x2c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f,
-	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e,
-	0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x74,
-	0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x74, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x6e, 0x12, 0x6c, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61,
-	0x73, 0x65, 0x2f, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x5f, 0x63,
-	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x2f, 0x7b, 0x6d, 0x61, 0x73, 0x6b, 0x7d, 0x2f, 0x7b,
-	0x72, 0x69, 0x72, 0x7d, 0x2f, 0x7b, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x7d, 0x2f, 0x7b,
-	0x6d, 0x69, 0x6e, 0x70, 0x72, 0x69, 0x63, 0x65, 0x7d, 0x2f, 0x7b, 0x6d, 0x61, 0x78, 0x70, 0x72,
-	0x69, 0x63, 0x65, 0x7d, 0x2f, 0x7b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x7d, 0x2f, 0x7b, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4f, 0x63, 0x74, 0x65,
-	0x74, 0x7d, 0x12, 0x96, 0x03, 0x0a, 0x0f, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x42,
-	0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x28, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c,
-	0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
-	0x63, 0x74, 0x42, 0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x29, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x42, 0x79, 0x4f, 0x77,
-	0x6e, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xad, 0x02, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0xa6, 0x02, 0x12, 0xa3, 0x02, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c,
-	0x65, 0x61, 0x73, 0x65, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x62, 0x79,
-	0x5f, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x2f, 0x7b, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67,
-	0x7d, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72, 0x67, 0x7d, 0x2f, 0x7b, 0x6d,
+	0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x69, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x20, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x42, 0x69, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x33, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2d, 0x12, 0x2b, 0x2f, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62, 0x69, 0x64, 0x2f, 0x7b, 0x63, 0x6f, 0x6e,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x7d, 0x2f, 0x7b, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72,
+	0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0xdd, 0x01, 0x0a, 0x1f, 0x43, 0x61, 0x6e, 0x54, 0x65,
+	0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x57, 0x69, 0x74, 0x68,
+	0x6f, 0x75, 0x74, 0x50, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x12, 0x38, 0x2e, 0x69, 0x70, 0x64,
+	0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x61,
+	0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x57,
+	0x69, 0x74, 0x68, 0x6f, 0x75, 0x74, 0x50, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x39, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61,
+	0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x61, 0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69,
+	0x6e, 0x61, 0x74, 0x65, 0x4c, 0x65, 0x61, 0x73, 0x65, 0x57, 0x69, 0x74, 0x68, 0x6f, 0x75, 0x74,
+	0x50, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x45, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x3f, 0x12, 0x3d, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
+	0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x63, 0x61, 0x6e, 0x5f, 0x74, 0x65, 0x72, 0x6d, 0x69, 0x6e,
+	0x61, 0x74, 0x65, 0x5f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x5f, 0x77, 0x69, 0x74, 0x68, 0x6f, 0x75,
+	0x74, 0x5f, 0x70, 0x65, 0x6e, 0x61, 0x6c, 0x74, 0x79, 0x2f, 0x7b, 0x63, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x49, 0x64, 0x7d, 0x12, 0x93, 0x01, 0x0a, 0x0d, 0x42, 0x69, 0x64, 0x42, 0x79,
+	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x26, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78,
+	0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42,
+	0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x27, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
+	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x31, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x2b, 0x12, 0x29, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f,
+	0x62, 0x69, 0x64, 0x5f, 0x62, 0x79, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x2f,
+	0x7b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x7d, 0x12, 0x8c, 0x01, 0x0a,
+	0x0b, 0x42, 0x69, 0x64, 0x42, 0x79, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x12, 0x24, 0x2e, 0x69,
+	0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x42, 0x69, 0x64, 0x42, 0x79, 0x42, 0x69, 0x64, 0x64, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x42, 0x69, 0x64, 0x64, 0x65,
+	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x2a, 0x12, 0x28, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f,
+	0x62, 0x69, 0x64, 0x5f, 0x62, 0x79, 0x5f, 0x62, 0x69, 0x64, 0x64, 0x65, 0x72, 0x2f, 0x7b, 0x62,
+	0x69, 0x64, 0x64, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0x8c, 0x01, 0x0a, 0x0b,
+	0x42, 0x69, 0x64, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x12, 0x24, 0x2e, 0x69, 0x70,
+	0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x42,
+	0x69, 0x64, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x25, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x42, 0x69, 0x64, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x30, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x2a,
+	0x12, 0x28, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x62,
+	0x69, 0x64, 0x5f, 0x62, 0x79, 0x5f, 0x6c, 0x65, 0x73, 0x73, 0x6f, 0x72, 0x2f, 0x7b, 0x6c, 0x65,
+	0x73, 0x73, 0x6f, 0x72, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x7d, 0x12, 0xe8, 0x01, 0x0a, 0x13, 0x4d,
+	0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
+	0x63, 0x74, 0x12, 0x2c, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63,
+	0x65, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x2d, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43,
+	0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x74, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x6e, 0x12, 0x6c, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f,
+	0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63,
+	0x65, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x2f, 0x7b, 0x6d, 0x61, 0x73, 0x6b,
+	0x7d, 0x2f, 0x7b, 0x72, 0x69, 0x72, 0x7d, 0x2f, 0x7b, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79,
+	0x7d, 0x2f, 0x7b, 0x6d, 0x69, 0x6e, 0x70, 0x72, 0x69, 0x63, 0x65, 0x7d, 0x2f, 0x7b, 0x6d, 0x61,
+	0x78, 0x70, 0x72, 0x69, 0x63, 0x65, 0x7d, 0x2f, 0x7b, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x2f, 0x7b, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4f,
+	0x63, 0x74, 0x65, 0x74, 0x7d, 0x12, 0x96, 0x03, 0x0a, 0x0f, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
+	0x63, 0x74, 0x42, 0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x28, 0x2e, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x6f, 0x6e,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x42, 0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x29, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x42,
+	0x79, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xad,
+	0x02, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xa6, 0x02, 0x12, 0xa3, 0x02, 0x2f, 0x69, 0x70, 0x64, 0x65,
+	0x78, 0x2f, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x5f, 0x62, 0x79, 0x5f, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x2f, 0x7b, 0x6f, 0x77, 0x6e, 0x65, 0x72,
+	0x4f, 0x72, 0x67, 0x7d, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72, 0x67, 0x7d,
+	0x2f, 0x7b, 0x6d, 0x61, 0x73, 0x6b, 0x7d, 0x2f, 0x7b, 0x72, 0x69, 0x72, 0x7d, 0x2f, 0x7b, 0x63,
+	0x6f, 0x75, 0x6e, 0x74, 0x72, 0x79, 0x7d, 0x2f, 0x7b, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x69, 0x63,
+	0x65, 0x7d, 0x2f, 0x7b, 0x6d, 0x61, 0x78, 0x50, 0x72, 0x69, 0x63, 0x65, 0x7d, 0x2f, 0x7b, 0x6e,
+	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x2f, 0x7b,
+	0x66, 0x69, 0x72, 0x73, 0x74, 0x4f, 0x63, 0x74, 0x65, 0x74, 0x7d, 0x2f, 0x7b, 0x73, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x7d, 0x2f, 0x7b, 0x72, 0x65, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x4d, 0x6f, 0x6e, 0x74, 0x68, 0x7d, 0x2f, 0x7b, 0x63, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x46, 0x72, 0x6f, 0x6d, 0x7d, 0x2f, 0x7b, 0x63, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x54, 0x6f, 0x7d, 0x2f, 0x7b, 0x61, 0x63, 0x74, 0x69,
+	0x76, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x46, 0x72, 0x6f, 0x6d, 0x7d, 0x2f, 0x7b, 0x61, 0x63,
+	0x74, 0x69, 0x76, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x54, 0x6f, 0x7d, 0x2f, 0x7b, 0x70, 0x72,
+	0x65, 0x70, 0x61, 0x69, 0x64, 0x55, 0x6e, 0x74, 0x69, 0x6c, 0x46, 0x72, 0x6f, 0x6d, 0x7d, 0x2f,
+	0x7b, 0x70, 0x72, 0x65, 0x70, 0x61, 0x69, 0x64, 0x55, 0x6e, 0x74, 0x69, 0x6c, 0x54, 0x6f, 0x7d,
+	0x2f, 0x7b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x46, 0x72, 0x6f, 0x6d, 0x7d,
+	0x2f, 0x7b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x54, 0x6f, 0x7d, 0x12, 0x9a,
+	0x03, 0x0a, 0x10, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x42, 0x79, 0x4c, 0x65, 0x73,
+	0x73, 0x65, 0x65, 0x12, 0x29, 0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73,
+	0x65, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x42,
+	0x79, 0x4c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2a,
+	0x2e, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2e, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x2e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x42, 0x79, 0x4c, 0x65, 0x73, 0x73,
+	0x65, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xae, 0x02, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0xa7, 0x02, 0x12, 0xa4, 0x02, 0x2f, 0x69, 0x70, 0x64, 0x65, 0x78, 0x2f, 0x6c, 0x65,
+	0x61, 0x73, 0x65, 0x2f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x62, 0x79, 0x5f,
+	0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x2f, 0x7b, 0x6c, 0x65, 0x73, 0x73, 0x65, 0x65, 0x4f, 0x72,
+	0x67, 0x7d, 0x2f, 0x7b, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x4f, 0x72, 0x67, 0x7d, 0x2f, 0x7b, 0x6d,
 	0x61, 0x73, 0x6b, 0x7d, 0x2f, 0x7b, 0x72, 0x69, 0x72, 0x7d, 0x2f, 0x7b, 0x63, 0x6f, 0x75, 0x6e,
 	0x74, 0x72, 0x79, 0x7d, 0x2f, 0x7b, 0x6d, 0x69, 0x6e, 0x50, 0x72, 0x69, 0x63, 0x65, 0x7d, 0x2f,
 	0x7b, 0x6d, 0x61, 0x78, 0x50, 0x72, 0x69, 0x63, 0x65, 0x7d, 0x2f, 0x7b, 0x6e, 0x65, 0x74, 0x77,
@@ -12198,7 +14414,7 @@ func file_ipex_lease_query_proto_rawDescGZIP() []byte {
 	return file_ipex_lease_query_proto_rawDescData
 }
 
-var file_ipex_lease_query_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
+var file_ipex_lease_query_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_ipex_lease_query_proto_goTypes = []interface{}{
 	(*QueryParamsRequest)(nil),                           // 0: ipex.lease.QueryParamsRequest
 	(*QueryParamsResponse)(nil),                          // 1: ipex.lease.QueryParamsResponse
@@ -12220,59 +14436,66 @@ var file_ipex_lease_query_proto_goTypes = []interface{}{
 	(*QueryMarketplaceContractResponse)(nil),             // 17: ipex.lease.QueryMarketplaceContractResponse
 	(*QueryContractByOwnerRequest)(nil),                  // 18: ipex.lease.QueryContractByOwnerRequest
 	(*QueryContractByOwnerResponse)(nil),                 // 19: ipex.lease.QueryContractByOwnerResponse
-	(*Params)(nil),                                       // 20: ipex.lease.Params
-	(*Contract)(nil),                                     // 21: ipex.lease.Contract
-	(*v1beta1.PageRequest)(nil),                          // 22: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),                         // 23: cosmos.base.query.v1beta1.PageResponse
-	(*Bid)(nil),                                          // 24: ipex.lease.Bid
+	(*QueryContractByLesseeRequest)(nil),                 // 20: ipex.lease.QueryContractByLesseeRequest
+	(*QueryContractByLesseeResponse)(nil),                // 21: ipex.lease.QueryContractByLesseeResponse
+	(*Params)(nil),                                       // 22: ipex.lease.Params
+	(*Contract)(nil),                                     // 23: ipex.lease.Contract
+	(*v1beta1.PageRequest)(nil),                          // 24: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),                         // 25: cosmos.base.query.v1beta1.PageResponse
+	(*Bid)(nil),                                          // 26: ipex.lease.Bid
 }
 var file_ipex_lease_query_proto_depIdxs = []int32{
-	20, // 0: ipex.lease.QueryParamsResponse.params:type_name -> ipex.lease.Params
-	21, // 1: ipex.lease.QueryShowContractResponse.contract:type_name -> ipex.lease.Contract
-	22, // 2: ipex.lease.QueryListContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	21, // 3: ipex.lease.QueryListContractResponse.contract:type_name -> ipex.lease.Contract
-	23, // 4: ipex.lease.QueryListContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	24, // 5: ipex.lease.QueryGetBidResponse.bid:type_name -> ipex.lease.Bid
-	22, // 6: ipex.lease.QueryBidByContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	24, // 7: ipex.lease.QueryBidByContractResponse.bid:type_name -> ipex.lease.Bid
-	23, // 8: ipex.lease.QueryBidByContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	22, // 9: ipex.lease.QueryBidByBidderRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	24, // 10: ipex.lease.QueryBidByBidderResponse.bid:type_name -> ipex.lease.Bid
-	23, // 11: ipex.lease.QueryBidByBidderResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	22, // 12: ipex.lease.QueryBidByLessorRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	24, // 13: ipex.lease.QueryBidByLessorResponse.bid:type_name -> ipex.lease.Bid
-	23, // 14: ipex.lease.QueryBidByLessorResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	22, // 15: ipex.lease.QueryMarketplaceContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	21, // 16: ipex.lease.QueryMarketplaceContractResponse.contract:type_name -> ipex.lease.Contract
-	23, // 17: ipex.lease.QueryMarketplaceContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	22, // 18: ipex.lease.QueryContractByOwnerRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	21, // 19: ipex.lease.QueryContractByOwnerResponse.contract:type_name -> ipex.lease.Contract
-	23, // 20: ipex.lease.QueryContractByOwnerResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	0,  // 21: ipex.lease.Query.Params:input_type -> ipex.lease.QueryParamsRequest
-	2,  // 22: ipex.lease.Query.ShowContract:input_type -> ipex.lease.QueryShowContractRequest
-	4,  // 23: ipex.lease.Query.ListContract:input_type -> ipex.lease.QueryListContractRequest
-	6,  // 24: ipex.lease.Query.Bid:input_type -> ipex.lease.QueryGetBidRequest
-	8,  // 25: ipex.lease.Query.CanTerminateLeaseWithoutPenalty:input_type -> ipex.lease.QueryCanTerminateLeaseWithoutPenaltyRequest
-	10, // 26: ipex.lease.Query.BidByContract:input_type -> ipex.lease.QueryBidByContractRequest
-	12, // 27: ipex.lease.Query.BidByBidder:input_type -> ipex.lease.QueryBidByBidderRequest
-	14, // 28: ipex.lease.Query.BidByLessor:input_type -> ipex.lease.QueryBidByLessorRequest
-	16, // 29: ipex.lease.Query.MarketplaceContract:input_type -> ipex.lease.QueryMarketplaceContractRequest
-	18, // 30: ipex.lease.Query.ContractByOwner:input_type -> ipex.lease.QueryContractByOwnerRequest
-	1,  // 31: ipex.lease.Query.Params:output_type -> ipex.lease.QueryParamsResponse
-	3,  // 32: ipex.lease.Query.ShowContract:output_type -> ipex.lease.QueryShowContractResponse
-	5,  // 33: ipex.lease.Query.ListContract:output_type -> ipex.lease.QueryListContractResponse
-	7,  // 34: ipex.lease.Query.Bid:output_type -> ipex.lease.QueryGetBidResponse
-	9,  // 35: ipex.lease.Query.CanTerminateLeaseWithoutPenalty:output_type -> ipex.lease.QueryCanTerminateLeaseWithoutPenaltyResponse
-	11, // 36: ipex.lease.Query.BidByContract:output_type -> ipex.lease.QueryBidByContractResponse
-	13, // 37: ipex.lease.Query.BidByBidder:output_type -> ipex.lease.QueryBidByBidderResponse
-	15, // 38: ipex.lease.Query.BidByLessor:output_type -> ipex.lease.QueryBidByLessorResponse
-	17, // 39: ipex.lease.Query.MarketplaceContract:output_type -> ipex.lease.QueryMarketplaceContractResponse
-	19, // 40: ipex.lease.Query.ContractByOwner:output_type -> ipex.lease.QueryContractByOwnerResponse
-	31, // [31:41] is the sub-list for method output_type
-	21, // [21:31] is the sub-list for method input_type
-	21, // [21:21] is the sub-list for extension type_name
-	21, // [21:21] is the sub-list for extension extendee
-	0,  // [0:21] is the sub-list for field type_name
+	22, // 0: ipex.lease.QueryParamsResponse.params:type_name -> ipex.lease.Params
+	23, // 1: ipex.lease.QueryShowContractResponse.contract:type_name -> ipex.lease.Contract
+	24, // 2: ipex.lease.QueryListContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	23, // 3: ipex.lease.QueryListContractResponse.contract:type_name -> ipex.lease.Contract
+	25, // 4: ipex.lease.QueryListContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	26, // 5: ipex.lease.QueryGetBidResponse.bid:type_name -> ipex.lease.Bid
+	24, // 6: ipex.lease.QueryBidByContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	26, // 7: ipex.lease.QueryBidByContractResponse.bid:type_name -> ipex.lease.Bid
+	25, // 8: ipex.lease.QueryBidByContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	24, // 9: ipex.lease.QueryBidByBidderRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	26, // 10: ipex.lease.QueryBidByBidderResponse.bid:type_name -> ipex.lease.Bid
+	25, // 11: ipex.lease.QueryBidByBidderResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	24, // 12: ipex.lease.QueryBidByLessorRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	26, // 13: ipex.lease.QueryBidByLessorResponse.bid:type_name -> ipex.lease.Bid
+	25, // 14: ipex.lease.QueryBidByLessorResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	24, // 15: ipex.lease.QueryMarketplaceContractRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	23, // 16: ipex.lease.QueryMarketplaceContractResponse.contract:type_name -> ipex.lease.Contract
+	25, // 17: ipex.lease.QueryMarketplaceContractResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	24, // 18: ipex.lease.QueryContractByOwnerRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	23, // 19: ipex.lease.QueryContractByOwnerResponse.contract:type_name -> ipex.lease.Contract
+	25, // 20: ipex.lease.QueryContractByOwnerResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	24, // 21: ipex.lease.QueryContractByLesseeRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	23, // 22: ipex.lease.QueryContractByLesseeResponse.contract:type_name -> ipex.lease.Contract
+	25, // 23: ipex.lease.QueryContractByLesseeResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	0,  // 24: ipex.lease.Query.Params:input_type -> ipex.lease.QueryParamsRequest
+	2,  // 25: ipex.lease.Query.ShowContract:input_type -> ipex.lease.QueryShowContractRequest
+	4,  // 26: ipex.lease.Query.ListContract:input_type -> ipex.lease.QueryListContractRequest
+	6,  // 27: ipex.lease.Query.Bid:input_type -> ipex.lease.QueryGetBidRequest
+	8,  // 28: ipex.lease.Query.CanTerminateLeaseWithoutPenalty:input_type -> ipex.lease.QueryCanTerminateLeaseWithoutPenaltyRequest
+	10, // 29: ipex.lease.Query.BidByContract:input_type -> ipex.lease.QueryBidByContractRequest
+	12, // 30: ipex.lease.Query.BidByBidder:input_type -> ipex.lease.QueryBidByBidderRequest
+	14, // 31: ipex.lease.Query.BidByLessor:input_type -> ipex.lease.QueryBidByLessorRequest
+	16, // 32: ipex.lease.Query.MarketplaceContract:input_type -> ipex.lease.QueryMarketplaceContractRequest
+	18, // 33: ipex.lease.Query.ContractByOwner:input_type -> ipex.lease.QueryContractByOwnerRequest
+	20, // 34: ipex.lease.Query.ContractByLessee:input_type -> ipex.lease.QueryContractByLesseeRequest
+	1,  // 35: ipex.lease.Query.Params:output_type -> ipex.lease.QueryParamsResponse
+	3,  // 36: ipex.lease.Query.ShowContract:output_type -> ipex.lease.QueryShowContractResponse
+	5,  // 37: ipex.lease.Query.ListContract:output_type -> ipex.lease.QueryListContractResponse
+	7,  // 38: ipex.lease.Query.Bid:output_type -> ipex.lease.QueryGetBidResponse
+	9,  // 39: ipex.lease.Query.CanTerminateLeaseWithoutPenalty:output_type -> ipex.lease.QueryCanTerminateLeaseWithoutPenaltyResponse
+	11, // 40: ipex.lease.Query.BidByContract:output_type -> ipex.lease.QueryBidByContractResponse
+	13, // 41: ipex.lease.Query.BidByBidder:output_type -> ipex.lease.QueryBidByBidderResponse
+	15, // 42: ipex.lease.Query.BidByLessor:output_type -> ipex.lease.QueryBidByLessorResponse
+	17, // 43: ipex.lease.Query.MarketplaceContract:output_type -> ipex.lease.QueryMarketplaceContractResponse
+	19, // 44: ipex.lease.Query.ContractByOwner:output_type -> ipex.lease.QueryContractByOwnerResponse
+	21, // 45: ipex.lease.Query.ContractByLessee:output_type -> ipex.lease.QueryContractByLesseeResponse
+	35, // [35:46] is the sub-list for method output_type
+	24, // [24:35] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_ipex_lease_query_proto_init() }
@@ -12524,6 +14747,30 @@ func file_ipex_lease_query_proto_init() {
 				return nil
 			}
 		}
+		file_ipex_lease_query_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryContractByLesseeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ipex_lease_query_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryContractByLesseeResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -12531,7 +14778,7 @@ func file_ipex_lease_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ipex_lease_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   20,
+			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

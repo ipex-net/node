@@ -8,6 +8,7 @@ package lease
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -29,6 +30,7 @@ const (
 	Query_BidByLessor_FullMethodName                     = "/ipex.lease.Query/BidByLessor"
 	Query_MarketplaceContract_FullMethodName             = "/ipex.lease.Query/MarketplaceContract"
 	Query_ContractByOwner_FullMethodName                 = "/ipex.lease.Query/ContractByOwner"
+	Query_ContractByLessee_FullMethodName                = "/ipex.lease.Query/ContractByLessee"
 )
 
 // QueryClient is the client API for Query service.
@@ -55,6 +57,8 @@ type QueryClient interface {
 	MarketplaceContract(ctx context.Context, in *QueryMarketplaceContractRequest, opts ...grpc.CallOption) (*QueryMarketplaceContractResponse, error)
 	// Queries a list of ContractByOwner items.
 	ContractByOwner(ctx context.Context, in *QueryContractByOwnerRequest, opts ...grpc.CallOption) (*QueryContractByOwnerResponse, error)
+	// Queries a list of ContractByLessee items.
+	ContractByLessee(ctx context.Context, in *QueryContractByLesseeRequest, opts ...grpc.CallOption) (*QueryContractByLesseeResponse, error)
 }
 
 type queryClient struct {
@@ -155,6 +159,15 @@ func (c *queryClient) ContractByOwner(ctx context.Context, in *QueryContractByOw
 	return out, nil
 }
 
+func (c *queryClient) ContractByLessee(ctx context.Context, in *QueryContractByLesseeRequest, opts ...grpc.CallOption) (*QueryContractByLesseeResponse, error) {
+	out := new(QueryContractByLesseeResponse)
+	err := c.cc.Invoke(ctx, Query_ContractByLessee_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -179,6 +192,8 @@ type QueryServer interface {
 	MarketplaceContract(context.Context, *QueryMarketplaceContractRequest) (*QueryMarketplaceContractResponse, error)
 	// Queries a list of ContractByOwner items.
 	ContractByOwner(context.Context, *QueryContractByOwnerRequest) (*QueryContractByOwnerResponse, error)
+	// Queries a list of ContractByLessee items.
+	ContractByLessee(context.Context, *QueryContractByLesseeRequest) (*QueryContractByLesseeResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -215,6 +230,9 @@ func (UnimplementedQueryServer) MarketplaceContract(context.Context, *QueryMarke
 }
 func (UnimplementedQueryServer) ContractByOwner(context.Context, *QueryContractByOwnerRequest) (*QueryContractByOwnerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ContractByOwner not implemented")
+}
+func (UnimplementedQueryServer) ContractByLessee(context.Context, *QueryContractByLesseeRequest) (*QueryContractByLesseeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractByLessee not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -409,6 +427,24 @@ func _Query_ContractByOwner_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ContractByLessee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryContractByLesseeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ContractByLessee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ContractByLessee_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ContractByLessee(ctx, req.(*QueryContractByLesseeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -455,6 +491,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ContractByOwner",
 			Handler:    _Query_ContractByOwner_Handler,
+		},
+		{
+			MethodName: "ContractByLessee",
+			Handler:    _Query_ContractByLessee_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
