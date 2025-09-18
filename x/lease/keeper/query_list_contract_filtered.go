@@ -24,6 +24,11 @@ func (k Keeper) ListContractFiltered(goCtx context.Context, req *types.QueryList
 		return nil, status.Error(codes.InvalidArgument, "owner organization ID is required")
 	}
 
+	// Validate required mask field
+	if req.Mask < 8 || req.Mask > 24 {
+		return nil, errorsmod.Wrap(types.ErrInvalidPrefixLength, "mask must be between 8 and 24")
+	}
+
 	// Validate optional fields if provided (strict validation - no trimming)
 	if req.Rir != "" && req.Rir != "none" && req.Rir != "any" {
 		if err := validateRir(req.Rir); err != nil {

@@ -80,7 +80,7 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Validate required mask field
-	if req.Mask < 8 || req.Mask > 24 {
+	if req.Mask != 0 && (req.Mask < 8 || req.Mask > 24) {
 		return nil, errorsmod.Wrap(types.ErrInvalidPrefixLength, "mask must be between 8 and 24")
 	}
 
@@ -158,8 +158,8 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 			return false, nil // Continue iteration, don't include this contract
 		}
 
-		// Apply mask filter (required)
-		if contract.Mask != req.Mask {
+		// Apply mask filter if mask is not zero
+		if req.Mask != 0 && contract.Mask != req.Mask {
 			return false, nil
 		}
 
