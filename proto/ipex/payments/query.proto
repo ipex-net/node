@@ -52,7 +52,7 @@ message QueryGetTransactionResponse {
 
 
 message QueryListPaymentFilteredRequest {
-  uint64                                orgId           = 1 [(gogoproto.nullable) = false];
+  uint64                                orgId           = 1;
   uint64                                transactionType = 2;
   uint64                                moduleId        = 3;
   uint64                                fromTimestamp   = 4;
