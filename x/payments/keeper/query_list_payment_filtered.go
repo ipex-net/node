@@ -16,7 +16,7 @@ func (k Keeper) ListPaymentFiltered(goCtx context.Context, req *types.QueryListP
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
-	
+
 	// Organization ID is required
 	if req.OrgId == 0 {
 		return nil, status.Error(codes.InvalidArgument, "organization ID is required")
@@ -67,17 +67,17 @@ func (k Keeper) ListPaymentFiltered(goCtx context.Context, req *types.QueryListP
 		}
 
 		// Apply filters first - skip transaction if it doesn't match criteria
-		
+
 		// Filter by transaction type (0 means no filter)
 		if req.TransactionType != 0 && uint64(transaction.TransactionType) != req.TransactionType {
 			return false, nil
 		}
-		
-		// Filter by module ID (0 means no filter)  
+
+		// Filter by module ID (0 means no filter)
 		if req.ModuleId != 0 && uint64(transaction.RelatedModuleId) != req.ModuleId {
 			return false, nil
 		}
-		
+
 		// Filter by timestamp range (0 means no filter)
 		if transaction.Timestamp != nil {
 			transactionTimestamp := uint64(transaction.Timestamp.Unix())
@@ -88,7 +88,7 @@ func (k Keeper) ListPaymentFiltered(goCtx context.Context, req *types.QueryListP
 				return false, nil
 			}
 		}
-		
+
 		// Filter by amount range (0 means no filter)
 		transactionAmount := transaction.Amount.Amount
 		if req.MinAmount != 0 {
@@ -103,17 +103,17 @@ func (k Keeper) ListPaymentFiltered(goCtx context.Context, req *types.QueryListP
 				return false, nil
 			}
 		}
-		
+
 		// Filter by entity ID (0 means no filter)
 		if req.EntityId != 0 && transaction.EntityId != req.EntityId {
 			return false, nil
 		}
-		
+
 		// Filter by fromOrgId (0 means no filter)
 		if req.FromOrgId != 0 && transaction.FromOrgId != req.FromOrgId {
 			return false, nil
 		}
-		
+
 		// Filter by toOrgId (0 means no filter)
 		if req.ToOrgId != 0 && transaction.ToOrgId != req.ToOrgId {
 			return false, nil

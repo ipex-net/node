@@ -57,4 +57,3 @@ func TestTransactionQuerySingle(t *testing.T) {
 		})
 	}
 }
-

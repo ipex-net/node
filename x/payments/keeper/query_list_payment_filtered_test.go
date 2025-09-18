@@ -30,13 +30,13 @@ func TestListPaymentFiltered(t *testing.T) {
 
 	// Create test transactions with different characteristics
 	testTxs := []struct {
-		txType      types.TransactionType
-		moduleId    types.ModuleID
-		entityId    uint64
-		amount      int64
-		fromOrgId   uint64
-		toOrgId     uint64
-		timestamp   time.Time
+		txType    types.TransactionType
+		moduleId  types.ModuleID
+		entityId  uint64
+		amount    int64
+		fromOrgId uint64
+		toOrgId   uint64
+		timestamp time.Time
 	}{
 		{
 			txType:    types.TransactionType_TRANSACTION_TYPE_LEASE_PAYMENT,
@@ -227,7 +227,7 @@ func TestListPaymentFiltered(t *testing.T) {
 		tx := resp.Transaction[0]
 		require.Equal(t, types.ModuleID_MODULE_ID_LEASE, tx.RelatedModuleId)
 		require.LessOrEqual(t, tx.Amount.Amount.Uint64(), uint64(2000))
-		
+
 		txTimestamp := uint64(tx.Timestamp.Unix())
 		require.GreaterOrEqual(t, txTimestamp, fromTimestamp)
 		require.LessOrEqual(t, txTimestamp, toTimestamp)
@@ -540,15 +540,15 @@ func TestListPaymentFilteredPerformance(t *testing.T) {
 
 		// Test performance with all new filters applied
 		req := &types.QueryListPaymentFilteredRequest{
-			OrgId:           orgId,
-			ModuleId:        uint64(types.ModuleID_MODULE_ID_LEASE),
-			FromTimestamp:   uint64(baseTime.Add(time.Minute * 10).Unix()),
-			ToTimestamp:     uint64(baseTime.Add(time.Minute * 50).Unix()),
-			MinAmount:       1100,
-			MaxAmount:       1500,
-			EntityId:        0,     // No specific entity filter
-			FromOrgId:       orgId, // Only as sender
-			ToOrgId:        0,      // Any recipient
+			OrgId:         orgId,
+			ModuleId:      uint64(types.ModuleID_MODULE_ID_LEASE),
+			FromTimestamp: uint64(baseTime.Add(time.Minute * 10).Unix()),
+			ToTimestamp:   uint64(baseTime.Add(time.Minute * 50).Unix()),
+			MinAmount:     1100,
+			MaxAmount:     1500,
+			EntityId:      0,     // No specific entity filter
+			FromOrgId:     orgId, // Only as sender
+			ToOrgId:       0,     // Any recipient
 			Pagination: &query.PageRequest{
 				Limit: 20,
 			},

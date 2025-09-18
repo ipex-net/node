@@ -28,6 +28,7 @@ const (
 	Query_BidByBidder_FullMethodName                     = "/ipex.lease.Query/BidByBidder"
 	Query_BidByLessor_FullMethodName                     = "/ipex.lease.Query/BidByLessor"
 	Query_MarketplaceContract_FullMethodName             = "/ipex.lease.Query/MarketplaceContract"
+	Query_ListContractFiltered_FullMethodName            = "/ipex.lease.Query/ListContractFiltered"
 )
 
 // QueryClient is the client API for Query service.
@@ -52,6 +53,8 @@ type QueryClient interface {
 	BidByLessor(ctx context.Context, in *QueryBidByLessorRequest, opts ...grpc.CallOption) (*QueryBidByLessorResponse, error)
 	// Queries a list of MarketplaceContract items.
 	MarketplaceContract(ctx context.Context, in *QueryMarketplaceContractRequest, opts ...grpc.CallOption) (*QueryMarketplaceContractResponse, error)
+	// Queries a list of ListContractFiltered items.
+	ListContractFiltered(ctx context.Context, in *QueryListContractFilteredRequest, opts ...grpc.CallOption) (*QueryListContractFilteredResponse, error)
 }
 
 type queryClient struct {
@@ -143,6 +146,15 @@ func (c *queryClient) MarketplaceContract(ctx context.Context, in *QueryMarketpl
 	return out, nil
 }
 
+func (c *queryClient) ListContractFiltered(ctx context.Context, in *QueryListContractFilteredRequest, opts ...grpc.CallOption) (*QueryListContractFilteredResponse, error) {
+	out := new(QueryListContractFilteredResponse)
+	err := c.cc.Invoke(ctx, Query_ListContractFiltered_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -165,6 +177,8 @@ type QueryServer interface {
 	BidByLessor(context.Context, *QueryBidByLessorRequest) (*QueryBidByLessorResponse, error)
 	// Queries a list of MarketplaceContract items.
 	MarketplaceContract(context.Context, *QueryMarketplaceContractRequest) (*QueryMarketplaceContractResponse, error)
+	// Queries a list of ListContractFiltered items.
+	ListContractFiltered(context.Context, *QueryListContractFilteredRequest) (*QueryListContractFilteredResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -198,6 +212,9 @@ func (UnimplementedQueryServer) BidByLessor(context.Context, *QueryBidByLessorRe
 }
 func (UnimplementedQueryServer) MarketplaceContract(context.Context, *QueryMarketplaceContractRequest) (*QueryMarketplaceContractResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MarketplaceContract not implemented")
+}
+func (UnimplementedQueryServer) ListContractFiltered(context.Context, *QueryListContractFilteredRequest) (*QueryListContractFilteredResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListContractFiltered not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -374,6 +391,24 @@ func _Query_MarketplaceContract_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListContractFiltered_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListContractFilteredRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListContractFiltered(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListContractFiltered_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListContractFiltered(ctx, req.(*QueryListContractFilteredRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -416,6 +451,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MarketplaceContract",
 			Handler:    _Query_MarketplaceContract_Handler,
+		},
+		{
+			MethodName: "ListContractFiltered",
+			Handler:    _Query_ListContractFiltered_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

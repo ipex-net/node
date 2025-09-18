@@ -68,6 +68,12 @@ service Query {
     option (google.api.http).get = "/ipex/lease/marketplace_contract/{mask}/{rir}/{country}/{minprice}/{maxprice}/{networkAddress}/{firstOctet}";
   
   }
+  
+  // Queries a list of ListContractFiltered items.
+  rpc ListContractFiltered (QueryListContractFilteredRequest) returns (QueryListContractFilteredResponse) {
+    option (google.api.http).get = "/ipex/lease/list_contract_filtered/{ownerOrg}/{lesseeOrg}/{mask}/{rir}/{country}/{minPrice}/{maxPrice}/{networkAddress}/{firstOctet}/{status}/{revocationPeriodMonth}/{createdAtFrom}/{createdAtTo}/{activatedAtFrom}/{activatedAtTo}/{prepaidUntilFrom}/{prepaidUntilTo}/{updatedAtFrom}/{updatedAtTo}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -144,18 +150,46 @@ message QueryBidByLessorResponse {
 }
 
 message QueryMarketplaceContractRequest {
-  uint64                                mask           =  1;
-  string                                rir            =  2;
-  string                                country        =  3;
-  uint64                                minprice       =  4;
-  uint64                                maxprice       =  5;
-  uint64                                networkAddress =  6;
-  uint64                                firstOctet     =  7;
-  cosmos.base.query.v1beta1.PageRequest pagination     =  8;
+  uint64                                mask           = 1;
+  string                                rir            = 2;
+  string                                country        = 3;
+  uint64                                minprice       = 4;
+  uint64                                maxprice       = 5;
+  uint64                                networkAddress = 6;
+  uint64                                firstOctet     = 7;
+  cosmos.base.query.v1beta1.PageRequest pagination     = 8;
 }
 
 message QueryMarketplaceContractResponse {
   repeated Contract                               contract   = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryListContractFilteredRequest {
+  uint64                                ownerOrg              =  1 [(gogoproto.nullable) = false];
+  uint64                                lesseeOrg             =  2;
+  uint64                                mask                  =  3;
+  string                                rir                   =  4;
+  string                                country               =  5;
+  uint64                                minPrice              =  6;
+  uint64                                maxPrice              =  7;
+  uint64                                networkAddress        =  8;
+  uint64                                firstOctet            =  9;
+  uint64                                status                = 10;
+  uint64                                revocationPeriodMonth = 11;
+  uint64                                createdAtFrom         = 12;
+  uint64                                createdAtTo           = 13;
+  uint64                                activatedAtFrom       = 14;
+  uint64                                activatedAtTo         = 15;
+  uint64                                prepaidUntilFrom      = 16;
+  uint64                                prepaidUntilTo        = 17;
+  uint64                                updatedAtFrom         = 18;
+  uint64                                updatedAtTo           = 19;
+  cosmos.base.query.v1beta1.PageRequest pagination            = 20;
+}
+
+message QueryListContractFilteredResponse {
+  repeated  Contract                               contract   = 1 [(gogoproto.nullable) = false];
+            cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

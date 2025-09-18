@@ -75,8 +75,8 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 
 		// Verify all transactions were recorded for the lease contract
 		contractTransactions, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
-			OrgId:    lesseeOrgId, // Query by lessee organization
-			EntityId: leaseContractId,
+			OrgId:      lesseeOrgId, // Query by lessee organization
+			EntityId:   leaseContractId,
 			Pagination: &query.PageRequest{Limit: 10},
 		})
 		require.NoError(t, err, "should get contract transactions")
@@ -109,14 +109,14 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 
 		// Verify organization transaction history
 		lessorTransactionsResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
-			OrgId: lessorOrgId,
+			OrgId:      lessorOrgId,
 			Pagination: &query.PageRequest{Limit: 10},
 		})
 		require.NoError(t, err, "should get lessor transactions")
 		require.GreaterOrEqual(t, len(lessorTransactionsResp.Transaction), 3, "lessor should be involved in at least 3 transactions")
 
 		lesseeTransactionsResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
-			OrgId: lesseeOrgId,
+			OrgId:      lesseeOrgId,
 			Pagination: &query.PageRequest{Limit: 10},
 		})
 		require.NoError(t, err, "should get lessee transactions")
@@ -155,13 +155,13 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 
 		// Verify organizations involved in sale
 		allTransactionsResp2, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
-			OrgId: sellerOrgId, // Query by seller organization to get transactions they're involved in
+			OrgId:      sellerOrgId, // Query by seller organization to get transactions they're involved in
 			Pagination: &query.PageRequest{Limit: 1000},
 		})
 		require.NoError(t, err, "should get seller transactions")
 		// Also get buyer transactions
 		buyerTransactionsResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
-			OrgId: buyerOrgId,
+			OrgId:      buyerOrgId,
 			Pagination: &query.PageRequest{Limit: 1000},
 		})
 		require.NoError(t, err, "should get buyer transactions")
@@ -261,7 +261,7 @@ func TestPaymentsCrossModuleIntegration(t *testing.T) {
 
 		// Get all transactions for this organization
 		allTransactionsResp3, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
-			OrgId: orgId,
+			OrgId:      orgId,
 			Pagination: &query.PageRequest{Limit: 1000},
 		})
 		require.NoError(t, err, "should get org transactions")
@@ -420,7 +420,7 @@ func TestPaymentsValidationIntegration(t *testing.T) {
 		// Verify transaction appears only once in org's transaction list
 		// (the indexing logic should avoid duplicates for same from/to org)
 		allTransactionsResp4, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
-			OrgId: sameOrgId,
+			OrgId:      sameOrgId,
 			Pagination: &query.PageRequest{Limit: 1000},
 		})
 		require.NoError(t, err, "should get org transactions")

@@ -393,7 +393,7 @@ func TestPaymentsPerformanceAndScalability(t *testing.T) {
 		// Test empty results
 		startTime := time.Now()
 		emptyResp, err := keeper.ListPaymentFiltered(ctx, &types.QueryListPaymentFilteredRequest{
-			OrgId:      1, // Use a valid org ID
+			OrgId:      1,       // Use a valid org ID
 			EntityId:   9999999, // Non-existent entity
 			Pagination: &query.PageRequest{Limit: 10},
 		})
