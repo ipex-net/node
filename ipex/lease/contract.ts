@@ -12,49 +12,53 @@ import { Timestamp } from "../../google/protobuf/timestamp";
 export const protobufPackage = "ipex.lease";
 
 export enum ContractStatus {
-  CONTRACT_STATUS_FORSALE = 0,
-  CONTRACT_STATUS_LEASED = 1,
-  CONTRACT_STATUS_CANCELED_OWNER = 2,
-  CONTRACT_STATUS_CANCELED_LESSEE = 3,
-  CONTRACT_STATUS_TERMINATED = 4,
-  CONTRACT_STATUS_EXPIRED = 5,
-  CONTRACT_STATUS_TERMINATED_FAILED_ORIGIN_TRANSFER = 6,
-  CONTRACT_STATUS_TERMINATED_WITHOUT_NOTICE = 7,
-  CONTRACT_STATUS_TERMINATED_FIRST_MONTH = 8,
-  CONTRACT_STATUS_TERMINATED_WITH_LESSEE_CONTRACT_VIOLATION = 9,
+  CONTRACT_STATUS_UNDEFINED = 0,
+  CONTRACT_STATUS_FORSALE = 1,
+  CONTRACT_STATUS_LEASED = 2,
+  CONTRACT_STATUS_CANCELED_OWNER = 3,
+  CONTRACT_STATUS_CANCELED_LESSEE = 4,
+  CONTRACT_STATUS_TERMINATED = 5,
+  CONTRACT_STATUS_EXPIRED = 6,
+  CONTRACT_STATUS_TERMINATED_FAILED_ORIGIN_TRANSFER = 7,
+  CONTRACT_STATUS_TERMINATED_WITHOUT_NOTICE = 8,
+  CONTRACT_STATUS_TERMINATED_FIRST_MONTH = 9,
+  CONTRACT_STATUS_TERMINATED_WITH_LESSEE_CONTRACT_VIOLATION = 10,
   UNRECOGNIZED = -1,
 }
 
 export function contractStatusFromJSON(object: any): ContractStatus {
   switch (object) {
     case 0:
+    case "CONTRACT_STATUS_UNDEFINED":
+      return ContractStatus.CONTRACT_STATUS_UNDEFINED;
+    case 1:
     case "CONTRACT_STATUS_FORSALE":
       return ContractStatus.CONTRACT_STATUS_FORSALE;
-    case 1:
+    case 2:
     case "CONTRACT_STATUS_LEASED":
       return ContractStatus.CONTRACT_STATUS_LEASED;
-    case 2:
+    case 3:
     case "CONTRACT_STATUS_CANCELED_OWNER":
       return ContractStatus.CONTRACT_STATUS_CANCELED_OWNER;
-    case 3:
+    case 4:
     case "CONTRACT_STATUS_CANCELED_LESSEE":
       return ContractStatus.CONTRACT_STATUS_CANCELED_LESSEE;
-    case 4:
+    case 5:
     case "CONTRACT_STATUS_TERMINATED":
       return ContractStatus.CONTRACT_STATUS_TERMINATED;
-    case 5:
+    case 6:
     case "CONTRACT_STATUS_EXPIRED":
       return ContractStatus.CONTRACT_STATUS_EXPIRED;
-    case 6:
+    case 7:
     case "CONTRACT_STATUS_TERMINATED_FAILED_ORIGIN_TRANSFER":
       return ContractStatus.CONTRACT_STATUS_TERMINATED_FAILED_ORIGIN_TRANSFER;
-    case 7:
+    case 8:
     case "CONTRACT_STATUS_TERMINATED_WITHOUT_NOTICE":
       return ContractStatus.CONTRACT_STATUS_TERMINATED_WITHOUT_NOTICE;
-    case 8:
+    case 9:
     case "CONTRACT_STATUS_TERMINATED_FIRST_MONTH":
       return ContractStatus.CONTRACT_STATUS_TERMINATED_FIRST_MONTH;
-    case 9:
+    case 10:
     case "CONTRACT_STATUS_TERMINATED_WITH_LESSEE_CONTRACT_VIOLATION":
       return ContractStatus.CONTRACT_STATUS_TERMINATED_WITH_LESSEE_CONTRACT_VIOLATION;
     case -1:
@@ -66,6 +70,8 @@ export function contractStatusFromJSON(object: any): ContractStatus {
 
 export function contractStatusToJSON(object: ContractStatus): string {
   switch (object) {
+    case ContractStatus.CONTRACT_STATUS_UNDEFINED:
+      return "CONTRACT_STATUS_UNDEFINED";
     case ContractStatus.CONTRACT_STATUS_FORSALE:
       return "CONTRACT_STATUS_FORSALE";
     case ContractStatus.CONTRACT_STATUS_LEASED:

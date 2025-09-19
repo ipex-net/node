@@ -103,6 +103,62 @@ export interface QueryMarketplaceContractResponse {
   pagination: PageResponse | undefined;
 }
 
+export interface QueryContractByOwnerRequest {
+  ownerOrg: number;
+  lesseeOrg: number;
+  mask: number;
+  rir: string;
+  country: string;
+  minPrice: number;
+  maxPrice: number;
+  networkAddress: number;
+  firstOctet: number;
+  status: number;
+  revocationPeriodMonth: number;
+  createdAtFrom: number;
+  createdAtTo: number;
+  activatedAtFrom: number;
+  activatedAtTo: number;
+  prepaidUntilFrom: number;
+  prepaidUntilTo: number;
+  updatedAtFrom: number;
+  updatedAtTo: number;
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryContractByOwnerResponse {
+  contract: Contract[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryContractByLesseeRequest {
+  lesseeOrg: number;
+  ownerOrg: number;
+  mask: number;
+  rir: string;
+  country: string;
+  minPrice: number;
+  maxPrice: number;
+  networkAddress: number;
+  firstOctet: number;
+  status: number;
+  revocationPeriodMonth: number;
+  createdAtFrom: number;
+  createdAtTo: number;
+  activatedAtFrom: number;
+  activatedAtTo: number;
+  prepaidUntilFrom: number;
+  prepaidUntilTo: number;
+  updatedAtFrom: number;
+  updatedAtTo: number;
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryContractByLesseeResponse {
+  contract: Contract[];
+  pagination: PageResponse | undefined;
+}
+
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
@@ -1461,6 +1517,938 @@ export const QueryMarketplaceContractResponse: MessageFns<QueryMarketplaceContra
   },
 };
 
+function createBaseQueryContractByOwnerRequest(): QueryContractByOwnerRequest {
+  return {
+    ownerOrg: 0,
+    lesseeOrg: 0,
+    mask: 0,
+    rir: "",
+    country: "",
+    minPrice: 0,
+    maxPrice: 0,
+    networkAddress: 0,
+    firstOctet: 0,
+    status: 0,
+    revocationPeriodMonth: 0,
+    createdAtFrom: 0,
+    createdAtTo: 0,
+    activatedAtFrom: 0,
+    activatedAtTo: 0,
+    prepaidUntilFrom: 0,
+    prepaidUntilTo: 0,
+    updatedAtFrom: 0,
+    updatedAtTo: 0,
+    pagination: undefined,
+  };
+}
+
+export const QueryContractByOwnerRequest: MessageFns<QueryContractByOwnerRequest> = {
+  encode(message: QueryContractByOwnerRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.ownerOrg !== 0) {
+      writer.uint32(8).uint64(message.ownerOrg);
+    }
+    if (message.lesseeOrg !== 0) {
+      writer.uint32(16).uint64(message.lesseeOrg);
+    }
+    if (message.mask !== 0) {
+      writer.uint32(24).uint64(message.mask);
+    }
+    if (message.rir !== "") {
+      writer.uint32(34).string(message.rir);
+    }
+    if (message.country !== "") {
+      writer.uint32(42).string(message.country);
+    }
+    if (message.minPrice !== 0) {
+      writer.uint32(48).uint64(message.minPrice);
+    }
+    if (message.maxPrice !== 0) {
+      writer.uint32(56).uint64(message.maxPrice);
+    }
+    if (message.networkAddress !== 0) {
+      writer.uint32(64).uint64(message.networkAddress);
+    }
+    if (message.firstOctet !== 0) {
+      writer.uint32(72).uint64(message.firstOctet);
+    }
+    if (message.status !== 0) {
+      writer.uint32(80).uint64(message.status);
+    }
+    if (message.revocationPeriodMonth !== 0) {
+      writer.uint32(88).uint64(message.revocationPeriodMonth);
+    }
+    if (message.createdAtFrom !== 0) {
+      writer.uint32(96).uint64(message.createdAtFrom);
+    }
+    if (message.createdAtTo !== 0) {
+      writer.uint32(104).uint64(message.createdAtTo);
+    }
+    if (message.activatedAtFrom !== 0) {
+      writer.uint32(112).uint64(message.activatedAtFrom);
+    }
+    if (message.activatedAtTo !== 0) {
+      writer.uint32(120).uint64(message.activatedAtTo);
+    }
+    if (message.prepaidUntilFrom !== 0) {
+      writer.uint32(128).uint64(message.prepaidUntilFrom);
+    }
+    if (message.prepaidUntilTo !== 0) {
+      writer.uint32(136).uint64(message.prepaidUntilTo);
+    }
+    if (message.updatedAtFrom !== 0) {
+      writer.uint32(144).uint64(message.updatedAtFrom);
+    }
+    if (message.updatedAtTo !== 0) {
+      writer.uint32(152).uint64(message.updatedAtTo);
+    }
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(162).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryContractByOwnerRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryContractByOwnerRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.ownerOrg = longToNumber(reader.uint64());
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.lesseeOrg = longToNumber(reader.uint64());
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.mask = longToNumber(reader.uint64());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.rir = reader.string();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.country = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.minPrice = longToNumber(reader.uint64());
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.maxPrice = longToNumber(reader.uint64());
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.networkAddress = longToNumber(reader.uint64());
+          continue;
+        }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.firstOctet = longToNumber(reader.uint64());
+          continue;
+        }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.status = longToNumber(reader.uint64());
+          continue;
+        }
+        case 11: {
+          if (tag !== 88) {
+            break;
+          }
+
+          message.revocationPeriodMonth = longToNumber(reader.uint64());
+          continue;
+        }
+        case 12: {
+          if (tag !== 96) {
+            break;
+          }
+
+          message.createdAtFrom = longToNumber(reader.uint64());
+          continue;
+        }
+        case 13: {
+          if (tag !== 104) {
+            break;
+          }
+
+          message.createdAtTo = longToNumber(reader.uint64());
+          continue;
+        }
+        case 14: {
+          if (tag !== 112) {
+            break;
+          }
+
+          message.activatedAtFrom = longToNumber(reader.uint64());
+          continue;
+        }
+        case 15: {
+          if (tag !== 120) {
+            break;
+          }
+
+          message.activatedAtTo = longToNumber(reader.uint64());
+          continue;
+        }
+        case 16: {
+          if (tag !== 128) {
+            break;
+          }
+
+          message.prepaidUntilFrom = longToNumber(reader.uint64());
+          continue;
+        }
+        case 17: {
+          if (tag !== 136) {
+            break;
+          }
+
+          message.prepaidUntilTo = longToNumber(reader.uint64());
+          continue;
+        }
+        case 18: {
+          if (tag !== 144) {
+            break;
+          }
+
+          message.updatedAtFrom = longToNumber(reader.uint64());
+          continue;
+        }
+        case 19: {
+          if (tag !== 152) {
+            break;
+          }
+
+          message.updatedAtTo = longToNumber(reader.uint64());
+          continue;
+        }
+        case 20: {
+          if (tag !== 162) {
+            break;
+          }
+
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryContractByOwnerRequest {
+    return {
+      ownerOrg: isSet(object.ownerOrg) ? globalThis.Number(object.ownerOrg) : 0,
+      lesseeOrg: isSet(object.lesseeOrg) ? globalThis.Number(object.lesseeOrg) : 0,
+      mask: isSet(object.mask) ? globalThis.Number(object.mask) : 0,
+      rir: isSet(object.rir) ? globalThis.String(object.rir) : "",
+      country: isSet(object.country) ? globalThis.String(object.country) : "",
+      minPrice: isSet(object.minPrice) ? globalThis.Number(object.minPrice) : 0,
+      maxPrice: isSet(object.maxPrice) ? globalThis.Number(object.maxPrice) : 0,
+      networkAddress: isSet(object.networkAddress) ? globalThis.Number(object.networkAddress) : 0,
+      firstOctet: isSet(object.firstOctet) ? globalThis.Number(object.firstOctet) : 0,
+      status: isSet(object.status) ? globalThis.Number(object.status) : 0,
+      revocationPeriodMonth: isSet(object.revocationPeriodMonth) ? globalThis.Number(object.revocationPeriodMonth) : 0,
+      createdAtFrom: isSet(object.createdAtFrom) ? globalThis.Number(object.createdAtFrom) : 0,
+      createdAtTo: isSet(object.createdAtTo) ? globalThis.Number(object.createdAtTo) : 0,
+      activatedAtFrom: isSet(object.activatedAtFrom) ? globalThis.Number(object.activatedAtFrom) : 0,
+      activatedAtTo: isSet(object.activatedAtTo) ? globalThis.Number(object.activatedAtTo) : 0,
+      prepaidUntilFrom: isSet(object.prepaidUntilFrom) ? globalThis.Number(object.prepaidUntilFrom) : 0,
+      prepaidUntilTo: isSet(object.prepaidUntilTo) ? globalThis.Number(object.prepaidUntilTo) : 0,
+      updatedAtFrom: isSet(object.updatedAtFrom) ? globalThis.Number(object.updatedAtFrom) : 0,
+      updatedAtTo: isSet(object.updatedAtTo) ? globalThis.Number(object.updatedAtTo) : 0,
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryContractByOwnerRequest): unknown {
+    const obj: any = {};
+    if (message.ownerOrg !== 0) {
+      obj.ownerOrg = Math.round(message.ownerOrg);
+    }
+    if (message.lesseeOrg !== 0) {
+      obj.lesseeOrg = Math.round(message.lesseeOrg);
+    }
+    if (message.mask !== 0) {
+      obj.mask = Math.round(message.mask);
+    }
+    if (message.rir !== "") {
+      obj.rir = message.rir;
+    }
+    if (message.country !== "") {
+      obj.country = message.country;
+    }
+    if (message.minPrice !== 0) {
+      obj.minPrice = Math.round(message.minPrice);
+    }
+    if (message.maxPrice !== 0) {
+      obj.maxPrice = Math.round(message.maxPrice);
+    }
+    if (message.networkAddress !== 0) {
+      obj.networkAddress = Math.round(message.networkAddress);
+    }
+    if (message.firstOctet !== 0) {
+      obj.firstOctet = Math.round(message.firstOctet);
+    }
+    if (message.status !== 0) {
+      obj.status = Math.round(message.status);
+    }
+    if (message.revocationPeriodMonth !== 0) {
+      obj.revocationPeriodMonth = Math.round(message.revocationPeriodMonth);
+    }
+    if (message.createdAtFrom !== 0) {
+      obj.createdAtFrom = Math.round(message.createdAtFrom);
+    }
+    if (message.createdAtTo !== 0) {
+      obj.createdAtTo = Math.round(message.createdAtTo);
+    }
+    if (message.activatedAtFrom !== 0) {
+      obj.activatedAtFrom = Math.round(message.activatedAtFrom);
+    }
+    if (message.activatedAtTo !== 0) {
+      obj.activatedAtTo = Math.round(message.activatedAtTo);
+    }
+    if (message.prepaidUntilFrom !== 0) {
+      obj.prepaidUntilFrom = Math.round(message.prepaidUntilFrom);
+    }
+    if (message.prepaidUntilTo !== 0) {
+      obj.prepaidUntilTo = Math.round(message.prepaidUntilTo);
+    }
+    if (message.updatedAtFrom !== 0) {
+      obj.updatedAtFrom = Math.round(message.updatedAtFrom);
+    }
+    if (message.updatedAtTo !== 0) {
+      obj.updatedAtTo = Math.round(message.updatedAtTo);
+    }
+    if (message.pagination !== undefined) {
+      obj.pagination = PageRequest.toJSON(message.pagination);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<QueryContractByOwnerRequest>, I>>(base?: I): QueryContractByOwnerRequest {
+    return QueryContractByOwnerRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryContractByOwnerRequest>, I>>(object: I): QueryContractByOwnerRequest {
+    const message = createBaseQueryContractByOwnerRequest();
+    message.ownerOrg = object.ownerOrg ?? 0;
+    message.lesseeOrg = object.lesseeOrg ?? 0;
+    message.mask = object.mask ?? 0;
+    message.rir = object.rir ?? "";
+    message.country = object.country ?? "";
+    message.minPrice = object.minPrice ?? 0;
+    message.maxPrice = object.maxPrice ?? 0;
+    message.networkAddress = object.networkAddress ?? 0;
+    message.firstOctet = object.firstOctet ?? 0;
+    message.status = object.status ?? 0;
+    message.revocationPeriodMonth = object.revocationPeriodMonth ?? 0;
+    message.createdAtFrom = object.createdAtFrom ?? 0;
+    message.createdAtTo = object.createdAtTo ?? 0;
+    message.activatedAtFrom = object.activatedAtFrom ?? 0;
+    message.activatedAtTo = object.activatedAtTo ?? 0;
+    message.prepaidUntilFrom = object.prepaidUntilFrom ?? 0;
+    message.prepaidUntilTo = object.prepaidUntilTo ?? 0;
+    message.updatedAtFrom = object.updatedAtFrom ?? 0;
+    message.updatedAtTo = object.updatedAtTo ?? 0;
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageRequest.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryContractByOwnerResponse(): QueryContractByOwnerResponse {
+  return { contract: [], pagination: undefined };
+}
+
+export const QueryContractByOwnerResponse: MessageFns<QueryContractByOwnerResponse> = {
+  encode(message: QueryContractByOwnerResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.contract) {
+      Contract.encode(v!, writer.uint32(10).fork()).join();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryContractByOwnerResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryContractByOwnerResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.contract.push(Contract.decode(reader, reader.uint32()));
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryContractByOwnerResponse {
+    return {
+      contract: globalThis.Array.isArray(object?.contract) ? object.contract.map((e: any) => Contract.fromJSON(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryContractByOwnerResponse): unknown {
+    const obj: any = {};
+    if (message.contract?.length) {
+      obj.contract = message.contract.map((e) => Contract.toJSON(e));
+    }
+    if (message.pagination !== undefined) {
+      obj.pagination = PageResponse.toJSON(message.pagination);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<QueryContractByOwnerResponse>, I>>(base?: I): QueryContractByOwnerResponse {
+    return QueryContractByOwnerResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryContractByOwnerResponse>, I>>(object: I): QueryContractByOwnerResponse {
+    const message = createBaseQueryContractByOwnerResponse();
+    message.contract = object.contract?.map((e) => Contract.fromPartial(e)) || [];
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageResponse.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryContractByLesseeRequest(): QueryContractByLesseeRequest {
+  return {
+    lesseeOrg: 0,
+    ownerOrg: 0,
+    mask: 0,
+    rir: "",
+    country: "",
+    minPrice: 0,
+    maxPrice: 0,
+    networkAddress: 0,
+    firstOctet: 0,
+    status: 0,
+    revocationPeriodMonth: 0,
+    createdAtFrom: 0,
+    createdAtTo: 0,
+    activatedAtFrom: 0,
+    activatedAtTo: 0,
+    prepaidUntilFrom: 0,
+    prepaidUntilTo: 0,
+    updatedAtFrom: 0,
+    updatedAtTo: 0,
+    pagination: undefined,
+  };
+}
+
+export const QueryContractByLesseeRequest: MessageFns<QueryContractByLesseeRequest> = {
+  encode(message: QueryContractByLesseeRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.lesseeOrg !== 0) {
+      writer.uint32(8).uint64(message.lesseeOrg);
+    }
+    if (message.ownerOrg !== 0) {
+      writer.uint32(16).uint64(message.ownerOrg);
+    }
+    if (message.mask !== 0) {
+      writer.uint32(24).uint64(message.mask);
+    }
+    if (message.rir !== "") {
+      writer.uint32(34).string(message.rir);
+    }
+    if (message.country !== "") {
+      writer.uint32(42).string(message.country);
+    }
+    if (message.minPrice !== 0) {
+      writer.uint32(48).uint64(message.minPrice);
+    }
+    if (message.maxPrice !== 0) {
+      writer.uint32(56).uint64(message.maxPrice);
+    }
+    if (message.networkAddress !== 0) {
+      writer.uint32(64).uint64(message.networkAddress);
+    }
+    if (message.firstOctet !== 0) {
+      writer.uint32(72).uint64(message.firstOctet);
+    }
+    if (message.status !== 0) {
+      writer.uint32(80).uint64(message.status);
+    }
+    if (message.revocationPeriodMonth !== 0) {
+      writer.uint32(88).uint64(message.revocationPeriodMonth);
+    }
+    if (message.createdAtFrom !== 0) {
+      writer.uint32(96).uint64(message.createdAtFrom);
+    }
+    if (message.createdAtTo !== 0) {
+      writer.uint32(104).uint64(message.createdAtTo);
+    }
+    if (message.activatedAtFrom !== 0) {
+      writer.uint32(112).uint64(message.activatedAtFrom);
+    }
+    if (message.activatedAtTo !== 0) {
+      writer.uint32(120).uint64(message.activatedAtTo);
+    }
+    if (message.prepaidUntilFrom !== 0) {
+      writer.uint32(128).uint64(message.prepaidUntilFrom);
+    }
+    if (message.prepaidUntilTo !== 0) {
+      writer.uint32(136).uint64(message.prepaidUntilTo);
+    }
+    if (message.updatedAtFrom !== 0) {
+      writer.uint32(144).uint64(message.updatedAtFrom);
+    }
+    if (message.updatedAtTo !== 0) {
+      writer.uint32(152).uint64(message.updatedAtTo);
+    }
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(162).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryContractByLesseeRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryContractByLesseeRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.lesseeOrg = longToNumber(reader.uint64());
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.ownerOrg = longToNumber(reader.uint64());
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.mask = longToNumber(reader.uint64());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.rir = reader.string();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.country = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.minPrice = longToNumber(reader.uint64());
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.maxPrice = longToNumber(reader.uint64());
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.networkAddress = longToNumber(reader.uint64());
+          continue;
+        }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.firstOctet = longToNumber(reader.uint64());
+          continue;
+        }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.status = longToNumber(reader.uint64());
+          continue;
+        }
+        case 11: {
+          if (tag !== 88) {
+            break;
+          }
+
+          message.revocationPeriodMonth = longToNumber(reader.uint64());
+          continue;
+        }
+        case 12: {
+          if (tag !== 96) {
+            break;
+          }
+
+          message.createdAtFrom = longToNumber(reader.uint64());
+          continue;
+        }
+        case 13: {
+          if (tag !== 104) {
+            break;
+          }
+
+          message.createdAtTo = longToNumber(reader.uint64());
+          continue;
+        }
+        case 14: {
+          if (tag !== 112) {
+            break;
+          }
+
+          message.activatedAtFrom = longToNumber(reader.uint64());
+          continue;
+        }
+        case 15: {
+          if (tag !== 120) {
+            break;
+          }
+
+          message.activatedAtTo = longToNumber(reader.uint64());
+          continue;
+        }
+        case 16: {
+          if (tag !== 128) {
+            break;
+          }
+
+          message.prepaidUntilFrom = longToNumber(reader.uint64());
+          continue;
+        }
+        case 17: {
+          if (tag !== 136) {
+            break;
+          }
+
+          message.prepaidUntilTo = longToNumber(reader.uint64());
+          continue;
+        }
+        case 18: {
+          if (tag !== 144) {
+            break;
+          }
+
+          message.updatedAtFrom = longToNumber(reader.uint64());
+          continue;
+        }
+        case 19: {
+          if (tag !== 152) {
+            break;
+          }
+
+          message.updatedAtTo = longToNumber(reader.uint64());
+          continue;
+        }
+        case 20: {
+          if (tag !== 162) {
+            break;
+          }
+
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryContractByLesseeRequest {
+    return {
+      lesseeOrg: isSet(object.lesseeOrg) ? globalThis.Number(object.lesseeOrg) : 0,
+      ownerOrg: isSet(object.ownerOrg) ? globalThis.Number(object.ownerOrg) : 0,
+      mask: isSet(object.mask) ? globalThis.Number(object.mask) : 0,
+      rir: isSet(object.rir) ? globalThis.String(object.rir) : "",
+      country: isSet(object.country) ? globalThis.String(object.country) : "",
+      minPrice: isSet(object.minPrice) ? globalThis.Number(object.minPrice) : 0,
+      maxPrice: isSet(object.maxPrice) ? globalThis.Number(object.maxPrice) : 0,
+      networkAddress: isSet(object.networkAddress) ? globalThis.Number(object.networkAddress) : 0,
+      firstOctet: isSet(object.firstOctet) ? globalThis.Number(object.firstOctet) : 0,
+      status: isSet(object.status) ? globalThis.Number(object.status) : 0,
+      revocationPeriodMonth: isSet(object.revocationPeriodMonth) ? globalThis.Number(object.revocationPeriodMonth) : 0,
+      createdAtFrom: isSet(object.createdAtFrom) ? globalThis.Number(object.createdAtFrom) : 0,
+      createdAtTo: isSet(object.createdAtTo) ? globalThis.Number(object.createdAtTo) : 0,
+      activatedAtFrom: isSet(object.activatedAtFrom) ? globalThis.Number(object.activatedAtFrom) : 0,
+      activatedAtTo: isSet(object.activatedAtTo) ? globalThis.Number(object.activatedAtTo) : 0,
+      prepaidUntilFrom: isSet(object.prepaidUntilFrom) ? globalThis.Number(object.prepaidUntilFrom) : 0,
+      prepaidUntilTo: isSet(object.prepaidUntilTo) ? globalThis.Number(object.prepaidUntilTo) : 0,
+      updatedAtFrom: isSet(object.updatedAtFrom) ? globalThis.Number(object.updatedAtFrom) : 0,
+      updatedAtTo: isSet(object.updatedAtTo) ? globalThis.Number(object.updatedAtTo) : 0,
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryContractByLesseeRequest): unknown {
+    const obj: any = {};
+    if (message.lesseeOrg !== 0) {
+      obj.lesseeOrg = Math.round(message.lesseeOrg);
+    }
+    if (message.ownerOrg !== 0) {
+      obj.ownerOrg = Math.round(message.ownerOrg);
+    }
+    if (message.mask !== 0) {
+      obj.mask = Math.round(message.mask);
+    }
+    if (message.rir !== "") {
+      obj.rir = message.rir;
+    }
+    if (message.country !== "") {
+      obj.country = message.country;
+    }
+    if (message.minPrice !== 0) {
+      obj.minPrice = Math.round(message.minPrice);
+    }
+    if (message.maxPrice !== 0) {
+      obj.maxPrice = Math.round(message.maxPrice);
+    }
+    if (message.networkAddress !== 0) {
+      obj.networkAddress = Math.round(message.networkAddress);
+    }
+    if (message.firstOctet !== 0) {
+      obj.firstOctet = Math.round(message.firstOctet);
+    }
+    if (message.status !== 0) {
+      obj.status = Math.round(message.status);
+    }
+    if (message.revocationPeriodMonth !== 0) {
+      obj.revocationPeriodMonth = Math.round(message.revocationPeriodMonth);
+    }
+    if (message.createdAtFrom !== 0) {
+      obj.createdAtFrom = Math.round(message.createdAtFrom);
+    }
+    if (message.createdAtTo !== 0) {
+      obj.createdAtTo = Math.round(message.createdAtTo);
+    }
+    if (message.activatedAtFrom !== 0) {
+      obj.activatedAtFrom = Math.round(message.activatedAtFrom);
+    }
+    if (message.activatedAtTo !== 0) {
+      obj.activatedAtTo = Math.round(message.activatedAtTo);
+    }
+    if (message.prepaidUntilFrom !== 0) {
+      obj.prepaidUntilFrom = Math.round(message.prepaidUntilFrom);
+    }
+    if (message.prepaidUntilTo !== 0) {
+      obj.prepaidUntilTo = Math.round(message.prepaidUntilTo);
+    }
+    if (message.updatedAtFrom !== 0) {
+      obj.updatedAtFrom = Math.round(message.updatedAtFrom);
+    }
+    if (message.updatedAtTo !== 0) {
+      obj.updatedAtTo = Math.round(message.updatedAtTo);
+    }
+    if (message.pagination !== undefined) {
+      obj.pagination = PageRequest.toJSON(message.pagination);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<QueryContractByLesseeRequest>, I>>(base?: I): QueryContractByLesseeRequest {
+    return QueryContractByLesseeRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryContractByLesseeRequest>, I>>(object: I): QueryContractByLesseeRequest {
+    const message = createBaseQueryContractByLesseeRequest();
+    message.lesseeOrg = object.lesseeOrg ?? 0;
+    message.ownerOrg = object.ownerOrg ?? 0;
+    message.mask = object.mask ?? 0;
+    message.rir = object.rir ?? "";
+    message.country = object.country ?? "";
+    message.minPrice = object.minPrice ?? 0;
+    message.maxPrice = object.maxPrice ?? 0;
+    message.networkAddress = object.networkAddress ?? 0;
+    message.firstOctet = object.firstOctet ?? 0;
+    message.status = object.status ?? 0;
+    message.revocationPeriodMonth = object.revocationPeriodMonth ?? 0;
+    message.createdAtFrom = object.createdAtFrom ?? 0;
+    message.createdAtTo = object.createdAtTo ?? 0;
+    message.activatedAtFrom = object.activatedAtFrom ?? 0;
+    message.activatedAtTo = object.activatedAtTo ?? 0;
+    message.prepaidUntilFrom = object.prepaidUntilFrom ?? 0;
+    message.prepaidUntilTo = object.prepaidUntilTo ?? 0;
+    message.updatedAtFrom = object.updatedAtFrom ?? 0;
+    message.updatedAtTo = object.updatedAtTo ?? 0;
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageRequest.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryContractByLesseeResponse(): QueryContractByLesseeResponse {
+  return { contract: [], pagination: undefined };
+}
+
+export const QueryContractByLesseeResponse: MessageFns<QueryContractByLesseeResponse> = {
+  encode(message: QueryContractByLesseeResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.contract) {
+      Contract.encode(v!, writer.uint32(10).fork()).join();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryContractByLesseeResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryContractByLesseeResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.contract.push(Contract.decode(reader, reader.uint32()));
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryContractByLesseeResponse {
+    return {
+      contract: globalThis.Array.isArray(object?.contract) ? object.contract.map((e: any) => Contract.fromJSON(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryContractByLesseeResponse): unknown {
+    const obj: any = {};
+    if (message.contract?.length) {
+      obj.contract = message.contract.map((e) => Contract.toJSON(e));
+    }
+    if (message.pagination !== undefined) {
+      obj.pagination = PageResponse.toJSON(message.pagination);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<QueryContractByLesseeResponse>, I>>(base?: I): QueryContractByLesseeResponse {
+    return QueryContractByLesseeResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryContractByLesseeResponse>, I>>(
+    object: I,
+  ): QueryContractByLesseeResponse {
+    const message = createBaseQueryContractByLesseeResponse();
+    message.contract = object.contract?.map((e) => Contract.fromPartial(e)) || [];
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageResponse.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -1483,6 +2471,10 @@ export interface Query {
   BidByLessor(request: QueryBidByLessorRequest): Promise<QueryBidByLessorResponse>;
   /** Queries a list of MarketplaceContract items. */
   MarketplaceContract(request: QueryMarketplaceContractRequest): Promise<QueryMarketplaceContractResponse>;
+  /** Queries a list of ContractByOwner items. */
+  ContractByOwner(request: QueryContractByOwnerRequest): Promise<QueryContractByOwnerResponse>;
+  /** Queries a list of ContractByLessee items. */
+  ContractByLessee(request: QueryContractByLesseeRequest): Promise<QueryContractByLesseeResponse>;
 }
 
 export const QueryServiceName = "ipex.lease.Query";
@@ -1501,6 +2493,8 @@ export class QueryClientImpl implements Query {
     this.BidByBidder = this.BidByBidder.bind(this);
     this.BidByLessor = this.BidByLessor.bind(this);
     this.MarketplaceContract = this.MarketplaceContract.bind(this);
+    this.ContractByOwner = this.ContractByOwner.bind(this);
+    this.ContractByLessee = this.ContractByLessee.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -1556,6 +2550,18 @@ export class QueryClientImpl implements Query {
     const data = QueryMarketplaceContractRequest.encode(request).finish();
     const promise = this.rpc.request(this.service, "MarketplaceContract", data);
     return promise.then((data) => QueryMarketplaceContractResponse.decode(new BinaryReader(data)));
+  }
+
+  ContractByOwner(request: QueryContractByOwnerRequest): Promise<QueryContractByOwnerResponse> {
+    const data = QueryContractByOwnerRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "ContractByOwner", data);
+    return promise.then((data) => QueryContractByOwnerResponse.decode(new BinaryReader(data)));
+  }
+
+  ContractByLessee(request: QueryContractByLesseeRequest): Promise<QueryContractByLesseeResponse> {
+    const data = QueryContractByLesseeRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "ContractByLessee", data);
+    return promise.then((data) => QueryContractByLesseeResponse.decode(new BinaryReader(data)));
   }
 }
 

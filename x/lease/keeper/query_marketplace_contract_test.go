@@ -191,10 +191,9 @@ func TestMarketplaceContract(t *testing.T) {
 				errorMsg:    "mask must be between 8 and 24",
 			},
 			{
-				name:        "invalid mask zero",
+				name:        "valid mask zero (no filter)",
 				mask:        0,
-				expectError: true,
-				errorMsg:    "mask must be between 8 and 24",
+				expectError: false,
 			},
 		}
 
