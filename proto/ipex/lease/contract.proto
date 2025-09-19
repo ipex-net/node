@@ -9,7 +9,7 @@ import "google/protobuf/timestamp.proto";
 
 
 enum ContractStatus {
-  CONTRACT_STATUS_UNDEFINED = 0;
+  CONTRACT_STATUS_UNSPECIFIED = 0;
   CONTRACT_STATUS_FORSALE = 1;
   CONTRACT_STATUS_LEASED = 2;
   CONTRACT_STATUS_CANCELED_OWNER = 3;

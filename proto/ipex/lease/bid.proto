@@ -8,11 +8,12 @@ import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto"; 
 
 enum BidStatus {
-  BID_STATUS_SUBMITTED = 0;
-  BID_STATUS_ACCEPTED  = 1;
-  BID_STATUS_REVOKED  = 2;
-  BID_STATUS_REJECTED  = 3;
-  BID_STATUS_EXPIRED   = 4;
+  BID_STATUS_UNSPECIFIED = 0;
+  BID_STATUS_SUBMITTED = 1;
+  BID_STATUS_ACCEPTED  = 2;
+  BID_STATUS_REVOKED  = 3;
+  BID_STATUS_REJECTED  = 4;
+  BID_STATUS_EXPIRED   = 5;
 }
 
 message Bid {
