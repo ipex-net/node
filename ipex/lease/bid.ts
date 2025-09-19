@@ -12,29 +12,33 @@ import { Timestamp } from "../../google/protobuf/timestamp";
 export const protobufPackage = "ipex.lease";
 
 export enum BidStatus {
-  BID_STATUS_SUBMITTED = 0,
-  BID_STATUS_ACCEPTED = 1,
-  BID_STATUS_REVOKED = 2,
-  BID_STATUS_REJECTED = 3,
-  BID_STATUS_EXPIRED = 4,
+  BID_STATUS_UNSPECIFIED = 0,
+  BID_STATUS_SUBMITTED = 1,
+  BID_STATUS_ACCEPTED = 2,
+  BID_STATUS_REVOKED = 3,
+  BID_STATUS_REJECTED = 4,
+  BID_STATUS_EXPIRED = 5,
   UNRECOGNIZED = -1,
 }
 
 export function bidStatusFromJSON(object: any): BidStatus {
   switch (object) {
     case 0:
+    case "BID_STATUS_UNSPECIFIED":
+      return BidStatus.BID_STATUS_UNSPECIFIED;
+    case 1:
     case "BID_STATUS_SUBMITTED":
       return BidStatus.BID_STATUS_SUBMITTED;
-    case 1:
+    case 2:
     case "BID_STATUS_ACCEPTED":
       return BidStatus.BID_STATUS_ACCEPTED;
-    case 2:
+    case 3:
     case "BID_STATUS_REVOKED":
       return BidStatus.BID_STATUS_REVOKED;
-    case 3:
+    case 4:
     case "BID_STATUS_REJECTED":
       return BidStatus.BID_STATUS_REJECTED;
-    case 4:
+    case 5:
     case "BID_STATUS_EXPIRED":
       return BidStatus.BID_STATUS_EXPIRED;
     case -1:
@@ -46,6 +50,8 @@ export function bidStatusFromJSON(object: any): BidStatus {
 
 export function bidStatusToJSON(object: BidStatus): string {
   switch (object) {
+    case BidStatus.BID_STATUS_UNSPECIFIED:
+      return "BID_STATUS_UNSPECIFIED";
     case BidStatus.BID_STATUS_SUBMITTED:
       return "BID_STATUS_SUBMITTED";
     case BidStatus.BID_STATUS_ACCEPTED:

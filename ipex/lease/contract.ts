@@ -12,7 +12,7 @@ import { Timestamp } from "../../google/protobuf/timestamp";
 export const protobufPackage = "ipex.lease";
 
 export enum ContractStatus {
-  CONTRACT_STATUS_UNDEFINED = 0,
+  CONTRACT_STATUS_UNSPECIFIED = 0,
   CONTRACT_STATUS_FORSALE = 1,
   CONTRACT_STATUS_LEASED = 2,
   CONTRACT_STATUS_CANCELED_OWNER = 3,
@@ -29,8 +29,8 @@ export enum ContractStatus {
 export function contractStatusFromJSON(object: any): ContractStatus {
   switch (object) {
     case 0:
-    case "CONTRACT_STATUS_UNDEFINED":
-      return ContractStatus.CONTRACT_STATUS_UNDEFINED;
+    case "CONTRACT_STATUS_UNSPECIFIED":
+      return ContractStatus.CONTRACT_STATUS_UNSPECIFIED;
     case 1:
     case "CONTRACT_STATUS_FORSALE":
       return ContractStatus.CONTRACT_STATUS_FORSALE;
@@ -70,8 +70,8 @@ export function contractStatusFromJSON(object: any): ContractStatus {
 
 export function contractStatusToJSON(object: ContractStatus): string {
   switch (object) {
-    case ContractStatus.CONTRACT_STATUS_UNDEFINED:
-      return "CONTRACT_STATUS_UNDEFINED";
+    case ContractStatus.CONTRACT_STATUS_UNSPECIFIED:
+      return "CONTRACT_STATUS_UNSPECIFIED";
     case ContractStatus.CONTRACT_STATUS_FORSALE:
       return "CONTRACT_STATUS_FORSALE";
     case ContractStatus.CONTRACT_STATUS_LEASED:

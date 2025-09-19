@@ -11,29 +11,30 @@ import { Timestamp } from "../../google/protobuf/timestamp";
 export const protobufPackage = "ipex.subnet";
 
 export enum SubnetStatus {
-  /** SUBNET_STATUS_INITIAL - Initial state, for freshly added subnets */
-  SUBNET_STATUS_INITIAL = 0,
-  /** SUBNET_STATUS_READY - When subnet got initial */
-  SUBNET_STATUS_READY = 1,
-  /** SUBNET_STATUS_REJECTED - When ownership verification failed in certaing amount of blocks */
-  SUBNET_STATUS_REJECTED = 2,
-  /** SUBNET_STATUS_LEASED - When subnet is */
-  SUBNET_STATUS_LEASED = 3,
+  /** SUBNET_STATUS_UNSPECIFIED - Initial state, for freshly added subnets */
+  SUBNET_STATUS_UNSPECIFIED = 0,
+  SUBNET_STATUS_INITIAL = 1,
+  SUBNET_STATUS_READY = 2,
+  SUBNET_STATUS_REJECTED = 3,
+  SUBNET_STATUS_LEASED = 4,
   UNRECOGNIZED = -1,
 }
 
 export function subnetStatusFromJSON(object: any): SubnetStatus {
   switch (object) {
     case 0:
+    case "SUBNET_STATUS_UNSPECIFIED":
+      return SubnetStatus.SUBNET_STATUS_UNSPECIFIED;
+    case 1:
     case "SUBNET_STATUS_INITIAL":
       return SubnetStatus.SUBNET_STATUS_INITIAL;
-    case 1:
+    case 2:
     case "SUBNET_STATUS_READY":
       return SubnetStatus.SUBNET_STATUS_READY;
-    case 2:
+    case 3:
     case "SUBNET_STATUS_REJECTED":
       return SubnetStatus.SUBNET_STATUS_REJECTED;
-    case 3:
+    case 4:
     case "SUBNET_STATUS_LEASED":
       return SubnetStatus.SUBNET_STATUS_LEASED;
     case -1:
@@ -45,6 +46,8 @@ export function subnetStatusFromJSON(object: any): SubnetStatus {
 
 export function subnetStatusToJSON(object: SubnetStatus): string {
   switch (object) {
+    case SubnetStatus.SUBNET_STATUS_UNSPECIFIED:
+      return "SUBNET_STATUS_UNSPECIFIED";
     case SubnetStatus.SUBNET_STATUS_INITIAL:
       return "SUBNET_STATUS_INITIAL";
     case SubnetStatus.SUBNET_STATUS_READY:
