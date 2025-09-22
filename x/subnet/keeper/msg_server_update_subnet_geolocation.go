@@ -23,10 +23,24 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
+	// Convert placeholders to empty strings
+	if msg.Region == "none" || msg.Region == "any" {
+		msg.Region = ""
+	}
+
+	if msg.City == "none" || msg.City == "any" {
+		msg.City = ""
+	}
+
+	if msg.PostalCode  == "none" || msg.PostalCode == "any" {
+		msg.PostalCode = ""
+	}
+
 	// Check that country code is correct
 	if msg.Country == "" {
 		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "country data can not be empty")
 	}
+
 	if len(msg.Country) != 2 {
 		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "country code must be 2 letters")
 	}
@@ -92,7 +106,6 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 	subnet.Region = msg.Region
 	subnet.City = msg.City
 	subnet.PostalCode = msg.PostalCode
-
 	// Update the subnet change timestamp
 	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)
