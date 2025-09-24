@@ -46,7 +46,7 @@ export interface MsgCreateContractResponse {
 
 export interface MsgUpdateContract {
   creator: string;
-  price: Coin | undefined;
+  price: number;
   id: number;
 }
 
@@ -568,7 +568,7 @@ export const MsgCreateContractResponse: MessageFns<MsgCreateContractResponse> = 
 };
 
 function createBaseMsgUpdateContract(): MsgUpdateContract {
-  return { creator: "", price: undefined, id: 0 };
+  return { creator: "", price: 0, id: 0 };
 }
 
 export const MsgUpdateContract: MessageFns<MsgUpdateContract> = {
@@ -576,8 +576,8 @@ export const MsgUpdateContract: MessageFns<MsgUpdateContract> = {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
-    if (message.price !== undefined) {
-      Coin.encode(message.price, writer.uint32(18).fork()).join();
+    if (message.price !== 0) {
+      writer.uint32(16).uint64(message.price);
     }
     if (message.id !== 0) {
       writer.uint32(24).uint64(message.id);
@@ -601,11 +601,11 @@ export const MsgUpdateContract: MessageFns<MsgUpdateContract> = {
           continue;
         }
         case 2: {
-          if (tag !== 18) {
+          if (tag !== 16) {
             break;
           }
 
-          message.price = Coin.decode(reader, reader.uint32());
+          message.price = longToNumber(reader.uint64());
           continue;
         }
         case 3: {
@@ -628,7 +628,7 @@ export const MsgUpdateContract: MessageFns<MsgUpdateContract> = {
   fromJSON(object: any): MsgUpdateContract {
     return {
       creator: isSet(object.creator) ? globalThis.String(object.creator) : "",
-      price: isSet(object.price) ? Coin.fromJSON(object.price) : undefined,
+      price: isSet(object.price) ? globalThis.Number(object.price) : 0,
       id: isSet(object.id) ? globalThis.Number(object.id) : 0,
     };
   },
@@ -638,8 +638,8 @@ export const MsgUpdateContract: MessageFns<MsgUpdateContract> = {
     if (message.creator !== "") {
       obj.creator = message.creator;
     }
-    if (message.price !== undefined) {
-      obj.price = Coin.toJSON(message.price);
+    if (message.price !== 0) {
+      obj.price = Math.round(message.price);
     }
     if (message.id !== 0) {
       obj.id = Math.round(message.id);
@@ -653,7 +653,7 @@ export const MsgUpdateContract: MessageFns<MsgUpdateContract> = {
   fromPartial<I extends Exact<DeepPartial<MsgUpdateContract>, I>>(object: I): MsgUpdateContract {
     const message = createBaseMsgUpdateContract();
     message.creator = object.creator ?? "";
-    message.price = (object.price !== undefined && object.price !== null) ? Coin.fromPartial(object.price) : undefined;
+    message.price = object.price ?? 0;
     message.id = object.id ?? 0;
     return message;
   },
