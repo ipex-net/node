@@ -7,6 +7,7 @@ import (
 	"ipex/x/lease/types"
 
 	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -42,28 +43,26 @@ func (k msgServer) UpdateContract(goCtx context.Context, msg *types.MsgUpdateCon
 		return nil, errorsmod.Wrapf(sdkerrors.ErrUnauthorized, "incorrect owner admin %s", msg.Creator)
 	}
 
-	// Check that price and safety deposit denoms match
-	if contract.SafetyDeposit.Denom != msg.Price.Denom {
-		return nil, errorsmod.Wrapf(
-			types.ErrInvalidDeposit,
-			"price denom (%s) must match safety deposit denom (%s)",
-			msg.Price.Denom,
-			contract.SafetyDeposit.Denom,
-		)
+	// Validate price amount
+	if msg.Price == 0 {
+		return nil, errorsmod.Wrap(types.ErrInvalidPrice, "price amount must be greater than zero")
 	}
 
+	// Convert uint64 price to math.Int
+	newPriceAmount := math.NewIntFromUint64(msg.Price)
+
 	// Check that safety deposit is greater than contract price
-	if contract.SafetyDeposit.Amount.LT(msg.Price.Amount) {
+	if contract.SafetyDeposit.Amount.LT(newPriceAmount) {
 		return nil, errorsmod.Wrapf(
 			types.ErrInvalidDeposit,
 			"safety deposit amount (%s) must be greater than or equal to new price (%s)",
 			contract.SafetyDeposit.Amount.String(),
-			msg.Price.Amount.String(),
+			newPriceAmount.String(),
 		)
 	}
 
 	// Update contract
-	contract.Price = msg.Price
+	contract.Price.Amount = newPriceAmount
 	contract.UpdatedAt = ctx.BlockTime()
 	k.SetContract(ctx, contract)
 
@@ -72,8 +71,8 @@ func (k msgServer) UpdateContract(goCtx context.Context, msg *types.MsgUpdateCon
 		sdk.NewEvent(types.ContractUpdatedEventType,
 			sdk.NewAttribute(types.ContractUpdatedEventCreator, msg.Creator),
 			sdk.NewAttribute(types.ContractUpdatedEventContractId, strconv.FormatUint(msg.Id, 10)),
-			sdk.NewAttribute(types.ContractUpdatedEventPrice, msg.Price.Amount.String()),
-			sdk.NewAttribute(types.ContractUpdatedEventPriceDenom, msg.Price.Denom),
+			sdk.NewAttribute(types.ContractUpdatedEventPrice, newPriceAmount.String()),
+			sdk.NewAttribute(types.ContractUpdatedEventPriceDenom, contract.Price.Denom),
 		),
 	)
 	return &types.MsgUpdateContractResponse{}, nil

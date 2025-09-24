@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgUpdateContract{}
 
-func NewMsgUpdateContract(creator string, price sdk.Coin, id uint64) *MsgUpdateContract {
+func NewMsgUpdateContract(creator string, price uint64, id uint64) *MsgUpdateContract {
 	return &MsgUpdateContract{
 		Creator: creator,
 		Price:   price,
@@ -22,8 +22,5 @@ func (msg *MsgUpdateContract) ValidateBasic() error {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	if !msg.Price.IsPositive() {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "price must be positive")
-	}
 	return nil
 }
