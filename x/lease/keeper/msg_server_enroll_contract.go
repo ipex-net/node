@@ -45,10 +45,15 @@ func (k msgServer) EnrollContract(goCtx context.Context, msg *types.MsgEnrollCon
 		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.LesseeOrg)
 	}
 
-	// Gett the contract
+	// Get the contract
 	contract, found := k.GetContract(ctx, msg.ContractId)
 	if !found {
 		return nil, errorsmod.Wrapf(types.ErrInexistentContract, "contract with id %d doesn't exist", msg.ContractId)
+	}
+
+	// Prohibit self lease
+	if contract.OwnerOrg == msg.LesseeOrg {
+		return nil, types.ErrSelfLeaseNotAllowed
 	}
 
 	// Check for matching org verification status
