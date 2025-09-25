@@ -9,6 +9,7 @@ import (
 
 	"ipex/x/lease/types"
 
+	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
 	"github.com/biter777/countries"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -151,11 +152,17 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 	var collectedCount uint64
 	var collectingItems = true
 
-	// Use collections to iterate through contracts with pagination
-	err := k.Contracts.Walk(ctx, nil, func(key uint64, contract types.Contract) (bool, error) {
-		// Only include contracts that are available for sale (status = FORSALE)
-		if contract.Status != types.ContractStatus_CONTRACT_STATUS_FORSALE {
-			return false, nil // Continue iteration, don't include this contract
+	// Use collections status index to efficiently iterate only through FORSALE contracts (latest first)
+	rng := collections.NewPrefixedPairRange[int32, uint64](int32(types.ContractStatus_CONTRACT_STATUS_FORSALE)).Descending()
+	err := k.ContractsByStatus.Walk(ctx, rng, func(key collections.Pair[int32, uint64], _ bool) (bool, error) {
+		// Get the contract ID from the index key
+		contractId := key.K2()
+		
+		// Fetch the full contract
+		contract, found := k.GetContract(ctx, contractId)
+		if !found {
+			// Contract might have been deleted, skip
+			return false, nil
 		}
 
 		// Apply mask filter if mask is not zero
@@ -200,8 +207,8 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 		totalCount++
 
 		if collectingItems {
-			// If using key-based pagination, skip until we reach the start key
-			if startKey != nil && key <= *startKey {
+			// If using key-based pagination, skip until we reach the start key (reverse order)
+			if startKey != nil && contractId >= *startKey {
 				return false, nil
 			}
 
@@ -218,7 +225,7 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 			}
 
 			contracts = append(contracts, contract)
-			lastKey = key
+			lastKey = contractId
 			collectedCount++
 		}
 
