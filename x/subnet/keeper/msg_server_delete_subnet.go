@@ -26,11 +26,17 @@ func (k msgServer) DeleteSubnet(goCtx context.Context, msg *types.MsgDeleteSubne
 	if subnet.OwnerOrgId > 0 && !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator) {
 		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
 	}
-	
+
 	// check that subnet is not active on the marketplace
 	if subnet.Status == types.SubnetStatus_SUBNET_STATUS_ACTIVE {
 		return nil, errorsmod.Wrapf(types.ErrIncorrectSubnetStatus, "can not delete subnet in ACTIVE status")
 	}
+
+	// check that subnet doesn't have a user
+	if subnet.UserOrgId != 0 {
+		return nil, errorsmod.Wrapf(types.ErrIncorrectSubnetStatus, "can not delete subnet with assigned user")
+	}
+	
 	k.RemoveSubnet(ctx, msg.Id)
 	return &types.MsgDeleteSubnetResponse{}, nil
 }
