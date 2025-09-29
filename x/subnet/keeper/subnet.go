@@ -915,8 +915,9 @@ func (k Keeper) SetSubnetActive(ctx context.Context, subnetId uint64, active boo
 	if subnetId == 0 {
 		return fmt.Errorf("subnet ID can not be 0")
 	}
+
 	subnet, found := k.GetSubnet(ctx, subnetId)
-	if found {
+	if !found {
 		return fmt.Errorf("subnet not found")
 	}
 
@@ -930,7 +931,8 @@ func (k Keeper) SetSubnetActive(ctx context.Context, subnetId uint64, active boo
 		// set subnet status to initial on deactivation to trigger subnet recheck
 		subnet.Status = types.SubnetStatus_SUBNET_STATUS_INITIAL
 	}
-	
+		
+	// Save subnet
+	k.SetSubnet(ctx, subnet)
 	return nil
-
 }
