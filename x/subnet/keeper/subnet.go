@@ -272,7 +272,7 @@ func (k Keeper) GetSubnetsForRirSync(ctx context.Context, referenceTime time.Tim
 
 			case types.SubnetStatus_SUBNET_STATUS_READY:
 				requiredInterval = 72 * time.Hour //If subnet was succesfully synced, rerun the sync after x hours
-			case types.SubnetStatus_SUBNET_STATUS_LEASED:
+			case types.SubnetStatus_SUBNET_STATUS_ACTIVE:
 				requiredInterval = 72 * time.Hour //If subnet was succesfully synced, rerun the sync after x hours
 			case types.SubnetStatus_SUBNET_STATUS_REJECTED:
 				return false, nil //If synced and was rejected
@@ -535,7 +535,7 @@ func (k Keeper) GetSubnetsForOwnershipVerification(ctx context.Context, referenc
 		var requiredInterval time.Duration
 
 		// While the subnet is in active lease we don't want to perform verification
-		if subnet.OwnershipVerified && subnet.Status == types.SubnetStatus_SUBNET_STATUS_LEASED {
+		if subnet.OwnershipVerified && subnet.Status == types.SubnetStatus_SUBNET_STATUS_ACTIVE {
 			return false, nil
 		}
 
