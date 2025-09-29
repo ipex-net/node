@@ -69,58 +69,58 @@ func (k msgServer) CreateSubnet(goCtx context.Context, msg *types.MsgCreateSubne
 
 	// Check that country code is correct
 	if msg.Country == "" {
-		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "country data can not be empty")
+		return nil, errorsmod.Wrapf(types.ErrInvalidGeolocationData, "country data can not be empty")
 	}
 	if len(msg.Country) != 2 {
-		return nil, errorsmod.Wrapf(ErrInvalidGeolocationData, "country code must be 2 letters")
+		return nil, errorsmod.Wrapf(types.ErrInvalidGeolocationData, "country code must be 2 letters")
 	}
 
 	// Validate country
 	err = validateCountry(msg.Country)
 	if err != nil {
-		return nil, errorsmod.Wrap(ErrInvalidGeolocationData, err.Error())
+		return nil, errorsmod.Wrap(types.ErrInvalidGeolocationData, err.Error())
 	}
 
 	// Validate IP address format using regex
 	parsedIp := UintToNetIP(msg.NetworkAddress)
 	if parsedIp == nil {
-		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "invalid IPv4 address format (%s)", parsedIp.String())
+		return nil, errorsmod.Wrapf(types.ErrInvalidIPFormat, "invalid IPv4 address format (%s)", parsedIp.String())
 	}
 
 	// Validate that the last octet is equal to zero, as the smallest subnet size is /24
 	if msg.NetworkAddress&0xFF != 0 {
-		return nil, errorsmod.Wrapf(ErrInvalidIPFormat, "fourth octet must be zero for subnet (%s)", parsedIp.String())
+		return nil, errorsmod.Wrapf(types.ErrInvalidIPFormat, "fourth octet must be zero for subnet (%s)", parsedIp.String())
 	}
 
 	// Check that IP is not in a reserved range
 	if isReservedIPRange(parsedIp) {
-		return nil, errorsmod.Wrapf(ErrReservedIPRange, "IP address is in a reserved range (%s)", parsedIp.String())
+		return nil, errorsmod.Wrapf(types.ErrReservedIPRange, "IP address is in a reserved range (%s)", parsedIp.String())
 	}
 
 	// Validate prefix length for IPv4 (8-24)
 	if msg.Mask < 8 || msg.Mask > 24 {
-		return nil, errorsmod.Wrap(ErrInvalidMask, "prefix length must be between 8 and 24")
+		return nil, errorsmod.Wrap(types.ErrInvalidMask, "prefix length must be between 8 and 24")
 	}
 
 	// Check if the org id exists
 	if msg.OwnerOrgId != 0 {
 		if !k.orgKeeper.HasOrg(ctx, msg.OwnerOrgId) {
-			return nil, errorsmod.Wrapf(ErrInvalidOrgId, "org with ID %d not found", msg.OwnerOrgId)
+			return nil, errorsmod.Wrapf(types.ErrInvalidOrgId, "org with ID %d not found", msg.OwnerOrgId)
 		}
 	} else {
-		return nil, errorsmod.Wrap(ErrInvalidOrgId, "org ID not provided")
+		return nil, errorsmod.Wrap(types.ErrInvalidOrgId, "org ID not provided")
 	}
 
 	// Verify creator is org admin
 	if !k.orgKeeper.VerifyOrgAdmin(goCtx, msg.OwnerOrgId, msg.Creator) {
-		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.OwnerOrgId)
+		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, msg.OwnerOrgId)
 	}
 
 	// Check for existing network with the same network address using collection index
 	rng := collections.NewPrefixedPairRange[uint64, uint64](msg.NetworkAddress)
 	walkErr := k.SubnetsByNetworkAddress.Walk(ctx, rng, func(key collections.Pair[uint64, uint64], _ bool) (bool, error) {
 		// If we find any subnet with this network address, it's a conflict
-		return false, ErrSubnetExists
+		return false, types.ErrSubnetExists
 	})
 	if walkErr != nil {
 		return nil, walkErr

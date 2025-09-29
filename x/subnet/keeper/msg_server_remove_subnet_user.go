@@ -15,13 +15,13 @@ func (k msgServer) RemoveSubnetUser(goCtx context.Context, msg *types.MsgRemoveS
 	//Fetching the subnet
 	subnet, found := k.GetSubnet(ctx, msg.Id)
 	if !found {
-		return nil, errorsmod.Wrapf(ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
+		return nil, errorsmod.Wrapf(types.ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
 	}
 
 	//Checking if message creator is subnet owner
 	// Verify creator is org admin
 	if subnet.OwnerOrgId > 0 && !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator) {
-		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
+		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
 	}
 
 	//TODO: Process contract termination logic

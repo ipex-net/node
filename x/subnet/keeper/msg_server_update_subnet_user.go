@@ -14,25 +14,25 @@ func (k msgServer) UpdateSubnetUser(goCtx context.Context, msg *types.MsgUpdateS
 
 	// checking that user org exists
 	if msg.UserOrgId == 0 || !k.orgKeeper.HasOrg(ctx, msg.UserOrgId) {
-		return nil, errorsmod.Wrapf(ErrInvalidOrgId, "org with id %d doesn't exist", msg.UserOrgId)
+		return nil, errorsmod.Wrapf(types.ErrInvalidOrgId, "org with id %d doesn't exist", msg.UserOrgId)
 	}
 
-	//Fetching the subnet
+	if msg.Id == 0 {
+		return nil, errorsmod.Wrap(types.ErrSubnetNotFound, "subnet id not provided",)
+	}
+
+	// fetch the subnet
 	subnet, found := k.GetSubnet(ctx, msg.Id)
 	if !found {
-		return nil, errorsmod.Wrapf(ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
+		return nil, errorsmod.Wrapf(types.ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
 	}
 
-	//Checking that subnet is not lease yet, as we set lease user automatically
-	if subnet.Status != types.SubnetStatus_SUBNET_STATUS_READY {
-		return nil, errorsmod.Wrap(ErrInvalidSubnet, "subnet is not ready and can not have new user")
-	}
-	//Checking if message creator is subnet owner
+	// check that the message creator is subnet owner
 	if subnet.OwnerOrgId > 0 && !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.OwnerOrgId, msg.Creator) {
-		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
+		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.OwnerOrgId)
 	}
 
-	//Updating the subnet
+	// update the subnet
 	subnet.UserOrgId = msg.UserOrgId
 	subnet.UpdatedAt = ctx.BlockTime()
 	k.SetSubnet(ctx, subnet)

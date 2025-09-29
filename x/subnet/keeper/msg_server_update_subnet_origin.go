@@ -35,23 +35,23 @@ func (k msgServer) UpdateSubnetOrigin(goCtx context.Context, msg *types.MsgUpdat
 		(msg.As >= 65536 && msg.As <= 65551) ||
 		(msg.As >= 64512 && msg.As <= 65534) ||
 		(msg.As >= 4200000000 && msg.As <= 4294967294) {
-		return nil, errorsmod.Wrapf(ErrReservedASNumber, "reserved AS number %d", msg.As)
+		return nil, errorsmod.Wrapf(types.ErrReservedASNumber, "reserved AS number %d", msg.As)
 	}
 
 	if msg.As <= 0 || msg.As > 4294967295 {
-		return nil, errorsmod.Wrapf(ErrASNumberOutOfRange, "AS number %d out of range", msg.As)
+		return nil, errorsmod.Wrapf(types.ErrASNumberOutOfRange, "AS number %d out of range", msg.As)
 	}
 
 	//Fetching the subnet
 	subnet, found := k.GetSubnet(ctx, msg.Id)
 	if !found {
-		return nil, errorsmod.Wrapf(ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
+		return nil, errorsmod.Wrapf(types.ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
 	}
 
 	//Checking if message creator is an admin of the subnet user org
 	//NB only user can request origin change
 	if subnet.UserOrgId > 0 && !k.orgKeeper.VerifyOrgAdmin(goCtx, subnet.UserOrgId, msg.Creator) {
-		return nil, errorsmod.Wrapf(ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.UserOrgId)
+		return nil, errorsmod.Wrapf(types.ErrNotOrgAdmin, "address %s is not admin of org %d", msg.Creator, subnet.UserOrgId)
 	}
 
 	// If there is no specific authorization to allow origin transfer anywhere we set the check to pending
