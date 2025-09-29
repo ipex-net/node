@@ -9,6 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
+// UpdateSubnetUser sets the user of the subnet outside of the marketplace
 func (k msgServer) UpdateSubnetUser(goCtx context.Context, msg *types.MsgUpdateSubnetUser) (*types.MsgUpdateSubnetUserResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
@@ -25,6 +26,11 @@ func (k msgServer) UpdateSubnetUser(goCtx context.Context, msg *types.MsgUpdateS
 	subnet, found := k.GetSubnet(ctx, msg.Id)
 	if !found {
 		return nil, errorsmod.Wrapf(types.ErrSubnetNotFound, "can not find subnet with id %v", msg.Id)
+	}
+
+	// check that subnet is not active on the marketplace
+	if subnet.Status == types.SubnetStatus_SUBNET_STATUS_ACTIVE {
+		return nil, errorsmod.Wrapf(types.ErrIncorrectSubnetStatus, "can not update user for subnet in active state")
 	}
 
 	// check that the message creator is subnet owner

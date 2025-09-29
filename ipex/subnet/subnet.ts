@@ -16,7 +16,7 @@ export enum SubnetStatus {
   SUBNET_STATUS_INITIAL = 1,
   SUBNET_STATUS_READY = 2,
   SUBNET_STATUS_REJECTED = 3,
-  SUBNET_STATUS_LEASED = 4,
+  SUBNET_STATUS_ACTIVE = 4,
   UNRECOGNIZED = -1,
 }
 
@@ -35,8 +35,8 @@ export function subnetStatusFromJSON(object: any): SubnetStatus {
     case "SUBNET_STATUS_REJECTED":
       return SubnetStatus.SUBNET_STATUS_REJECTED;
     case 4:
-    case "SUBNET_STATUS_LEASED":
-      return SubnetStatus.SUBNET_STATUS_LEASED;
+    case "SUBNET_STATUS_ACTIVE":
+      return SubnetStatus.SUBNET_STATUS_ACTIVE;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -54,8 +54,8 @@ export function subnetStatusToJSON(object: SubnetStatus): string {
       return "SUBNET_STATUS_READY";
     case SubnetStatus.SUBNET_STATUS_REJECTED:
       return "SUBNET_STATUS_REJECTED";
-    case SubnetStatus.SUBNET_STATUS_LEASED:
-      return "SUBNET_STATUS_LEASED";
+    case SubnetStatus.SUBNET_STATUS_ACTIVE:
+      return "SUBNET_STATUS_ACTIVE";
     case SubnetStatus.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";

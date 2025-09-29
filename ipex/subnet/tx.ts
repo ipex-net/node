@@ -75,6 +75,14 @@ export interface MsgUpdateSubnetGeolocation {
 export interface MsgUpdateSubnetGeolocationResponse {
 }
 
+export interface MsgDeleteSubnet {
+  creator: string;
+  id: number;
+}
+
+export interface MsgDeleteSubnetResponse {
+}
+
 function createBaseMsgUpdateParams(): MsgUpdateParams {
   return { authority: "", params: undefined };
 }
@@ -954,6 +962,125 @@ export const MsgUpdateSubnetGeolocationResponse: MessageFns<MsgUpdateSubnetGeolo
   },
 };
 
+function createBaseMsgDeleteSubnet(): MsgDeleteSubnet {
+  return { creator: "", id: 0 };
+}
+
+export const MsgDeleteSubnet: MessageFns<MsgDeleteSubnet> = {
+  encode(message: MsgDeleteSubnet, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.id !== 0) {
+      writer.uint32(16).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgDeleteSubnet {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgDeleteSubnet();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.creator = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.id = longToNumber(reader.uint64());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeleteSubnet {
+    return {
+      creator: isSet(object.creator) ? globalThis.String(object.creator) : "",
+      id: isSet(object.id) ? globalThis.Number(object.id) : 0,
+    };
+  },
+
+  toJSON(message: MsgDeleteSubnet): unknown {
+    const obj: any = {};
+    if (message.creator !== "") {
+      obj.creator = message.creator;
+    }
+    if (message.id !== 0) {
+      obj.id = Math.round(message.id);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<MsgDeleteSubnet>, I>>(base?: I): MsgDeleteSubnet {
+    return MsgDeleteSubnet.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgDeleteSubnet>, I>>(object: I): MsgDeleteSubnet {
+    const message = createBaseMsgDeleteSubnet();
+    message.creator = object.creator ?? "";
+    message.id = object.id ?? 0;
+    return message;
+  },
+};
+
+function createBaseMsgDeleteSubnetResponse(): MsgDeleteSubnetResponse {
+  return {};
+}
+
+export const MsgDeleteSubnetResponse: MessageFns<MsgDeleteSubnetResponse> = {
+  encode(_: MsgDeleteSubnetResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgDeleteSubnetResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgDeleteSubnetResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeleteSubnetResponse {
+    return {};
+  },
+
+  toJSON(_: MsgDeleteSubnetResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<MsgDeleteSubnetResponse>, I>>(base?: I): MsgDeleteSubnetResponse {
+    return MsgDeleteSubnetResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgDeleteSubnetResponse>, I>>(_: I): MsgDeleteSubnetResponse {
+    const message = createBaseMsgDeleteSubnetResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   /**
@@ -966,6 +1093,7 @@ export interface Msg {
   RemoveSubnetUser(request: MsgRemoveSubnetUser): Promise<MsgRemoveSubnetUserResponse>;
   UpdateSubnetOrigin(request: MsgUpdateSubnetOrigin): Promise<MsgUpdateSubnetOriginResponse>;
   UpdateSubnetGeolocation(request: MsgUpdateSubnetGeolocation): Promise<MsgUpdateSubnetGeolocationResponse>;
+  DeleteSubnet(request: MsgDeleteSubnet): Promise<MsgDeleteSubnetResponse>;
 }
 
 export const MsgServiceName = "ipex.subnet.Msg";
@@ -981,6 +1109,7 @@ export class MsgClientImpl implements Msg {
     this.RemoveSubnetUser = this.RemoveSubnetUser.bind(this);
     this.UpdateSubnetOrigin = this.UpdateSubnetOrigin.bind(this);
     this.UpdateSubnetGeolocation = this.UpdateSubnetGeolocation.bind(this);
+    this.DeleteSubnet = this.DeleteSubnet.bind(this);
   }
   UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse> {
     const data = MsgUpdateParams.encode(request).finish();
@@ -1016,6 +1145,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgUpdateSubnetGeolocation.encode(request).finish();
     const promise = this.rpc.request(this.service, "UpdateSubnetGeolocation", data);
     return promise.then((data) => MsgUpdateSubnetGeolocationResponse.decode(new BinaryReader(data)));
+  }
+
+  DeleteSubnet(request: MsgDeleteSubnet): Promise<MsgDeleteSubnetResponse> {
+    const data = MsgDeleteSubnet.encode(request).finish();
+    const promise = this.rpc.request(this.service, "DeleteSubnet", data);
+    return promise.then((data) => MsgDeleteSubnetResponse.decode(new BinaryReader(data)));
   }
 }
 
