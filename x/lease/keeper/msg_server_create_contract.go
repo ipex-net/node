@@ -115,6 +115,12 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 		return nil, errorsmod.Wrap(types.ErrSubnetNotReady, "rir record not verified")
 	}
 
+	// Set subnet status to ACTIVE
+	err = k.subnetKeeper.SetSubnetActive(ctx, msg.SubnetId, true)
+	if err!= nil {
+		return nil, errorsmod.Wrapf(types.ErrSubnetNotReady, "can not set subnet status to active (%s)", err)
+	}
+
 	// Instantiate contract
 	var contract = types.Contract{
 		SubnetId:                   msg.SubnetId,

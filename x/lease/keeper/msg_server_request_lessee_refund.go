@@ -85,6 +85,11 @@ func (k msgServer) RequestLesseeRefund(goCtx context.Context, msg *types.MsgRequ
 		// Remove user from the subnet
 		k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
 
+		// Set subnet status to INITIAL
+		err = k.subnetKeeper.SetSubnetActive(ctx, contract.SubnetId, false)
+		if err!= nil {
+			k.logger.Error("can not set subnet status to initial", "error", err)
+		}
 		ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
 
 		// Update lessee reputation - no contract violation as refund granted

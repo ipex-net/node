@@ -42,6 +42,13 @@ func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteCon
 		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect contract owner")
 	}
 
+	// Set subnet status to INITIAL
+	err = k.subnetKeeper.SetSubnetActive(ctx, contract.SubnetId, false)
+	if err!= nil {
+		return nil, errorsmod.Wrapf(types.ErrSubnetNotReady, "can not set subnet status to initial (%s)", err)
+	}
+
+	// Remove contract
 	err = k.RemoveContract(ctx, msg.Id)
 	if err != nil {
 		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "failed to remove contract %d: %s", msg.Id, err)

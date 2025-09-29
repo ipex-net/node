@@ -30,7 +30,7 @@ func (k Keeper) ProcessExpiredContracts(goCtx context.Context) {
 	k.processContractsByStatus(ctx, types.ContractStatus_CONTRACT_STATUS_CANCELED_OWNER)
 }
 
-// processContractsByStatus efficiently processes contracts with a specific status
+// processContractsByStatus processes contracts with a specific status
 func (k Keeper) processContractsByStatus(ctx sdk.Context, status types.ContractStatus) {
 	// Use collections to query only contracts with the specific status
 	rng := collections.NewPrefixedPairRange[int32, uint64](int32(status))
@@ -110,8 +110,16 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 		// Reset safety deposit
 		contract.SafetyDepositRetained = nil
 	}
+	
 	// Remove the user from the subnet
 	k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
+	
+	// Set subnet status to INITIAL
+	err := k.subnetKeeper.SetSubnetActive(ctx, contract.SubnetId, false)
+	if err!= nil {
+		k.logger.Error("can not set subnet status to initial", "error", err)
+	}
+	
 	// Update the contract data
 	currentTime := ctx.BlockTime()
 	contract.TerminatedAt = &currentTime
@@ -122,7 +130,7 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 	ipCount := k.subnetKeeper.GetSubnetIpCount(ctx, contract.SubnetId)
 
 	// Update lessee reputation
-	err := k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, false, ipCount)
+	err = k.trustKeeper.LogLesseeContractTermination(ctx, contract.LesseeOrg, false, ipCount)
 	if err != nil {
 		k.logger.Error("failed to update lessee reputation on contract termination", "error", err)
 	}
