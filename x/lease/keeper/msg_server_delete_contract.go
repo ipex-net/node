@@ -44,7 +44,7 @@ func (k msgServer) DeleteContract(goCtx context.Context, msg *types.MsgDeleteCon
 
 	// Set subnet status to INITIAL
 	err = k.subnetKeeper.SetSubnetActive(ctx, contract.SubnetId, false)
-	if err!= nil {
+	if err != nil {
 		return nil, errorsmod.Wrapf(types.ErrSubnetNotReady, "can not set subnet status to initial (%s)", err)
 	}
 

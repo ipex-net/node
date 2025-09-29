@@ -8,6 +8,7 @@ package subnet
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -25,6 +26,7 @@ const (
 	Msg_RemoveSubnetUser_FullMethodName        = "/ipex.subnet.Msg/RemoveSubnetUser"
 	Msg_UpdateSubnetOrigin_FullMethodName      = "/ipex.subnet.Msg/UpdateSubnetOrigin"
 	Msg_UpdateSubnetGeolocation_FullMethodName = "/ipex.subnet.Msg/UpdateSubnetGeolocation"
+	Msg_DeleteSubnet_FullMethodName            = "/ipex.subnet.Msg/DeleteSubnet"
 )
 
 // MsgClient is the client API for Msg service.
@@ -39,6 +41,7 @@ type MsgClient interface {
 	RemoveSubnetUser(ctx context.Context, in *MsgRemoveSubnetUser, opts ...grpc.CallOption) (*MsgRemoveSubnetUserResponse, error)
 	UpdateSubnetOrigin(ctx context.Context, in *MsgUpdateSubnetOrigin, opts ...grpc.CallOption) (*MsgUpdateSubnetOriginResponse, error)
 	UpdateSubnetGeolocation(ctx context.Context, in *MsgUpdateSubnetGeolocation, opts ...grpc.CallOption) (*MsgUpdateSubnetGeolocationResponse, error)
+	DeleteSubnet(ctx context.Context, in *MsgDeleteSubnet, opts ...grpc.CallOption) (*MsgDeleteSubnetResponse, error)
 }
 
 type msgClient struct {
@@ -103,6 +106,15 @@ func (c *msgClient) UpdateSubnetGeolocation(ctx context.Context, in *MsgUpdateSu
 	return out, nil
 }
 
+func (c *msgClient) DeleteSubnet(ctx context.Context, in *MsgDeleteSubnet, opts ...grpc.CallOption) (*MsgDeleteSubnetResponse, error) {
+	out := new(MsgDeleteSubnetResponse)
+	err := c.cc.Invoke(ctx, Msg_DeleteSubnet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -115,6 +127,7 @@ type MsgServer interface {
 	RemoveSubnetUser(context.Context, *MsgRemoveSubnetUser) (*MsgRemoveSubnetUserResponse, error)
 	UpdateSubnetOrigin(context.Context, *MsgUpdateSubnetOrigin) (*MsgUpdateSubnetOriginResponse, error)
 	UpdateSubnetGeolocation(context.Context, *MsgUpdateSubnetGeolocation) (*MsgUpdateSubnetGeolocationResponse, error)
+	DeleteSubnet(context.Context, *MsgDeleteSubnet) (*MsgDeleteSubnetResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -139,6 +152,9 @@ func (UnimplementedMsgServer) UpdateSubnetOrigin(context.Context, *MsgUpdateSubn
 }
 func (UnimplementedMsgServer) UpdateSubnetGeolocation(context.Context, *MsgUpdateSubnetGeolocation) (*MsgUpdateSubnetGeolocationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubnetGeolocation not implemented")
+}
+func (UnimplementedMsgServer) DeleteSubnet(context.Context, *MsgDeleteSubnet) (*MsgDeleteSubnetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSubnet not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -261,6 +277,24 @@ func _Msg_UpdateSubnetGeolocation_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_DeleteSubnet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteSubnet)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteSubnet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_DeleteSubnet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteSubnet(ctx, req.(*MsgDeleteSubnet))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -291,6 +325,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateSubnetGeolocation",
 			Handler:    _Msg_UpdateSubnetGeolocation_Handler,
+		},
+		{
+			MethodName: "DeleteSubnet",
+			Handler:    _Msg_DeleteSubnet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

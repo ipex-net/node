@@ -43,6 +43,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgUpdateSubnetGeolocation int = 100
 
+	opWeightMsgDeleteSubnet = "op_weight_msg_delete_subnet"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgDeleteSubnet int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -121,6 +125,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		subnetsimulation.SimulateMsgUpdateSubnetGeolocation(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgDeleteSubnet int
+	simState.AppParams.GetOrGenerate(opWeightMsgDeleteSubnet, &weightMsgDeleteSubnet, nil,
+		func(_ *rand.Rand) {
+			weightMsgDeleteSubnet = defaultWeightMsgDeleteSubnet
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgDeleteSubnet,
+		subnetsimulation.SimulateMsgDeleteSubnet(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -166,6 +181,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgUpdateSubnetGeolocation,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				subnetsimulation.SimulateMsgUpdateSubnetGeolocation(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgDeleteSubnet,
+			defaultWeightMsgDeleteSubnet,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				subnetsimulation.SimulateMsgDeleteSubnet(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

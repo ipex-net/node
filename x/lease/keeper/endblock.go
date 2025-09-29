@@ -110,16 +110,16 @@ func (k Keeper) terminateContract(ctx sdk.Context, contract types.Contract) {
 		// Reset safety deposit
 		contract.SafetyDepositRetained = nil
 	}
-	
+
 	// Remove the user from the subnet
 	k.subnetKeeper.RemoveSubnetUserOrg(ctx, contract.SubnetId)
-	
+
 	// Set subnet status to INITIAL
 	err := k.subnetKeeper.SetSubnetActive(ctx, contract.SubnetId, false)
-	if err!= nil {
+	if err != nil {
 		k.logger.Error("can not set subnet status to initial", "error", err)
 	}
-	
+
 	// Update the contract data
 	currentTime := ctx.BlockTime()
 	contract.TerminatedAt = &currentTime

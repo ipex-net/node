@@ -112,7 +112,7 @@ func (k msgServer) TerminateContract(goCtx context.Context, msg *types.MsgTermin
 
 	// Set subnet status to INITIAL
 	err = k.subnetKeeper.SetSubnetActive(ctx, contract.SubnetId, false)
-	if err!= nil {
+	if err != nil {
 		k.logger.Error("can not set subnet status to initial", "error", err)
 	}
 

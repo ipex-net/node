@@ -22,6 +22,7 @@ service Msg {
   rpc RemoveSubnetUser        (MsgRemoveSubnetUser       ) returns (MsgRemoveSubnetUserResponse       );
   rpc UpdateSubnetOrigin      (MsgUpdateSubnetOrigin     ) returns (MsgUpdateSubnetOriginResponse     );
   rpc UpdateSubnetGeolocation (MsgUpdateSubnetGeolocation) returns (MsgUpdateSubnetGeolocationResponse);
+  rpc DeleteSubnet            (MsgDeleteSubnet           ) returns (MsgDeleteSubnetResponse           );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -91,4 +92,12 @@ message MsgUpdateSubnetGeolocation {
 }
 
 message MsgUpdateSubnetGeolocationResponse {}
+
+message MsgDeleteSubnet {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeleteSubnetResponse {}
 

@@ -931,7 +931,7 @@ func (k Keeper) SetSubnetActive(ctx context.Context, subnetId uint64, active boo
 		// set subnet status to initial on deactivation to trigger subnet recheck
 		subnet.Status = types.SubnetStatus_SUBNET_STATUS_INITIAL
 	}
-		
+
 	// Save subnet
 	k.SetSubnet(ctx, subnet)
 	return nil

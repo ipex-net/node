@@ -117,7 +117,7 @@ func (k msgServer) CreateContract(goCtx context.Context, msg *types.MsgCreateCon
 
 	// Set subnet status to ACTIVE
 	err = k.subnetKeeper.SetSubnetActive(ctx, msg.SubnetId, true)
-	if err!= nil {
+	if err != nil {
 		return nil, errorsmod.Wrapf(types.ErrSubnetNotReady, "can not set subnet status to active (%s)", err)
 	}
 

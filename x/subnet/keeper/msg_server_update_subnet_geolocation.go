@@ -32,7 +32,7 @@ func (k msgServer) UpdateSubnetGeolocation(goCtx context.Context, msg *types.Msg
 		msg.City = ""
 	}
 
-	if msg.PostalCode  == "none" || msg.PostalCode == "any" {
+	if msg.PostalCode == "none" || msg.PostalCode == "any" {
 		msg.PostalCode = ""
 	}
 

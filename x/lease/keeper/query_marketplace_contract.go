@@ -157,7 +157,7 @@ func (k Keeper) MarketplaceContract(goCtx context.Context, req *types.QueryMarke
 	err := k.ContractsByStatus.Walk(ctx, rng, func(key collections.Pair[int32, uint64], _ bool) (bool, error) {
 		// Get the contract ID from the index key
 		contractId := key.K2()
-		
+
 		// Fetch the full contract
 		contract, found := k.GetContract(ctx, contractId)
 		if !found {
