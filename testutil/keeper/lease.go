@@ -122,6 +122,10 @@ func (m mockSubnetKeeperLease) GetSubnetIpCount(ctx context.Context, subnetId ui
 	return 256 // Mock /24 subnet
 }
 
+func (m mockSubnetKeeperLease) SetSubnetActive(ctx context.Context, subnetId uint64, active bool) error {
+	return nil
+}
+
 type mockPaymentsKeeper struct{}
 
 func (m mockPaymentsKeeper) RecordTransaction(
