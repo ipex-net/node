@@ -102,34 +102,13 @@ func (k Keeper) GetOrg(ctx context.Context, id uint64) (val types.Org, found boo
 	return org, true
 }
 
-// RemoveOrg removes a org from the store
+// RemoveOrg is not implemented - orgs are permanent records in the blockchain
+// Users can update org information to anonymize their data if needed
+// This function is kept for potential future governance actions
 func (k Keeper) RemoveOrg(ctx context.Context, id uint64) {
-	// Can not implement this for the moment as no clear rules on subnet removal
+	// Not implemented - org deletion is not supported
+	// Orgs are permanent records similar to blockchain addresses
 	return
-	// Get the org first to access its indexed fields
-	org, found := k.GetOrg(ctx, id)
-	if !found {
-		return
-	}
-
-	// Remove from main collection
-	err := k.Orgs.Remove(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-
-	// Remove from secondary indexes
-	k.removeOrgFromIndexes(ctx, org)
-
-	// Remove lessee reputation
-	k.trustKeeper.RemoveLesseeReputation(ctx, id)
-
-	// Remove lessor reputation
-	k.trustKeeper.RemoveLessorReputation(ctx, id)
-
-	// Delete all subnets
-	// Delete all lease contracts
-
 }
 
 // GetAllOrg returns all org

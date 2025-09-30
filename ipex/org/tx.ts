@@ -59,14 +59,6 @@ export interface MsgUpdateOrg {
 export interface MsgUpdateOrgResponse {
 }
 
-export interface MsgDeleteOrg {
-  creator: string;
-  id: number;
-}
-
-export interface MsgDeleteOrgResponse {
-}
-
 export interface MsgChangeOrgAdmin {
   creator: string;
   orgId: number;
@@ -754,125 +746,6 @@ export const MsgUpdateOrgResponse: MessageFns<MsgUpdateOrgResponse> = {
   },
 };
 
-function createBaseMsgDeleteOrg(): MsgDeleteOrg {
-  return { creator: "", id: 0 };
-}
-
-export const MsgDeleteOrg: MessageFns<MsgDeleteOrg> = {
-  encode(message: MsgDeleteOrg, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.creator !== "") {
-      writer.uint32(10).string(message.creator);
-    }
-    if (message.id !== 0) {
-      writer.uint32(16).uint64(message.id);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): MsgDeleteOrg {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseMsgDeleteOrg();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.creator = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 16) {
-            break;
-          }
-
-          message.id = longToNumber(reader.uint64());
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(object: any): MsgDeleteOrg {
-    return {
-      creator: isSet(object.creator) ? globalThis.String(object.creator) : "",
-      id: isSet(object.id) ? globalThis.Number(object.id) : 0,
-    };
-  },
-
-  toJSON(message: MsgDeleteOrg): unknown {
-    const obj: any = {};
-    if (message.creator !== "") {
-      obj.creator = message.creator;
-    }
-    if (message.id !== 0) {
-      obj.id = Math.round(message.id);
-    }
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<MsgDeleteOrg>, I>>(base?: I): MsgDeleteOrg {
-    return MsgDeleteOrg.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteOrg>, I>>(object: I): MsgDeleteOrg {
-    const message = createBaseMsgDeleteOrg();
-    message.creator = object.creator ?? "";
-    message.id = object.id ?? 0;
-    return message;
-  },
-};
-
-function createBaseMsgDeleteOrgResponse(): MsgDeleteOrgResponse {
-  return {};
-}
-
-export const MsgDeleteOrgResponse: MessageFns<MsgDeleteOrgResponse> = {
-  encode(_: MsgDeleteOrgResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): MsgDeleteOrgResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseMsgDeleteOrgResponse();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(_: any): MsgDeleteOrgResponse {
-    return {};
-  },
-
-  toJSON(_: MsgDeleteOrgResponse): unknown {
-    const obj: any = {};
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<MsgDeleteOrgResponse>, I>>(base?: I): MsgDeleteOrgResponse {
-    return MsgDeleteOrgResponse.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteOrgResponse>, I>>(_: I): MsgDeleteOrgResponse {
-    const message = createBaseMsgDeleteOrgResponse();
-    return message;
-  },
-};
-
 function createBaseMsgChangeOrgAdmin(): MsgChangeOrgAdmin {
   return { creator: "", orgId: 0, newAdmin: "" };
 }
@@ -1152,7 +1025,6 @@ export interface Msg {
   UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
   RegisterOrg(request: MsgRegisterOrg): Promise<MsgRegisterOrgResponse>;
   UpdateOrg(request: MsgUpdateOrg): Promise<MsgUpdateOrgResponse>;
-  DeleteOrg(request: MsgDeleteOrg): Promise<MsgDeleteOrgResponse>;
   ChangeOrgAdmin(request: MsgChangeOrgAdmin): Promise<MsgChangeOrgAdminResponse>;
   ChangeOrgTreasury(request: MsgChangeOrgTreasury): Promise<MsgChangeOrgTreasuryResponse>;
 }
@@ -1167,7 +1039,6 @@ export class MsgClientImpl implements Msg {
     this.UpdateParams = this.UpdateParams.bind(this);
     this.RegisterOrg = this.RegisterOrg.bind(this);
     this.UpdateOrg = this.UpdateOrg.bind(this);
-    this.DeleteOrg = this.DeleteOrg.bind(this);
     this.ChangeOrgAdmin = this.ChangeOrgAdmin.bind(this);
     this.ChangeOrgTreasury = this.ChangeOrgTreasury.bind(this);
   }
@@ -1187,12 +1058,6 @@ export class MsgClientImpl implements Msg {
     const data = MsgUpdateOrg.encode(request).finish();
     const promise = this.rpc.request(this.service, "UpdateOrg", data);
     return promise.then((data) => MsgUpdateOrgResponse.decode(new BinaryReader(data)));
-  }
-
-  DeleteOrg(request: MsgDeleteOrg): Promise<MsgDeleteOrgResponse> {
-    const data = MsgDeleteOrg.encode(request).finish();
-    const promise = this.rpc.request(this.service, "DeleteOrg", data);
-    return promise.then((data) => MsgDeleteOrgResponse.decode(new BinaryReader(data)));
   }
 
   ChangeOrgAdmin(request: MsgChangeOrgAdmin): Promise<MsgChangeOrgAdminResponse> {

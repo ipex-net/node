@@ -15,9 +15,6 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgUpdateOrg{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgDeleteOrg{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgChangeOrgAdmin{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),

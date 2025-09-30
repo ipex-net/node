@@ -73,12 +73,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}, {ProtoField: "name"}, {ProtoField: "legalName"}, {ProtoField: "address"}, {ProtoField: "registrationNumber"}, {ProtoField: "countryCode"}, {ProtoField: "taxId"}, {ProtoField: "website"}, {ProtoField: "abuseEmail"}, {ProtoField: "contactEmail"}},
 				},
 				{
-					RpcMethod:      "DeleteOrg",
-					Use:            "delete-org [id]",
-					Short:          "Send a delete-org tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
-				},
-				{
 					RpcMethod:      "ChangeOrgAdmin",
 					Use:            "change-org-admin [org-id] [new-admin]",
 					Short:          "Send a change-org-admin tx",
