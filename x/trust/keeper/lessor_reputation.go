@@ -116,17 +116,3 @@ func (k Keeper) LogLessorContractActivation(ctx context.Context, lessorId uint64
 	return nil
 }
 
-// LessorHasActiveContracts returns true if lessor has any active contracts
-func (k Keeper) LessorHasActiveContracts(ctx context.Context, lessorId uint64) (bool, error) {
-	if lessorId == 0 {
-		return false, fmt.Errorf("lessor id can not be nil")
-	}
-	lessorRep, found := k.GetLessorReputation(ctx, lessorId)
-	if !found {
-		return false, fmt.Errorf("can not find lessor reputation")
-	}
-	if lessorRep.ContractsActive > 0 {
-		return true, nil
-	}
-	return false, nil
-}
