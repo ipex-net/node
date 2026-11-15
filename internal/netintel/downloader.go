@@ -38,9 +38,6 @@ func (d *HTTPDownloader) DownloadReputationLevel(level int) error {
 		return fmt.Errorf("invalid reputation level: %d (must be 1-4)", level)
 	}
 
-	// TODO: TURN THIS BACK ON FOR PRODUCTION:
-	// url := fmt.Sprintf("https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level%d.netset", level)
-	// DEBUG:
 	url := fmt.Sprintf("https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level%d.netset", level)
 	destPath := filepath.Join(d.dataDir, "sources", fmt.Sprintf("firehol_level%d.netset", level))
 
