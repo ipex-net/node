@@ -9,7 +9,7 @@
 
 ---
 
-This repository is the IPEX node, `ipexd`: an application-specific blockchain built with the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk). IPEX was the project's working name, and it's still what the code calls itself.
+This repository is the IPEX node, `ipexd`: an application-specific blockchain built with the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk).
 
 > **Status: research prototype.** The node runs as a local development chain and every module has tests, but nothing here has been audited or run as a public network. The protocol design, the consensus setup and the economics are still changing.
 
@@ -57,11 +57,11 @@ The design also covers:
 ## Repository layout
 
 ```
-app/              chain wiring: modules, ABCI++ handlers, netintel startup
-cmd/ipexd/       node binary
-proto/ipex/      protobuf definitions for every module
-x/<module>/       keepers, message handlers, queries, EndBlock logic, tests
-internal/netintel the off-chain intelligence service the validators run
+app/               chain wiring: modules, ABCI++ handlers, netintel startup
+cmd/ipexd/         node binary
+proto/ipex/        protobuf definitions for every module
+x/<module>/        keepers, message handlers, queries, EndBlock logic, tests
+internal/netintel/ the off-chain intelligence service the validators run
 ```
 
 ## Running it
