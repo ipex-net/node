@@ -1,28 +1,8 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/ipex-logo-dark.png">
-    <img alt="IPEX Network" src=".github/assets/ipex-logo.png" width="320">
-  </picture>
-</p>
+# IPEX node
 
-<p align="center"><b>An open protocol for exchanging Internet Number Resources, starting with IPv4 leasing.</b></p>
-
----
-
-This repository is the IPEX node, `ipexd`: an application-specific blockchain built with the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk).
+`ipexd` is the node for [IPEX Network](https://github.com/ipex-net), an open protocol for exchanging Internet Number Resources, starting with IPv4 leasing. It's an application-specific blockchain built with the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk). The [organization page](https://github.com/ipex-net) explains the problem and how the protocol works; this README covers the node itself.
 
 > **Status: research prototype.** The node runs as a local development chain and every module has tests, but nothing here has been audited or run as a public network. The protocol design, the consensus setup and the economics are still changing.
-
-## Why
-
-IANA's IPv4 pool ran out in 2011, and every Regional Internet Registry (RIR) has run out since. Organizations that need addresses now mostly lease them, and leasing is still handled by brokers and private agreements:
-
-- **Trust runs both ways.** The lessor has to trust that the lessee won't burn the range with spam or attacks, which gets it blacklisted and lowers its value. The lessee has to trust that the lessor will authorise the route and won't pull it early.
-- **Routing is set up by hand.** A lessee can only announce a prefix if the holder publishes an RPKI Route Origin Authorization (ROA) or signs a Letter of Authorization. That's a manual step and it often goes wrong.
-- **Nobody checks geolocation.** A lessee can say a subnet is deployed in one country and use it in another. Checking that claim takes traceroute work most lessors can't do.
-- **Prices are opaque.** There is no shared order book, and the intermediaries decide who gets access and on what terms.
-
-IPEX replaces the broker with a protocol. Leases, deposits, reputations and abuse reports live on chain. Validators act as an oracle network: they check routing, ownership, blocklists and location against the real internet, and record only results that a majority of them agree on.
 
 ## What the node does
 
